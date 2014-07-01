@@ -2,6 +2,7 @@
   // ini_set('display_errors', 'On');
   // ini_set('display_errors', 1);
   //netbeans testing
+  //second push
 
   error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
   error_reporting(E_ALL);
