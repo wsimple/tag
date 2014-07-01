@@ -1,0 +1,27 @@
+<?php
+  // ini_set('display_errors', 'On');
+  // ini_set('display_errors', 1);
+
+  error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+  error_reporting(E_ALL);
+  error_reporting(-1);
+
+  $hostname = "68.109.244.202";                  
+  $username = "uservzla";                     
+  $password = "*WzlaW3b*";                    
+  $database = "tagbum";                       
+  
+  $link = new  mysqli($hostname, $username, $password, $database); 
+
+  if ($link->connect_errno) {
+  	echo "Fallo al contenctar a MySQL: (" . $link->connect_errno . ") " . $link->connect_error;
+  }else{
+  	echo "fino";
+    $query =  mysqli_query($link,"SELECT * FROM type_publicity");
+    while ($fila = mysqli_fetch_assoc($query)) {
+        echo " id = " . $fila['id']."&nbsp;".$fila['name']."</br>";
+    }
+  }
+
+echo phpinfo();
+?>
