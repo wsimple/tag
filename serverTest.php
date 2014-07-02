@@ -5,6 +5,7 @@
   //second push
   //hmiharbi activando la jugada
   //jrivas activando el pusheooooo
+  //bienvenido viejaaaaaa
 
   error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
   error_reporting(E_ALL);
