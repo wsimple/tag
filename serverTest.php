@@ -14,10 +14,8 @@
   $password = "*WzlaW3b*";                    
   $database = "tagbum";                       
   
-  $hostname = "68.109.244.202";                  
-  $username = "uservzla";                     
-  $password = "*WzlaW3b*";                    
-  $database = "tagbum";  
+  $hostname = "1111111111";                  
+  $username = "uservzlaadrian";
   
   $link = new  mysqli($hostname, $username, $password, $database); 
 
