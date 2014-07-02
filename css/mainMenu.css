@@ -1,0 +1,87 @@
+.mainMenu{
+	display:table;
+	margin:0;
+	padding:0;
+	list-style:none
+}
+
+/* First level */
+.mainMenu li{
+	display:table-cell;
+	margin:0;
+}
+
+.mainMenu li a{
+	padding:10px;
+	display:block;
+	background-color:transparent;
+	color:white;
+	cursor:pointer;
+	text-decoration:none;
+}
+
+.mainMenu li a#numNoti{
+	padding:5px 0px;
+}
+.mainMenu li a#numNoti.more span{
+	background-color:#f00;
+	color:#fff;
+}
+.mainMenu li a#numNoti span{
+	padding:5px 9px;
+	font-size:10px;
+	font-weight:bold;
+	border-radius:11px;
+	margin-right:4px;
+	background-color:#fff;
+	color:#ccc;
+}
+
+/* Lower levels */
+.mainMenu li ul{
+	display:none;
+	position:absolute;
+	z-index:9999;
+	padding:0;
+	margin:0;
+	list-style:none;
+}
+
+.mainMenu li ul>li{
+	background-color:#FFF;
+	display:block;
+	padding:0;
+	min-width:110px;
+}
+
+.mainMenu li ul li.arrow{
+	background-color:#FFF;
+	background-image:url('images/arrow_down.png');
+	background-repeat:no-repeat;
+	background-position:center center;
+	height:6px;
+	padding:0;
+	border-bottom:none;
+	padding-bottom:10px
+}
+
+.mainMenu li ul li a{
+	font-size:0.875em;
+	text-transform:none;
+	color:#000;
+	padding:7px;
+	display:block;
+	border-top:1px solid transparent;
+	border-bottom:1px solid transparent;
+}
+
+.mainMenu li ul li a.isParent{
+	background-color:#3a3a3a;
+	background-image:url('images/arrow_right.png');
+	background-repeat:no-repeat;
+	background-position:right center;
+}
+
+.mainMenu li ul li a:hover{
+	background-color:#FFCD00;
+}

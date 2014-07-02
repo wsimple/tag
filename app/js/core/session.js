@@ -1,0 +1,51 @@
+//-- Login --//
+(function(w,$){
+	var console=w.console,
+		isLogged=function(val){
+			if(val!==undefined) $.local('logged',val);
+			if(location.host.match(/localhost/))
+				return !!$.local('logged');
+			else
+				return !!$.cookie('__logged__');
+		},
+		date=new Date(),lastCheck=date,
+		loginAction,logChange=isLogged(),running,
+		loginState=function(actions,error){
+			if(actions) loginAction=actions;
+			if(running) return;
+			var opc={
+				url:DOMINIO+'controls/users/logged.json.php',
+				data:$.local('kldata')||{},
+				loader:false,
+				//global:false,
+				success:function(data){
+					lastCheck=date;
+					isLogged(data['logged']);
+					if(loginAction) loginAction(data['logged']);
+//					console.log('check loggin: logged='+l);
+				},
+				complete:function(/*xhr,status*/){
+					running=false;
+//					console.log(status);
+				}
+			};
+			if(error) opc.error=error;
+			running=true;
+			$.ajax(opc);
+		},
+		time=15*60,
+		dif=function(){ date=new Date(); return parseInt((date.getTime()-lastCheck.getTime())/(1000)); },
+		checkLogin=function(){
+//			console.log('checklogin. islogged='+isLogged()+', logchange='+logChange+',loginAction='+(!!loginAction));
+//			console.log(loginAction);
+			if(isLogged()!==logChange){
+				if(loginAction) loginAction(isLogged());
+				return false;
+			}
+			if(dif()>=time) loginState();
+			return true;
+		};
+	setInterval(checkLogin,5000);
+	w.loginState=loginState;
+	w.isLogged=isLogged;
+})(window,jQuery);

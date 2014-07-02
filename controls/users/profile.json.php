@@ -1,0 +1,339 @@
+<?php
+include '../header.json.php';
+include RELPATH.'includes/funciones_upload.php';
+
+$myId=$_SESSION['ws-tags']['ws-user']['id'];
+$code=$_SESSION['ws-tags']['ws-user']['code'];
+#ini
+$res=array();
+#arreglo de datos que se recibiran
+$data=array();
+$data['action']=isset($_POST['action'])?$_POST['action']:$_POST['validaActionAjax'];
+$data['img64']=$_POST['img64'];
+$data['day']=isset($_POST['day'])?$_POST['day']:$_POST['frmProfile_day'];
+$data['month']=isset($_POST['month'])?$_POST['month']:$_POST['frmProfile_month'];
+$data['year']=isset($_POST['year'])?$_POST['year']:$_POST['frmProfile_year'];
+$data['username']=isset($_POST['username'])?$_POST['username']:$_POST['frmProfile_userName'];
+$data['firstname']=isset($_POST['firstname'])?$_POST['firstname']:$_POST['frmProfile_firstName'];
+$data['lastname']=isset($_POST['lastname'])?$_POST['lastname']:$_POST['frmProfile_lastName'];
+$data['lang']=isset($_POST['lang'])?$_POST['lang']:$_POST['frmProfile_cboLanguageUsr'];
+$data['screenname']=isset($_POST['screenname'])?$_POST['screenname']:$_POST['frmProfile_screenName'];
+$data['showbday']=isset($_POST['showbday'])?$_POST['showbday']:$_POST['frmProfile_showbirthday'];
+$data['country']=isset($_POST['country'])?$_POST['country']:$_POST['frmProfile_cboFrom'];
+$data['sex']=isset($_POST['sex'])?$_POST['sex']:$_POST['frmProfile_sex'];
+$data['taxid']=isset($_POST['taxid'])?$_POST['taxid']:$_POST['frmProfile_taxId'];
+$data['zipcode']=isset($_POST['zipcode'])?$_POST['zipcode']:$_POST['frmProfile_zipCode'];
+$data['paypal']=isset($_POST['paypal'])?$_POST['paypal']:$_POST['frmProfile_paypal'];
+$data['x']=isset($_POST['x'])?$_POST['x']:0;
+$data['y']=isset($_POST['y'])?$_POST['y']:0;
+$data['w']=$_POST['w'];
+$data['h']=$_POST['h'];
+$data['size']=$_POST['size'];
+$data['home_code']=isset($_POST['home_code'])?$_POST['home_code']:$_POST['frmProfile_home_code'];
+$data['work_code']=isset($_POST['work_code'])?$_POST['work_code']:$_POST['frmProfile_work_code'];
+$data['mobile_code']=isset($_POST['mobile_code'])?$_POST['mobile_code']:$_POST['frmProfile_mobile_code'];
+$data['home_phone']=isset($_POST['home_phone'])?$_POST['home_phone']:$_POST['frmProfile_home'];
+$data['work_phone']=isset($_POST['work_phone'])?$_POST['work_phone']:$_POST['frmProfile_work'];
+$data['mobile_phone']=isset($_POST['mobile_phone'])?$_POST['mobile_phone']:$_POST['frmProfile_mobile'];
+$data['bg_color']=isset($_POST['bg_color'])?$_POST['bg_color']:$_POST['profileHiddenColor'];
+if(isset($_FILES['img']))
+	$data['img']=$_FILES['img'];
+if(isset($_FILES['background']))
+	$data['background']=$_FILES['background'];
+
+#si se estan guardando datos
+if($data['action']=='save'||$data['action']=='picture'||$data['action']=='filePhoto'){
+	#imagen en base64 - se transforma a imagen regular
+	if($data['img64']!=''){
+		$imgData=base64_decode(preg_replace('/^data:image\/\w*;base64,/i','',$data['img64']));
+		$path=RELPATH.'img/temp/';
+		$name=md5(date('Ymdgisu')).'.jpg';
+		$photo=$path.$name;
+		$data['img']=array(
+			'error'=>1,
+			'name'=>$photo,
+			'tmp_name'=>$photo
+		);
+		$fp=fopen($photo,'w');
+		if($fp){
+			fwrite($fp,$imgData);
+			fclose($fp);
+			$data['img']['error']=0;
+		}
+		unset($imgData,$path,$photo);
+	}
+	$res['img']=$data['img'];
+	#se esta subiendo una imagen
+	if(isset($data['img'])){
+		if($data['img']['error']==0||!is_array($data['img'])){
+			$url=uploadImage($data['img'],'profile','users',$code,$myId);
+			$res['img']['url']=$url;
+			if($url!='IMAGE_NOT_ALLOWED'){
+				$GLOBALS['cn']->query("
+					UPDATE users SET
+						profile_image_url='$url',
+						updatePicture=1
+					WHERE id='$myId'
+				");
+				createSession(array('photo'=>$url,'updatePicture'=>1),FALSE);
+				$res['session']=$_SESSION['ws-tags']['ws-user'];
+				$res['upload']='done';
+			}else{
+				$res['upload']='file error';
+			}
+		}elseif(count($data['img'])){//subio foto pero hubo error
+			$res['upload']='error uploading';
+		}
+	}
+	#destruir imagen temporal (si fue creada desde un base64)
+//	if($data['img64']!=''&&isset($data['img']['tmp_name']))
+//		unlink($data['img']['tmp_name']);
+	#datos de redimencion
+	$photo="img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'];
+	$thumb=generateThumbPath($photo,true);
+	#se crea la thumb si se ha subido foto o si se cambio el tamaño
+	if(!strpos($thumb,'default')&&in_array($res['upload'],array('','done'))){
+		if($data['size']){
+			$x=$data['x'];
+			$y=$data['y'];
+			$size=$data['size'];
+		}elseif($data['w']){
+			$x=$data['x'];
+			$y=$data['y'];
+			$size=$data['w']>$data['h']?$data['h']:$data['w'];
+		}elseif(isset($data['img'])){
+			$is=getimagesize(FILESERVER.$photo);
+			$x=$y=abs($is[0]-$is[1])/2;
+			if($is[0]>$is[1]){
+				$y=0;
+				$size=$is[1];
+			}else{
+				$x=0;
+				$size=$is[0];
+			}
+		}
+		CreateThumb(FILESERVER.$photo,RELPATH.$thumb,60,$x,$y,$size,$size);
+		FTPupload(end(explode('img/',$thumb)));
+		$_SESSION['ws-tags']['ws-user']['updatePicture']=0;
+		$GLOBALS['cn']->query("UPDATE users SET updatePicture=0 WHERE id='$myId'");
+		$res['resize']='done';
+	}else{
+		unset($photo);
+	}
+	if($data['action']=='picture') die(jsonp($res));
+}
+
+if($data['action']=='save'){
+	#fecha de nacimiento
+	if(checkdate($data['month'],$data['day'],$data['year'])){
+	   $result=$GLOBALS['cn']->queryRow('SELECT now() FROM users WHERE DATE(NOW())>"'.$data['year'].'-'.$data['month'].'-'.$data['day'].'" LIMIT 1;');  
+       $row=current($result);
+       if ($row){ $bdate=$data['year'].'-'.substr('0'.$data['month'],-2).'-'.substr('0'.$data['day'],-2); }
+       else{ 
+            $res['error']=SIGNUP_CTRERRORBIRTHDATE;
+		    die(jsonp($res)); 
+        }
+	}else{
+		$res['error']=SIGNUP_CTRERRORBIRTHDATE;
+		die(jsonp($res));
+	}
+	#user name
+	$sql_userName='';
+	if($data['username']){
+		if(!valid::isAlphaNumeric($data['username'])){
+			$res['error']=ERROR_USERNAME_FORMAT;
+			die(jsonp($res));
+		}
+		#verificar que no use nombres de carpetas de Tagbum
+		$d=dir('.');
+		while(($entry=$d->read())!==false){
+			if($data['username']==$entry){
+				$res['error']=ERROR_USERNAME_DUPLICATE;
+				die(jsonp($res));
+			}
+		}
+		$d->close();
+		#verificar que el nombre no esta en uso
+		if(!existe('users','username'," WHERE username='".$data['username']."' AND id!='$myId'")){
+			$sql_userName=",username='".$data['username']."'";
+		}else{
+			$res['error']=ERROR_USERNAME_DUPLICATE;
+			die(jsonp($res));
+		}
+		$_SESSION['ws-tags']['ws-user']['username']=$data['username'];
+	}
+	#si cambia nombre o apellido editamos nombre completo
+	$temporal=$data['firstname'].' '.$data['lastname'];
+	if( $_SESSION['ws-tags']['ws-user']['full_name']!=$temporal ) {
+		$name_change=true;
+		$_SESSION['ws-tags']['ws-user']['full_name']=$temporal;
+	}
+	$_SESSION['ws-tags']['ws-user']['name']=$data['firstname'];
+	$_SESSION['ws-tags']['ws-user']['last_name']=$data['lastname'];
+	#si se cambia el idioma
+	if( $_SESSION['ws-tags']['ws-user']['language']!=$data['lang'] ) {
+		$updateLanguage=true;
+		$_SESSION['ws-tags']['ws-user']['language']=$data['lang'];
+	}
+	$_SESSION['ws-tags']['ws-user']['screen_name']=$data['screenname'];
+	$_SESSION['ws-tags']['ws-user']['date_birth']=$bdate;
+	$_SESSION['ws-tags']['ws-user']['show_birthday']=$data['showbday'];
+	$_SESSION['ws-tags']['ws-user']['country']=$data['country'];
+	$_SESSION['ws-tags']['ws-user']['sex']=$data['sex'];
+	$_SESSION['ws-tags']['ws-user']['taxId']=$data['taxid'];
+	$_SESSION['ws-tags']['ws-user']['paypal']=$data['paypal'];
+
+	#telefonos
+	$home_area=$data['home_code']?current($GLOBALS['cn']->queryRow('SELECT code_area FROM countries WHERE id="'.$data['home_code'].'"')):'';
+	$work_area=$data['work_code']?current($GLOBALS['cn']->queryRow('SELECT code_area FROM countries WHERE id="'.$data['work_code'].'"')):'';
+	$mobile_area=$data['mobile_code']?current($GLOBALS['cn']->queryRow('SELECT code_area FROM countries WHERE id="'.$data['mobile_code'].'"')):'';
+	$_SESSION['ws-tags']['ws-user']['home_phone']=$home_area.'-'.$data['home_phone'];
+	$_SESSION['ws-tags']['ws-user']['work_phone']=$work_area.'-'.$data['work_phone'];
+	$_SESSION['ws-tags']['ws-user']['mobile_phone']=$mobile_area.'-'.$data['mobile_phone'];
+
+	#telefono en business card
+	$bc='
+		SELECT id FROM business_card
+		WHERE
+			id_user				= '.$myId.' AND
+			company				= "Social Media Marketing" AND
+			middle_text			= "www.Tagbum.com" AND
+			address				= "" AND
+			specialty			= "" AND
+			company_logo_url	= "" AND
+			background_url		= "" AND
+			type				= 0 AND
+			text_color			= "#000000"
+	';
+	$n_bc=$GLOBALS['cn']->queryRow($bc);
+	if(count($n_bc)>0){
+		$bc='
+			UPDATE business_card SET
+				home_phone	="'.$_SESSION['ws-tags']['ws-user']['home_phone'].'",
+				work_phone	="'.$_SESSION['ws-tags']['ws-user']['work_phone'].'",
+				mobile_phone="'.$_SESSION['ws-tags']['ws-user']['mobile_phone'].'"
+			WHERE id="'.$n_bc['id'].'"
+		';
+		$bc=$GLOBALS['cn']->query($bc);
+	}
+
+	#cambio de pais
+	$sql_pais=',country="'.($data['country']?$data['country']:'0').'"';
+
+	#cambio de zip code
+	if($data['zipcode']!=$_SESSION['ws-tags']['ws-user']['zip_code']){
+		$result=current($GLOBALS['cn']->queryRow('SELECT ZIP_CODE FROM zip_codes WHERE ZIP_CODE="'.$data['zipcode'].'"'));
+		if($result){
+			$updateZipCode='1';
+		}else{
+			//$updateZipCode='2';//ver luego, esto era validando con la tabla zipcodes de usa solamente
+			$updateZipCode='1';
+		}
+		$_SESSION['ws-tags']['ws-user']['zip_code']=$data['zipcode'];
+		$sql_zip_code="zip_code='".$data['zipcode']."',";
+	}else{
+		$updateZipCode='0';
+	}
+}
+
+//validating if he comes to save, change background, background by default, or background color
+if (($data['action']=='save')||($data['action']=='backgroundFile')||($data['action']=='backgroundDefault')||($data['action']=='HiddenColor')){
+	#cambio de fondo
+	if($data['action']=='bg_default'){
+		$_SESSION['ws-tags']['ws-user']['user_background']='';
+	}elseif($data['background']&&$data['background']['error']==0){
+		$allowedImages=array('jpg','jpeg','png','gif');
+		$parts=explode('.',$data['background']['name']);
+		$ext=strtolower(end($parts));
+		if(in_array($ext,$allowedImages)){
+			$path="img/users_backgrounds/$code/";
+			$fondo=md5($data['background']['name']).'.'.$ext;
+			$_fondo=$code.'/'.$fondo;
+			if(!is_dir($path)){
+				$old=umask(0);
+				mkdir($path,0777);
+				umask($old);
+				$fp=fopen($path.'index.html',"w");
+				fclose($fp);
+			}
+			if(copy($data['background']['tmp_name'],'img/users_backgrounds/'.$_fondo)){
+				$_SESSION['ws-tags']['ws-user']['user_background']=$_fondo;
+				uploadFTP($fondo,'users_backgrounds');
+			}
+		}else{
+			$res['error']=ERROR_UPLOADING_PROFILE_PICTURE;
+			die(jsonp($res));
+		}
+	}elseif($data['bg_color']){
+		$_SESSION['ws-tags']['ws-user']['user_background']=$data['bg_color'];
+	}
+}
+
+$user=$_SESSION['ws-tags']['ws-user'];
+
+switch ($data['action']){
+	case 'save':#actualizamos la base de datos
+		$GLOBALS['cn']->query('
+			UPDATE users SET
+				screen_name			= "'.$user['screen_name'].'",
+				name				= "'.$user['name'].'",
+				last_name			= "'.$user['last_name'].'",
+				date_birth			= "'.$user['date_birth'].'",
+				profile_image_url	= "'.$user['photo'].'",
+				show_my_birthday	= "'.$user['show_birthday'].'",
+				home_phone			= "'.$user['home_phone'].'",
+				mobile_phone		= "'.$user['mobile_phone'].'",
+				work_phone			= "'.$user['work_phone'].'",
+				language			= "'.$user['language'].'",
+				user_background		= "'.$user['user_background'].'",
+				country				= "'.$user['country'].'",
+				sex					= "'.$user['sex'].'",
+				paypal				= "'.$data['paypal'].'",
+				zip_code			= "'.$user['zip_code'].'",
+				taxId				= "'.$user['taxId'].'"'.
+				$sql_pais.
+				$sql_userName.'
+			WHERE id="'.$myId.'"
+		');
+	break;
+	case 'filePhoto':#actualizamos solo la imagen
+		$GLOBALS['cn']->query('
+			UPDATE users SET
+				profile_image_url="'.$user['photo'].'"
+			WHERE id="'.$user['id'].'"
+		');
+	break;
+	case 'backgroundFile':
+	case 'backgroundDefault':
+	case 'HiddenColor':
+		$GLOBALS['cn']->query('
+			UPDATE users SET
+				user_background="'.$user['user_background'].'"
+			WHERE id="'.$user['id'].'"
+		');
+	break;
+}
+
+//retornando los cambios del profile
+	if($name_change){
+		$res['success']=$data['firstname'].' '.$data['lastname'];
+	}elseif($updateZipCode=='2'){
+		$res['error']="WRONG_ZIP";
+	}elseif($updateLanguage){
+		$res['success']='updateLanguage';
+	}elseif($url){
+		if(!file_exists("img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'])){
+			$_SESSION['ws-tags']['ws-user']['updatePicture']=0;
+			$_SESSION['ws-tags']['ws-user']['photo']='';
+			$GLOBALS['cn']->query("UPDATE `users` SET `updatePicture`='0' WHERE `id`='$myId'");
+			$res['error']='ERROR_UPLOADING_PROFILE_PICTURE';
+		}
+	}elseif($error_uploading_pp){
+		$res['error']='ERROR_UPLOADING_PROFILE_PICTURE';
+	}
+
+$_SESSION['ws-tags']['ws-user']['pic']="img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'];
+$_SESSION['ws-tags']['ws-user']['paypal']=$data['paypal'];
+
+die(jsonp($res));
+?>
