@@ -1,23 +1,5 @@
 agreando este
 
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d 
+y este
+y este
 
-agregando
-a
-a
-a
-a
-a
-a
-a
-a
-a yeah man funcionandoooooo
