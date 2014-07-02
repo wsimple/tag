@@ -1,0 +1,80 @@
+#AlertBox-Box {
+  padding-bottom: 24px;
+  background: url('../img/msgbox/bg-box-bottom.png') bottom left no-repeat !important;
+  background: url('../img/msgbox/bg-box-bottom.gif') bottom left no-repeat;
+}
+
+#AlertBox-InBox {
+  padding-top: 15px;
+  background: url('../img/msgbox/bg-box-top.png') top left no-repeat !important;	
+  background: url('../img/msgbox/bg-box-top.gif') top left no-repeat;	
+}
+
+#AlertBox-BoxContent {
+  background: url('../img/msgbox/bg-box-body.png') top left repeat-y !important;
+  background: url('../img/msgbox/bg-box-body.gif') top left repeat-y;
+  padding: 0px 20px;
+}
+
+#AlertBox-BoxContenedor {
+  padding: 0px 0px 5px 55px;
+  text-align: left;
+  font-family:Verdana;
+  font-size:12px;
+  color:#000;
+}
+
+#AlertBox-BoxContenedor h1,#AlertBox-BoxContenedor h2,#AlertBox-BoxContenedor h3,#AlertBox-BoxContenedor b,#AlertBox-BoxContenedor strong{
+  text-align: left;
+  font-family:Verdana;
+  font-size:12px;
+  color:#000;
+  font-weight:bold;
+  margin:0px;
+  padding:0px;
+}
+
+#AlertBox-Buttons{
+  text-align:right;
+}
+
+#AlertBox-Buttons input {
+  margin: 10px 10px;
+}
+
+#AlertBox-BoxContenedor #BoxPromptInput{
+  margin-top:5px;
+}
+
+#AlertBox-Box .BoxAlert {
+  background: url('../img/msgbox/dialog-warning.png') top left no-repeat;
+}
+
+#AlertBox-Box .BoxConfirm {
+  background: url('../img/msgbox/dialog-help.png') top left no-repeat;
+}
+
+#AlertBox-Box .BoxPrompt {
+  background: url('../img/msgbox/dialog-help.png') top left no-repeat;
+}
+
+#AlertBox-Box .BoxInfo {
+  background: url('../img/msgbox/dialog-information.png') top left no-repeat;
+}
+
+#AlertBox-Box .BoxError {
+  background: url('../img/msgbox/dialog-error.png') top left no-repeat;
+}
+
+/*
+<!-- 
+      + --------------------------------------------------------------- +
+	  |                                                                 |	  
+	  |  Desarrollado por: Gustavo A. Ocanto C.                         |
+	  |  Teléfono: 0414-4284230                                         |
+	  |  Email: gustavoocanto@gmail.com - gustavo.ocanto@hotmail.com    |
+	  |                                                                 |
+	  + --------------------------------------------------------------- + 
+-->
+
+*/

@@ -1,0 +1,155 @@
+body {
+	padding:10px;
+	margin:10px;
+	background:#FFFFFF;
+	color:#000000;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+}
+
+a {
+	color: #000000;
+	text-decoration:none;
+}
+
+a:hover {
+	text-decoration:underline;
+}
+
+.td_menu{
+	width: 95%;
+    border-bottom:1px solid #E1E1E1;
+    background-color:#FFFFFF;
+	color:#000000;
+    font-size:10px;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	padding-bottom:3px;
+	padding-top:3px;
+}
+
+.td_submenu:hover{
+	width: 95%;
+	cursor: pointer;
+	background: #E2E2E2;
+}
+
+
+input{
+	height:20px;
+	color:#1E292B;
+	font-size: 11px;
+	background-image:url(../img/fondo_txt.jpg);
+	background-repeat:repeat-x;
+	border:1px solid #C4C4C4;
+}
+
+.combo_box{
+	height:24px;
+	color:#1E292B;
+	font-size: 11px;
+}
+
+button{
+    border: #C2C2DE 1px solid;
+	color: #000000;
+	text-align:center;
+	font-size:10px;
+	background-image : url('../img/boton.jpg');
+	cursor:pointer;
+	height:24px;
+	padding:5px;
+	font-weight:bold;
+}
+
+button:hover{
+    border: #C2C2DE 1px solid;
+	color: #000000;
+	text-align:center;
+	font-size:10px;
+	background-image : url('../img/boton_hover.jpg');
+	cursor:pointer;
+	height:24px;
+	padding:5px;
+	font-weight:bold;	
+}
+
+.scroll_container{
+    overflow: scroll; 
+	overflow-x: hidden;		
+}
+
+.etiquetas{
+	font-size:11px;
+	color:#000000;
+	text-align: right;
+	font-weight:bold;
+}
+
+fieldset{
+	background-color:#FFFFFF;
+	color:#000000;
+	font-size:12px;
+	font-weight:bold;
+	border-radius: 5px;
+	-ms-border-radius: 5px;
+	behavior: url(border-radius.htc); -moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border:1px solid #CCCCCC;
+}
+
+.requeridos{
+	color:#FF0000;
+	font-size:11px;
+	font-weight:normal;
+}
+
+.esquinasRedondas{
+
+	border-radius: 5px;
+	-ms-border-radius: 5px;
+	behavior: url(border-radius.htc); -moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+}
+
+legend{
+	border-radius: 3px;
+	-ms-border-radius: 3px;
+	behavior: url(border-radius.htc); -moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	background-color:#CCCCCC;
+}
+
+.top_titulos{
+	background-color:#E77817;
+	color:#FFFFFF;
+	font-size:11px;
+	font-weight:bold;
+	text-align:left;
+	padding:3px;
+}
+
+.contenido{
+	font-size:11px;
+	color:#000000;
+	text-align: right;
+	font-weight:bold;
+}
+
+/*
+<!-- 
+		+ --------------------------------------------------------- +
+		|                                                           |
+		| 	Desarrollado por: Gustavo A. Ocanto C.                  |
+		| 	Email: gustavoocanto@gmail.com / info@websarrollo.com   |
+		| 	Teléfono: 0414-428.42.30 / 0245-511.38.40               |
+		| 	Web: http://www.gustavoocanto.com                       |
+		|        http://www.websarrollo.com                         |
+		| 	Valencia, Edo. Carabobo - Venezuela                     |
+		|                                                           |
+        + --------------------------------------------------------- +
+-->
+*/

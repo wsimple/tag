@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>HTML5 MediaElement</title>	
+	
+	<script src="../build/jquery.js"></script>	
+	<script src="../build/mediaelement-and-player.min.js"></script>
+	<link rel="stylesheet" href="../build/mediaelementplayer.min.css" />
+    <link rel="stylesheet" href="../build/mejs-skins.css" />
+</head>
+<body>
+
+<video class="mejs-ted" width="640" height="360" src="../../home.mp4" type="video/mp4" 
+	id="player1" 
+	controls="controls" preload="none"></video>
+
+<script>
+$('video').mediaelementplayer({
+	success: function(player, node) {
+		$('#' + node.id + '-mode').html('mode: ' + player.pluginType);
+	},features: ['progress']
+});
+
+</script>
+
+
+</body>
+</html>
