@@ -14,6 +14,11 @@
   $password = "*WzlaW3b*";                    
   $database = "tagbum";                       
   
+  $hostname = "68.109.244.202";                  
+  $username = "uservzla";                     
+  $password = "*WzlaW3b*";                    
+  $database = "tagbum";  
+  
   $link = new  mysqli($hostname, $username, $password, $database); 
 
   if ($link->connect_errno) {
