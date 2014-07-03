@@ -1,6 +1,6 @@
 hola que ase
 
-hmirarbi desde aromero
+adrian activo
 
 <?php
 	header('Content-type: text/html; charset=utf-8');
