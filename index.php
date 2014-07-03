@@ -1,7 +1,6 @@
 hola que ase
 
-adriandice: aqui viendo tus ojso
-
+hmirarbi desde aromero
 
 <?php
 	header('Content-type: text/html; charset=utf-8');
