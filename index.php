@@ -4,6 +4,8 @@ adrian activo
 
 eli activo
 
+hola miharbi mundo
+
 <?php
 	header('Content-type: text/html; charset=utf-8');
 	if(strpos(' '.$_SERVER['HTTP_USER_AGENT'],'facebook.com'))
