@@ -1,19 +1,4 @@
-hola que ase
-
-adrian activo 
-
-eli activo
-
-<<<<<<< HEAD
-hola miharbi mundo
-=======
-miharbi activo
-
-ramon aqui
->>>>>>> 9f428c3c5a93d02756aea61077fb40d1258887e6
-
 <?php
-//miharbi
 	header('Content-type: text/html; charset=utf-8');
 	if(strpos(' '.$_SERVER['HTTP_USER_AGENT'],'facebook.com'))
 		include('includes/facebook.php');
