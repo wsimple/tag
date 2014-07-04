@@ -4,7 +4,13 @@ adrian activo
 
 eli activo
 
+<<<<<<< HEAD
 hola miharbi mundo
+=======
+miharbi activo
+
+ramon aqui
+>>>>>>> 9f428c3c5a93d02756aea61077fb40d1258887e6
 
 <?php
 //miharbi
@@ -35,6 +41,7 @@ hola miharbi mundo
 	}
 
 	$notAjax=true;
+
 	//verificamos si se desea crear una tag desde el wpanel
 //	if($_GET['wpAddTag']==1){
 //		$wpanel_login=CON::getRow('
