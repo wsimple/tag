@@ -4,13 +4,15 @@ adrian activo
 
 eli activo
 
-<<<<<<< HEAD
+
 hola miharbi mundo
-=======
+
 miharbi activo
 
 ramon aqui
->>>>>>> 9f428c3c5a93d02756aea61077fb40d1258887e6
+
+
+por fiinnnnnnnnnnn
 
 <?php
 //miharbi
