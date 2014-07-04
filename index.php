@@ -7,6 +7,7 @@ eli activo
 hola miharbi mundo
 
 <?php
+//miharbi
 	header('Content-type: text/html; charset=utf-8');
 	if(strpos(' '.$_SERVER['HTTP_USER_AGENT'],'facebook.com'))
 		include('includes/facebook.php');
