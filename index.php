@@ -37,7 +37,6 @@ ramon aqui
 
 	$notAjax=true;
 
-	//$notAjax=true;
 	//verificamos si se desea crear una tag desde el wpanel
 //	if($_GET['wpAddTag']==1){
 //		$wpanel_login=CON::getRow('
