@@ -95,6 +95,7 @@ var PAGE,wrapper,container,home,footer,INFO=[];
 			if(logged!==_logged) window.location.reload();
 		});
 		$(window).hashchange(function(){
+			if(document.location.href.match(/\.php/)) return false;
 			//console.log('hashchange');
 			var doit=true;
 			if($.hashExceptions&&($.hashExceptions instanceof Array)){
