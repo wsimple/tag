@@ -269,7 +269,7 @@
 
 		$.on({
 			open:function(){
-				console.log('on open (menu)');
+				// console.log('on open (menu)');
 				//news
 				var opc={
 					layer:'#noticeInsertTop',
@@ -295,7 +295,7 @@
 				//fin-news
 
 				$(document).off('.menuleft').on('click.menuleft','#menuLeft li > span',function(){
-					console.log('onclick menuleft');
+					// console.log('onclick menuleft');
 					//buscamos ul hijo (submenu)
 					var ul=$(this).parent().find('ul')[0];
 					if(ul){
@@ -334,7 +334,7 @@
 				}
 			},
 			close:function(){
-				console.log('on close (menu)');
+				// console.log('on close (menu)');
 				$(document).off('.menuleft');
 				$.smt.news = $('#info-container').html();
 				//console.log($.smt.news)
