@@ -5,7 +5,13 @@
 			if(!$logged && $_GET['tag']==''){
 				include('views/main/home.php');
 			}else{
-				echo '<container><content></content></container>';
+				echo '<container><content>';
+				global $section;
+				if($section){
+					$idPage=$section;
+					include('view.php');
+				}
+				echo '</content></container>';
 			}
 		?>
 	</wrapper>

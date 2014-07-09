@@ -1,32 +1,35 @@
 <?php
-if ($_GET['uid']!='') { $where = "md5(id) = '".$_GET['uid']."'"; }
+global $section;
+if($section){ $where = "username LIKE '$section'"; }
+elseif ($_GET['uid']!='') { $where = "md5(id) = '".$_GET['uid']."'"; }
 elseif ($_GET['userIdExternalProfile']!='') { $where = "md5(id) = '".$_GET['userIdExternalProfile']."'"; }
 elseif(isset($_GET['usr'])){ $where = "username LIKE '".$_GET['usr']."'"; }
 else{ $where = "id = ".$_SESSION['ws-tags']['ws-user']['id']; }
 $sid=$_SESSION['ws-tags']['ws-user']['id']!=''?"'".$_SESSION['ws-tags']['ws-user']['id']."'":"id";
-$query = $GLOBALS['cn']->query("
-                SELECT
-                    id,
-                    email,
-                    home_phone,
-                    mobile_phone,
-                    work_phone,
-                    user_background,
-                    profile_image_url,
-                    username,
-                    type,
-                    screen_name,
-                    sex,
-                    CONCAT(name,' ',last_name) AS nameUser,
-                    md5(CONCAT(id,'_',email,'_',id)) AS code,
-                    (SELECT c.name FROM countries c WHERE c.id=country) AS country,
-                    (SELECT s.label FROM sex s WHERE s.id=sex) AS sex,
-                    followers_count,
-                    friends_count,
-                    (SELECT id_user FROM users_links WHERE id_friend=id AND id_user=".$sid." LIMIT 1) AS follower,
-                    (SELECT count(id) FROM tags WHERE id_creator = ".$sid." AND id_user = id_creator AND status = 1) AS nTags
-                FROM users
-                WHERE ".$where);
+echo $sql="
+    SELECT
+        id,
+        email,
+        home_phone,
+        mobile_phone,
+        work_phone,
+        user_background,
+        profile_image_url,
+        username,
+        type,
+        screen_name,
+        sex,
+        CONCAT(name,' ',last_name) AS nameUser,
+        md5(CONCAT(id,'_',email,'_',id)) AS code,
+        (SELECT c.name FROM countries c WHERE c.id=country) AS country,
+        (SELECT s.label FROM sex s WHERE s.id=sex) AS sex,
+        followers_count,
+        friends_count,
+        (SELECT id_user FROM users_links WHERE id_friend=id AND id_user=".$sid." LIMIT 1) AS follower,
+        (SELECT count(id) FROM tags WHERE id_creator = ".$sid." AND id_user = id_creator AND status = 1) AS nTags
+    FROM users
+    WHERE ".$where;
+$query = $GLOBALS['cn']->query($sql);
 if (mysql_num_rows($query)>0){
 $array = mysql_fetch_assoc($query);
 $edit='<div class="edit"></div>';

@@ -105,6 +105,7 @@
 	<!-- SESSION: <?=json_encode($_SESSION['ws-tags']['ws-user'])?> -->
 	<?php } ?>
 	<head>
+	<base href="<?=DOMINIO?>" />
 	<title><?=TITLE?></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=.5,maximum-scale=1.13,user-scalable=1"/>
 	<meta name="apple-mobile-web-app-capable" content="yes" />
