@@ -92,7 +92,7 @@
 		define('NOFPT',true);
 		define('USER','root');
 		define('PASS','root');
-		define('DATA','seemytag');
+		define('DATA','tagbum');
 	}
 	$_SESSION['ws-tags']['developer']=true;
 	unset($_pruebas,$_site,$_path,$_sec,$_url,$_prod);

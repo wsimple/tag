@@ -1,11 +1,3 @@
-hola que ase
-
-adrian activo 
-
-eli activo
-
-miharbi activo
-
 <?php
 	header('Content-type: text/html; charset=utf-8');
 	if(strpos(' '.$_SERVER['HTTP_USER_AGENT'],'facebook.com'))
@@ -34,6 +26,7 @@ miharbi activo
 	}
 
 	$notAjax=true;
+
 	//verificamos si se desea crear una tag desde el wpanel
 //	if($_GET['wpAddTag']==1){
 //		$wpanel_login=CON::getRow('
