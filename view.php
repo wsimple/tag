@@ -158,7 +158,8 @@ if($dialog){
 	if($bodyPage) include('views/'.$bodyPage);
 	else include('views/'.$currentPage);
 }else{
-include('views/'.$currentPage);
+	include('views/'.$currentPage);
+	if(!strpos($_SERVER['REQUEST_URI'],'.php')){
 ?>
 <script>
 	$('body').css('background','<?=($_SESSION['ws-tags']['ws-user']['user_background']==''?'':($_SESSION['ws-tags']['ws-user']['user_background'][0]!='#' ?
@@ -166,4 +167,6 @@ include('views/'.$currentPage);
 		$_SESSION['ws-tags']['ws-user']['user_background']
 	))?>');
 </script>
-<?php } ?>
+<?php
+	}
+}
