@@ -2240,10 +2240,8 @@ container#toptag .tag-container{
 	width:110px;
 }
 
-.frmProfileBotones{
-	float:left;
-   /* width:120px;*/
-}
+.frmProfileBotones{	float:left; }
+.newStoreBack .frmProfileBotones{  width:120px; }
 
 #frmProfileFormContainer{
 	float:right;
@@ -2252,7 +2250,10 @@ container#toptag .tag-container{
 }
 
 #frmProfileFormContainer label{
+	display: block;
 	font-size:50%;
+	width: 100%;
+    margin-bottom: 5px;
 }
 
 #frmProfileFormContainer>div{
@@ -4178,6 +4179,8 @@ body[lang="es"] container.wrapper .menu-l-shoppingCart{
 	height:60px;
 	float:left;
 	margin:0 5px 5px 0;
+	background-size: 100%;
+	background-repeat: no-repeat;
 }
 .lis_product_store_details .anytext{
 	font-size:11px;
@@ -4462,12 +4465,16 @@ body[lang="es"] container.wrapper .menu-l-shoppingCart{
 	float:none;
 	margin-left:15px;
 }
-#user_ShoppingCart #frmProfileFormContainer div{
+#user_ShoppingCart #frmProfileFormContainer form>div{
 	float:none;
 	margin:15px 0px;
 }
-#user_ShoppingCart #frmProfileFormContainer div #addres{
+#user_ShoppingCart #frmProfileFormContainer form>div #addres{
 	width:600px;
+}
+body:not(.safari) #frmProfileFormContainer div.chzn-container{
+	top: 8px;
+	margin-top: -8px;
 }
 .store-wrapper aside{
 	width:220px
