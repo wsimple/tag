@@ -5253,6 +5253,8 @@ container.wrapper .left-panel #adsListPubli td[tipo="17"]{
 	color:#666;
 	font-size:16px;
 	margin:10px 0;
+	display: inline-block;
+	width: 95%;
 }
 
 .messageNoResultSearch #valSearch{
