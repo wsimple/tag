@@ -1,56 +1,56 @@
 <article class="side-box menu">
 	<header><span><?=STORE_CATEGORIES?></span></header>
 	<ul id="menuLeft">
-		<li id="cretationTag"><a href="#creation?"><?=MAINMNU_CREATETAG?></a></li>
+		<li id="cretationTag"><a href="<?=base_url('creation')?>"><?=MAINMNU_CREATETAG?></a></li>
 		<li id="profile">
 			<span><?=MAINMNU_ACCOUNT?></span>
 			<ul>
-				<li><a href="#profile?sc=1"><?=USERPROFILE_PERSONALINFO?></a></li>
-				<li><a href="#profile?sc=2"><?=USERPROFILE_PREFERENCES?></a></li>
-				<li><a href="#profile?sc=4"><?=MAINSMNU_PASSWORD?></a></li>
-				<li><a href="#profile?sc=3"><?=USERPROFILE_BUSINESSCARD?></a></li>
+				<li><a href="<?=base_url('profile?sc=1')?>"><?=USERPROFILE_PERSONALINFO?></a></li>
+				<li><a href="<?=base_url('profile?sc=2')?>"><?=USERPROFILE_PREFERENCES?></a></li>
+				<li><a href="<?=base_url('profile?sc=4')?>"><?=MAINSMNU_PASSWORD?></a></li>
+				<li><a href="<?=base_url('profile?sc=3')?>"><?=USERPROFILE_BUSINESSCARD?></a></li>
 			</ul>
 		</li>
 		<li id="friends">
 			<span><?=USER_FINDFRIENDSTITLELINKS?></span>
 			<ul>
-				<li><a href="#friends?sc=1"><?=MAINMNU_FINDFRIENDS?></a></li>
-				<li><a href="#friends?sc=2"><?=EDITFRIEND_VIEWTAB1?></a></li>
-				<li><a href="#friends?sc=3"><?=EDITFRIEND_VIEWTAB2?></a></li>
+				<li><a href="<?=base_url('friends?sc=1')?>"><?=MAINMNU_FINDFRIENDS?></a></li>
+				<li><a href="<?=base_url('friends?sc=2')?>"><?=EDITFRIEND_VIEWTAB1?></a></li>
+				<li><a href="<?=base_url('friends?sc=3')?>"><?=EDITFRIEND_VIEWTAB2?></a></li>
 			</ul>
 		</li>
 		<li id="groups">
 			<span><?=MAINMNU_GROUPS?></span>
 			<ul>
-				<li><a href="#groups?sc=1"><?=GROUPS_LABELTABLSTMYGROUPS?></a></li>
-				<li><a href="#groups?"><?=GROUPS_LABELTABLSTALL?></a></li>
+				<li><a href="<?=base_url('groups?sc=1')?>"><?=GROUPS_LABELTABLSTMYGROUPS?></a></li>
+				<li><a href="<?=base_url('groups')?>"><?=GROUPS_LABELTABLSTALL?></a></li>
 			</ul>
 		</li>
 		<li id="setting">
 			<span><?=MAINMNU_SETTINGLEFT?></span>
 			<ul>
-				<li><a href="#setting?sc=1"><?=NOTIFICATIONS_CONFIGURATIONSECTION?></a></li>
-				<!-- <li><a href="#"><?=MAINMNU_SETTINGLEFT?></a></li> -->
+				<li><a href="<?=base_url('setting?sc=1')?>"><?=NOTIFICATIONS_CONFIGURATIONSECTION?></a></li>
+				<!-- <li><a href="<?=base_url()?>"><?=MAINMNU_SETTINGLEFT?></a></li> -->
 			</ul>
 		</li>
 		<li id="store">
-			<a href="#store?"><span><?=STORE?></span></a>
+			<a href="<?=base_url('store')?>"><span><?=STORE?></span></a>
 			<ul>
-				<li><a href="#store?"><?=PRODUCT_TITLE?></a></li>
+				<li><a href="<?=base_url('store')?>"><?=PRODUCT_TITLE?></a></li>
 				<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']=='427'){ ?>
-				<li><a href="#newproduct?"><?=PRODUCTS_ADD?></a></li>
-				<li><a href="#mypublications?"><?=STORE_MISPUBLICATION?></a></li>
+				<li><a href="<?=base_url('newproduct')?>"><?=PRODUCTS_ADD?></a></li>
+				<li><a href="<?=base_url('mypublications')?>"><?=STORE_MISPUBLICATION?></a></li>
 				<?php } ?>
 				<li id="menu-l-li-shoppingCart" >
-					<a href="#shoppingcart?"><?=STORE_SHOPPINGCART?></a>
+					<a href="<?=base_url('shoppingcart')?>"><?=STORE_SHOPPINGCART?></a>
 					<div id="menu-lshoppingCart" class="menu-l-shoppingCart" style="display: none;"></div>
 					<div class="clearfix"></div>
 				</li>
-				<li id="menu-l-li-wishList" ><a href="#wishList?"><?=STORE_WISH_LIST?></a></li>
-				<li><a href="#freeproducts?"><?=PRODUCTS_RAFFLE?></a></li>
-				<li class="menu-l-youOrders" style="display: none;"><a href="#orders?"><?=STORE_YOURORDES?></a></li>
+				<li id="menu-l-li-wishList" ><a href="<?=base_url('wishList')?>"><?=STORE_WISH_LIST?></a></li>
+				<li><a href="<?=base_url('freeproducts')?>"><?=PRODUCTS_RAFFLE?></a></li>
+				<li class="menu-l-youOrders" style="display: none;"><a href="<?=base_url('orders')?>"><?=STORE_YOURORDES?></a></li>
 				<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']=='427'){ ?>
-				<li class="menu-l-youSales" style="display: none;"><a href="#sales?"><?=STORE_SALES?></a></li>
+				<li class="menu-l-youSales" style="display: none;"><a href="<?=base_url('sales')?>"><?=STORE_SALES?></a></li>
 				<?php } ?>
 				<li><a href="<?=HREF_DEFAULT?>" action="buyPoints"><?=STORE_SALE_POINTS?></a></li>
 			</ul>
@@ -69,56 +69,56 @@
 <div id="title-menuLeft" class="title-the-box">
 <div class="divImagen-title imagenCategory"><?=Category?></div>
 <ul id="menuLeft">
-	<li id="cretationTag"><a href="#creation?"><?=MAINMNU_CREATETAG?></a></li>
+	<li id="cretationTag"><a href="<?=base_url('creation')?>"><?=MAINMNU_CREATETAG?></a></li>
 	<li id="profile">
 		<span><?=MAINMNU_ACCOUNT?></span>
 		<ul>
-			<li><a href="#profile?sc=1"><?=USERPROFILE_PERSONALINFO?></a></li>
-			<li><a href="#profile?sc=2"><?=USERPROFILE_PREFERENCES?></a></li>
-			<li><a href="#profile?sc=4"><?=MAINSMNU_PASSWORD?></a></li>
-			<li><a href="#profile?sc=3"><?=USERPROFILE_BUSINESSCARD?></a></li>
+			<li><a href="<?=base_url('profile?sc=1')?>"><?=USERPROFILE_PERSONALINFO?></a></li>
+			<li><a href="<?=base_url('profile?sc=2')?>"><?=USERPROFILE_PREFERENCES?></a></li>
+			<li><a href="<?=base_url('profile?sc=4')?>"><?=MAINSMNU_PASSWORD?></a></li>
+			<li><a href="<?=base_url('profile?sc=3')?>"><?=USERPROFILE_BUSINESSCARD?></a></li>
 		</ul>
 	</li>
 	<li id="friends">
 		<span><?=USER_FINDFRIENDSTITLELINKS?></span>
 		<ul>
-			<li><a href="#friends?sc=1"><?=MAINMNU_FINDFRIENDS?></a></li>
-			<li><a href="#friends?sc=2"><?=EDITFRIEND_VIEWTAB1?></a></li>
-			<li><a href="#friends?sc=3"><?=EDITFRIEND_VIEWTAB2?></a></li>
+			<li><a href="<?=base_url('friends?sc=1')?>"><?=MAINMNU_FINDFRIENDS?></a></li>
+			<li><a href="<?=base_url('friends?sc=2')?>"><?=EDITFRIEND_VIEWTAB1?></a></li>
+			<li><a href="<?=base_url('friends?sc=3')?>"><?=EDITFRIEND_VIEWTAB2?></a></li>
 		</ul>
 	</li>
 	<li id="groups">
 		<span><?=MAINMNU_GROUPS?></span>
 		<ul>
-			<li><a href="#groups?sc=1"><?=GROUPS_LABELTABLSTMYGROUPS?></a></li>
-			<li><a href="#groups?"><?=GROUPS_LABELTABLSTALL?></a></li>
+			<li><a href="<?=base_url('groups?sc=1')?>"><?=GROUPS_LABELTABLSTMYGROUPS?></a></li>
+			<li><a href="<?=base_url('groups')?>"><?=GROUPS_LABELTABLSTALL?></a></li>
 		</ul>
 	</li>
 	<li id="setting">
 		<span><?=MAINMNU_SETTINGLEFT?></span>
 		<ul>
-			<li><a href="#setting?sc=1"><?=NOTIFICATIONS_CONFIGURATIONSECTION?></a></li>
-			<!-- <li><a href="#"><?=MAINMNU_SETTINGLEFT?></a></li> -->
+			<li><a href="<?=base_url('setting?sc=1')?>"><?=NOTIFICATIONS_CONFIGURATIONSECTION?></a></li>
+			<!-- <li><a href="<?=base_url()?>"><?=MAINMNU_SETTINGLEFT?></a></li> -->
 		</ul>
 	</li>
 	<li id="store">
-		<a href="#store?"><span><?=STORE?></span></a>
+		<a href="<?=base_url('store')?>"><span><?=STORE?></span></a>
 		<ul>
-			<li><a href="#store?"><?=PRODUCT_TITLE?></a></li>
+			<li><a href="<?=base_url('store')?>"><?=PRODUCT_TITLE?></a></li>
 			<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']=='427'){ ?>
-			<li><a href="#newproduct?"><?=PRODUCTS_ADD?></a></li>
-			<li><a href="#mypublications?"><?=STORE_MISPUBLICATION?></a></li>
+			<li><a href="<?=base_url('newproduct')?>"><?=PRODUCTS_ADD?></a></li>
+			<li><a href="<?=base_url('mypublications')?>"><?=STORE_MISPUBLICATION?></a></li>
 			<?php } ?>
 			<li id="menu-l-li-shoppingCart" >
-				<a href="#shoppingcart?"><?=STORE_SHOPPINGCART?></a>
+				<a href="<?=base_url('shoppingcart')?>"><?=STORE_SHOPPINGCART?></a>
 				<div id="menu-lshoppingCart" class="menu-l-shoppingCart" style="display: none;"></div>
 				<div class="clearfix"></div>
 			</li>
-			<li id="menu-l-li-wishList" ><a href="#wishList?"><?=STORE_WISH_LIST?></a></li>
-			<li><a href="#freeproducts?"><?=PRODUCTS_RAFFLE?></a></li>
-			<li class="menu-l-youOrders" style="display: none;"><a href="#orders?"><?=STORE_YOURORDES?></a></li>
+			<li id="menu-l-li-wishList" ><a href="<?=base_url('wishList')?>"><?=STORE_WISH_LIST?></a></li>
+			<li><a href="<?=base_url('freeproducts')?>"><?=PRODUCTS_RAFFLE?></a></li>
+			<li class="menu-l-youOrders" style="display: none;"><a href="<?=base_url('orders')?>"><?=STORE_YOURORDES?></a></li>
 			<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']=='427'){ ?>
-			<li class="menu-l-youSales" style="display: none;"><a href="#sales?"><?=STORE_SALES?></a></li>
+			<li class="menu-l-youSales" style="display: none;"><a href="<?=base_url('sales')?>"><?=STORE_SALES?></a></li>
 			<?php } ?>
 			<li><a href="<?=HREF_DEFAULT?>" action="buyPoints"><?=STORE_SALE_POINTS?></a></li>
 		</ul>
@@ -295,7 +295,7 @@
 				//fin-news
 
 				var menu=$('#menuLeft')[0];
-				$(menu).on('click','li > span',function(){
+				$(menu).on('click','li>span',function(){
 					//buscamos ul hijo (submenu)
 					var ul=$(this).parent().find('ul')[0];
 					if(ul){
@@ -303,32 +303,35 @@
 						$(ul).slideToggle(300);
 					}
 				});
-				var hash=document.location.hash.split('?')[0].split('&')[0],el;
-				if(hash.length>1){
-					switch(hash){
-						case '#myfreeproducts':
-						case '#newproduct':
-						case '#mypublications':
-						case '#shoppingcart':
-						case '#freeproducts':
-						case '#orders':
-						case '#myparticipation':
-						case '#shippingaddress':
-						case '#detailprod':
-						case '#salepoints':
-						case '#sales':
-                        case '#wishList':
-							el='#store';
+				var el,section;
+				if(document.location.href.match(/\.php/i)) section=document.location.href.split('.php')[1];
+				else section=document.location.hash;
+				section=section.substr(1).split('#')[0].split('?')[0].split('&')[0];
+				if(section){
+					switch(section){
+						case 'myfreeproducts':
+						case 'newproduct':
+						case 'mypublications':
+						case 'shoppingcart':
+						case 'freeproducts':
+						case 'orders':
+						case 'myparticipation':
+						case 'shippingaddress':
+						case 'detailprod':
+						case 'salepoints':
+						case 'sales':
+                        case 'wishList':
+							el='store';
 						break;
-						case '#creation':
-							el='#cretationTag';
+						case 'creation':
+							el='cretationTag';
 						break;
-                        case '#groupsDetails':
-							el='#groups';
+                        case 'groupsDetails':
+							el='groups';
 						break;
-						default: el=hash;//elemento del menu principal
+						default: el=section;//elemento del menu principal
 					}
-					$(menu).children(el)//li
+					$(menu).children('#'+el)//li
 					.addClass('selected')
 					.children('ul').show();
 				}

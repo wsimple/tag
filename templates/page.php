@@ -5,14 +5,15 @@
 			if(!$logged && $_GET['tag']==''){
 				include('views/main/home.php');
 			}else{
-				echo '<container><content>';
 				global $section,$notAjax;
-				$notAjax=true;
-				if($section){
-					$idPage=$section;
-					include('view.php');
+				if($notAjax){
+					if($section){
+						$idPage=$section;
+						include('view.php');
+					}
+				}else{
+					echo '<container><content></content></container>';
 				}
-				echo '</content></container>';
 			}
 		?>
 	</wrapper>
