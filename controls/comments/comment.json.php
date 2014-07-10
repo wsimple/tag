@@ -33,7 +33,8 @@ if($action=='del'){//si es eliminar
 	$user_to=CON::getVal('SELECT id FROM users WHERE md5(md5(id))=? LIMIT 1',array($_POST['to']));
 	switch($type){
 		case 4:
-			$_source=CON::getRow('SELECT id,id_user FROM tags WHERE id=?',array($source));
+			$table='tags';
+			$_source=CON::getRow('SELECT id,id_user FROM '.$table.' WHERE id=?',array($source));
 			if(count($_source)){
 				incPoints(4,$_source['id'],$_source['id_user'],$myId);
 				incHitsTag($_source['id']);
@@ -41,7 +42,8 @@ if($action=='del'){//si es eliminar
 			$type2=28;
 		break;
 		case 15:
-			$_source=CON::getRow('SELECT id FROM store_products WHERE id=?',array($source));
+			$table='store_products';
+			$_source=CON::getRow('SELECT id FROM '.$table.' WHERE id=?',array($source));
 			$type2=29;
 		break;
 	}
@@ -54,23 +56,22 @@ if($action=='del'){//si es eliminar
 		if(CON::error()) $res['_sqlerror_'][]=CON::errorMsg();
 		if($res['inserted']){
 			//verificamos el propietario de la tag, para evitar notificaciones innecesarias
-			$usr=CON::getVal('SELECT id_user FROM tags WHERE id=?',array($_source['id']));
+			// $usr=CON::getVal('SELECT id_user FROM '.$table.' WHERE id=?',array($_source['id']));
 			if($user_to!=''&&$user_to!=$myId)//se notifica al destinatario
 				notifications($user_to,$_source['id'],$type);
-			if($usr!=$myId&&$usr!=$user_to)//se notifica al propietario
-				notifications($usr,$_source['id'],$type);
+			// if($usr!=$myId&&$usr!=$user_to)//se notifica al propietario
+			// 	notifications($usr,$_source['id'],$type);
 			//buscamos a los demas usuarios que hayan comentado
 			$query=CON::query('
 				SELECT id_user_from AS id
 				FROM comments
 				WHERE id_source=?
 					AND id_type=?
-					AND id_user_from NOT IN(?,?,?)
+					AND id_user_from NOT IN(?,?)
 				GROUP BY id_user_from
 			',array(
 				$_source['id'],
-				$type,
-				$usr,$user_to,$myId
+				$type,$user_to,$myId
 			));
 			$res['_sql_'][]=CON::lastSql();
 			while($user=CON::fetchAssoc($query)){//se les notifica que alguien ha escrito

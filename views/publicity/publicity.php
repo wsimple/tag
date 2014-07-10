@@ -43,7 +43,7 @@
 						}
 					?>
 					<img src="<?=$img?>" <?=$class?>>
-				</div>aqui 
+				</div>
 			</a>
 			<div id="namePublicity">
 				  <strong><div style="text-align: left"><a href="<?=$publicity['link']?>" target="_blank" onclick="showPublicityWb('<?=$publicity['id']?>')" onfocus="this.blur()"><?=$publicity['title']?></a></div></strong>
