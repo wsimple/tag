@@ -32,7 +32,7 @@
 	<h3 class="ui-single-box-title">
 		&nbsp;<?=USERPROFILE_TITLEFIELDSET?>
 	</h3>
-<form action="?current=updateProfile" id="frmProfile_" name="frmProfile_" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
+	<form action="?current=updateProfile" id="frmProfile_" name="frmProfile_" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
 	<input type="hidden" id="actionAjax" name="actionAjax"/>
 	<input type="hidden" id="validaActionAjax" name="validaActionAjax" value="save"/>
 	<div id="frmProfilePhotoContainer">
@@ -53,7 +53,6 @@
 				<a href="#profile?sc=5" class="color-a font-size3" <?php if(USER_CROPPROFILE_TITLE!=""){?> title="<?=USER_CROPPROFILE_TITLE?>"<?php } ?>>
 					<?=USER_CROPPROFILE?>
 				</a>
-				<br/>
 				<?php } ?>
 				<a href="#profile?sc=6" class="color-a font-size3" <?php if(USER_HELPPREVIEWPROFILE_TITLE!=""){?> title="<?=USER_HELPPREVIEWPROFILE_TITLE?>"<?php } ?>>
 					<?=USER_HELPPREVIEWPROFILE?>
@@ -62,110 +61,115 @@
 		<?php } ?>
 	</div>
 	<div id="frmProfileFormContainer">
-		<div><?php //first name OR Company Name ?>
-			<label><strong>(*)&nbsp;<?=(($_SESSION['ws-tags']['ws-user']['type']=='1')?SIGNUP_LBLADVERTISERNAME_FIELD:SIGNUP_LBLFIRSTNAME_FIELD)?>:</strong></label>
-			<?=$frmProfile->imput(
-				"frmProfile_firstName",
-				$_SESSION['ws-tags']['ws-user']['name'],
-				$anchoImput,"text","","",
-				(($_SESSION['ws-tags']['ws-user']['type']=='1')?SIGNUP_LBLADVERTISERNAME:SIGNUP_LBLFIRSTNAME)."|string|3")
-			?>
-		</div>
-		<?php if( $_SESSION['ws-tags']['ws-user']['type']=='0' ) { ?>
-			<div><?php //last name ?>
-				<label ><strong>(*)&nbsp;<?=SIGNUP_LBLLASTNAME_FIELD?>:</strong></label>
-				<?=$frmProfile->imput( "frmProfile_lastName", $_SESSION['ws-tags']['ws-user']['last_name'],$anchoImput, "text", "", "imputs_wrap_register", SIGNUP_LBLLASTNAME."|string|3")?>
+		<div>
+			<div class="left">
+				<?php //first name OR Company Name ?>
+				<label><strong>(*)&nbsp;<?=(($_SESSION['ws-tags']['ws-user']['type']=='1')?SIGNUP_LBLADVERTISERNAME_FIELD:SIGNUP_LBLFIRSTNAME_FIELD)?>:</strong></label>
+				<?=$frmProfile->imput(
+					"frmProfile_firstName",
+					$_SESSION['ws-tags']['ws-user']['name'],
+					$anchoImput,"text","","",
+					(($_SESSION['ws-tags']['ws-user']['type']=='1')?SIGNUP_LBLADVERTISERNAME:SIGNUP_LBLFIRSTNAME)."|string|3")
+				?>
 			</div>
-		<?php } ?>
-		<div><?php //screen name ?>
-			<label><strong>(*)&nbsp;<?=SIGNUP_LBLSCREENNAME_FIELD?>:</strong></label>
-			<?=$frmProfile->imput("frmProfile_screenName", $_SESSION['ws-tags']['ws-user']['screen_name'],$anchoImput, "text", "", "imputs_wrap_register", SIGNUP_LBLSCREENNAME."|string")?>
-		</div>
-		<div><?php //username ?>
-			<label><strong><?=USERPROFILE_LBLPROFILEUSERNAME?>:</strong></label>
-			<br/>
-			<input type="text" tipo="string" value="<?=$_SESSION['ws-tags']['ws-user'][username]?>" id="frmProfile_userName" name="frmProfile_userName"/>
-			<?=generateDivMessaje('divCheckingUsername','250', 'revisando el username', 'left')?>
-			<?=generateDivMessaje('divValidUsername',	'250', 'username disponible', 'left')?>
-			<em class="font-size3 color-d">(<?=USERPROFILE_LBLHELPUSERNAME1?>)</em>
-			<br/>
-			<em class="font-size3 color-d "><?=(($_SESSION['ws-tags']['ws-user'][username]!='') ? str_replace('*', $_SESSION['ws-tags']['ws-user'][username], USERPROFILE_LBLHELPUSERNAME2) : str_replace('*', USER_PROFILE, USERPROFILE_LBLHELPUSERNAME2))?></em>
-		</div>
-		<div class="floatfix"></div>
-		<div><?php //birth day ?>
-			<label>
-				<strong>(*)&nbsp;<?=($_SESSION['ws-tags']['ws-user'][type]=='1')?SIGNUP_LBLBUSINESSSINCE:SIGNUP_LBLBIRTHDATE?>:</strong>
-			</label>
-			<br/>
-			<?php list($year,$month,$day)=explode('-',$_SESSION['ws-tags']['ws-user']['date_birth']); ?>
-			<select name="frmProfile_month" id='frmProfile_month' requerido="Month">
-				<option value="" ><?=SIGNUP_LBLMONTH?></option>
-				<?php for($i=1;$i<13;$i++){ ?>
-					<option <?=($month==$i?"selected='selected'":'')?>><?=$i?></option>
-				<?php } ?>
-			</select>
-			<select name="frmProfile_day" id='frmProfile_day' requerido="Day">
-				<option value=""><?=SIGNUP_LBLDAY?></option>
-				<?php for($i=1; $i<32; $i++) { ?>
-						<option <?=($day==$i ? "selected='selected'" : '')?>> <?=$i?> </option>";
-				<?php } ?>
-			</select>
-			<select name="frmProfile_year" id='frmProfile_year' requerido="Year">
-				<option value=""><?=SIGNUP_LBLYEAR?></option>
-				<?php
-				$rango = ($_SESSION['ws-tags']['ws-user'][type]=='1' ? 0 : 13);
-				for($i=date('Y')-$rango; $i>1930; $i--) { ?>
-						<option <?=($year==$i ? "selected='selected'" : '')?>> <?=$i?> </option>";
-				<?php } ?>
-			</select>
+			<?php if( $_SESSION['ws-tags']['ws-user']['type']=='0' ) { ?>
+				<div class="left"><?php //last name ?>
+					<label ><strong>(*)&nbsp;<?=SIGNUP_LBLLASTNAME_FIELD?>:</strong></label>
+					<?=$frmProfile->imput( "frmProfile_lastName", $_SESSION['ws-tags']['ws-user']['last_name'],$anchoImput, "text", "", "imputs_wrap_register", SIGNUP_LBLLASTNAME."|string|3")?>
+				</div>
+			<?php } ?>
+			<div class="left"><?php //screen name ?>
+				<label><strong>(*)&nbsp;<?=SIGNUP_LBLSCREENNAME_FIELD?>:</strong></label>
+				<?=$frmProfile->imput("frmProfile_screenName", $_SESSION['ws-tags']['ws-user']['screen_name'],$anchoImput, "text", "", "imputs_wrap_register", SIGNUP_LBLSCREENNAME."|string")?>
+			</div>
+			<div class="clearfix"></div>
 		</div>
 		<div>
-			<!--<a class="font-size3 color-d" href="javascript:void(0);" onclick="message('messages','<?=WHYDOIPROVIDEMYBUSINESSSINCE?>','<?=SIGNUP_MSJBIRTHDATEWARNING?>','',400,200);" onFocus="this.blur();"><?=WHYDOIPROVIDEMYBUSINESSSINCE?></a>
-			<br/>-->
-			<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
-				<a class="font-size3 color-d" href="javascript:void(0);" onclick="message('messages','<?=WHYDOIPROVIDEMYBIRTHDAY?>','<?=SIGNUP_MSJBIRTHDATEWARNING?>','',400,200);" onFocus="this.blur();"><?=WHYDOIPROVIDEMYBIRTHDAY?></a>
-				<br/>
-				<select name="frmProfile_showbirthday" id="frmProfile_showbirthday">
-					<?php while ($show_birthday=mysql_fetch_assoc($shows_birthday)){ ?>
-						<option value="<?=$show_birthday['id']?>" <?php if($_SESSION['ws-tags']['ws-user']['show_birthday']==$show_birthday[id]) echo "selected"; ?> ><?=constant($show_birthday['label'])?></option>
+			<div><?php //username ?>
+				<label><strong><?=USERPROFILE_LBLPROFILEUSERNAME?>:</strong></label>
+				<input type="text" tipo="string" value="<?=$_SESSION['ws-tags']['ws-user'][username]?>" id="frmProfile_userName" name="frmProfile_userName"/>
+				<?=generateDivMessaje('divCheckingUsername','250', 'revisando el username', 'left')?>
+				<?=generateDivMessaje('divValidUsername',	'250', 'username disponible', 'left')?>
+				<em class="font-size3 color-d">(<?=USERPROFILE_LBLHELPUSERNAME1?>)</em>
+				<em class="font-size3 color-d "><?=(($_SESSION['ws-tags']['ws-user'][username]!='') ? str_replace('*', $_SESSION['ws-tags']['ws-user'][username], USERPROFILE_LBLHELPUSERNAME2) : str_replace('*', USER_PROFILE, USERPROFILE_LBLHELPUSERNAME2))?></em>
+			</div>
+		</div>
+		<div>		
+			<div class="left"><?php //birth day ?>
+				<label>
+					<strong>(*)&nbsp;<?=($_SESSION['ws-tags']['ws-user'][type]=='1')?SIGNUP_LBLBUSINESSSINCE:SIGNUP_LBLBIRTHDATE?>:</strong>
+				</label>
+				<?php list($year,$month,$day)=explode('-',$_SESSION['ws-tags']['ws-user']['date_birth']); ?>
+				<select name="frmProfile_month" id='frmProfile_month' requerido="Month">
+					<option value="" ><?=SIGNUP_LBLMONTH?></option>
+					<?php for($i=1;$i<13;$i++){ ?>
+						<option <?=($month==$i?"selected='selected'":'')?>><?=$i?></option>
 					<?php } ?>
 				</select>
-			<?php } ?>
-		</div>
-		<div class="floatfix"></div>
-		<div><?php //language ?>
-			<label><strong><?=USERPROFILE_LBLLANGUAGE?>:</strong></label>
-			<br/>
-			<select name="frmProfile_cboLanguageUsr" id="frmProfile_cboLanguageUsr" w="150">
-				<?php while ($language = mysql_fetch_assoc($languages)) { ?>
-					<option value="<?=$language[cod]?>" <?=($_SESSION['ws-tags']['ws-user'][language]==$language[cod] ? "selected" : '')?> >
-						<?=$language[name]?>
-					</option>
+				<select name="frmProfile_day" id='frmProfile_day' requerido="Day">
+					<option value=""><?=SIGNUP_LBLDAY?></option>
+					<?php for($i=1; $i<32; $i++) { ?>
+							<option <?=($day==$i ? "selected='selected'" : '')?>> <?=$i?> </option>";
+					<?php } ?>
+				</select>
+				<select name="frmProfile_year" id='frmProfile_year' requerido="Year">
+					<option value=""><?=SIGNUP_LBLYEAR?></option>
+					<?php
+					$rango = ($_SESSION['ws-tags']['ws-user'][type]=='1' ? 0 : 13);
+					for($i=date('Y')-$rango; $i>1930; $i--) { ?>
+							<option <?=($year==$i ? "selected='selected'" : '')?>> <?=$i?> </option>";
+					<?php } ?>
+				</select>
+				<div class="clearfix"></div>
+			</div>
+			<div class="left">
+				<!--<a class="font-size3 color-d" href="javascript:void(0);" onclick="message('messages','<?=WHYDOIPROVIDEMYBUSINESSSINCE?>','<?=SIGNUP_MSJBIRTHDATEWARNING?>','',400,200);" onFocus="this.blur();"><?=WHYDOIPROVIDEMYBUSINESSSINCE?></a>
+				-->
+				<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
+					<a class="font-size3 color-d" href="javascript:void(0);" onclick="message('messages','<?=WHYDOIPROVIDEMYBIRTHDAY?>','<?=SIGNUP_MSJBIRTHDATEWARNING?>','',400,200);" onFocus="this.blur();"><?=WHYDOIPROVIDEMYBIRTHDAY?></a>
+					<select name="frmProfile_showbirthday" id="frmProfile_showbirthday">
+						<?php while ($show_birthday=mysql_fetch_assoc($shows_birthday)){ ?>
+							<option value="<?=$show_birthday['id']?>" <?php if($_SESSION['ws-tags']['ws-user']['show_birthday']==$show_birthday[id]) echo "selected"; ?> ><?=constant($show_birthday['label'])?></option>
+						<?php } ?>
+					</select>
 				<?php } ?>
-			</select>
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
 		</div>
-		<div><?php //country ?>
-			<label><strong><?=BUSINESSCARD_LBLCOUNTRY?>:</strong></label>
-			<br/>
-			<select name="frmProfile_cboFrom" id="cbo_from_search" w="150">
-				<option value="" ></option>
-				<?php while( $from = mysql_fetch_assoc($froms) ) { ?>
-					<option value="<?=$from[id]?>" <?=($_SESSION['ws-tags']['ws-user'][country]==$from[id] ? "selected" : '')?>>
-						<?=$from[name]?>
-					</option>
-				<?php } ?>
-			</select>
+		<div>
+			<div class="left"><?php //language ?>
+				<label><strong><?=USERPROFILE_LBLLANGUAGE?>:</strong></label>
+				
+				<select name="frmProfile_cboLanguageUsr" id="frmProfile_cboLanguageUsr" w="150">
+					<?php while ($language = mysql_fetch_assoc($languages)) { ?>
+						<option value="<?=$language[cod]?>" <?=($_SESSION['ws-tags']['ws-user'][language]==$language[cod] ? "selected" : '')?> >
+							<?=$language[name]?>
+						</option>
+					<?php } ?>
+				</select>
+			</div>
+			<div class="left"><?php //country ?>
+				<label><strong><?=BUSINESSCARD_LBLCOUNTRY?>:</strong></label>
+				
+				<select name="frmProfile_cboFrom" id="cbo_from_search" w="150">
+					<option value="" ></option>
+					<?php while( $from = mysql_fetch_assoc($froms) ) { ?>
+						<option value="<?=$from[id]?>" <?=($_SESSION['ws-tags']['ws-user'][country]==$from[id] ? "selected" : '')?>>
+							<?=$from[name]?>
+						</option>
+					<?php } ?>
+				</select>
+			</div class="left">
+			<div><?php //zip code ?>
+				<label ><strong><?=SIGNUP_ZIPCODE?></strong></label>
+				<input name="frmProfile_zipCode" type="text" id="frmProfile_zipCode" value="<?=$_SESSION['ws-tags']['ws-user']['zip_code']?>"/>
+			</div>
+			<div class="clearfix"></div>
 		</div>
-		<div><?php //zip code ?>
-			<label ><strong><?=SIGNUP_ZIPCODE?></strong></label>
-			<br />
-			<input name="frmProfile_zipCode" type="text" id="frmProfile_zipCode" value="<?=$_SESSION['ws-tags']['ws-user']['zip_code']?>"/>
-		</div>
-		<div class="floatfix"></div>
 		<?php if( $_SESSION['ws-tags']['ws-user'][type]=='0' ) { ?>
 			<div><?php //home phone ?> 
 				<label><strong><?=USERPROFILE_LBLHOMEPHONE?>:</strong></label>
-				<br/>
 				<select name="frmProfile_home_code" id="home_code_search" w="150">
 					<option value=""><?=USERPROFILE_LBLCBOAREASCODE?></option>
 					<?php
@@ -184,7 +188,7 @@
 		<?php } ?>
 		<div><?php // work phone ?>
 			<label><strong><?=USERPROFILE_LBLWORKPHONE?>:</strong></label>
-			<br/> 
+			 
 			<select name="frmProfile_work_code" id="work_code_search" w="150">
 				<option value=""><?=USERPROFILE_LBLCBOAREASCODE?></option>
 				<?php
@@ -202,7 +206,7 @@
 		</div>
 		<div><?php //mobile phone ?>
 			<label><strong><?=USERPROFILE_LBLMOBILEPHONE?>:</strong></label>
-			<br/> 
+			 
 			<select name="frmProfile_mobile_code" id="mobile_code_search" w="150">
 				<option value=""><?=USERPROFILE_LBLCBOAREASCODE?></option>
 				<?php
@@ -218,11 +222,9 @@
 			<input name="frmProfile_mobile" type="text" id="frmProfile_mobile"  value="<?=$number[1]?>" tipo="integer" />
 			<em class="font-size3 color-d"><?=PROFILE_PHONELEYEND?></em>
 		</div>
-		<div class="floatfix"></div>
 		<?php if( $_SESSION['ws-tags']['ws-user']['type']!='1' ){ ?>
 			<div><?php //sexo ?>
 				<label><strong><?=SEX_TITLE?>:</strong></label>
-				<br/>
 				<select name="frmProfile_sex" id="frmProfile_sex" w="150">
 				<?php if($_SESSION['ws-tags']['ws-user']['sex']==''){ ?>
 					<option value="" selected>...</option>
@@ -237,62 +239,54 @@
 		<?php }
 		if($_SESSION['ws-tags']['ws-user']['type']=='1'){ ?>
 			<div class="frmProfilePaypalAccount" style="height: 45px">
-				<label ><strong><?=PROFILE_PAYINFO?> <a href="https://www.paypal.com/ve/cgi-bin/webscr?cmd=_registration-run&from=PayPal" title="" target="_blank">paypal</a> (Paypal ID <?=PROFILE_OREMAILPAY?>):</strong></label><br>
+				<label ><strong><?=PROFILE_PAYINFO?> <a href="https://www.paypal.com/ve/cgi-bin/webscr?cmd=_registration-run&from=PayPal" title="" target="_blank">paypal</a> (Paypal ID <?=PROFILE_OREMAILPAY?>):</strong></label>
 				<input name="frmProfile_paypal" type="text" id="frmProfile_paypal"  value="<?=$_SESSION['ws-tags']['ws-user'][paypal]?>" style="width:300px;" /><span class="paypal_info help_info">?</span>
                 <?php //requerido="FRMPROFILE_PAYPAL" ?>
-				<div><div class="messageHelp arrowLeft"><span><?=$paypalMsg?></span></div></div><br>
+				<div><div class="messageHelp arrowLeft"><span><?=$paypalMsg?></span></div></div>
 			</div>
-			<div class="floatfix"></div>
             <div><?php //tax id ?>
 				<label><strong>(*)&nbsp;<?=USERPROFILE_TAXID?>:</strong></label>
 				<div><input type="text" name="frmProfile_taxId" id="frmProfile_taxId" value="<?=$_SESSION['ws-tags']['ws-user'][taxId]?>" onkeyup="mascara(this,'-',patron,true)" maxlength="11" /></div>
 			</div>
 		<?php } ?>
 		<div class="color-a font-size3" id="frmProfileRequiredMessaje"><?=REQUIRED?></div>
-		<div id="frmProfileBackground"><?php //personal page color and background image ?>
-			<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1) { ?>
-			<div style="width:500px;">
-				<label><strong><?=USERPROFILE_SELCUSTOMBACKGROUND?></strong></label>
-				<br/>
-				<?php if( $_SESSION['ws-tags']['ws-user']['fullversion']==1 ) {
-					$style_profileChangeBgButtonDiv	='display:none;';
-					$style_profileChangeBgDiv		='width:250px;float:left;height:50px;';
-				} else {
-					$style_profileChangeBgButtonDiv	='width:250px;float:left;height:50px;';
-					$style_profileChangeBgDiv		='display:none;';
-				} ?>
-				<div id="profileChangeBgButtonDiv" style="<?=$style_profileChangeBgButtonDiv?>"><?php // background image chooser?>
-					<input type="button" value="<?=USERPROFILE_UPLOADBGTITTLE?>" />
-					<input id="user_background_url" name="user_background_url" style="display:none" type="text"/>
+		<div>
+			<div id="frmProfileBackground"><?php //personal page color and background image ?>
+				<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
+				<div style="width:500px;" class="left">
+					<label><strong><?=USERPROFILE_SELCUSTOMBACKGROUND?></strong></label>
+					<div id="profileChangeBgButtonDiv" class="left" style="width:225px"><?php // background image chooser?>
+						<input type="button" value="<?=USERPROFILE_UPLOADBGTITTLE?>" />
+						<input id="user_background_url" name="user_background_url" style="display:none" type="text"/>
+					</div>
+					<div id="setDefaultBgDiv" name="setDefaultBgDiv" class="left">
+						<input id="setDefaultBgButton" type="button" value="<?=USERPROFILE_USEDEFAULTBG?>"/>
+					</div>
+					<div id="profileChangeBgDiv" class="invisible left">
+						<input id="profile_background_file" name="profile_background_file" type="file" class="invisible"/>
+					</div>
+					<div class="clearfix"></div>
 				</div>
-				<div id="setDefaultBgDiv" name="setDefaultBgDiv">
-					<input id="setDefaultBgButton" type="button" value="<?=USERPROFILE_USEDEFAULTBG?>"/>
-				</div>
-				<div id="profileChangeBgDiv" class="invisible">
-					<input id="profile_background_file" name="profile_background_file" type="file" class="invisible"/>
-				</div>
-			</div>
-			<?php }else{
-				echo '&nbsp';
-			}
-			if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
-				<div>
+				<div class="left">
 					<label><strong><?=USERPROFILE_SELCOLORBACKGROUND?></strong></label>
-					<br/>
-					<input type="text" id="profileHiddenColor" class="colorBG" readonly="readonly" name="profileHiddenColor" value="<?=($_SESSION['ws-tags']['ws-user'][user_background] ? ($_SESSION['ws-tags']['ws-user'][user_background][0]=="#" ? $_SESSION['ws-tags']['ws-user'][user_background] : '#fff') : '#fff')?>"/>
+						<input type="text" id="profileHiddenColor" class="colorBG" readonly="readonly" name="profileHiddenColor" value="<?=($_SESSION['ws-tags']['ws-user'][user_background] ? ($_SESSION['ws-tags']['ws-user'][user_background][0]=="#" ? $_SESSION['ws-tags']['ws-user'][user_background] : '#fff') : '#fff')?>"/>
 					<div id="profileHiddenColorDiv"></div>
 				</div>
-			<?php } ?>
+				<?php } ?>
+				<div class="clearfix"></div>
+			</div>
 		</div>
-		<div id="facebook-dialog" style="display:none;"><?=FACEBOOK_NOTMATCHEMAIL?></div>
-		<div class="frmProfileBotones">
-			<input name="frmProfile_btnSend" type="button" id="frmProfile_btnSend" onclick="disableButtons('<?=$all?>');" value="<?=USERPROFILE_SAVE?>" />
-			<input type="button" class="fb-buttom" name="btnFacebook" id="btnFacebook" value="<?=USERPROFILE_ASSOCFB?>">
-			<div id="fb-root"></div>
+		<div>
+			<div id="facebook-dialog" style="display:none;"><?=FACEBOOK_NOTMATCHEMAIL?></div>
+			<div class="frmProfileBotones">
+				<input name="frmProfile_btnSend" type="button" id="frmProfile_btnSend" onclick="disableButtons('<?=$all?>');" value="<?=USERPROFILE_SAVE?>" />
+				<input type="button" class="fb-buttom" name="btnFacebook" id="btnFacebook" value="<?=USERPROFILE_ASSOCFB?>">
+				<div id="fb-root"></div>
+			</div>
 		</div>
 	</div><?php // fin contenedor ?>
 	<div class="clearfix"></div>
-</form>
+	</form>
 </div>
 <script>
 	$('[title]').tipsy({html:true,gravity:'n'});
@@ -493,8 +487,6 @@
 			if(!this.id.match('_search')) opc['disableSearch']=true;
 			$(this).chosen(opc);
 		});
-		//telefonos
-        $('#frmProfile_work,#frmProfile_mobile,#frmProfile_home').css('position','relative').css('bottom','8px');
 		<?php if( $_SESSION['ws-tags']['ws-user']['fullversion']!=1 ) { ?>
 			$('#frmProfile_filePhoto').bind('change',function(){
 				disableButtons('<?=$all?>');
