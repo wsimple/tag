@@ -11,7 +11,7 @@ include ("../../../../includes/languages.config.php");
 
 		<tr>
 			<td width="101">
-				<img src="imgs/paypal-curved.png" width="101" height="64" border="0"/>
+				<img src="img/paypal-curved.png" width="101" height="64" border="0"/>
 			</td>
 
 			<td width="228" style="font-size:14px">

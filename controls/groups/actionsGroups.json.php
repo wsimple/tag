@@ -409,18 +409,14 @@
                 if($_GET['accept']==1){//acepta usuario
                     //aceptamos la solicitud del usuario en el grupo
                     $GLOBALS['cn']->query("UPDATE users_groups SET date_update = now(), status = '1' WHERE id_group = '".$idGroup."' AND id_user = '".$_GET['id']."';");
-
                     //enviamos notificacion al usuario que es aceptado en el grupo
-                    notifications($_GET['id'],$idGroup,13);
+                    notifications($_GET['id'],$idGroup,13); 
                     $res['insert']='insert';
                 }else{//rechaza usuario
                      //aceptamos la solicitud del usuario en el grupo
                     $GLOBALS['cn']->query("DELETE FROM users_groups WHERE id_group = '".$idGroup."' AND id_user = '".$_GET['id']."';");
                     $res['insert']='false';
                 }
-                
-                $res['cug']=  campo('users_groups', 'status', 5, 'COUNT(*)');
-
                 //eliminamos la notificacion que posee el administrador del grupo
                 notifications($_SESSION['ws-tags']['ws-user']['id'],$idGroup,12,1,$_GET['id']);
                 //verficar cuantas notificaciones de solicitud de grupo estan activas

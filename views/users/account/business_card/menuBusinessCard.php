@@ -9,7 +9,7 @@
 			<?php //delete business card ?>
 			<li onclick="actionConfirm('<?=BUSINESSCARD_DELETE_CONTENT?>','<?=BUSINESSCARD_DELETE_TITTLE?>','url','controls/business_card/businessCard.control.php?id_delete_bc=<?=md5($bc[id])?>|#<?=md5($bc[id])?>');" title="<?=NEWTAG_HELPDELETEBACKGROUNDTEMPLATE?>"
 				style="<?=($bc['type']?'':'display:none;')?>">
-				<img style="cursor:pointer;" src="img/menu_businessCard/trash.png"/>
+				<img style="cursor:pointer;" src="img/menu_tag/trash.png"/>
 			</li>
 			<?php /* Add to an Existing Tag */ ?>
 			<li onclick="tagsUser('<?=$_SESSION['ws-tags']['ws-user'][screen_name].' : Tags'?>', '&current=personal&bc_list&edit=0&uid=<?=md5($_SESSION['ws-tags']['ws-user'][id])?>&select=<?=$bc['id']?>');" title="<?=MENU_ADD_TO_TAG?>">

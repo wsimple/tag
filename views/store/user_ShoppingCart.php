@@ -50,6 +50,7 @@
 				<?php // country ?>
 				<div>
 					<label ><strong>(*)&nbsp;<?=BUSINESSCARD_LBLCOUNTRY?>:</strong></label>
+					<br />
 					<select name="country" id="country" requerido="<?=BUSINESSCARD_LBLCOUNTRY?>">
 						<?=($num_pais!='')?$num_pais:'<option value="" ></option>'?>
 						<?=$options?>
@@ -58,20 +59,21 @@
 				<?php // cities ?>
 				<div id="setCitys">
 					<label ><strong>(*)&nbsp;<?=BUSINESSCARD_LBLCITY?>:</strong></label>
+					<br />
 					<select name="city" id="city" requerido="<?=BUSINESSCARD_LBLCITY?>">
 						<!--<option value="" ></option>-->
 					</select>
 				</div>
 				<?php // zip code ?>
 				<div>
-					<label ><strong>(*)&nbsp;<?=SIGNUP_ZIPCODE?></strong></label>
+					<label ><strong>(*)&nbsp;<?=SIGNUP_ZIPCODE?></strong></label><br>
 					<input name="zipCode" type="text"
 						   id="zipCode"
 						   value="<?=$_SESSION['ws-tags']['ws-user']['zip_code']?>" requerido="<?=SIGNUP_ZIPCODE?>"/>
 				</div>
 				<?php // address ?>
 				<div>
-					<label ><strong>(*)&nbsp;<?=BUSINESSCARD_LBLADDRESS?></strong></label>
+					<label ><strong>(*)&nbsp;<?=BUSINESSCARD_LBLADDRESS?></strong></label><br>
 					<input name="addres" type="text" 
 						   id="addres"
 						   value="<?=$_SESSION['ws-tags']['ws-user']['address']?>" requerido="<?=BUSINESSCARD_LBLADDRESS?>"/>
@@ -82,6 +84,7 @@
 				<?php if( $_SESSION['ws-tags']['ws-user']['type']=='0' ) { ?>
 					<div>
 						<label ><strong>(*)&nbsp;<?=USERPROFILE_LBLHOMEPHONE?>:</strong></label>
+						<br />
 						<select name="home_code" id="home_code">
 							<?=($tele_home)?$tele_home:'<option value="">'.USERPROFILE_LBLCBOAREASCODE.'</option>'?>
 							<?=$options?>
@@ -93,6 +96,7 @@
 				<?php // work phone ?>
 				<div>
 						<label ><strong>(*)&nbsp;<?=USERPROFILE_LBLWORKPHONE?>:</strong></label>
+						<br />
 						<select name="work_code" id="work_code">
 								<?=($tele_work!='')?$tele_work:'<option value="">'.USERPROFILE_LBLCBOAREASCODE.'</option>'?>
 								<?=$options?>
@@ -104,6 +108,7 @@
 				<?php // mobile phone ?>
 				<div>
 						<label ><strong>(*)&nbsp;<?=USERPROFILE_LBLMOBILEPHONE?>:</strong></label>
+						<br />
 						<select name="mobile_code" id="mobile_code">
 								<?=($tele_mobile!='')?$tele_mobile:'<option value="">'.USERPROFILE_LBLCBOAREASCODE.'</option>'?>
 								<?=$options?>
@@ -141,6 +146,7 @@
                     width: 200,
                     disableSearch:true 
                 });
+                $('#phoneHome,#phoneWork,#phoneMobile').css('position','relative').css('bottom','8px');
                 //acciones key
                 //acciones de keydown para validar las entradas en el campo price
                 $('#zipCode,#phoneHome,#phoneMobile,#phoneWork').keydown(function(e){

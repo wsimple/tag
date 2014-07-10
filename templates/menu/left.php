@@ -269,9 +269,9 @@
 
 		$.on({
 			open:function(){
-				// console.log('on open (menu)');
-				//news
-				var opc={
+
+			//news
+			var opc={
 					layer:'#noticeInsertTop',
 					get:''
 				};
@@ -294,12 +294,12 @@
 				getNews('reload',opc);
 				//fin-news
 
-				$(document).off('.menuleft').on('click.menuleft','#menuLeft li > span',function(){
-					// console.log('onclick menuleft');
+				var menu=$('#menuLeft')[0];
+				$(menu).on('click','li > span',function(){
 					//buscamos ul hijo (submenu)
 					var ul=$(this).parent().find('ul')[0];
 					if(ul){
-						$('#menuLeft ul').not(ul).slideUp(300);
+						$('ul',menu).not(ul).slideUp(300);
 						$(ul).slideToggle(300);
 					}
 				});
@@ -328,14 +328,13 @@
 						break;
 						default: el=hash;//elemento del menu principal
 					}
-					$('#menuLeft').children(el)//li
+					$(menu).children(el)//li
 					.addClass('selected')
 					.children('ul').show();
 				}
 			},
 			close:function(){
-				// console.log('on close (menu)');
-				$(document).off('.menuleft');
+				$('#menuLeft').off();
 				$.smt.news = $('#info-container').html();
 				//console.log($.smt.news)
 				//$(window).off(ns);

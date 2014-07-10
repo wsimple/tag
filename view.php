@@ -31,7 +31,7 @@ $f_unlogged=array(
 	'users/business.paypal.php'
 );
 //cantidad de paneles, default:3
-$numPanels=isset($numPanels)?$numPanels:3;
+$numPanels=3;
 //nombre del archivo con el contenido principal de la pagina
 $bodyPage=false;
 //panel derecho (si son 3 paneles)
@@ -70,7 +70,6 @@ $rightPanel='users/newsUsers.php';
 if( isset($_GET['tag'])&&( (!$logged&&$idPage=='home')||($logged&&$idPage=='carousel') ) )
 	$idPage='comment';
 if($idPage=='term') $idPage='terms';
-if(!isset($idPage)&&$currentPage==404) $idPage='home';
 switch($idPage){
 	case 'home':case 'whatIsIt':case 'howDoesWork':case 'howDoesWork/1':case 'howDoesWork/2':case 'app':
 		$currentPage=$logged?'main/redir.php':'main/home.php'; break;
@@ -106,26 +105,7 @@ switch($idPage){
     case 'orders':case 'sales': case 'wishList':
 	case 'shoppingcart'		:$bodyPage='store/shoppingCart.php';$rightPanel='store/panel.php'; break;
 	case 'shippingaddress'	:$bodyPage='store/user_ShoppingCart.php';break;
-	default:
-		if(file_exists("views/$idPage.php")){
-			$currentPage="$idPage.php";
-		}elseif(file_exists("views/$idPage.2.php")){
-			$bodyPage="$idPage.2.php";$numPanels=2;
-		}elseif(file_exists("views/$idPage.3.php")){
-			$bodyPage="$idPage.3.php";$numPanels=3;
-		}elseif(LOCAL){
-			if(file_exists("views/temp/$idPage.php")){
-				$currentPage="temp/$idPage.php";
-			}elseif(file_exists("views/temp/$idPage.2.php")){
-				$bodyPage="temp/$idPage.2.php";$numPanels=2;
-			}elseif(file_exists("views/temp/$idPage.3.php")){
-				$bodyPage="temp/$idPage.3.php";$numPanels=3;
-			}else{
-				$bodyPage='users/eprofile.php';$numPanels=2;
-			}
-		}else{
-			$bodyPage='users/eprofile.php';$numPanels=2;
-		}
+	case 'test'				:if(file_exists('views/test.php')) $currentPage='test.php';break;
 }
 
 if($bodyPage) $currentPage='main/wrapper.php';
@@ -144,7 +124,7 @@ if($logged){
 	//(esto es en caso de que el pago se realizo por paypal para borrar la variable session car)
 	$numIt=createSessionCar('','','count');
 	if ($numIt!='0'&&$numIt !=''){
-		$GLOBALS['cn']->query('UPDATE store_orders SET date=NOW() WHERE id_status="1" AND id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"');
+		$GLOBALS['cn']->query('UPDATE store_orders SET store_orders.date=NOW() WHERE id_status="1" AND id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"');
 	}
 }else{
 	if(!in_array($currentPage,$f_unlogged)&&!in_array($bodyPage,$f_unlogged)){
@@ -158,8 +138,7 @@ if($dialog){
 	if($bodyPage) include('views/'.$bodyPage);
 	else include('views/'.$currentPage);
 }else{
-	include('views/'.$currentPage);
-	if(!strpos($_SERVER['REQUEST_URI'],'.php')){
+include('views/'.$currentPage);
 ?>
 <script>
 	$('body').css('background','<?=($_SESSION['ws-tags']['ws-user']['user_background']==''?'':($_SESSION['ws-tags']['ws-user']['user_background'][0]!='#' ?
@@ -167,6 +146,4 @@ if($dialog){
 		$_SESSION['ws-tags']['ws-user']['user_background']
 	))?>');
 </script>
-<?php
-	}
-}
+<?php } ?>

@@ -1197,11 +1197,7 @@ include ('../../class/class.phpmailer.php');
                      @$wishList['result']=array_merge($wishList['result'],$temp['result']);
                 }
                 if (!isset($_GET['lisWishsShow']) && isset($wishList['body']) && $wishList['body']!= '' && $band==false){ $wishList['body'].='</ul>'; }
-                elseif ($band==true) {
-                	$wishList['body']='<ul id="ulToCarWish" h="0">'.(isset($wishList['body']) && $wishList['body']!=''?$wishList['body']:'
-							<div class="messageAdver">'.STORE_NO_WL.'</div>
-                		').'</ul>'; 
-                }
+                elseif ($band==true) { $wishList['body']='<ul id="ulToCarWish" h="0">'.$wishList['body'].'</ul>'; }
                 if (isset($wishList['noId'])) unset($wishList['noId']);
             }
         }
