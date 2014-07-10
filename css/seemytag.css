@@ -3025,7 +3025,7 @@ a.plus:hover{
 	margin-left: 50px;
 	background-image:url('tbum/purple_arrow_right.png');
 	background-repeat:no-repeat;
-	background-size:25px auto;
+	background-size:26px 26px;
 	background-position:60px 1px;
 	color:#8186c1;
 }
