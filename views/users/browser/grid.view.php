@@ -4,7 +4,7 @@
 			$lstUsrs = $GLOBALS['cn']->query('
 				SELECT id_user
 				FROM users_groups
-				WHERE md5(id_group) = "'.$_GET['grp'].'" AND id_user != "'.$_SESSION['ws-tags']['ws-user']['id'].'"
+				WHERE md5(id_group) = "'.$_GET['grp'].'" AND id_user != "'.$_SESSION['ws-tags']['ws-user']['id'].'" AND status=1
 				GROUP BY id_user
 			');
 

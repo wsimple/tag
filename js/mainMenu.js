@@ -103,6 +103,7 @@
 			/* Actions on parents links */
 			var t;
 			function timeout(time){
+
 				if(t){ clearTimeout(t); t=null; }
 				t=setTimeout(function(){$.jMenu._closeAll();},time||opts.TimeBeforeClosing);			
 			}
@@ -133,6 +134,20 @@
 						if($child.is(':hidden')){
 							$.jMenu._showFirstChild($this);
 						}
+
+						$(document).mouseup(function (e)
+						{
+						    var container = $this;
+
+						    if (!container.is(e.target) // if the target of the click isn't the container...
+						        && container.has(e.target).length === 0) // ... nor a descendant of the container
+						    {
+						        
+						        $.jMenu._closeAll2();
+								$(document).unbind("click.jMenu");
+						    }
+						});
+
 						if(isMobile) timeout(5000);
 					}
 				});
@@ -229,11 +244,22 @@
 		},
 
 		_closeAll:function(){
+
+	
+
 			if (!$('.jMenu').isHovered()) {
 				$('.jMenu ul').each(function() {
+					if($(this).parent().find('.mc').length>0) return;
 					$.jMenu._closeList($(this));
 				});
 			}
+		},
+		_closeAll2:function(){
+			
+				$('.jMenu ul').each(function() {
+					$.jMenu._closeList($(this));
+				});
+			
 		},
 
 		_IsParent:function(el){

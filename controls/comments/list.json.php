@@ -2,7 +2,12 @@
 include_once('../header.json.php');
 	global $debug,$myId,$source,$type;
 	$type=$_REQUEST['type'];
-	$source=CON::getVal('SELECT id_source FROM comments WHERE md5(id_source)=?',array(intToMd5($_REQUEST['source'])));
+	switch($type){
+		case 4: $source=CON::getVal('SELECT id FROM tags WHERE md5(id)=?',array(intToMd5($_REQUEST['source'])));
+		break;
+		case 15: $source=CON::getVal('SELECT id FROM store_products WHERE md5(id)=?',array(intToMd5($_REQUEST['source'])));
+		break;
+	}
 	$all=isset($_REQUEST['all']);
 	$action=$_REQUEST['action'];
 	$res=array();
@@ -21,8 +26,14 @@ include_once('../header.json.php');
 	$dif=($action=='refresh')?'>':'<=';
 	$now=CON::getVal('SELECT now() as date');
 	$res['date']=($action!='reload'&&$_POST['date']!='')?$_POST['date']:$now;
-	$where=safe_sql("c.id_source=? AND c.id_type=? AND c.date $dif ?",array($source,$type,$res['date']));
-	$res['total']=CON::count('comments c',$where);
+	$whereCount=safe_sql("c.id_source=? AND c.id_type=?",array($source,$type));
+	$res['total']=CON::count('comments c',$whereCount);
+	if ($res['total']==0){
+		$res['list']=array();
+		die(jsonp($res));
+	}elseif ($res['total']>1) $where=$whereCount.safe_sql(" AND c.date $dif ?",array($res['date']));
+	else $where=$whereCount;
+
 	$start=(is_numeric($_REQUEST['start'])?intval($_REQUEST['start']):0);
 	if($all) $num=$res['total']-$start;
 	else $num=(is_numeric($_REQUEST['limit'])?intval($_REQUEST['limit']):20);

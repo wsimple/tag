@@ -2240,10 +2240,8 @@ container#toptag .tag-container{
 	width:110px;
 }
 
-.frmProfileBotones{
-	float:left;
-   /* width:120px;*/
-}
+.frmProfileBotones{	float:left; }
+.newStoreBack .frmProfileBotones{  width:120px; }
 
 #frmProfileFormContainer{
 	float:right;
@@ -2252,14 +2250,20 @@ container#toptag .tag-container{
 }
 
 #frmProfileFormContainer label{
+	display: block;
 	font-size:50%;
+	width: 100%;
+    margin-bottom: 5px;
 }
 
-#frmProfileFormContainer>div{
+#frmProfileFormContainer form>div,
+form #frmProfileFormContainer>div{
+	float:none;
+	margin:15px 0px;
+}
+#frmProfileFormContainer div.left{ 
 	float:left;
-	margin-right:3px;
-	/*border:1px solid #111;*/
-
+	margin-right:3px; 
 }
 #frmProfileFormContainer #frmProfileRequiredMessaje{
 	width:90%;
@@ -2268,13 +2272,6 @@ container#toptag .tag-container{
 	padding:10px;
 	margin-bottom:10px;
 
-}
-#frmProfileFormContainer #frmProfileBackground{
-	width:100%;
-}
-#frmProfileFormContainer #frmProfileBackground>div{
-	float:left;
-	/*border:1px solid #111;*/
 }
 #frmProfile_changePhotoDiv{
 	width:0px !important;
@@ -4168,6 +4165,8 @@ body[lang="es"] container.wrapper .menu-l-shoppingCart{
 	padding-left:10px;
 }
 .lis_product_store_details .thumb{
+	background-size: 100%;
+	background-repeat: no-repeat;
 	-webkit-border-radius:3px;
 	-moz-border-radius:3px;
 	-ms-border-radius:3px;
@@ -4461,13 +4460,14 @@ body[lang="es"] container.wrapper .menu-l-shoppingCart{
 #user_ShoppingCart #frmProfileFormContainer{
 	float:none;
 	margin-left:15px;
+	width: auto;
 }
-#user_ShoppingCart #frmProfileFormContainer div{
-	float:none;
-	margin:15px 0px;
-}
-#user_ShoppingCart #frmProfileFormContainer div #addres{
+#user_ShoppingCart #frmProfileFormContainer form>div #addres{
 	width:600px;
+}
+body:not(.safari) #frmProfileFormContainer div.chzn-container{
+	top: 8px;
+	margin-top: -8px;
 }
 .store-wrapper aside{
 	width:220px
@@ -5253,6 +5253,7 @@ container.wrapper .left-panel #adsListPubli td[tipo="17"]{
 	color:#666;
 	font-size:16px;
 	margin:10px 0;
+	
 }
 
 .messageNoResultSearch #valSearch{

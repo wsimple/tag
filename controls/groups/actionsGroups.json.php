@@ -417,6 +417,9 @@
                     $GLOBALS['cn']->query("DELETE FROM users_groups WHERE id_group = '".$idGroup."' AND id_user = '".$_GET['id']."';");
                     $res['insert']='false';
                 }
+
+                //contamos la cantidad de usuario status 5
+                $res['cug']=  campo('users_groups', 'status', 5, 'COUNT(*)');
                 //eliminamos la notificacion que posee el administrador del grupo
                 notifications($_SESSION['ws-tags']['ws-user']['id'],$idGroup,12,1,$_GET['id']);
                 //verficar cuantas notificaciones de solicitud de grupo estan activas
