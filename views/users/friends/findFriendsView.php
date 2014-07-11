@@ -1,55 +1,12 @@
-<?php
-	session_start();
-	$frm = new forms();
-?>
-
-<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
-
-<script type="text/javascript">
-	$(function() {
-//		$("button, input:submit, input:reset, input:button").button();
-		// if( $('#txtSearchAll').val().length > 2 ) searchAllFriends( $.trim( $('#txtSearchAll').val() ) );
-
-		$('#txtSearchFriend').keyup(function() {
-			var dato = $.trim($(this).val());
-			// alert(dato);
-			if (dato!="" && $(this).val().length>2 || dato=="")	{
-				searchAllFriends(dato);
-			}
-		});
-
-	});
-
-</script>
-
-<?php }else{ ?>
-        <script type="text/javascript">
-		</script>
-<?php } ?>
-
 <div id="findFriends" class="ui-single-box">
-	<?php //Resultado Busqueda ?>
 	<div>
-		<?php //SUGGESTIONS ?>
-
-		<!-- BARRA TITULO Y BUSQUEDA DE AMIGO -->
 		<h3 class="ui-single-box-title">
 			&nbsp;<?=EDITFRIEND_VIEWLABELSEARCH?>
 		</h3>
-		<!-- FIN BARRA TITULO Y BUSQUEDA DE AMIGO -->
-
-		<!--<div style="margin-left:8px; margin-top: 40px; height: 50px;">-->
-
-			<input name="txtSearchFriend" id="txtSearchFriend" type="text" class="txt_box_seekFriendsBrowsers" placeholder="<?=USERS_BROWSERFRIENDSLABELTXT1?>" style="width:200px;position: relative;z-index: 200;left: 430px;top: -72px;background-repeat: no-repeat;">
-
-			<!-- <input type="text" placeholder="<?=EDITFRIEND_VIEWLABELSEARCH?>" name="txtSearch" id="txtSearch"  style="float: left; height: 20px;width: 820px;border:2px solid #E78F08; padding-left: 2px">&nbsp; -->
-
-			<!-- <img src="img/iconSearch.png"  style="float: left;margin-top: 3px; margin-left: 3px"> -->
-			<h6  style="top: -10px;">
-				<?=FINDFRIENDS_LEGENDOFSEARCHBAR?>
-			</h6>
-		<!--</div>-->
-
+		<input name="txtSearchFriend" id="txtSearchFriend" type="text" class="txt_box_seekFriendsBrowsers" placeholder="<?=USERS_BROWSERFRIENDSLABELTXT1?>" style="width:200px;position: relative;z-index: 200;left: 430px;top: -72px;background-repeat: no-repeat;">
+		<h6  style="top: -10px;">
+			<?=FINDFRIENDS_LEGENDOFSEARCHBAR?>
+		</h6>
 		<div id="amigosSearch" class="scroll-pane" >
 			<div id="content_friends_search">
 				<?php
@@ -59,7 +16,6 @@
 			       while ($friend = mysql_fetch_assoc($friends)){
 				   $countryUser = $GLOBALS['cn']->query("SELECT name FROM countries WHERE id = '".$friend['country']."'");
 				   $nameCountryUser  = mysql_fetch_assoc($countryUser);
-
 				?>
 					<div id="div_<?=md5($friend['id_friend'])?>" class="divYourFriends">
                         <div style="float:left; width:80px; cursor:pointer;">
@@ -93,15 +49,9 @@
 
 				<?php
 		            $idsNotIn .= "'".$friend['id_friend']."',"; //ids de los usuarios listado
-
-				   }//fin while sugerencias
-
-				   //relleno de sugerencias, por rand
-
+				   }
 				   $idsNotIn = rtrim($idsNotIn,',');// echo "relleno";
-
 				   $friends = ($idsNotIn=="") ? randSuggestionFriends("", 50) : randSuggestionFriends($idsNotIn, 0); //incremetar el 0 por si se necesita relleno
-
 				   while ($friend = mysql_fetch_assoc($friends)){
 				   $countryUser = $GLOBALS['cn']->query("SELECT name FROM countries WHERE id = '".$friend['country']."'");
 				   $nameCountryUser  = mysql_fetch_assoc($countryUser);
@@ -110,7 +60,7 @@
                         <div style="float:left; width:80px; cursor:pointer;">
                             <img onclick="userProfile('<?=$friend['name_user']?>','Close','<?=md5($friend['id_friend'])?>')" src="<?=FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['photo_friend'],'img/users/default.png')?>" border="0"  width="62" height="62" style="border: 1px solid #ccc" />
                         </div>
-                        <div style="float:left; width:500px;">
+                        <div style="float:left; width:450px;">
                             <div style="width:450px; float: left;">
                                 <a href="javascript:void(0);" onclick="userProfile('<?=$friend['name_user']?>','Close','<?=md5($friend['id_friend'])?>')">
                                     <?=ucwords($friend['name_user'])?>
@@ -151,3 +101,26 @@
 		</div>
 	</div>
 </div>
+<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
+<script type="text/javascript">
+	$(function() {
+		$('#txtSearchFriend').keyup(function() {
+			var dato = $.trim($(this).val());
+			// alert(dato);
+			if (dato!="" && $(this).val().length>2 || dato=="")	{
+				var $cont=$.div("#content_friends_search");
+				$cont.fadeOut(200).html('<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="margin: 0 auto;display:block;">').fadeIn(200);
+				$.ajax({
+					type:"POST",
+					url:"views/users/friends/resultSearchFriendsView.php?dato="+dato,
+					dataType:"html",
+					success:function(data){
+						$cont.html(data).fadeIn(200);
+					}
+				});
+			}
+		});
+
+	});
+</script>
+<?php }else{ ?> <script type="text/javascript"></script><?php } ?>

@@ -30,22 +30,21 @@
 ?>	
 </footer>
 <script>
-	
 $(function(){
-			$('#keepscroll').click(function(){
-			var keep = document.location.hash;
-			console.log(keep);
-			switch(keep){
-				case '#whatIsIt': case '#': case '':
-					document.location.hash = '#howDoesWork';
-				break;
-				case '#howDoesWork':case '#howDoesWork/1':case '#howDoesWork/2':
-					document.location.hash = '#app';
-				break;
-				case '#app':
-					document.location.hash = '#whatIsIt';
-				break;
-			}
-		});
+	$('#keepscroll').click(function(){
+		var keep = document.location.hash;
+		console.log(keep);
+		switch(keep){
+			case '#whatIsIt':case '#':case '':
+				document.location.hash='#howDoesWork';
+			break;
+			case '#howDoesWork':case '#howDoesWork/1':case '#howDoesWork/2':
+				document.location.hash='#app';
+			break;
+			case '#app':
+				document.location.hash='#whatIsIt';
+			break;
+		}
+	});
 });
 </script>

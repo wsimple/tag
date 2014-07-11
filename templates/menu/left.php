@@ -1,5 +1,5 @@
 <article class="side-box menu">
-	<header><span><?=STORE_CATEGORIES?></span></header>
+	<header><span></span></header>
 	<ul id="menuLeft">
 		<li id="cretationTag"><a href="<?=base_url('creation')?>"><?=MAINMNU_CREATETAG?></a></li>
 		<li id="profile">
