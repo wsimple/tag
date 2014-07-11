@@ -27,7 +27,7 @@ echo "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"; ?>
 	}
 })();
 //-- variables generales de pagina --//
-var PAGE,wrapper,container,home,footer,INFO=[];
+var PAGE,wrapper,container,home,footer,INFO=[],NOHASH=document.location.href.match(/\.php/);
 
 (function(window,$){
 	//-- smt: objeto para uso global de Tagbum (en desarrollo) --//
@@ -94,8 +94,7 @@ var PAGE,wrapper,container,home,footer,INFO=[];
 		loginState(function(logged){
 			if(logged!==_logged) window.location.reload();
 		});
-		$(window).hashchange(function(){
-			if(document.location.href.match(/\.php/)) return false;
+		if(!NOHASH) $(window).hashchange(function(){
 			//console.log('hashchange');
 			var doit=true;
 			if($.hashExceptions&&($.hashExceptions instanceof Array)){
@@ -180,11 +179,15 @@ function setAllLocals(opc){
 //-- $.on permite cargar/descargar eventos al abrir/cerrar una pagina --//
 	$.on=function(opc){
 //		console.log('$.on');
-		var $cont=$('wrapper container'),
-			open =function(){ opc.open.call(opc);	},
-			close=function(){ opc.close.call(opc);	};
-		if(opc.open){	$cont.bind('pageopen', open); open();	};
-		if(opc.close)	$cont.bind('pageclose',close);
+		if(NOHASH){
+			$(function(){ opc.open.call(opc); });
+		}else{
+			var $cont=$('wrapper container'),
+				open =function(){ opc.open.call(opc);	},
+				close=function(){ opc.close.call(opc);	};
+			if(opc.open){	$cont.bind('pageopen', open); open();	};
+			if(opc.close)	$cont.bind('pageclose',close);
+		}
 	};
 })(window,jQuery);
 

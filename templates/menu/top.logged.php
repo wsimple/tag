@@ -17,49 +17,49 @@ unset($detect);
 			<ul id="linknoti">
 				<li class="arrow"></li>
 				<li id="divNoti"></li>
-				<li id="divAllNoti"><a id="backgroundA" href="#carousel?"><div><?=USER_BTNSEEMORE?></div></a></li>
+				<li id="divAllNoti"><a id="backgroundA" href="<?=base_url('carousel?')?>"><div><?=USER_BTNSEEMORE?></div></a></li>
 			</ul>
 			<div id="tourNotifications"></div>
 		</li>
 		<li>
-			<a class="user" href="#profile?">
+			<a class="user" href="<?=base_url('profile')?>">
 				<img src="<?=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['pic'],'img/users/default.png')?>"/>
 				<?=MENU_MAINME?>
 			</a>
 			<div id="tourProfile"></div>
 		</li>
 		<li>
-			<a class="fNiv <?=$ma?>" href="#friends?sc=1"><?=USER_FINDFRIENDSTITLELINKS?></a>
+			<a class="fNiv <?=$ma?>" href="<?=base_url('friends?sc=1')?>"><?=USER_FINDFRIENDSTITLELINKS?></a>
 			<ul>
 				<li class="arrow"></li>
-				<li><a href="#friends?sc=1"><?=USER_FINDFRIENDSTITLELINKS?></a></li>
-				<li><a href="#friends?sc=2"><?=FRIENDS_FINDFRIEND_MENUMAIN?></a></li>
-				<li><a href="#friends?sc=3"><?=USERS_BROWSERFRIENDSLABELBTNINVITE?></a></li>
+				<li><a href="<?=base_url('friends?sc=1')?>"><?=USER_FINDFRIENDSTITLELINKS?></a></li>
+				<li><a href="<?=base_url('friends?sc=2')?>"><?=FRIENDS_FINDFRIEND_MENUMAIN?></a></li>
+				<li><a href="<?=base_url('friends?sc=3')?>"><?=USERS_BROWSERFRIENDSLABELBTNINVITE?></a></li>
 			</ul>
 			<div id="tourFriends"></div>
 		</li>
 		<li>
-			<a class="fNiv <?=$ma?>" href="#timeline?"><?=MAINMNU_HOME?></a>
+			<a class="fNiv <?=$ma?>" href="<?=base_url('timeline?')?>"><?=MAINMNU_HOME?></a>
 			<ul>
 				<li class="arrow"></li>
-				<li><a href="#carousel?"><?=MAINMNU_CAROUSEL?></a></li>
-                <li><a href="#timeline?"><?=TIMELINE_TITLE?></a></li>
-				<li><a href="#timeline?current=myTags"><?=MAINMNU_MYTAGS?></a></li>
-				<li><a href="#timeline?current=favorites"><?=TIMELINE_FAVORITES?></a></li>
-				<li><a href="#timeline?current=personalTags"><?=MAINMNU_PERSONALTAGS?></a></li>
-				<li><a href="#timeline?current=privateTags"><?=MAINMNU_PRIVATETAG?></a></li>
+				<li><a href="<?=base_url('carousel?')?>"><?=MAINMNU_CAROUSEL?></a></li>
+                <li><a href="<?=base_url('timeline?')?>"><?=TIMELINE_TITLE?></a></li>
+				<li><a href="<?=base_url('timeline?current=myTags')?>"><?=MAINMNU_MYTAGS?></a></li>
+				<li><a href="<?=base_url('timeline?current=favorites')?>"><?=TIMELINE_FAVORITES?></a></li>
+				<li><a href="<?=base_url('timeline?current=personalTags')?>"><?=MAINMNU_PERSONALTAGS?></a></li>
+				<li><a href="<?=base_url('timeline?current=privateTags')?>"><?=MAINMNU_PRIVATETAG?></a></li>
 			</ul>
 			<div id="tourTimeline"></div>
 		</li>
 		<li>
-			<a class="fNiv <?=$ma?>" href="#toptag?sc=1"><?=TOPTAG_TITLE?></a>
+			<a class="fNiv <?=$ma?>" href="<?=base_url('toptag?sc=1')?>"><?=TOPTAG_TITLE?></a>
 			<ul>
 				<li class="arrow"></li>
-				<li><a href="#toptag?current=hits&range=1"><?=TOPTAGS_DAILY?></a></li>
-				<li><a href="#toptag?current=hits&range=2"><?=TOPTAGS_WEEKLY?></a></li>
-				<li><a href="#toptag?current=hits&range=3"><?=TOPTAGS_MONTHLY?></a></li>
-				<li><a href="#toptag?current=hits&range=4"><?=TOPTAGS_YEARLY?></a></li>
-				<li><a href="#toptag?current=hits&range=5"><?=TOPTAGS_ALWAYS?></a></li>
+				<li><a href="<?=base_url('toptag?current=hits&range=1')?>"><?=TOPTAGS_DAILY?></a></li>
+				<li><a href="<?=base_url('toptag?current=hits&range=2')?>"><?=TOPTAGS_WEEKLY?></a></li>
+				<li><a href="<?=base_url('toptag?current=hits&range=3')?>"><?=TOPTAGS_MONTHLY?></a></li>
+				<li><a href="<?=base_url('toptag?current=hits&range=4')?>"><?=TOPTAGS_YEARLY?></a></li>
+				<li><a href="<?=base_url('toptag?current=hits&range=5')?>"><?=TOPTAGS_ALWAYS?></a></li>
 			</ul>
 			<div id="tourToptag"></div>
 		</li>
@@ -67,16 +67,16 @@ unset($detect);
 			if ($_SESSION['ws-tags']['ws-user']['type']==1){
 		?>
 				<li>
-					<a href="#publicity"><?=USERPUBLICITY_PAYMENT?></a>
+					<a href="<?=base_url('publicity')?>"><?=USERPUBLICITY_PAYMENT?></a>
 					<div id="tourPublicity"></div>
 				</li>
 		<?php	}
 		?>
 		<li>
-			<a class="fNiv <?=$ma?>" id="lihome" href="#home"><?=MNUUSER_TITLEHOME?></a>
+			<a class="fNiv <?=$ma?>" id="lihome" href="<?=base_url('home')?>"><?=MNUUSER_TITLEHOME?></a>
 			<ul>
 				<li class="arrow"></li>
-				<li><a href="#home"><?=MNUUSER_TITLEHOME?></a></li>
+				<li><a href="<?=base_url('home')?>"><?=MNUUSER_TITLEHOME?></a></li>
 				<li><a href="<?=HREF_DEFAULT?>" action="tourActive"><?=HELP?></a></li>
 				<li><a href="logout.php"><?=MNUUSER_TITLELOGOUT?></a></li>
 			</ul>

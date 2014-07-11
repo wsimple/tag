@@ -1,5 +1,5 @@
 <?php
-global $dialog,$notAjax;
+global $dialog,$notAjax,$bodyPage;
 if($idPage==''){
 include('includes/session.php');
 include('includes/config.php');
@@ -20,7 +20,6 @@ if(isset($_GET['page'])) $currentPage=$_GET['page'];
 $logged=$_SESSION['ws-tags']['ws-user']['id']!='';
 //paginas que se pueden abrir sin logear
 $f_unlogged=array(
-	'main/home.php',
 	'main/signUp.php',
 	'main/resendPassword.php',
 	'main/resetPassword.php',
@@ -70,10 +69,10 @@ $rightPanel='users/newsUsers.php';
 if( isset($_GET['tag'])&&( (!$logged&&$idPage=='home')||($logged&&$idPage=='carousel') ) )
 	$idPage='comment';
 if($idPage=='term') $idPage='terms';
-if($idPage==''&&$notAjax) $idPage='home';
+if($notAjax&&($idPage==''||$idPage=='/')) $idPage='home';
 if($idPage!='') switch($idPage){
 	case 'home':case 'whatIsIt':case 'howDoesWork':case 'howDoesWork/1':case 'howDoesWork/2':case 'app':
-		$currentPage=$logged?'main/redir.php':'main/home.php'; break;
+		$currentPage='main/home.php'; break;
 	case 'signup'			:$currentPage=$logged?'main/redir.php':'main/signUp.php'; break;
 	case 'resendPassword'	:$currentPage=$logged?'main/redir.php':'main/resendPassword.php';break;
 	case 'resetPassword'	:$currentPage='main/resetPassword.php';break;
@@ -158,8 +157,10 @@ if($dialog){
 	if($bodyPage) include('views/'.$bodyPage);
 	else include('views/'.$currentPage);
 }else{
+	if($notAjax&&$currentPage!='main/wrapper.php') echo '<container><content>';
 	include('views/'.$currentPage);
-	if(!strpos($_SERVER['REQUEST_URI'],'.php')){
+	if($notAjax&&$currentPage!='main/wrapper.php') echo '</content></container>';
+	if(!$notAjax){
 ?>
 <script>
 	$('body').css('background','<?=($_SESSION['ws-tags']['ws-user']['user_background']==''?'':($_SESSION['ws-tags']['ws-user']['user_background'][0]!='#' ?

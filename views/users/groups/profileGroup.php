@@ -130,19 +130,44 @@
 								if(scrollEnd+scroll<offset) updateTags('more',opc);
 							}
 						});
-						$('tags-size').on('click','input',function(){
+
+
+						var bandera=true;
+						$('.tags-size').on('click','input',function(){
 							var id=this.id;
 							if(sizeTags!=id){
-								$.ajax({
-									url:'controls/users/viewTimeline.control.php?'+id,
-									success:function(/*data*/){
-										if(id=='normal'){ $box.removeClass('mini'); }
-                                        else{ $box.addClass('mini'); }
-										sizeTags=id;
-									}
-								});
+								if(id=='normal'){
+									$box.removeClass('mini');
+								}else{
+									$box.addClass('mini');
+								}
+								console.log(bandera);
+								sizeTags=id;
+								if(bandera){
+									bandera=false;
+									$.ajax({
+										url:'controls/users/viewTimeline.control.php?'+id,
+										type:'get'
+									}).done(function(){
+										bandera=true;
+									});
+								}
 							}
 						});
+					
+						// $('tags-size').on('click','input',function(){
+						// 	var id=this.id;
+						// 	if(sizeTags!=id){
+						// 		$.ajax({
+						// 			url:'controls/users/viewTimeline.control.php?'+id,
+						// 			success:function(data){
+						// 				if(id=='normal'){ $box.removeClass('mini'); }
+      //                                   else{ $box.addClass('mini'); }
+						// 				sizeTags=id;
+						// 			}
+						// 		});
+						// 	}
+						// });
 					},
 					close:function(){
 						$(window).off(ns);
