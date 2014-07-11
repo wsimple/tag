@@ -238,9 +238,10 @@
 			</div>
 		<?php }
 		if($_SESSION['ws-tags']['ws-user']['type']=='1'){ ?>
+			<?php if (PAYPAL_PAYMENTS): ?>
 			<div class="frmProfilePaypalAccount" style="height: 45px">
-				<label ><strong><?=PROFILE_PAYINFO?> <a href="https://www.paypal.com/ve/cgi-bin/webscr?cmd=_registration-run&from=PayPal" title="" target="_blank">paypal</a> (Paypal ID <?=PROFILE_OREMAILPAY?>):</strong></label>
-				<input name="frmProfile_paypal" type="text" id="frmProfile_paypal"  value="<?=$_SESSION['ws-tags']['ws-user'][paypal]?>" style="width:300px;" /><span class="paypal_info help_info">?</span>
+					<label ><strong><?=PROFILE_PAYINFO?> <a href="https://www.paypal.com/ve/cgi-bin/webscr?cmd=_registration-run&from=PayPal" title="" target="_blank">paypal</a> (Paypal ID <?=PROFILE_OREMAILPAY?>):</strong></label>
+					<input name="frmProfile_paypal" type="text" id="frmProfile_paypal"  value="<?=$_SESSION['ws-tags']['ws-user'][paypal]?>" style="width:300px;" /><span class="paypal_info help_info">?</span>
                 <?php //requerido="FRMPROFILE_PAYPAL" ?>
 				<div><div class="messageHelp arrowLeft"><span><?=$paypalMsg?></span></div></div>
 			</div>
@@ -248,6 +249,10 @@
 				<label><strong>(*)&nbsp;<?=USERPROFILE_TAXID?>:</strong></label>
 				<div><input type="text" name="frmProfile_taxId" id="frmProfile_taxId" value="<?=$_SESSION['ws-tags']['ws-user'][taxId]?>" onkeyup="mascara(this,'-',patron,true)" maxlength="11" /></div>
 			</div>
+			<?php else: ?>
+			<input type="hidden" name="frmProfile_paypal" id="frmProfile_paypal" value="test@paypal.com">
+			<input type="hidden" name="frmProfile_taxId" id="frmProfile_taxId" value="100">
+			<?php endif ?>
 		<?php } ?>
 		<div class="color-a font-size3" id="frmProfileRequiredMessaje"><?=REQUIRED?></div>
 		<div>
