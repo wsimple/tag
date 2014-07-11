@@ -23,8 +23,8 @@
 <link href="css/jquery-te-1.4.0.css" rel="stylesheet" media="all"/>
 <link href="css/mainMenu.css" rel="stylesheet"/>
 <link href="css/guidely/guidely.css" rel="stylesheet" type="text/css" />
-
-<script> var FILESERVER='<?=FILESERVER?>',DOMINIO='<?=DOMINIO?>'; </script>
+<?php global $section,$noHash; ?>
+<script> var FILESERVER='<?=FILESERVER?>',DOMINIO='<?=DOMINIO?>',SECTION='<?=$section?>',BASEURL='<?=base_url()?>'; </script>
 <script src="js/jquery-1.8.3.js"></script>
 <script src="js/jquery.cookie.js" ></script>
 <script src="js/jquery.local.js" ></script>
@@ -67,6 +67,9 @@
 <link href="css/portrait.css" rel="stylesheet" media="screen and (orientation:portrait)"/>
 <link href="css/browser.css" rel="stylesheet"/>
 <?php if(!isset($_GET['command'])) { ?>
+	<?php if(!$noHash){ ?>
+	<script src="js/conhash.js.php"></script>
+	<?php } ?>
 <script src="js/base.js.php"></script>
 <script src="js/funciones.js.php"></script>
 <?php } ?>

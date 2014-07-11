@@ -105,6 +105,10 @@ if($idPage!='') switch($idPage){
     case 'orders':case 'sales': case 'wishList':
 	case 'shoppingcart'		:$bodyPage='store/shoppingCart.php';$rightPanel='store/panel.php'; break;
 	case 'shippingaddress'	:$bodyPage='store/user_ShoppingCart.php';break;
+	case 'wpanel'			:
+		$url=end(split('wpanel',$_SERVER['REQUEST_URI']));
+		$url=preg_replace('/[\?&]/','?',$url,1);
+		die('<script>document.location="wpanel'.$url.'";</script>');break;
 	default:
 		if(file_exists("views/$idPage.php")){
 			$currentPage="$idPage.php";
