@@ -72,7 +72,7 @@
 
 		$labelTxtBroswer = USERS_BROWSERFRIENDSLABELTXT1;
 	?>
-	<img src="img/menu_groups/friends.png" width="16" height="16" border="0" />
+	<img src="css/tbum/menu_left/friends_off.png" width="30" height="16" border="0" />
 	<?=$title?>&nbsp;(<?=mysql_num_rows($friends)?>)
 	<span style="font-weight:normal; float:right;" id="loaderUserLstSeemytag">
 		<span><?=GROUPSSELECTOPTION?></span>
