@@ -273,11 +273,10 @@
 							}
 
 							if( $save==1 ) {
+								if (PAYPAL_PAYMENTS) $_POST[payment] = '3';
 
 						//payment methods
 								switch( $_POST[payment] ) {
-
-
 									//payment = points
 									case "3":
 										$monto_inversion = $_POST[number_of_points];

@@ -227,7 +227,7 @@
 			</tr>
 			<tr>
 				<td id="cost_tittle" colspan="2" <?php if ($_GET[p]!="" && $_GET[resend]==''){?> class="displayNone" <?php } ?> >
-					(*)&nbsp;<?=PUBLICITY_LBLINVESTMENT?>:&nbsp;<span>(<?=SPONSORTAG_LBLINVESTMENTHELP?>)</span>
+					(*)&nbsp;<?=PUBLICITY_LBLINVESTMENT?>:&nbsp;<span>(<?php echo (!PAYPAL_PAYMENTS) ? USERPUBLICITY_POINTS_INVESTMENT_TITTLE : SPONSORTAG_LBLINVESTMENTHELP ; ?>)</span>
 				</td>
 <!--
 				<td id="point_tittle" colspan="2" style="display:none">

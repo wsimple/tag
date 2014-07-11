@@ -301,13 +301,11 @@
 
 								//Comprobamos precio a pagar con pago realizado
 								// if($monto_total == number_format( $plan['price'], 3, '.', '' )){
-								if(true){
-									if($user['type']==1 || $user['type']==2){ //Pago cuenta business
-										//Cambio status del user a activo
-										$query = $GLOBALS['cn']->query("UPDATE users SET type=1, status = 1 WHERE id = '".$user['id']."' LIMIT 1");
-										
-										$query = $GLOBALS['cn']->query("INSERT INTO users_plan_purchase SET id_user ='".$user['id']."', id_plan = ".$custom[2].", init_date = NOW(), end_date='".$plan['date']."';");
-									}
+								if($user['type']==1 || $user['type']==2){ //Pago cuenta business
+									//Cambio status del user a activo
+									$query = $GLOBALS['cn']->query("UPDATE users SET type=1, status = 1 WHERE id = '".$user['id']."' LIMIT 1");
+									
+									$query = $GLOBALS['cn']->query("INSERT INTO users_plan_purchase SET id_user ='".$user['id']."', id_plan = ".$custom[2].", init_date = NOW(), end_date='".$plan['date']."';");
 								}
 								
 								//Resultado para insercion en paypal
