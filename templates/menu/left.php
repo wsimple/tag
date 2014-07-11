@@ -52,7 +52,10 @@
 				<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']=='427'){ ?>
 				<li class="menu-l-youSales" style="display: none;"><a href="#sales?"><?=STORE_SALES?></a></li>
 				<?php } ?>
-				<li><a href="<?=HREF_DEFAULT?>" action="buyPoints"><?=STORE_SALE_POINTS?></a></li>
+
+				<?php if (PAYPAL_PAYMENTS): ?>
+					<li><a href="<?=HREF_DEFAULT?>" action="buyPoints"><?=STORE_SALE_POINTS?></a></li>	
+				<?php endif ?>
 			</ul>
 		</li>
 	</ul>
