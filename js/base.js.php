@@ -27,7 +27,7 @@ echo "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"; ?>
 	}
 })();
 //-- variables generales de pagina --//
-var PAGE,wrapper,container,home,footer,INFO=[],NOHASH=document.location.href.match(/\.php/);
+var PAGE,wrapper,container,home,footer,INFO=[],NOHASH=!!document.location.href.match(/\.php/);
 
 (function(window,$){
 	//-- smt: objeto para uso global de Tagbum (en desarrollo) --//
@@ -94,19 +94,7 @@ var PAGE,wrapper,container,home,footer,INFO=[],NOHASH=document.location.href.mat
 		loginState(function(logged){
 			if(logged!==_logged) window.location.reload();
 		});
-		if(!NOHASH) $(window).hashchange(function(){
-			//console.log('hashchange');
-			var doit=true;
-			if($.hashExceptions&&($.hashExceptions instanceof Array)){
-				$.hashExceptions.forEach(function(el){
-					var re=new RegExp('^'+el);
-					//console.log(re);
-					if(document.location.hash.substr(1).match(re)) doit=false;
-				});
-			}
-			if(doit) hashLoad();
-		});
-		$('body').on('click','[action]:not(form)',function(){
+		$(document).on('click','[action]:not(form)',function(){
 			var action=$(this).attr('action'),s=action.indexOf(','),data='';
 			if(s<0)
 				s=action.length;
@@ -176,18 +164,9 @@ function setAllLocals(opc){
 }
 
 (function(window,$){
-//-- $.on permite cargar/descargar eventos al abrir/cerrar una pagina --//
+	if(!$.on)
 	$.on=function(opc){
-//		console.log('$.on');
-		if(NOHASH){
-			$(function(){ opc.open.call(opc); });
-		}else{
-			var $cont=$('wrapper container'),
-				open =function(){ opc.open.call(opc);	},
-				close=function(){ opc.close.call(opc);	};
-			if(opc.open){	$cont.bind('pageopen', open); open();	};
-			if(opc.close)	$cont.bind('pageclose',close);
-		}
+		$(function(){ opc.open.call(opc); });
 	};
 })(window,jQuery);
 

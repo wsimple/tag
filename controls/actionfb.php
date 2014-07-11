@@ -39,9 +39,9 @@ if($user){
 				  WHERE fbid = '".$user_profile['id']."' LIMIT 1";
 		if( $user = $GLOBALS['cn']->queryRow($query) ){
 			createSession($user);
-			redir('.');
+			redir(base_url());
 		}else{
-			redir('#signup?o=fb');
+			redir(base_url('signup?o=fb'));
 		}
 	} catch (FacebookApiException $e) {
 		$user = null;

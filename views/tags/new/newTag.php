@@ -442,7 +442,7 @@ $(function(){
 	$('#formTags').ajaxFormLog(options);
 	$('#default-dialog').dialog('close');
 	//tour
-	tour(window.location.hash);
+	tour(NOHASH?SECTION:window.location.hash);
 });
 </script>
 <?php }else{ ?>
