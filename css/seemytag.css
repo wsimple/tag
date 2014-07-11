@@ -1645,13 +1645,19 @@ container .left-panel .menus ul li.selected>span{
 }
 
 /* menu left - general options */
-container .left-panel .menus ul li#cretationTag a,container .left-panel .menus ul li#store a{
+container .left-panel .menus ul li#store a{
 	text-decoration:none;
 	color:#71cbe9;
 }
 container .left-panel .menus ul li#cretationTag{
-	background-image:url('tbum/menu_left/newTag_off.png');
+	background-color: #77C574;
+	-webkit-border-radius:10px;
+	-moz-border-radius:10px;
+	border-radius:10px;
+	margin-right: 2px;
+
 }
+
 container .left-panel .menus ul li#profile{
 	background-image:url('tbum/menu_left/me_off.png');
 }
@@ -1688,6 +1694,17 @@ container .left-panel .menus ul li,#storeCategory .menus ul li{
   	-ms-background-size:25px auto;
   	background-size:25px auto;
  
+}
+container .left-panel .menus ul li#cretationTag a{
+	text-decoration:none;
+	color:#fff;
+	font-weight: bold;
+	font-size: 150%;
+
+}
+container .left-panel .menus ul li#cretationTag {
+
+	padding:8px 0 0 30px;
 }
 container .left-panel .menus ul ul,#storeCategory .menus ul ul{
 	display:none;
@@ -5496,7 +5513,11 @@ container.wrapper .left-panel #adsListPubli td[tipo="17"]{
 	color:#71cbe9;
 }
 .side-box.menu>header span{
-	background-image:url('tbum/box-title/category.png');
+	background-image:url('tbum/box-title/tag.png');
+	background-position:0px center;
+	-webkit-background-size:50px auto;
+	-moz-background-size:50px auto;
+	background-size:50px auto;
 	padding-left:45px;
 }
 .side-box.news{
