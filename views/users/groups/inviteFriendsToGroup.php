@@ -34,8 +34,8 @@
 			});
 		}
 		var options = {
+			dataType: 'json',
 			success: function(data){ // post-submit callback
-				data=JSON.parse(data);
 				console.log(data);
 				switch (data['mensj']){
 					case "invite":		actionDialog('<?=PASS_MESSAGEXITO?>'); break;
