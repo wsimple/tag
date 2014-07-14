@@ -40,12 +40,6 @@ root{ display:block; }
 body{
 	margin:0;
 	padding:60px 0 0;
-/*	background-image:-webkit-gradient(linear,left top,left bottom,from(#eee),to(#fff));
-	background-image:-webkit-linear-gradient(#eee,#fff);
-	background-image:-moz-linear-gradient(#eee,#fff);
-	background-image:-ms-linear-gradient(#eee,#fff);
-	background-image:-o-linear-gradient(#eee,#fff);
-	background-image:linear-gradient(#eee,#fff);*/
 	background-color:#fff;
 	background-attachment:fixed;
 }
@@ -70,7 +64,7 @@ input:not([type]),input[type="text"],input[type="password"],input[type="email"]{
 }
 .ui-datepicker-header{
 	border:1px solid #F0B070;
-	background:url('smt/headerbg.png') no-repeat left top;
+	background:url(smt/headerbg.png) no-repeat left top;
 	background-size:100% 100%;
 	background-image:-webkit-gradient(linear,left top,left bottom,from(#f93),to(#eb5f02));/*Saf4+,Chrome*/
 	background-image:-webkit-linear-gradient(#f93,#eb5f02);/*Chrome 10+,Saf5.1+*/

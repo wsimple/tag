@@ -497,67 +497,6 @@ ul.newGroup > li label.privacy3:hover:before {
 ul.newGroup > li label.privacy3:before {
   content: url("smt/secret_group.png");
 }
-
-/*.privacy_space{
-	height:22px;
-	width:780px;
-	padding-left:6px;
-	padding-bottom:16px;
-	border-bottom:#ECECEC 1px solid;
-}
-
-.privacy_name{
-	float:left;
-	font-size:11px;
-	color: #666;
-	height:16px;
-	width:105px;
-	padding-left:8px;
-	margin-top:10px;
-}
-
-.privacy_line{
-	float:left;
-	font-size:11px;
-	color: #222;
-	height:16px;
-	width:30px;
-	text-align:center;
-	margin-top:10px;
-}
-
-.privacy_comment{
-	float:left;
-	font-size:11px;
-	color: #222;
-	height:16px;
-	width:555px;
-	padding-left:8px;
-	margin-top:4px;
-}
-
-.privacy_description{
-	width:795px;
-	height:44px;
-	border: #ff3 1px solid;
-	margin-top:10px;
-	padding:7px;
-	font-size:11px;
-	color: #000;
-	text-align:left;
-	background-color: #ff9;
-
-	 bordes redondos 
-	border-bottom-right-radius    : 5px 5px;
-	border-bottom-left-radius     : 5px 5px;
-	-moz-border-radius-bottomright: 5px 5px;
-    -moz-border-radius-bottomleft : 5px 5px;
-
-	border-top-right-radius    : 5px 5px;
-	border-top-left-radius     : 5px 5px;
-	-moz-border-radius-topright: 5px 5px;
-    -moz-border-radius-topleft : 5px 5px;
-}*/
 /* BusinessCard */
 #menuBusinessCard {
 	z-index: 30;

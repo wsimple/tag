@@ -3,4 +3,9 @@ img/tags
 img/publicity/
 img/groups/
 img/bc_templates
-img/users
+img/users/
+img/tags/
+
+base/
+main/
+new.php
