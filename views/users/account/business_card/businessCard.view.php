@@ -14,7 +14,7 @@
 			$("#frmBusinessCard_btnSend").click(function() {
 				$('#frmBusinessCard').submit()
 				setTimeout(function(){
-					window.location.href='#profile?sc=3';
+					redir('profile?sc=3');
 				}, 1000);
 	//			$("#frmBusinessCard_btnSend").button("disable");
 			});

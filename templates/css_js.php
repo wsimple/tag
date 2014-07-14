@@ -13,8 +13,10 @@
 <meta name="google-site-verification" content="OVxfKydQKcISwAEi9um6hz88kHTvsjXhay_PTsbMC1I"/>
 <link rel="shortcut icon" href="css/smt/icon.png"/>
 <link rel="apple-touch-icon" href="css/smt/icon.png"/>
+<?php global $section,$noHash; ?>
 <script> var FILESERVER='<?=FILESERVER?>',DOMINIO='<?=DOMINIO?>',ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>; </script>
 
+<<<<<<< HEAD
 <script src="js/language.js.php" charset="utf-8"></script>
 <?php 
 if(LOCAL){
@@ -34,6 +36,9 @@ if(LOCAL){
 	echo '<script src="min/?g=js" charset="utf-8"></script>';
 }
  ?>
+<?php if(!$noHash){ ?>
+	<script src="js/conhash.js.php"></script>
+<?php } ?>
 <script src="js/base.js.php" charset="utf-8"></script>
 <script src="js/funciones.js.php" charset="utf-8"></script>
 

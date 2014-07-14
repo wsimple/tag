@@ -1,4 +1,5 @@
 <?php
-global $notAjax;
+global $notAjax,$noHash;
+$noHash=true;
 $notAjax=true;
 include('index.php');

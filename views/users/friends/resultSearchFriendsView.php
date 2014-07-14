@@ -19,19 +19,11 @@
 			$countryUser = $GLOBALS['cn']->query("SELECT name FROM countries WHERE id = '".$friend['country']."'");
 			$nameCountryUser  = mysql_fetch_assoc($countryUser);
 ?>
-
-		<script type="text/javascript">
-            $(document).ready(function(){
-                //$("button, input:submit, input:reset, input:button").button();
-            });
-        </script>
-
-		<!--<div id="div_<?=md5($friend['id_friend'])?>" class="divYourFriends">-->
 		<div class="divYourFriends">
             <div style="float:left; width:80px; cursor:pointer;">
                 <img onclick="userProfile('<?=$friend['name_user']?>','Close','<?=md5($friend['id_friend'])?>')" src="<?=FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['photo_friend'],'img/users/default.png')?>" border="0"  width="62" height="62" style="border: 1px solid #ccc" />
             </div>
-            <div style="float:left; width:500px; height:73px;">
+            <div style="float:left; width:450px; height:73px;">
                 <div style="height:70px; width:450px; float: left;">
                     <a href="javascript:void(0);" onclick="userProfile('<?=$friend['name_user']?>','Close','<?=md5($friend['id_friend'])?>')">
                         <?=$friend['name_user']?>

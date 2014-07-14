@@ -7,7 +7,7 @@
 					 src="<?=($bc['type']?'img/menu_businessCard/makeDefault.png':'img/menu_businessCard/default.png')?>"/>
 			</li>
 			<?php //delete business card ?>
-			<li onclick="actionConfirm('<?=BUSINESSCARD_DELETE_CONTENT?>','<?=BUSINESSCARD_DELETE_TITTLE?>','url','controls/business_card/businessCard.control.php?id_delete_bc=<?=md5($bc[id])?>|#<?=md5($bc[id])?>');" title="<?=NEWTAG_HELPDELETEBACKGROUNDTEMPLATE?>"
+			<li onclick="actionConfirm('<?=BUSINESSCARD_DELETE_CONTENT?>','<?=BUSINESSCARD_DELETE_TITTLE?>','url','<?=md5($bc[id])?>|bc');" title="<?=NEWTAG_HELPDELETEBACKGROUNDTEMPLATE?>"
 				style="<?=($bc['type']?'':'display:none;')?>">
 				<img style="cursor:pointer;" src="img/menu_businessCard/trash.png"/>
 			</li>

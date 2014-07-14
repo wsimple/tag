@@ -55,7 +55,7 @@ function actionsBusinessCard(opc, id_businessCard, window_title, id_user, id_tag
 
 		//edit
 		case 1:
-			document.location.hash = "profile?sc=3&bc="+id_businessCard;
+			redir("profile?sc=3&bc="+id_businessCard);
 		break;
 
 		//New Business Card
@@ -65,7 +65,7 @@ function actionsBusinessCard(opc, id_businessCard, window_title, id_user, id_tag
 				url		:	'controls/business_card/businessCard.control.php?addBC',
 				dataType:	"text",
 				success	:	function (responseText) {
-					document.location.hash = responseText;
+					redir(responseText);
 
 				}
 			});
@@ -97,7 +97,7 @@ function actionsBusinessCard(opc, id_businessCard, window_title, id_user, id_tag
 
 		//createATagToThisCard
 		case 4:
-			document.location.hash = '#creation&bc='+id_businessCard;
+			redir('creation?bc='+id_businessCard);
 		break;
 
 		case 5:

@@ -86,7 +86,7 @@ unset($detect);
 </div></div></menu>
 <menu class="fright"><div class="_tt"><div class="_tc">
 	<input type="search" id="txtSearchAll" name="txtSearchAll" placeholder="<?=FRIENDS_SEARCHFORFRIENDS_TITLEFOR?>"/>
-	<input type="submit" name="enviar" value="enviar">
+	<!-- <input type="submit" name="enviar" value="enviar"> -->
 </div></div></menu>
 <div class="fright loader"><loader class="page" style="display:none;"></loader></div>
 <script type="text/javascript">

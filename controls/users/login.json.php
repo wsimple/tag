@@ -20,13 +20,26 @@ function login_json($data){
 		//acciones del login
 		switch($sesion['status']){
 			case '3':
+				createSession($sesion);
+
 				$res['uid']=md5($sesion['id']);
 				$res['code']=$sesion['code'];
 				$res['msg']=$sesion['code'];
-				$res['from']='paypal';
-				createSession($sesion);
-				$_SESSION['business_payment']=$_SESSION['ws-tags'];
-				unset($_SESSION['ws-tags']);
+				if (PAYPAL_PAYMENTS) {
+					$_SESSION['business_payment']=$_SESSION['ws-tags'];
+					$res['from']='paypal';
+					unset($_SESSION['ws-tags']);
+				}else{
+					CON::update('users','type=1,status=1','id=?',array($_SESSION['ws-tags']['ws-user']['id']));
+					$idPlan=CON::getVal('SELECT id FROM users_plan_purchase WHERE id_user=? LIMIT 1',array($_SESSION['ws-tags']['ws-user']['id']));
+					if($idPlan!=''){
+						CON::update('users_plan_purchase','init_date=NOW()',"id=$idPlan");
+					}else{
+						CON::insert('users_plan_purchase','id_user=?,id_plan=1,init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL 15 DAY)',
+							array($_SESSION['ws-tags']['ws-user']['id']));
+					}
+				}
+				
 				ifIsLogged();
 				return $res;
 			break;

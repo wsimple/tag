@@ -47,7 +47,7 @@ if(isset($_GET['updateTagLink'])){ //when called from menuBusinessCard
 	}
 
 	if( $result ) {
-		echo base_url("profile?sc=3&bc=$bcID");
+		echo "profile?sc=3&bc=$bcID";
 		//redirect("?current=profile&activeTab=2&bc=".$bcID);
 	}
 

@@ -26,7 +26,7 @@
 		});
 		//tour Tagbum
 		<?php if($_SESSION['ws-tags']['ws-user']['super_user']==1){?>
-			tour(window.location.hash);
+			tour(NOHASH?SECTION:window.location.hash);
 		<?php } ?>
 	});
 </script>
