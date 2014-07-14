@@ -33,8 +33,6 @@ $f_unlogged=array(
 $numPanels=isset($numPanels)?$numPanels:3;
 //nombre del archivo con el contenido principal de la pagina
 $bodyPage=false;
-//panel derecho (si son 3 paneles)
-$rightPanel='users/newsUsers.php';
 /*---------hashtags antiguos
 	profile				*	views/users/account.view.php
 	timeLine			*	views/tags/timeLine.view.php
@@ -110,19 +108,19 @@ if($idPage!='') switch($idPage){
 		$url=preg_replace('/[\?&]/','?',$url,1);
 		die('<script>document.location="wpanel'.$url.'";</script>');break;
 	default:
-		if(file_exists("views/$idPage.php")){
+		if(is_file("views/$idPage.php")){
 			$currentPage="$idPage.php";
-		}elseif(file_exists("views/$idPage.2.php")){
-			$bodyPage="$idPage.2.php";$numPanels=2;
-		}elseif(file_exists("views/$idPage.3.php")){
-			$bodyPage="$idPage.3.php";$numPanels=3;
+		}elseif(is_file("views/$idPage.2.php")){
+			$bodyPage="$idPage.2.php";
+		}elseif(is_file("views/$idPage.3.php")){
+			$bodyPage="$idPage.3.php";
 		}elseif(LOCAL){
-			if(file_exists("views/temp/$idPage.php")){
+			if(is_file("views/temp/$idPage.php")){
 				$currentPage="temp/$idPage.php";
-			}elseif(file_exists("views/temp/$idPage.2.php")){
-				$bodyPage="temp/$idPage.2.php";$numPanels=2;
-			}elseif(file_exists("views/temp/$idPage.3.php")){
-				$bodyPage="temp/$idPage.3.php";$numPanels=3;
+			}elseif(is_file("views/temp/$idPage.2.php")){
+				$bodyPage="temp/$idPage.2.php";
+			}elseif(is_file("views/temp/$idPage.3.php")){
+				$bodyPage="temp/$idPage.3.php";
 			}else{
 				$bodyPage='users/eprofile.php';$numPanels=2;
 			}

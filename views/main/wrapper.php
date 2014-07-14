@@ -1,4 +1,8 @@
-<?php if($logged){ ?>
+<?php
+if(strpos($bodyPage,'.2.php')) $numPanels=2;
+if(strpos($bodyPage,'.3.php')) $numPanels=3;
+if($numPanels>2&&!$rightPanel) $rightPanel='users/newsUsers.php';
+if($logged){ ?>
 <container id="<?=$idPage?>" class="wrapper<?=$cache?' cache':''?>">
 	<content class="num-pannels-<?=$numPanels?>">
 		<?php if($numPanels>1){ ?>
@@ -14,7 +18,7 @@
 			<?php include ('views/'.$bodyPage); ?>
 		</div>
 		<?php if($numPanels==3){ ?>
-			<div class="right-panel"><?php include ('views/'.$rightPanel); ?></div>
+			<div class="right-panel"><?php include('views/'.$rightPanel); ?></div>
 		<?php } ?>
 		<div class="clearfix"></div>
 	</content>
@@ -26,4 +30,4 @@
 		<div class="clearfix"></div>
 	</content>
 </container>
-<?php } ?>
+<?php }
