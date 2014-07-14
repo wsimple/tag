@@ -14,7 +14,13 @@
 <link rel="shortcut icon" href="css/smt/icon.png"/>
 <link rel="apple-touch-icon" href="css/smt/icon.png"/>
 <?php global $section,$noHash; ?>
-<script> var FILESERVER='<?=FILESERVER?>',DOMINIO='<?=DOMINIO?>',ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>; </script>
+<script>
+var FILESERVER='<?=FILESERVER?>',
+	DOMINIO='<?=DOMINIO?>',
+	SECTION='<?=$section?>',
+	BASEURL='<?=base_url()?>',
+	ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>;
+</script>
 <script src="js/language.js.php" charset="utf-8"></script>
 <?php 
 if(LOCAL){
