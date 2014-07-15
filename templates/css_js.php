@@ -20,6 +20,7 @@ var FILESERVER='<?=FILESERVER?>',
 	SECTION='<?=$section?>',
 	BASEURL='<?=base_url()?>',
 	ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>;
+if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localStorage.removeItem('logged');
 </script>
 <script src="js/language.js.php" charset="utf-8"></script>
 <?php 
