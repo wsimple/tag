@@ -33,7 +33,7 @@
 			<div id="contentHash">
 				<div class="titleSearchAllhash"><?=SEARCH_HASHTAGS?></div>
 				<?php if(@mysql_num_rows($hashtags)>0){?>
-				<div style="height:75px;width:626px;">
+				<div>
 					 <img id="loadingwaithash" src="css/smt/loader.gif" width="15" height="15"/>
 					 <div id="hashJson"></div>
 					 <div id="clickhash" class="seemoreSearch" style="display:none"><?=USER_BTNSEEMORE?></div>

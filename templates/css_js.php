@@ -51,8 +51,8 @@ if(LOCAL){
 <script type="text/javascript" src="<?=!LOCAL ? "min/?f=":""?>js/jquery.tipsy.js"></script>
 <?php	}
 		if ( $_SESSION['ws-tags']['ws-user']['id']!='' && !LOCAL){ ?>
-<link type="text/css" href="<?=!LOCAL ? "min/?f=":""?>/cometchat/cometchatcss.php" rel="stylesheet" charset="utf-8" />
-<script type="text/javascript" src="<?=!LOCAL ? "min/?f=":""?>/cometchat/cometchatjs.php" charset="utf-8"></script>
+<link type="text/css" href="/cometchat/cometchatcss.php" rel="stylesheet" charset="utf-8" />
+<script type="text/javascript" src="/cometchat/cometchatjs.php" charset="utf-8"></script>
 <?php	} ?>
 
 <?php if($_SESSION['ws-tags']['language']=='es') { ?><script src="<?=!LOCAL ? "min/?f=":""?>js/chosen.es.js"></script><?php } ?>

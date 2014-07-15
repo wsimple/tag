@@ -1,4 +1,5 @@
 <?php
+	// die($_SERVER['SERVER_NAME'].array_shift(split(basename(__DIR__),$_SERVER['REQUEST_URI'])).basename(__DIR__));
 	header('Content-type: text/html; charset=utf-8');
 	if(strpos(' '.$_SERVER['HTTP_USER_AGENT'],'facebook.com'))
 		include('includes/facebook.php');
@@ -106,7 +107,7 @@
 	<!-- SESSION: <?=json_encode($_SESSION['ws-tags']['ws-user'])?> -->
 	<?php } ?>
 	<head>
-	<base href="<?=DOMINIO?>" />
+	<base href="http://<?=$_SERVER['SERVER_NAME'].PATH_SITE?>" />
 	<title><?=TITLE?></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=.5,maximum-scale=1.13,user-scalable=1"/>
 	<meta name="apple-mobile-web-app-capable" content="yes" />
