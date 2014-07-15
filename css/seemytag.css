@@ -5507,6 +5507,11 @@ container.wrapper .left-panel #adsListPubli td[tipo="17"]{
 .left-panel .side-box>header span{ left:0;margin-right:10px; }
 .right-panel .side-box{ border-right:none; }
 .right-panel .side-box>header span{ right:0;margin-left:10px; }
+.right-panel .side-box .suggest-friends{
+	overflow: hidden;
+	height: 218px;	
+}
+
 
 .side-box.menu{
 	color:#71cbe9;

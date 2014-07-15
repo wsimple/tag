@@ -41,8 +41,16 @@
 							$img = 'img/publicity/publicity_nofile.png';
 							$class = 'style="width:45px; height:45px; padding-left: 2px;padding-top: 4px;"';
 						}
+						$class = 'style="width:52px; height:52px; "';
+
+
+						$im = FILESERVER.getPublicityPicture('img/publicity/'.$publicity['picture'],'img/publicity/publicity_nofile.png');
 					?>
-					<img src="<?=$img?>" <?=$class?>>
+
+					<!-- <img src="<?=$img?>" <?=$class?>> -->
+					
+					<img   src="<?='includes/imagen.php?ancho=90&tipo=3&img='.$im?>"/>
+
 				</div>
 			</a>
 			<div id="namePublicity">
@@ -80,7 +88,10 @@
 		<div id="bordePublicity" <?=$bordeR?> class="yo">
 				<a href="<?=$publicity['link']?>" target="_blank" onclick="showPublicityWb('<?=$publicity['id']?>')" onfocus="this.blur()">
 					<div id="imgPublicity">
+
 						<?php
+							// getUserPicture('img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo'],'img/users/default.png')
+
 							if (file_exists('img/publicity/'.$publicity['picture'])) {
 								$img = 'includes/imagen.php?ancho=90&tipo=3&img='.FILESERVER.'img/publicity/'.$publicity['picture'];
 								$class = '';
@@ -89,7 +100,10 @@
 								$class = 'style="width:45px; height:45px; padding-left: 2px;padding-top: 4px;"';
 							}
 						?>
-						<img src="<?=$img?>" <?=$class?>>
+						<!-- <img src="<?=$img?>" <?=$class?>> -->
+						abajo
+						<img <?=$class?> src="<?=FILESERVER.getPublicityPicture('img/publicity/'.$publicity['picture'],'img/publicity/publicity_nofile.png')?>"/>
+
 					</div>
 				</a>
 				<div id="namePublicity">

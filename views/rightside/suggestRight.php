@@ -2,8 +2,9 @@
 	<header><span><?=HOME_SUGGESTFRIENDS?></span></header>
 	<?php
 	//relleno de sugerencias, por rand
-	$friends=randSuggestionFriends('',5); //incremetar el 0 por si se necesita relleno
+	$friends=randSuggestionFriends('',12); //incremetar el 0 por si se necesita relleno
 	if($numfriends=mysql_num_rows($friends)!=0){
+		echo '<div class="suggest-friends">';
 		while($friend=mysql_fetch_assoc($friends)){
 		?>
 		<div class="contentSuggestFriends">
@@ -24,6 +25,7 @@
 		</div>
 		<?php
 		}
+		echo '</div>';
 	}else{?>
 		<div class="messageInviteSuggest"><?=INVITED_SUGGETSFRIENDS?></div>
 		<div id="inviteSuggest"><a href="#friends?sc=3"><?=GROUPS_MENUINVITEFRIENDS?></a></div>
