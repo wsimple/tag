@@ -4030,23 +4030,20 @@ a.plus:hover{
 	padding:2px;
 	border-radius:50%;
 }
-.menu-l-shoppingCart{
-	position:relative;
-	left:-25px;
-	top:-15px;
-	background:#FF8A28;
-	color:#fff;
-	padding:3px;
-	font-size:10px;
-	text-align:center;
-	text-decoration:none !important;
-	width:15px;
-	height:15px;
-	border-radius:50%;
-}
-body[lang="es"] container.wrapper .menu-l-shoppingCart{
-	left:-25px;
-	top:-17px;
+.menu-l-shoppingCart {
+	position: relative;
+	left: 20px;
+	top: -32px;
+	background: #FF8A28;
+	color: #fff;
+	padding: 3px;
+	font-size: 10px;
+	text-align: center;
+	text-decoration: none !important;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	text-indent: initial;
 }
 #frmProducts h6{
 	margin:0;
