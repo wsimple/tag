@@ -1,11 +1,12 @@
-<?php if(!is_dir('.security')||!is_file('.security/security.php')) include('base/install.php');
-else {
+<?php
+if(!is_dir('.security')||!is_file('.security/security.php')) include('base/install.php');
+if(!is_dir('.security')||!is_file('.security/security.php')) {
 	// include('index.php');
 	echo 'instalado<br/>';
 	include('.security/security.php');
 	if(isset($_GET['show'])){
 		echo '<pre>';
-		print_r($config);
+		var_dump($config);
 		echo '</pre>';
 	}
 }

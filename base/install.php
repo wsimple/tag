@@ -18,6 +18,7 @@ tipos: local, main (servidor principal), sec (servidores secundarios)
 	}elseif(isset($_GET['sec'])){
 		$tipo='sec';
 		$data['server']=true;
+		$data['path']='/';
 		$data['db']['host']='192.168.57.15';
 		// $data['db']['host']='68.109.244.200';//ip externo
 		$data['db']['user']='uservzla200';
@@ -26,21 +27,22 @@ tipos: local, main (servidor principal), sec (servidores secundarios)
 		$data['ftp']['host']='192.168.57.16';
 		$data['ftp']['user']='userimg';
 		$data['ftp']['pass']='-t@gvzlA_ftp';
-		$data['imgserver']='68.109.244.201';
+		$data['imgserver']='68.109.244.201/';
 	}elseif(isset($_GET['local'])){
 		$tipo='local';
 		$data['server']=false;
+		$data['path']='/tag/';
 		$data['db']['host']='localhost';
 		$data['db']['user']='root';
 		$data['db']['pass']='root';
 		$data['db']['data']='tagbum';
-		$data['imgserver']='.';
+		$data['imgserver']='./';
 	}
 	$data['tipo']=$tipo;
 
-	if($tipo!='local')
+	if(isset($_GET['comp'])) //compress
 		$data='json_decode(base64_decode(base64_decode(\''.base64_encode(base64_encode(json_encode($data))).'\')))';
-	else
+	else //no compress
 		$data='json_decode(\''.json_encode($data).'\')';
 
 	$txt="<?php //$tipo\n\$config=$data;";
