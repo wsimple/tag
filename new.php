@@ -3,7 +3,9 @@ else {
 	// include('index.php');
 	echo 'instalado<br/>';
 	include('.security/security.php');
-	echo '<pre>';
-	// print_r($config);
-	echo '</pre>';
+	if(isset($_GET['show'])){
+		echo '<pre>';
+		print_r($config);
+		echo '</pre>';
+	}
 }

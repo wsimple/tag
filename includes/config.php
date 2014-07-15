@@ -23,7 +23,7 @@
 	define('KEYWORDS','Winning,place for U,I\'ts time to winning,tag,tags,imagination,oftag,urtag,yourtag,geturtag,play,game,business,personal');
 
 	#configuraciones de servidor
-	$_prod='tagbum.com';//Nombre del dominio principal
+	$_prod=$_SERVER['SERVER_NAME'];//Nombre del dominio principal
 	$_pruebas='/wpruebas/';//Carpeta de pruebas
 	//lista de carpetas de sistema
 	$_folders=array(
@@ -48,7 +48,6 @@
 		$_site=$_name.$_local;
 		$_fserver='';//fileserver para uso local
 		//$_fserver='local/fileserver/';//fileserver para uso local
-		define('FILESERVER','http://'.$_site.$_fserver);
 	}else{
 		//si es produccion
 		if(preg_match('/seemytag\.com$/',$_name)) $_prod='seemytag.com';
@@ -75,6 +74,25 @@
 	define('TAGHEIGHT',300);
 
 	//definicion de variables que difieren entre produccion y local
+	@include(RELPATH.'.security/security.php');
+	// echo '<pre>';print_r($config);echo '</pre>';die();
+	if($config){
+		define('HOST',$config->db->host);
+		define('USER',$config->db->user);
+		define('PASS',$config->db->pass);
+		define('DATA',$config->db->data);
+		if(isset($config->ftp)){
+			define('NOFTP',false);
+			define('FTPSERVER',$config->ftp->host);
+			define('FTPACCOUNT',$config->ftp->user);
+			define('FTPPASS',$config->ftp->pass);
+		}else{
+			define('NOFTP',true);
+		}
+		define('FILESERVER','http://'.($config->imgserver?$config->imgserver.'/':$_site.$_fserver));
+	}else{
+		die('Not configured server.');
+	}
 	if(in_array($_name,array(PRODUCCION,'64.15.140.154'))||$_cronjob){
 		define('HOST','localhost');
 		define('LOCAL',false);
@@ -86,17 +104,6 @@
 		// 	$_sec=json_decode(base64_decode(base64_decode(base64_decode($_sec))),true);
 		// 	foreach($_sec as $key=>$val) define($key,$val);
 		// }
-		if(is_array($config)){
-			define('HOST',$config['db']['host']);
-			define('USER',$config['db']['user']);
-			define('PASS',$config['db']['pass']);
-			define('DATA',$config['db']['data']);
-			define('FTPSERVER',$config['ftp']['host']);
-			define('FTPACCOUNT',$config['ftp']['user']);
-			define('FTPPASS',$config['ftp']['pass']);
-		}else{
-			die('Not configured server.');
-		}
 	}else{
 		define('HOST','localhost');
 		define('LOCAL',true);

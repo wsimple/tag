@@ -10,27 +10,40 @@ Se debe llamar al index de la siguiente manera:
 tipos: local, main (servidor principal), sec (servidores secundarios)
 <?php
 }elseif(count($_GET)>0){
-	$config=array();
+	$data=array();
 	if(!is_dir('.security')) mkdir('.security');
 	#tipos
 	if(isset($_GET['main'])){
 		$tipo='main';
 	}elseif(isset($_GET['sec'])){
 		$tipo='sec';
-		$config['db']['host']='192.168.57.15';
-		$config['db']['user']='uservzla200';
-		$config['db']['pass']='-t@gvzlA_mysql';
-		$config['db']['data']='tagbum200';
-		$config['ftp']['host']='192.168.57.16';
-		$config['ftp']['user']='userimg';
-		$config['ftp']['pass']='-t@gvzlA_ftp';
+		$data['server']=true;
+		$data['db']['host']='192.168.57.15';
+		// $data['db']['host']='68.109.244.200';//ip externo
+		$data['db']['user']='uservzla200';
+		$data['db']['pass']='-t@gvzlA_mysql';
+		$data['db']['data']='tagbum200';
+		$data['ftp']['host']='192.168.57.16';
+		$data['ftp']['user']='userimg';
+		$data['ftp']['pass']='-t@gvzlA_ftp';
+		$data['imgserver']='68.109.244.201';
 	}elseif(isset($_GET['local'])){
 		$tipo='local';
+		$data['server']=false;
+		$data['db']['host']='localhost';
+		$data['db']['user']='root';
+		$data['db']['pass']='root';
+		$data['db']['data']='tagbum';
+		$data['imgserver']='.';
 	}
-	$config['prueba']=$tipo;
+	$data['tipo']=$tipo;
 
-	$txt="<?php //$tipo\n"
-		.'$config=json_decode(base64_decode(base64_decode(\''.base64_encode(base64_encode(json_encode($config))).'\')));';
+	if($tipo!='local')
+		$data='json_decode(base64_decode(base64_decode(\''.base64_encode(base64_encode(json_encode($data))).'\')))';
+	else
+		$data='json_decode(\''.json_encode($data).'\')';
+
+	$txt="<?php //$tipo\n\$config=$data;";
 	file_put_contents('.security/security.php',$txt);
 	echo 'Instalacion como tipo: '.$tipo;
 }
