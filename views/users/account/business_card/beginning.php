@@ -90,7 +90,9 @@
 							<?php /**** END - This is the BC that is displayed to the user ****/ ?>
 							<div style="text-align:center; padding-top: 10px; padding-bottom: 25px">
 								<a href="javascript:void(0);" onclick="paymentBusinessCard('<?=BUSINESSCARDPAYMENT_TITLEMSGBOX?>','<?=EXPIREDACCOUNT_MSGBOXWINDOWSWARNING?>');" onfocus="this.blur();">
-									<img src="img/menu_users/paypal.png" border="0" /><br/>
+									<?php if (false): ?>
+										<img src="img/menu_users/paypal.png" border="0" /><br/>
+									<?php endif ?>
 									<?=BUSINESSCARDPAYMENT_BUTTON?>
 									<br/><br/>
 								</a>

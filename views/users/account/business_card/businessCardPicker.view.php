@@ -11,6 +11,21 @@
 			function disableButton(id) {
 				//$('#'+id).button("disable");
 			}
+
+			function createNewBc(){
+				$.ajax({
+					url: 'controls/business_card/businessCard.control.php?newAjax=1',
+					type: 'GET',
+					dataType: 'json',
+					success: function(response){
+						console.log(response);
+						if (response.success) {
+							location.reload();
+						};
+					}
+				});
+				
+			}
 		</script>
 
 <?php
@@ -56,13 +71,20 @@ $businessCards = $GLOBALS['cn']->query("SELECT	id,
 	<h3 class="ui-single-box-title"><?=USERPROFILE_BUSINESSCARD?></h3>
 			<div style="margin-bottom: 10px;width: 100%;">
 					<?php if( $_SESSION['ws-tags']['ws-user'][super_user]=='0' && $_SESSION['ws-tags']['ws-user'][type]=='1' ) { ?>
+						<?php if (PAYPAL_PAYMENTS): ?>
 						<div>
 							<img src="img/menu_users/paypal.png" border="0" style="float:right"/>
-						</div>
+						</div>	
+						<?php endif ?>
+						
 						<div>
 							<input	type="button"
 									value="<?=BC_TO_ADD_BUTTON?>"
-									onclick="paymentBusinessCard('<?=BUSINESSCARDPAYMENT_TITLEMSGBOX?>', '<?=EXPIREDACCOUNT_MSGBOXWINDOWSWARNING?>');"
+									<?php if (PAYPAL_PAYMENTS): ?>
+										onclick="paymentBusinessCard('<?=BUSINESSCARDPAYMENT_TITLEMSGBOX?>', '<?=EXPIREDACCOUNT_MSGBOXWINDOWSWARNING?>');"
+									<?php else: ?>
+										onclick="createNewBc()"
+									<?php endif ?>
 									style="float:right"/>
 						</div>
 					<?php } else { ?>
