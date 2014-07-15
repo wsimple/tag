@@ -6,16 +6,18 @@
  */
 	#definicion de variables que difieren entre produccion y local
 	if(preg_match('/^(localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
-		$_len=strpos($_SERVER['SCRIPT_NAME'],'/',1)+1;
-		$_path=substr($_SERVER['SCRIPT_NAME'],0,$_len);
+		$tmp=strpos($_SERVER['SCRIPT_NAME'],'/',1)+1;
+		$tmp=substr($_SERVER['SCRIPT_NAME'],0,$tmp);
 		// die($_path);
 	}else{
-		$_path='/';
+		$tmp='/';
 	}
-	define('RELPATH',str_repeat('../',substr_count(substr($_SERVER['SCRIPT_NAME'],strlen($_path)),'/')));
+	define('RELPATH',str_repeat('../',substr_count(substr($_SERVER['SCRIPT_NAME'],strlen($tmp)),'/')));
 	@include(RELPATH.'.security/security.php');
 	// echo '<pre>';print_r($config);echo '</pre>';die();
 	if($config){
+		$tmp=($config->tipo=='local');
+		define('LOCAL',$tmp);
 		define('HOST',$config->db->host);
 		define('USER',$config->db->user);
 		define('PASS',$config->db->pass);
@@ -123,6 +125,6 @@
 		// define('DATA','tagbum');
 	}
 	$_SESSION['ws-tags']['developer']=true;
-	unset($_pruebas,$_site,$_path,$_sec,$_url,$_prod,$config);
+	unset($_pruebas,$_site,$_path,$_sec,$_url,$_prod,$config,$tmp);
 	define('PAYPAL_PAYMENTS', false);
 ?>

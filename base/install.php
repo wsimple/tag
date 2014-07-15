@@ -17,7 +17,6 @@ tipos: local, main (servidor principal), sec (servidores secundarios)
 		$tipo='main';
 	}elseif(isset($_GET['sec'])){
 		$tipo='sec';
-		$data['server']=true;
 		$data['path']='/';
 		$data['db']['host']='192.168.57.15';
 		// $data['db']['host']='68.109.244.200';//ip externo
@@ -27,10 +26,9 @@ tipos: local, main (servidor principal), sec (servidores secundarios)
 		$data['ftp']['host']='192.168.57.16';
 		$data['ftp']['user']='userimg';
 		$data['ftp']['pass']='-t@gvzlA_ftp';
-		$data['imgserver']='68.109.244.201/';
+		$data['imgserver']='http://68.109.244.201/';
 	}elseif(isset($_GET['local'])){
 		$tipo='local';
-		$data['server']=false;
 		$data['path']='/tag/';
 		$data['db']['host']='localhost';
 		$data['db']['user']='root';
