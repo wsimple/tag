@@ -90,7 +90,7 @@ var PAGE,wrapper,container,home,footer,INFO=[],NOHASH=!!document.location.href.m
 	}
 	window.pageInit=function(){
 		$('body').addClass(INFO.join(' '));
-		var _logged=<?=($_SESSION['ws-tags']['ws-user']['id']!='')?'true':'false'?>;
+		var _logged=ISLOGGED;
 		loginState(function(logged){
 			if(logged!==_logged) window.location.reload();
 		});
