@@ -5,7 +5,15 @@
  * Date        :02/22/2011
  */
 	#definicion de variables que difieren entre produccion y local
-	@include('.security/security.php');
+	if(preg_match('/^(localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
+		$_len=strpos($_SERVER['SCRIPT_NAME'],'/',1)+1;
+		$_path=substr($_SERVER['SCRIPT_NAME'],0,$_len);
+		// die($_path);
+	}else{
+		$_path='/';
+	}
+	define('RELPATH',str_repeat('../',substr_count(substr($_SERVER['SCRIPT_NAME'],strlen($_path)),'/')));
+	@include(RELPATH.'.security/security.php');
 	// echo '<pre>';print_r($config);echo '</pre>';die();
 	if($config){
 		define('HOST',$config->db->host);
@@ -58,7 +66,6 @@
 		'wpruebas'
 	);
 	$_name=$_SERVER['SERVER_NAME'];
-	$_url=array_shift(explode('?',$_SERVER['REQUEST_URI']));
 	$_path='/';
 	if(preg_match('/^(localhost|127\.\d\.\d\.\d|192\.168(\.\d{1,3}){2})/',$_name)){
 		//si es local
@@ -90,7 +97,6 @@
 	define('DOMINIOSTORE',DOMINIO);
 	define('PATH',$_SERVER['DOCUMENT_ROOT'].$_path);//ruta de la carpeta de trabajo
 	//ruta relativa a la carpeta raiz dentro de $_path
-	define('RELPATH',str_repeat('../',substr_count(substr($_url,strlen($_path)),'/')));
 
 	#dimensiones de la tag
 	define('TAGWIDTH',650);
