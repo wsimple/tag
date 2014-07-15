@@ -39,6 +39,7 @@
 			if(dif()>=time) loginState();
 			return true;
 		};
+	if(w.ISLOGGED) isLogged(w.ISLOGGED);
 	setInterval(checkLogin,5000);
 	w.loginState=loginState;
 	w.isLogged=isLogged;

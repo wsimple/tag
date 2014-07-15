@@ -6,6 +6,21 @@
 	include '../../includes/functions.php';
 	include '../../includes/languages.config.php';
 
+if ($_GET['newAjax']) { 
+	$insert = $GLOBALS['cn']->query("INSERT INTO business_card SET 
+	  id_user      = '".$_SESSION['ws-tags']['ws-user']['id']."',
+	  email		   = '".$_SESSION['ws-tags']['ws-user']['email']."',
+	  company	   = 'Social Media Marketing',
+	  middle_text  = 'www.tagbum.com',
+	  type		   = '1',
+	  home_phone   = '".$_SESSION['ws-tags']['ws-user']['home_phone']."',
+	  work_phone   = '".$_SESSION['ws-tags']['ws-user']['work_phone']."',
+	  mobile_phone = '".$_SESSION['ws-tags']['ws-user']['mobile_phone']."'
+	");
+
+	die(json_encode(array('success'=>$insert)));
+}
+
 if(isset($_GET['updateTagLink'])){ //when called from menuBusinessCard
 	$GLOBALS['cn']->query('UPDATE tags SET id_business_card="'.(isset($_GET['idBc'])?base64_decode($_GET['idBc']):'').'" WHERE md5(id)="'.$_GET['updateTagLink'].'"');
 }elseif(isset($_GET['id_delete_bc'])){ //when called from menuBusinessCard (ajax)
