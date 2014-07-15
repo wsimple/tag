@@ -79,12 +79,23 @@
 		define('HOST','localhost');
 		define('LOCAL',false);
 		define('NOFPT',false);
-		define('FTPSERVER','10.4.23.10');
+		// define('FTPSERVER','10.4.23.10');
 		define('SHOWNOTIFIXTMP',1);//temporal para controlar la muestra de notitificaciones
-		include(RELPATH.'.security/security.php');
-		if($_sec!=''){
-			$_sec=json_decode(base64_decode(base64_decode(base64_decode($_sec))),true);
-			foreach($_sec as $key=>$val) define($key,$val);
+		@include(RELPATH.'.security/security.php');
+		// if($_sec!=''){
+		// 	$_sec=json_decode(base64_decode(base64_decode(base64_decode($_sec))),true);
+		// 	foreach($_sec as $key=>$val) define($key,$val);
+		// }
+		if(is_array($config)){
+			define('HOST',$config['db']['host']);
+			define('USER',$config['db']['user']);
+			define('PASS',$config['db']['pass']);
+			define('DATA',$config['db']['data']);
+			define('FTPSERVER',$config['ftp']['host']);
+			define('FTPACCOUNT',$config['ftp']['user']);
+			define('FTPPASS',$config['ftp']['pass']);
+		}else{
+			die('Not configured server.');
 		}
 	}else{
 		define('HOST','localhost');
