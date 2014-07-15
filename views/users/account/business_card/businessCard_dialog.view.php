@@ -160,7 +160,7 @@
 				</tr>
 
 				<tr>
-					<td colspan="2" style="border-top:1px solid #FFC800; text-align:center; border-right:1px solid #FFC800; border-left:1px solid #FFC800; padding-left:5px">
+					<td colspan="2" style="border-top:1px solid #FFC800; text-align:center;padding-left:5px">
 						<label id="bc_embedded_phones"
 							   style="text-shadow:0.1em 0.1em #FFFFFF; font-size:9px; color: <?=$bc[text_color]?>">
 									<?=$theUserPhone?>
