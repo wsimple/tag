@@ -1,5 +1,9 @@
 <?php
 	// die($_SERVER['SERVER_NAME'].array_shift(split(basename(__DIR__),$_SERVER['REQUEST_URI'])).basename(__DIR__));
+	if (isset($_GET['resizeimg'])) {
+		include('includes/imagen.php');
+		die();
+	}
 	header('Content-type: text/html; charset=utf-8');
 	if(strpos(' '.$_SERVER['HTTP_USER_AGENT'],'facebook.com'))
 		include('includes/facebook.php');
