@@ -282,7 +282,7 @@ page>header menu .user img{
 	top:50%;
 	margin-top:-17px;
 	margin-left:-43px;
-	/*border-radius:5px;*/
+	border-radius: 50%;
 }
 page>header form{
 	display:inline;
@@ -509,6 +509,7 @@ logo{
 	-webkit-background-size:100% 100%;
 	-moz-background-size:100% 100%;
 	background-size:100% 100%;
+	border-radius: 50%;
 }
 .usr-pic-bg{
 	background:url(smt/usr.jpg) 50% 50% no-repeat;
@@ -2096,6 +2097,7 @@ span.titleField{
 
 .divYourFriends img{
 	border:none;
+	border-radius: 50%;
 }
 .divYourFriends a,.divYourFriends a:hover,.divYourFriends a:link{
 	font-weight:bold;
@@ -2908,7 +2910,10 @@ a.plus:hover{
 }
 #externalProfile .photoProfile{ margin-right: 20px; }
 #externalProfile .ui-single-box-title a,
-#externalProfile .ui-single-box-title img{ float: none; }
+#externalProfile .ui-single-box-title img{ 
+	float: none;
+	border-radius: 50%;
+}
 #externalProfile .ui-single-box-title .photoProfile,
 #externalProfile .ui-single-box-title h3{ display: inline-block; }
 #externalProfile .ui-single-box-title a#seeBusiness{ 
@@ -3856,12 +3861,11 @@ a.plus:hover{
 	text-decoration:none;
 }
 #store .detail-box .user-profile .thumb{
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
-	-ms-border-radius:3px;
-	-o-border-radius:3px;
-	border-radius:3px;
-	border:1px solid #CCC;
+	-webkit-border-radius:50%;
+	-moz-border-radius:50%;
+	-ms-border-radius:50%;
+	-o-border-radius:50%;
+	border-radius:50%;
 	width:60px;
     background-size:60px;
 	height:60px;
@@ -4183,11 +4187,11 @@ a.plus:hover{
 .lis_product_store_details .thumb{
 	background-size: 100%;
 	background-repeat: no-repeat;
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
-	-ms-border-radius:3px;
-	-o-border-radius:3px;
-	border-radius:3px;
+	-webkit-border-radius:50%;
+	-moz-border-radius:50%;
+	-ms-border-radius:50%;
+	-o-border-radius:50%;
+	border-radius:50%;
 	border:1px solid #CCC;
 	width:60px;
 	height:60px;
@@ -4744,7 +4748,9 @@ container.wrapper .left-panel #adsListPubli td[tipo="17"]{
 	margin-right:3px
 }
 .divYourFriendsSuggest .divYourFriendsSuggestPhoto img{
-	width:30px;height:30px;
+	width:30px;
+	height:30px;
+	border-radius: 50%;
 }
 .divYourFriendsSuggest .divYourFriendsSuggestPhoto .linkSuggestFriends{
 	font-size:10px;
@@ -5509,10 +5515,8 @@ container.wrapper .left-panel #adsListPubli td[tipo="17"]{
 .right-panel .side-box>header span{ right:0;margin-left:10px; }
 .right-panel .side-box .suggest-friends{
 	overflow: hidden;
-	height: 218px;	
+	height: 218px;
 }
-
-
 .side-box.menu{
 	color:#71cbe9;
 }

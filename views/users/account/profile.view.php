@@ -39,7 +39,7 @@
 		<?php //profile picture, change button, business card button
 			$foto=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['pic'],'img/users/default.png');
 		?>
-		<div><img width="60" height="60" src="<?=$foto?>"/></div>
+		<div><img width="60" height="60" src="<?=$foto?>" style="border-radius: 50%;"/></div>
 		<?php /* BUTTON CHANGE - BUSINESS CARD - VIEW PROFILE */?>
 		<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
 			<div id="frmProfile_changePhotoButton" <?php if(RESETPASS_BTN1_TITLE!=""){?> title="<?=RESETPASS_BTN1_TITLE?>"<?php }?>>
