@@ -416,14 +416,14 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
                         break;
                         case 'insert': redir('mypublications?'); break;
                         case 'update': redir('detailprod?prd=<?=md5($_GET['idProd'])?>'); break;
-                        case 'delete': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_DELETE_PROD_NOW?></trong></div>','','',250,'','#detailprod?prd=<?=md5($_GET['idProd'])?>'); 
+                        case 'delete': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_DELETE_PROD_NOW?></trong></div>','','',250,'','detailprod?prd=<?=md5($_GET['idProd'])?>'); 
                         break;
 //                        case 'insert': case 'update':  break;
-                        case 'no-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_MESSAGE_NOT_DELETE?></trong></div>','','',200,'','#detailprod?prd=<?=md5($_GET['idProd'])?>'); 
+                        case 'no-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_MESSAGE_NOT_DELETE?></trong></div>','','',200,'','detailprod?prd=<?=md5($_GET['idProd'])?>'); 
                         break;
-                        case 'no-per-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=NOT_BELONG_PRODUCT?></trong></div>','','',200,'','#mypublications?');  
+                        case 'no-per-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=NOT_BELONG_PRODUCT?></trong></div>','','',200,'','mypublications?');  
                         break;//NOT_BELONG_PRODUCT colocar arriba 
-                        case 'no-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=JS_ERROR?></trong></div>','','',200,'','#store?');
+                        case 'no-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=JS_ERROR?></trong></div>','','',200,'','store?');
                         break;
                         default:    message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<?=ALLFIELDSAREREQUIRED?>','','','','','');
                     }
@@ -513,7 +513,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 		});
 	}
 	<?php }else{ ?>
-        message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=NOT_BUSINEES_INCORRUP?></trong></div>','','',200,'','#store?');
+        message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=NOT_BUSINEES_INCORRUP?></trong></div>','','',200,'','store?');
 //		$.dialog({
 //			title:'<?=RESET_TITLEALERTEMAILPASSWORD?>',
 //			resizable:false,
