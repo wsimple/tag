@@ -82,8 +82,8 @@ $(function() {
 						array['radio']='';
 						array['raffle']='raffle=1';
 						title='<a id="titleStoreA"><?=STORE_TITLE?></a><span>&nbsp;>&nbsp;</span>'
-							 +((nameCate!='')?'<a href="#mypublications"><?=STORE_MISPUBLICATION?></a><span>&nbsp;>&nbsp;</span>'
-							 +((nameSubCate!='')?'<a href="#mypublications'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
+							 +((nameCate!='')?'<a href="'+BASEURL+'mypublications"><?=STORE_MISPUBLICATION?></a><span>&nbsp;>&nbsp;</span>'
+							 +((nameSubCate!='')?'<a href="'+BASEURL+'mypublications'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
 							 +'<span>'+nameCate+'</span>'):'<span><?=STORE_MISPUBLICATION?></span>');
 					break; 
 					case '#myfreeproducts':
@@ -94,8 +94,8 @@ $(function() {
 						array['raffle']='';
 						array['radio']='';
 						title='<a id="titleStoreA"><?=STORE_TITLE?></a><span>&nbsp;>&nbsp;</span>'
-						 +((nameCate!='')?'<a href="#myfreeproducts"><?=STORE_MYRAFFLE?></a><span>&nbsp;>&nbsp;</span>'
-						 +((nameSubCate!='')?'<a href="#myfreeproducts'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
+						 +((nameCate!='')?'<a href="'+BASEURL+'myfreeproducts"><?=STORE_MYRAFFLE?></a><span>&nbsp;>&nbsp;</span>'
+						 +((nameSubCate!='')?'<a href="'+BASEURL+'myfreeproducts'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
 						 +'<span>'+nameCate+'</span>'):'<span><?=STORE_MYRAFFLE?></span>');
 					break;
 					case '#myparticipation':
@@ -105,8 +105,8 @@ $(function() {
 						array['raffle']='';
 						array['radio']='';
 						title='<a id="titleStoreA"><?=STORE_TITLE?></a><span>&nbsp;>&nbsp;</span>'
-						 +((nameCate!='')?'<a href="#myparticipation"><?=STORE_RAFFLES_PLAYS?></a><span>&nbsp;>&nbsp;</span>'
-						 +((nameSubCate!='')?'<a href="#myparticipation'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
+						 +((nameCate!='')?'<a href="'+BASEURL+'myparticipation"><?=STORE_RAFFLES_PLAYS?></a><span>&nbsp;>&nbsp;</span>'
+						 +((nameSubCate!='')?'<a href="myparticipation#'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
 						 +'<span>'+nameCate+'</span>'):'<span><?=STORE_RAFFLES_PLAYS?></span>');
 					break;
 					case '#freeproducts':	
@@ -116,8 +116,8 @@ $(function() {
 						array['srh']='';
 						array['radio']='';
 						title='<a id="titleStoreA"><?=STORE_TITLE?></a><span>&nbsp;>&nbsp;</span>'
-							 +((nameCate!='')?'<a href="#freeproducts"><?=PRODUCTS_RAFFLE?></a><span>&nbsp;>&nbsp;</span>'
-							 +((nameSubCate!='')?'<a href="#freeproducts'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
+							 +((nameCate!='')?'<a href="'+BASEURL+'freeproducts"><?=PRODUCTS_RAFFLE?></a><span>&nbsp;>&nbsp;</span>'
+							 +((nameSubCate!='')?'<a href="'+BASEURL+'freeproducts'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
 							 +'<span>'+nameCate+'</span>'):'<span><?=PRODUCTS_RAFFLE?></span>');
 					break;
 					default:
@@ -127,7 +127,7 @@ $(function() {
 						array['radio']='<?=$_GET['radio']?$_GET['radio']:''?>';
 						subget='<?=$_GET['radio']?'?radio='.$_GET['radio']:''?>';
 						title=((nameCate!='')?'<a id="titleStoreA"><?=STORE_TITLE?></a><span>&nbsp;>&nbsp;</span>'
-							 +((nameSubCate!='')?'<a href="#store'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
+							 +((nameSubCate!='')?'<a href="'+BASEURL+'store'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
 							 +'<span>'+nameCate+'</span>'):'<span><?=STORE_TITLE.' > '.STORE_ALL_PRODUCT?></span>');
 				}
 				//colocar el titulo de la vista anteriormente armado

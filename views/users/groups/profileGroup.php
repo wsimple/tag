@@ -1,6 +1,6 @@
 <div class="group-details" id="taglist-box">
 	<div class="ui-single-box-title" style="display: none;">
-		<span style="float:left;"><a href="#groups?" title=""><?=GROUPS_TITLENAMEGROUPPREFIJO?></a>&nbsp;>&nbsp;</span><div id="groupTitleStyle" title=""></span></div>
+		<span style="float:left;"><a href="<?=base_url('groups')?>" title=""><?=GROUPS_TITLENAMEGROUPPREFIJO?></a>&nbsp;>&nbsp;</span><div id="groupTitleStyle" title=""></span></div>
 		<ul id="subMenuAdminGroups" class="mainMenu" style="float: right; background: #FFF;">
 			<li>
 				<a class="fNiv mo" ><?=GROUPS_MENUADMINISTRATION?></a>
@@ -50,7 +50,7 @@
 						if (data['list'][0]['isAdmin']){
 						  console.log(data['list'][0]['sqlw'])
 							$('.group-details .ui-single-box-title').css('display','block');
-							$('.group-details .ui-single-box-title a#btncreateTags').attr('href','#creation?group=<?=$_GET['grp']?>');
+							$('.group-details .ui-single-box-title a#btncreateTags').attr('href',BASEURL+'creation?group=<?=$_GET['grp']?>');
 							if (data['list'][0]['isAdmin']=='1'){
 								$('li#btneditprofilegroup').html('<a class="linkOptionGrouop"><?=GROUPS_PROFILETITLE?></a>');
 								$('#btneditprofilegroup a').click(function(){

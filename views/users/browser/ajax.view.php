@@ -29,7 +29,7 @@
                         <strong style="color:#E78F08"><?=$friend[name_user]?></strong><br/>
                         <?php if (trim($array[username])!=''){ ?>
                         
-						<?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:&nbsp;<span><a href="<?=DOMINIO.$array[username]?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$array[username]?></a></span><br>
+						<?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:&nbsp;<span><a href="<?=base_url($array['username'])?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$array[username]?></a></span><br>
                         
 						<?php } 
                               if (trim($array[pais])!=''){

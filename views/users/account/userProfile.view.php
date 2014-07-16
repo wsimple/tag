@@ -74,7 +74,7 @@
 				//IF HAS PAID AND DEFINED PERSONAL BUSINESS CARD -> SHOW BUTTON ON PROFILE
 				$haveBusinessCard=$GLOBALS['cn']->query("SELECT type FROM business_card WHERE id_user = '".$friend['id']."' AND type=0");
 				if (mysql_num_rows($haveBusinessCard)>0 && !isset($_GET['calledProfile'])) { ?>
-					<input type="button" id="bussi" onclick="message('messages','<?=USERPROFILE_TITLEBUSINESSCARD?>','','',430,300,'views/users/account/business_card/businessCard_dialog.view.php?uid=<?=md5($friend['id'])?>');"
+					<input type="button" id="bussi" onclick="message('messages','<?=USERPROFILE_TITLEBUSINESSCARD?>','','',430,300,DOMINIO+'views/users/account/business_card/businessCard_dialog.view.php?uid=<?=md5($friend['id'])?>');"
 						value="<?=USERPROFILE_LINKSHOWBUSINESSCARD?>"/>
 					<?php
 				}?>

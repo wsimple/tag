@@ -96,7 +96,7 @@
 							<span><?=USERPROFILE_PASSWORD?></span><br><br/><br/>
 							<span><?=REQUIRED?></span><br>
 							<span><?=TEXT_TERMS?></span><br>
-							<span class="color-a"><a href="#terms?sign"><?=TEXT_LINKTERMS?></a></span>
+							<span class="color-a"><a href="<?=base_url('terms?sign')?>"><?=TEXT_LINKTERMS?></a></span>
 						</p>
 						<input  value="<?=$fbId?>" type="hidden" name="fbid" id="fbid" />
 						<input type="button" name="btnSignUp" class="float-right" id="btnSignUp" value="<?=SIGNUP_BTNNEXT?>"/>
@@ -144,7 +144,7 @@
 							<span><?=USERPROFILE_PASSWORD?></span><br><br><br>
 							<span><?=REQUIRED?></span><br>
 							<span><?=TEXT_TERMS?></span><br>
-							<span class="color-a"><a href="#terms?sign"><?=TEXT_LINKTERMS?></a></span>
+							<span class="color-a"><a href="<?=base_url('terms?sign')?>"><?=TEXT_LINKTERMS?></a></span>
 						</p>
 						<input  value="<?=$fbId?>" type="hidden" name="fbid" id="fbid" />
 						<input type="button" name="btnSignUpCompany" class="float-right" id="btnSignUpCompany" value="<?=SIGNUP_BTNNEXT?>"/>
@@ -174,11 +174,11 @@
 			});
 
 			$('#termUseSignUp').click(function(){
-				message('messages', '<?=TERMSOFUSE?>', '', '', 500, 300, 'views/main/data.view.php?xs=terms');
+				message('messages', '<?=TERMSOFUSE?>', '', '', 500, 300, DOMINIO+'views/main/data.view.php?xs=terms');
 			});
 
 			$('#termUseSignUpBu').click(function(){
-				message('messages', '<?=TERMSOFUSE?>', '', '', 500, 300, 'views/main/data.view.php?xs=terms');
+				message('messages', '<?=TERMSOFUSE?>', '', '', 500, 300, DOMINIO+'views/main/data.view.php?xs=terms');
 			});
 
 			$('div#personal,div#business').click(function(){

@@ -91,7 +91,7 @@
 		if(hash[1]){
 			backSch = location.href.split('&');
 			backSch = backSch[0].split('t=#');
-			$('#titleHashCurrent').html('<a href="#searchall?srh=<?=$_GET['bck']?>"><?=SIGNUP_BTNBACK?></a>&nbsp;-&nbsp;<?=TIMELINE_RESULTHASH?> #'+backSch[1]);
+			$('#titleHashCurrent').html('<a href="'+BASEURL+'searchall?srh=<?=$_GET['bck']?>"><?=SIGNUP_BTNBACK?></a>&nbsp;-&nbsp;<?=TIMELINE_RESULTHASH?> #'+backSch[1]);
 			$('#titleHashAlways').hide();
 		}
 		var ns='.tagsList',//namespace

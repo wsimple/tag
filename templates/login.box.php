@@ -20,7 +20,7 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 		</p>
 		<p>
 			<input type="password" name="txtPass" id="txtPass" class="text_box" placeholder="<?=LBL_PASS?>" value="" requerido="<?=LBL_PASS?>"/>
-			<a href="#resendPassword" id="lnkRecordar" onFocus="this.blur();"><?=MNU_LOSTPASS?></a>
+			<a href="<?=base_url('resendPassword')?>" id="lnkRecordar" onFocus="this.blur();"><?=MNU_LOSTPASS?></a>
 		</p>
 		<p>
 			<input type="checkbox" name="keepLogin" id="keepLogin" <?=isset($_COOKIE['kl'])?' checked="checked"':''?> />

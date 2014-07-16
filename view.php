@@ -63,6 +63,7 @@ $bodyPage=false;
 	externalProfile			views/external_profile/externalProfile.view.php
 	view					views/tags/viewTag.view.php
 	news					views/news/timeLineNews.view.php
+	test gustavo
  */
 if( isset($_GET['tag'])&&( (!$logged&&$idPage=='home')||($logged&&$idPage=='carousel') ) )
 	$idPage='comment';

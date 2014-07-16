@@ -66,7 +66,7 @@ include RELPATH.'class/class.phpmailer.php';
 								<td width="147" style="border-bottom:1px solid #CCC; border-right:1px solid #CCC">'.mskPoints($_mail['friends_count']).'</td>
 							</tr>
 							<tr><td colspan="4">&nbsp;</td></tr>
-							<tr><td colspan="4" style="text-align:center">'.MAILFALLOWFRIENDS_GOTO.' <a href="'.DOMINIO.'">Tagbum</a></td></tr>
+							<tr><td colspan="4" style="text-align:center">'.MAILFALLOWFRIENDS_GOTO.' <a href="'.base_url().'">Tagbum</a></td></tr>
 							<tr><td colspan="4">&nbsp;</td></tr>
 							<tr><td colspan="4">&nbsp;</td></tr>
 							<tr><td colspan="4" style="border-top:1px solid #999">&nbsp;</td></tr>

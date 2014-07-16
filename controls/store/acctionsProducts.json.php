@@ -275,7 +275,7 @@ switch ($_GET['acc']) {
 						$backg=FILESERVER.'img/'.$Owner['photo'];
 						$foto_remitente	=FILESERVER.getUserPicture($Winner['code'].'/'.$Winner['profile_image_url'],'img/users/default.png');
 						if (trim($Winner['username'])!=''){
-								$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.$Winner['username']."' onFocus='this.blur();' target='_blank'>".DOMINIO.$Winner['username']."</a><br>";
+								$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".base_url($Winner['username'])."' onFocus='this.blur();' target='_blank'>".DOMINIO.$Winner['username']."</a><br>";
 						}else { $external=  formatoCadena($Winner['name_user']); }
 						if (trim($Winner['pais'])!=''){
 								$pais=USERS_BROWSERFRIENDSLABELCOUNTRY.":&nbsp;<span style='color:#999999'>".$Winner['pais']."</span><br/>";
@@ -330,7 +330,7 @@ switch ($_GET['acc']) {
 											</td>
 										</tr>
 										<tr>
-											<td align="center" style="font-size: 12px;padding: 10px 0; color:#777">'.STORE_FOOTERMESAAGESMAIL.' <a target="_blank" href="'.DOMINIO.'#store?sc=5">'.PRODUCTS_RAFFLE.'</a></td>
+											<td align="center" style="font-size: 12px;padding: 10px 0; color:#777">'.STORE_FOOTERMESAAGESMAIL.' <a target="_blank" href="'.base_url('store?sc=5').'">'.PRODUCTS_RAFFLE.'</a></td>
 										</tr>
 									</table>';
 
@@ -374,7 +374,7 @@ switch ($_GET['acc']) {
 									</td>
 								</tr>
 								<tr>
-									<td align="center" style="font-size: 12px;padding: 10px 0; color:#777">'.STORE_FOOTERMESAAGESMAIL.' <a target="_blank" href="'.DOMINIO.'#store?sc=5">'.PRODUCTS_RAFFLE.'</a></td>
+									<td align="center" style="font-size: 12px;padding: 10px 0; color:#777">'.STORE_FOOTERMESAAGESMAIL.' <a target="_blank" href="'.base_url('store?sc=5').'">'.PRODUCTS_RAFFLE.'</a></td>
 								</tr>
 							</table>';
 

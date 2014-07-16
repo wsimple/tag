@@ -136,11 +136,11 @@
                     break;
                     case 'exist': showAndHide('fields_error_repeat', 'fields_error_repeat', 2500, true); break;
                     case 'no-stock': showAndHide('fields_error_notNable', 'fields_error_notNable', 2500, true); break;
-                    case 'no-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_MESSAGE_NOT_DELETE?></trong></div>','','',200,'','#detailprod?prd=<?=md5($_GET['idProd'])?>'); 
+                    case 'no-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_MESSAGE_NOT_DELETE?></trong></div>','','',200,'','detailprod?prd=<?=md5($_GET['idProd'])?>'); 
                     break;
-                    case 'no-per-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=NOT_BELONG_PRODUCT_RAFFLE?></trong></div>','','',200,'','#store?');  
+                    case 'no-per-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=NOT_BELONG_PRODUCT_RAFFLE?></trong></div>','','',200,'','store?');  
                     break;//NOT_BELONG_PRODUCT_RAFFLE colocar arriba 
-                    case 'no-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=JS_ERROR?></trong></div>','','',200,'','#store?'); break;
+                    case 'no-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=JS_ERROR?></trong></div>','','',200,'','store?'); break;
                     default:    showAndHide('fields_error', 'fields_error', 2500, true);
                 }
 			}//success

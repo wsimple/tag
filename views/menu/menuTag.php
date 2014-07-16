@@ -29,7 +29,7 @@
 					$result = $GLOBALS['cn']->query('SELECT id_business_card FROM tags WHERE id="'.$time[idTag].'" AND id_business_card!=""');
 					if (mysql_num_rows( $result ) > 0) {
 						$result= mysql_fetch_assoc($result); ?>
-							<img src="img/menu_tag/business_card.png" border="0" onclick="message('messages', '<?=str_replace(chr(13), " ",str_replace(chr(10), " ", USERPROFILE_TITLEBUSINESSCARD))?>', '', '',  430, 300, 'views/business_card/businessCard_dialog.view.php?bc=<?=md5($result[id_business_card])?>');" />
+							<img src="img/menu_tag/business_card.png" border="0" onclick="message('messages', '<?=str_replace(chr(13), " ",str_replace(chr(10), " ", USERPROFILE_TITLEBUSINESSCARD))?>', '', '',  430, 300, DOMINIO+'views/business_card/businessCard_dialog.view.php?bc=<?=md5($result[id_business_card])?>');" />
 						<?php
 					} else { ?>
 
@@ -47,7 +47,7 @@
 				if (mysql_num_rows( $result ) > 0) {
 					$result= mysql_fetch_assoc($result);
 		?>
-					<li onclick="message('messages', '<?=str_replace(chr(13), ' ',str_replace(chr(10), ' ', USERPROFILE_TITLEBUSINESSCARD))?>', '', '',  430, 300, 'views/business_card/businessCard_dialog.view.php?bc=<?=md5($result['id_business_card'])?>');" title="<?=USERPROFILE_BUSINESSCARD?>">
+					<li onclick="message('messages', '<?=str_replace(chr(13), ' ',str_replace(chr(10), ' ', USERPROFILE_TITLEBUSINESSCARD))?>', '', '',  430, 300, DOMINIO+'views/business_card/businessCard_dialog.view.php?bc=<?=md5($result['id_business_card'])?>');" title="<?=USERPROFILE_BUSINESSCARD?>">
 					<img src="img/menu_tag/business_card.png" border="0"/>
 					</li>
 	

@@ -10,7 +10,7 @@ $query = 'SELECT '.$sc.' AS dato FROM dialogs WHERE id = 1';
 			<?php
 				if(isset($_GET[sign])){
 				?>
-				<a href="#signup" class="fright" style="margin-right: 5px"><?=DIALOGS_BACKSIGNUP?></a>
+				<a href="<?=base_url('signup')?>" class="fright" style="margin-right: 5px"><?=DIALOGS_BACKSIGNUP?></a>
 				<?php } ?>
 			</h3>
 			<?php

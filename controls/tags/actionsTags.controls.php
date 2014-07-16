@@ -175,7 +175,7 @@
 								$placa = DOMINIO.'img/placaFondo.png';
 								//$linkTag = DOMINIO.'#timeline?current=timeLine&tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'];
 								$imgTag = DOMINIO.'includes/tag.php?tag='.md5($tag['idTag']);
-								$linkTag = DOMINIO.'#&tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'];
+								$linkTag = base_url('&tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code']);
 								$iconoSpon = DOMINIO.'/img/menu_users/publicidad.png';
 								$foto_usuario=FILESERVER.getUserPicture($tag['code'].'/'.$tag['photoUser']);
 								$foto_remitente	=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']);
@@ -211,7 +211,7 @@
 										');
 										$array = mysql_fetch_assoc($query);
 										if (trim($array['username'])!=''){
-												$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.$array['username']."' onFocus='this.blur();' target='_blank'>".DOMINIO.$array['username']."</a><br>";
+												$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".base_url($array['username'])."' onFocus='this.blur();' target='_blank'>".DOMINIO.$array['username']."</a><br>";
 										}else {
 											$external=  formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']);
 										}

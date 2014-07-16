@@ -78,7 +78,7 @@
 							 <td>&nbsp;</td>
 							 </tr>
 							 <tr>
-							 <td>'.PUBLICITY_CTREMAILTEXTO1.': <a href="'.DOMINIO.'?current=myPubli">View my Ads</a></td>
+							 <td>'.PUBLICITY_CTREMAILTEXTO1.': <a href="'.base_url('?current=myPubli').'">View my Ads</a></td>
 							 </tr>
 							 <tr>
 							 <td>&nbsp;</td>
@@ -93,7 +93,7 @@
 							 <td style="border-top:1px solid #999">&nbsp;</td>
 							 </tr>
 							 <tr>
-							 <td style="color:#CCC; text-align:center; padding:0"><a href="'.DOMINIO.'">'.DOMINIO.'</a></td>
+							 <td style="color:#CCC; text-align:center; padding:0"><a href="'.base_url().'">'.DOMINIO.'</a></td>
 							 </tr>
 							 <tr>
 							 <td>&nbsp;</td>

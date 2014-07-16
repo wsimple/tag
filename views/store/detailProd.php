@@ -75,7 +75,7 @@
 ?>
 <div id="store" class="ui-single-box">
     <div class="ui-single-box-title limitTitle">
-		<a href="#store"><?=STORE_TITLE.' '?></a><span>&nbsp;&gt;&nbsp;</span>
+		<a href="<?php echo base_url(); ?>store"><?=STORE_TITLE.' '?></a><span>&nbsp;&gt;&nbsp;</span>
 		<?=formatoCadena($product['name'])?>
 	</div>
 	<div>
@@ -90,7 +90,7 @@
 				<div class="anytext limitComent">
 					<strong><?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:</strong>
 					<br/>
-					<a href="<?=DOMINIO.$product['username']?>"><?=DOMINIO.$product['username']?></a>
+					<a href="<?=base_url($product['username'])?>"><?=DOMINIO.$product['username']?></a>
 				</div>
 			</div>
 			<h4><?=STORE_DETPRDDETAIL?></h4>
@@ -186,7 +186,7 @@
 					$hashP = $value;
 					$sp = '';
 				}
-				echo '<div class="searchHash"><a href="#searchall?srh='.$value.'&in=2">'.$hashP.$sp.'</a></div>';
+				echo '<div class="searchHash"><a href="'.base_url().'searchall?srh='.$value.'&in=2">'.$hashP.$sp.'</a></div>';
 			}
 		?></div>
 	</div>
@@ -387,7 +387,7 @@
                                         case 'end': message('store_thankyoufinalRaffle', "<?=str_replace(chr(13), ' ',str_replace(chr(10), ' ', PRODUCTS_RAFFLE_TITLE))?>", "<?=STORE_THANKYOUFINALMEMBERS?>",'', 350, 220); break;
                                         case 'no-points': message('store_nocreditRaffle', "<?=str_replace(chr(13), ' ',str_replace(chr(10), ' ', PRODUCTS_RAFFLE_TITLE))?>", "<?=STOREMESSAGENOPOINTSFORBUY.'<br/>'.STORE_MINIMUNREQUIRED?> "+data['PointReq'],'',  350, 200); break;
                                         case 'exist': message('store_nocreditRaffle', "<?=str_replace(chr(13), ' ',str_replace(chr(10), ' ', PRODUCTS_RAFFLE_TITLE))?>", "<?=STORE_EXIST_RAFFLE?> "+data['PointReq'],'',  350, 200); break;
-                                        case 'no-id-update': default: message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=JS_ERROR?></trong></div>','','',200,'','#store?');                                            
+                                        case 'no-id-update': default: message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=JS_ERROR?></trong></div>','','',200,'','store?');                                            
                                     }
                                 }
                             });
