@@ -189,18 +189,18 @@ $(function(){
 
 	function redirTo(){
 		<?php if($personal){//if personal tag ?>
-			redir('#timeline?current=personalTags');
+			redir('timeline?current=personalTags');
 		<?php }elseif(isset($_GET['product'])){//if product tag ?>
-			redir('#mypublications');
+			redir('mypublications');
 //			document.location.hash='#products?sc=2';
 		<?php }elseif($group!=''){//if is group tag ?>
-			redir('#groupsDetails?grp=<?=$group?>');
+			redir('groupsDetails?grp=<?=$group?>');
 		<?php }elseif(isset($_GET['wpanel'])){ ?>
 			redir('wpanel/?url=vistas/viewTagWpanel.php');
 		<?php }elseif($bcard!=''){ ?>
-			redir('#profile?sc=3');
+			redir('profile?sc=3');
 		<?php }else{ ?>
-			redir('#timeline?current=timeLine');
+			redir('timeline?current=timeLine');
 		<?php } ?>
 	}
 	function tagPreview(data){

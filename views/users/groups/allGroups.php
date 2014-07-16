@@ -36,8 +36,8 @@ $(function(){
                 get=getSC=='1'?'sc=1&':'';
 				if ($(this).attr('c')){
 					get+='cate='+$(this).attr('c');
-					redir('#groups?'+get);
-				}else{ redir('#groups?'+get); } 
+					redir('groups?'+get);
+				}else{ redir('groups?'+get); } 
 				return false;
 			});
             var timeOut;

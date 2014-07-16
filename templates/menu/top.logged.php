@@ -163,10 +163,10 @@ unset($detect);
 				var val=$(this).val().trim(); //alert(escape(val))
 				if(val!=''){
 					$(this).val('').autocomplete('close');
-					redir('#searchall?srh=' + escape(val));
+					redir('searchall?srh=' + escape(val));
 				}
 //				if(val.charAt(0)=='#')
-//					redir('#timeline?current=' + val);
+//					redir('timeline?current=' + val);
 //				else
 				//alert(escape(val))
 			}

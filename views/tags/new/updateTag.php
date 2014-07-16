@@ -411,7 +411,7 @@ $(function(){
 							document.location.hash="#groupsDetails?grp=<?=$_GET[group]?>";
 							$('html, body').animate({scrollTop: 0},"slow");
 						<?php }elseif ($_GET[wpc]){?>
-							redir('<?=DOMINIO?>wpanel/?url=vistas/viewTagWpanel.php');
+							redir('wpanel/?url=vistas/viewTagWpanel.php');
 						<?php
 						}else{?>
 							$('loader.page',PAGE).hide();

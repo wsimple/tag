@@ -438,7 +438,7 @@
 		enableButtons('<?=$all?>');
 		var getStore='<?=isset($_GET['store'])?'store':''?>',idUser='<?=$_SESSION['ws-tags']['ws-user']['id']?>';
 		if (band && getStore!='' && (typeUser=='1' || idUser=='427')){
-			redir('#newproduct?');
+			redir('newproduct?');
 		}
 	}
 	//patron tax id
