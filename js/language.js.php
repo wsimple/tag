@@ -14,4 +14,7 @@
 		}
 	}
 	echo 'var lang='.json_encode($array).';';
-?>
+if(false){?><script><?php } ?>
+function lan(txt){
+	return (lang&&lang[txt]||txt||'');
+}
