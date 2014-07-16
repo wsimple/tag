@@ -45,7 +45,7 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 <?php if(!$noHash){ ?>
 	<script src="js/conhash.js.php"></script>
 <?php } ?>
-<script src="js/base.js.php" charset="utf-8"></script>
+<script src="js/base.js" charset="utf-8"></script>
 <?php if(LOCAL){ ?>
 <script src="js/funciones.js.php" charset="utf-8"></script>
 <?php }else{ ?>
