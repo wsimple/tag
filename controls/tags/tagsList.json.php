@@ -353,7 +353,7 @@ function tagsList_json($data,$mobile=false){
 				$product=array(
 					'id'	=> md5($tag['id_product']),
 					'name'	=> $tag['name_product'],
-					'url'	=> DOMINIO.'#detailprod?prd='.$tag['store_p_id'],
+					'url'	=> DOMINIO.'detailprod?prd='.$tag['store_p_id'],
 					'app'	=> DOMINIO.'app/detailsProduct.php?id='.$tag['store_p_id']
 				);
 				$product['qr']=$PNG_WEB_DIR.md5($product['url'].'|L|2').'.png';

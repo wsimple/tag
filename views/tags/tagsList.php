@@ -65,7 +65,7 @@
 	<div class="tags-list">
 		<?php if(($current=='personal')&&!$dialog){ ?>
 			<div style="margin-bottom:5px;text-align:center;font-size:16px;">
-				<a href="#creation?personal" title="<?=MNUUSER_TITLECREATION?>">
+				<a href="<?php echo base_url('creation?personal'); ?>" title="<?=MNUUSER_TITLECREATION?>">
 					<img src="img/menu_users/creation.png" border="0" /><?=TAGS_PERSONAL_TAG?>
 				</a>
 			</div>
