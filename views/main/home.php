@@ -73,7 +73,7 @@ if($logged){
 				$.hashExceptions = null;
 			}
 		});
-		$co.css({'background':"#fff url('css/tbum/home_what_is_it.png') no-repeat",'background-size':'100%'});
+		$co.css({'background':"#fff url('css/tbum/tbum.png') no-repeat",'background-size':'100%'});
 		$('#joinus').click(function(){
 			redirect('#signup');
 		});
@@ -82,7 +82,7 @@ if($logged){
 				$scroll=$('#keepscroll');
 				switch(hash){
 					case '#whatIsIt':
-						$co.css('background-image','url("css/tbum/home_what_is_it.png")');
+						//$co.css('background-image','url("css/tbum/tbum.png")');
 						$scroll.css('background-image',"url('css/tbum/footerkeep.png')");
 					break;
 					case '#howDoesWork':
