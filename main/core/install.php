@@ -1,13 +1,11 @@
-No se ha configurado ninguna base de datos.<br/>
-<?php
-if(isset($_GET['help'])&&!$_GET['install']){ ?>
-Para instalar los archivos de configuraci&oacute;n, si se requiere acceso a la base de datos.
+<?=!is_dir('.security')&&!is_file('.security/security.php')?'No hay configuracion de base de datos.':'Modificar configuracion de base de datos'?>
 <br/>
-Se debe llamar al index de la siguiente manera:
-<br/><br/>
-<b><?=$_SERVER['SCRIPT_NAME']?>?tipo</b>
-<br/><br/>
-tipos: local, main (servidor principal), sec (servidores secundarios)
+<?php
+if(isset($_GET['help'])){ ?>
+Para instalar los archivos de configuracion, si se requiere acceso a la base de datos.<br/>
+Se debe llamar al index de la siguiente manera:<br/><br/>
+<b><?=$_SERVER['SCRIPT_NAME']?>?tipo</b><br/><br/>
+tipos: local, main (servidor principal), sec (servidores secundarios)<br/>
 <?php
 }elseif(count($_GET)>0){
 	$data=array();
@@ -44,6 +42,6 @@ tipos: local, main (servidor principal), sec (servidores secundarios)
 		$data='json_decode(\''.json_encode($data).'\')';
 
 	$txt="<?php //$tipo\n\$config=$data;";
+	echo 'Instalando como tipo: '.$tipo.'<br/>';
 	file_put_contents('.security/security.php',$txt);
-	echo 'Instalacion como tipo: '.$tipo;
 }
