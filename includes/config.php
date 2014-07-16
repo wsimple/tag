@@ -12,6 +12,7 @@
 	}else{
 		$tmp='/';
 	}
+	$_local=$tmp;
 	define('RELPATH',str_repeat('../',substr_count(substr($_SERVER['SCRIPT_NAME'],strlen($tmp)),'/')));
 	@include(RELPATH.'.security/security.php');
 	// echo '<pre>';print_r($config);echo '</pre>';die();
@@ -70,11 +71,6 @@
 	$_name=$_SERVER['SERVER_NAME'];
 	$_path='/';
 	if(preg_match('/^(localhost|127\.\d\.\d\.\d|192\.168(\.\d{1,3}){2})/',$_name)){
-		//si es local
-		if(preg_match('/^\/[^\/]+\//',$_url,$_local))
-			$_local=$_local[0];
-		else
-			$_local='/tagbum/';
 		$_path=$_local;
 		$_site=$_name.$_local;
 		$_fserver='';//fileserver para uso local
