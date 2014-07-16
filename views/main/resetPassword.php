@@ -48,7 +48,7 @@ $(function() {
 			dataType: 'json',
 			success: function(data){ // post-submit callback
 				if (data['exit']){
-                    message('Message','<?=RESET_TITLERESETPASS?>','<?=RESET_MSGNRESETPASS?>','','','','','#home');
+                    message('Message','<?=RESET_TITLERESETPASS?>','<?=RESET_MSGNRESETPASS?>','','','','','home');
                 }else if(data['error']){
                     var cont='<?=PASS_MESSAGEERROR?>';
                     switch(data['error']){
@@ -65,7 +65,7 @@ $(function() {
 <?php }else{ ?>
 <script type="text/javascript">
 	$(function() {
-		message('Message','<?=RESET_TITLEALERTEMAILPASSWORD?>','<?=RESET_ALERTEMAILPASSWORD?>','','','','','#resendPassword');
+		message('Message','<?=RESET_TITLEALERTEMAILPASSWORD?>','<?=RESET_ALERTEMAILPASSWORD?>','','','','','resendPassword');
 	});
 </script>
 <?php }?>

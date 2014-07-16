@@ -174,11 +174,11 @@
 			});
 
 			$('#termUseSignUp').click(function(){
-				message('messages', '<?=TERMSOFUSE?>', '', '', 500, 300, 'views/main/data.view.php?xs=terms');
+				message('messages', '<?=TERMSOFUSE?>', '', '', 500, 300, DOMINIO+'views/main/data.view.php?xs=terms');
 			});
 
 			$('#termUseSignUpBu').click(function(){
-				message('messages', '<?=TERMSOFUSE?>', '', '', 500, 300, 'views/main/data.view.php?xs=terms');
+				message('messages', '<?=TERMSOFUSE?>', '', '', 500, 300, DOMINIO+'views/main/data.view.php?xs=terms');
 			});
 
 			$('div#personal,div#business').click(function(){

@@ -85,7 +85,7 @@ function actionsBusinessCard(opc, id_businessCard, window_title, id_user, id_tag
 
 					if( data[1] != '' ) {
 						$("#selected_tag_"+data[0]).html('<img style="cursor: pointer" src="img/menu_businessCard/default.png"/>');
-						$("#bc_tag_"+data[0]).html('<img src="img/menu_tag/business_card.png" border="0" onclick="message(\'messages\', \'haaa\', \'\', \'\',  430, 300, \'views/business_card/businessCard_dialog.view.php?bc='+data[1]+'\');"/>');
+						$("#bc_tag_"+data[0]).html('<img src="img/menu_tag/business_card.png" border="0" onclick="message(\'messages\', \'haaa\', \'\', \'\',  430, 300, \''+DOMINIO+'views/business_card/businessCard_dialog.view.php?bc='+data[1]+'\');"/>');
 					} else {
 						$("#selected_tag_"+data[0]).html('<img style="cursor: pointer" src="img/menu_businessCard/makeDefault.png"/>');
 						$("#bc_tag_"+data[0]).html('<img src="img/menu_tag/no_business_card.png" border="0"/>');
