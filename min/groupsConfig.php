@@ -36,7 +36,8 @@ return array(
 				'//js/guidely.js',
 				'//js/md5.js', 
 				'//js/console.js',
-				'//js/chosen.jquery.js'
+				'//js/chosen.jquery.js',
+				'//js/base.js'
 				),
      'css' => array(
      				'//css/normalize.css',
