@@ -98,9 +98,9 @@
 						value="<?=USER_BTNUNLINK?>"/>
 					<?php
 					if($friend['username']!=''){
-						$externalProfileId = '#eprofile?usr='.$friend['username'];
+						$externalProfileId = 'eprofile?usr='.$friend['username'];
 					}else{
-						$externalProfileId = "#profile?sc=6&userIdExternalProfile=".md5($friend['id']);
+						$externalProfileId = "profile?sc=6&userIdExternalProfile=".md5($friend['id']);
 					}
 					?>
 					<input type="button" id="externalProfile" action="exProfile,<?=$externalProfileId?>" style="margin: 0px 25px; color: white;"

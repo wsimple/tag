@@ -1094,7 +1094,7 @@ include ('../../class/class.phpmailer.php');
                                 default : $product['nuevolPrecio']=$product['price'].' '.STORE_TITLEPOINTS;
                             }
                             $code=md5($product['mId']);
-                            $update.='<span h="'.$code.'"><a href="#detailprod?prd='.$product['mId'].'">'.$product['name'].'</a>';
+                            $update.='<span h="'.$code.'"><a href="'.base_url('detailprod?prd='.$product['mId']).'">'.$product['name'].'</a>';
                             if ($product['sale_points']>$product['price']){ $update.=' '.STORE_DECREMENTE.' '; }
                             elseif ($product['sale_points']<$product['price']){ $update.=' '.STORE_INCREASED.' '; }
                             else { 
@@ -1113,7 +1113,7 @@ include ('../../class/class.phpmailer.php');
                             $product['idDisable']=$product['id'];
                             $product['stock']=0;
                             $code=md5($product['mId']);
-                            $disable.='<span h="'.$code.'"><a href="#detailprod?prd='.$product['mId'].'">'.$product['name'].'</a><br></span>';
+                            $disable.='<span h="'.$code.'"><a href="'.base_url('detailprod?prd='.$product['mId']).'">'.$product['name'].'</a><br></span>';
                         }else{
                             if ($product['formPayment']==1) $money=($product['sale_points']*$product['cant'])+$money;
                             else $points=($product['sale_points']*$product['cant'])+$points;
@@ -1324,7 +1324,7 @@ include ('../../class/class.phpmailer.php');
                         default : $t['nuevo']=$row['sale_points'].' '.STORE_TITLEPOINTS;
                     }
                     $code=md5(md5($row['id']));
-                    $update.='<span h="'.$code.'"><a href="#detailprod?prd='.md5($row['id']).'">'.$row['name'].'</a>';
+                    $update.='<span h="'.$code.'"><a href="'.base_url('detailprod?prd='.md5($row['id'])).'">'.$row['name'].'</a>';
                     if ($row['price']>$row['sale_points']){ $update.=' '.utf8_encode(STORE_DECREMENTE).' '; }
                     else if ($row['price']<$row['sale_points']){ $update.=' '.utf8_encode(STORE_INCREASED).' '; }
                     else { 
@@ -1344,7 +1344,7 @@ include ('../../class/class.phpmailer.php');
                     $t['idDisable']=$row['id'];
                     $row['stock']=0;
                     $code=md5(md5($row['id']));
-                    $disable.='<span h="'.$code.'"><a href="#detailprod?prd='.md5($row['id']).'">'.$row['name'].'</a><br></span>';
+                    $disable.='<span h="'.$code.'"><a href="'.base_url('detailprod?prd='.md5($row['id'])).'">'.$row['name'].'</a><br></span>';
                     $u[]=$t;
                     $idorden=  md5($row['idOrder']);
                 }
