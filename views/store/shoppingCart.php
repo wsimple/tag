@@ -133,30 +133,30 @@
 						$('#filter_by_years select').live('change','select',function(){
 							armarSelect(fechas,$(this).val());
                             if($('#filter_by_month select option').length==1){
-                                redir('#'+option+'?'+(radio!='all'?'radio='+radio+'&':'')+'year='+$(this).val()+'&month='+$('#filter_by_month select').val());
+                                redir(option+'?'+(radio!='all'?'radio='+radio+'&':'')+'year='+$(this).val()+'&month='+$('#filter_by_month select').val());
                             }
 						});
 						$('#filter_by_month select').live('change','select',function(){
-							redir('#'+option+'?'+(radio!='all'?'radio='+radio+'&':'')+'year='+$('#filter_by_years select').val()+'&month='+$(this).val());
+							redir(option+'?'+(radio!='all'?'radio='+radio+'&':'')+'year='+$('#filter_by_years select').val()+'&month='+$(this).val());
 						});
 						$('#divSubMenuAdminFilters select').live('change','select',function(){
 							var value=$(this).val();
 							switch(value){
-								case 'pend': redir('#'+option+'?radio=pend');break;
-								case 'fins': redir('#'+option+'?radio=fins');break;
-								default: redir('#'+option);
+								case 'pend': redir(option+'?radio=pend');break;
+								case 'fins': redir(option+'?radio=fins');break;
+								default: redir(option);
 							}
 						});
 //						$('#btnAll a').live('click',function(){
-//							redir('#'+option);
+//							redir(option);
 //						});
 //						$('#btnPend a').live('click',function(){
-//							redir('#'+option+'?radio=pend');
-////							redir('#'+option+'?radio=pend'+((getyear!='')?'&year='+getyear+((getmonth!='')?'&month='+getmonth:''):''));
+//							redir(option+'?radio=pend');
+////							redir(option+'?radio=pend'+((getyear!='')?'&year='+getyear+((getmonth!='')?'&month='+getmonth:''):''));
 //						});
 //						$('#btnFins a').live('click',function(){
-//							redir('#'+option+'?radio=fins');
-////							redir('#'+option+'?radio=fins'+((getyear!='')?'&year='+getyear+((getmonth!='')?'&month='+getmonth:''):''));
+//							redir(option+'?radio=fins');
+////							redir(option+'?radio=fins'+((getyear!='')?'&year='+getyear+((getmonth!='')?'&month='+getmonth:''):''));
 //						});
 						$('span.nameSP a.delete').live('click',function(){
 							var h=$(this).attr('h'), get='&all=1',obj={};
@@ -191,10 +191,10 @@
                                                 height	: 220,
                                                 width	: 300,
                                                 close	: function(){
-                                                    redir('#shoppingcart');
+                                                    redir('shoppingcart');
                                                 }
                                             });
-                                        }else{ redir('#shoppingcart'); }
+                                        }else{ redir('shoppingcart'); }
                                     }else if (data['datosCar2']['add']=='no'){
                                         $(spanAction).attr('action',actionspan);
                                         //$(objeto).button('enable');

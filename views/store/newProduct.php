@@ -261,7 +261,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 					$(this).html('<div syplay="text-aling:center;"><strong><?=STORE_PRODUCTS_ADD_NOTPERFIL?></trong></div>');
 //					$('.button').button();
 				},
-				close:function(){ redir("#profile?sc=1&store=1"); },
+				close:function(){ redir("profile?sc=1&store=1"); },
 				buttons:[{
 					text:'<?=formatoCadena(JS_COMPLETE)?>',
 					click:function(){
@@ -414,16 +414,16 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
                             setBG(data['img']['img'],data['img']['pos']);
                             for(var x=1;x<6;x++){ $('#photo'+x).removeAttr('requerido'); }
                         break;
-                        case 'insert': redir('#mypublications?'); break;
-                        case 'update': redir('#detailprod?prd=<?=md5($_GET['idProd'])?>'); break;
-                        case 'delete': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_DELETE_PROD_NOW?></trong></div>','','',250,'','#detailprod?prd=<?=md5($_GET['idProd'])?>'); 
+                        case 'insert': redir('mypublications?'); break;
+                        case 'update': redir('detailprod?prd=<?=md5($_GET['idProd'])?>'); break;
+                        case 'delete': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_DELETE_PROD_NOW?></trong></div>','','',250,'','detailprod?prd=<?=md5($_GET['idProd'])?>'); 
                         break;
 //                        case 'insert': case 'update':  break;
-                        case 'no-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_MESSAGE_NOT_DELETE?></trong></div>','','',200,'','#detailprod?prd=<?=md5($_GET['idProd'])?>'); 
+                        case 'no-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_MESSAGE_NOT_DELETE?></trong></div>','','',200,'','detailprod?prd=<?=md5($_GET['idProd'])?>'); 
                         break;
-                        case 'no-per-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=NOT_BELONG_PRODUCT?></trong></div>','','',200,'','#mypublications?');  
+                        case 'no-per-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=NOT_BELONG_PRODUCT?></trong></div>','','',200,'','mypublications?');  
                         break;//NOT_BELONG_PRODUCT colocar arriba 
-                        case 'no-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=JS_ERROR?></trong></div>','','',200,'','#store?');
+                        case 'no-id-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=JS_ERROR?></trong></div>','','',200,'','store?');
                         break;
                         default:    message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<?=ALLFIELDSAREREQUIRED?>','','','','','');
                     }
@@ -513,7 +513,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 		});
 	}
 	<?php }else{ ?>
-        message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=NOT_BUSINEES_INCORRUP?></trong></div>','','',200,'','#store?');
+        message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=NOT_BUSINEES_INCORRUP?></trong></div>','','',200,'','store?');
 //		$.dialog({
 //			title:'<?=RESET_TITLEALERTEMAILPASSWORD?>',
 //			resizable:false,
@@ -524,7 +524,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 //				$(this).html('<div syplay="text-aling:center;"><strong><?=NOT_BUSINEES_INCORRUP?></trong></div>');
 //			},
 //			close:function(){
-//				redir("#store?");
+//				redir("store?");
 //			}
 //		});
 	<?php } ?>

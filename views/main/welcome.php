@@ -84,7 +84,7 @@
 <script>
 	$(document).ready(function(){
 		$('.b_actionTags input,#backgroundGetStater input, header content a,#lihome').click(function(){
-			redir('#');
+			redir();
 		});
 	});
 </script>

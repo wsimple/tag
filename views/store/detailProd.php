@@ -285,10 +285,10 @@
                                 height	: 220,
                                 width	: 300,
                                 close	: function(){
-                                    redir('#shoppingcart');
+                                    redir('shoppingcart');
                                 }
                             });
-                        }else{ redir('#shoppingcart'); }
+                        }else{ redir('shoppingcart'); }
                     }else if (data['datosCar2']['add']=='no'){
 //                        $('.elementShadow label').button('enable');
 //                        $(boton).button('disable');
@@ -330,14 +330,14 @@
                 success: function(data){
                     var dato=data['listWish'];
                     if (dato=="si" || dato=='ya-existe'){
-                        redir('#wishList');
+                        redir('wishList');
                     }else if (dato=="no-disponible"){
                         $.dialog({
                             title	: '<?=SIGNUP_CTRTITLEMSGNOEXITO?>',
                             content	: '<?=STORE_PRODUCTO_NO_STATUS?>',
                             height	: 200,
                             close	: function(){
-                                redir('#store');
+                                redir('store');
                             }
                         });
                     }
@@ -350,11 +350,11 @@
 		});
 		$('#btnEdit').click(function(){
 //			$('.elementShadow label').button('disable');
-            redir('#newproduct?idProd=<?=md5($product['id'])?>');
+            redir('newproduct?idProd=<?=md5($product['id'])?>');
 		});
 		$('#createTag').click(function(){
 //			$('.elementShadow label').button('disable');
-            redir('#creation?product=<?=md5($product['id'])?>');
+            redir('creation?product=<?=md5($product['id'])?>');
 		});
 		$('#newRafle').click(function(){
 		//	$('.elementShadow label').button('disable');

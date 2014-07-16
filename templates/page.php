@@ -32,7 +32,7 @@
 			var h=document.location.hash;
 			if(isLogged()||(h!='#home'&&h!='#main')) $(window).hashchange();
 		}
-		<?=isset($_SESSION['ws-tags']['wpAddTag'])?'redir("#creation")':''?>
+		<?=isset($_SESSION['ws-tags']['wpAddTag'])?'redir("creation")':''?>
 		
 		if(document.location.hash=='#signup'){
 			$('page').css('padding-bottom','0');

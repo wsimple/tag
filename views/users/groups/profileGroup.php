@@ -96,7 +96,7 @@
 							title	: '<?=SIGNUP_CTRTITLEMSGNOEXITO?>',
 							content	: '<?=TAGS_WHENTAGNOEXIST?>',
 							height	: 200,
-							close	: function(){ redir('#groups?'); }
+							close	: function(){ redir('groups?'); }
 						});
 					}			
 				}

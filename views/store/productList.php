@@ -75,7 +75,7 @@ $(function() {
 				hash=hash.split('?');
 				switch(hash[0]){
 					case '#mypublications':
-						if (typeUser=='0') redir('#store');
+						if (typeUser=='0') redir('store');
 						sc='2';
 						array['scc']='scc=2';
 						array['srh']='';
@@ -87,7 +87,7 @@ $(function() {
 							 +'<span>'+nameCate+'</span>'):'<span><?=STORE_MISPUBLICATION?></span>');
 					break; 
 					case '#myfreeproducts':
-						if (typeUser=='0') redir('#store');
+						if (typeUser=='0') redir('store');
 						rifa=true;
 						array['scc']='scc=2';
 						array['my']='my=1';
@@ -194,12 +194,12 @@ $(function() {
 					$('#menu-lshoppingCart').html(numIt).css('display','block');
 					//$('.shoppingCart').css('display', 'block');
 					$('.shoppingCart').click(function(){
-						redir('#shoppingcart');
+						redir('shoppingcart');
 					});
 					//$('#menu-l-li-shoppingCart').css('display','list-item');
 				}
                 $('.shoppingCart').click(function(){
-                    redir('#shoppingcart');
+                    redir('shoppingcart');
                 });
 				if (numOrder!=''){ $('.menu-l-youOrders').css('display','list-item'); }
                 //if (numWish!=''){ $('#menu-l-li-wishList').css('display','list-item'); }
@@ -239,7 +239,7 @@ $(function() {
 
 			$('#divSubMenuAdminFilters select').live('change','select',function(){
 				var value=$(this).val();
-				redir('#store'+(value!=''?'?radio='+value:''));
+				redir('store'+(value!=''?'?radio='+value:''));
 			});
 			//end cliks del filtro del store
 			$('#divSubMenuAdminPublications select').live('change','select',function(){
@@ -269,11 +269,11 @@ $(function() {
                         disableSearch:true
             		});	
 					chooseProducts(tag);
-				}else if (string!=''){ redir('#'+string); }
+				}else if (string!=''){ redir(string); }
 			});
 			
 			$('#titleStoreA').click(function(){
-				redir('#store');
+				redir('store');
 			});
 			//Carga productos por filtro
             var timeOut;
@@ -309,10 +309,10 @@ $(function() {
 				}
 			});
 		   $('#clickNewProduct').live('click',function(){
-				redir('#newproduct');
+				redir('newproduct');
 			});
 			$('#clickNewRaffle').live('click',function(){
-				redir('#mypublications');
+				redir('mypublications');
 			});
 			$('div.miniCarStore div.bg-add').live('click',function(){
 				var num=$(this).attr("h"),objeto=$(this);
@@ -353,7 +353,7 @@ $(function() {
                                     $('div.shoppingCart div.numCart span').empty().html('1').css('display','inline-block');
                                     $('div.shoppingCart div.numCart').css('display','inline-block');
 //                                    $('div.shoppingCart').click(function(){
-//                                        redir('#shoppingcart');
+//                                        redir('shoppingcart');
 //                                    });
                                     $('#menu-l-li-shoppingCart').css('display','list-item');
                                }
