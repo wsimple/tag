@@ -29,7 +29,7 @@
                         <?=$friend['name_user']?>
                     </a><br>
 					<?php if($friend['username']!=''){?>
-					<span style="color:#000"><?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:</span>&nbsp;<a style="color:#ccc" href="<?=DOMINIO.$friend['username']?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$friend['username']?></a><br>
+					<span style="color:#000"><?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:</span>&nbsp;<a style="color:#ccc" href="<?=base_url($friend['username'])?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$friend['username']?></a><br>
 
 					<?php }?>
 					<span style="color:#000"><?=SIGNUP_LBLEMAIL?>: </span> <?=$friend['email']?><br>

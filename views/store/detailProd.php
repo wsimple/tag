@@ -90,7 +90,7 @@
 				<div class="anytext limitComent">
 					<strong><?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:</strong>
 					<br/>
-					<a href="<?=DOMINIO.$product['username']?>"><?=DOMINIO.$product['username']?></a>
+					<a href="<?=base_url($product['username'])?>"><?=DOMINIO.$product['username']?></a>
 				</div>
 			</div>
 			<h4><?=STORE_DETPRDDETAIL?></h4>

@@ -1,6 +1,6 @@
 <?php if($logged){ ?>
 	<!--div id="adsListPubliNew">
-		<a href="#creation">
+		<a href="<?=base_url('creation')?>">
 			<div class="btnCreatetag" id="btnCreatetag"></div>
 		</a>
 	</div-->

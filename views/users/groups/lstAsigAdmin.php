@@ -112,7 +112,7 @@
 					}
 					if (trim($array['username'])!='' && $brower_type==1){
 					?>
-						<span class="titleField" style="color: #252525;"><?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:&nbsp;</span><a href="<?=DOMINIO.$array['username']?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$array['username']?></a><br/>
+						<span class="titleField" style="color: #252525;"><?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:&nbsp;</span><a href="<?=base_url($array['username'])?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$array['username']?></a><br/>
 					<?php
 					}
 					if (trim($array['pais'])!=''){

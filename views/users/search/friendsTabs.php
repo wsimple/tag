@@ -17,7 +17,7 @@
 					<?=formatoCadena($friend['name_user'])?>
 				</a><br/>
 				<?php if($friend['username']!=''){?>
-				<span class="titleField"><?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:</span>&nbsp;<a style="color:#ccc;font-size:12px;" href="<?=DOMINIO.$friend['username']?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$friend['username']?></a>
+				<span class="titleField"><?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:</span>&nbsp;<a style="color:#ccc;font-size:12px;" href="<?=base_url($friend['username'])?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$friend['username']?></a>
 				<div class="clearfix"></div>
 				<?php }?>
 				<span class="titleField"><?=SIGNUP_LBLEMAIL?>:</span> <?=$friend['email']?>

@@ -50,7 +50,7 @@
 						if (data['list'][0]['isAdmin']){
 						  console.log(data['list'][0]['sqlw'])
 							$('.group-details .ui-single-box-title').css('display','block');
-							$('.group-details .ui-single-box-title a#btncreateTags').attr('href','#creation?group=<?=$_GET['grp']?>');
+							$('.group-details .ui-single-box-title a#btncreateTags').attr('href',BASEURL+'creation?group=<?=$_GET['grp']?>');
 							if (data['list'][0]['isAdmin']=='1'){
 								$('li#btneditprofilegroup').html('<a class="linkOptionGrouop"><?=GROUPS_PROFILETITLE?></a>');
 								$('#btneditprofilegroup a').click(function(){

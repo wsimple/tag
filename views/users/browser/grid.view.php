@@ -73,7 +73,7 @@
 							<?=SIGNUP_LBLEMAIL?>:&nbsp;<span style="color:#E78F08"><?=$val_layer?></span><br>
 						<?php }
 						if(trim($array['username'])!='' && $brower_type==1){ ?>
-							<?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:&nbsp;<span><a href="<?=DOMINIO.$array['username']?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$array['username']?></a></span><br/>
+							<?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:&nbsp;<span><a href="<?=base_url($array['username'])?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$array['username']?></a></span><br/>
 						<?php }
 						if(trim($array['pais'])!=''){ ?>
 							<?=USERS_BROWSERFRIENDSLABELCOUNTRY?>:&nbsp;<span><?=$array['pais']?></span><br/>
@@ -105,7 +105,7 @@
 		</div>
 		<?php if($friend_total <= 0){?>
 		<div>
-			<?=USER_FINDMOREFRIENDS?>&nbsp;<a href="tb.php/friends?sc=2" ><?=USER_FINDHERE?></a>
+			<?=USER_FINDMOREFRIENDS?>&nbsp;<a href="<?=base_url('friends?sc=2')?>" ><?=USER_FINDHERE?></a>
 		</div>
 		<?php }?>
 	</td>
