@@ -41,7 +41,7 @@
 						//	$img = 'img/publicity/publicity_nofile.png';
 						//	$class = 'style="width:45px; height:45px; padding-left: 2px;padding-top: 4px;"';
 						//}
-						//$class = 'style="width:52px; height:52px; "';
+						//$class = 'style="width:52px; height:52px; "'
 
 					?>
 
