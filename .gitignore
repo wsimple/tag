@@ -1,4 +1,4 @@
-.security/
+.security/*.php
 img/tags
 img/publicity/
 img/groups/
@@ -6,4 +6,6 @@ img/bc_templates
 img/users/
 img/tags/
 img/store/
+
+
 main/
