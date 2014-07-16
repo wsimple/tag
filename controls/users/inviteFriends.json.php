@@ -40,7 +40,7 @@ if (quitar_inyect()){
 		<tr>
 			<td style="font-size:11px; color:#000; padding:0; text-align:justify">
 				'.INVITEUSERS_CTRLBODYMAIL1.'  <br>
-				<a href="'.DOMINIO.'#signup">'.DOMINIO.'#signup</a>
+				<a href="'.base_url('signup').'">'.DOMINIO.'/signup</a>
 			</td>
 		</tr>
 		<tr>

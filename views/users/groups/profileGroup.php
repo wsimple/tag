@@ -1,6 +1,6 @@
 <div class="group-details" id="taglist-box">
 	<div class="ui-single-box-title" style="display: none;">
-		<span style="float:left;"><a href="#groups?" title=""><?=GROUPS_TITLENAMEGROUPPREFIJO?></a>&nbsp;>&nbsp;</span><div id="groupTitleStyle" title=""></span></div>
+		<span style="float:left;"><a href="<?=base_url('groups')?>" title=""><?=GROUPS_TITLENAMEGROUPPREFIJO?></a>&nbsp;>&nbsp;</span><div id="groupTitleStyle" title=""></span></div>
 		<ul id="subMenuAdminGroups" class="mainMenu" style="float: right; background: #FFF;">
 			<li>
 				<a class="fNiv mo" ><?=GROUPS_MENUADMINISTRATION?></a>

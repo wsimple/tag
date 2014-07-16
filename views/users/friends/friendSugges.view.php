@@ -58,7 +58,7 @@
 	    ?>
 			            <p class="alert" style="margin-top:40px; margin-left:20px; text-align:center; width:220px; height:75px;">
 				        <?=FRIENDSUGGEST_NOFRIEND1?><br />
-				        <a href="#friends" title="<?=FRIENDSUGGEST_NOFRIEND1_TITLE?>"><?=FRIENDSUGGEST_NOFRIEND2?></a>
+				        <a href="<?=base_url('friends')?>" title="<?=FRIENDSUGGEST_NOFRIEND1_TITLE?>"><?=FRIENDSUGGEST_NOFRIEND2?></a>
 			            </p>
         <?php
 		      }

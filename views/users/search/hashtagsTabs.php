@@ -33,7 +33,7 @@ if($textCount!=0){
 				$sp = '';
 			}
 				
-			echo  '<div class="searchHash"><a href="#tagslist?current=hash&hash='.$newText[$i].'">'.$hashP.$sp.'</a></div>';
+			echo  '<div class="searchHash"><a href="'.base_url('tagslist?current=hash&hash='.$newText[$i]).'">'.$hashP.$sp.'</a></div>';
 		}
 	}
 	echo  '<div id="moreHash"></div><div class="clearfix"></div></div>';

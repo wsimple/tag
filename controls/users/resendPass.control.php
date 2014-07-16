@@ -69,7 +69,7 @@
 						'.FORGOT_CTRMSGMAIL2.'.
 						<br />
 						'.FORGOT_CTRMSGMAIL3.':<br /><br />
-						<a href="'.DOMINIO.'#resetPassword&usr='.$array[code].'" target="_blank">'.DOMINIO.'#resetPassword&usr='.$array[code].'</a>
+						<a href="'.base_url('resetPassword&usr='.$array[code]).'" target="_blank">'.DOMINIO.'#resetPassword&usr='.$array[code].'</a>
 						</td>
 						</tr>
 						<tr>
@@ -122,7 +122,7 @@
 						'.FORGOT_CTRMSGMAIL2.'.
 						<br />
 						'.FORGOT_CTRMSGMAIL3.':<br /><br />
-						<a href="'.DOMINIO.'#resetPassword&usr='.$array[code].'" target="_blank">'.DOMINIO.'#resetPassword&usr='.$array[code].'</a>
+						<a href="'.base_url('resetPassword&usr='.$array['code']).'" target="_blank">'.DOMINIO.'/resetPassword&usr='.$array['code'].'</a>
 						</td>
 						</tr>
 						<tr>

@@ -120,7 +120,7 @@ function resultTab( $rs, $rb, $ft,$follower,$numRs){
 	                <?=ucwords($row['name_user'])?>
 	            </a><br>
 				<?php if($row['username']!=''){?>
-				<span class="titleField"><?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:</span>&nbsp;<a style="color:#ccc; font-size:12px;" href="<?=DOMINIO.$row['username']?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$row['username']?></a><br>
+				<span class="titleField"><?=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE?>:</span>&nbsp;<a style="color:#ccc; font-size:12px;" href="<?=base_url($row['username'])?>" onFocus="this.blur();" target="_blank"><?=DOMINIO.$row['username']?></a><br>
 				<div class="clearfix"></div>
 				<?php }?>
 				<span class="titleField">Email:</span> <?=$row['email']?>

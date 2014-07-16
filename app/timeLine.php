@@ -9,7 +9,7 @@
 <div id="page-timeLine" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
 		<div style="position:absolute;top:0px;left:0;padding:0 5px;">
-			<!--<a href="#myMenu" style="position:relative;"><span class="btn-menu"></span><span class="push-notifications button" style="display:none;">0</span></a>-->
+			<!--<a href="<?=base_url('myMenu')?>" style="position:relative;"><span class="btn-menu"></span><span class="push-notifications button" style="display:none;">0</span></a>-->
 			<a href="#" class="showMenu" style="position:relative;"><span class="btn-menu showMenu"></span><span class="push-notifications button" style="display:none;">0</span></a>
 			<a href="#" onclick="redir(PAGE['newtag'])"><img src="img/creation.png" /></a>
 		</div>

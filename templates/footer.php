@@ -15,12 +15,12 @@
 	}else{
 	?>
 		<div>
-			<a href="#about">About</a>&nbsp;-&nbsp; 
+			<a href="<?php echo base_url('about'); ?>">About</a>&nbsp;-&nbsp; 
 			<a href="<?=HREF_DEFAULT?>" action="tourActive"><?=HELP?></a>&nbsp;-&nbsp;
-			<!-- <a href="#blog">Blog</a>&nbsp;-&nbsp; -->
-			<a href="#terms"><?=TERMSOFUSE?></a>&nbsp;-&nbsp;
-			<a href="#privacity"><?=PRIVACY?></a>&nbsp;-&nbsp;
-			<a href="#cookies">Cookies</a>
+			<!-- <a href="<?=base_url('blog')?>">Blog</a>&nbsp;-&nbsp; -->
+			<a href="<?php echo base_url('terms'); ?>"><?=TERMSOFUSE?></a>&nbsp;-&nbsp;
+			<a href="<?php echo base_url('privacity') ?>"><?=PRIVACY?></a>&nbsp;-&nbsp;
+			<a href="<?php echo base_url('cookies')?>">Cookies</a>
 		</div>
 		<div class="copy" align="center">
 			<?=COPYFOOTER?>

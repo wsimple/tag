@@ -106,7 +106,7 @@ $edit=$array['id']==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
     								    }
                                         $detalles['preference']=explode(',',$detalles['preference']);
                                         for ($e=0;$e<count($detalles['preference']);$e++)
-                                            if($detalles['preference'][$e]!='') $links.=($links==''?'':' - ').'<a href="#searchall?srh='.preg_replace('/ +/','%20',$detalles['preference'][$e]).'">'.$detalles['preference'][$e].'</a>';
+                                            if($detalles['preference'][$e]!='') $links.=($links==''?'':' - ').'<a href="'.base_url('searchall?srh='.preg_replace('/ +/','%20',$detalles['preference'][$e])).'">'.$detalles['preference'][$e].'</a>';
         						        echo $links;
                                 }else{ echo "---"; } ?>
                                 </li>

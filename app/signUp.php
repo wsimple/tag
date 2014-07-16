@@ -10,7 +10,7 @@
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
 				<form id="frmRegister" name="frmRegister" method="post" style="display:block;">
-					<!--<a href="#divDialog" data-rel="dialog">Open dialog</a>-->
+					<!--<a href="<?=base_url('divDialog')?>" data-rel="dialog">Open dialog</a>-->
 					<div id="divDialog" data-role="dialog" style="display: none"></div>
 					<input type="hidden" value="1" name="mobile"/>
 					<input type="hidden" value="0" id="company" name="company"/>

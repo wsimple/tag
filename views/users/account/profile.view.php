@@ -50,11 +50,11 @@
 			</div>
 			<div id="frmProfile_businessCardDiv">
 				<?php if(!strpos($foto,"default.png")){ ?>
-				<a href="#profile?sc=5" class="color-a font-size3" <?php if(USER_CROPPROFILE_TITLE!=""){?> title="<?=USER_CROPPROFILE_TITLE?>"<?php } ?>>
+				<a href="<?=base_url('profile?sc=5')?>" class="color-a font-size3" <?php if(USER_CROPPROFILE_TITLE!=""){?> title="<?=USER_CROPPROFILE_TITLE?>"<?php } ?>>
 					<?=USER_CROPPROFILE?>
 				</a>
 				<?php } ?>
-				<a href="#profile?sc=6" class="color-a font-size3" <?php if(USER_HELPPREVIEWPROFILE_TITLE!=""){?> title="<?=USER_HELPPREVIEWPROFILE_TITLE?>"<?php } ?>>
+				<a href="<?=base_url('profile?sc=6')?>" class="color-a font-size3" <?php if(USER_HELPPREVIEWPROFILE_TITLE!=""){?> title="<?=USER_HELPPREVIEWPROFILE_TITLE?>"<?php } ?>>
 					<?=USER_HELPPREVIEWPROFILE?>
 				</a>
 			</div>

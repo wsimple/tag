@@ -15,7 +15,7 @@
 ?>
 <div class="ui-single-box" style="min-height: 915px;">
 	<div class="ui-single-box-title" >
-		<a href="#store"><?=STORE_TITLE.' '?></a><span>&nbsp;>&nbsp;</span>
+		<a href="<?=base_url('store')?>"><?=STORE_TITLE.' '?></a><span>&nbsp;>&nbsp;</span>
 		<span id="storeTitle"></span>
 	</div>
 	<div>

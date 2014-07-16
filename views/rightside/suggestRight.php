@@ -28,9 +28,9 @@
 		echo '</div>';
 	}else{?>
 		<div class="messageInviteSuggest"><?=INVITED_SUGGETSFRIENDS?></div>
-		<div id="inviteSuggest"><a href="#friends?sc=3"><?=GROUPS_MENUINVITEFRIENDS?></a></div>
+		<div id="inviteSuggest"><a href="<?=base_url('friends?sc=3')?>"><?=GROUPS_MENUINVITEFRIENDS?></a></div>
 	<?php } ?>
-	<div id="seeMoreSuggest" style="display:none"><a href="#friends?sc=2"><?=USER_BTNSEEMORE.'...'?></a></div>
-	<div id="inviteSuggest" style="display:none"><a href="#friends?sc=3"><?=GROUPS_MENUINVITEFRIENDS?></a></div>
+	<div id="seeMoreSuggest" style="display:none"><a href="<?=base_url('friends?sc=2')?>"><?=USER_BTNSEEMORE.'...'?></a></div>
+	<div id="inviteSuggest" style="display:none"><a href="<?=base_url('friends?sc=3')?>"><?=GROUPS_MENUINVITEFRIENDS?></a></div>
 	<div class="clearfix"></div>
 </article>
