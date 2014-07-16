@@ -1,4 +1,5 @@
 <?php
+	header	('Content-Type: text/javascript');
 	if(!isset($langCode)){
 		include ('../includes/session.php');
 		include ('../includes/config.php');
@@ -6,7 +7,6 @@
 		include ('../class/wconecta.class.php');
 		include ('../includes/languages.config.php');
 	}
-	header	('Content-Type: text/javascript');
 
 	$const=$lang;
 	$array=array();

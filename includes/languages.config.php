@@ -18,11 +18,7 @@
 		}
 		if($_SESSION['ws-tags']['language']=='') $_SESSION['ws-tags']['language']='en';
 	}
-
-
 	include(RELPATH.'language/'.$_SESSION['ws-tags']['language'].'.php');
 	foreach ($lang as $key => $value) {
 		define($key, $value);
 	}
-?>
-
