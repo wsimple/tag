@@ -73,7 +73,7 @@ if($logged){
 				$.hashExceptions = null;
 			}
 		});
-		$co.css({'background':"#fff url('css/tbum/tbum.png') no-repeat",'background-size':'100%'});
+		//$co.css({'background':"#fff url('css/tbum/tbum.png') no-repeat",'background-size':'100%'});
 		$('#joinus').click(function(){
 			redirect('#signup');
 		});
