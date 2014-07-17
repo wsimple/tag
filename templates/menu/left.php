@@ -284,7 +284,7 @@
 				interval=setInterval(function(){
 					if($(opc.layer).length>0){
 						//console.log('aqui')
-						getNews('refresh',opc);
+						// getNews('refresh',opc);
 					}else
 						clearEvents();
 				}, 30000);
@@ -294,7 +294,7 @@
 					$('#info-container').html($.smt.news);
 					delete $.smt.news;
 				}
-				getNews('reload',opc);
+				// getNews('reload',opc);
 				//fin-news
 
 				var menu=$('#menuLeft')[0];
