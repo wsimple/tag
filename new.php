@@ -1,2 +1,2 @@
 <?php
-require('main/core/generator/index.php');
+require('main/generate/index.php');

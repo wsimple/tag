@@ -12,10 +12,7 @@ function safe_sql($query,$params=false){#crea una cadena sql segura
 class CON{
 	private static $dbcon,$lastQuery='',$sql,$error,$errorMsg,
 		$echo=true,
-		$dbhost=HOST,
-		$dbuser=USER,
-		$dbpass=PASS,
-		$dbase=DATA;
+		$dbdata=array();
 	public function __construct(){}
 	public function __destruct(){
 		self::close();
@@ -26,22 +23,41 @@ class CON{
 	}
 	public static function con($host=false,$user=false,$pass=false,$data=false){
 		if(!self::$dbcon){
-			self::$dbhost=$host?$host:HOST;
-			self::$dbuser=$user?$user:USER;
-			self::$dbpass=$pass?$pass:PASS;
-			self::$dbase=$data?$data:DATA;
-			self::$dbcon=mysqli_connect(self::$dbhost,self::$dbuser,self::$dbpass,self::$dbase);
+			include(RELPATH.'.security/security.php');
+			$db=array();
+			$host=$host?$host:$config->db->host;
+			$user=$user?$user:$config->db->user;
+			$pass=$pass?$pass:$config->db->pass;
+			$data=$data?$data:$config->db->data;
+			self::$dbcon=mysqli_connect($host,$user,$pass,$data);
+			self::$dbdata=array('host'=>$host,'user'=>$user,'pass'=>$pass,'data'=>$data);
 			if(mysqli_connect_errno()&&$_SESSION['ws-tags']['developer'])
 				echo 'Error en conexion ('.$_SERVER['PHP_SELF'].'): '.mysqli_connect_error();
 		}
 		return self::$dbcon;
+	}
+	public static function escape_string($query,$params=false){
+		#crea una cadena sql segura
+		if($params){
+			$params=self::cleanStrings($params);
+			# str_replace - cambiando ?? -> %s y ? -> "%s". %s is ugly in raw sql query
+			# ?? for expressions manually scaped like that: LIKE '%??%'
+			$query=preg_replace('%([\s\?\'"])','%%$1',$query);
+			$query=str_replace('??','%s',$query);
+			$query=str_replace('?','"%s"',$query);
+			# vsprintf - replacing all %s to parameters
+			$query=vsprintf($query,$params);
+			$query=str_replace('"%s"','?',$query);
+			$query=str_replace('%s','??',$query);
+		}
+		return ($query);
 	}
 	public static function showErrors($val=true){
 		self::$echo=$val;
 	}
 	public static function query($sql=false,$a=false){
 		if(!$sql) return self::$lastQuery;
-		$sql=safe_sql($sql,$a);
+		$sql=self::escape_string($sql,$a);
 		self::$sql=$sql;
 		if($query=mysqli_query(self::$dbcon,$sql)){
 			self::$error=false;
@@ -74,7 +90,11 @@ class CON{
 		if(!$query) $query=self::$lastQuery;
 		return @mysqli_fetch_array($query);
 	}
-	public static function getArray($sql,$a=false){#devuelve arreglo de columnas de la consulta
+	public static function fetchObject($query=false){#devuelve la siguiente columna como un arreglo simple
+		if(!$query) $query=self::$lastQuery;
+		return @mysqli_fetch_object($query);
+	}
+	public static function getArray($sql,$a=false){#devuelve arreglo con todas las columnas de la consulta (arreglo simple)
 		$array=array();
 		$query=self::query($sql,$a);
 		if(self::numRows($query)>0)
@@ -88,6 +108,13 @@ class CON{
 			while($row=@mysqli_fetch_assoc($query)) $array[]=$row;
 		return $array;
 	}
+	public static function getObject($sql,$a=false){#devuelve arreglo con todas las columnas de la consulta (objetos)
+		$array=array();
+		$query=self::query($sql,$a);
+		if(self::numRows($query)>0)
+			while($row=@mysqli_fetch_object($query)) $array[]=$row;
+		return $array;
+	}
 	public static function getRow($sql,$a=false){#devuelve la primera columna de una consulta
 		$row=array();
 		if(!preg_match('/\blimit\s+\d+\s*;?\s*$/i',$sql)){
@@ -98,6 +125,18 @@ class CON{
 		}
 		if(!$query) $query=self::query($sql,$a);
 		if(self::numRows($query)>0) $row=@mysqli_fetch_assoc($query);
+		return $row;
+	}
+	public static function getRowObject($sql,$a=false){#devuelve la primera columna de una consulta
+		$row=array();
+		if(!preg_match('/\blimit\s+\d+\s*;?\s*$/i',$sql)){
+			$echo=self::$echo;
+			self::$echo=false;
+			$query=self::query($sql.' LIMIT 1',$a);
+			self::$echo=$echo;
+		}
+		if(!$query) $query=self::query($sql,$a);
+		if(self::numRows($query)>0) $row=@mysqli_fetch_object($query);
 		return $row;
 	}
 	public static function getVal($sql,$a=false){#devuelve el valor del primer elemento de una consulta

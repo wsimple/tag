@@ -9,6 +9,7 @@ function noLineBreak($str){
 $languageList=array('en','es');
 foreach($languageList as $code){
 	$plantillas=CON::query('SELECT id_lenguage,label,text,text_help FROM translations_template');
+	$lang=array();
 	while($plantilla=CON::fetchObject($plantillas)){
 		//verificamos si el lenguaje tiene traduccion
 		$lenguajes=CON::query("SELECT label,text,text_help FROM translations WHERE cod='$code' AND label LIKE '$plantilla->label'");
@@ -25,7 +26,15 @@ foreach($languageList as $code){
 	$json=json_encode($lang);
 	$salida=<<<PHPLAN
 <?php
-	\$lang=json_decode('$json');
+	\$lang=json_decode('$json',true);
+PHPLAN;
+	// $array=str_replace('":"','"=>"',htmlentities(substr($json, 1, -1),ENT_NOQUOTES));
+	$array=str_replace('":"','"=>"',substr($json, 1, -1));
+	$array=preg_replace('/\\\\u([\d\w]{4})/','&#x$1;',$array);
+	$array=str_replace('<\\/','</',$array);
+	$salida=<<<PHPLAN
+<?php
+\$lang=array($array);
 PHPLAN;
 	file_put_contents("language/$code.php", $salida);
 
@@ -44,5 +53,3 @@ JSLAN;
 	file_put_contents("js/language_$code.js", $salida);
 
 }
-
- ?>
