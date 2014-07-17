@@ -1,7 +1,6 @@
 <?php 
 include '../header.json.php';
 
-	$res=array();
 	//variables necesarias para armar el select
 	$where='';$from='';$limit='LIMIT '.$_GET['limit'].',9';$select='';$order='';$array['tipo']='prod';
 	if(isset($_GET['scc'])){//si viene este get es porque son mis productos 
@@ -238,7 +237,9 @@ include '../header.json.php';
 			$res['hash']=$textTop;
 		} 
 	} 
-
+	if (!is_array($res)) $res=array();
+	if ($_SESSION['ws-tags']['ws-user']['type']==1)	$res['empre']=1;
+	if ($_SESSION['ws-tags']['ws-user']['id']==427)	$res['adtb']=1;
 	die(jsonp($res));
 	function consulListProd($array){
 		$select="
