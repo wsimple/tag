@@ -1,10 +1,11 @@
 <?php 
 include('includes/config.php');
+include('includes/functions.php');
 include('class/wconecta.class.php');
 
-function noLineBreak($str){
-	return preg_replace('/[\r\n]+/',' ', $str);
-}
+// function noLineBreak($str){
+// 	return preg_replace('/[\r\n]+/',' ', $str);
+// }
 
 $languageList=array('en','es');
 foreach($languageList as $code){
@@ -51,5 +52,9 @@ var lang=$json;
 function lan(txt){ return (lang&&lang[txt]||txt||'');}
 JSLAN;
 	file_put_contents("js/language_$code.js", $salida);
-
+	ob_start();
+	require "js/funciones.js.php";
+	$data=ob_get_contents();
+	ob_end_clean();
+	file_put_contents("js/funciones_$code.js",trim($data));
 }

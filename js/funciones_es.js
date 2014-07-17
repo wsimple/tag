@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 function pageAction(action,data){
 	data=''+(data||'');
 	var opc=data.split(','),
@@ -16,30 +6,29 @@ function pageAction(action,data){
 	switch(action){
 		case 'redir'	:redir(data);break;
 		case 'goHome'	:redir();break;
-		case 'exProfile':redir('.#?'+opc[0]);$('html,body').animate({scrollTop:0},'slow');break;
+		case 'exProfile':redir(opc[0]);$('html,body').animate({scrollTop:0},'slow');break;
 		case 'linkUser' :linkUser(opc[0],opc[1],opc[2],opc[3],opc[4]);break;
 		case 'banner'	:window.open(data,'_blank');break;
 		case 'logout'	:if(isLogged()) logout();break;
 		case 'profile'	:userProfile(opc[1]||'Perfil',opc[0]);break;
 		case 'comment'	:
 			commentTag(opc[1],opc[0]);
-			//redir('.#tag??tag='+opc[0]);
 		break;
 		case 'video'	:openVideo(opc[0],opc[1]||null);break;
-		case 'card'		:message('messages','Mi tarjeta de negocio','','',450,300,'views/users/account/business_card/businessCard_dialog.view.php?bc='+data,'');break;
+		case 'card'		:message('messages','Mi tarjeta de negocio','','',450,300,DOMINIO+'views/users/account/business_card/businessCard_dialog.view.php?bc='+data,'');break;
 		case 'share'	:shareTag('Compartir Tag','tag='+opc[0]);break;
 		case 'group'	:shareTag('Compartir Tag','tag='+opc[0]);break;
 		case 'sponsor'	:sponsorTag('views/tags/sponsor.php?type=4&tag='+opc[0],'Tag patrocinada',opc[0]);break;
 		case 'report'	:bryTag('views/tags/report.php',8,opc[0],'Ocultar o reportar una tag','timeLine');break;
-		case 'editTag'	:redir('.#update??tag='+data);break;//actionsTags(10,opc[0]+'|0','controls/tags/actionsTags.controls.php','fc3b51fb6d6c2c03eddfbec1993263a0|Solo puedes editar tags de tu propiedad|Error de fuente de datos.');break;
-		case 'createTag':
+		case 'editTag'	:redir('update?tag='+data);break;
+		case 'createTag':MNUTAG_TITLESPONSOR
 			if (opc[1]){
 				$('#default-dialog').dialog('close');
 				data=opc[0];
 			}
-			data=data?data:'';redir('.#creation?'+data);break;//actionsTags(10,opc[0]+'|0','controls/tags/actionsTags.controls.php','fc3b51fb6d6c2c03eddfbec1993263a0|Solo puedes editar tags de tu propiedad|Error de fuente de datos.');break;
-		case 'redeemPoinst':message('messages','Canjear mis puntos','','',430,190,'views/users/pointsMessage.php?type=1');break;
-		case 'increasePoints':message('messages','�C�mo aumentar mis puntos?','','',430,280,'views/users/pointsMessage.php?type=2');break;
+			data=data?data:'';redir('creation'+data);break;
+		case 'redeemPoinst':message('messages','Canjear mis puntos','<div class="font_size5"><div>Usted podr&aacute; cambiar sus puntos por los servicios y productos en Tagbum. Mientras mas puntos obtenga, m&aacute;s servicios y productos podr&aacute; obtener.</div></div>','',430,190,'');break;
+		case 'increasePoints':message('messages','¿Cómo aumentar mis puntos?','<div class="font_size5"><div><?$lang["MAINMENU_POINTS_2"]?></div></div>','',430,280,'');break;
 		case 'commentsSeeMore':
 			$(this).prev('p').show().prev('p').remove();
 			$(this).remove();
@@ -48,15 +37,13 @@ function pageAction(action,data){
 		case 'viewNoti':
 			if ($(this).hasClass('notiNoRevi')){ check_in_Notifications(opc[0],opc[1],$(this)); }
 			break;
-		case 'editProductTag':redir('.#update??tag='+opc[0]+'&product='+opc[1]);break;//actionsTags(10,opc[0]+'|0','controls/tags/actionsTags.controls.php','fc3b51fb6d6c2c03eddfbec1993263a0|Solo puedes editar tags de tu propiedad|Error de fuente de datos.');break;
+		case 'editProductTag':redir('update?tag='+opc[0]+'&product='+opc[1]);break;
 		case 'tagsUser':
-			if(opc[0]>0)
-//				tagsUser(opc[1],'&current=tagsUser&nolimit&tags_list&uid='+opc[2]+'');
-				redir('.#tags??uid='+opc[2]);
+			if(opc[0]>0) redir('tags?uid='+opc[2]);
 		break;
 		case 'personalTags':
 //			tagsUser(opc[0],'&current=personal&nolimit&tags_list&uid='+opc[1]+'');
-				redir('.#tags??personal&uid='+opc[1]);
+				redir('tags?personal&uid='+opc[1]);
 		break;
 		//actions de los grupos
 		case 'acceptInv':var obj='';
@@ -74,7 +61,7 @@ function pageAction(action,data){
 			actionGroup(opc[0],7,get,obj);
 		break;
 		case 'groupSuggest'	:suggestGroup('Sugerir Grupo',data);break;
-		case 'groupsDetails':document.location=".#groupsDetails??grp="+data+'&'+Math.random();break;
+		case 'groupsDetails':redir('groupsDetails?grp='+data+'&'+Math.random());break;
 		case 'groupsAction'	:opc[2]=$(this);confirJOINGroups(opc);break;
 		case 'acceptUser'	:case 'acceptUserN':var acept=action=='acceptUserN'?'0':'1';
 			if (action=='acceptUserN'){
@@ -120,7 +107,7 @@ function pageAction(action,data){
 				else if(opc[1]=='dialog-order'){ get='&order=1';$('#default-dialog').dialog("close"); }
 				else get='&rfl=1';
 			}
-			redir('.#detailprod??prd='+opc[0]+''+get);
+			redir('detailprod?prd='+opc[0]+''+get);
 			break;
 		case 'deleteItemCar':
 			var obj={obje:$(this),mod:opc[1],monto:opc[2]},get='&mod='+opc[1];
@@ -136,12 +123,12 @@ function pageAction(action,data){
 			addNewRaffleStore(opc[0],opc[1]);break;
 		case 'revendProduct':
 			$('#default-dialog').dialog( "close" );
-			redir(".#newproduct??revend=1&idProd="+data);
+			redir('newproduct?revend=1&idProd='+data);
 			break;
 		case 'userRaffle':userRaffle(opc[0]);break;
 		case 'buyPoints':buyPoints();break;
 		case 'viewDetailsMySales':detailsSalesProcessed(data);break;
-		case 'ordersViews':redir('.#orders??idOrdes='+data);break;
+		case 'ordersViews':redir('orders?idOrdes='+data);break;
 		case 'userRaffle':userRaffle(opc[0]);break;
 		case 'tourActive':
 			tour(NOHASH?SECTION:window.location.hash,true);break;
@@ -161,7 +148,7 @@ function historyBack(num){
 			history.back(num||-1);
 			setTimeout(function(){ hashBack=false; },50);
 		}else
-			document.location.hash='#';
+			redir();
 	}
 }
 
@@ -249,7 +236,7 @@ function windowChange(){
 					delAllLocals();
 					isLogged(false);
 					//$(window).hashchange();
-					redir('http://68.109.244.199/');
+					redir();
 				}
 			},
 			complete:function(){
@@ -283,7 +270,7 @@ function message(id,titulo,contenido,id_control,width,height,url,reload){
 		},
 		buttons:{
 			'Ok':function(){
-				if(reload) document.location.hash=reload;
+				if(reload) redir(reload);
 				$(this).dialog('close');
 			}
 		}
@@ -309,7 +296,7 @@ function redirect(url,op){
 		console.log('redirect open');
 		window.open(url);
 	}else if(url.substr(0,1)=='#'){
-		document.location.hash=url.substr(1);
+		redir(url.substr(1));
 	}else{
 		console.log(' redirect location');
 		document.location=url;
@@ -431,12 +418,14 @@ function showTag(tag){
 	function hash(data){
 		if(!data||data.length<1) return '';
 		var i,list=[];
-		for(i=0;i<data.length;i++) list.push('<a href="#searchall?srh='+data[i]+'&in=1">'+data[i]+'</a>');
+		for(i=0;i<data.length;i++) list.push('<a href="'+BASEURL+'searchall?srh='+data[i]+'&in=1">'+data[i]+'</a>');
 		return '<div id="hashTashMenu"><span>'+list.join(' ')+'</span></div>';
 	}
 	var btn=tag['btn']||{};
-	var btnSponsor = '';
-		return(
+	var btnSponsor = '',paypal='';
+	if (paypal!='')
+		btnSponsor= (btn['sponsor']?'<li id="sponsors" action="sponsor,'+tag['id']+'" title="Tag patrocinada"><span>Tag patrocinada</span></li>':'');
+	return(
 	'<div tag="'+tag['id']+'" udate="'+tag['udate']+'">'+
 		'<div class="loader"></div>'+
 		(tag['imgmini']?'<div class="minitag" style="background-image:url('+tag['imgmini']+')"></div>':'')+
@@ -446,7 +435,7 @@ function showTag(tag){
 		(tag['rid']?
 			'<div class="redist"><span action="profile,'+tag['rid']+'" title="Perfil">Redistribuida por '+tag['name_redist']+'</span></div>'
 		:'')+
-		'<div class="tagLink" action="comment,'+tag['id']+',Comparte tu opini�n sobre esta tag."></div>'+
+		'<div class="tagLink" action="comment,'+tag['id']+',Comparte tu opinión sobre esta tag."></div>'+
 		'<div class="tag-icons">'+
 			'<span id="sponsor" '+(tag['sponsor']?'':'style="display:none;"')+'></span>'+
 			'<span id="redist" '+(tag['redist']?'':'style="display:none;"')+'></span>'+
@@ -458,7 +447,7 @@ function showTag(tag){
 		((tag['product']||tag['typeVideo'])?
 			'<div class="extras"><div>'+
 				(tag['product']?
-					'<a href="#detailprod?prd='+tag['product']['id']+'"><img class="product" src="'+tag['product']['qr']+'"/></a>'
+					'<a href="'+BASEURL+'detailprod?prd='+tag['product']['id']+'"><img class="product" src="'+tag['product']['qr']+'"/></a>'
 				:'')+
 				(tag['typeVideo']?
 					'<span class="'+tag['typeVideo']+'" action="video,'+tag['video']+'" title="Ver video"></span>'
@@ -477,7 +466,7 @@ function showTag(tag){
 				(!tag['popup']?
 					'<li id="comment" action="comment,'+tag['id']+'" title="Comment"><span>Comment</span></li>'
 				:'')+(btn['redist']?
-					'<li id="redistr" action="redist,'+tag['id']+'" title="Re Distribuci�n"><span>Re Distribuci�n</span></li>'
+					'<li id="redistr" action="redist,'+tag['id']+'" title="Re Distribución"><span>Re Distribución</span></li>'
 				:'')+(btn['share']?
 					'<li id="share" action="share,'+tag['id']+'" title="Compartir Tag"><span>Compartir Tag</span></li>'
 				:'')+btnSponsor+(btn['trash']?
@@ -595,7 +584,7 @@ function showCarousel(array,layer){
 				}else if(action=='reload'){
 					act.more=false;
 					if(current=='group'){
-						$(layer).html('<div class="messageAdver">No hay tags creadas.&nbsp;Para crear una tag, haz clic aqui<a href="#creation?group='+opc['grupo']+'">A�adir Tag</a></div>');
+						$(layer).html('<div class="messageAdver">No hay tags creadas.&nbsp;Para crear una tag, haz clic aqui<a href="'+BASEURL+'creation?group='+opc['grupo']+'">Añadir Tag</a></div>');
 					}else{
 						if(idsearch=='1'){
 							$(radiobtn).hide();
@@ -676,7 +665,7 @@ function trash(tag){
 			}
 		}
 	});
-	//actionsTags(6,opc+'|0',,'MNUTAG_TITLEREMOVESSSS|timeLine');
+	//actionsTags(6,opc+'|0',,'|timeLine');
 }
 
 var tourHash,dataHash;
@@ -768,7 +757,7 @@ function actionsTags(op,dato,uri,more){
 	switch (op){
 		//refresh
 		case 1:
-			document.location.hash='home';
+			redir('home');
 		break;
 		//coment
 		case 2:
@@ -852,7 +841,7 @@ function actionsTags(op,dato,uri,more){
 						$.ajax({url:'views/tags/update.view.php?asyn&tag='+tag,success:function(){
 							$("#previewTag").dialog("close");
 							$('body #previewTag').remove();
-							document.location.hash='update';
+							redir('update');
 						}});
 					else
 						message("messages","Error",valores[1]);
@@ -899,7 +888,7 @@ function sponsorTag(url_vista,titulo,tag,edit){
 							$("#sponsorTableTag").html(data);
 							if (_get!=''){
 								$("#messages").dialog('close');
-								document.location.hash='#publicity?'+Math.random();
+								redir('publicity?'+Math.random());
 							}else{
 								setTimeout(function(){
 									$("#messages").dialog('close')
@@ -1359,7 +1348,7 @@ function friendsUser(titulo,get,close){
 
 
 function onClickFriends(hash){
-	document.location.hash=hash+'?'+Math.random();
+	redir(hash+'?'+Math.random());
 }
 
 function tagsUser(titulo,get){
@@ -1397,7 +1386,7 @@ function previewTag(titulo,get,wedit,update){
 		},
 		close:function(/*ui*/){
 			if(wedit==1){
-				document.location.hash='timeline?current=timeLine';
+				redir('timeline?current=timeLine');
 			}else{
 				if(!PUBLISH){
 					$.ajax({
@@ -1411,12 +1400,12 @@ function previewTag(titulo,get,wedit,update){
 		buttons:{
 			'Cancelar':function(){
 				$(this).dialog('close');
-				document.location.hash='timeline?current=timeLine';
+				redir('timeline?current=timeLine');
 				$('html, body').animate({scrollTop:0},'slow');
 			},
 			'Cambiar':function(){
 				PUBLISH=true;
-				document.location.hash='#update'+get;
+				redir('update'+get);
 			},
 			'Publicar':function(){
 				//wedit es uno cuando se esta modificanto un tag
@@ -1438,16 +1427,16 @@ function previewTag(titulo,get,wedit,update){
 						$('loader.page',PAGE).hide();
 						PUBLISH=true;
 						switch(data.split('|')[0]){
-							case '7':document.location.hash='#groupsDetails?grp='+data.split('|')[1];break;
+							case '7':redir('groupsDetails?grp='+data.split('|')[1]);break;
 							case '9':
 								if(data.split("|")[2]!=0){
-									document.location.hash='#profile?sc=3';
+									redir('profile?sc=3');
 								}else{
-									document.location.hash='#taglist?current=personal';
+									redir('taglist?current=personal');
 								}
 							break;
-							case '10':redir('http://68.109.244.199/wpanel/?url=vistas/viewTagWpanel.php');break;
-							default:document.location.hash = 'timeline?current=timeLine';
+							case '10':redir('wpanel/?url=vistas/viewTagWpanel.php');break;
+							default: redir('timeline?current=timeLine');
 						}
 					}
 				});//ajax
@@ -1827,7 +1816,7 @@ function actionComments(post,func){
 				+(!comment['subComment']?'<p>'+comment['comment']+'</p>':
 					'<p>'+comment['subComment']+'</p>'
 					+'<p style="display:none;">'+comment['comment']+'</p>'
-					+'<span class="more">Ver m�s</span>'
+					+'<span class="more">Ver más</span>'
 				)
 			+'</div>'
 		+'</li>'
@@ -1994,7 +1983,7 @@ function sellPublicity(url_vista,titulo,edit){
 							//validamos que se un enlace valido
 							if( validateForm("publi_link") ) {
 								$("#sell_publi").submit();
-//								document.location.hash='myPubli';
+//								redir('myPubli');
 
 							} else {
 								$("#sponsor_msgerror").fadeOut(600);
@@ -2050,7 +2039,7 @@ function sellPublicityProducts(url_vista,titulo,edit){
 						//alert($("#publi_link").val());
 						if(validateForm("#sell_publi")){
 							$("#sell_publi").submit();
-//								document.location.hash='myPubli';
+//								redir('myPubli');
 
 						}else{
 							$("#sponsor_msgerror").fadeOut(600);
@@ -2212,8 +2201,8 @@ function addNewGroup(titulo,gpr) {
 }
 function confirJOINGroups(opc) {
 	$.dialog({
-		title	: 'Informaci�n',
-		content	: '�Deseas unirte a este grupo?',
+		title	: 'Información',
+		content	: '¿Deseas unirte a este grupo?',
 		height	: 200,
 		close	: function(){
 			$(this).dialog('close');
@@ -2288,7 +2277,7 @@ function actionGroup(id,action,get,obje){
 			switch (action) {
 				case 3:
 					if(data['join']=='true'){
-						document.location.hash='#groupsDetails?grp='+id+'&'+Math.random();
+						redir('groupsDetails?grp='+id+'&'+Math.random());
 					}else if(data['join']=='private-sent'){
 						message('confirmGroup',lang.JS_GROUPS_MESSAGETOENTERGROUPS,'<strong>'+lang.JS_GROUPS_MESSAGEAPPROBATION+'<strong>');
 						$(obje.btnJ).fadeOut('fast',function(){
@@ -2297,7 +2286,7 @@ function actionGroup(id,action,get,obje){
 						$(obje.actionDiv).removeAttr('action');
 					}else if (data['join']=='existe'){
 						$.dialog({
-							title	: 'Informaci�n',
+							title	: 'Información',
 							content	: 'Ya existe una solicitud de membres&iacute;a a este grupo',
 							height	: 200,
 							close	: function(){
@@ -2310,7 +2299,7 @@ function actionGroup(id,action,get,obje){
 					if (data['leave']=='leave'){
 						asigAdmin('Leyenda - Abandonar Grupo',id);
 					}else if (data['leave']=='true'){
-						document.location.hash='groups';
+						redir('groups');
 					}
 				break;
 				case 7:
@@ -2318,14 +2307,14 @@ function actionGroup(id,action,get,obje){
 						if(data['accept']=='true'){
 							if (data['invite']=='no-invite'){
 								$.dialog({
-									title	: 'Informaci�n',
+									title	: 'Información',
 									content	: 'Disculpe, su invitaci&oacute;n fue cancelada por un administrador.',
 									height	: 200,
 									close	: function(){
 										location.reload();
 									}
 								});
-							}else{ document.location.hash='#groupsDetails?grp='+id+'&'+Math.random(); }
+							}else{ redir('groupsDetails?grp='+id+'&'+Math.random()); }
 						}else if(data['accept']=='false'){
 							$(obje.btnJ).fadeOut('fast',function(){
 								$(obje.autori).fadeIn('fast');
@@ -2391,7 +2380,7 @@ function asigAdmin(titulo,idGroup){
 						+'						Abandonar'
 						+'					</div>'
 						+'					<div class="text">'
-						+'						Usted es un administrador de este grupo. Si el grupo queda sin administrador, ser� eliminado. �Est� seguro que desea abandonar el grupo?'
+						+'						Usted es un administrador de este grupo. Si el grupo queda sin administrador, será eliminado. ¿Está seguro que desea abandonar el grupo?'
 						+'					</div>'
 						+'				</div>'
 						+'					<div class="clearfix"></div>'
@@ -2413,7 +2402,7 @@ function asigAdmin(titulo,idGroup){
 					actionGroup(idGroup,4,'&admin=1&force');
 					$(this).html('<div id="loading"><img src="css/smt/loader.gif" width="32" height="32" /></div>');
 					$(this).dialog("close");
-					document.location.hash='groups';
+					redir('groups');
 				}
 			},
 			{
@@ -2471,7 +2460,7 @@ function asigAllAdmin(titulo,idGroup){
 								if(data['asig']=='true'){
 									$("#asigAllAdmin").html('<div id="loading"><img src="css/smt/loader.gif" width="32" height="32" /></div>');
 									$('#default-dialog').dialog("close");
-									document.location.hash='#groups';
+									redir('groups');
 								}else if (data['asig']=='false'){
 									$('#default-dialog').dialog("close");
 								}
@@ -2484,12 +2473,12 @@ function asigAllAdmin(titulo,idGroup){
 }
 function det_info(data){
     return ('<article class="info side-box imagenSug">'+
-            '<header><span>Informaci�n</span></header>'+
+            '<header><span>Información</span></header>'+
             '<div>'+
                 '<ul>'+
                     '<li><label>Privacidad: </label>'+data['etiquetaPrivacidad']+'</li>'+
-                    '<li><label>Orientaci�n: </label>'+data['des_o']+'</li>'+
-                    '<li><label>Categor�a: </label>'+data['cname']+'</li>'+
+                    '<li><label>Orientación: </label>'+data['des_o']+'</li>'+
+                    '<li><label>Categoría: </label>'+data['cname']+'</li>'+
                     '<li><a>Ver Detalles &raquo;</a></li>'+
                 '</ul>'+
             '</div>'+
@@ -2499,7 +2488,7 @@ function det_info(data){
             '<header><span>Miembros</span></header>'+
             '<div>'+
                 '<ul>'+
-                    '<li><label>Creador: </label>'+data['name_create']+'</li>'+
+                    '<li><label>: </label>'+data['name_create']+'</li>'+
                     '<li><label>Administradores: </label>'+data['num_admin']+'</li>'+
                     '<li><label>Miembros: </label>'+data['num_members']+'</li>'+
                     '<li><a>Ver Detalles &raquo;</a></li>'+
@@ -2515,11 +2504,11 @@ function dialog_info(data){
             '<div class="side-box">'+
                 '<ul>'+
                     '<li><label>Privacidad: </label><div class="'+data['privacidad']+'"></div>'+data['etiquetaPrivacidad']+'</li>'+
-                    '<li><label>Orientaci�n: </label>'+data['des_o']+'</li>'+
-                    '<li><label>Categor�a: </label><img src="'+data['cphoto']+'" alt="Group Icons" title="'+data['ctitle']+'" width="30" height="30"/>'+data['cname']+'</li>'+
-                    '<li><label>La fecha de su fundaci�n: </label>'+data['date']+'</li>'+
-                    '<li><label>Fecha en que se uni&oacute;: </label>'+data['date_join']+'</li>'+
-                    '<li><label>Descripci�n: </label><p>'+data['des']+'</p></li>'+
+                    '<li><label>Orientación: </label>'+data['des_o']+'</li>'+
+                    '<li><label>Categoría: </label><img src="'+data['cphoto']+'" alt="Group Icons" title="'+data['ctitle']+'" width="30" height="30"/>'+data['cname']+'</li>'+
+                    '<li><label>La fecha de su fundación: </label>'+data['date']+'</li>'+
+                    '<li><label>: </label>'+data['date_join']+'</li>'+
+                    '<li><label>Descripción: </label><p>'+data['des']+'</p></li>'+
                 '</ul>'+
             '</div>'+
         	'<div class="clearfix"></div></div>';
@@ -2527,7 +2516,7 @@ function dialog_info(data){
 }
 function membersGroups(status,id){
     status=status?status:'';
-    //$('.tags-list').hide().after('<div id="member-list"><img src="img/loader.gif" width="32" height="32" class="loader" style="display: none;"/>Esta es la lista de amigos</div>');
+    //$('.tags-list').hide().after('<div id="member-list"><img src="img/loader.gif" width="32" height="32" class="loader" style="display: none;"/>GROUPS_NEWMEMBERSFIRNDS</div>');
 	//var layer=$('#member-list');//container
 	opc={
 		actual:'',
@@ -2666,7 +2655,7 @@ function bodyListProd(prod,obje,i){
 		var inputFooter='';
 		if (prod['stock']=='0'){ inputFooter='<span class="nameSP" stock="0">Stock: 0</span>'; }
 		else{
-			if(obje.idUsr=='427'){ inputFooter+='<span class="nameSP" action="newRaffle,'+prod['id']+'">Crear producto gratuito</span>'; }
+			if(obje.idUsr!=''){ inputFooter+='<span class="nameSP" action="newRaffle,'+prod['id']+'">Crear producto gratuito</span>'; }
 			inputFooter='<br><span class="nameSP" action="createTag,?product='+prod['id']+'">Crear Tag</span>';
 		}
 		inputCreate='<div class="inputCreateRaffle">'
@@ -2707,7 +2696,7 @@ function storeListProd(layer,get,search){
 		$('div.product-list.produc,div.product-list.sugest').empty().html('');
 		$('#loaderStore').css('display','block');
 	}else{ $('#loaderStoreDialog').css('display','block'); }
-	//$(layer).html('<span class="store-span-loader">Cargando Lista de productos</span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" />');
+	//$(layer).html('<span class="store-span-loader">Cargando </span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" />');
 	//console.log(' busqueda pro: '+search+'--'+get);
 	$$.ajax({
 		type:'POST',
@@ -2720,7 +2709,7 @@ function storeListProd(layer,get,search){
 				$('#loaderStoreDialog').css('display','none');
 			}
 			if($('#loaderStore2').length>0) $('#loaderStore2').css('display','none');
-			var prod=data['prod'],lst='',idUsr='2',obje,option='';
+			var prod=data['prod'],lst='',idUsr=(data['adtb']?1:''),obje,option='';
 			obje={layer:layer,idUsr:idUsr};
 			if(prod){
 				var numR=prod.length;
@@ -2747,7 +2736,7 @@ function storeListProd(layer,get,search){
 									res = data['hash'][i];
 									sp  = '';
 								}
-								out+='<div class="searchHash"><a href="#searchall?srh='+data['hash'][i]+'&in=2">'+res+sp+'</a></div>';
+								out+='<div class="searchHash"><a href="'+BASEURL+'searchall?srh='+data['hash'][i]+'&in=2">'+res+sp+'</a></div>';
 							}
 							out+='<div class="clearfix"></div>'
 						+'</article>';
@@ -2764,7 +2753,7 @@ function storeListProd(layer,get,search){
 					storeListProd('.product-list.sugest','?rand=1&');
 				}else{
 					if (layer!='.product-list.sugest'){
-						lst='<div class="noStoreProductsList messageAdver"><span>No hay productos disponibles</span></div>'
+						lst='<div class="noStoreProductsList messageAdver"><span>No hay productos disponibles</span>'+(data['empre']?', Si desea agregar un producto haga <span id="clickNewProduct">click aqui</span>':'')+'</div>'
 							+'<div class="ui-single-box-title">Sugerencias</div>';
 						storeListProd('.product-list.sugest','?rand=1&');
 					}else{ $('.product-list.produc div.ui-single-box-title').remove(); }
@@ -2838,8 +2827,7 @@ function storeRaffle(layer,get){
 				lst += '</ul>';
 			}else{
 				if (layer!='.product-list .product-list'){
-					lst='<div class="noStoreProductsList messageAdver"><span>No hay productos gratis disponibles</span> </div>'
-						+'<div class="product-list"></div>';
+					lst='<div class="noStoreProductsList messageAdver"><span>No hay productos gratis disponibles</span>'+(data['empre']?', Si desea agregar <span id="clickNewRaffle">click aqui</span>':'')+'<div class="product-list"></div>';
 				}
 			}
 			$(layer).html(lst);
@@ -2857,7 +2845,7 @@ function seeMoreStore(layer,get,limit,module,loader){
 			$('#loaderStore').css('display','none');
 			var prod=data['prod'];
 			if(prod){
-				var lst='',idUsr='2';
+				var lst='',idUsr=(data['adtb']?1:'');
 				var limt=prod.length%3;
 				if(module=='store'){
 					var obje={ layer:layer, idUsr:idUsr,more:'true' };
@@ -2897,7 +2885,7 @@ function deleteItemCar(id,get,obj){
 			if (data['del']!='1'){
 				if (data['del']=='all'){
 					if (obj.mod!='wish'){
-						$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay art�culos disponibles en su carrito de compras.</div>');
+						$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay artículos disponibles en su carrito de compras.</div>');
 						$('div.ui-single-box').removeAttr('style');
 						$('#headerStoreCar').css('display','none');
 						$('.menu-l-shoppingCart').css('display','none');
@@ -2996,7 +2984,7 @@ function deleteOrderC(get,obj){
 		height:200,
 		resizable:false,
 		open:function(){
-			$(this).html('�Est&aacute;s seguro de eliminar esta orden?');
+			$(this).html('¿Est&aacute;s seguro de eliminar esta orden?');
 		},
 		buttons:[{
 			text:'No',
@@ -3130,7 +3118,7 @@ function makeShopingCar(){
 								var dato=data['listWish'];
 								if (dato=="si" || dato=='ya-existe'){
 									if (data['numRow']==0){
-										$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay art�culos disponibles en su carrito de compras.</div>');
+										$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay artículos disponibles en su carrito de compras.</div>');
 										$('div.ui-single-box').removeAttr('style');
 										$('#headerStoreCar').css('display','none');
 										$('.menu-l-shoppingCart').css('display','none');
@@ -3199,7 +3187,7 @@ function makeShopingCar(){
 //					$('.button').button();
 				}
 			}else{
-				$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay art�culos disponibles en su carrito de compras.</div>');
+				$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay artículos disponibles en su carrito de compras.</div>');
 				$('div.ui-single-box').removeAttr('style');
 				//$('#totalANDsugestProduct').empty();
 				//carrito STORE_NO_SC
@@ -3256,11 +3244,11 @@ function processOrderSC(paso,array){
 						redir('shippingaddress');
 					}else{
 						$.dialog({
-							title	: 'Informaci�n',
-							content	: 'Algunos productos ya no est�n disponibles, su pedido fue modificado.',
+							title	: 'Información',
+							content	: 'Algunos productos ya no están disponibles, su pedido fue modificado.',
 							close	:function(){ location.reload(); }
 						});
-						//message('information','','','',300,200,'',window.location.hash);
+						//message('information','','','',300,200,'','');
 					}
 				}
 			});
@@ -3279,7 +3267,7 @@ function processOrderSC(paso,array){
 							width:270,
 							height:190,
 							open:function(){
-								$(this).html('Verifique su bandeja de entrada para obtener mas informaci�n al respecto.');
+								$(this).html('Verifique su bandeja de entrada para obtener mas información al respecto.');
 							},
 							close:function(){
 								mskPointsReload('#mskPoints');
@@ -3419,7 +3407,7 @@ function orderProcessed(get){
 							lst+='<li class="purchaseorder border-botton-store '+(i!=0?'border-t-store':'')+'">'
 								+'	<div>'
 								+'		<strong>Orden de Compra</strong>'
-								+		((data['datosCar'][i]['pago']=='1')?'&nbsp;&nbsp;<span class="nameSP"><a href="http://68.109.244.199/#shoppingcart">Confirmar compra</a></span>'
+								+		((data['datosCar'][i]['pago']=='1')?'&nbsp;&nbsp;<span class="nameSP"><a href="'+BASEURL+'shoppingcart">Confirmar compra</a></span>'
 																			+'&nbsp;&nbsp;<span class="nameSP"><a class="delete" h="1" href="javascript:void(0);">Eliminar</a></span>':'')
 								+		((data['datosCar'][i]['pago']=='11')?'&nbsp;&nbsp;<span class="nameSP"><a class="pay" h="'+data['datosCar'][i]['idOrderM']+'" href="javascript:void(0);">Pagar</a></span>'
 																			+'&nbsp;&nbsp;<span class="nameSP"><a class="delete" h="'+data['datosCar'][i]['idOrderM']+'" href="javascript:void(0);">Eliminar</a></span>':'')
@@ -3771,18 +3759,18 @@ function bodyhash(hash,id){
 		res = hash;
 		sp  = '';
 	}
-	return('<div class="searchHash"><a href="#tagslist?current=hash&hash='+hash+'&bck='+id+'">'+res+sp+'</a></div>');
+	return('<div class="searchHash"><a href="'+BASEURL+'tagslist?current=hash&hash='+hash+'&bck='+id+'">'+res+sp+'</a></div>');
 }
 
 function bodyfriends(friends,Link,unLink){
 	//console.log(friends);
 	var username='',country='';
 	if(friends['username']){
-		username='<span class="titleField">Perfil externo:</span>&nbsp;<a style="color:#ccc; font-size:12px;" href="http://68.109.244.199/'+friends['name_user']+'" onFocus="this.blur();" target="_blank">"http://68.109.244.199/'+friends['name_user']+'"</a>'
+		username='<span class="titleField">Perfil externo:</span>&nbsp;<a style="color:#ccc; font-size:12px;" href="'+BASEURL+friends['name_user']+'" onFocus="this.blur();" target="_blank">"'+BASEURL+friends['name_user']+'"</a>'
 				+ '<div class="clearfix"></div>';
 	}
 	if(friends['country']!=''){
-		country='<span class="titleField">Pa�s:&nbsp;</span>'+friends['country']
+		country='<span class="titleField">País:&nbsp;</span>'+friends['country']
 				+ '<div class="clearfix"></div>';
 	}
 
@@ -3818,7 +3806,7 @@ function bodygroups(groups){
 		if(groups['myPrivateGroup']==1){
 		btn=	'<div>'
 				+		'<input action="groupSuggest,'+groups['id']+'" type="button" value="Sugerir grupo" name="suggestGroup'+groups['id']+'" id="suggestGroup'+groups['id']+'">'
-				+		'<a href="#groupsDetails?grp='+groups['id']+'" class="viewGroup button">Ver Grupo</a>'
+				+		'<a href="'+BASEURL+'groupsDetails?grp='+groups['id']+'" class="viewGroup button">Ver Grupo</a>'
 				+	'</div>'
 				+ '<div class="clearfix"></div>';
 		atc=	'action="groupsDetails,'+groups['id']+'"';
@@ -3827,7 +3815,7 @@ function bodygroups(groups){
 		if(groups['userInGroup']==0){
 			if(groups['buttonGroup']==0){
 				btn   = '<input type="button" value="Unirse" name="joinGroup'+groups['id']+'" id="joinGroup'+groups['id']+'" action="groupsAction,'+groups['id']+'">'
-				+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none">Esperar aprobaci�n</div>'
+				+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none">Esperar aprobación</div>'
 				atc	=	'action="groupsAction,'+groups['id']+'"';
 			}else if(groups['buttonGroup']==1){
 				btn   =		'<div id="btnJoinViewroup'+groups['id']+'">'
@@ -3844,13 +3832,13 @@ function bodygroups(groups){
 					+	'	action="acceptInv,'+groups['id']+',list,none">'
 					+	'<span class="msg" id="msg'+groups['id']+'">Tienes una invitaci&oacute;n a este grupo</span>'
 					+	'<input type="button" value="Unirse" name="joinGroup'+groups['id']+'" id="joinGroup'+groups['id']+'" action="groupsAction,'+groups['id']+'" style="display: none">'
-					+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none">Esperar aprobaci�n</div>'
+					+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none">Esperar aprobación</div>'
 					+	'</div>';
 				atc	='action="acceptInv,'+groups['id']+',list"';
 			}
 			btn   +=  '<div class="clearfix"></div>';
 		}else{
-			btn = '<div class="messageSuccessGroupo">Esperar aprobaci�n</div>'
+			btn = '<div class="messageSuccessGroupo">Esperar aprobación</div>'
 			+ '<div class="clearfix"></div>';
 		}
 	}
