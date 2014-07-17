@@ -7,7 +7,8 @@ Se debe llamar al index de la siguiente manera:<br/><br/>
 <b><?=$_SERVER['SCRIPT_NAME']?>?tipo</b><br/><br/>
 tipos: local, main (servidor principal), sec (servidores secundarios)<br/>
 <?php
-}elseif(count($_GET)>0){
+}else{
+	$tipo=false;
 	$data=array();
 	if(!is_dir('.security')) mkdir('.security');
 	#tipos
@@ -35,13 +36,14 @@ tipos: local, main (servidor principal), sec (servidores secundarios)<br/>
 		$data['imgserver']='./';
 	}
 	$data['tipo']=$tipo;
+	if($tipo){
+		if(isset($_GET['comp'])) //compress
+			$data='json_decode(base64_decode(base64_decode(\''.base64_encode(base64_encode(json_encode($data))).'\')))';
+		else //no compress
+			$data='json_decode(\''.json_encode($data).'\')';
 
-	if(isset($_GET['comp'])) //compress
-		$data='json_decode(base64_decode(base64_decode(\''.base64_encode(base64_encode(json_encode($data))).'\')))';
-	else //no compress
-		$data='json_decode(\''.json_encode($data).'\')';
-
-	$txt="<?php //$tipo\n\$config=$data;";
-	echo 'Instalando como tipo: '.$tipo.'<br/>';
-	file_put_contents('.security/security.php',$txt);
+		$txt="<?php //$tipo\n\$config=$data;";
+		echo 'Instalando como tipo: '.$tipo.'<br/>';
+		file_put_contents('.security/security.php',$txt);
+	}
 }
