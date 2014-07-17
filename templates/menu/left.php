@@ -149,7 +149,7 @@
 			//$(window).off(ns);
 			clearInterval(interval);
 		};
-        function newsFormat(d){return(
+        function newsFormat(d){return;return(
                 '<tr'+d.clase+' data-info="'+d.id+'">'+
 					'<td tipo="'+d.type+'" width="18" style="padding:10px; vertical-align:top; border-bottom: 1px solid #f8f8f8" align="center" width="16" height="16" border="0">'+
 					'</td>'+
@@ -180,7 +180,7 @@
 			return [imgs,usrs];
 		}
 		function getNews(action,opc){
-
+			return;
 			if(!opc.on) opc.on={};
 			var act,
 				limit=3,
@@ -290,7 +290,7 @@
 				}, 30000);
 				//first run
 				if($.smt.news){
-					$('#adsListPubli').show();
+					// $('#adsListPubli').show();
 					$('#info-container').html($.smt.news);
 					delete $.smt.news;
 				}
