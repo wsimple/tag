@@ -31,7 +31,7 @@ function newTag_json($data,$mobile=false){
 				}//is_dir
 				/*subiendo del archivo al servidor*/
 				if(redimensionar($_FILES['picture']['tmp_name'],RELPATH.'img/templates/'.$photo,650)){
-					uploadFTP($foto,'templates',RELPATH);
+					FTPupload("templates/$foto");
 					$res['done']=true;
 					$res['bg']=$photo;
 				}else{
@@ -135,7 +135,7 @@ function newTag_json($data,$mobile=false){
 			fwrite($fp,$imgData);
 			fclose($fp);
 			if(redimensionar($path.$photo,$path.$photo,650)){
-				uploadFTP($photo,'templates',RELPATH,1,$code);
+				FTPupload("templates/$_photo",RELPATH);
 			}
 			$data['background']=$_photo;
 		}else{

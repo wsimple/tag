@@ -35,8 +35,8 @@ tipos: local, main (servidor principal), sec (servidores secundarios)<br/>
 		$data['db']['data']='tagbum';
 		$data['imgserver']='./';
 	}
-	$data['tipo']=$tipo;
 	if($tipo){
+		$data['tipo']=$tipo;
 		if(isset($_GET['comp'])) //compress
 			$data='json_decode(base64_decode(base64_decode(\''.base64_encode(base64_encode(json_encode($data))).'\')))';
 		else //no compress
