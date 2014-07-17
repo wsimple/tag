@@ -1,4 +1,8 @@
 <?php
+$actual='';
+if($_GET['lang']!=''){
+	$actual=$_GET['lang'];
+}else{
 	//si llego el lenguaje y el usuario esta logueado
 	if ($_SESSION['ws-tags']['ws-user']['language']!=''){
 		$_SESSION['ws-tags']['language']=$_SESSION['ws-tags']['ws-user']['language'];
@@ -17,8 +21,10 @@
 			$_SESSION['ws-tags']['language']=$locale;
 		}
 		if($_SESSION['ws-tags']['language']=='') $_SESSION['ws-tags']['language']='en';
+		$actual=$_SESSION['ws-tags']['language'];
 	}
-	include(RELPATH.'language/'.$_SESSION['ws-tags']['language'].'.php');
-	foreach ($lang as $key => $value) {
-		define($key, $value);
-	}
+}
+include(RELPATH."language/$actual.php");
+foreach ($lang as $key => $value){
+	define($key, $value);
+}
