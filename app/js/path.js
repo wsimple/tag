@@ -20,7 +20,7 @@
 	LOCAL=dom.match(regex)&&!window.location.host.match(regex);
 	PRODUCCION=prod;
 	DOMINIO=dom;
-	FILESERVER=prod?'http://seemytagdemo.com/':dom;
+	FILESERVER=prod?'http://seemytagdemo.com/':'http://68.109.244.201/';
 	PAGE={
 		ini:'.',
 		chat:'chat.html',
