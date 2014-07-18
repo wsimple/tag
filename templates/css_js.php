@@ -22,7 +22,7 @@ var FILESERVER='<?=FILESERVER?>',
 	ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>;
 if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localStorage.removeItem('logged');
 </script>
-<script src="js/jquery-1.10.1.min.js" charset="utf-8"></script>
+<script src="js/jquery-1.8.3.js" charset="utf-8"></script>
 <script src="js/jquery-ui-1.9.2.custom.min.js" charset="utf-8"></script>
 <script src="min/?f=js/language_<?=$_SESSION['ws-tags']['language']?>.js" charset="utf-8"></script>
 <?php if(LOCAL){ 
