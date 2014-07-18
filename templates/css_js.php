@@ -22,9 +22,10 @@ var FILESERVER='<?=FILESERVER?>',
 	ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>;
 if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localStorage.removeItem('logged');
 </script>
-<?php if(LOCAL){ ?>
-<script src="js/language.js.php" charset="utf-8"></script>
-<?php 
+<script src="js/jquery-1.8.3.js" charset="utf-8"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js" charset="utf-8"></script>
+<script src="min/?f=js/language_<?=$_SESSION['ws-tags']['language']?>.js" charset="utf-8"></script>
+<?php if(LOCAL){ 
 	$cssJsLocal= (require 'min/groupsConfig.php');
 	$cssLocal=$cssJsLocal['css'];
 	$jsLocal=$cssJsLocal['js'];
@@ -34,14 +35,10 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 	foreach ($jsLocal as $js) {
 		echo '<script src="'.str_replace('//', '', $js).'" charset="utf-8"></script>';
 	}
-
 }else{ ?>
-<script src="min/?f=js/language_<?=$_SESSION['ws-tags']['language']?>.js" charset="utf-8"></script>
-<?php 
-	echo '<link href="min/?g=css" rel="stylesheet">';
-	echo '<script src="min/?g=js" charset="utf-8"></script>';
-}
- ?>
+<link href="min/?g=css" rel="stylesheet"/>
+<script src="min/?g=js" charset="utf-8"></script>
+<?php } ?>
 <?php if(!$noHash){ ?>
 	<script src="js/conhash.js.php"></script>
 <?php } ?>
@@ -49,7 +46,7 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 <?php if(LOCAL){ ?>
 <script src="js/funciones.js.php" charset="utf-8"></script>
 <?php }else{ ?>
-<script src="min/?f=js/funciones_<?=$_SESSION['ws-tags']['language']?>.js" charset="utf-8"></script>
+<script src="min/?f=js/funciones_<?=$lang['langcode']?>.js" charset="utf-8"></script>
 <?php } ?>
 
 <?php	if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
@@ -60,7 +57,7 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 <script type="text/javascript" src="/cometchat/cometchatjs.php" charset="utf-8"></script>
 <?php	} ?>
 
-<?php if($_SESSION['ws-tags']['language']=='es') { ?><script src="<?=!LOCAL ? "min/?f=":""?>js/chosen.es.js"></script><?php } ?>
+<?php if($lang['langcode']=='es') { ?><script src="js/chosen.es.js"></script><?php } ?>
 
 <?php if($_SESSION['ws-tags']['ws-user']['id']!=''){//si esta loggeado ?>
 <script	type="text/javascript"	src="<?=!LOCAL ? "min/?f=":""?>js/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
