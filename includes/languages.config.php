@@ -19,10 +19,11 @@ if($_GET['lang']!=''){
 			$locale=CON::getVal('SELECT idioma FROM geo_ip WHERE ? BETWEEN start AND end',array($ip_num));
 			$_SESSION['ws-tags']['language']=$locale;
 		}
-		$actual=$_SESSION['ws-tags']['language'];
 	}
+	$actual=$_SESSION['ws-tags']['language'];
 }
 if(!$actual) $actual='en';
+
 $lang=array();
 include(RELPATH."language/$actual.php");
 foreach ($lang as $key => $value){
