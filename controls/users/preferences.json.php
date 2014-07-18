@@ -45,13 +45,16 @@ if (quitar_inyect()){
 				LIMIT 0 , 50
 			");
 
+			$i=0;
 			while ($prefe = mysql_fetch_assoc($preferences)){
+
 				if (trim($prefe['detail'])!='' && $prefe['id']!=''){
-					$arrayPrefe['id']=$prefe['id'];
-					$arrayPrefe['id_prefe']=$prefe['id_prefe'];
-					$arrayPrefe['detail']=htmlentities(formatoCadena($prefe['detail']));
+					$arrayPrefe[$i]['id']=$prefe['id'];
+					$arrayPrefe[$i]['id_prefe']=$prefe['id_prefe'];
+					$arrayPrefe[$i++]['detail']=htmlentities(formatoCadena($prefe['detail']));
 				}//if
 			}//while
+			
 			$out = '';
 		break;
 		//update
