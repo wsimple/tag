@@ -22,9 +22,8 @@ var FILESERVER='<?=FILESERVER?>',
 	ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>;
 if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localStorage.removeItem('logged');
 </script>
-<?php if(LOCAL){ ?>
-<script src="js/language.js.php" charset="utf-8"></script>
-<?php 
+<script src="min/?f=js/language_<?=$_SESSION['ws-tags']['language']?>.js" charset="utf-8"></script>
+<?php if(LOCAL){ 
 	$cssJsLocal= (require 'min/groupsConfig.php');
 	$cssLocal=$cssJsLocal['css'];
 	$jsLocal=$cssJsLocal['js'];
@@ -35,9 +34,7 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 		echo '<script src="'.str_replace('//', '', $js).'" charset="utf-8"></script>';
 	}
 
-}else{ ?>
-<script src="min/?f=js/language_<?=$_SESSION['ws-tags']['language']?>.js" charset="utf-8"></script>
-<?php 
+}else{  
 	echo '<link href="min/?g=css" rel="stylesheet">';
 	echo '<script src="min/?g=js" charset="utf-8"></script>';
 }
