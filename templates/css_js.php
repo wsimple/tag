@@ -24,9 +24,8 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 </script>
 <script src="js/jquery-1.10.1.min.js" charset="utf-8"></script>
 <script src="js/jquery-ui-1.9.2.custom.min.js" charset="utf-8"></script>
-<?php if(LOCAL){ ?>
-<script src="js/language.js.php" charset="utf-8"></script>
-<?php 
+<script src="min/?f=js/language_<?=$_SESSION['ws-tags']['language']?>.js" charset="utf-8"></script>
+<?php if(LOCAL){ 
 	$cssJsLocal= (require 'min/groupsConfig.php');
 	$cssLocal=$cssJsLocal['css'];
 	$jsLocal=$cssJsLocal['js'];
@@ -36,14 +35,10 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 	foreach ($jsLocal as $js) {
 		echo '<script src="'.str_replace('//', '', $js).'" charset="utf-8"></script>';
 	}
-
 }else{ ?>
-<script src="min/?f=js/language_<?=$lang['langcode']?>.js" charset="utf-8"></script>
-<?php 
-	echo '<link href="min/?g=css" rel="stylesheet">';
-	echo '<script src="min/?g=js" charset="utf-8"></script>';
-}
- ?>
+<link href="min/?g=css" rel="stylesheet"/>
+<script src="min/?g=js" charset="utf-8"></script>
+<?php } ?>
 <?php if(!$noHash){ ?>
 	<script src="js/conhash.js.php"></script>
 <?php } ?>
