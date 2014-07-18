@@ -11,3 +11,5 @@ views/temp/
 
 main/config/
 main/core/
+
+language/*.php
