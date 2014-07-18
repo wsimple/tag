@@ -28,7 +28,7 @@ if ( quitar_inyect() ){
         $array = mysql_fetch_assoc($query);
 
         if (trim($array['username'])!=''){
-            $external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.$array['username']."' onFocus='this.blur();' target='_blank'>".DOMINIO.$array['username']."</a><br>";
+            $external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".base_url($array['username'])."' onFocus='this.blur();' target='_blank'>".DOMINIO.$array['username']."</a><br>";
         }else { $external=  formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']); }
         if (trim($array['pais'])!=''){
             $pais=USERS_BROWSERFRIENDSLABELCOUNTRY.":&nbsp;<span style='color:#999999'>".$array['pais']."</span><br/>";
@@ -64,7 +64,7 @@ if ( quitar_inyect() ){
 				$emailUserSend = mysql_fetch_assoc($query);
 				if($emailUserSend['email']!=''){ $sendDataPublicity = $emailUserSend['id'];}
                 else{ $sendDataPublicity = $emailUserSend['email'].'|'.$_GET['grp']; }
-				$linkGroup = DOMINIO.'#groupsDetails?grp='.$_GET['grp'];
+				$linkGroup = base_url('groupsDetails?grp='.$_GET['grp']);
 
                 //cuerpo del email
 				$body  = '
