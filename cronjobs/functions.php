@@ -1369,9 +1369,9 @@ function formatMail($body, $width="600"){
 							<td style="font-size:9px; color:#999; text-align:left; background-color:#FFF; border-top:1px solid #F4F4F4;">
 								'.COPYFOOTER.'&nbsp;/&nbsp;
 
-								<a href="'.DOMINIO.'?viewDialog=terms" onFocus="this.blur();">'.FOOTMENU_TERMS.'</a>&nbsp;/&nbsp;
+								<a href="'.base_url('?viewDialog=terms').'" onFocus="this.blur();">'.FOOTMENU_TERMS.'</a>&nbsp;/&nbsp;
 
-								<a href="'.DOMINIO.'?viewDialog=privacity" onFocus="this.blur();">'.FOOTMENU_PRIVACY.'</a>
+								<a href="'.base_url('?viewDialog=privacity').'" onFocus="this.blur();">'.FOOTMENU_PRIVACY.'</a>
 
 						    </td>
 							<td width="35" background="'.DOMINIO.'img/mails/der.png">&nbsp;</td>
