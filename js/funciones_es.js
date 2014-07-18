@@ -2488,7 +2488,7 @@ function det_info(data){
             '<header><span>Miembros</span></header>'+
             '<div>'+
                 '<ul>'+
-                    '<li><label>: </label>'+data['name_create']+'</li>'+
+                    '<li><label>Creador: </label>'+data['name_create']+'</li>'+
                     '<li><label>Administradores: </label>'+data['num_admin']+'</li>'+
                     '<li><label>Miembros: </label>'+data['num_members']+'</li>'+
                     '<li><a>Ver Detalles &raquo;</a></li>'+
@@ -2507,7 +2507,7 @@ function dialog_info(data){
                     '<li><label>Orientación: </label>'+data['des_o']+'</li>'+
                     '<li><label>Categoría: </label><img src="'+data['cphoto']+'" alt="Group Icons" title="'+data['ctitle']+'" width="30" height="30"/>'+data['cname']+'</li>'+
                     '<li><label>La fecha de su fundación: </label>'+data['date']+'</li>'+
-                    '<li><label>: </label>'+data['date_join']+'</li>'+
+                    '<li><label>Fecha en que se uni&oacute;: </label>'+data['date_join']+'</li>'+
                     '<li><label>Descripción: </label><p>'+data['des']+'</p></li>'+
                 '</ul>'+
             '</div>'+
