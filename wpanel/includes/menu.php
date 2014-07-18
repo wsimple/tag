@@ -55,7 +55,7 @@
     </tr>
     <?php if ($_SESSION['wpanel_user']['tipo']=='1'){?>
     <tr>
-        <td class="td_submenu" onClick="inicio('../new.php?generate&language')">&nbsp;&raquo;&nbsp;Generate</td>
+        <td class="td_submenu" onClick="inicio('../new.php?generate&language&wpanel')">&nbsp;&raquo;&nbsp;Generate</td>
     </tr>
     <?php } ?>
     <tr>
