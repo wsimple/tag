@@ -10,20 +10,20 @@ if($_GET['lang']!=''){
 		$_SESSION['ws-tags']['language']=$_POST['lang'];
 		@header('Location:'.$_POST['actualUrl']);//Url Actual donde se cambiara el idioma
 	}
-	$lang=array();
 	//detecta el idioma segun la ip del usuario si no esta logeado
 	if($_GET['lang']==''&&empty($_SESSION['ws-tags']['language'])){
-		if(LOCAL){
-			$_SESSION['ws-tags']['language']=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+		if(preg_match('/^(localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
+			$_SESSION['ws-tags']['language']=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
 		}else{
 			$ip_num=sprintf("%u",ip2long($_SERVER['REMOTE_ADDR']));
 			$locale=CON::getVal('SELECT idioma FROM geo_ip WHERE ? BETWEEN start AND end',array($ip_num));
 			$_SESSION['ws-tags']['language']=$locale;
 		}
-		if($_SESSION['ws-tags']['language']=='') $_SESSION['ws-tags']['language']='en';
 		$actual=$_SESSION['ws-tags']['language'];
 	}
 }
+if(!$actual) $actual='en';
+$lang=array();
 include(RELPATH."language/$actual.php");
 foreach ($lang as $key => $value){
 	define($key, $value);
