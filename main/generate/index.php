@@ -14,5 +14,6 @@ if(!is_dir('.security')||!is_file('.security/security.php')||isset($_GET['genera
 	}elseif(isset($_GET['language'])){
 		include('main/generate/lang.php');
 	}
-	die('<p>End Generator.</p>');
+	if(isset($_GET['wpanel'])) header('Location: wpanel/?successlang');
+	//die('<p>End Generator.</p>');
 }

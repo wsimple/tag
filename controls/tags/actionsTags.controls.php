@@ -4,12 +4,12 @@
 	header('Access-Control-Allow-Credentials: true');
 	header('Access-Control-Max-Age: 1000');
 	session_start();
-
+	include('../../includes/config.php');
 	include('../../includes/functions.php');
 
 	if (quitar_inyect()){
 		include('../../includes/functions_mails.php');
-		include('../../includes/config.php');
+		
 		include('../../class/wconecta.class.php');
 		include('../../includes/languages.config.php');
 		include('../../class/class.phpmailer.php');
@@ -60,7 +60,8 @@
 								updateUserCounters($_SESSION['ws-tags']['ws-user']['id'],	'accumulated_points',	$points,	'+');
 								updateUserCounters($_SESSION['ws-tags']['ws-user']['id'],	'current_points',		$points,	'+');
 						// END - adding user's points
-						$msgBox='<img src="img/re-distribuirTag.png" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" />';
+						// $msgBox='<img src="img/re-distribuirTag.png" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" />';
+						// $msgBox = $t;
 					}else{//validacion de solo una redistribucion
 						$msgBox = '&nbsp;';
 					}
