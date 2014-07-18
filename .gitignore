@@ -6,7 +6,8 @@ img/bc_templates
 img/users/
 img/tags/
 img/store/
-img/templates
+img/templates/
+views/temp/
 
 main/config/
 main/core/
