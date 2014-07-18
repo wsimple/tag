@@ -25,9 +25,10 @@
 					usrs+=' [_AND_] <b>'+(num-ult)+' [_MORE_]</b>';
 				}else{
 					if(i>0) usrs+=i<ult?', ':' [_AND_] ';
-					action=action||(' action="profile,'+usr[i]['uid']+'"');
-					if(usr[i]['photo']) 
+					action=(' action="profile,'+usr[i]['uid']+'"');
+					if(usr[i]['photo']){
 						imgs=imgs||('<div'+action+' class="usr-pic" style="background-image:url('+FILESERVER+usr[i]['photo']+');"'+'"></div>');
+					}
 					usrs+='<span'+action+'>'+usr[i]['name']+'</span>';
 				}
 			}
@@ -120,7 +121,7 @@
 										}
 									break;
 									case 'tag':
-										if (info['owner']){
+										//if (info['owner']){
 											var ac=' action="comment,'+info['idsource']+'"',
 												tag=' <img'+ac+' src="'+FILESERVER+'img/tags/'+info['source'].substr(-16)+'.m.jpg" style="height:25px;"/>';
 											d.photos=people[0]+tag;
@@ -132,10 +133,10 @@
 												tag:'<span'+ac+'>[_TAG_]</span>'
 											});
 											out+=newsFormat(d);
-										}
+										//}
 									break;
 									case 'group':
-										if(info['group']){
+										//if(info['group']){
 											d.photos = people[0];
 											act='action="groupsDetails,'+info['group']['Mid']+'"';
 											d.txt=txtFormat({
@@ -149,7 +150,7 @@
 												if(!d.photo&&info['friends'][j]['photo']) d.photo = info['friends'][j]['photo'];
 											}
 											out+=newsFormat(d);
-										}
+										//}
 									break;
 									case 'order':
 										d.photos='';
@@ -175,7 +176,7 @@
 										out+=newsFormat(d);
 									break;
 									case 'raffle':
-										if(info['raffle']){
+										//if(info['raffle']){
 											d.photos = people[0];
 											d.txt=txtFormat({
 												type:info['id_type'],
@@ -185,7 +186,7 @@
 												raffle:'<span action="detailProd,'+info['raffle']['product']+'&rfl=1">[_RAFFLE_]</span>'
 											});
 											out+=newsFormat(d);
-										}
+										//}
 									break;
 									default:
 										d.photos='';
