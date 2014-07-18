@@ -14,7 +14,7 @@
     			 ORDER BY o.id");
     		$info='';
     		while ($row=CON::fetchAssoc($orienteds)){
-    			$row['des']=constant($row['des']);
+    			$row['des']=@constant($row['des']);
     			$info[]=$row;
     		}
     		$res['oriented']=$info;
@@ -27,7 +27,7 @@
     			 ORDER BY g.id");
     		$info='';
     		while ($row=CON::fetchAssoc($category)){
-    			$row['name']=constant($row['name']);
+    			$row['name']=@constant($row['name']);
     			$info[]=$row;
     		}
     		$res['category']=$info;
@@ -41,8 +41,8 @@
     			 ORDER BY p.id");
     		$info='';
     		while ($row=CON::fetchAssoc($privacys)){
-    			$row['des']=  constant($row['des']);
-    			$row['name']=  constant($row['name']);
+    			$row['des']=  @constant($row['des']);
+    			$row['name']=  @constant($row['name']);
     			$info[]=$row;
     		}
     		$res['privacy']=$info;
@@ -84,7 +84,7 @@
         			 ORDER BY cg.id");
         		$info='';
         		while ($row=CON::fetchAssoc($category)){
-        			$row['name']=formatoCadena(constant($row['name']));
+        			$row['name']=formatoCadena(@constant($row['name']));
                     $row['cphoto']=$row['cphoto']!=''?DOMINIO.'img/groups/category/'.$row['cphoto']:DOMINIO.'css/smt/menu_left/groups.png';
         			$info[]=$row;
         		}
@@ -139,7 +139,7 @@
                     $photo=FILESERVER.'img/groups/'.$row['photo'];
                     $photo=fileExistsRemote($photo)?$photo:'';
                     $row['photo']= $photo!=''? 'style="background-image:url(\''.$photo.'\');"':'';
-                    $row['cname']=formatoCadena(constant($row['cname']));
+                    $row['cname']=formatoCadena(@constant($row['cname']));
                     $row['photoi']= $photo!=''? 'src="'.$photo.'" ':'src="'.DOMINIO.'css/smt/groups_default.png"';
                     if ($mobile){ $row['cate_name']=STORE_CATEGORIES2.': '.$row['cname']; }
                     $row['name']=  formatoCadena($row['name']);
@@ -152,9 +152,9 @@
                         case '5': $row['userInGroup']=1; break;
                         default : $row['buttonGroup']=0; $row['userInGroup']=0;
                     }
-                    if (isset($row['des_o'])){ $row['des_o']=formatoCadena(constant($row['des_o'])); }
+                    if (isset($row['des_o'])){ $row['des_o']=formatoCadena(@constant($row['des_o'])); }
                     if (isset($_GET['profile'])){$row['name_create']=formatoCadena($row['name_create']); }
-                    $row['ctitle']=$row['cname'].': '.constant($row['csummary']);
+                    $row['ctitle']=$row['cname'].': '.@constant($row['csummary']);
                     $row['cphoto']=$row['cphoto']!=''?DOMINIO.'img/groups/category/'.$row['cphoto']:DOMINIO.'css/smt/menu_left/groups.png';
         			if ((isset($_GET['list']))&&($_GET['list']=='my')){
         				$row['userInGroup'] = 0;
