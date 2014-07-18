@@ -36,6 +36,11 @@
 		include ('class/class.formularios.php');
 		include ('fckeditor/fckeditor.php');
 		
+		if (($_SESSION['wpanel_user']['tipo']=='1')&&isset($_GET['successlang']))
+		{
+			mensajes("Languaje Successfully Processed", ".", "info");
+		}
+
 		if ($_SESSION['wpanel_user']['nombre']!='')
 		{?>	<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
 				<tr>

@@ -101,7 +101,7 @@
 									opc.complete=function(){$this.close();};
 									insertComment(comment,opc);
 								}
-//								$('#commentDialog .closedialog').click();
+								$('#commentDialog .closedialog').click();
 								$('.fs-wrapper').jScroll('refresh');
 							}
 						},{
