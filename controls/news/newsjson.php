@@ -9,7 +9,8 @@
 		$undiffDate=safe_sql('un.date>=?',array($_GET['date']));
 		// $undiffDate='un.date>='.$_GET['date'];
 	}
-	$limit=(isset($_GET['limit']) && $_GET['limit']>0)?'LIMIT 0,'.$_GET['limit']:'';
+	$limit=(isset($_GET['limit']) && $_GET['limit']>0)?$_GET['limit']:false;
+	// $limit=(isset($_GET['limit']) && $_GET['limit']>0)?'LIMIT 0,'.$_GET['limit']:'';
 	$miId=$_SESSION['ws-tags']['ws-user']['id'];
 	$query=CON::query("	SELECT us.id,NOW()
 	 					FROM users us
@@ -39,40 +40,49 @@
 					            (SELECT u.profile_image_url FROM users u WHERE u.id=184) AS photoyo
 							FROM users_notifications un
 							INNER JOIN type_actions t ON un.id_type = t.id
-							WHERE un.id_user!=? AND un.id_friend!=0 AND un.id_friend!=un.id_user 
+							WHERE un.id_user!=? AND un.id_friend!=? AND un.id_friend!=0 AND un.id_friend!=un.id_user 
 							AND un.id_type IN (2,4,5,8,9,11,22,25,26) 
 							AND (un.id_friend IN ($idIn) OR un.id_user IN ($idIn)) AND $undiffDate
-							GROUP BY un.id_source
-							ORDER BY un.date DESC $limit", array($miId));
-		// $res['sql-noti']=CON::lastSql();
+							-- GROUP BY un.id_source
+							ORDER BY un.date DESC", array($miId,$miId));
+		$res['sql-noti']=CON::lastSql();
 		while($row=CON::fetchAssoc($new)){
-			//Fecha formateada (fdate)
-			$date = explode(' ', $row['date']); //fecha,hora
-			$hora = $date[1]; //hora completa
-			$date = explode('-', $date[0]); //año,mes,dia
-			$sent = getMonth(intval($date[1])).' '.$date[2];
-			if ($date[0]==date('Y') && $date[1]==date('m') && $date[2]==date('d'))
-				$sent = NOTIFICATIONS_SENTDATE2;
-			if ($date[0]==date('Y') && $date[1]==date('m') && $date[2]==(date('d')-1))
-				$sent = NOTIFICATIONS_SENTDATE3;
-			$row['fdate']=$sent.', '.$hora;
-			$usr[0]['name'] = utf8_encode($row['nameUser']);
-			$usr[0]['uid'] = md5($row['id_user']);
-			$usr[0]['photoUser'] = FILESERVER.getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],'img/users/default.png');
-			// $usr[0]['aqui'] =fileExistsRemote(FILESERVER.'img/users/'.$row['keyUser'].'/'.$row['photoUser']);
-			// $usr[0 ]['alla'] =FILESERVER.'img/users/'.$row['keyUser'].'/'.$row['photoUser'];
-			
-			$friend['name']=utf8_encode($row['nameFriend']);
-			$friend['uid']=md5($row['id_friend']);
-			$friend['photo'] = FILESERVER.getUserPicture($row['keyFriend'].'/'.$row['photoFriend'],'img/users/default.png');
-			$afriends[0]=$friend;
-			$row['friends']=$afriends;
-			$row['idsource']=$row['id_source'];
-    		$row['source']=md5($row['id_source']);
-			$row['usr']=$usr;
-			$info[]=$row;
-			// unset($row['date']); unset($row['KeyUser']); unset($row['keyFriend']);
+			if (isset($infoa[$row['id_source']]) && $infoa[$row['id_source']]['id_type']==$row['id_type']){
+				$num=count($infoa[$row['id_source']]['usrs']);
+				$infoa[$row['id_source']]['usrs'][$num]['name'] = utf8_encode($row['nameUser']);
+				$infoa[$row['id_source']]['usrs'][$num]['uid'] = md5($row['id_user']);
+				$infoa[$row['id_source']]['usrs'][$num]['photo'] = FILESERVER.getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],'img/users/default.png');
+			}else{
+				//Fecha formateada (fdate)
+				$date = explode(' ', $row['date']); //fecha,hora
+				$hora = $date[1]; //hora completa
+				$date = explode('-', $date[0]); //año,mes,dia
+				$sent = getMonth(intval($date[1])).' '.$date[2];
+				if ($date[0]==date('Y') && $date[1]==date('m') && $date[2]==date('d'))
+					$sent = NOTIFICATIONS_SENTDATE2;
+				if ($date[0]==date('Y') && $date[1]==date('m') && $date[2]==(date('d')-1))
+					$sent = NOTIFICATIONS_SENTDATE3;
+				$row['fdate']=$sent.', '.$hora;
+				$usr[0]['name'] = utf8_encode($row['nameUser']);
+				$usr[0]['uid'] = md5($row['id_user']);
+				$usr[0]['photo'] = FILESERVER.getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],'img/users/default.png');
+				// $usr[0]['aqui'] =fileExistsRemote(FILESERVER.'img/users/'.$row['keyUser'].'/'.$row['photoUser']);
+				// $usr[0 ]['alla'] =FILESERVER.'img/users/'.$row['keyUser'].'/'.$row['photoUser'];
+				
+				$friend['name']=utf8_encode($row['nameFriend']);
+				$friend['uid']=md5($row['id_friend']);
+				$friend['photo'] = FILESERVER.getUserPicture($row['keyFriend'].'/'.$row['photoFriend'],'img/users/default.png');
+				$afriends[0]=$friend;
+				$row['friend']=$afriends;
+				$row['idsource']=$row['id_source'];
+	    		$row['source']=md5($row['id_source']);
+				$row['usrs']=$usr;
+				$infoa[$row['idsource']]=$row;
+			}
+			unset($row['date']); unset($row['KeyUser']); unset($row['keyFriend']);
+			if ($limit && count($infoa)>=$limit) break;
 		}
+		foreach ($infoa as $key) $info[]=$key;
 	}else{ $info=array(); }
 	$res['info']=$info;
 	// echo '<pre>';
