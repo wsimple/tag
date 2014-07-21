@@ -68,6 +68,7 @@ $edit=$array['id']==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
 			<header><span style="background-image: url('<?=$photoT?>');"><?=INFO_PER?></span></header>
 			<div>
 				<ul>
+					<li><label><?=SIGNUP_LBLSCREENNAME_FIELD?>: </label><?=$array['screen_name']?></li>
 					<li><label><?=SIGNUP_LBLEMAIL?>: </label><?=$array['email']?></li>
 					<li><label><?=INVITEUSERS_FROM?>: </label><?=$array['country']?></li>
 					<li><label><?=USER_LBLFOLLOWERS.' (</label>'.$array['followers_count'].'<label>) - '.USER_LBLFRIENDS.' (</label>'.$array['friends_count'].'<label>)'?></label></li>
