@@ -182,7 +182,7 @@
 		function getNews(action,opc){
 			if(!opc.on) opc.on={};
 			var act,
-				limit=3,
+				limit=5,
 				on=opc.on,
 				layer=opc.layer,
 				get=opc.get||'',
@@ -198,7 +198,8 @@
 
 				$.qajax('low',{
 					type	: 'GET',
-					url		: 'controls/news/news.json.php?limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
+					url		: 'controls/news/newsjson.php?limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
+					// url		: 'controls/news/news.json.php?limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 					dataType: 'json',
 					data	: act||{},
 					complete: function(/*resp, status, error*/) {
@@ -209,14 +210,13 @@
                         console.log(data);
 						if(data['info'].length>0){
 							var i,out='',info,txt,len,type,clase='';
-							opc.date=data['date'];
+							opc.date=data['fecha'];
 							act.start=(act.start||0)+data['info'].length;
 							len=data['info'].length;
 
 							if(action!='reload') clase=' style="animation:myfirst 3s; -webkit-animation:myfirst 5s; background:#FFF;"';
 							for(i=0;i<len;i++){
 								info = data['info'][i];
-
                                 d={
 									type:info['id_type'],
 									date:info['fdate'],
@@ -253,7 +253,6 @@
 									break;
 
 								}
-
 							}
 							$('#adsListPubli').show();
 							$('#news-loader').fadeOut('slow',function(){$(layer).after(out);});
@@ -282,7 +281,7 @@
 				interval=setInterval(function(){
 					if($(opc.layer).length>0){
 						//console.log('aqui')
-						//getNews('refresh',opc);
+						getNews('refresh',opc);
 					}else
 						clearEvents();
 				}, 30000);
@@ -292,7 +291,7 @@
 					$('#info-container').html($.smt.news);
 					delete $.smt.news;
 				}
-				//getNews('reload',opc);
+				getNews('reload',opc);
 				//fin-news
 
 				var menu=$('#menuLeft')[0];
