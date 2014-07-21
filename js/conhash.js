@@ -1,13 +1,3 @@
-<?php if(false){ ?><script><?php }
-include('../includes/session.php');		include('../includes/config.php');
-include('../class/Mobile_Detect.php');	include('../includes/functions.php');
-include('../class/wconecta.class.php');	include('../class/forms.class.php');
-include('../includes/languages.config.php');
-header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Content-Type: text/javascript');
-echo "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"; ?>
-
 var hashBack;
 (function(window,$,console){
 //-- $.on permite cargar/descargar eventos al abrir/cerrar una pagina --//
@@ -48,7 +38,7 @@ var hashBack;
 		}
 	}
 	var last,
-		defaultPage='<?=$logged?'timeline':'home'?>',
+		defaultPage=ISLOGGED?'timeline':'home',
 		grupo=[//arreglos de ids que abren una pagina en comun. el primero es el default.
 			['#home','#whatIsIt','#howDoesWork','#howDoesWork/1','#howDoesWork/2','#howDoesWork/3','#app']
 		];

@@ -22,8 +22,6 @@ var FILESERVER='<?=FILESERVER?>',
 	ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>;
 if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localStorage.removeItem('logged');
 </script>
-<script src="js/jquery-1.8.3.js" charset="utf-8"></script>
-<script src="js/jquery-ui-1.9.2.custom.min.js" charset="utf-8"></script>
 <script src="min/?f=js/language_<?=$_SESSION['ws-tags']['language']?>.js" charset="utf-8"></script>
 <?php if(LOCAL){ 
 	$cssJsLocal= (require 'min/groupsConfig.php');
@@ -36,11 +34,11 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 		echo '<script src="'.str_replace('//', '', $js).'" charset="utf-8"></script>';
 	}
 }else{ ?>
-<link href="min/?g=css" rel="stylesheet"/>
-<script src="min/?g=js" charset="utf-8"></script>
+	<link href="min/?g=css" rel="stylesheet"/>
+	<script src="min/?g=js" charset="utf-8"></script>
 <?php } ?>
 <?php if(!$noHash){ ?>
-	<script src="js/conhash.js.php"></script>
+	<script src="min/?f=js/conhash.js"></script>
 <?php } ?>
 
 <?php if(LOCAL){ ?>
@@ -66,6 +64,5 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 <link rel="stylesheet" type="text/css" href="<?=!LOCAL ? "min/?f=":""?>css/jquery.fullPage.css" />
 <script type="text/javascript" src="<?=!LOCAL ? "min/?f=":""?>js/jquery.fullPage.js"></script>
 <?php } ?>
-
 <!-- Compliance patch for Microsoft browsers -->
 <!--[---if lt IE 9]><script src="http://ie7-js.googlecode.com/svn/trunk/lib/IE9.js"></script><![endif]-->
