@@ -28,7 +28,7 @@ function pageAction(action,data){
 			}
 			data=data?data:'';redir('creation'+data);break;
 		case 'redeemPoinst':message('messages','Canjear mis puntos','<div class="font_size5"><div>Usted podr&aacute; cambiar sus puntos por los servicios y productos en Tagbum. Mientras mas puntos obtenga, m&aacute;s servicios y productos podr&aacute; obtener.</div></div>','',430,190,'');break;
-		case 'increasePoints':message('messages','¿Cómo aumentar mis puntos?','<div class="font_size5"><div><?$lang["MAINMENU_POINTS_2"]?></div></div>','',430,280,'');break;
+		case 'increasePoints':message('messages','Â¿CÃ³mo aumentar mis puntos?','<div class="font_size5"><div><?$lang["MAINMENU_POINTS_2"]?></div></div>','',430,280,'');break;
 		case 'commentsSeeMore':
 			$(this).prev('p').show().prev('p').remove();
 			$(this).remove();
@@ -435,7 +435,7 @@ function showTag(tag){
 		(tag['rid']?
 			'<div class="redist"><span action="profile,'+tag['rid']+'" title="Perfil">Redistribuida por '+tag['name_redist']+'</span></div>'
 		:'')+
-		'<div class="tagLink" action="comment,'+tag['id']+',Comparte tu opinión sobre esta tag."></div>'+
+		'<div class="tagLink" action="comment,'+tag['id']+',Comparte tu opiniÃ³n sobre esta tag."></div>'+
 		'<div class="tag-icons">'+
 			'<span id="sponsor" '+(tag['sponsor']?'':'style="display:none;"')+'></span>'+
 			'<span id="redist" '+(tag['redist']?'':'style="display:none;"')+'></span>'+
@@ -466,7 +466,7 @@ function showTag(tag){
 				(!tag['popup']?
 					'<li id="comment" action="comment,'+tag['id']+'" title="Comment"><span>Comment</span></li>'
 				:'')+(btn['redist']?
-					'<li id="redistr" action="redist,'+tag['id']+'" title="Re Distribución"><span>Re Distribución</span></li>'
+					'<li id="redistr" action="redist,'+tag['id']+'" title="Re DistribuciÃ³n"><span>Re DistribuciÃ³n</span></li>'
 				:'')+(btn['share']?
 					'<li id="share" action="share,'+tag['id']+'" title="Compartir Tag"><span>Compartir Tag</span></li>'
 				:'')+btnSponsor+(btn['trash']?
@@ -584,7 +584,7 @@ function showCarousel(array,layer){
 				}else if(action=='reload'){
 					act.more=false;
 					if(current=='group'){
-						$(layer).html('<div class="messageAdver">No hay tags creadas.&nbsp;Para crear una tag, haz clic aqui<a href="'+BASEURL+'creation?group='+opc['grupo']+'">Añadir Tag</a></div>');
+						$(layer).html('<div class="messageAdver">No hay tags creadas.&nbsp;Para crear una tag, haz clic aqui<a href="'+BASEURL+'creation?group='+opc['grupo']+'">AÃ±adir Tag</a></div>');
 					}else{
 						if(idsearch=='1'){
 							$(radiobtn).hide();
@@ -1816,7 +1816,7 @@ function actionComments(post,func){
 				+(!comment['subComment']?'<p>'+comment['comment']+'</p>':
 					'<p>'+comment['subComment']+'</p>'
 					+'<p style="display:none;">'+comment['comment']+'</p>'
-					+'<span class="more">Ver más</span>'
+					+'<span class="more">Ver mÃ¡s</span>'
 				)
 			+'</div>'
 		+'</li>'
@@ -2201,8 +2201,8 @@ function addNewGroup(titulo,gpr) {
 }
 function confirJOINGroups(opc) {
 	$.dialog({
-		title	: 'Información',
-		content	: '¿Deseas unirte a este grupo?',
+		title	: 'InformaciÃ³n',
+		content	: 'Â¿Deseas unirte a este grupo?',
 		height	: 200,
 		close	: function(){
 			$(this).dialog('close');
@@ -2286,7 +2286,7 @@ function actionGroup(id,action,get,obje){
 						$(obje.actionDiv).removeAttr('action');
 					}else if (data['join']=='existe'){
 						$.dialog({
-							title	: 'Información',
+							title	: 'InformaciÃ³n',
 							content	: 'Ya existe una solicitud de membres&iacute;a a este grupo',
 							height	: 200,
 							close	: function(){
@@ -2307,7 +2307,7 @@ function actionGroup(id,action,get,obje){
 						if(data['accept']=='true'){
 							if (data['invite']=='no-invite'){
 								$.dialog({
-									title	: 'Información',
+									title	: 'InformaciÃ³n',
 									content	: 'Disculpe, su invitaci&oacute;n fue cancelada por un administrador.',
 									height	: 200,
 									close	: function(){
@@ -2380,7 +2380,7 @@ function asigAdmin(titulo,idGroup){
 						+'						Abandonar'
 						+'					</div>'
 						+'					<div class="text">'
-						+'						Usted es un administrador de este grupo. Si el grupo queda sin administrador, será eliminado. ¿Está seguro que desea abandonar el grupo?'
+						+'						Usted es un administrador de este grupo. Si el grupo queda sin administrador, serÃ¡ eliminado. Â¿EstÃ¡ seguro que desea abandonar el grupo?'
 						+'					</div>'
 						+'				</div>'
 						+'					<div class="clearfix"></div>'
@@ -2473,12 +2473,12 @@ function asigAllAdmin(titulo,idGroup){
 }
 function det_info(data){
     return ('<article class="info side-box imagenSug">'+
-            '<header><span>Información</span></header>'+
+            '<header><span>InformaciÃ³n</span></header>'+
             '<div>'+
                 '<ul>'+
                     '<li><label>Privacidad: </label>'+data['etiquetaPrivacidad']+'</li>'+
-                    '<li><label>Orientación: </label>'+data['des_o']+'</li>'+
-                    '<li><label>Categoría: </label>'+data['cname']+'</li>'+
+                    '<li><label>OrientaciÃ³n: </label>'+data['des_o']+'</li>'+
+                    '<li><label>CategorÃ­a: </label>'+data['cname']+'</li>'+
                     '<li><a>Ver Detalles &raquo;</a></li>'+
                 '</ul>'+
             '</div>'+
@@ -2488,7 +2488,7 @@ function det_info(data){
             '<header><span>Miembros</span></header>'+
             '<div>'+
                 '<ul>'+
-                    '<li><label>Creador: </label>'+data['name_create']+'</li>'+
+                    '<li><label>: </label>'+data['name_create']+'</li>'+
                     '<li><label>Administradores: </label>'+data['num_admin']+'</li>'+
                     '<li><label>Miembros: </label>'+data['num_members']+'</li>'+
                     '<li><a>Ver Detalles &raquo;</a></li>'+
@@ -2504,11 +2504,11 @@ function dialog_info(data){
             '<div class="side-box">'+
                 '<ul>'+
                     '<li><label>Privacidad: </label><div class="'+data['privacidad']+'"></div>'+data['etiquetaPrivacidad']+'</li>'+
-                    '<li><label>Orientación: </label>'+data['des_o']+'</li>'+
-                    '<li><label>Categoría: </label><img src="'+data['cphoto']+'" alt="Group Icons" title="'+data['ctitle']+'" width="30" height="30"/>'+data['cname']+'</li>'+
-                    '<li><label>La fecha de su fundación: </label>'+data['date']+'</li>'+
-                    '<li><label>Fecha en que se uni&oacute;: </label>'+data['date_join']+'</li>'+
-                    '<li><label>Descripción: </label><p>'+data['des']+'</p></li>'+
+                    '<li><label>OrientaciÃ³n: </label>'+data['des_o']+'</li>'+
+                    '<li><label>CategorÃ­a: </label><img src="'+data['cphoto']+'" alt="Group Icons" title="'+data['ctitle']+'" width="30" height="30"/>'+data['cname']+'</li>'+
+                    '<li><label>La fecha de su fundaciÃ³n: </label>'+data['date']+'</li>'+
+                    '<li><label>Se unio el : </label>'+data['date_join']+'</li>'+
+                    '<li><label>DescripciÃ³n: </label><p>'+data['des']+'</p></li>'+
                 '</ul>'+
             '</div>'+
         	'<div class="clearfix"></div></div>';
@@ -2885,7 +2885,7 @@ function deleteItemCar(id,get,obj){
 			if (data['del']!='1'){
 				if (data['del']=='all'){
 					if (obj.mod!='wish'){
-						$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay artículos disponibles en su carrito de compras.</div>');
+						$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay artÃ­culos disponibles en su carrito de compras.</div>');
 						$('div.ui-single-box').removeAttr('style');
 						$('#headerStoreCar').css('display','none');
 						$('.menu-l-shoppingCart').css('display','none');
@@ -2984,7 +2984,7 @@ function deleteOrderC(get,obj){
 		height:200,
 		resizable:false,
 		open:function(){
-			$(this).html('¿Est&aacute;s seguro de eliminar esta orden?');
+			$(this).html('Â¿Est&aacute;s seguro de eliminar esta orden?');
 		},
 		buttons:[{
 			text:'No',
@@ -3118,7 +3118,7 @@ function makeShopingCar(){
 								var dato=data['listWish'];
 								if (dato=="si" || dato=='ya-existe'){
 									if (data['numRow']==0){
-										$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay artículos disponibles en su carrito de compras.</div>');
+										$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay artÃ­culos disponibles en su carrito de compras.</div>');
 										$('div.ui-single-box').removeAttr('style');
 										$('#headerStoreCar').css('display','none');
 										$('.menu-l-shoppingCart').css('display','none');
@@ -3187,7 +3187,7 @@ function makeShopingCar(){
 //					$('.button').button();
 				}
 			}else{
-				$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay artículos disponibles en su carrito de compras.</div>');
+				$('#list_orderProduct').html('<div class="messageAdver">Disculpe, no hay artÃ­culos disponibles en su carrito de compras.</div>');
 				$('div.ui-single-box').removeAttr('style');
 				//$('#totalANDsugestProduct').empty();
 				//carrito STORE_NO_SC
@@ -3244,8 +3244,8 @@ function processOrderSC(paso,array){
 						redir('shippingaddress');
 					}else{
 						$.dialog({
-							title	: 'Información',
-							content	: 'Algunos productos ya no están disponibles, su pedido fue modificado.',
+							title	: 'InformaciÃ³n',
+							content	: 'Algunos productos ya no estÃ¡n disponibles, su pedido fue modificado.',
 							close	:function(){ location.reload(); }
 						});
 						//message('information','','','',300,200,'','');
@@ -3267,7 +3267,7 @@ function processOrderSC(paso,array){
 							width:270,
 							height:190,
 							open:function(){
-								$(this).html('Verifique su bandeja de entrada para obtener mas información al respecto.');
+								$(this).html('Verifique su bandeja de entrada para obtener mas informaciÃ³n al respecto.');
 							},
 							close:function(){
 								mskPointsReload('#mskPoints');
@@ -3770,7 +3770,7 @@ function bodyfriends(friends,Link,unLink){
 				+ '<div class="clearfix"></div>';
 	}
 	if(friends['country']!=''){
-		country='<span class="titleField">País:&nbsp;</span>'+friends['country']
+		country='<span class="titleField">PaÃ­s:&nbsp;</span>'+friends['country']
 				+ '<div class="clearfix"></div>';
 	}
 
@@ -3815,7 +3815,7 @@ function bodygroups(groups){
 		if(groups['userInGroup']==0){
 			if(groups['buttonGroup']==0){
 				btn   = '<input type="button" value="Unirse" name="joinGroup'+groups['id']+'" id="joinGroup'+groups['id']+'" action="groupsAction,'+groups['id']+'">'
-				+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none">Esperar aprobación</div>'
+				+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none">Esperar aprobaciÃ³n</div>'
 				atc	=	'action="groupsAction,'+groups['id']+'"';
 			}else if(groups['buttonGroup']==1){
 				btn   =		'<div id="btnJoinViewroup'+groups['id']+'">'
@@ -3832,13 +3832,13 @@ function bodygroups(groups){
 					+	'	action="acceptInv,'+groups['id']+',list,none">'
 					+	'<span class="msg" id="msg'+groups['id']+'">Tienes una invitaci&oacute;n a este grupo</span>'
 					+	'<input type="button" value="Unirse" name="joinGroup'+groups['id']+'" id="joinGroup'+groups['id']+'" action="groupsAction,'+groups['id']+'" style="display: none">'
-					+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none">Esperar aprobación</div>'
+					+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none">Esperar aprobaciÃ³n</div>'
 					+	'</div>';
 				atc	='action="acceptInv,'+groups['id']+',list"';
 			}
 			btn   +=  '<div class="clearfix"></div>';
 		}else{
-			btn = '<div class="messageSuccessGroupo">Esperar aprobación</div>'
+			btn = '<div class="messageSuccessGroupo">Esperar aprobaciÃ³n</div>'
 			+ '<div class="clearfix"></div>';
 		}
 	}
