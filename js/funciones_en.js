@@ -27,7 +27,7 @@ function pageAction(action,data){
 				data=opc[0];
 			}
 			data=data?data:'';redir('creation'+data);break;
-		case 'redeemPoinst':message('messages','Redeem my points','<div class="font_size5"><div>You will be able change your points by services and products at Tagbum, the more points you earn, the more things you can get.</div></div>','',430,190,'');break;
+		case 'redeemPoinst':message('messages','Redeem my points','<div class="font_size5"><div>You will be able change your points by services and products at seeMyTag, the more points you earn, the more things you can get.</div></div>','',430,190,'');break;
 		case 'increasePoints':message('messages','How to increase my points','<div class="font_size5"><div><?$lang["MAINMENU_POINTS_2"]?></div></div>','',430,280,'');break;
 		case 'commentsSeeMore':
 			$(this).prev('p').show().prev('p').remove();
@@ -1248,7 +1248,7 @@ function addSuggestFriends(id_capa,content){
 					$(id_capa).css('height','0').css('border-bottom','0').css('display','none');
 				}else{
 					$('#seeMoreSuggest').fadeOut('400',function(){ $('#inviteSuggest').show(); });
-					$(id_capa).html('<div class="messageInviteSuggest">Invite your friends to enjoy with you in tagbum.com</div>');
+					$(id_capa).html('<div class="messageInviteSuggest">Invite your friends to enjoy with you in seemytag.com</div>');
 				}
 			}
 		}
@@ -2488,7 +2488,7 @@ function det_info(data){
             '<header><span>Members</span></header>'+
             '<div>'+
                 '<ul>'+
-                    '<li><label>Creator: </label>'+data['name_create']+'</li>'+
+                    '<li><label>: </label>'+data['name_create']+'</li>'+
                     '<li><label>Administrators: </label>'+data['num_admin']+'</li>'+
                     '<li><label>Members: </label>'+data['num_members']+'</li>'+
                     '<li><a>View Detail &raquo;</a></li>'+
@@ -2507,7 +2507,7 @@ function dialog_info(data){
                     '<li><label>Oriented: </label>'+data['des_o']+'</li>'+
                     '<li><label>Category: </label><img src="'+data['cphoto']+'" alt="Group Icons" title="'+data['ctitle']+'" width="30" height="30"/>'+data['cname']+'</li>'+
                     '<li><label>The date was established: </label>'+data['date']+'</li>'+
-                    '<li><label>Date joined: </label>'+data['date_join']+'</li>'+
+                    '<li><label>You joined the: </label>'+data['date_join']+'</li>'+
                     '<li><label>Description: </label><p>'+data['des']+'</p></li>'+
                 '</ul>'+
             '</div>'+
@@ -2632,7 +2632,7 @@ function bodyListProd(prod,obje,i){
 	//variables requeridas
 	var lst='',actionLi='',footerDiv='',inputCreate='',miniCar='',clasesLi='',attrR='',actionDiv='action="detailProd,'+prod['id']+'"';
 	if (prod['type_user']=='1'){
-		if (prod['id_user']=='427'){ footerDiv='<span class="footer color_orange">Tagbum products</span>'; }
+		if (prod['id_user']=='427'){ footerDiv='<span class="footer color_orange">Seemytag products</span>'; }
 		else {footerDiv='<span class="footer color_blue">Enterprise products</span>'; }
 	}else if(prod['type_user']=='0'){ footerDiv='<span class="color_green footer">Customized product</span>'; }
 	if (obje.layer=='#selectProducts .product-list' && !obje.noBorde){
