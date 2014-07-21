@@ -1,4 +1,5 @@
 <?php
+die(jsonp(array()));
 include '../header.json.php';
 
 	//si se pasa la fecha por parametro, utilizamos esa fecha
