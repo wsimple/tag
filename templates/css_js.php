@@ -40,7 +40,7 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 <script src="min/?g=js" charset="utf-8"></script>
 <?php } ?>
 <?php if(!$noHash){ ?>
-	<script src="js/conhash.js.php"></script>
+	<script src="min/?f=js/conhash.js"></script>
 <?php } ?>
 
 <?php if(LOCAL){ ?>
