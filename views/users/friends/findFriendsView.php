@@ -106,8 +106,8 @@
 	$(function() {
 		$('#txtSearchFriend').keyup(function() {
 			var dato = $.trim($(this).val());
-			// alert(dato);
-			if (dato!="" && $(this).val().length>2 || dato=="")	{
+			//alert('"'+dato+'"');
+			if (dato!="" && $(this).val().length>2)	{
 				var $cont=$.div("#content_friends_search");
 				$cont.fadeOut(200).html('<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="margin: 0 auto;display:block;">').fadeIn(200);
 				$.ajax({

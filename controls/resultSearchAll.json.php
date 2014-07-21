@@ -6,16 +6,16 @@ include('../class/wconecta.class.php');
 include('../includes/languages.config.php');
 
 //query
-$whereFriends = " WHERE u.status IN (1,5) AND u.id!='".$_SESSION['ws-tags']['ws-user']['id']."' ";
+$whereFriends = " WHERE u.status IN (1,5) ";
 
 if ($_GET['term'] != ''){
-    $whereFriends .= ' AND CONCAT(email, " ", name, " ", last_name) LIKE "%'.$_GET['term'].'%"';
-    $whereGroups = 'CONCAT(g.description, " ", g.name) LIKE "%'.$_GET['term'].'%"';
+    $whereFriends .= ' AND CONCAT_WS( " ", email, name, last_name, screen_name, username) LIKE "%'.$_GET['term'].'%"';
+    $whereGroups = 'CONCAT_WS( " ",g.description, g.name) LIKE "%'.$_GET['term'].'%"';
 }
 
 $friends = users($whereFriends, 3);
 $groups  = groups($whereGroups, 3);
-$tags    = tags($_GET['term'],5);
+$tags    = tags($_GET['term'],3);
 
 $productSe  = productS($_GET['term'],3);
 

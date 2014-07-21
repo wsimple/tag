@@ -4,12 +4,10 @@
 	include('../../../includes/functions.php');
 	include('../../../class/wconecta.class.php');
 	include('../../../includes/languages.config.php');
-	$where = " WHERE u.id!='".$_SESSION['ws-tags']['ws-user']['id']."' ";
+	$where = " WHERE false";
 
 	if ($_GET['dato']!="")
-	    $where .= " AND (email LIKE '%".$_GET['dato']."%' OR
-		                 name LIKE '%".$_GET['dato']."%' OR
-						 last_name LIKE '%".$_GET['dato']."%') ";
+	    $where = ' WHERE CONCAT(email, " ", name, " ", last_name, " ", screen_name," ",username) LIKE "%'.$_GET['dato'].'%" ';
 
 	$friends = users($where);
 
