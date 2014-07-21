@@ -63,11 +63,11 @@ include '../header.json.php';
 		$findhash=strpos($_GET['srh'],',');
 		if($findhash!=''){
 			$hash=explode(',',$_GET['srh']);
-//				$where.=" AND CONCAT(p.name, ' ', p.description) LIKE '%".$hash[0]."%'";
+//				$where.=" AND CONCAT_WS( " ",p.name,  p.description) LIKE '%".$hash[0]."%'";
 //				@$_SESSION['store']['temp']=$hash[0];
 		}else{ 
 			$hash[0]=$_GET['srh'];
-//				$where.=" AND CONCAT(p.name, ' ', p.description) LIKE '%".$_GET['srh']."%'"; 
+//				$where.=" AND CONCAT_WS( " ",p.name,  p.description) LIKE '%".$_GET['srh']."%'"; 
 //				@$_SESSION['store']['temp']=$_GET['srh'];
 		}
 		 $where.=" AND p.name LIKE '%".$hash[0]."%'"; 
