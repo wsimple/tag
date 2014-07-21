@@ -129,17 +129,17 @@
 					onPullDown:function(){
 						console.log('refresh');
 						action.refresh.date=action.refresh.date||action.more.date;
-						getNews('refresh',action.refresh);
+						// getNews('refresh',action.refresh);
 					},
 					onPullUp:function(){
 						console.log('more');
-						getNews('more',action.more);
+						// getNews('more',action.more);
 					},
 					onReload:function(){
 						console.log('reload');
 						action.more={};
 						$info.html('');
-						getNews('reload',action.more);
+						// getNews('reload',action.more);
 					}
 				});
 			}

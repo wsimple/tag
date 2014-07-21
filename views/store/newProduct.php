@@ -1,4 +1,7 @@
 <?php
+//_imprimir($_SESSION['ws-tags']['ws-user']);
+//_imprimir($_REQUEST);
+
 if(($_SESSION['ws-tags']['ws-user']['home_phone']==""&&$_SESSION['ws-tags']['ws-user']['mobile_phone']==""&&$_SESSION['ws-tags']['ws-user']['work_phone']=="")
 	||($_SESSION['ws-tags']['ws-user']['home_phone']=="-"&&$_SESSION['ws-tags']['ws-user']['mobile_phone']=="-"&&$_SESSION['ws-tags']['ws-user']['work_phone']=="-"))
 	$noTele=1;
@@ -28,7 +31,7 @@ if($_SESSION['ws-tags']['ws-user']['type']==1){
 	$categorys=json_encode($categorys);
 	$photos=array();
 }
-
+//_imprimir($categorys);
 if($_GET['idProd']){
 	$result=$GLOBALS['cn']->query('
 		SELECT p.id,
@@ -247,7 +250,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 		if(numOrder!=''){ $('.menu-l-youOrders').css('display','list-item'); }
 		if(numSales!=''){ $('.menu-l-youSales').css('display','list-item'); }
 
-		<?php if($_SESSION['ws-tags']['ws-user']['type']==1){ ?>
+		<?php if($_SESSION['ws-tags']['ws-user']['type']==1){  ?>
 		//validacion de telefonos
 		var noNUmTele='<?=$noTele?>';
 		if(noNUmTele==1){
@@ -416,7 +419,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
                         break;
                         case 'insert': redir('mypublications?'); break;
                         case 'update': redir('detailprod?prd=<?=md5($_GET['idProd'])?>'); break;
-                        case 'delete': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_DELETE_PROD_NOW?></trong></div>','','',250,'','detailprod?prd=<?=md5($_GET['idProd'])?>'); 
+                        case 'delete': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>',"<div syplay='text-aling:center;'><strong><?=STORE_DELETE_PROD_NOW?></trong></div>",'','',250,'',"detailprod?prd=<?=md5($_GET['idProd'])?>"); 
                         break;
 //                        case 'insert': case 'update':  break;
                         case 'no-update': message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=STORE_MESSAGE_NOT_DELETE?></trong></div>','','',200,'','detailprod?prd=<?=md5($_GET['idProd'])?>'); 
