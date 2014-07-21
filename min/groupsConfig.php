@@ -13,11 +13,11 @@
 
 return array(
 	'js'=>array(
-		// '//js/jquery-1.8.3.js',
+		'//js/jquery-1.8.3.js',
 		'//js/jquery.cookie.js',
 		'//js/jquery.local.js',
 		'//js/session.js',
-		// '//js/jquery-ui-1.9.2.custom.min.js',
+	    '//js/jquery-ui-1.9.2.custom.min.js',
 		'//js/jquery.ba-hashchange.min.js',
 		'//js/jquery.placeholder-1.01.js',
 		'//js/jquery.form.js',
