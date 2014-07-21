@@ -34,9 +34,27 @@ include '../header.json.php';
 			un.id_type IN (2,4,5,8,9,11,22,25,26) AND
 			un.id_source != 0 AND
 			un.id_friend !="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND un.id_friend !="0" AND un.id_friend != un.id_user AND
-			(un.id_user IN (SELECT id_friend FROM users_links WHERE id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'") OR 
-            (un.id_friend IN (SELECT id_friend FROM users_links WHERE id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'") AND un.id_type IN (22,27,26,25))) AND
-             un.id_user !="'.$_SESSION['ws-tags']['ws-user']['id'].'"
+			(
+				(
+					un.id_user IN (
+								SELECT ul.id_friend 
+								FROM users_links ul JOIN users us ON ul.id_friend=us.id
+								WHERE ul.id_user='.$_SESSION['ws-tags']['ws-user']['id'].'
+								AND DATEDIFF(NOW(),us.last_update)<=4
+								)
+				) OR 
+            	(
+            		un.id_friend IN ( 
+            					SELECT ul.id_friend 
+								FROM users_links ul 
+								JOIN users us ON ul.id_friend=us.id
+								WHERE id_user='.$_SESSION['ws-tags']['ws-user']['id'].'
+								AND DATEDIFF(NOW(),us.last_update)<=4
+								AND un.id_type IN (22,27,26,25)
+								)
+				)
+			) 
+			AND un.id_user !="'.$_SESSION['ws-tags']['ws-user']['id'].'"
 		GROUP BY un.id_type, un.id_source
 		ORDER BY un.date DESC
 		LIMIT '.intval($_REQUEST['start']).', '.(is_numeric($_REQUEST['limit'])?intval($_REQUEST['limit']):8);

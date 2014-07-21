@@ -121,7 +121,7 @@ function readTxt(url){
 			   '</li>'+
 				'<li opc="timeline" onlyif="!window.location.href.match(/[\\/=]timeline/i)"><img src="img/home.png"/><div>'+lang.TIMELINE_TITLE+'</div><arrow/></li>'+
 				'<li opc="toptags" onlyif="!window.location.href.match(/[\\/=]toptags/i)"><img src="img/topTags.png"/><div>'+lang.TOPTAGS_TITLE+'</div><arrow/></li>'+
-				'<li opc="news" onlyif="!window.location.href.match(/[\\/=]news/i)"><img src="img/news.png"/><div>'+lang.NEWS+'</div><arrow/></li>'+
+				// '<li opc="news" onlyif="!window.location.href.match(/[\\/=]news/i)"><img src="img/news.png"/><div>'+lang.NEWS+'</div><arrow/></li>'+
 				'<li opc="notif" onlyif="!window.location.href.match(/[\\/=]notif/i)"><img src="img/notifications.png"/><div>'+lang.NOTIFICATIONS+'</div><span class="push-notifications"></span><arrow/></li>'+
 				//'<li class="separator"></li>'+
 				'<li opc="friends"><img src="img/friends.png"/><div>'+lan('friends','ucw')+'</div><arrow/></li>'+
