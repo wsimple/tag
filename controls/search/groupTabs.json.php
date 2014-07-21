@@ -17,7 +17,7 @@ include '../header.json.php';
 			$ini = $_SESSION['ws-tags']['see_more']['friendsGroups'];
 		}
 
-		$whereGroups = 'CONCAT(g.description, " ", g.name) LIKE "%'.$srh.'%"';
+		$whereGroups = 'CONCAT_WS( " ",g.description, g.name) LIKE "%'.$srh.'%"';
 
 		$groups  = groups($whereGroups,$limit,$ini);
 

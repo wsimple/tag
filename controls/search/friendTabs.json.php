@@ -20,7 +20,7 @@ include '../header.json.php';
 		}
 
 		$whereFriends = " WHERE u.status IN (1,5) AND u.id!='".$_SESSION['ws-tags']['ws-user']['id']."' ";
-		$whereFriends .= ' AND CONCAT(email, " ", name, " ", last_name) LIKE "%'.$srh.'%"';
+		$whereFriends .= ' AND CONCAT_WS( " ",email,  name,  last_name) LIKE "%'.$srh.'%"';
 		$friends = users($whereFriends,$limit,$ini);
 
 		$cant = mysql_num_rows($friends);

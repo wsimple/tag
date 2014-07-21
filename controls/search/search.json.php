@@ -17,7 +17,7 @@ if (quitar_inyect()){
         }
         $array['where']=    'u.status IN (1,5)';
         $array['where'].=    colocaAND($array['where']).'u.id!="'.$_SESSION['ws-tags']['ws-user']['id'].'"';
-        if ($srh!=''){ $array['where'].=colocaAND($array['where']).'CONCAT(u.email, " ",u.name, " ",u.last_name) LIKE "%'.$srh.'%"'; }
+        if ($srh!=''){ $array['where'].=colocaAND($array['where']).'CONCAT_WS( " ",u.email, u.name, u.last_name) LIKE "%'.$srh.'%"'; }
         $array['order']='ORDER BY u.name ASC, u.email ASC';
         $friends = peoples($array);
         $friendsarray=array();
@@ -41,7 +41,7 @@ if (quitar_inyect()){
         }
         $array['select']="	,(SELECT ug.status FROM users_groups ug WHERE ug.id_group=g.id and ug.id_user='".$_SESSION['ws-tags']['ws-user']['id']."' LIMIT 1) AS integrant";
         $array['where']=    "(g.id_privacy!='3' OR (g.id_privacy='3' AND g.id=(SELECT ug.id_group FROM users_groups ug WHERE ug.id_group=g.id AND ug.id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' LIMIT 1)))";
-        if ($srh!=''){ $array['where'].=colocaAND($array['where']).'CONCAT(g.description," ", g.name) LIKE "%'.$srh.'%"'; }
+        if ($srh!=''){ $array['where'].=colocaAND($array['where']).'CONCAT_WS( " ",g.description, g.name) LIKE "%'.$srh.'%"'; }
         $array['order']='ORDER BY g.date DESC';
         $results = groupss($array);
         $groups=array();
@@ -133,7 +133,7 @@ if (quitar_inyect()){
 				$array['where'].=" AND p.description LIKE  '%#".$hash[0]."%'";
                 $_SESSION['store']['temp']=$hash[0];
 			}else{ 
-                $array['where'].=" AND CONCAT(p.name, ' ', p.description) LIKE '%".$srh."%'"; 
+                $array['where'].=" AND CONCAT_WS( " ",p.name,  p.description) LIKE '%".$srh."%'"; 
                 $_SESSION['store']['temp']=$srh;
             }
 		}

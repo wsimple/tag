@@ -75,7 +75,7 @@ function tagsList_json($data,$mobile=false){
 			$hash=end(explode('#',$data['hash']));
 			$res['info']='listado de tags del HashTash #'.$hash;
 			$where.='
-				AND CONCAT(t.text," ",t.text2," ",t.code_number) LIKE "%#'.$hash.'%"
+				AND CONCAT_WS( " ",t.text,t.text2,t.code_number) LIKE "%#'.$hash.'%"
 				AND t.status="1"
 			';
 		}elseif($data['current']=='myTags'){//listado de tags del usuario logeado
