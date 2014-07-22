@@ -175,6 +175,7 @@
 						imgs=imgs||('<div'+action+'  class="usr-pic" style="background-image:url('+usr[i]['photo']+');width:30px;height:30px;"'+'"></div>');
 					usrs+='<span'+action+'>'+usr[i]['name']+'</span>';
 				}
+				action=null;
 			}
 			imgs=imgs||('<div'+action+' class="usr-pic"></div>');
 			return [imgs,usrs];
@@ -224,8 +225,10 @@
                                     id:info['id'],
                                     clase:clase
 								};
-                                friends=peopleFormat(info['friends'],info['num_friends'],info['id_type']);
-                                var people=peopleFormat(info['usr'],1);
+                                // var friends=peopleFormat(info['friends'],info['num_friends'],info['id_type']),
+                                //  	people=peopleFormat(info['usr'],1,info['id_type']);
+		                        var friends=peopleFormat(info['usrs'],null,info['id_type']),
+                                 	people=peopleFormat(info['friend'],null,info['id_type']);
                                 switch(info['type']){
 									case 'tag':
 										    var ac=' action="comment,'+info['idsource']+'"',
