@@ -4,9 +4,9 @@
 	<div class="_tt">
 		<div class="_tc">
 			<div id="titleNormal">
-				<a href="#whatIsIt" class="prinTitle prinTitleActive" id="1"><?=LANDING_WHATITIS?></a>
-				<a href="#howDoesWork" class="prinTitle" id="2"><?=LANDING_HOWDOESIT?></a>
-				<a href="#app" class="prinTitle" id="3"><?=LANDING_APPDOWN?></a>
+				<a href="#WhatIsIt" class="prinTitle prinTitleActive" id="1"><?=LANDING_WHATITIS?></a>
+				<a href="#HowDoesWork" class="prinTitle" id="2"><?=LANDING_HOWDOESIT?></a>
+				<a href="#App" class="prinTitle" id="3"><?=LANDING_APPDOWN?></a>
 				<a class="prinTitle iconLogin" id="login" style="padding-right: 20px;margin-right: 5px;"><?=LANDING_LOGIN?></a>
 			</div>
 		</div>
@@ -78,14 +78,14 @@
 		$(window).hashchange(function(){
 			var hash = document.location.hash.split('/')[0];
 			
-			if((hash=='#')||(hash=='')||(hash=='#whatIsIt')){
+			if((hash=='#')||(hash=='')||(hash=='#WhatIsIt')){
 				$('.logoTbum').fadeOut('slow');
 			}else{
 				$('.logoTbum').fadeIn('slow');
 			}
 			
 			if((hash=='#')||(hash=='')){
-				hash = '#whatIsIt';
+				hash = '#WhatIsIt';
 			}
 			$(menu).removeClass('prinTitleActive');
 			$(menu).filter('[href="'+hash+'"]').addClass('prinTitleActive');
