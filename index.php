@@ -1,4 +1,6 @@
 <?php
+	global $noHash;
+	$noHash=true;
 	// die($_SERVER['SERVER_NAME'].array_shift(split(basename(__DIR__),$_SERVER['REQUEST_URI'])).basename(__DIR__));
 	if (isset($_GET['resizeimg'])) {
 		include('includes/imagen.php');
@@ -224,6 +226,9 @@ if($detect->isMobile()&&!$_COOKIE['__FV__']){?>
 	<div id="debug" style="position:absolute;z-index:1000000;top:0;background:#fff;display:none;">
 		DOMINIO: <?=DOMINIO?><br/>
 		FILESERVER: <?=FILESERVER?><br/>
+		Seccion: <?=$section?><br/>
+		$config: <?php _imprimir($config); ?>
+		GET: <?php _imprimir($_GET); ?>
 		POST: <?php _imprimir($_POST); ?>
 		COOKIES: <?php _imprimir($_COOKIE); ?>
 		SESSION: <?php _imprimir($_SESSION['ws-tags']); ?>
