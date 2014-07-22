@@ -274,7 +274,7 @@ function getBuddyList() {
 				}
 			}
 
-			echo $sql = getFriendsList($userid,$time);
+			$sql = getFriendsList($userid,$time);
 
 			if ($guestsMode) {
 				$sql = getGuestsList($userid,$time,$sql);
