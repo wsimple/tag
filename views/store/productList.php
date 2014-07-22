@@ -126,7 +126,7 @@ $(function() {
 						array['srh']='';
 						array['radio']='<?=$_GET['radio']?$_GET['radio']:''?>';
 						subget='<?=$_GET['radio']?'?radio='.$_GET['radio']:''?>';
-						title=((nameCate!='')?'<a id="titleStoreA"><?=STORE_TITLE?></a><span>&nbsp;>&nbsp;</span>'
+						title=((nameCate!='')?'<a id="titleStoreA">00<?=STORE_TITLE?></a><span>&nbsp;>&nbsp;</span>'
 							 +((nameSubCate!='')?'<a href="'+BASEURL+'store'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
 							 +'<span>'+nameCate+'</span>'):'<span><?=STORE_TITLE.' > '.STORE_ALL_PRODUCT?></span>');
 				}
