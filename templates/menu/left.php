@@ -259,7 +259,7 @@
 							}
 							$('#adsListPubli').show();
 							$('#news-loader').fadeOut('slow',function(){$(layer).after(out);});
-							$('#info-container tr:gt(3)').remove();
+							$('#info-container tr:gt(5)').remove();
 						}else{
 							if(action=='reload')
 							   $('#news-loader').fadeOut('slow',function(){$('#waitNewsInfo').fadeIn('fast');});

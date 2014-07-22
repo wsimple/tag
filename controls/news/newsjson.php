@@ -16,17 +16,15 @@
 	 					FROM users us
 	 					INNER JOIN users_links ul ON ul.id_friend= us.id
 	 					WHERE ul.id_user=? AND $usdiffDate;",array($miId));
-	$res['sql-amigos']=CON::lastSql();
+	// $res['sql-amigos']=CON::lastSql();
 	if (CON::numRows($query)){
-		$idIn='';
+		$idIn='';$ainfo=array();
 		while($row=CON::fetchAssoc($query)){
 			$idIn.=($idIn!=''?',':'').$row['id'];
 			$res['fecha']=$row['NOW()'];
 		} 
-		$new=CON::query("SELECT un.id,
-								un.id_friend,
+		$new=CON::query("SELECT un.id_friend,
 								un.id_user,
-								un.revised,
 								un.id_type,
 								un.id_source,
 								un.date,
@@ -36,22 +34,29 @@
 					            (SELECT md5(CONCAT(u.id,'_',u.email,'_',u.id))  FROM users u WHERE u.id=un.id_user) AS keyUser,
 					            (SELECT md5(CONCAT(u.id,'_',u.email,'_',u.id))  FROM users u WHERE u.id=un.id_friend) AS keyFriend,
 					            (SELECT u.profile_image_url FROM users u WHERE u.id=un.id_user) AS photoUser,
-					            (SELECT u.profile_image_url FROM users u WHERE u.id=un.id_friend) AS photoFriend,
-					            (SELECT u.profile_image_url FROM users u WHERE u.id=184) AS photoyo
+					            (SELECT u.profile_image_url FROM users u WHERE u.id=un.id_friend) AS photoFriend
 							FROM users_notifications un
 							INNER JOIN type_actions t ON un.id_type = t.id
 							WHERE un.id_user!=? AND un.id_friend!=? AND un.id_friend!=0 AND un.id_friend!=un.id_user 
 							AND un.id_type IN (2,4,5,8,9,11,22,25,26) 
 							AND (un.id_friend IN ($idIn) OR un.id_user IN ($idIn)) AND $undiffDate
-							-- GROUP BY un.id_source
 							ORDER BY un.date DESC", array($miId,$miId));
 		$res['sql-noti']=CON::lastSql();
+		$burro=array();
 		while($row=CON::fetchAssoc($new)){
-			if (isset($infoa[$row['id_source']]) && $infoa[$row['id_source']]['id_type']==$row['id_type']){
-				$num=count($infoa[$row['id_source']]['usrs']);
-				$infoa[$row['id_source']]['usrs'][$num]['name'] = utf8_encode($row['nameUser']);
-				$infoa[$row['id_source']]['usrs'][$num]['uid'] = md5($row['id_user']);
-				$infoa[$row['id_source']]['usrs'][$num]['photo'] = FILESERVER.getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],'img/users/default.png');
+			$burro[]=$row;
+			if (isset($infoa[$row['id_source'].'-'.$row['id_type']])){
+				$band=false;
+				$num=count($infoa[$row['id_source'].'-'.$row['id_type']]['usrs']);
+				for ($i=0;$i<$num; $i++){
+					if ($infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$i]['name']===utf8_encode($row['nameUser']))
+						$band=true;
+				}
+				if (!$band){
+					$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['name'] = utf8_encode($row['nameUser']);
+					$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['uid'] = md5($row['id_user']);
+					$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['photo'] = FILESERVER.getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],'img/users/default.png');
+				}
 			}else{
 				//Fecha formateada (fdate)
 				$date = explode(' ', $row['date']); //fecha,hora
@@ -66,27 +71,26 @@
 				$usr[0]['name'] = utf8_encode($row['nameUser']);
 				$usr[0]['uid'] = md5($row['id_user']);
 				$usr[0]['photo'] = FILESERVER.getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],'img/users/default.png');
-				// $usr[0]['aqui'] =fileExistsRemote(FILESERVER.'img/users/'.$row['keyUser'].'/'.$row['photoUser']);
-				// $usr[0 ]['alla'] =FILESERVER.'img/users/'.$row['keyUser'].'/'.$row['photoUser'];
-				
 				$friend['name']=utf8_encode($row['nameFriend']);
 				$friend['uid']=md5($row['id_friend']);
 				$friend['photo'] = FILESERVER.getUserPicture($row['keyFriend'].'/'.$row['photoFriend'],'img/users/default.png');
 				$afriends[0]=$friend;
+				$row['usrs']=$usr;
 				$row['friend']=$afriends;
 				$row['idsource']=$row['id_source'];
 	    		$row['source']=md5($row['id_source']);
-				$row['usrs']=$usr;
-				$infoa[$row['idsource']]=$row;
+				$infoa[$row['idsource'].'-'.$row['id_type']]=$row;
 			}
 			unset($row['date']); unset($row['KeyUser']); unset($row['keyFriend']);
+			unset($row['nameUser']); unset($row['nameFriend']); unset($row['photoUser']);
+			unset($row['photoFriend']); unset($row['nameFriend']);
 			if ($limit && count($infoa)>=$limit) break;
 		}
-		foreach ($infoa as $key) $info[]=$key;
+		if (count($infoa)>0) foreach ($infoa as $key){ $info[]=$key; } 
 	}else{ $info=array(); }
 	$res['info']=$info;
 	// echo '<pre>';
-	// print_r($res);
+	// print_r($infoa);
 	// echo '</pre>';
 
 //*******************************************************************************************************
@@ -109,9 +113,9 @@
 //		$res['txt']['15']='[_YOU_] commented a [_PRODUCT_] in the store';
 //		$res['txt']['16']='La orden [_ORDER_] ha sido procesada satisfactoriamente';
 //		$res['txt']['17']='La orden [_ORDER_] está pendiente por pagar';
-        $res['txt']['22']='La [_TAG_] de [_PEOPLE_] ha sido la ganadora del d&iacute;a';
-        $res['txt']['25']='La [_TAG_] de [_PEOPLE_] ha sido la ganadora de la semana';
-        $res['txt']['26']='La [_TAG_] de [_PEOPLE_] ha sido la ganadora del mes';
+        $res['txt']['22']='La [_TAG_] de [_FRIENDS_] ha sido la ganadora del d&iacute;a';
+        $res['txt']['25']='La [_TAG_] de [_FRIENDS_] ha sido la ganadora de la semana';
+        $res['txt']['26']='La [_TAG_] de [_FRIENDS_] ha sido la ganadora del mes';
 		$res['txt']['replace']=array(
 			'[_TAG_]'	=>'Tag',
 			'[_AND_]'	=>'y',
@@ -136,9 +140,9 @@
 //		$res['txt']['15']='[_YOU_] commented a [_PRODUCT_] in the store';
 //		$res['txt']['16']='The order [_ORDER_] was processed successfully';
 //		$res['txt']['17']='The order [_ORDER_] is pending for payment';
-        $res['txt']['22']='The [_TAG_] to [_PEOPLE_] has been the winner day';
-        $res['txt']['25']='The [_TAG_] to [_PEOPLE_] has been the winner week';
-        $res['txt']['26']='The [_TAG_] to [_PEOPLE_] has been the winner month';
+        $res['txt']['22']='The [_TAG_] to [_FRIENDS_] has been the winner day';
+        $res['txt']['25']='The [_TAG_] to [_FRIENDS_] has been the winner week';
+        $res['txt']['26']='The [_TAG_] to [_FRIENDS_] has been the winner month';
         $res['txt']['replace']=array(
 			'[_TAG_]'	=>'Tag',
 			'[_AND_]'	=>'and',
