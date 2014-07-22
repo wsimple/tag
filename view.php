@@ -18,6 +18,8 @@ $currentPage=404;
 if(isset($_GET['page'])) $currentPage=$_GET['page'];
 //Logged: verificar si esta logeado
 $logged=$_SESSION['ws-tags']['ws-user']['id']!='';
+#local o servidor
+$local=!!preg_match('/^(localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME']);
 //paginas que se pueden abrir sin logear
 $f_unlogged=array(
 	'main/home.php',
@@ -116,7 +118,7 @@ if($idPage!='') switch($idPage){
 			$bodyPage="$idPage.2.php";
 		}elseif(is_file("views/$idPage.3.php")){
 			$bodyPage="$idPage.3.php";
-		}elseif(LOCAL){
+		}elseif($local||$_COOKIE['_DEBUG_']){
 			if(is_file("views/temp/$idPage.php")){
 				$currentPage="temp/$idPage.php";
 			}elseif(is_file("views/temp/$idPage.2.php")){
