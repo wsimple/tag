@@ -4,6 +4,16 @@
  * Copy Rights :Tagamation, LLc
  * Date        :02/22/2011
  */
+global $section,$params,$noHash;
+if($noHash){
+	$section=str_replace($_SERVER['SCRIPT_NAME'],'',$_SERVER['REQUEST_URI']);
+	if(($section==''||$section=='/')&&strpos($_SERVER['SCRIPT_NAME'],'.php')) $section='/home';
+	elseif(substr($section,0,1)!='/') $section=false;
+	if($section){
+		$params=explode('/',array_shift(explode('?',substr($section,1))));
+		$section=array_shift($params);
+	}
+}
 	#definicion de variables que difieren entre produccion y local
 	if(preg_match('/^(localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
 		$tmp=strpos($_SERVER['SCRIPT_NAME'],'/',1)+1;
