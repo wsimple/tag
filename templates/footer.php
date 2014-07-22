@@ -35,14 +35,14 @@ $(function(){
 		var keep = document.location.hash;
 		console.log(keep);
 		switch(keep){
-			case '#whatIsIt':case '#':case '':
-				document.location.hash='#howDoesWork';
+			case '#WhatIsIt':case '#':case '':
+				document.location.hash='#HowDoesWork';
 			break;
-			case '#howDoesWork':case '#howDoesWork/1':case '#howDoesWork/2':
+			case '#HowDoesWork':case '#HowDoesWork/1':case '#HowDoesWork/2':
 				document.location.hash='#app';
 			break;
-			case '#app':
-				document.location.hash='#whatIsIt';
+			case '#App':
+				document.location.hash='#WhatIsIt';
 			break;
 		}
 	});
