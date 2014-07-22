@@ -59,7 +59,7 @@ if($logged){
 		$co.data('id',container.id);
 		$.on({
 			open:function(){
-				$.hashExceptions = ['whatIsIt', 'howDoesWork', 'app'];
+				$.hashExceptions = ['WhatIsIt', 'HowDoesWork', 'App'];
 				$('footer').show();
 				$c.fullpage({
 					anchors: $.hashExceptions
@@ -81,15 +81,15 @@ if($logged){
 			var hash = document.location.hash,
 				$scroll=$('#keepscroll');
 				switch(hash){
-					case '#whatIsIt':
+					case '#WhatIsIt':
 						//$co.css('background-image','url("css/tbum/tbum.png")');
 						$scroll.css('background-image',"url('css/tbum/footerkeep.png')");
 					break;
-					case '#howDoesWork':
+					case '#HowDoesWork':
 						$co.css('background-image','');
 						$scroll.fadeIn('slow').css('background-image',"url('css/tbum/footerkeep.png')");
 					break;
-					case '#app':
+					case '#App':
 						$co.css('background-image','');
 						$scroll.css({
 							'background-image':"url('css/tbum/footerkeepup.png')",
