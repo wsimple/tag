@@ -1,3 +1,4 @@
+<?php global $section,$noHash; ?>
 <?php if(preg_match('/msie [6-8]/i',$_SERVER['HTTP_USER_AGENT'])&&preg_match('/chromeframe/i',$_SERVER['HTTP_USER_AGENT'])) { ?>
 <meta http-equiv="X-UA-Compatible" content="chrome=1" />
 <?php } ?>
@@ -13,14 +14,15 @@
 <meta name="google-site-verification" content="OVxfKydQKcISwAEi9um6hz88kHTvsjXhay_PTsbMC1I"/>
 <link rel="shortcut icon" href="css/smt/icon.png"/>
 <link rel="apple-touch-icon" href="css/smt/icon.png"/>
-<?php global $section,$noHash; ?>
 <script>
-var FILESERVER='<?=FILESERVER?>',
+var BASEURL='<?=base_url()?>',
+	FILESERVER='<?=FILESERVER?>',
 	DOMINIO='<?=DOMINIO?>',
 	SECTION='<?=$section?>',
-	BASEURL='<?=base_url()?>',
+	NOHASH=!!<?=$noHash?1:0?>,
 	ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>;
 if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localStorage.removeItem('logged');
+<?php if($noHash){?>(function(l){ if(!l.search.match(/hashtag=/)&&l.hash.match(/#[a-z]/)) l.href=BASEURL+'?'+l.search.substr(1)+'&hashtag='+l.hash.substr(1); })(document.location);<?php } ?>
 </script>
 <script src="min/?f=js/language_<?=$_SESSION['ws-tags']['language']?>.js" charset="utf-8"></script>
 <?php if(LOCAL){ 
