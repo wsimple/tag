@@ -8,6 +8,19 @@
 //Includes a utilizar
 include '../header.json.php';
 include (RELPATH.'class/class.phpmailer.php');
+// $_GET['acc']='0';
+// $userId='1'; 
+// $status='2'; 
+// $txtCategory='3';
+// $txtSubCategory='4';
+// $txtName='5';
+// $txtDescription='6'; 
+// $txtStock='7'; 
+// $txtPrice='8';
+// $img='9';
+// $place='10';
+// $txtMethod='11';
+// $txtVideo='12';
 
 switch ($_GET['acc']) {
     case 'img': 
@@ -17,8 +30,6 @@ switch ($_GET['acc']) {
         break;
     case '0': //Agregar producto
 		if( quitar_inyect() ) {
-			//Subimos foto si se seleciono
-			//Varables a agregar
 			$userId = $_SESSION['ws-tags']['ws-user']['id'];
 			foreach ($_POST as $nameVar => $valueVar) ${$nameVar} = "'$valueVar'";
 			$txtPrice = str_replace(',','',$txtPrice); //Formatea el tipo de dinero para ser insertado
@@ -32,43 +43,53 @@ switch ($_GET['acc']) {
 			}else{ 
 			    $place='1'; 
                 for($i=1;$i<6;$i++){ if($_POST['backgSelect_'.$i]!='') { $img=$_POST['backgSelect_'.$i]; break; } }
+				// echo $img;
             }
             if($txtVideo==''||!preg_match(regex('video'),$txtVideo)) $txtVideo=='http://';
             else $txtVideo=str_replace("'",'',$txtVideo);
-			$sql="INSERT INTO `store_products` (
-						`id_user` ,
-						`id_status` ,
-						`id_category` ,
-						`id_sub_category` ,
-						`name` ,
-						`description` ,
-						`stock` ,
-						`sale_points` ,
-						`photo` ,
-						`join_date`,
-						`update_date`,
-						`place`,
-						`formPayment`,
-						`video_url`
-						)
-						VALUES ( $userId, $status, $txtCategory,$txtSubCategory,".formatText($txtName).", ".$txtDescription.", $txtStock, $txtPrice, '$img', NOW(), NOW(),$place,$txtMethod,".$txtVideo.");";
-			//$res['sql']= $sql;
-			$result = $GLOBALS['cn']->query($sql);
+			// $idproduct=CON::insert('store_products','id_user=?,id_status=?,id_category=?,id_sub_category =?,name =?,description=?,stock =?,sale_points =?,photo=?,join_date=NOW(),update_date=NOW(),place=?,formPayment=?,video_url=?',
+									// array($userId,$status, $txtCategory,$txtSubCategory,formatText($txtName),$txtDescription,$txtStock,$txtPrice,$img,$place,$txtMethod,$txtVideo));
+			$idproduct=CON::insert('store_products',"id_user=$userId,id_status=$status,id_category=$txtCategory,id_sub_category =$txtSubCategory,name =".formatText($txtName).",description=$txtDescription,stock =$txtStock,sale_points =$txtPrice,photo='$img',join_date=NOW(),update_date=NOW(),place=$place,formPayment=$txtMethod,video_url=$txtVideo");
+			// $sql="INSERT INTO `store_products` (
+			// 			`id_user` ,
+			// 			`id_status` ,
+			// 			`id_category` ,
+			// 			`id_sub_category` ,
+			// 			`name` ,
+			// 			`description` ,
+			// 			`stock` ,
+			// 			`sale_points` ,
+			// 			`photo` ,
+			// 			`join_date`,
+			// 			`update_date`,
+			// 			`place`,
+			// 			`formPayment`,
+			// 			`video_url`
+			// 			)
+			// 			VALUES ( $userId, $status, $txtCategory,$txtSubCategory,".formatText($txtName).", ".$txtDescription.", $txtStock, $txtPrice, '$img', NOW(), NOW(),$place,$txtMethod,".$txtVideo.");";
+			//$result = $GLOBALS['cn']->query($sql);
+			// echo $res['sql']= CON::lastSql();
 			if (!isset($backgSelect_)){
 				$band=false;
-				$idproduct=mysql_insert_id();
+				// $idproduct=mysql_insert_id();
 				$sql='INSERT INTO `store_products_picture` (
 						`id` ,`id_product` ,`picture` ,`order` ,`status` ) VALUES ';
 				for ($y=1;$y<6;$y++){
 					if ($_POST['backgSelect_'.$y]){
-						$sql.=$band?',('.$y.','.$idproduct.',\''.$_POST['backgSelect_'.$y].'\','.$_POST['txtOrder'.$y].',1)':'('.$y.','.$idproduct.',\''.$_POST['backgSelect_'.$y].'\','.$_POST['txtOrder'.$y].',1)';
+						$sql.=($band?',':'').safe_sql("(?,?,?,?,1)",array($y,$idproduct,$_POST['backgSelect_'.$y],$_POST['txtOrder'.$y]));
+						// $sql.=$band?',('.$y.','.$idproduct.',\''.$_POST['backgSelect_'.$y].'\','.$_POST['txtOrder'.$y].',1)':'('.$y.','.$idproduct.',\''.$_POST['backgSelect_'.$y].'\','.$_POST['txtOrder'.$y].',1)';
 						$band=true;
 					}
 				}
 				$sql.=';';
-				$result = $GLOBALS['cn']->query($sql);
+				$result = CON::query($sql);
+				// $result = $GLOBALS['cn']->query($sql);
 			}
-			if( $result ){ $res['action'] = 'insert'; }			
+			if($result){ 
+				$res['action'] = 'insert'; 
+				$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
+				notifications($userId,$idproduct,'28',"",$wid);
+			}			
 		}
     break;
     case '1': //Editar Producto
