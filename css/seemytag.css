@@ -4731,7 +4731,8 @@ container.wrapper .left-panel #adsListPubli td[tipo="14"]{
     background-image:url(tbum/news/group.png);
 }
 container.wrapper .left-panel #adsListPubli td[tipo="16"],
-container.wrapper .left-panel #adsListPubli td[tipo="17"]{
+container.wrapper .left-panel #adsListPubli td[tipo="17"],
+container.wrapper .left-panel #adsListPubli td[tipo="28"]{
     background-image:url(tbum/news/store.png);
 }
 .divYourFriendsSuggestSeparator{
@@ -5684,4 +5685,11 @@ container .left-panel .menus ul a,
 container .left-panel .menus ul span{
 
 	margin: 0px; display: block; width: 100%; height: 100%;
+}
+.fotoCrop{
+	width:878px;margin:0 auto 0 8px;height:auto;background: #fff;padding: 20px 10px 20px 10px;
+}
+
+.fotoCrop>form>div{
+	padding-bottom: 20px; color: #787878
 }
