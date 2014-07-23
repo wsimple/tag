@@ -212,8 +212,7 @@
 					},
 					success	: function(data){
                         eval(data.txtFormat);
-                        console.log(data);
-						if(data['info'].length>0){
+                        if(data['info'].length>0){
 							var i,out='',info,txt,len,type,clase='';
 							opc.date=data['fecha'];
 							act.start=(act.start||0)+data['info'].length;
