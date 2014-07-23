@@ -411,7 +411,7 @@ $(function(){
 		},
 		success:function(data){//post-submit callback
 			console.log('submit success');
-			console.log(data);
+			// console.log(data);
 			if(!data) return;
 			if(data['bg']) setBG(data['bg']);
 			switch(data['type']){
