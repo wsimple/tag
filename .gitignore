@@ -7,9 +7,8 @@ img/users/
 img/tags/
 img/store/
 img/templates/
-views/temp/
+
+language/*.php
 
 main/config/
 main/core/
-
-language/*.php

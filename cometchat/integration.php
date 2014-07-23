@@ -15,11 +15,11 @@ define('FORCE_MAGIC_QUOTES','0');
 
 /* DATABASE */
 
-define('DB_SERVER',					'localhost'						    );
-define('DB_PORT',					'3306'									);
-define('DB_USERNAME',				'db_seemytag_user'						);
-define('DB_PASSWORD',				'4kUHbM7KiadrHwOyUPiadr4kUH'			);
-define('DB_NAME',					'seemytag'  							);
+define('DB_SERVER',					'192.168.57.15'						    );
+define('DB_PORT',					'3306'							 		);
+define('DB_USERNAME',				'uservzla200'					    	);
+define('DB_PASSWORD',				'-t@gvzlA_mysql'			            );
+define('DB_NAME',					'tagbum200'  							);
 define('TABLE_PREFIX',				''							            );
 define('DB_USERTABLE',				'users'									);
 define('DB_USERTABLE_NAME',			'screen_name'							);
@@ -89,8 +89,9 @@ function getLink($link) {
 }
 
 #funciones para obtener el avatar del usuario
-define('FILESERVER','http://seemytagdemo.com/');
+define('FILESERVER','http://68.109.244.201/');
 function fileExistsRemote($path){
+
     return (@fopen($path,'r')==true);
 }
 function getAvatar($photo) {
@@ -98,8 +99,8 @@ function getAvatar($photo) {
 	$default=FILESERVER.$path.'default.png';
 	if(strpos($photo,$path)===false) $photo=$path.$photo;
 	$photo=FILESERVER.$photo;
-	if(preg_match('/\S+\.\S+$/',$photo)){
-		$thumb=preg_replace('/(\.\S+)$/','_thumb$1',$photo);
+	if(preg_match('/\S+\.\w+$/',$photo)){
+		$thumb=preg_replace('/(\.\w+)$/','_thumb$1',$photo);
 		if(fileExistsRemote($thumb))
 			return $thumb;
 		elseif(fileExistsRemote($photo))

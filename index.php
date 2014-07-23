@@ -1,4 +1,6 @@
 <?php
+	global $noHash;
+	$noHash=true;
 	// die($_SERVER['SERVER_NAME'].array_shift(split(basename(__DIR__),$_SERVER['REQUEST_URI'])).basename(__DIR__));
 	if (isset($_GET['resizeimg'])) {
 		include('includes/imagen.php');
@@ -106,10 +108,6 @@
 ?>
 <!DOCTYPE html>
 <html>
-	<?php if(isset($_REQUEST['debug'])||isset($_COOKIE['_debug_'])){ ?>
-	<!-- FS=<?=FILESERVER?>, D=<?=DOMINIO?> RP=<?=RELPATH?> -->
-	<!-- SESSION: <?=json_encode($_SESSION['ws-tags']['ws-user'])?> -->
-	<?php } ?>
 	<head>
 	<base href="http://<?=$_SERVER['SERVER_NAME'].PATH_SITE?>" />
 	<title><?=TITLE?></title>
@@ -224,17 +222,19 @@ if($detect->isMobile()&&!$_COOKIE['__FV__']){?>
 </script>
 </head>
 <body lang="<?=$_SESSION['ws-tags']['language']?>">
-	<?php
-		//Debugger: se puede imprimir variables para verificarlas
-		if($_COOKIE['_DEBUG_']=='1'){
-			echo '<div id="debug" style="position:absolute;display:none;">';
-			echo 'POST:';_imprimir($_POST);
-			echo 'COOKIE:';_imprimir($_COOKIE);
-			echo 'SESSION:';_imprimir($_SESSION);
-			echo 'SERVER:';_imprimir($_SERVER);
-			echo '</div>';
-		}
-		if(isset($_GET['command'])){
+<?php if(isset($_REQUEST['debug'])||isset($_COOKIE['_DEBUG_'])){//Debugger: imprime variables para verificarlas ?>
+	<div id="debug" style="position:absolute;z-index:1000000;top:0;background:#fff;display:none;">
+		DOMINIO: <?=DOMINIO?><br/>
+		FILESERVER: <?=FILESERVER?><br/>
+		Seccion: <?=$section?><br/>
+		$config: <?php _imprimir($config); ?>
+		GET: <?php _imprimir($_GET); ?>
+		POST: <?php _imprimir($_POST); ?>
+		COOKIES: <?php _imprimir($_COOKIE); ?>
+		SESSION: <?php _imprimir($_SESSION['ws-tags']); ?>
+	</div>
+<?php }
+	if(isset($_GET['command'])){
 			include('templates/commands.php');
 		}else{
 			include('templates/page.php');

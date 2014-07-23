@@ -1,5 +1,7 @@
 <?php
-if ($_GET['uid']!='') { $where = "md5(id) = '".$_GET['uid']."'"; }
+global $section;
+if($section) $where = "username!='' AND username LIKE '$section'";
+elseif ($_GET['uid']!='') { $where = "md5(id) = '".$_GET['uid']."'"; }
 elseif ($_GET['userIdExternalProfile']!='') { $where = "md5(id) = '".$_GET['userIdExternalProfile']."'"; }
 elseif(isset($_GET['usr'])){ $where = "username LIKE '".$_GET['usr']."'"; }
 else{ $where = "id = ".$_SESSION['ws-tags']['ws-user']['id']; }

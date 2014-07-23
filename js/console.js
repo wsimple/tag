@@ -1,12 +1,28 @@
 //-- Consola --//
 console.log('Agent: '+navigator.userAgent);
-(function(w){
+(function(w,$){
+	var c,fakec={};
+	['log','alert','warn','error'].forEach(function(name){fakec[name]=function(){return;};});
+	if('console' in w) c=w.console; else c=fakec;
+	$.c=function(enable){
+		if(enable!==undefined){
+			if(enable){
+				$.cookie('_DEBUG_',1);
+				c.log('Logs Enabled');
+			}else{
+				$.cookie('_DEBUG_',null);
+				c.log('Logs Disabled');
+			}
+		}
+		console.log('debug='+($.cookie('_DEBUG_')?1:0));
+		return $.cookie('_DEBUG_')?c:fakec;
+	};
+
 	var c1,c2={};
 	['log','alert','warn','error'].forEach(function(name){c2[name]=function(){return;};});
 	if(!('console' in w)){
 		['log','unlog'].forEach(function(name){w[name]=function(){return;};});
 		c1=c2;
-		w.console=c1;
 	}else{
 		w.log=function(name){
 			$.local('disable_'+name,null);
@@ -39,4 +55,4 @@ console.log('Agent: '+navigator.userAgent);
 		w.enableConsole=w.enableLogs=function(){console.show();$.cookie('_DEBUG_',1);};
 		w.disableConsole=w.disableLogs=function(){console.hide();$.cookie('_DEBUG_',null);};
 	}
-})( window );
+})( window, jQuery );

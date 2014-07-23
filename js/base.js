@@ -18,7 +18,7 @@
 	}
 })();
 //-- variables generales de pagina --//
-var PAGE,wrapper,container,home,footer,INFO=[],NOHASH=!!document.location.href.match(/\.php/);
+var PAGE,wrapper,container,home,footer,INFO=[];
 
 (function(window,$){
 	//-- smt: objeto para uso global de Tagbum (en desarrollo) --//

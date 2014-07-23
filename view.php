@@ -18,8 +18,11 @@ $currentPage=404;
 if(isset($_GET['page'])) $currentPage=$_GET['page'];
 //Logged: verificar si esta logeado
 $logged=$_SESSION['ws-tags']['ws-user']['id']!='';
+#local o servidor
+$local=!!preg_match('/^(localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME']);
 //paginas que se pueden abrir sin logear
 $f_unlogged=array(
+	'main/home.php',
 	'main/signUp.php',
 	'main/resendPassword.php',
 	'main/resetPassword.php',
@@ -70,7 +73,7 @@ if( isset($_GET['tag'])&&( (!$logged&&$idPage=='home')||($logged&&$idPage=='caro
 if($idPage=='term') $idPage='terms';
 if($notAjax&&($idPage==''||$idPage=='/')) $idPage='home';
 if($idPage!='') switch($idPage){
-	case 'home':case 'whatIsIt':case 'howDoesWork':case 'howDoesWork/1':case 'howDoesWork/2':case 'app':
+	case 'home':case 'WhatIsIt':case 'HowDoesWork':case 'HowDoesWork/1':case 'HowDoesWork/2':case 'App':
 		$currentPage='main/home.php'; break;
 	case 'signup'			:$currentPage=$logged?'main/redir.php':'main/signUp.php'; break;
 	case 'resendPassword'	:$currentPage=$logged?'main/redir.php':'main/resendPassword.php';break;
@@ -115,7 +118,7 @@ if($idPage!='') switch($idPage){
 			$bodyPage="$idPage.2.php";
 		}elseif(is_file("views/$idPage.3.php")){
 			$bodyPage="$idPage.3.php";
-		}elseif(LOCAL){
+		}elseif($local||$_COOKIE['_DEBUG_']){
 			if(is_file("views/temp/$idPage.php")){
 				$currentPage="temp/$idPage.php";
 			}elseif(is_file("views/temp/$idPage.2.php")){
@@ -139,8 +142,8 @@ if($currentPage==404){
 }
 
 if($logged){
-	if($currentPage==$f_unlogged[0]||$currentPage==$f_unlogged[1])
-		$currentPage='main/wrapper.php';
+	// if($currentPage==$f_unlogged[0]||$currentPage==$f_unlogged[1])
+	// 	$currentPage='main/wrapper.php';
 	
 	//STORE se verifica si la orden de la variable session ya esta paga 
 	//(esto es en caso de que el pago se realizo por paypal para borrar la variable session car)
@@ -156,13 +159,14 @@ if($logged){
 	}
 }
 unset($f_unlogged);
+echo '<!--views: '.$_SERVER['SCRIPT_NAME'].','.$_SERVER['REQUEST_URI'].','.'logged='.($logged?'true':'false').", id=$idPage, body=$bodyPage, page=$currentPage, -->";
 if($dialog){
 	if($bodyPage) include('views/'.$bodyPage);
 	else include('views/'.$currentPage);
 }else{
-	if($notAjax&&$currentPage!='main/wrapper.php') echo '<container><content>';
+	if($notAjax&&!$noHash&&$currentPage!='main/wrapper.php') echo '<container><content>';
 	include('views/'.$currentPage);
-	if($notAjax&&$currentPage!='main/wrapper.php') echo '</content></container>';
+	if($notAjax&&!$noHash&&$currentPage!='main/wrapper.php') echo '</content></container>';
 	if(!$notAjax){
 ?>
 <script>

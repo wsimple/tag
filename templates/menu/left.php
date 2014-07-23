@@ -173,7 +173,7 @@
                     else {action=''; }
 					if(usr[i]['photo']) 
 						imgs=imgs||('<div'+action+'  class="usr-pic" style="background-image:url('+usr[i]['photo']+');width:30px;height:30px;"'+'"></div>');
-					usrs+='<span'+action+'>'+usr[i]['name']+'</span>';
+					usrs+='<span'+(action?action+' style="color: #77c574;"':'')+' >'+usr[i]['name']+'</span>';
 				}
 				action=null;
 			}
@@ -240,7 +240,7 @@
                                                 friends:friends[1],
 												num:info['num_friends'],
 												txt:data['txt'],
-												tag:'<span'+ac+'>[_TAG_]</span>'
+												tag:'<span'+(ac?ac+' style="color: #77c574;"':'')+'>[_TAG_]</span>'
 											});
 											out+=newsFormat(d);										
 									break;
@@ -259,7 +259,7 @@
 							}
 							$('#adsListPubli').show();
 							$('#news-loader').fadeOut('slow',function(){$(layer).after(out);});
-							$('#info-container tr:gt(3)').remove();
+							$('#info-container tr:gt(5)').remove();
 						}else{
 							if(action=='reload')
 							   $('#news-loader').fadeOut('slow',function(){$('#waitNewsInfo').fadeIn('fast');});

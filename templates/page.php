@@ -1,19 +1,17 @@
-<page id="smt"<?=$logged?'':' class="unlogged"'?>>
+<page id="smt" class="<?=$logged?'':'un'?>logged" data-logged="<?=$logged?1:0?>">
 	<?php include('templates/header.php'); ?>
-	<wrapper>
+	<wrapper data-section="<?=$section?>">
 		<?php
-			if(!$logged && $_GET['tag']==''){
+			global $section,$noHash;
+			if($noHash){
+				if($section){
+					$idPage=$section;
+				}
+				include('view.php');
+			}elseif(!$logged && $_GET['tag']==''){
 				include('views/main/home.php');
 			}else{
-				global $section,$notAjax;
-				if($notAjax){
-					if($section){
-						$idPage=$section;
-						include('view.php');
-					}
-				}else{
-					echo '<container><content></content></container>';
-				}
+				echo '<container><content></content></container>';
 			}
 		?>
 	</wrapper>
