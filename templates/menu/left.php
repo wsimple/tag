@@ -154,8 +154,8 @@
 					'<td tipo="'+d.type+'" width="18" style="padding:10px; vertical-align:top; border-bottom: 1px solid #f8f8f8" align="center" width="16" height="16" border="0">'+
 					'</td>'+
 					'<td style="padding:4px 8px 2px 0; font-size:10px;  border-bottom: 1px solid #f8f8f8">'+
-						d.txt+'(<em style="color:#CCC">'+d.date+'</em>)'+
-						'<div class="extras">'+d.photos+'</div>'+
+						d.txt+'<div class="extras">'+d.photos+'</div>'+
+						'<em style="color:#CCC">'+d.date+'</em>'+
 					'</td>'+
 				'</tr>'
 		);}
