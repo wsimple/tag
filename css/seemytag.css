@@ -4731,7 +4731,8 @@ container.wrapper .left-panel #adsListPubli td[tipo="14"]{
     background-image:url(tbum/news/group.png);
 }
 container.wrapper .left-panel #adsListPubli td[tipo="16"],
-container.wrapper .left-panel #adsListPubli td[tipo="17"]{
+container.wrapper .left-panel #adsListPubli td[tipo="17"],
+container.wrapper .left-panel #adsListPubli td[tipo="28"]{
     background-image:url(tbum/news/store.png);
 }
 .divYourFriendsSuggestSeparator{
