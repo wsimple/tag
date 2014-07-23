@@ -31,7 +31,7 @@ function newTag_json($data,$mobile=false){
 				}//is_dir
 				/*subiendo del archivo al servidor*/
 				if(redimensionar($_FILES['picture']['tmp_name'],RELPATH.'img/templates/'.$photo,650)){
-					FTPupload("templates/$foto");
+					FTPupload("templates/$photo");
 					$res['done']=true;
 					$res['bg']=$photo;
 				}else{
@@ -163,7 +163,7 @@ function newTag_json($data,$mobile=false){
 	$res['status']=$data['status'];
 
 	if($res['type']=='preview'){//si es una preview de tag
-		$date=$GLOBALS['cn']->queryRow('SELECT unix_timestamp(NOW()) AS fecha;');
+		$date=CON::getVal('SELECT unix_timestamp(NOW())');// $GLOBALS['cn']->queryRow('SELECT unix_timestamp(NOW()) AS fecha;');
 		$img=array(
 			'fondoTag'=>$data['background'],
 			'texto'=>$data['topText'],
@@ -172,7 +172,7 @@ function newTag_json($data,$mobile=false){
 			'color_code2'=>$data['middleColor'],
 			'texto2'=>$data['bottomText'],
 			'color_code3'=>$data['bottomColor'],
-			'date'=>$date['fecha']
+			'date'=>$date,//['fecha']
 		);
 //		SELECT
 //				if(p.id is null,u.screen_name,p.name) as name,
