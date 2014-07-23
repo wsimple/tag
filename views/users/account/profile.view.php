@@ -395,7 +395,7 @@
 					enableButtons('<?=$all?>');
 				}else if(data.indexOf('CROP')>=0){// going crop before changing profile picture
 					$('loader.page',PAGE).hide();
-					document.location.hash='profile?sc=5';
+					redir('profile?sc=5');
 				}else if(data.indexOf('ERROR_UPLOADING_PROFILE_PICTURE')>=0){//el error
 					showAndHide('divErroImagen','divErroImagen',2500,true);
 					enableButtons('<?=$all?>');
