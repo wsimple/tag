@@ -48,9 +48,9 @@ if (quitar_inyect()){
 				$profile_image_url=true;
 				//thumb image
 				$photo='img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo'];
-				echo $photo."\n";
+				echo $photo."<br>";
 				if(($thumb=generateThumbPath($photo,true,''))!=''){
-					echo $thumb."\n";
+					echo $thumb."<br>";
 					$is=getimagesize(FILESERVER.$photo);
 					if($is[0]>$is[1]){
 						$x=$is[0]-$is[1];
