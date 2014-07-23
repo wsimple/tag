@@ -1,7 +1,8 @@
 <?php
 //_imprimir($_SESSION['ws-tags']['ws-user']);
 //_imprimir($_REQUEST);
-
+$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
+if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
 if(($_SESSION['ws-tags']['ws-user']['home_phone']==""&&$_SESSION['ws-tags']['ws-user']['mobile_phone']==""&&$_SESSION['ws-tags']['ws-user']['work_phone']=="")
 	||($_SESSION['ws-tags']['ws-user']['home_phone']=="-"&&$_SESSION['ws-tags']['ws-user']['mobile_phone']=="-"&&$_SESSION['ws-tags']['ws-user']['work_phone']=="-"))
 	$noTele=1;
@@ -156,7 +157,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 					<div><div class="messageHelp arrowLeft"><span><?=STORE_MSG_HELP_NEW_PRODUCT?></span></div></div><br>
 					<div class="clearfix"></div>
 				</div>
-					<?php if(($_SESSION['ws-tags']['ws-user']['id']=='427')&&($_SESSION['ws-tags']['ws-user']['paypal']!='')): ?>
+					<?php if(($_SESSION['ws-tags']['ws-user']['id']==$wid)&&($_SESSION['ws-tags']['ws-user']['paypal']!='')): ?>
 					<div class="div-li">
 						<label ><strong>(*) <?=STORE_METHODPAYMENT?></strong></label>
 						<div id="selectTypePrice"></div>
@@ -165,7 +166,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 					<input name="txtMethod" type="text" id="txtMethod" value="0" <?=!isset($_GET['activePayment'])?'disabled':''?>
 							class="invisible" requerido="<?=STORE_METHODPAYMENT?>"/>
 				<div class="div-li">
-					<label ><strong>(*) <?=$_SESSION['ws-tags']['ws-user']['id']=='427'?MNUUSER_LABELPOINTER:PRODUCTS_PRICE?></strong></label><br />
+					<label ><strong>(*) <?=$_SESSION['ws-tags']['ws-user']['id']==$wid?MNUUSER_LABELPOINTER:PRODUCTS_PRICE?></strong></label><br />
 <!--					<input name="txtPrice" type="text" id="txtPrice" size="3" maxlength="4"
 						class="txt_box" value="<?=($_GET['idProd']?$product['cost']:'')?>" requerido="<?=PRODUCTS_PRICE?>"/><h6 id="value_Input_Price"><?=($_SESSION['ws-tags']['ws-user']['type']!=1)?' '.STORE_TITLEPOINTS:''?></h6>-->
 					<input name="txtPrice" type="text" id="txtPrice" size="6" maxlength="7"
