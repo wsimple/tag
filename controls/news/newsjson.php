@@ -35,12 +35,12 @@
 					            (SELECT md5(CONCAT(u.id,'_',u.email,'_',u.id))  FROM users u WHERE u.id=un.id_friend) AS keyFriend,
 					            (SELECT u.profile_image_url FROM users u WHERE u.id=un.id_user) AS photoUser,
 					            (SELECT u.profile_image_url FROM users u WHERE u.id=un.id_friend) AS photoFriend,
-					            IF(un.id_type IN (28,15),(SELECT p.photo FROM store_products p WHERE p.id=un.id_source),
+					            IF(un.id_type IN (29,15),(SELECT p.photo FROM store_products p WHERE p.id=un.id_source),
 					            	IF (un.id_type IN (6,12,13),(SELECT g.photo FROM groups g WHERE g.id=un.id_source),NULL)) AS photoS
 							FROM users_notifications un
 							INNER JOIN type_actions t ON un.id_type = t.id
 							WHERE un.id_user!=? AND un.id_friend!=? AND un.id_friend!=0 AND un.id_friend!=un.id_user 
-							AND un.id_type IN (2,4,5,8,9,11,22,25,26,27,28) 
+							AND un.id_type IN (2,4,5,8,9,11,22,25,26,27,29) 
 							AND (un.id_friend IN ($idIn) OR un.id_user IN ($idIn)) AND $undiffDate
 							ORDER BY un.date DESC", array($miId,$miId));
 		// $res['sql-noti']=CON::lastSql();
@@ -80,7 +80,7 @@
 				$row['usrs']=$usr;
 				$row['friend']=$afriends;
 				if ($row['photoS']){
-					if (in_array($row['id_type'],array(28,15))){
+					if (in_array($row['id_type'],array(29,15))){
 						$photo=FILESERVER.'img/'.$row['photoS'];
 						if (fileExistsRemote($photo)) $row['photoS']=$photo;
 						else $row['photoS']=DOMINIO.'imgs/defaultAvatar.png';
@@ -130,7 +130,7 @@
         $res['txt']['22']='La [_TAG_] de [_PEOPLE_] ha sido la ganadora del d&iacute;a';
         $res['txt']['25']='La [_TAG_] de [_PEOPLE_] ha sido la ganadora de la semana';
         $res['txt']['26']='La [_TAG_] de [_PEOPLE_] ha sido la ganadora del mes';
-        $res['txt']['28']='[_PEOPLE_] ha publicado un [_PROD_] en la tienda';
+        $res['txt']['29']='[_PEOPLE_] ha publicado un [_PROD_] en la tienda';
 		$res['txt']['replace']=array(
 			'[_TAG_]'	=>'Tag',
 			'[_AND_]'	=>'y',
@@ -159,7 +159,7 @@
         $res['txt']['22']='The [_TAG_] to [_PEOPLE_] has been the winner day';
         $res['txt']['25']='The [_TAG_] to [_PEOPLE_] has been the winner week';
         $res['txt']['26']='The [_TAG_] to [_PEOPLE_] has been the winner month';
-        $res['txt']['28']='[_PEOPLE_] has published a [_PROD_] in the store';
+        $res['txt']['29']='[_PEOPLE_] has published a [_PROD_] in the store';
         $res['txt']['replace']=array(
 			'[_TAG_]'	=>'Tag',
 			'[_AND_]'	=>'and',
