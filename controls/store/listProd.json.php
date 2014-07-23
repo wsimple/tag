@@ -238,14 +238,17 @@ include '../header.json.php';
 		} 
 	} 
 	if (!is_array($res)) $res=array();
+	$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
+	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
 	if ($_SESSION['ws-tags']['ws-user']['type']==1)	$res['empre']=1;
-	if ($_SESSION['ws-tags']['ws-user']['id']==427)	$res['adtb']=1;
+	if ($_SESSION['ws-tags']['ws-user']['id']==$wid)	$res['adtb']=1;
 	die(jsonp($res));
 	function consulListProd($array){
 		$select="
 			p.id,
 			p.id_user,
 			(SELECT CONCAT(a.name,' ',a.last_name) FROM users a WHERE a.id=p.id_user) AS seller,
+			(SELECT a.email FROM users a WHERE a.id=p.id_user) AS eseller,
 			(SELECT type FROM users a WHERE a.id=p.id_user) AS type_user,
 			p.id_status AS status,
 			(SELECT name FROM store_category WHERE id=p.id_category) AS category,
@@ -287,6 +290,10 @@ include '../header.json.php';
 					$row['sub_category_id']=$row['id'];
 					$row['sub_category_name']= formatoCadena(@constant($row['name']));
 				}else{
+					if ($row['eseller']=='wpanel@tagbum.com') $row['p_adtb'];
+					elseif ($row['eseller']=='wpanel@seemytag.com') $row['p_adtb'];
+
+					unset($row['eseller']);
 					$noId.=($noId==''?'':',').$row['id'];
 					$row['id']=md5($row['id']);
 					$row['seller'] = formatoCadena($row['seller']);

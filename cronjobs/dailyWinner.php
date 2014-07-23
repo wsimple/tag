@@ -9,7 +9,8 @@
     include $path.'includes/functions.php';
     include $path.'class/wconecta.class.php';
     include $path.'includes/languages.config.php';
-	$uid=current($GLOBALS['cn']->queryRow('SELECT id FROM users WHERE email="wpanel@seemytag.com";'));
+	$uid=current($GLOBALS['cn']->queryRow('SELECT id FROM users WHERE email="wpanel@tagbum.com";'));
+    if (!$uid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
 	$date=current($GLOBALS['cn']->queryRow('SELECT NOW();'));
 	$fecha=strtotime($date);
     

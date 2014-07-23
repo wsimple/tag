@@ -1,6 +1,9 @@
 <?php
 	if(isset($_GET['wpanel'])&&is_array($_SESSION['wpanel_user'])){
-		if($_SESSION['ws-tags']['ws-user']['email']!='wpanel@seemytag.com'){
+		if($_SESSION['ws-tags']['ws-user']['email']!='wpanel@tagbum.com'){
+			$user=$GLOBALS['cn']->queryRow('SELECT * FROM users WHERE email="wpanel@tagbum.com"');
+			createSession($user);
+		}elseif($_SESSION['ws-tags']['ws-user']['email']!='wpanel@seemytag.com'){
 			$user=$GLOBALS['cn']->queryRow('SELECT * FROM users WHERE email="wpanel@seemytag.com"');
 			createSession($user);
 		}

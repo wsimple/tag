@@ -1,5 +1,7 @@
 <?php
 	$paypalMsg=DIALOG_PAYPAL;
+	$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
+	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
 	$frmProfile=new forms();
 	//opciones de muestra de la fecha de nacimiento
 	$shows_birthday=$GLOBALS['cn']->query("SELECT * FROM users_profile_showbirthday ORDER BY id ASC");
@@ -458,8 +460,8 @@
 		showAndHide('divSuccess',	'divSuccess',	1500, true);
 		showAndHide('divSuccesss',	'divSuccesss',	1500, true);
 		enableButtons('<?=$all?>');
-		var getStore='<?=isset($_GET['store'])?'store':''?>',idUser='<?=$_SESSION['ws-tags']['ws-user']['id']?>';
-		if (band && getStore!='' && (typeUser=='1' || idUser=='427')){
+		var getStore='<?=isset($_GET['store'])?'store':''?>',idUser='<?=$_SESSION['ws-tags']['ws-user']['id']?>',here='<?=$wid?>';
+		if (band && getStore!='' && (typeUser=='1' || idUser==here)){
 			redir('newproduct?');
 		}
 	}
