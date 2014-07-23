@@ -254,6 +254,19 @@
 										});
 										out+=newsFormat(d);
 									break;
+									case 'product':
+										var ac=' action="detailProd,'+info['source']+'"',
+											prod=info['photoS']?' <img'+ac+' src="'+info['photoS']+'" style="height:28px; border: 1px #c0c0c0 solid;border-radius: 5px;"/>':'';
+										d.photos = people[0]+prod;
+										d.txt=txtFormat({
+											type:info['id_type'],
+											people:people[1],
+											num:info['num_friends'],
+											txt:data['txt'],
+											prod:'<span '+ac+' style="color: #77c574;">[_PROD_]</span>'
+										});
+										out+=newsFormat(d);
+									break;
 
 								}
 							}
