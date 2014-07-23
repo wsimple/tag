@@ -1,22 +1,23 @@
 //-- Consola --//
 console.log('Agent: '+navigator.userAgent);
 (function(w,$){
-	var c,fakec={};
+	var c,fakec={},types=[];
 	['log','alert','warn','error'].forEach(function(name){fakec[name]=function(){return;};});
 	if('console' in w) c=w.console; else c=fakec;
-	$.c=function(enable){
-		if(enable!==undefined){
-			if(enable){
-				$.cookie('_DEBUG_',1);
-				c.log('Logs Enabled');
-			}else{
-				$.cookie('_DEBUG_',null);
-				c.log('Logs Disabled');
-			}
-		}
-		console.log('debug='+($.cookie('_DEBUG_')?1:0));
-		return $.cookie('_DEBUG_')?c:fakec;
+	$.c=function(type){
+		if($.cookie('_DEBUG_')===null) return fakec;
+		if(type!==null&&!types.indexOf(type)) types.push(type);
+		return !type||$.cookie('_DEBUG_')==type?c:fakec;
 	};
+	$.c.show=function(type){
+		$.cookie('_DEBUG_',type!==null?type:'');
+		c.log('Enabled',type||'','Logs');
+	};
+	$.c.hide=function(){
+		$.cookie('_DEBUG_',null);
+		c.log('Disabled all Logs');
+	};
+	$.c.list=function(){ return types; };
 
 	var c1,c2={};
 	['log','alert','warn','error'].forEach(function(name){c2[name]=function(){return;};});

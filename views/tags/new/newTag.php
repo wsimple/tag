@@ -1,5 +1,5 @@
 <?php
-	if(isset($_GET['wpanel'])&&  is_array($_SESSION['wpanel_user'])){
+	if(isset($_GET['wpanel'])&&is_array($_SESSION['wpanel_user'])){
 		if($_SESSION['ws-tags']['ws-user']['email']!='wpanel@seemytag.com'){
 			$user=$GLOBALS['cn']->queryRow('SELECT * FROM users WHERE email="wpanel@seemytag.com"');
 			createSession($user);
@@ -307,10 +307,10 @@ $(function(){
 		});
 	});
 
-	<?php if(($tag['text2']!='')&&($_SESSION['ws-tags']['ws-user'][view_creation_tag]==0)){?>
+	<?php if(($tag['text2']!='')&&($_SESSION['ws-tags']['ws-user']['view_creation_tag']==0)){?>
 			$advanced.show();
 	<?php
-	}elseif($_SESSION['ws-tags']['ws-user'][view_creation_tag]==0){ ?>
+	}elseif($_SESSION['ws-tags']['ws-user']['view_creation_tag']==0){ ?>
 			$advanced.hide();
 	<?php } ?>
 	$('#bckArchive').hide();
@@ -410,8 +410,7 @@ $(function(){
 			pub=false;
 		},
 		success:function(data){//post-submit callback
-			console.log('submit success');
-			// console.log(data);
+			$.c().log('newtag_ctrl',data);
 			if(!data) return;
 			if(data['bg']) setBG(data['bg']);
 			switch(data['type']){
