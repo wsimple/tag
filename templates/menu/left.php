@@ -319,12 +319,9 @@
 						$(ul).slideToggle(300);
 					}
 				});
-				var el,section;
-				if(document.location.href.match(/\.php/i)) section=document.location.href.split('.php')[1];
-				else section=document.location.hash;
-				section=section.substr(1).split('#')[0].split('?')[0].split('&')[0];
-				if(section){
-					switch(section){
+				var el;
+				if(SECTION){
+					switch(SECTION){
 						case 'myfreeproducts':
 						case 'newproduct':
 						case 'mypublications':
@@ -345,7 +342,7 @@
                         case 'groupsDetails':
 							el='groups';
 						break;
-						default: el=section;//elemento del menu principal
+						default: el=SECTION;//elemento del menu principal
 					}
 					$(menu).children('#'+el)//li
 					.addClass('selected')

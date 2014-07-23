@@ -67,14 +67,11 @@ $(function() {
             open:function(){
 				$('.store-wrapper .mainMenu a').css('margin-bottom:','0px');$('aside').css('display','block');
 				//variables necesarias para hacer todas las validaciones referentes a cada lista
-				var subget='',band='',posi=false,limit=0,sc=false,array=new Array(),rifa=false,hash=window.location.hash,title='';
+				var subget='',band='',posi=false,limit=0,sc=false,array=new Array(),rifa=false,title='';
 				var nameCate='<?=$titleCate?>',nameSubCate='<?=$titleSubCate?>',href='<?=$href?>',idcate='<?=$idCate?>';
 				var typeUser='<?=$_SESSION['ws-tags']['ws-user']['type']?>';
-				
-				//obtener el hash donde estoy ubicado para validar
-				hash=hash.split('?');
-				switch(hash[0]){
-					case '#mypublications':
+				switch(SECTION){
+					case 'mypublications':
 						if (typeUser=='0') redir('store');
 						sc='2';
 						array['scc']='scc=2';
@@ -86,7 +83,7 @@ $(function() {
 							 +((nameSubCate!='')?'<a href="'+BASEURL+'mypublications'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
 							 +'<span>'+nameCate+'</span>'):'<span><?=STORE_MISPUBLICATION?></span>');
 					break; 
-					case '#myfreeproducts':
+					case 'myfreeproducts':
 						if (typeUser=='0') redir('store');
 						rifa=true;
 						array['scc']='scc=2';
@@ -98,7 +95,7 @@ $(function() {
 						 +((nameSubCate!='')?'<a href="'+BASEURL+'myfreeproducts'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
 						 +'<span>'+nameCate+'</span>'):'<span><?=STORE_MYRAFFLE?></span>');
 					break;
-					case '#myparticipation':
+					case 'myparticipation':
 						rifa=true;
 						array['scc']='scc=2';
 						array['myplays']='myplays=1';
@@ -109,7 +106,7 @@ $(function() {
 						 +((nameSubCate!='')?'<a href="myparticipation#'+href+'">'+nameCate+'</a><span>&nbsp;>&nbsp;</span><span>'+nameSubCate+'</span>':''
 						 +'<span>'+nameCate+'</span>'):'<span><?=STORE_RAFFLES_PLAYS?></span>');
 					break;
-					case '#freeproducts':	
+					case 'freeproducts':	
 						sc='5'
 						rifa=true;
 						array['scc']='';
@@ -134,8 +131,8 @@ $(function() {
 				$('div.ui-single-box-title').html(title);
 				
 				//menu de administracion de las rifas
-				switch(hash[0]){
-					case '#mypublications': case '#myfreeproducts': case '#myparticipation': case '#freeproducts':
+				switch(SECTION){
+					case 'mypublications': case 'myfreeproducts': case 'myparticipation': case 'freeproducts':
 						var titleFreP=   '	<div>'
 										+'	<select class="chzn-b">'
 										+'		<option value=""><?=OPTIONS?></option>'
@@ -144,9 +141,9 @@ $(function() {
 										<?php  if ($_SESSION['ws-tags']['ws-user']['id']=='427'){ ?>
 										<?php // if ($_SESSION['ws-tags']['ws-user']['id']=='-1000'){ ?>
 										+'		<option value="create"><?=PRODUCTS_NEW_RAFFLE?></option>'
-										+'		<option value="myraffles"		'+(hash[0]=='#myfreeproducts'?'selected':'')+'><?=STORE_MYRAFFLE?></option>'
+										+'		<option value="myraffles"		'+(SECTION=='#myfreeproducts'?'selected':'')+'><?=STORE_MYRAFFLE?></option>'
 										<?php } ?>
-										+'		<option value="rafflesplays"	'+(hash[0]=='#myparticipation'?'selected':'')+'><?=STORE_RAFFLES_PLAYS?></option>'
+										+'		<option value="rafflesplays"	'+(SECTION=='#myparticipation'?'selected':'')+'><?=STORE_RAFFLES_PLAYS?></option>'
 										+'	</select>' 
 										+'	</div>'
 						$('#divSubMenuAdminPublications').empty().html(titleFreP);
@@ -225,15 +222,11 @@ $(function() {
 			//acciones menu store
 			//Carga Productos por categoria
 			$('#menuStore li a').live('click',function(){
-                console.log(hash);
-				if ($(this).attr('c')){
+                if ($(this).attr('c')){
 					var get='?cate='+$(this).attr('c')+'&subcate='+$(this).attr('sc');
                     if (array['radio'] && array['radio']!='') get+='&radio='+array['radio'];
-					redir(hash[0]+get);
-				}else{ 
-                    if (hash[1]) redir(hash[0]);
-                    else location.reload(); 
-                } 
+					redir(SECTION+get);
+				}else{ redir(SECTION); } 
 				return false;
 			});
 
@@ -257,9 +250,9 @@ $(function() {
 										<?php  if ($_SESSION['ws-tags']['ws-user']['id']=='427'){ ?>
 										<?php // if ($_SESSION['ws-tags']['ws-user']['id']=='-1000'){ ?>
 										+'		<option value="create"><?=PRODUCTS_NEW_RAFFLE?></option>'
-										+'		<option value="myraffles"		'+(hash[0]=='#myfreeproducts'?'selected':'')+'><?=STORE_MYRAFFLE?></option>'
+										+'		<option value="myraffles"		'+(SECTION=='#myfreeproducts'?'selected':'')+'><?=STORE_MYRAFFLE?></option>'
 										<?php } ?>
-										+'		<option value="rafflesplays"	'+(hash[0]=='#myparticipation'?'selected':'')+'><?=STORE_RAFFLES_PLAYS?></option>'
+										+'		<option value="rafflesplays"	'+(SECTION=='#myparticipation'?'selected':'')+'><?=STORE_RAFFLES_PLAYS?></option>'
 										+'	</select>' 
 										+'	</div>'
 					$('#divSubMenuAdminPublications').empty().html(titleFreP);
@@ -404,9 +397,9 @@ $(function() {
 				}
 			});
 			$(document).on('scroll',function(){
-                if (subget!=''){ var stringS1=hash[0]+subget, stringS2=hash[0]+subget; }
-                else{ var stringS1=hash[0], stringS2=hash[0]+'?'; }
-                if (window.location.hash==stringS1||window.location.hash==stringS2){
+                // if (subget!=''){ var stringS1=SECTION+subget, stringS2=SECTION+subget; }
+                // else{ var stringS1=SECTION, stringS2=SECTION+'?'; }
+                // if (window.location.hash==stringS1||window.location.hash==stringS2){
                     if ($(document).scrollTop() >= ($(document).height() - $(window).height())*0.4){
                         if(!posi){
                             if ($('.product-list.produc .noStoreProductsList').length==0){
@@ -423,7 +416,7 @@ $(function() {
                             }
                         }
                     }else{ posi=false; }
-                }
+                // }
 		   });
 			
 			function armarGetBand(){
