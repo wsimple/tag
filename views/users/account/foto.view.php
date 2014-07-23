@@ -11,7 +11,7 @@
 	});
 	$('#formCoordenadas').ajaxForm({
 		success:function(response){ //post-submit callback
-			document.location.hash='profile';
+			redir('profile');
 		}
 	});
 </script>
