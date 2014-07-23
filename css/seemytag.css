@@ -5685,3 +5685,10 @@ container .left-panel .menus ul span{
 
 	margin: 0px; display: block; width: 100%; height: 100%;
 }
+.fotoCrop{
+	width:878px;margin:0 auto 0 8px;height:auto;background: #fff;padding: 20px 10px 20px 10px;
+}
+
+.fotoCrop>form>div{
+	padding-bottom: 20px; color: #787878
+}
