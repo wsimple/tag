@@ -14,7 +14,10 @@
 		$thumb=generateThumbPath($photo,true);
 		//$thumb=$photo;
 		CreateThumb($photo,$thumb,60,$_POST['x'],$_POST['y'],$_POST['w'],$_POST['h']);
-		uploadFTP(generateThumbPath($_SESSION['ws-tags']['ws-user']['photo']),'users','../../');
+
+		FTPupload('users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']);
+
+		// uploadFTP(generateThumbPath($_SESSION['ws-tags']['ws-user']['photo']),'users','../../');
 		$_SESSION['ws-tags']['ws-user']['updatePicture']=0;
 		$GLOBALS['cn']->query('
 			UPDATE users SET updatePicture=0
