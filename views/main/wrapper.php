@@ -11,11 +11,11 @@ if($logged){ ?>
 				<div class="clearfix"></div>
 			</div>
 		<?php } ?>
-		<div class="mid-pannel">
+		<div class="mid-pannel" data-view="<?=$bodyPage?>">
 			<?php if($numPanels==3&&$logged){?>
 				<div class="ui-single-box topBanner"><?php include('templates/banner.box.php'); ?></div>
 			<?php }?>
-			<?php include ('views/'.$bodyPage); ?>
+			<?php @include('views/'.$bodyPage); ?>
 		</div>
 		<?php if($numPanels==3){ ?>
 			<div class="right-panel"><?php include('views/'.$rightPanel); ?></div>
