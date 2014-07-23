@@ -1,12 +1,13 @@
 <div class="fotoCrop">
 	<form action="controls/users/crop.control.php" method="post" name="formCoordenadas" id="formCoordenadas" class="fondo_secciones_tabs">
 		<div>
-			<?=USER_THUMBCREATION?>
+		<h3 class="ui-single-box-title" style="padding-left: 40px">
+				&nbsp;<?=USER_THUMBCREATION?>
+			</h3>
 			<input name="send" type="button" id="send" style="float:right;" value="<?=USERPROFILE_SAVE?>"/>
 		</div>
 		<div>
 			<div style="padding-left:100px;">
-				<?php //FILESERVER ?>
 				<img src="<?=FILESERVER."img/users/".$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']?>" id="cropbox" style="margin:0;" />
 			</div>
 			<input type="hidden" id="x" name="x" />
