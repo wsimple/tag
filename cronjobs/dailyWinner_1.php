@@ -22,7 +22,8 @@
 		';
 		return $GLOBALS['cn']->queryRow($sql);
 	}
-	$uid=current($GLOBALS['cn']->queryRow('SELECT id FROM users WHERE email="wpanel@seemytag.com";'));
+	$uid=current($GLOBALS['cn']->queryRow('SELECT id FROM users WHERE email="wpanel@tagbum.com";'));
+	if (!$uid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
 	$date=current($GLOBALS['cn']->queryRow('SELECT NOW();'));
 	$fecha=strtotime($date);
 	$actions=array(
@@ -52,7 +53,7 @@
 		$sql=returnSQL('MONTH');
 		$winner=$GLOBALS['cn']->query($sql);
 		$row=mysql_fetch_assoc($winner);
-		notifications($row['id_user'],$row['tag'],'26',"",'427');
+		notifications($row['id_user'],$row['tag'],'26',"",$uid);
 		$puntos=$GLOBALS['cn']->queryRow("SELECT points_owner AS puntos FROM action_points WHERE id_type='26' LIMIT 1");
 		$totalprice=$puntos['puntos'];
 		$GLOBALS['cn']->query("	UPDATE users 
@@ -65,7 +66,7 @@
 		//	$sql=returnSQL('YEAR',true);
 		//	$winner=$GLOBALS['cn']->query($sql);
 		//	$row=mysql_fetch_assoc($winner);
-		//	notifications($row['id_user'],$row['tag'],'20',"",'427');
+		//	notifications($row['id_user'],$row['tag'],'20',"",$uid);
 		//	$puntos=$GLOBALS['cn']->queryRow("SELECT points_owner AS puntos FROM action_points WHERE id_type='22' LIMIT 1");
 		//	$totalprice=$puntos['puntos'];
 		//	$GLOBALS['cn']->query("	UPDATE users 
@@ -80,7 +81,7 @@
 		$sql=returnSQL('WEEKOFYEAR');
 		$winner=$GLOBALS['cn']->query($sql);
 		$row=mysql_fetch_assoc($winner);
-		notifications($row['id_user'],$row['tag'],'25',"",'427');
+		notifications($row['id_user'],$row['tag'],'25',"",$uid);
 		$puntos=$GLOBALS['cn']->queryRow("SELECT points_owner AS puntos FROM action_points WHERE id_type='25' LIMIT 1");
 		$totalprice=$puntos['puntos'];
 		$GLOBALS['cn']->query("	UPDATE users 
