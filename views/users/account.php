@@ -2,7 +2,7 @@
 $sc=$_GET['sc'];
 if($_GET['usr']!='') $sc=6;
 if(!$logged&&$sc!=6){
-	include('main/failure.php');
+	include('views/main/failure.php');
 }else{
 	switch($sc){
 		case 7:include('account/userPrivacy.view.php');break;

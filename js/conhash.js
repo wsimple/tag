@@ -40,7 +40,7 @@ var hashBack;
 	var last,
 		defaultPage=ISLOGGED?'timeline':'home',
 		grupo=[//arreglos de ids que abren una pagina en comun. el primero es el default.
-			['#home','#whatIsIt','#howDoesWork','#howDoesWork/1','#howDoesWork/2','#howDoesWork/3','#app']
+			['#home','#WhatIsIt','#HowDoesWork','#HowDoesWork/1','#HowDoesWork/2','#HowDoesWork/3','#App']
 		];
 	function getHash(){
 		var hash=(document.location.hash||'#')+'',get='',tmp;
