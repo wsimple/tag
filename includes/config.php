@@ -13,7 +13,7 @@ if($_GET['hashtag']){
 		$_GET=array_merge($_GET,parse_url(end(explode('?',$section))));
 }elseif($noHash){
 	$section=str_replace(str_replace('index.php','',$_SERVER['SCRIPT_NAME']),'',$_SERVER['REQUEST_URI']);
-	if(($section==''||$section=='/')&&strpos($_SERVER['SCRIPT_NAME'],'.php')) $section='/home';
+	if(in_array($section,array('?','/',''))&&strpos($_SERVER['SCRIPT_NAME'],'.php')) $section='/home';
 	elseif(substr($section,0,1)!='/') $section=false;
 }
 if($section){
