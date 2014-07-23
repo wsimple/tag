@@ -43,7 +43,7 @@
 							AND un.id_type IN (2,4,5,8,9,11,22,25,26,27,28) 
 							AND (un.id_friend IN ($idIn) OR un.id_user IN ($idIn)) AND $undiffDate
 							ORDER BY un.date DESC", array($miId,$miId));
-		$res['sql-noti']=CON::lastSql();
+		// $res['sql-noti']=CON::lastSql();
 		$burro=array();
 		while($row=CON::fetchAssoc($new)){
 			$burro[]=$row;

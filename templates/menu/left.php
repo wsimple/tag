@@ -320,9 +320,6 @@
 					}
 				});
 				var el;
-				// if(document.location.href.match(/\.php/i)) section=document.location.href.split('.php')[1];
-				// else section=document.location.hash;
-				// section=section.substr(1).split('#')[0].split('?')[0].split('&')[0];
 				if(SECTION){
 					switch(SECTION){
 						case 'myfreeproducts':
