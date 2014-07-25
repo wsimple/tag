@@ -33,7 +33,6 @@ tipos: local, main (servidor principal), sec (servidores secundarios)<br/>
 		$data['db']['user']='root';
 		$data['db']['pass']='root';
 		$data['db']['data']='tagbum';
-		$data['imgserver']='./';
 	}
 	if($tipo){
 		$data['tipo']=$tipo;
