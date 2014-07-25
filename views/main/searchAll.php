@@ -1,13 +1,14 @@
+<?php $url=$_SERVER['REQUEST_URI']; ?>
 <div id="tabs" class="ui-single-box">
 	<ul style="font-size:14px">
-		<li><a id="all" href="tabs-1"><?=SEARCH_ALLRESULT?></a></li>
-		<li><a id="tagsearch" href="tabs-2">Tag</a></li>
-		<li><a id="hash" href="tabs-3"><?=SEARCH_HASHTAGS?></a></li>
-		<li><a id="people" href="tabs-4"><?=SEARCH_FRIENDS?></a></li>
-		<li><a id="group" href="tabs-5"><?=SEARCH_GROUPS?></a></li>
-		<li><a id="product" href="tabs-6"><?=SEARCH_PRODUCT?></a></li>
+		<li><a id="all" href="<?=$url?>#tabs-1"><?=SEARCH_ALLRESULT?></a></li>
+		<li><a id="tagsearch" href="<?=$url?>#tabs-2">Tag</a></li>
+		<li><a id="hash" href="<?=$url?>#tabs-3"><?=SEARCH_HASHTAGS?></a></li>
+		<li><a id="people" href="<?=$url?>#tabs-4"><?=SEARCH_FRIENDS?></a></li>
+		<li><a id="group" href="<?=$url?>#tabs-5"><?=SEARCH_GROUPS?></a></li>
+		<li><a id="product" href="<?=$url?>#tabs-6"><?=SEARCH_PRODUCT?></a></li>
 	</ul>
-	<div id="tabs-1"  class="panel">
+	<div id="tabs-1">
 		<div id="searchAll">
 		<?php
 			$whereFriends= " WHERE u.status IN (1,5) AND u.id!='".$_SESSION['ws-tags']['ws-user']['id']."' ";
@@ -82,34 +83,25 @@
 					<div class="clearfix"></div>
 		</div>
 	</div>
-	<div id="tabs-2" class="panel">
+	<div id="tabs-2">
 		<?php include('views/users/search/tagsTabs.php') ?>
 	</div>
-	<div id="tabs-3" class="panel">
+	<div id="tabs-3">
 		<?php include('views/users/search/hashtagsTabs.php') ?>
 	</div>
-	<div id="tabs-4" class="panel">
+	<div id="tabs-4">
 		<?php include('views/users/search/friendsTabs.php') ?>
 	</div>
-	<div id="tabs-5" class="panel">
+	<div id="tabs-5">
 		<?php include('views/users/search/groupsTabs.php') ?>
 	</div>
-	<div id="tabs-6" class="panel">
+	<div id="tabs-6">
 		<?php include('views/users/search/productsTabs.php') ?>
 	</div>
 </div>
 <script type="text/javascript">
 $(function(){
-	var actual='tabs-1';
-	$('#tabs').tabs({
-		beforeLoad:function( event, ui ){
-			$('.panel').hide();
-			var tabnew=ui.panel.attr('id').replace('ui-','');
-			$('#tabs #'+tabnew).css('display','block');
-			return false;
-		}
-	});
-	// $('#tabs ul li').tabs();
+	$('#tabs').tabs();
 //	$('button,input:submit,input:reset,input:button,#group_info a').button();
 	//hash
 	<?php if(mysql_num_rows($hashtags)>0){?>
