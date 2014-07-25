@@ -173,7 +173,7 @@ unset($detect);
 		}).focus(function(){
 			if(this.value!='') $(ac.menu.element).show();
 		});
-		ac=$search.data('autocomplete');
+		ac=$search.autocomplete('widget');
 		ac._renderMenu=function(ul,items){
 			var lastCategory='',that=this;
 			items.push({category:"searchall",url:'#searchall?srh='+$search.val()});
