@@ -32,7 +32,7 @@ $(function(){
 			var posi=false;
             
             //Carga Productos por categoria
-			$('#menuGroups li a').live('click',function(){
+			$(document).on('click','#menuGroups li a',function(){
                 get=getSC=='1'?'sc=1&':'';
 				if ($(this).attr('c')){
 					get+='cate='+$(this).attr('c');
@@ -75,6 +75,7 @@ $(function(){
 			},
 			close:function(){
 				$(window).off(ns);
+				$(document).off('click','#menuGroups li a');
 				$('#btnNewGroup').off();
 			}
 		});
