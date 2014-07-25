@@ -99,9 +99,9 @@ include '../header.json.php';
 			}else{
 				continue;
 			}
-		}elseif($info['type_source']=='order'){
+		}elseif($info['type']=='order'){
 			$info['order']=generaCodeId($info['id_source'],11);
-		}elseif($info['type_source']=='raffle'){
+		}elseif($info['type']=='raffle'){
 			$sql = "SELECT MD5(id_product) as product, winner FROM store_raffle WHERE id='".$info['id_source']."' LIMIT 1";
 			$raffle=CON::getRow($sql);
 			$info['raffle']=$raffle;
