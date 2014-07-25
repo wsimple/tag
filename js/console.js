@@ -6,12 +6,12 @@ console.log('Agent: '+navigator.userAgent);
 	if('console' in w) c=w.console; else c=fakec;
 	$.c=function(type){
 		if($.cookie('_DEBUG_')===null) return fakec;
-		if(type!==null&&!types.indexOf(type)) types.push(type);
+		if(type!==undefined&&types.indexOf(type)<0) types.push(type);
 		return !type||$.cookie('_DEBUG_')==type?c:fakec;
 	};
 	$.c.show=function(type){
-		$.cookie('_DEBUG_',type!==null?type:'');
-		c.log('Enabled',type||'','Logs');
+		$.cookie('_DEBUG_',type!==undefined?type:'');
+		return ['Enabled ',type||'Global',' Logs'].join('');
 	};
 	$.c.hide=function(){
 		$.cookie('_DEBUG_',null);
@@ -50,7 +50,7 @@ console.log('Agent: '+navigator.userAgent);
 		c2.hide=function(){
 			c1.log('Logs Already Disabled');
 		};
-		if(!$.local('enable_console')) w.console=c2;
+		if($.cookie('_DEBUG_')===undefined) w.console=c2;
 	}
 	if('hide' in console){
 		w.enableConsole=w.enableLogs=function(){console.show();$.cookie('_DEBUG_',1);};
