@@ -159,7 +159,7 @@ $(function() {
 										+'	<select class="chzn-b">'
 										+'		<option value=""		'+(array['radio']==''?'selected':'')+'><?=STORE_SORT_BY?></option>'
 										+'		<option value="points"	'+(array['radio']=='points'?'selected':'')+'><?=STORE_TITLEPOINTS?></option>'
-										+'		<option value="dollas"	'+(array['radio']=='dollas'?'selected':'')+'><?=TYPEPRICEMONEY?></option>'
+										// +'		<option value="dollas"	'+(array['radio']=='dollas'?'selected':'')+'><?=TYPEPRICEMONEY?></option>'
 										+'		<option value="moreC"	'+(array['radio']=='moreC'?'selected':'')+'><?=STORE_FILTER_MOREEXPENSIVE?></option>'
 										+'		<option value="moreE"	'+(array['radio']=='moreE'?'selected':'')+'><?=STORE_FILTER_MOREECONOMICAL?></option>'
 										+'		<option value="moreR"	'+(array['radio']=='moreR'?'selected':'')+'><?=STORE_FILTER_MORERELEVANT?></option>'
@@ -222,21 +222,23 @@ $(function() {
 
 			//acciones menu store
 			//Carga Productos por categoria
-			$('#menuStore li a').live('click',function(){
+			$('.right-panel aside').on('click','#menuStore li > span',function(){
+				var that=$(this).parent().find('ul')[0];
+				if(that){
+					$('#menuStore ul').not(that).slideUp(300);
+					$(that).slideToggle(300);
+				}
+			}).on('click','#menuStore li a',function(){
                 if ($(this).attr('c')){
 					var get='?cate='+$(this).attr('c')+'&subcate='+$(this).attr('sc');
                     if (array['radio'] && array['radio']!='') get+='&radio='+array['radio'];
 					redir(SECTION+get);
 				}else{ redir(SECTION); } 
 				return false;
-			});
-
-			$('#divSubMenuAdminFilters select').live('change','select',function(){
+			}).on('change','#divSubMenuAdminFilters select',function(){
 				var value=$(this).val();
 				redir('store'+(value!=''?'?radio='+value:''));
-			});
-			//end cliks del filtro del store
-			$('#divSubMenuAdminPublications select').live('change','select',function(){
+			}).on('change','#divSubMenuAdminPublications select',function(){
 				var value=$(this).val(),string='';
 				switch(value){
 					case 'myraffles': string='myfreeproducts';break;
@@ -295,20 +297,13 @@ $(function() {
                 timeOut=setTimeout(buscar(request,obj),1000);
 			});
 
-			$('#menuStore').on('click','li > span',function(){
-				var that=$(this).parent().find('ul')[0];
-				if(that){
-					$('#menuStore ul').not(that).slideUp(300);
-					$(that).slideToggle(300);
-				}
-			});
-		   $('#clickNewProduct').live('click',function(){
+
+		   
+			$('div.store-wrapper').on('click','div.product-list #clickNewProduct',function(){
 				redir('newproduct');
-			});
-			$('#clickNewRaffle').live('click',function(){
+			}).on('click','div.product-list #clickNewRaffle',function(){
 				redir('mypublications');
-			});
-			$('div.miniCarStore div.bg-add').live('click',function(){
+			}).on('click','div.miniCarStore div.bg-add',function(){
 				var num=$(this).attr("h"),objeto=$(this);
 				$$.ajax({
 					type: 'GET',
@@ -380,16 +375,14 @@ $(function() {
                         }
 					}
 				});
-			});
-			
-			$('.product-list.produc ul li,.product-list.sugest ul li').live('mouseover',function(){ 
+			}).on('mouseover','.product-list ul li',function(){ 
 				if ($(this).attr('r')=='1'){
 //					$('.transparencia_hover').addClass('transparencia').removeClass('transparencia_hover');
 					$('div.inputCreateRaffle',this).slideDown();
 				}else if ($(this).attr('r')=='2'){
 					$('div.miniCarStore',this).fadeIn();
 				}
-			}).live('mouseleave',function(){
+			}).on('mouseleave','.product-list ul li',function(){
 				if ($(this).attr('r')=='1'){
 //					$('.transparencia').addClass('transparencia_hover').removeClass('transparencia');
 					$('div.inputCreateRaffle',this).slideUp();
@@ -435,14 +428,8 @@ $(function() {
             
 		},
 		close:function(){
-			$('#menuStore').off();
-			$('#clickNewProduct').die();
-			$('#clickNewRaffle').die();
-			$('.product-list.produc ul li').die();
-			$('#menuStore li a').die();;
-			$('#divSubMenuAdminFilters select').die();;
-			$('#divSubMenuAdminPublications select').die();;
-			$('div.miniCarStore div.bg-add').die();;
+			$('div.store-wrapper').off();
+			$('.right-panel aside').off();
 			$(document).off();
 		}
 	});
