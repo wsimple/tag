@@ -195,7 +195,7 @@ if($detect->isMobile()&&!$_COOKIE['__FV__']){?>
 		<?php if($txnId===true){ ?>
 			message('messages','<?=NEWTAG_LBLTEXT?>','<?=SIGNUP_WAITINGPAYPAL?>','','','','');
 		<?php } ?>
-		$('a,[onclick],button,input:submit,input:reset,input:button').live('click',function(){
+		$(document).on('click','a,[onclick],button,input:submit,input:reset,input:button',function(){
 			this.blur();
 		});
 		<?php if(isset($txnId)&&$txnId!==true){ ?>
