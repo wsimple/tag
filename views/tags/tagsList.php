@@ -79,6 +79,7 @@
 <script type="text/javascript">
 	//ScrollPane Favoroites
 	$(function() {
+		$.c('tags').log('current <?=$current?>');
 		var $box,
 			ref='<?=$referee?>',
 			hash = location.href.split('t=#'),
@@ -100,7 +101,6 @@
 				layer: layer
 			};
 	<?php if($idPage=='tags'){ ?>
-		console.log('current <?=$current?>');
 		opc['current']='<?=$current?>';
 		opc['get']='<?=isset($_GET['uid'])?'&uid='.$_GET['uid']:''?>';
 	<?php }elseif($current=='privateTags'){ ?>
@@ -112,7 +112,6 @@
 		opc['current']='top';
 		opc['get']='&range=<?=$range?>';
 	<?php }else{ ?>
-		console.log('current <?=$current?>');
 		opc['current']=(backSch[1])? backSch[1]+'|' : '<?=$current?>';
 		opc['get']='<?=$current!='user'?($current!='personal'?'':'&uid='.$_GET['uid']):'&uid='.$_GET['uid']?>';
 	<?php }?>

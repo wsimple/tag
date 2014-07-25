@@ -1,5 +1,9 @@
 <div class="fotoCrop">
-	<form action="controls/users/crop.control.php" method="post" name="formCoordenadas" id="formCoordenadas" class="fondo_secciones_tabs">
+	<form action="" id="formCoordenadas" class="fondo_secciones_tabs">
+		<input type="hidden" id="x" name="x" />
+		<input type="hidden" id="y" name="y" />
+		<input type="hidden" id="w" name="w" />
+		<input type="hidden" id="h" name="h" />
 		<div>
 		<h3 class="ui-single-box-title" style="padding-left: 40px">
 				&nbsp;<?=USER_THUMBCREATION?>
@@ -10,10 +14,6 @@
 			<div style="padding-left:100px;">
 				<img src="<?=FILESERVER."img/users/".$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']?>" id="cropbox" style="margin:0;" />
 			</div>
-			<input type="hidden" id="x" name="x" />
-			<input type="hidden" id="y" name="y" />
-			<input type="hidden" id="w" name="w" />
-			<input type="hidden" id="h" name="h" />
 		</div>
 	</form>
 </div>
@@ -23,20 +23,46 @@
 
 <script language="Javascript">
 	$(function(){
-		$('#send').click(function(){
-			//if(checkCoords()){
-				$('#formCoordenadas').submit();
-			//}
-		});
+		var send=(function(){
+			var disabled;
+			return function(){
+				if(disabled) return;
+				disabled=true;
+				var pdata={
+					action:'picture'
+				};
+				//extraemos las dimenciones, posicion y escala de la imagen
+				pdata['x']=$('input#x')[0].value;
+				pdata['y']=$('input#y')[0].value;
+				pdata['w']=$('input#w')[0].value;
+				pdata['h']=$('input#h')[0].value;
+				$.c().log('data:',pdata);
+				$.ajax({
+					url:'controls/users/profile.json.php',
+					data:pdata,
+					dataType:'json',
+					type:'post',
+					success:function(data){
+						$.c().log('profile.json:',data);
+						if(data['upload']=='done'||data['resize']=='done'){
+							redir('profile');
+						}
+					},
+					complete:function(){
+						disabled=false;
+					}
+				});
+			};
+		})();
+		$('#send').click(send);
 	});
 	$('#formCoordenadas').ajaxForm({
-		success:function(response){ //post-submit callback
+		success:function(response){//post-submit callback
 			redir('profile');
 		}
 	});
 
 	var jcrop_api,boundx,boundy;
-
 	$(function() {
 		 $('#cropbox').Jcrop({
 		  minSize:[ 60,60 ],
@@ -60,9 +86,6 @@
 			return false;
 		}
 	};
-
 </script>
-
 </body>
-
 </html>
