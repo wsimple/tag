@@ -165,7 +165,7 @@
 						}else{
 							$("#sellpubliUpdate").dialog( "destroy" );
 							setTimeout(function(){$("#sellpubliUpdate").dialog("close");}, 500);
-							document.location.hash='publicity?'+Math.random();
+							redir('publicity?'+Math.random());
 						}
 
 					}

@@ -44,7 +44,7 @@
 
 $(function() {
 	$('#resend_close,#btnResetDone').click(function(){
-		document.location.hash = '#home';
+		redir('');
 	});
 	$('#btnResendPas').click(function(){
 	   var formulario=$(this).parents('form');

@@ -91,7 +91,7 @@
 				close	: function(){
 					$("#default-dialog").dialog('close');
 					switch(action){
-						case 1: document.location.hash='#creation?group='+id; break;
+						case 1: redir('creation?group='+id); break;
 						case 2: location.reload(); break;
 					}
 				}

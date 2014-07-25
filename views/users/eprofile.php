@@ -1,10 +1,11 @@
 <?php
 global $section;
-if($section) $where = "username!='' AND username LIKE '$section'";
+if($section && $section!='profile') $where = "username!='' AND username LIKE '$section'";
 elseif ($_GET['uid']!='') { $where = "md5(id) = '".$_GET['uid']."'"; }
 elseif ($_GET['userIdExternalProfile']!='') { $where = "md5(id) = '".$_GET['userIdExternalProfile']."'"; }
 elseif(isset($_GET['usr'])){ $where = "username LIKE '".$_GET['usr']."'"; }
 else{ $where = "id = ".$_SESSION['ws-tags']['ws-user']['id']; }
+
 $sid=$_SESSION['ws-tags']['ws-user']['id']!=''?"'".$_SESSION['ws-tags']['ws-user']['id']."'":"id";
 $query = $GLOBALS['cn']->query("
 	SELECT
@@ -171,16 +172,16 @@ $edit=$array['id']==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
 		$('.edit').click(function(){
 			var id=$(this).parents('[id]').attr('id'),destino='';
 			switch(id){
-				case 'eProfileTag':			 destino='#timeline?current=personalTags'; break;
-				case 'externalProfilePrefe':	destino='#profile?sc=2'; break;
-				case 'externalProfileInfo':	 destino='#profile'; break;
+				case 'eProfileTag':			 destino='timeline?current=personalTags'; break;
+				case 'externalProfilePrefe':	destino='profile?sc=2'; break;
+				case 'externalProfileInfo':	 destino='profile'; break;
 			}
-			if (destino!='') document.location.hash=destino;
+			if (destino!='') redir(destino);
 		});
 	});
 </script>
 <?php }else{ ?>
 <script type="text/javascript">
-	document.location.hash='home';
+	redir('');
 </script>
 <?php } ?>

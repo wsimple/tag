@@ -20,7 +20,7 @@
 			});
 			//Btn Home
 			$("#frmBusinessCard_btnHome").click(function() {
-				document.location.hash='profile?sc=3';
+				redir('profile?sc=3');
 			});
 		//FIN control de los botones send y back
 
