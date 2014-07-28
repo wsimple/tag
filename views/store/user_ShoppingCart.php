@@ -175,8 +175,8 @@
 
                 //success despues del submit
                 var options = {
+                    dataType:'json',
                     success: function(data){ // post-submit callback
-                        data=JSON.parse(data);
                         if (data['datosCar']){
                             var v=data['datosCar'].split('-');
                             if (v[1]!='noCart'){
