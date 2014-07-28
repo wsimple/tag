@@ -14,8 +14,9 @@ include '../header.json.php';
 	}else{//de lo contrario es el store
 		$where="p.id_status=1 AND p.stock>0 AND p.id_user!=".$_SESSION['ws-tags']['ws-user']['id']." ";
 	}
-	if (PAYPAL_PAYMENTS) $_GET['source']='mobile';
-	if($_GET['source']=='mobile'){ $where.=' AND p.formPayment=0';}
+	// if (PAYPAL_PAYMENTS) $_GET['source']='mobile';
+	// if($_GET['source']=='mobile'){ $where.=' AND p.formPayment=0';}
+	$where.=' AND p.formPayment=0';
 
 	//module store para la lista del store
 	if($_GET['module']=='store'){

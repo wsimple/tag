@@ -141,7 +141,7 @@ unset($detect);
 					var suggestions=[];
 					//procesamos todas las repsuestas
 					data.forEach(function(val){
-						//console.log(val)
+						console.log(val)
 						if(val.noresult)
 							suggestions.push(val.noresult);
 						if(val.people)
@@ -173,7 +173,8 @@ unset($detect);
 		}).focus(function(){
 			if(this.value!='') $(ac.menu.element).show();
 		});
-		ac=$search.autocomplete('widget');
+		ac=$search.data('autocomplete');
+		//ac=$search.autocomplete('widget');
 		ac._renderMenu=function(ul,items){
 			var lastCategory='',that=this;
 			items.push({category:"searchall",url:'#searchall?srh='+$search.val()});
