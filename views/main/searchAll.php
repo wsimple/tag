@@ -1,11 +1,12 @@
+<?php $url=$_SERVER['REQUEST_URI']; ?>
 <div id="tabs" class="ui-single-box">
 	<ul style="font-size:14px">
-		<li><a href="#tabs-1"><?=SEARCH_ALLRESULT?></a></li>
-		<li><a id="tagsearch" href="#tabs-2">Tag</a></li>
-		<li><a id="hash" href="#tabs-3"><?=SEARCH_HASHTAGS?></a></li>
-		<li><a id="people" href="#tabs-4"><?=SEARCH_FRIENDS?></a></li>
-		<li><a id="group" href="#tabs-5"><?=SEARCH_GROUPS?></a></li>
-		<li><a id="product" href="#tabs-6"><?=SEARCH_PRODUCT?></a></li>
+		<li><a id="all" href="<?=$url?>#tabs-1"><?=SEARCH_ALLRESULT?></a></li>
+		<li><a id="tagsearch" href="<?=$url?>#tabs-2">Tag</a></li>
+		<li><a id="hash" href="<?=$url?>#tabs-3"><?=SEARCH_HASHTAGS?></a></li>
+		<li><a id="people" href="<?=$url?>#tabs-4"><?=SEARCH_FRIENDS?></a></li>
+		<li><a id="group" href="<?=$url?>#tabs-5"><?=SEARCH_GROUPS?></a></li>
+		<li><a id="product" href="<?=$url?>#tabs-6"><?=SEARCH_PRODUCT?></a></li>
 	</ul>
 	<div id="tabs-1">
 		<div id="searchAll">
@@ -83,19 +84,19 @@
 		</div>
 	</div>
 	<div id="tabs-2">
-		<?php include('views/users/search/tagsTabs.php')?>
+		<?php include('views/users/search/tagsTabs.php') ?>
 	</div>
 	<div id="tabs-3">
-		<?php include('views/users/search/hashtagsTabs.php')?>
+		<?php include('views/users/search/hashtagsTabs.php') ?>
 	</div>
 	<div id="tabs-4">
-		<?php include('views/users/search/friendsTabs.php')?>
+		<?php include('views/users/search/friendsTabs.php') ?>
 	</div>
 	<div id="tabs-5">
-		<?php include('views/users/search/groupsTabs.php')?>
+		<?php include('views/users/search/groupsTabs.php') ?>
 	</div>
 	<div id="tabs-6">
-		<?php include('views/users/search/productsTabs.php')?>
+		<?php include('views/users/search/productsTabs.php') ?>
 	</div>
 </div>
 <script type="text/javascript">

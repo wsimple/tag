@@ -1,11 +1,10 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#frmConfigmail_btnChange").click(function() {
-
 				$('#frmConfigmail').submit();
 		});
 		$("#frmConfigmail_btnHome").click(function() {
-			document.location.hash='home';
+			redir('');
 		});
 		
 		$('[title]').tipsy({html: true,gravity: 'n'});

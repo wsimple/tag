@@ -57,7 +57,9 @@
 				if (!$band){
 					$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['name'] = utf8_encode($row['nameUser']);
 					$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['uid'] = md5($row['id_user']);
-					$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['photo'] = FILESERVER.getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],'img/users/default.png');
+					$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['photo'] = getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],false);
+				if (!$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['photo']) $infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['photo']=DOMINIO.'img/users/default.png';
+				else $infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['photo']=FILESERVER.$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['photo'];
 				}
 			}else{
 				//Fecha formateada (fdate)
@@ -72,10 +74,15 @@
 				$row['fdate']=$sent.', '.$hora;
 				$usr[0]['name'] = utf8_encode($row['nameUser']);
 				$usr[0]['uid'] = md5($row['id_user']);
-				$usr[0]['photo'] = FILESERVER.getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],'img/users/default.png');
+				$usr[0]['photo'] = getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],false);
+				if (!$usr[0]['photo']) $usr[0]['photo']=DOMINIO.'img/users/default.png';
+				else $usr[0]['photo']=FILESERVER.$usr[0]['photo'];
 				$friend['name']=utf8_encode($row['nameFriend']);
 				$friend['uid']=md5($row['id_friend']);
-				$friend['photo'] = FILESERVER.getUserPicture($row['keyFriend'].'/'.$row['photoFriend'],'img/users/default.png');
+				$friend['photo'] = getUserPicture($row['keyFriend'].'/'.$row['photoFriend'],false);
+				if (!$friend['photo']) $friend['photo']=DOMINIO.'img/users/default.png';
+				else $friend['photo']=FILESERVER.$friend['photo'];
+
 				$afriends[0]=$friend;
 				$row['usrs']=$usr;
 				$row['friend']=$afriends;
@@ -95,7 +102,8 @@
 	    		$row['source']=md5($row['id_source']);
 				$infoa[$row['idsource'].'-'.$row['id_type']]=$row;
 			}
-			unset($row['date']); unset($row['KeyUser']); unset($row['keyFriend']);
+			if (!$mobile) unset($row['keyUser']);
+			unset($row['date']); unset($row['keyFriend']); 
 			unset($row['nameUser']); unset($row['nameFriend']); unset($row['photoUser']);
 			unset($row['photoFriend']); unset($row['nameFriend']);
 			if ($limit && count($infoa)>=$limit) break;

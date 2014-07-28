@@ -69,7 +69,7 @@
 		  <td colspan="2" style="text-align:center">
 		    <input type="submit" name="btnInvite" id="btnInvite" value="<?=INVITEUSERS_BTNINVITE?>" />
 		    &nbsp;
-		    <input type="button" name="btnCancel" id="btnCancel" value="<?=INVITEUSERS_BTNCANCEL?>" onclick="document.location.hash='home'" />
+		    <input type="button" name="btnCancel" id="btnCancel" value="<?=INVITEUSERS_BTNCANCEL?>" onclick="redir('')" />
 		</td>
 		</tr>
 		<tr>
