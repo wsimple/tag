@@ -72,79 +72,6 @@
 		<tr id="waitNewsInfo" style="font-size:11px;color:#f82;display:none;"><td style="padding:10px;">&nbsp;&nbsp;&nbsp;<?=NEWS_WAITMESSAGEFRIENDS?></td></tr>
 	</table>
 </article>
-<?php /*
-<div id="title-menuLeft" class="title-the-box">
-<div class="divImagen-title imagenCategory"><?=Category?></div>
-<ul id="menuLeft">
-	<li id="cretationTag"><a href="<?=base_url('creation')?>"><?=MAINMNU_CREATETAG?></a></li>
-	<li id="profile">
-		<span><?=MAINMNU_ACCOUNT?></span>
-		<ul>
-			<li><a href="<?=base_url('profile?sc=1')?>"><?=USERPROFILE_PERSONALINFO?></a></li>
-			<li><a href="<?=base_url('profile?sc=2')?>"><?=USERPROFILE_PREFERENCES?></a></li>
-			<li><a href="<?=base_url('profile?sc=4')?>"><?=MAINSMNU_PASSWORD?></a></li>
-			<li><a href="<?=base_url('profile?sc=3')?>"><?=USERPROFILE_BUSINESSCARD?></a></li>
-		</ul>
-	</li>
-	<li id="friends">
-		<span><?=USER_FINDFRIENDSTITLELINKS?></span>
-		<ul>
-			<li><a href="<?=base_url('friends?sc=1')?>"><?=MAINMNU_FINDFRIENDS?></a></li>
-			<li><a href="<?=base_url('friends?sc=2')?>"><?=EDITFRIEND_VIEWTAB1?></a></li>
-			<li><a href="<?=base_url('friends?sc=3')?>"><?=EDITFRIEND_VIEWTAB2?></a></li>
-		</ul>
-	</li>
-	<li id="groups">
-		<span><?=MAINMNU_GROUPS?></span>
-		<ul>
-			<li><a href="<?=base_url('groups?sc=1')?>"><?=GROUPS_LABELTABLSTMYGROUPS?></a></li>
-			<li><a href="<?=base_url('groups')?>"><?=GROUPS_LABELTABLSTALL?></a></li>
-		</ul>
-	</li>
-	<li id="setting">
-		<span><?=MAINMNU_SETTINGLEFT?></span>
-		<ul>
-			<li><a href="<?=base_url('setting?sc=1')?>"><?=NOTIFICATIONS_CONFIGURATIONSECTION?></a></li>
-			<!-- <li><a href="<?=base_url()?>"><?=MAINMNU_SETTINGLEFT?></a></li> -->
-		</ul>
-	</li>
-	<li id="store">
-		<a href="<?=base_url('store')?>"><span><?=STORE?></span></a>
-		<ul>
-			<li><a href="<?=base_url('store')?>"><?=PRODUCT_TITLE?></a></li>
-			<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']==$wid){ ?>
-			<li><a href="<?=base_url('newproduct')?>"><?=PRODUCTS_ADD?></a></li>
-			<li><a href="<?=base_url('mypublications')?>"><?=STORE_MISPUBLICATION?></a></li>
-			<?php } ?>
-			<li id="menu-l-li-shoppingCart" >
-				<a href="<?=base_url('shoppingcart')?>"><?=STORE_SHOPPINGCART?></a>
-				<div id="menu-lshoppingCart" class="menu-l-shoppingCart" style="display: none;"></div>
-				<div class="clearfix"></div>
-			</li>
-			<li id="menu-l-li-wishList" ><a href="<?=base_url('wishList')?>"><?=STORE_WISH_LIST?></a></li>
-			<li><a href="<?=base_url('freeproducts')?>"><?=PRODUCTS_RAFFLE?></a></li>
-			<li class="menu-l-youOrders" style="display: none;"><a href="<?=base_url('orders')?>"><?=STORE_YOURORDES?></a></li>
-			<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']==$wid){ ?>
-			<li class="menu-l-youSales" style="display: none;"><a href="<?=base_url('sales')?>"><?=STORE_SALES?></a></li>
-			<?php } ?>
-			<li><a href="<?=HREF_DEFAULT?>" action="buyPoints"><?=STORE_SALE_POINTS?></a></li>
-		</ul>
-	</li>
-</ul>
-</div>
-<div id="adsListPubli" style="display: none">
-	<div id="infoListNews" class="title-the-box">
-		<div class="divImagen-title imagenNew"><?=MAINMNU_NEWS_TITLE?></div>
-		<table width="155" border="0" align="left" cellpadding="0" cellspacing="0" class="tableNews" id="info-container">
-			<tr id="noticeInsertTop" style="display:none;"><td><div class="clearfix"></div></td></tr>
-			<tr id="news-loader" style="font-size:11px;color:#f82;"><td>&nbsp;&nbsp;&nbsp;<?=NEWS_RIGHTSIDE_LOADING?></td></tr>
-			<tr id="waitNewsInfo" style="font-size:11px;color:#f82;display:none;"><td style="padding:10px;">&nbsp;&nbsp;&nbsp;<?=NEWS_WAITMESSAGEFRIENDS?></td></tr>
-		</table>
-		<div class="clearfix"></div>
-	</div>
-	<div class="clearfix"></div>
-</div>
-<?php /* */?>
 <script type="text/javascript">
 	$(function(){
 		//event handlers
@@ -212,7 +139,7 @@
 					},
 					success	: function(data){
                         eval(data.txtFormat);
-                        if(data['info'].length>0){
+                        if(data['info'] && data['info'].length>0){
 							var i,out='',info,txt,len,type,clase='';
 							opc.date=data['fecha'];
 							act.start=(act.start||0)+data['info'].length;

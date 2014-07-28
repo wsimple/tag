@@ -60,7 +60,7 @@
 				$('#div_preference_3').slideUp();
 			});
 			$("#frmPreferences_btnHome").click(function() {
-				document.location.hash='home';
+				redir('');
 			});
 		/*FIN control de los botones send y back*/
 		

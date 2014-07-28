@@ -36,7 +36,7 @@ $(function(){
 			
 			band=armarGetBand(array);
 			storeListProd('.product-list.produc', band,srh);
-			$('div.miniCarStore div.bg-add').live('click',function(){
+			$(document).on('click','div.miniCarStore div.bg-add',function(){
 				var num=$(this).attr("h"),objeto=$(this);
 				$$.ajax({
 					type: 'GET',
@@ -105,14 +105,14 @@ $(function(){
 					}
 				});
 			});
-			$('.product-list ul li').live('mouseover',function(){
+			$('.product-list').on('mouseover','ul li',function(){
 				if ($(this).attr('r')=='1'){
 //					$('.transparencia_hover').addClass('transparencia').removeClass('transparencia_hover');
 					$('div.inputCreateRaffle',this).slideDown();
 				}else if ($(this).attr('r')=='2'){
 					$('div.miniCarStore',this).fadeIn();
 				}
-			}).live('mouseleave',function(){
+			}).on('mouseleave','ul li',function(){
 				if ($(this).attr('r')=='1'){
 //					$('.transparencia').addClass('transparencia_hover').removeClass('transparencia');
 					$('div.inputCreateRaffle',this).slideUp();
@@ -148,9 +148,10 @@ $(function(){
 		},
 		close:function(){
 			$('#menuStore').off();
+			$(document).off('click','div.miniCarStore div.bg-add');
+			$('.product-list').off();
 			$('#clickNewProduct').die();
 			$('#clickNewRaffle').die();
-			$('.product-list ul li').die();
 			$('#menuStore li a').die();;
 			$('#divSubMenuAdminFilters select').die();;
 			$('#divSubMenuAdminPublications select').die();

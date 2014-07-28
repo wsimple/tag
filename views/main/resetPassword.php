@@ -35,7 +35,7 @@ if($array['id']!=''){ ?>
 <script type="text/javascript">
 $(function() {
 	$('#resend_close').click(function(){
-		document.location.hash = '#home';
+		redir('');
 	});
 	$('.resendEmailPassword').fadeIn('fast');
 	$('#btnResetEmail').click(function(){

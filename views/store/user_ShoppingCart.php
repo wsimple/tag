@@ -163,7 +163,7 @@
                     filter_hide: true,
                     maxitems:1
                 });
-                $('#setCitys ul.holder li input').live('keydown',function(e){
+                $('#setCitys').on('keydown','ul.holder li input',function(e){
                     var a=$('#setCitys select#city option').val();
                     if ((a)&&(!validaKeyCode('del',e.heyCode)))
                         e.preventDefault();
@@ -236,7 +236,7 @@
                 //FIN control de los botones send y back
         },
 		close:function(){
-			$('#setCitys ul.holder li input').die();
+            $('#setCitys').off();
 		}
 	});
 });
