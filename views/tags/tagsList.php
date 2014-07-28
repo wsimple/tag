@@ -40,7 +40,10 @@
 		$titulo=TOPTAG_TITLE.': '.$titulos[$range-1];
 	}
 	//Si viene de referencia la tag...
-	if(isset($_GET['tag'])&&isset($_GET['referee'])) $referee=$_GET['referee'];
+	if(isset($_GET['tag'])&&isset($_GET['referee'])){
+		$referee=$_GET['referee'];
+		$tag=$_GET['tag'];
+	}
 	else $referee='';
 ?>
 <div id="taglist-box" class="ui-single-box<?=$_SESSION['ws-tags']['ws-user']['view_type_timeline']==0||$dialog?'':' mini'?>">
