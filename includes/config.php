@@ -31,11 +31,11 @@ if($section){
 	}
 	$_local=$tmp;
 	define('RELPATH',str_repeat('../',substr_count(substr($_SERVER['SCRIPT_NAME'],strlen($tmp)),'/')));
+	global $config;
 	@include(RELPATH.'.security/security.php');
 	// echo '<pre>';print_r($config);echo '</pre>';die();
 	if($config){
-		$tmp=($config->tipo=='local');
-		define('LOCAL',$tmp);
+		define('LOCAL',$config->local);
 		define('HOST',$config->db->host);
 		define('USER',$config->db->user);
 		define('PASS',$config->db->pass);
