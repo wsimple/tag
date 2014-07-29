@@ -215,7 +215,9 @@
 					$('#tagsUser').dialog('destroy');
 		});
 	<?php } ?>
-	if(ref) commentTag('Ver tag', '<?=$tag?>');
+	if(ref){
+		console.log('code '+ref+'--'+'tag <?=$tag?>');
+		commentTag('Ver tag', '<?=$tag?>');}
         
         <?php if(isset($_GET['sponsored'])){?> 
             console.log('entro sponsored')
