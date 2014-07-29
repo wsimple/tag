@@ -1,14 +1,12 @@
 .security/*.php
-img/tags/
-img/publicity/
-img/groups/
 img/bc_templates
-img/users/
-img/tags/
+img/groups/
+img/publicity/
 img/store/
+img/tags/
 img/templates/
-
-language/*.php
+img/users/
+language/
 
 main/config/
 main/core/

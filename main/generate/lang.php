@@ -18,7 +18,7 @@ foreach($languageList as $code){
 
 	#lenguajes en php
 	$array=str_replace('":"','"=>"',substr($json, 1, -1));
-	$array=str_replace('<\\/','</',$array);
+	$array=str_replace('\\/','/',$array);
 	$salida=<<<PHPLANG
 <?php
 \$lang=array($array);
