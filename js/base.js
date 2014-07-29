@@ -17,6 +17,45 @@
 		};
 	}
 })();
+//-- extendemos funciones de String --//
+(function(){
+	//-- comparacion de versiones (numeros con puntos, ej: 1 < 1.5.1 < 1.10) --//
+	if(!('compareVersion' in String)){
+		String.prototype.compareVersion=function(el){
+			var a,b,e1=this.split('.'),e2=el.split('.');
+			for(var i=0,len=e1.length;i<len;i++){
+				a=e1[i]*1;b=e2[i]*1;
+				if(a>b) return 1;
+				if(a<b) return -1;
+			}
+			if(e1.length>e2.length) return 1;
+			if(e1.length<e2.length) return -1;
+			return 0;
+		};
+		String.prototype.versionLt=function(el){
+			return this.compareVersion(el)<0;
+		};
+		String.prototype.versionGt=function(el){
+			return this.compareVersion(el)>0;
+		};
+	}
+})();
+//-- deshabilitar botones mientras se realiza un llamado ajax --//
+(function($){
+	$(document).ajaxSend(function(event,xhr,data){
+		if(data.disablebuttons){
+			$.c('ajax-disable').log('disabled ajax buttons. data:',data);
+			data.disabled=$('[ajax]:not([disabled])');
+			data.disabled.prop('disabled',true);
+		}
+	}).ajaxComplete(function(event,xhr,data){
+		if(data.disabled){
+			$.c('ajax-disable').log('enabled ajax buttons');
+			data.disabled.prop('disabled',false);
+		}
+	});
+})(jQuery);
+
 //-- variables generales de pagina --//
 var PAGE,wrapper,container,home,footer,INFO=[];
 

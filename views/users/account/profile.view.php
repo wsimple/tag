@@ -9,7 +9,7 @@
 	$countries = $GLOBALS['cn']->query("SELECT id,code,code_area,name FROM countries ORDER BY name ASC");
 	//codigos de area por pais
 	$sex = $GLOBALS['cn']->query("SELECT * FROM sex ORDER BY id ASC");
-    if(isset($_GET['showUploadError'])){
+	if(isset($_GET['showUploadError'])){
 		mensajes(UPLOAD_IMAGE_ERROR,PUBLICITY_TITLEMSGSUCCfrmProfileBackgroundESS." ..!","");
 	}
 	$all='frmProfile_btnSend';
@@ -18,7 +18,7 @@
 	//to fill countries list
 	$froms = $GLOBALS['cn']->query('SELECT id, name FROM countries');
 ?>
-<div id="frmProfile_View" class="ui-single-box">
+<div id="frmProfile_View" class="ui-single-box clearfix">
 	<?php //user messages (top) ?>
 		<?=generateDivMessaje('divSuccess',			'250',NEWTAG_CTRMSGDATASAVE					)?>
 		<?=generateDivMessaje('divErroZip',			'300',SIGNUP_CTRMSJERRORZIPCODE,			false)?>
@@ -29,7 +29,7 @@
 		<?=generateDivMessaje('divErroUploadingPP',	'300',USERPROFILE_CTRERRORUSERBIGIMAGE,		false)?>
 		<?=generateDivMessaje('divErroPhone',		'300',USERPROFILE_ERRORNUMBERSPHONE,		false)?>
 		<?=generateDivMessaje('divErroPhoneCode',	'300',USERPROFILE_ERRORCODENUMBERS,			false)?>
-		<?=generateDivMessaje('divError',	        '300',USERPROFILE_ERROR_SAVING,			    false)?>
+		<?=generateDivMessaje('divError',			'300',USERPROFILE_ERROR_SAVING,				false)?>
 	<!-- BARRA TITULO Y BUSQUEDA DE AMIGO -->
 	<h3 class="ui-single-box-title">
 		&nbsp;<?=USERPROFILE_TITLEFIELDSET?>
@@ -45,7 +45,7 @@
 		<?php /* BUTTON CHANGE - BUSINESS CARD - VIEW PROFILE */?>
 		<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
 			<div id="frmProfile_changePhotoButton" <?php if(RESETPASS_BTN1_TITLE!=""){?> title="<?=RESETPASS_BTN1_TITLE?>"<?php }?>>
-				<a href="javascript:void(0);" class="color-a font-size3" ><?=RESETPASS_BTN1?></a>
+				<a href="javascript:void(0);" class="color-a font-size3"><?=RESETPASS_BTN1?></a>
 			</div>
 			<div id="frmProfile_changePhotoDiv">
 				<input name="frmProfile_filePhoto" type="file" id="frmProfile_filePhoto"/>
@@ -68,17 +68,17 @@
 				<?php //first name OR Company Name ?>
 				<label><strong>(*)&nbsp;<?=(($_SESSION['ws-tags']['ws-user']['type']=='1')?SIGNUP_LBLADVERTISERNAME_FIELD:SIGNUP_LBLFIRSTNAME_FIELD)?>:</strong></label>
 				<?=$frmProfile->imput(
-					"frmProfile_firstName",
+					'frmProfile_firstName',
 					$_SESSION['ws-tags']['ws-user']['name'],
-					$anchoImput,"text","","",
-					(($_SESSION['ws-tags']['ws-user']['type']=='1')?SIGNUP_LBLADVERTISERNAME:SIGNUP_LBLFIRSTNAME)."|string|3")
+					$anchoImput,'text','','',
+					(($_SESSION['ws-tags']['ws-user']['type']==1)?SIGNUP_LBLADVERTISERNAME:SIGNUP_LBLFIRSTNAME).'|string|3')
 				?>
 			</div>
-			<?php if( $_SESSION['ws-tags']['ws-user']['type']=='0' ) { ?>
-				<div class="left"><?php //last name ?>
-					<label ><strong>(*)&nbsp;<?=SIGNUP_LBLLASTNAME_FIELD?>:</strong></label>
-					<?=$frmProfile->imput( "frmProfile_lastName", $_SESSION['ws-tags']['ws-user']['last_name'],$anchoImput, "text", "", "imputs_wrap_register", SIGNUP_LBLLASTNAME."|string|3")?>
-				</div>
+			<?php if( $_SESSION['ws-tags']['ws-user']['type']==0 ) { ?>
+			<div class="left"><?php //last name ?>
+				<label ><strong>(*)&nbsp;<?=SIGNUP_LBLLASTNAME_FIELD?>:</strong></label>
+				<?=$frmProfile->imput('frmProfile_lastName', $_SESSION['ws-tags']['ws-user']['last_name'],$anchoImput,'text','','imputs_wrap_register',SIGNUP_LBLLASTNAME.'|string|3')?>
+			</div>
 			<?php } ?>
 			<div class="left"><?php //nick name ?>
 				<label><strong>(*)&nbsp;<?=SIGNUP_LBLSCREENNAME_FIELD?>:</strong></label>
@@ -87,23 +87,20 @@
 			<div class="clearfix"></div>
 		</div>
 		<div>
+			<label><strong><?=USERPROFILE_LBLPROFILEUSERNAME?>:</strong></label>
 			<div><?php //username ?>
-				<label><strong><?=USERPROFILE_LBLPROFILEUSERNAME?>:</strong></label>
 				<input type="text" tipo="string" value="<?=$_SESSION['ws-tags']['ws-user'][username]?>" id="frmProfile_userName" name="frmProfile_userName"/>
 				<?=generateDivMessaje('divCheckingUsername','250', 'revisando el username', 'left')?>
 				<?=generateDivMessaje('divValidUsername',	'250', 'username disponible', 'left')?>
 				<em class="font-size3 color-d">(<?=USERPROFILE_LBLHELPUSERNAME1?>)</em>
-				<em class="font-size3 color-d "><?=(($_SESSION['ws-tags']['ws-user'][username]!='') ? str_replace('*', $_SESSION['ws-tags']['ws-user'][username], USERPROFILE_LBLHELPUSERNAME2) : str_replace('*', USER_PROFILE, USERPROFILE_LBLHELPUSERNAME2))?></em>
 			</div>
+			<em class="font-size3 color-d "><?=(($_SESSION['ws-tags']['ws-user'][username]!='') ? str_replace('*', $_SESSION['ws-tags']['ws-user'][username], USERPROFILE_LBLHELPUSERNAME2) : str_replace('*', USER_PROFILE, USERPROFILE_LBLHELPUSERNAME2))?></em>
 		</div>
-		<div>		
-			<div class="left"><?php //birth day ?>
-				<label>
-					<strong>(*)&nbsp;<?=($_SESSION['ws-tags']['ws-user'][type]=='1')?SIGNUP_LBLBUSINESSSINCE:SIGNUP_LBLBIRTHDATE?>:</strong>
-					<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
-					<a style="margin-left:140px" class="font-size3 color-d" href="javascript:void(0);" onclick="message('messages','<?=WHYDOIPROVIDEMYBIRTHDAY?>','<?=SIGNUP_MSJBIRTHDATEWARNING?>','',400,200);" onFocus="this.blur();"><?=WHYDOIPROVIDEMYBIRTHDAY?></a>
-					<?php } ?>
-				</label>
+		<div><?php //birth day ?>
+			<label>
+				<strong>(*)&nbsp;<?=($_SESSION['ws-tags']['ws-user'][type]=='1')?SIGNUP_LBLBUSINESSSINCE:SIGNUP_LBLBIRTHDATE?>:</strong>
+			</label>
+			<div>
 				<?php list($year,$month,$day)=explode('-',$_SESSION['ws-tags']['ws-user']['date_birth']); ?>
 				<select name="frmProfile_month" id='frmProfile_month' requerido="Month">
 					<option value="" ><?=SIGNUP_LBLMONTH?></option>
@@ -120,54 +117,36 @@
 				<select name="frmProfile_year" id='frmProfile_year' requerido="Year">
 					<option value=""><?=SIGNUP_LBLYEAR?></option>
 					<?php
-					$rango = ($_SESSION['ws-tags']['ws-user'][type]=='1' ? 0 : 13);
-					for($i=date('Y')-$rango; $i>1930; $i--) { ?>
+					$rango=($_SESSION['ws-tags']['ws-user']['type']=='1'?0:13);
+					for($i=date('Y')-$rango; $i>1930; $i--){ ?>
 							<option <?=($year==$i ? "selected='selected'" : '')?>> <?=$i?> </option>";
 					<?php } ?>
 				</select>
-
 				<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
-				
 				<select name="frmProfile_showbirthday" id="frmProfile_showbirthday">
 					<?php while ($show_birthday=mysql_fetch_assoc($shows_birthday)){ ?>
 						<option value="<?=$show_birthday['id']?>" <?php if($_SESSION['ws-tags']['ws-user']['show_birthday']==$show_birthday[id]) echo "selected"; ?> ><?=constant($show_birthday['label'])?></option>
 					<?php } ?>
 				</select>
-
 				<?php } ?>
-
-				<div class="clearfix"></div>
 			</div>
-			
-			<div class="clearfix"></div>
+			<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
+			<a class="font-size3 color-d" href="javascript:void(0);" onclick="message('messages','<?=WHYDOIPROVIDEMYBIRTHDAY?>','<?=SIGNUP_MSJBIRTHDATEWARNING?>','',400,200);" onFocus="this.blur();"><?=WHYDOIPROVIDEMYBIRTHDAY?></a>
+			<?php } ?>
 		</div>
-		<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
-		<!-- <div >
-			<a class="font-size3 color-d" href="javascript:void(0);" onclick="message('messages','<?=WHYDOIPROVIDEMYBIRTHDAY?>','<?=SIGNUP_MSJBIRTHDATEWARNING?>','',400,200);" onFocus="this.blur();"><?=WHYDOIPROVIDEMYBIRTHDAY?></a><br>
-			<select name="frmProfile_showbirthday" id="frmProfile_showbirthday">
-				<?php while ($show_birthday=mysql_fetch_assoc($shows_birthday)){ ?>
-					<option value="<?=$show_birthday['id']?>" <?php if($_SESSION['ws-tags']['ws-user']['show_birthday']==$show_birthday[id]) echo "selected"; ?> ><?=constant($show_birthday['label'])?></option>
-				<?php } ?>
-			</select>
-			<div class="clearfix"></div>
-		</div>
-		<div class="clearfix"></div> -->
-		<?php } ?>
-		<div>
+		<div class="clearfix">
 			<div class="left"><?php //language ?>
 				<label><strong><?=USERPROFILE_LBLLANGUAGE?>:</strong></label>
-				
 				<select name="frmProfile_cboLanguageUsr" id="frmProfile_cboLanguageUsr" w="150">
-					<?php while ($language = mysql_fetch_assoc($languages)) { ?>
-						<option value="<?=$language[cod]?>" <?=($_SESSION['ws-tags']['ws-user'][language]==$language[cod] ? "selected" : '')?> >
-							<?=$language[name]?>
+					<?php while($language=mysql_fetch_assoc($languages)){ ?>
+						<option value="<?=$language[cod]?>" <?=($_SESSION['ws-tags']['ws-user'][language]==$language[cod] ? "selected" : '')?>>
+							<?=$language['name']?>
 						</option>
 					<?php } ?>
 				</select>
 			</div>
 			<div class="left"><?php //country ?>
 				<label><strong><?=BUSINESSCARD_LBLCOUNTRY?>:</strong></label>
-				
 				<select name="frmProfile_cboFrom" id="cbo_from_search" w="150">
 					<option value="" ></option>
 					<?php while( $from = mysql_fetch_assoc($froms) ) { ?>
@@ -181,30 +160,28 @@
 				<label ><strong><?=SIGNUP_ZIPCODE?></strong></label>
 				<input name="frmProfile_zipCode" type="text" id="frmProfile_zipCode" value="<?=$_SESSION['ws-tags']['ws-user']['zip_code']?>"/>
 			</div>
-			<div class="clearfix"></div>
 		</div>
-		<?php if( $_SESSION['ws-tags']['ws-user'][type]=='0' ) { ?>
-			<div><?php //home phone ?> 
-				<label><strong><?=USERPROFILE_LBLHOMEPHONE?>:</strong></label>
-				<select name="frmProfile_home_code" id="home_code_search" w="150">
-					<option value=""><?=USERPROFILE_LBLCBOAREASCODE?></option>
-					<?php
-					$number=explode('-',$_SESSION['ws-tags']['ws-user']['home_phone']);
-					while($country=mysql_fetch_assoc($countries)) { ?>
-						<option value="<?=$country['id']?>" <?=($number[0]==$country['code_area']?'selected="1"':'')?>>
-							<?=$country[name].'&nbsp;('.$country[code_area].')'?>
-						</option>
-					<?php }
-					mysql_data_seek($countries, 0);
-					?>
-				</select>
-				<input name="frmProfile_home" type="text" id="frmProfile_home" value="<?=$number[1]?>" tipo="integer"/>
-				<em class="font-size3 color-d "><?=PROFILE_PHONELEYEND?></em>
-			</div>
+		<?php if($_SESSION['ws-tags']['ws-user']['type']==0){ ?>
+		<div><?php //home phone ?>
+			<label><strong><?=USERPROFILE_LBLHOMEPHONE?>:</strong></label>
+			<select id="home_code_search" name="frmProfile_home_code" w="150">
+				<option value=""><?=USERPROFILE_LBLCBOAREASCODE?></option>
+				<?php
+				$number=explode('-',$_SESSION['ws-tags']['ws-user']['home_phone']);
+				while($country=mysql_fetch_assoc($countries)) { ?>
+					<option value="<?=$country['id']?>" <?=($number[0]==$country['code_area']?'selected="1"':'')?>>
+						<?=$country[name].'&nbsp;('.$country[code_area].')'?>
+					</option>
+				<?php }
+				mysql_data_seek($countries, 0);
+				?>
+			</select>
+			<input name="frmProfile_home" type="text" id="frmProfile_home" value="<?=$number[1]?>" tipo="integer"/>
+			<em class="font-size3 color-d"><?=PROFILE_PHONELEYEND?></em>
+		</div>
 		<?php } ?>
 		<div><?php // work phone ?>
 			<label><strong><?=USERPROFILE_LBLWORKPHONE?>:</strong></label>
-			 
 			<select name="frmProfile_work_code" id="work_code_search" w="150">
 				<option value=""><?=USERPROFILE_LBLCBOAREASCODE?></option>
 				<?php
@@ -222,7 +199,6 @@
 		</div>
 		<div><?php //mobile phone ?>
 			<label><strong><?=USERPROFILE_LBLMOBILEPHONE?>:</strong></label>
-			 
 			<select name="frmProfile_mobile_code" id="mobile_code_search" w="150">
 				<option value=""><?=USERPROFILE_LBLCBOAREASCODE?></option>
 				<?php
@@ -235,33 +211,33 @@
 				mysql_data_seek($countries,0);
 				?>
 			</select>
-			<input name="frmProfile_mobile" type="text" id="frmProfile_mobile"  value="<?=$number[1]?>" tipo="integer" />
+			<input name="frmProfile_mobile" type="text" id="frmProfile_mobile" value="<?=$number[1]?>" tipo="integer" />
 			<em class="font-size3 color-d"><?=PROFILE_PHONELEYEND?></em>
 		</div>
 		<?php if( $_SESSION['ws-tags']['ws-user']['type']!='1' ){ ?>
-			<div><?php //sexo ?>
-				<label><strong><?=SEX_TITLE?>:</strong></label>
-				<select name="frmProfile_sex" id="frmProfile_sex" w="150">
-				<?php if($_SESSION['ws-tags']['ws-user']['sex']==''){ ?>
-					<option value="" selected>...</option>
-				<?php }
-				while($sexo=mysql_fetch_assoc($sex)){ ?>
-				   <option value="<?=$sexo['id']?>" <?=($_SESSION['ws-tags']['ws-user']['sex']==$sexo['id']?"selected":'')?>>
-					   <?=constant($sexo['label'])?>
-				   </option>
-				<?php } ?>
-				</select>
-			</div>
+		<div><?php //sexo ?>
+			<label><strong><?=SEX_TITLE?>:</strong></label>
+			<select name="frmProfile_sex" id="frmProfile_sex" w="150">
+			<?php if($_SESSION['ws-tags']['ws-user']['sex']==''){ ?>
+				<option value="" selected>...</option>
+			<?php }
+			while($sexo=mysql_fetch_assoc($sex)){ ?>
+				<option value="<?=$sexo['id']?>" <?=($_SESSION['ws-tags']['ws-user']['sex']==$sexo['id']?"selected":'')?>>
+					<?=constant($sexo['label'])?>
+				</option>
+			<?php } ?>
+			</select>
+		</div>
 		<?php }
 		if($_SESSION['ws-tags']['ws-user']['type']=='1'){ ?>
-			<?php if (PAYPAL_PAYMENTS): ?>
+			<?php if(PAYPAL_PAYMENTS): ?>
 			<div class="frmProfilePaypalAccount" style="height: 45px">
-					<label ><strong><?=PROFILE_PAYINFO?> <a href="https://www.paypal.com/ve/cgi-bin/webscr?cmd=_registration-run&from=PayPal" title="" target="_blank">paypal</a> (Paypal ID <?=PROFILE_OREMAILPAY?>):</strong></label>
-					<input name="frmProfile_paypal" type="text" id="frmProfile_paypal"  value="<?=$_SESSION['ws-tags']['ws-user'][paypal]?>" style="width:300px;" /><span class="paypal_info help_info">?</span>
-                <?php //requerido="FRMPROFILE_PAYPAL" ?>
+				<label><strong><?=PROFILE_PAYINFO?> <a href="https://www.paypal.com/ve/cgi-bin/webscr?cmd=_registration-run&from=PayPal" title="" target="_blank">paypal</a> (Paypal ID <?=PROFILE_OREMAILPAY?>):</strong></label>
+				<input name="frmProfile_paypal" type="text" id="frmProfile_paypal"  value="<?=$_SESSION['ws-tags']['ws-user'][paypal]?>" style="width:300px;" /><span class="paypal_info help_info">?</span>
+				<?php //requerido="FRMPROFILE_PAYPAL" ?>
 				<div><div class="messageHelp arrowLeft"><span><?=$paypalMsg?></span></div></div>
 			</div>
-            <div><?php //tax id ?>
+			<div><?php //tax id ?>
 				<label><strong>(*)&nbsp;<?=USERPROFILE_TAXID?>:</strong></label>
 				<div><input type="text" name="frmProfile_taxId" id="frmProfile_taxId" value="<?=$_SESSION['ws-tags']['ws-user'][taxId]?>" onkeyup="mascara(this,'-',patron,true)" maxlength="11" /></div>
 			</div>
@@ -277,7 +253,7 @@
 				<div style="width:500px;" class="left">
 					<label><strong><?=USERPROFILE_SELCUSTOMBACKGROUND?></strong></label>
 					<div id="profileChangeBgButtonDiv" class="left" style="width:225px"><?php // background image chooser?>
-						<input type="button" value="<?=USERPROFILE_UPLOADBGTITTLE?>" />
+						<input type="button" value="<?=USERPROFILE_UPLOADBGTITTLE?>"/>
 						<input id="user_background_url" name="user_background_url" style="display:none" type="text"/>
 					</div>
 					<div id="setDefaultBgDiv" name="setDefaultBgDiv" class="left">
@@ -306,12 +282,10 @@
 			</div>
 		</div>
 	</div><?php // fin contenedor ?>
-	<div class="clearfix"></div>
 	</form>
 </div>
 
 <script>
-
 	$('#frmProfile_cboLanguageUsr').change(function(event){
 		if ($('#frmProfile_cboLanguageUsr').val()!='<?=$_SESSION['ws-tags']['ws-user']['language']?>') {
 			$("#frmProfile_").submit();
@@ -475,8 +449,9 @@
 		//control de los botones send y back
 		$('#frmProfile_btnSend').click(function(){
 				if( valida('frmProfile_') ) {
-					var stri='',select='';  
-					if ($('#frmProfile_mobile').val()!='' || $('#frmProfile_work').val()!='' || (typeUser=='0' && $('#frmProfile_home').val()!='')){   band=true;
+					var stri='',select='';
+					if ($('#frmProfile_mobile').val()!='' || $('#frmProfile_work').val()!='' || (typeUser=='0' && $('#frmProfile_home').val()!='')){
+						band=true;
 						if ($('#frmProfile_mobile').val()!='' && !validateForm('frmProfile_mobile'))	stri+='<?=USERPROFILE_LBLMOBILEPHONE?>';
 						if ($('#frmProfile_work').val()!='' && !validateForm('frmProfile_work')){	stri+=stri!=''?', <?=USERPROFILE_LBLWORKPHONE?>':'<?=USERPROFILE_LBLWORKPHONE?>';}
 						if (typeUser=='0' && $('#frmProfile_home').val()!='' && !validateForm('frmProfile_home')){	stri+=stri!=''?' <?=ANDLABEL?> <?=USERPROFILE_LBLHOMEPHONE?>':'<?=USERPROFILE_LBLHOMEPHONE?>';}
@@ -501,7 +476,7 @@
 							showAndHide('divErroPhone',	'divErroPhone',	1500, true);
 						}
 						enableButtons('<?=$all?>');
-					}	
+					}
 				}
 				enableButtons('<?=$all?>');
 				$.loader('hide');
