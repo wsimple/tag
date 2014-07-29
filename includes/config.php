@@ -22,7 +22,7 @@ if($section){
 }
 
 	#definicion de variables que difieren entre produccion y local
-	if(preg_match('/^(localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
+	if(preg_match('/^(local.tagbum.com|localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
 		$tmp=strpos($_SERVER['SCRIPT_NAME'],'/',1)+1;
 		$tmp=substr($_SERVER['SCRIPT_NAME'],0,$tmp);
 		// die($_path);
