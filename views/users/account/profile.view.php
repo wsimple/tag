@@ -18,7 +18,7 @@
 	//to fill countries list
 	$froms = $GLOBALS['cn']->query('SELECT id, name FROM countries');
 ?>
-<div id="frmProfile_View" class="ui-single-box">
+<div id="frmProfile_View" class="ui-single-box clearfix">
 	<?php //user messages (top) ?>
 		<?=generateDivMessaje('divSuccess',			'250',NEWTAG_CTRMSGDATASAVE					)?>
 		<?=generateDivMessaje('divErroZip',			'300',SIGNUP_CTRMSJERRORZIPCODE,			false)?>
