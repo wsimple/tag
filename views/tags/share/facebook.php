@@ -18,6 +18,6 @@
 	  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&appId=141402139297347&version=v2.0";
 	  fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));</script>
-	<div class="fb-share-button" data-href="http://tagbum.com<?=base_url('tag?tag='.$_GET['tag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'])?>"></div>
+	<div class="fb-share-button" data-href="<?=DOMINIO.base_url('tag?tag='.$_GET['tag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'])?>"></div>
 </body>
 </html>
