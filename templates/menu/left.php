@@ -272,6 +272,9 @@
                         case 'groupsDetails':
 							el='groups';
 						break;
+                        case 'user':
+							el='profile';
+						break;
 						default: el=SECTION;//elemento del menu principal
 					}
 					$(menu).children('#'+el)//li
