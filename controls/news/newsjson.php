@@ -1,29 +1,42 @@
 <?php 
 	include '../header.json.php';
 	$res=array();
-	if (!isset($_GET['date'])){
-		$usdiffDate='DATEDIFF(NOW(),us.last_update)<=4';
-		$undiffDate='DATEDIFF(NOW(),un.date)<=4';
+	$mobile=isset($_GET['all'])?true:$mobile;
+	if ($mobile && $_GET['action']!='refresh'){
+		$limitsql="LIMIT ".(isset($_GET['limit'])?$_GET['limit']:"0").",30";
+		$res['numResult']=isset($_GET['limit'])?$_GET['limit']:0;
+		$limit=15;
 	}else{
-		$usdiffDate=safe_sql('us.last_update>=?',array($_GET['date']));
-		$undiffDate=safe_sql('un.date>=?',array($_GET['date']));
-		// $undiffDate='un.date>='.$_GET['date'];
+		if (!isset($_GET['date'])){
+			$usdiffDate='DATEDIFF(NOW(),us.last_update)<=4';
+			$undiffDate='DATEDIFF(NOW(),un.date)<=4';
+		}else{
+			$usdiffDate=safe_sql('us.last_update>=?',array($_GET['date']));
+			$undiffDate=safe_sql('un.date>=?',array($_GET['date']));
+			// $undiffDate='un.date>='.$_GET['date'];
+		}
+		$limit=(isset($_GET['limit']) && $_GET['limit']>0)?$_GET['limit']:false;
 	}
-	$limit=(isset($_GET['limit']) && $_GET['limit']>0)?$_GET['limit']:false;
-	// $limit=(isset($_GET['limit']) && $_GET['limit']>0)?'LIMIT 0,'.$_GET['limit']:'';
 	$miId=$_SESSION['ws-tags']['ws-user']['id'];
-	$query=CON::query("	SELECT us.id,NOW()
-	 					FROM users us
-	 					INNER JOIN users_links ul ON ul.id_friend= us.id
-	 					WHERE ul.id_user=? AND $usdiffDate;",array($miId));
-	// $res['sql-amigos']=CON::lastSql();
-	if (CON::numRows($query)){
-		$idIn='';$ainfo=array();
+	if ($mobile || isset($_GET['all'])) $num=1;
+	else{
+		$query=CON::query("	SELECT us.id,NOW()
+		 					FROM users us
+		 					INNER JOIN users_links ul ON ul.id_friend= us.id
+		 					WHERE ul.id_user=? AND $usdiffDate;",array($miId));
+		// $res['sql-amigos']=CON::lastSql();
+		$num=CON::numRows($query);
+		$idIn='';
 		while($row=CON::fetchAssoc($query)){
 			$idIn.=($idIn!=''?',':'').$row['id'];
 			$res['fecha']=$row['NOW()'];
-		} 
-		$new=CON::query("SELECT un.id_friend,
+		}
+		$limitsql="";
+	}
+	if ($num){
+		$ainfo=array();
+		$new=CON::query("SELECT un.id,
+								un.id_friend,
 								un.id_user,
 								un.id_type,
 								un.id_source,
@@ -41,12 +54,14 @@
 							INNER JOIN type_actions t ON un.id_type = t.id
 							WHERE un.id_user!=? AND un.id_friend!=? AND un.id_friend!=0 AND un.id_friend!=un.id_user 
 							AND un.id_type IN (2,4,5,8,9,11,22,25,26,27,29) 
-							AND (un.id_friend IN ($idIn) OR un.id_user IN ($idIn)) AND $undiffDate
-							ORDER BY un.date DESC", array($miId,$miId));
-		// $res['sql-noti']=CON::lastSql();
-		$burro=array();
+							".(!$mobile?"AND (un.id_friend IN ($idIn) OR un.id_user IN ($idIn)) AND $undiffDate":"")."
+							ORDER BY un.date DESC $limitsql", array($miId,$miId));
+		$res['sql-noti']=CON::lastSql();
 		while($row=CON::fetchAssoc($new)){
-			$burro[]=$row;
+			if ($mobile && $_GET['action']!='refresh'){
+				$res['numResult']++;
+				if (count($ainfo)==0) $res['fecha']=$row['date'];
+			}
 			if (isset($infoa[$row['id_source'].'-'.$row['id_type']])){
 				$band=false;
 				$num=count($infoa[$row['id_source'].'-'.$row['id_type']]['usrs']);

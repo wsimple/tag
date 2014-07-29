@@ -4692,7 +4692,8 @@ container.wrapper .right-panel #adsListPubli .outSideDivNoti{
 	background:#fff;
 	margin-top:-20px
 }
-container.wrapper .left-panel #adsListPubli td[tipo]{
+container.wrapper .left-panel #adsListPubli td[tipo],
+container #pageNews .news-wrapper #news-here div[tipo]{
     background-repeat:no-repeat;
     background-position:10px 10px;
 }
@@ -4700,39 +4701,60 @@ container.wrapper .left-panel #adsListPubli td[tipo="1"],
 container.wrapper .left-panel #adsListPubli td[tipo="22"],
 container.wrapper .left-panel #adsListPubli td[tipo="25"],
 container.wrapper .left-panel #adsListPubli td[tipo="26"],
-container.wrapper .left-panel #adsListPubli td[tipo="27"]{
+container.wrapper .left-panel #adsListPubli td[tipo="27"],
+container #pageNews .news-wrapper #news-here div[tipo="1"],
+container #pageNews .news-wrapper #news-here div[tipo="22"],
+container #pageNews .news-wrapper #news-here div[tipo="25"],
+container #pageNews .news-wrapper #news-here div[tipo="26"],
+container #pageNews .news-wrapper #news-here div[tipo="27"]{
     background-image:url(tbum/news/tags.png);
 }
-container.wrapper .left-panel #adsListPubli td[tipo="2"]{
+container.wrapper .left-panel #adsListPubli td[tipo="2"],
+container #pageNews .news-wrapper #news-here div[tipo="2"]{
     background-image:url(tbum/news/like.png);
 }
+container #pageNews .news-wrapper #news-here div[tipo="3"],
 container.wrapper .left-panel #adsListPubli td[tipo="3"]{
     background-image:url(tbum/news/imbox.png);
 }
 container.wrapper .left-panel #adsListPubli td[tipo="4"],
-container.wrapper .left-panel #adsListPubli td[tipo="15"]{
+container.wrapper .left-panel #adsListPubli td[tipo="15"],
+container #pageNews .news-wrapper #news-here div[tipo="4"],
+container #pageNews .news-wrapper #news-here div[tipo="15"]{
     background-image:url(tbum/news/comment.png);
 }
 container.wrapper .left-panel #adsListPubli td[tipo="5"],
 container.wrapper .left-panel #adsListPubli td[tipo="7"],
-container.wrapper .left-panel #adsListPubli td[tipo="11"]{
+container.wrapper .left-panel #adsListPubli td[tipo="11"],
+container #pageNews .news-wrapper #news-here div[tipo="5"],
+container #pageNews .news-wrapper #news-here div[tipo="7"],
+container #pageNews .news-wrapper #news-here div[tipo="11"]{
     background-image:url(tbum/news/user.png);
 }
-container.wrapper .left-panel #adsListPubli td[tipo="8"]{
+container.wrapper .left-panel #adsListPubli td[tipo="8"],
+container #pageNews .news-wrapper #news-here div[tipo="8"]{
     background-image:url(tbum/news/redistributed.png);
 }
+container #pageNews .news-wrapper #news-here div[tipo="9"],
 container.wrapper .left-panel #adsListPubli td[tipo="9"]{
     background-image:url(tbum/news/patrocinar.png);
 }
 container.wrapper .left-panel #adsListPubli td[tipo="10"],
 container.wrapper .left-panel #adsListPubli td[tipo="12"],
 container.wrapper .left-panel #adsListPubli td[tipo="13"],
-container.wrapper .left-panel #adsListPubli td[tipo="14"]{
+container.wrapper .left-panel #adsListPubli td[tipo="14"],
+container #pageNews .news-wrapper #news-here div[tipo="10"],
+container #pageNews .news-wrapper #news-here div[tipo="12"],
+container #pageNews .news-wrapper #news-here div[tipo="13"],
+container #pageNews .news-wrapper #news-here div[tipo="14"]{
     background-image:url(tbum/news/group.png);
 }
 container.wrapper .left-panel #adsListPubli td[tipo="16"],
 container.wrapper .left-panel #adsListPubli td[tipo="17"],
-container.wrapper .left-panel #adsListPubli td[tipo="29"]{
+container.wrapper .left-panel #adsListPubli td[tipo="29"],
+container #pageNews .news-wrapper #news-here div[tipo="16"],
+container #pageNews .news-wrapper #news-here div[tipo="17"],
+container #pageNews .news-wrapper #news-here div[tipo="29"]{
     background-image:url(tbum/news/store.png);
 }
 .divYourFriendsSuggestSeparator{
