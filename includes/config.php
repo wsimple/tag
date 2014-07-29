@@ -22,7 +22,7 @@ if($section){
 }
 
 	#definicion de variables que difieren entre produccion y local
-	if(preg_match('/^(local.tagbum.com|localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
+	if(preg_match('/^(local\.|localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
 		$tmp=strpos($_SERVER['SCRIPT_NAME'],'/',1)+1;
 		$tmp=substr($_SERVER['SCRIPT_NAME'],0,$tmp);
 		// die($_path);
@@ -87,7 +87,7 @@ if($section){
 	);
 	$_name=$_SERVER['SERVER_NAME'];
 	$_path='/';
-	if(preg_match('/^(localhost|127\.\d\.\d\.\d|192\.168(\.\d{1,3}){2})/',$_name)){
+	if(preg_match('/^(local\.|localhost|127\.\d\.\d\.\d|192\.168(\.\d{1,3}){2})/',$_name)){
 		$_path=$_local;
 		$_site=$_name.$_local;
 		$_fserver='';//fileserver para uso local
