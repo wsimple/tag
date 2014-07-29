@@ -1,7 +1,7 @@
 <?php
 global $dialog;
 //	$dialog=isset($_GET['popup'])||isset($_GET['dialog']);
-	//echo $_GET[tag];
+	echo $_GET['tag'];
 	$_GET[tag]=intToMd5($_GET['tag']);
 	$tag = $GLOBALS['cn']->queryRow('
 		SELECT
