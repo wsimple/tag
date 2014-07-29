@@ -193,7 +193,25 @@ function newTag_json($data,$mobile=false){
 		$tag=createTag($img);
 		$res['preview']=true;
 		$res['img']=FILESERVER.'/img/tags/'.$tag.'.jpg';
-	}elseif($res['type']=='new'||$res['type']=='update'){//si es una creacion o edicion
+
+	}elseif ($res['type']=='update') {
+		
+		$sql='UPDATE tags SET
+				background		    ="'.$data['background'].'",
+				text				="'.$data['topText'].'",
+				code_number			="'.$data['middleText'].'",
+				text2				="'.$data['bottomText'].'",
+				color_code			="'.$data['topColor'].'",
+				color_code2			="'.$data['middleColor'].'",
+				color_code3			="'.$data['bottomColor'].'",
+				video_url			="'.$data['video'].'"
+			WHERE id = "'.$data['tag'].'"
+		';
+
+		$update=$GLOBALS['cn']->query($sql);
+		$tag=createTag($data['tag'],true);
+
+	}elseif($res['type']=='new'){//si es una creacion o edicion
 		
 		$topText    = explode(' ', $data['topText']);
 		$bottomText = explode(' ', $data['bottomText']);
@@ -247,46 +265,46 @@ function newTag_json($data,$mobile=false){
 //			if($updateCom['id']){
 //				$GLOBALS['cn']->query('UPDATE comments SET id_source="'.$tagId.'" WHERE id_source="'.$data['tag'].'"');//actualiza la tabla comments con el id nuevo de la tag
 //			}
-			$redist=$GLOBALS['cn']->queryRow('SELECT * FROM tags WHERE source="'.$data['tag'].'" AND id!=source LIMIT 0,1');
-			//updateTagData($data['tag'],$tagId);//cambia los id de la tag vieja por la nueva
-			if($redist['id']){//si fue redistribuida se conserva y se le cambia el estado
-				$update=$GLOBALS['cn']->query('UPDATE tags SET status="2" WHERE id="'.$data['tag'].'" AND (id_creator="'.$myId.'" OR id_user="'.$myId.'")');
-			}else{//si no fue redistribuida, la eliminamos
+// 			$redist=$GLOBALS['cn']->queryRow('SELECT * FROM tags WHERE source="'.$data['tag'].'" AND id!=source LIMIT 0,1');
+// 			//updateTagData($data['tag'],$tagId);//cambia los id de la tag vieja por la nueva
+// 			if($redist['id']){//si fue redistribuida se conserva y se le cambia el estado
+// 				$update=$GLOBALS['cn']->query('UPDATE tags SET status="2" WHERE id="'.$data['tag'].'" AND (id_creator="'.$myId.'" OR id_user="'.$myId.'")');
+// 			}else{//si no fue redistribuida, la eliminamos
 
-				//obtenemos los datos de la tag vieja para hacer update con ellos en la tag nueva
-				$idbackG=$GLOBALS['cn']->query('SELECT id,img,id_creator FROM tags WHERE id="'.$data['tag'].'"');
-				$idbackGs=mysql_fetch_assoc($idbackG);
+// 				//obtenemos los datos de la tag vieja para hacer update con ellos en la tag nueva
+// 				$idbackG=$GLOBALS['cn']->query('SELECT id,img,id_creator FROM tags WHERE id="'.$data['tag'].'"');
+// 				$idbackGs=mysql_fetch_assoc($idbackG);
 
-				//bbuscamos el nombre de la img que se acaba de crear
-				$backGNew=$GLOBALS['cn']->query('SELECT img FROM tags WHERE id="'.$tagId.'"');
-				$backGNews=mysql_fetch_assoc($backGNew);
+// 				//bbuscamos el nombre de la img que se acaba de crear
+// 				$backGNew=$GLOBALS['cn']->query('SELECT img FROM tags WHERE id="'.$tagId.'"');
+// 				$backGNews=mysql_fetch_assoc($backGNew);
 
-				//eliminamos la tag vieja
-				deleteFTP($idbackGs['img'].'.m.jpg','tags','../../');
-				deleteFTP($idbackGs['img'].'.jpg','tags','../../');
+// 				//eliminamos la tag vieja
+// 				deleteFTP($idbackGs['img'].'.m.jpg','tags','../../');
+// 				deleteFTP($idbackGs['img'].'.jpg','tags','../../');
 
-				//renombramos la tag nueva con el nombre viejo de la tag
-				renameFTP($backGNews['img'].'.jpg',$idbackGs['img'].'.jpg','tags','../../');
-				renameFTP($backGNews['img'].'.m.jpg',$idbackGs['img'].'.m.jpg','tags','../../');
+// 				//renombramos la tag nueva con el nombre viejo de la tag
+// 				renameFTP($backGNews['img'].'.jpg',$idbackGs['img'].'.jpg','tags','../../');
+// 				renameFTP($backGNews['img'].'.m.jpg',$idbackGs['img'].'.m.jpg','tags','../../');
 				
-				if($data['wpanel']!='1'){
-					$creator  = 'AND id_creator="'.$myId.'"';
-					$satusTag = 'AND status!="4"';
-				}else{
-					if($idbackGs['id_creator']==$myId){
-						$creator  = 'AND id_creator="'.$myId.'"';
-					}else{
-						$creator  = 'AND id_creator="'.$idbackGs['id_creator'].'"';
-					}
-					$satusTag = 'AND status="10"';
-				}
+// 				if($data['wpanel']!='1'){
+// 					$creator  = 'AND id_creator="'.$myId.'"';
+// 					$satusTag = 'AND status!="4"';
+// 				}else{
+// 					if($idbackGs['id_creator']==$myId){
+// 						$creator  = 'AND id_creator="'.$myId.'"';
+// 					}else{
+// 						$creator  = 'AND id_creator="'.$idbackGs['id_creator'].'"';
+// 					}
+// 					$satusTag = 'AND status="10"';
+// 				}
 				
-				$GLOBALS['cn']->query('DELETE FROM tags WHERE id="'.$data['tag'].'" '.$creator.' '.$satusTag.' ');//se elimina la tag vieja
-				$GLOBALS['cn']->query('UPDATE tags SET id="'.$idbackGs['id'].'",source="'.$idbackGs['id'].'",img="'.$idbackGs['img'].'" WHERE id="'.$tagId.'" AND id_user="'.$myId.'"');//se actualiza la tag nueva con el id viejo
+// 				$GLOBALS['cn']->query('DELETE FROM tags WHERE id="'.$data['tag'].'" '.$creator.' '.$satusTag.' ');//se elimina la tag vieja
+// 				$GLOBALS['cn']->query('UPDATE tags SET id="'.$idbackGs['id'].'",source="'.$idbackGs['id'].'",img="'.$idbackGs['img'].'" WHERE id="'.$tagId.'" AND id_user="'.$myId.'"');//se actualiza la tag nueva con el id viejo
 
-//				  $GLOBALS['cn']->query('UPDATE users_notifications SET id="'.$data['tag'].'" WHERE id="'.$data['tag'].'"');
-				//$delete=$GLOBALS['cn']->query('DELETE FROM users_notifications WHERE id_source="'.$data['tag'].'" AND id_type IN (1,2,4,7,8,9,10)');
-			}
+// //				  $GLOBALS['cn']->query('UPDATE users_notifications SET id="'.$data['tag'].'" WHERE id="'.$data['tag'].'"');
+// 				//$delete=$GLOBALS['cn']->query('DELETE FROM users_notifications WHERE id_source="'.$data['tag'].'" AND id_type IN (1,2,4,7,8,9,10)');
+// 			}
 		}else{//si es una tag nueva se actualizan tags_count,accumulated_points y current_points
 			$points=getCreatingTagPoints();
 			updateUserCounters($myId,'tags_count','1','+');

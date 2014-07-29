@@ -9,6 +9,8 @@ if(!is_dir('.security')||!is_file('.security/security.php')||isset($_GET['genera
 				echo '<pre>';
 				var_dump($config);
 				echo '</pre>';
+				define('LOCAL',$config->local);
+				echo '<p>LOCAL:'.(LOCAL?'true':'false').'</p>';
 			}
 		}
 	}elseif(isset($_GET['language'])){

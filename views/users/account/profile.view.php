@@ -80,7 +80,7 @@
 					<?=$frmProfile->imput( "frmProfile_lastName", $_SESSION['ws-tags']['ws-user']['last_name'],$anchoImput, "text", "", "imputs_wrap_register", SIGNUP_LBLLASTNAME."|string|3")?>
 				</div>
 			<?php } ?>
-			<div class="left"><?php //screen name ?>
+			<div class="left"><?php //nick name ?>
 				<label><strong>(*)&nbsp;<?=SIGNUP_LBLSCREENNAME_FIELD?>:</strong></label>
 				<?=$frmProfile->imput("frmProfile_screenName", $_SESSION['ws-tags']['ws-user']['screen_name'],$anchoImput, "text", "", "imputs_wrap_register", SIGNUP_LBLSCREENNAME."|string")?>
 			</div>
@@ -100,6 +100,9 @@
 			<div class="left"><?php //birth day ?>
 				<label>
 					<strong>(*)&nbsp;<?=($_SESSION['ws-tags']['ws-user'][type]=='1')?SIGNUP_LBLBUSINESSSINCE:SIGNUP_LBLBIRTHDATE?>:</strong>
+					<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
+					<a style="margin-left:140px" class="font-size3 color-d" href="javascript:void(0);" onclick="message('messages','<?=WHYDOIPROVIDEMYBIRTHDAY?>','<?=SIGNUP_MSJBIRTHDATEWARNING?>','',400,200);" onFocus="this.blur();"><?=WHYDOIPROVIDEMYBIRTHDAY?></a>
+					<?php } ?>
 				</label>
 				<?php list($year,$month,$day)=explode('-',$_SESSION['ws-tags']['ws-user']['date_birth']); ?>
 				<select name="frmProfile_month" id='frmProfile_month' requerido="Month">
@@ -122,23 +125,34 @@
 							<option <?=($year==$i ? "selected='selected'" : '')?>> <?=$i?> </option>";
 					<?php } ?>
 				</select>
-				<div class="clearfix"></div>
-			</div>
-			<div class="left">
-				<!--<a class="font-size3 color-d" href="javascript:void(0);" onclick="message('messages','<?=WHYDOIPROVIDEMYBUSINESSSINCE?>','<?=SIGNUP_MSJBIRTHDATEWARNING?>','',400,200);" onFocus="this.blur();"><?=WHYDOIPROVIDEMYBUSINESSSINCE?></a>
-				-->
+
 				<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
-					<a class="font-size3 color-d" href="javascript:void(0);" onclick="message('messages','<?=WHYDOIPROVIDEMYBIRTHDAY?>','<?=SIGNUP_MSJBIRTHDATEWARNING?>','',400,200);" onFocus="this.blur();"><?=WHYDOIPROVIDEMYBIRTHDAY?></a>
-					<select name="frmProfile_showbirthday" id="frmProfile_showbirthday">
-						<?php while ($show_birthday=mysql_fetch_assoc($shows_birthday)){ ?>
-							<option value="<?=$show_birthday['id']?>" <?php if($_SESSION['ws-tags']['ws-user']['show_birthday']==$show_birthday[id]) echo "selected"; ?> ><?=constant($show_birthday['label'])?></option>
-						<?php } ?>
-					</select>
+				
+				<select name="frmProfile_showbirthday" id="frmProfile_showbirthday">
+					<?php while ($show_birthday=mysql_fetch_assoc($shows_birthday)){ ?>
+						<option value="<?=$show_birthday['id']?>" <?php if($_SESSION['ws-tags']['ws-user']['show_birthday']==$show_birthday[id]) echo "selected"; ?> ><?=constant($show_birthday['label'])?></option>
+					<?php } ?>
+				</select>
+
 				<?php } ?>
+
 				<div class="clearfix"></div>
 			</div>
+			
 			<div class="clearfix"></div>
 		</div>
+		<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
+		<!-- <div >
+			<a class="font-size3 color-d" href="javascript:void(0);" onclick="message('messages','<?=WHYDOIPROVIDEMYBIRTHDAY?>','<?=SIGNUP_MSJBIRTHDATEWARNING?>','',400,200);" onFocus="this.blur();"><?=WHYDOIPROVIDEMYBIRTHDAY?></a><br>
+			<select name="frmProfile_showbirthday" id="frmProfile_showbirthday">
+				<?php while ($show_birthday=mysql_fetch_assoc($shows_birthday)){ ?>
+					<option value="<?=$show_birthday['id']?>" <?php if($_SESSION['ws-tags']['ws-user']['show_birthday']==$show_birthday[id]) echo "selected"; ?> ><?=constant($show_birthday['label'])?></option>
+				<?php } ?>
+			</select>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div> -->
+		<?php } ?>
 		<div>
 			<div class="left"><?php //language ?>
 				<label><strong><?=USERPROFILE_LBLLANGUAGE?>:</strong></label>
@@ -295,7 +309,15 @@
 	<div class="clearfix"></div>
 	</form>
 </div>
+
 <script>
+
+	$('#frmProfile_cboLanguageUsr').change(function(event){
+		if ($('#frmProfile_cboLanguageUsr').val()!='<?=$_SESSION['ws-tags']['ws-user']['language']?>') {
+			$("#frmProfile_").submit();
+		};
+	});
+
 	$('[title]').tipsy({html:true,gravity:'n'});
 	var band=false, typeUser=<?=$_SESSION['ws-tags']['ws-user']['type']?>;
 	function disableButtons(id) {
