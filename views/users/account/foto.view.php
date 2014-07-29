@@ -1,4 +1,4 @@
-<div class="fotoCrop">
+<div class="fotoCrop ui-single-box">
 	<form action="" id="formCoordenadas" class="fondo_secciones_tabs">
 		<input type="hidden" id="x" name="x" />
 		<input type="hidden" id="y" name="y" />
