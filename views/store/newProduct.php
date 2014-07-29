@@ -281,8 +281,8 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 				cat='<?=$product['category']?>';
 				subcat='<?=$product['subCategory']?>';
 				fp='<?=$product['formPayment']?>';
-                console.log(category);
-				console.log(cat);
+    //             console.log(category);
+				// console.log(cat);
                 var v=JSON.parse(category);
 				<?php if($_GET['idProd']){ ?>
 					categorys(v,cat);
@@ -328,7 +328,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 			var vc=0,sto;//vimeo counter ajax
 			$('#txtVideo').bind('change keyup',function(){
 				var that=this,URL=that.value;
-				console.log(URL);
+				// console.log(URL);
 				if(URL.match(/^https?:\/\/vimeo\.com\/.+\/.+/)){
 					var $running=$('#vimeo #running'),
 						$success=$('#vimeo #success'),
@@ -412,7 +412,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 			var options={
                 dataType:'json',
 				success:function(data){ // post-submit callback
-					console.log(data);
+					// console.log(data);
                     switch(data['action']){
                         case 'img': 
                             setBG(data['img']['img'],data['img']['pos']);
