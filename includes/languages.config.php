@@ -12,7 +12,7 @@ if($_GET['lang']!=''){
 	}
 	//detecta el idioma segun la ip del usuario si no esta logeado
 	if($_GET['lang']==''&&empty($_SESSION['ws-tags']['language'])){
-		if(preg_match('/^(localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
+		if(preg_match('/^(local\.|localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
 			$_SESSION['ws-tags']['language']=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
 		}else{
 			$ip_num=sprintf("%u",ip2long($_SERVER['REMOTE_ADDR']));
