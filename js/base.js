@@ -40,6 +40,21 @@
 		};
 	}
 })();
+//-- deshabilitar botones mientras se realiza un llamado ajax --//
+(function($){
+	$(document).ajaxSend(function(event,xhr,data){
+		if(data.disablebuttons){
+			$.c('ajax-disable').log('disabled ajax buttons. data:',data);
+			data.disabled=$('[ajax]:not([disabled])');
+			data.disabled.prop('disabled',true);
+		}
+	}).ajaxComplete(function(event,xhr,data){
+		if(data.disabled){
+			$.c('ajax-disable').log('enabled ajax buttons');
+			data.disabled.prop('disabled',false);
+		}
+	});
+})(jQuery);
 
 //-- variables generales de pagina --//
 var PAGE,wrapper,container,home,footer,INFO=[];
