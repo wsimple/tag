@@ -14,10 +14,13 @@
 return array(
 	'js'=>array(
 		'//js/jquery-1.8.3.js',
+		// '//js/jquery-1.11.1.min.js',
+		// '//js/jquery-compatibility.js',
+		'//js/jquery-ui-1.9.2.custom.min.js',
+		// '//js/jquery-ui-1.11.1.min.js',
 		'//js/jquery.cookie.js',
 		'//js/jquery.local.js',
 		'//js/session.js',
-	    '//js/jquery-ui-1.9.2.custom.min.js',
 		'//js/jquery.ba-hashchange.min.js',
 		'//js/jquery.placeholder-1.01.js',
 		'//js/jquery.form.js',
@@ -41,7 +44,9 @@ return array(
 	),
 	'css'=>array(
 		'//css/normalize.css',
+		'//css/fonts.css',
 		'//css/jquery-ui-1.9.2.custom.css',
+		// '//css/jquery-ui-1.11.0.min.css',
 		'//css/jquery-ui.smt.css',
 		'//css/farbtastic.css',
 		'//css/jquery.ui.selectmenu.css',
