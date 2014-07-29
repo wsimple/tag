@@ -12,7 +12,7 @@ if(isset($_GET['sc']) && $_GET['sc']=='6'){
 }elseif ($_GET['uid']!='') { $where = "md5(id) = '".$_GET['uid']."'"; }
 elseif ($_GET['userIdExternalProfile']!='') { $where = "md5(id) = '".$_GET['userIdExternalProfile']."'"; }
 elseif(isset($_GET['usr'])){ $where = "username LIKE '".$_GET['usr']."'"; }
-elseif($section) $where = "username!='' AND username LIKE '$section'";
+elseif($section!='user'&&$section!='profile') $where = "username!='' AND username LIKE '$section'";
 else{ $where = "id = ".$_SESSION['ws-tags']['ws-user']['id']; }
 
 $sid=$_SESSION['ws-tags']['ws-user']['id']!=''?"'".$_SESSION['ws-tags']['ws-user']['id']."'":"id";

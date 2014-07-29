@@ -52,11 +52,11 @@
 			</div>
 			<div id="frmProfile_businessCardDiv">
 				<?php if(!strpos($foto,"default.png")){ ?>
-				<a href="<?=base_url('profile?sc=5')?>" class="color-a font-size3" <?php if(USER_CROPPROFILE_TITLE!=""){?> title="<?=USER_CROPPROFILE_TITLE?>"<?php } ?>>
+				<a href="<?=base_url('user/mini')?>" class="color-a font-size3" <?php if(USER_CROPPROFILE_TITLE!=""){?> title="<?=USER_CROPPROFILE_TITLE?>"<?php } ?>>
 					<?=USER_CROPPROFILE?>
 				</a>
 				<?php } ?>
-				<a href="<?=base_url('profile?sc=6')?>" class="color-a font-size3" <?php if(USER_HELPPREVIEWPROFILE_TITLE!=""){?> title="<?=USER_HELPPREVIEWPROFILE_TITLE?>"<?php } ?>>
+				<a href="<?=base_url('user/preview')?>" class="color-a font-size3" <?php if(USER_HELPPREVIEWPROFILE_TITLE!=""){?> title="<?=USER_HELPPREVIEWPROFILE_TITLE?>"<?php } ?>>
 					<?=USER_HELPPREVIEWPROFILE?>
 				</a>
 			</div>
@@ -393,7 +393,7 @@
 					enableButtons('<?=$all?>');
 				}else if(data.indexOf('CROP')>=0){// going crop before changing profile picture
 					$('loader.page',PAGE).hide();
-					redir('profile?sc=5');
+					redir('user/mini');
 				}else if(data.indexOf('ERROR_UPLOADING_PROFILE_PICTURE')>=0){//el error
 					showAndHide('divErroImagen','divErroImagen',2500,true);
 					enableButtons('<?=$all?>');

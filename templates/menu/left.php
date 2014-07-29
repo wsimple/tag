@@ -9,10 +9,10 @@
 		<li id="profile">
 			<span><?=MAINMNU_ACCOUNT?></span>
 			<ul>
-				<li><a href="<?=base_url('profile?sc=1')?>"><?=USERPROFILE_PERSONALINFO?></a></li>
-				<li><a href="<?=base_url('profile?sc=2')?>"><?=USERPROFILE_PREFERENCES?></a></li>
-				<li><a href="<?=base_url('profile?sc=4')?>"><?=MAINSMNU_PASSWORD?></a></li>
-				<li><a href="<?=base_url('profile?sc=3')?>"><?=USERPROFILE_BUSINESSCARD?></a></li>
+				<li><a href="<?=base_url('user')?>"><?=USERPROFILE_PERSONALINFO?></a></li>
+				<li><a href="<?=base_url('user/preferences')?>"><?=USERPROFILE_PREFERENCES?></a></li>
+				<li><a href="<?=base_url('user/password')?>"><?=MAINSMNU_PASSWORD?></a></li>
+				<li><a href="<?=base_url('user/cards')?>"><?=USERPROFILE_BUSINESSCARD?></a></li>
 			</ul>
 		</li>
 		<li id="friends">
