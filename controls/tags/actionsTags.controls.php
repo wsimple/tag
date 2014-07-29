@@ -172,11 +172,16 @@
 								//echo '- '.$per.'<br>';
 								//----------------------- revisar link de tag
 								//imagenes del email
-								$backg = (strpos(' '.$tag['fondoTag'],'default') ? DOMINIO : FILESERVER).'img/templates/'.$tag['fondoTag'];
-								$placa = DOMINIO.'img/placaFondo.png';
+								//$backg = (strpos(' '.$tag['fondoTag'],'default') ? DOMINIO : FILESERVER).'img/templates/'.$tag['fondoTag'];
+								//$placa = DOMINIO.'img/placaFondo.png';
 								//$linkTag = DOMINIO.'#timeline?current=timeLine&tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'];
-								$imgTag = DOMINIO.'includes/tag.php?tag='.md5($tag['idTag']);
-								$linkTag = base_url('&tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code']);
+								//
+								$linkTag = DOMINIO.'timeline?tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($tag['email']);
+								$imgTag	= tagURL($tag['idTag']);
+
+								//$imgTag = DOMINIO.'includes/tag.php?tag='.md5($tag['idTag']);
+								//$linkTag = base_url('&tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code']);
+
 								$iconoSpon = DOMINIO.'/img/menu_users/publicidad.png';
 								$foto_usuario=FILESERVER.getUserPicture($tag['code'].'/'.$tag['photoUser']);
 								$foto_remitente	=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']);
