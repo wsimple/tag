@@ -1,6 +1,6 @@
 <?php
-die(jsonp(array()));
 include '../header.json.php';
+die(jsonp(array()));
 
 	//si se pasa la fecha por parametro, utilizamos esa fecha
 	if(isset($_REQUEST['date'])) $res['date']=$_REQUEST['date'];
