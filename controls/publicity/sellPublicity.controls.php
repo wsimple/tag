@@ -1,10 +1,11 @@
 <?php
 	require_once '../../includes/session.php';
+	require_once '../../includes/config.php';
 	require_once '../../includes/functions.php';
 
 	 if (quitar_inyect()) {
 
-		 require_once '../../includes/config.php';
+		 
 		 require_once '../../class/wconecta.class.php';
 		 require_once '../../includes/languages.config.php';
 		 require_once '../../class/class.phpmailer.php';
@@ -225,9 +226,9 @@
 									$ext           = strtolower(end($parts));
 
 									if( in_array($ext, $imagesAllowed) ) {
-										$path  = "../../img/publicity/".$_SESSION['ws-tags']['ws-user'][code].'/';       //ruta para crear dir
+										$path  = RELPATH."img/publicity/".$_SESSION['ws-tags']['ws-user'][code].'/';       //ruta para crear dir
 										$photo = $_SESSION['ws-tags']['ws-user'][code].'/'.md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
-										$photo_= md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
+										//$photo_= md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
 
 										//existencia de la folder
 										if( !is_dir ($path) ) {
@@ -238,9 +239,9 @@
 											fclose($fp);
 										}// is_dir
 
-										if( redimensionar($_FILES[publi_img][tmp_name], "../../img/publicity/".$photo, 200) ) {
+										if( redimensionar($_FILES[publi_img][tmp_name], RELPATH."img/publicity/".$photo, 200) ) {
 											//echo $_FILES[photo][tmp_name].'<br>';
-											uploadFTP($photo_,"publicity", '../../');
+											FTPupload('publicity/'.$photo);
 
 										}else{
 											redirect("../../?publicity=error");
