@@ -45,7 +45,7 @@
 					success:function(data){
 						$.c().log('profile.json:',data);
 						if(data['upload']=='done'||data['resize']=='done'){
-							redir('profile');
+							redir('user');
 						}
 					},
 					complete:function(){
@@ -58,7 +58,7 @@
 	});
 	$('#formCoordenadas').ajaxForm({
 		success:function(response){//post-submit callback
-			redir('profile');
+			redir('user');
 		}
 	});
 
