@@ -273,10 +273,11 @@
 							}
 
 							if( $save==1 ) {
-								if (PAYPAL_PAYMENTS) $_POST[payment] = '3';
+								$payment_type = $_POST[payment];
+								if (!PAYPAL_PAYMENTS) $payment_type = '3';
 
 						//payment methods
-								switch( $_POST[payment] ) {
+								switch( $payment_type ) {
 									//payment = points
 									case "3":
 										$monto_inversion = $_POST[number_of_points];
@@ -318,7 +319,7 @@
 														id_type_publicity	= '2',
 														id_cost				= '".$id_points[id]."',
 														id_user				= '".$_SESSION['ws-tags']['ws-user'][id]."',
-														id_currency			= '".$_POST[payment]."',
+														id_currency			= '".$payment_type."',
 														title				= '".$_POST[publi_title]."',
 														message				= '".$_POST[publi_msg]."',
 														link				= '".$_POST[publi_link]."',
@@ -377,7 +378,7 @@
 												id_type_publicity	= 2,
 												id_cost				= '".$costo[id]."',
 												id_user				= '".$_SESSION['ws-tags']['ws-user'][id]."',
-												id_currency			= '".$_POST[payment]."',
+												id_currency			= '".$payment_type."',
 												title				= '".$_POST[publi_title]."',
 												message				= '".$_POST[publi_msg]."',
 												link				= '".$_POST[publi_link]."',
