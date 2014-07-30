@@ -176,7 +176,7 @@
 								//$placa = DOMINIO.'img/placaFondo.png';
 								//$linkTag = DOMINIO.'#timeline?current=timeLine&tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'];
 								//
-								$linkTag = DOMINIO.'timeline?tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($tag['email']);
+								$linkTag = DOMINIO.'tag?id='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($tag['email']);
 								$imgTag	= tagURL($tag['idTag']);
 
 								//$imgTag = DOMINIO.'includes/tag.php?tag='.md5($tag['idTag']);
