@@ -53,7 +53,8 @@
 
 <?php if ($_GET[p]!="" && fileExistsRemote(FILESERVER."img/publicity/".$_SESSION['ws-tags']['ws-user'][code].'/'.$dato[picture])){?>
 <tr>
-  <td colspan="2" style="padding:5px; font-weight:normal"><img src="includes/imagen.php?tipo=1&porc=80&img=<?=FILESERVER?>img/publicity/<?=$_SESSION['ws-tags']['ws-user'][code].'/'.$dato[picture]?>" style="border:1px solid #CCC"  /></td>
+  <td colspan="2" style="padding:5px; font-weight:normal">
+  <img src="<?='.?resizeimg&ancho=70&tipo=3&img='.FILESERVER.getPublicityPicture('img/publicity/'.$dato['picture'],'img/publicity/publicity_nofile.png')?>" style="border:1px solid #CCC"  /></td>
 </tr>
 <?php } ?>
 
