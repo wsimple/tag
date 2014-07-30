@@ -4,20 +4,22 @@ console.log('Agent: '+navigator.userAgent);
 	var c,fakec={},types=[];
 	['log','alert','warn','error'].forEach(function(name){fakec[name]=function(){return;};});
 	if('console' in w) c=w.console; else c=fakec;
-	$.c=function(type){
+	$.debug=function(type){
 		if($.cookie('_DEBUG_')===null) return fakec;
 		if(type!==undefined&&types.indexOf(type)<0) types.push(type);
 		return !type||$.cookie('_DEBUG_')==type?c:fakec;
 	};
-	$.c.show=function(type){
+	$.debug.show=function(type){
 		$.cookie('_DEBUG_',type!==undefined?type:'');
 		return ['Enabled ',type||'Global',' Logs'].join('');
 	};
-	$.c.hide=function(){
+	$.debug.hide=function(){
 		$.cookie('_DEBUG_',null);
 		c.log('Disabled all Logs');
 	};
-	$.c.list=function(){ return types; };
+	$.debug.list=function(){ return types; };
+	$.debug.is=function(type){ return $.cookie('_DEBUG_')==type; };
+	$.c=$.debug;
 
 	var c1,c2={};
 	['log','alert','warn','error'].forEach(function(name){c2[name]=function(){return;};});
