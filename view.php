@@ -30,7 +30,8 @@ $f_unlogged=array(
     'users/eprofile.php',
     'users/account.php',
 	'tags/comment.php',
-	'users/business.paypal.php'
+	'users/business.paypal.php',
+	'tags/tag.php'
 );
 //cantidad de paneles, default:3
 $numPanels=isset($numPanels)?$numPanels:3;
