@@ -1,12 +1,14 @@
 <?php 
 	include '../header.json.php';
 	$res=array();
+	$miId=$_SESSION['ws-tags']['ws-user']['id'];
 	$mobile=isset($_GET['all'])?true:$mobile;
 	if ($mobile && $_GET['action']!='refresh'){
 		$limitsql="LIMIT ".(isset($_GET['limit'])?$_GET['limit']:"0").",30";
 		$res['numResult']=isset($_GET['limit'])?$_GET['limit']:0;
 		$limit=15;
 	}else{
+		$mobile=false;
 		if (!isset($_GET['date'])){
 			$usdiffDate='DATEDIFF(NOW(),us.last_update)<=4';
 			$undiffDate='DATEDIFF(NOW(),un.date)<=4';
@@ -17,8 +19,7 @@
 		}
 		$limit=(isset($_GET['limit']) && $_GET['limit']>0)?$_GET['limit']:false;
 	}
-	$miId=$_SESSION['ws-tags']['ws-user']['id'];
-	if ($mobile || isset($_GET['all'])) $num=1;
+	if ($mobile) $num=1;
 	else{
 		$query=CON::query("	SELECT us.id,NOW()
 		 					FROM users us
@@ -56,7 +57,7 @@
 							AND un.id_type IN (2,4,5,8,9,11,22,25,26,27,29) 
 							".(!$mobile?"AND (un.id_friend IN ($idIn) OR un.id_user IN ($idIn)) AND $undiffDate":"")."
 							ORDER BY un.date DESC $limitsql", array($miId,$miId));
-		$res['sql-noti']=CON::lastSql();
+		// $res['sql-noti']=CON::lastSql();
 		while($row=CON::fetchAssoc($new)){
 			if ($mobile && $_GET['action']!='refresh'){
 				$res['numResult']++;
