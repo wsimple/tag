@@ -56,7 +56,7 @@
 						on[action]=true;
 						myAjax({
 							type	: 'GET',
-							url		: DOMINIO+'controls/news/newsjson.php',
+							url		: DOMINIO+'controls/news/newsjson.php?action='+action,
 							// url		: DOMINIO+'controls/news/news.json.php',
 							dataType: 'json',
 							data	: opc,
@@ -67,6 +67,7 @@
 								eval(data.txtFormat);
 								if(action=='more'&&(!data['info']||data['info'].length<1)) opc.more=false;
 								if(!cancel()&&data['info']&&data['info'].length>0){
+									opc.limit=data['numResult'];
 									var i,j,out='',info,d;
 									opc.date=data['fecha'];
 									if(!opc.refresh) opc.start=(opc.start||0)+data['info'].length;

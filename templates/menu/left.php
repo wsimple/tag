@@ -9,10 +9,10 @@
 		<li id="profile">
 			<span><?=MAINMNU_ACCOUNT?></span>
 			<ul>
-				<li><a href="<?=base_url('profile?sc=1')?>"><?=USERPROFILE_PERSONALINFO?></a></li>
-				<li><a href="<?=base_url('profile?sc=2')?>"><?=USERPROFILE_PREFERENCES?></a></li>
-				<li><a href="<?=base_url('profile?sc=4')?>"><?=MAINSMNU_PASSWORD?></a></li>
-				<li><a href="<?=base_url('profile?sc=3')?>"><?=USERPROFILE_BUSINESSCARD?></a></li>
+				<li><a href="<?=base_url('user')?>"><?=USERPROFILE_PERSONALINFO?></a></li>
+				<li><a href="<?=base_url('user/preferences')?>"><?=USERPROFILE_PREFERENCES?></a></li>
+				<li><a href="<?=base_url('user/password')?>"><?=MAINSMNU_PASSWORD?></a></li>
+				<li><a href="<?=base_url('user/cards')?>"><?=USERPROFILE_BUSINESSCARD?></a></li>
 			</ul>
 		</li>
 		<li id="friends">
@@ -64,182 +64,25 @@
 		</li>
 	</ul>
 </article>
+<?php if ($section!='news'){ 
+	require('views/news/news.php');
+?>
 <article id="adsListPubli" class="side-box news">
 	<header><span><?=MAINMNU_NEWS_TITLE?></span></header>
 	<table width="155" border="0" align="left" cellpadding="0" cellspacing="0" class="tableNews" id="info-container">
 		<tr id="noticeInsertTop" style="display:none;"><td><div class="clearfix"></div></td></tr>
 		<tr id="news-loader" style="font-size:11px;color:#f82;"><td>&nbsp;&nbsp;&nbsp;<?=NEWS_RIGHTSIDE_LOADING?></td></tr>
-		<tr id="waitNewsInfo" style="font-size:11px;color:#f82;display:none;"><td style="padding:10px;">&nbsp;&nbsp;&nbsp;<?=NEWS_WAITMESSAGEFRIENDS?></td></tr>
+		<tr id="waitNewsInfo" style="font-size:11px;color:#f82;display:none;"><td></td>
+			<td style="padding:10px;"><a href="<?=base_url('news')?>"><?=INVITEUSERS_LBLVIEWALLSENDTAG?></a></td>
+		</tr>
+		<!-- <tr id="waitNewsInfo" style="font-size:11px;color:#f82;display:none;"><td style="padding:10px;">&nbsp;&nbsp;&nbsp;<?=NEWS_WAITMESSAGEFRIENDS?></td></tr> -->
 	</table>
 </article>
+<?php } ?>
 <script type="text/javascript">
 	$(function(){
-		//event handlers
-		var ns='.newsList',//namespace
-		interval,clearEvents=function(){
-			//$(window).off(ns);
-			clearInterval(interval);
-		};
-        function newsFormat(d){return(
-                '<tr'+d.clase+' data-info="'+d.id+'">'+
-					'<td tipo="'+d.type+'" width="18" style="padding:10px; vertical-align:top; border-bottom: 1px solid #f8f8f8" align="center" width="16" height="16" border="0">'+
-					'</td>'+
-					'<td style="padding:4px 8px 2px 0; font-size:10px;  border-bottom: 1px solid #f8f8f8">'+
-						d.txt+'<div class="extras">'+d.photos+'</div>'+
-						'<em style="color:#CCC">'+d.date+'</em>'+
-					'</td>'+
-				'</tr>'
-		);}
-        function peopleFormat(usr,num,type){
-			if(!usr) return '';
-			num=num||usr.length;
-			var	i,max=3,len=num>max?max:num,ult=len-1,
-				usrs='',imgs='',action;
-			for(i=0;i<len;i++){
-				if(i===ult && num>max){
-					usrs+=' [_AND_] <b>'+(num-ult)+' [_MORE_]</b>';
-				}else{
-					if(i>0) usrs+=i<ult?', ':' [_AND_] ';
-					if (type && ['22','25','26','27'].indexOf(type)<0){ action=action||(' action="profile,'+usr[i]['uid']+'"'); }
-                    else {action=''; }
-					if(usr[i]['photo']) 
-						imgs=imgs||('<div'+action+'  class="usr-pic" style="background-image:url('+usr[i]['photo']+');width:30px;height:30px;"'+'"></div>');
-					usrs+='<span'+(action?action+' style="color: #77c574;"':'')+' >'+usr[i]['name']+'</span>';
-				}
-				action=null;
-			}
-			imgs=imgs||('<div'+action+' class="usr-pic"></div>');
-			return [imgs,usrs];
-		}
-		function getNews(action,opc){
-			if(!opc.on) opc.on={};
-			var act,
-				limit=5,
-				on=opc.on,
-				layer=opc.layer,
-				get=opc.get||'',
-				cancel=function(){return (action!='reload'&&on['reload']);},//cancel action
-				onca=function(val){if(val!==undefined)on[action]=val; return on[action];};//on current action
-			if(!cancel()&&!onca()){
-				onca(true);
-				if(!opc.actions || action=='reload'){
-					opc.actions={refresh:{},more:{}};
-					opc.date='';
-				}
-				act=opc.actions[action=='refresh'?'refresh':'more'];
-
-				$.qajax('low',{
-					type	: 'GET',
-					url		: 'controls/news/newsjson.php?limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
-					// url		: 'controls/news/news.json.php?limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
-					dataType: 'json',
-					data	: act||{},
-					complete: function(/*resp, status, error*/) {
-						onca(false);
-					},
-					success	: function(data){
-                        eval(data.txtFormat);
-                        if(data['info'] && data['info'].length>0){
-							var i,out='',info,txt,len,type,clase='';
-							opc.date=data['fecha'];
-							act.start=(act.start||0)+data['info'].length;
-							len=data['info'].length;
-
-							if(action!='reload') clase=' style="animation:myfirst 3s; -webkit-animation:myfirst 5s; background:#FFF;"';
-							for(i=0;i<len;i++){
-								info = data['info'][i];
-                                d={
-									type:info['id_type'],
-									date:info['fdate'],
-									source:info['source'],
-                                    id:info['id'],
-                                    clase:clase
-								};
-                                // var friends=peopleFormat(info['friends'],info['num_friends'],info['id_type']),
-                                //  	people=peopleFormat(info['usr'],1,info['id_type']);
-		                        var friends=peopleFormat(info['usrs'],null,info['id_type']),
-                                 	people=peopleFormat(info['friend'],null,info['id_type']);
-                                switch(info['type']){
-									case 'tag':
-										    var ac=' action="comment,'+info['idsource']+'"',
-												tag=' <img'+ac+' src="'+FILESERVER+'img/tags/'+info['source'].substr(-16)+'.m.jpg" style="height:25px;"/>';
-											d.photos=friends[0]+tag;
-                                            d.txt=txtFormat({
-												type:info['id_type'],
-												people:people[1],
-                                                friends:friends[1],
-												num:info['num_friends'],
-												txt:data['txt'],
-												tag:'<span'+(ac?ac+' style="color: #77c574;"':'')+'>[_TAG_]</span>'
-											});
-											out+=newsFormat(d);										
-									break;
-									case 'usr':
-										d.photos = friends[0];
-										d.txt=txtFormat({
-											type:info['id_type'],
-											people:people[1],
-                                            friends:friends[1],
-											txt:data['txt']
-										});
-										out+=newsFormat(d);
-									break;
-									case 'product':
-										var ac=' action="detailProd,'+info['source']+'"',
-											prod=info['photoS']?' <img'+ac+' src="'+info['photoS']+'" style="height:28px; border: 1px #c0c0c0 solid;border-radius: 5px;"/>':'';
-										d.photos = people[0]+prod;
-										d.txt=txtFormat({
-											type:info['id_type'],
-											people:people[1],
-											num:info['num_friends'],
-											txt:data['txt'],
-											prod:'<span '+ac+' style="color: #77c574;">[_PROD_]</span>'
-										});
-										out+=newsFormat(d);
-									break;
-
-								}
-							}
-							$('#adsListPubli').show();
-							$('#news-loader').fadeOut('slow',function(){$(layer).after(out);});
-							$('#info-container tr:gt(5)').remove();
-						}else{
-							if(action=='reload')
-							   $('#news-loader').fadeOut('slow',function(){$('#waitNewsInfo').fadeIn('fast');});
-						}
-					}
-				});
-			}
-		}
-		clearEvents();
-
 		$.on({
 			open:function(){
-
-			//news
-			var opc={
-					layer:'#noticeInsertTop',
-					get:''
-				};
-				//puntos
-				this.intervalmsk = setInterval(function(){ mskPointsReload('#mskPoints'); },40000);
-
-				interval=setInterval(function(){
-					if($(opc.layer).length>0){
-						//console.log('aqui')
-						getNews('refresh',opc);
-					}else
-						clearEvents();
-				}, 30000);
-				//first run
-				if($.smt.news){
-					// $('#adsListPubli').show();
-					$('#info-container').html($.smt.news);
-					delete $.smt.news;
-				}
-				getNews('reload',opc);
-				//fin-news
-
 				var menu=$('#menuLeft')[0];
 				$(menu).on('click','li>span',function(){
 					//buscamos ul hijo (submenu)
@@ -272,6 +115,9 @@
                         case 'groupsDetails':
 							el='groups';
 						break;
+                        case 'user':
+							el='profile';
+						break;
 						default: el=SECTION;//elemento del menu principal
 					}
 					$(menu).children('#'+el)//li
@@ -282,10 +128,6 @@
 			close:function(){
 				$('#menuLeft').off();
 				$.smt.news = $('#info-container').html();
-				//console.log($.smt.news)
-				//$(window).off(ns);
-				clearInterval(interval);
-				clearInterval(this.intervalmsk);
 			}
 		})
 	});

@@ -1,4 +1,4 @@
-<div class="fotoCrop">
+<div class="fotoCrop ui-single-box">
 	<form action="" id="formCoordenadas" class="fondo_secciones_tabs">
 		<input type="hidden" id="x" name="x" />
 		<input type="hidden" id="y" name="y" />
@@ -45,7 +45,7 @@
 					success:function(data){
 						$.c().log('profile.json:',data);
 						if(data['upload']=='done'||data['resize']=='done'){
-							redir('profile');
+							redir('user');
 						}
 					},
 					complete:function(){
@@ -58,7 +58,7 @@
 	});
 	$('#formCoordenadas').ajaxForm({
 		success:function(response){//post-submit callback
-			redir('profile');
+			redir('user');
 		}
 	});
 
