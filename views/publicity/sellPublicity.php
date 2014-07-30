@@ -182,11 +182,6 @@
 
 <?php } ?>
 
-<script type="text/javascript">
-	$(document).ready(function(){
-//		$("button, input:submit, input:reset, input:button").button();
-	});
-</script>
 <div id="addSellPublicity">
 
 <!--<div id="send_mail">-->
