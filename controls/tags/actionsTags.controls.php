@@ -217,7 +217,7 @@
 										');
 										$array = mysql_fetch_assoc($query);
 										if (trim($array['username'])!=''){
-												$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".base_url($array['username'])."' onFocus='this.blur();' target='_blank'>".DOMINIO.$array['username']."</a><br>";
+												$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.$array['username']."' onFocus='this.blur();' target='_blank'>".DOMINIO.$array['username']."</a><br>";
 										}else {
 											$external=  formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']);
 										}

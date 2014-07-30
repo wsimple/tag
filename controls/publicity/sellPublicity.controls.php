@@ -1,10 +1,11 @@
 <?php
 	require_once '../../includes/session.php';
+	require_once '../../includes/config.php';
 	require_once '../../includes/functions.php';
 
 	 if (quitar_inyect()) {
 
-		 require_once '../../includes/config.php';
+		 
 		 require_once '../../class/wconecta.class.php';
 		 require_once '../../includes/languages.config.php';
 		 require_once '../../class/class.phpmailer.php';
@@ -225,9 +226,9 @@
 									$ext           = strtolower(end($parts));
 
 									if( in_array($ext, $imagesAllowed) ) {
-										$path  = "../../img/publicity/".$_SESSION['ws-tags']['ws-user'][code].'/';       //ruta para crear dir
+										$path  = RELPATH."img/publicity/".$_SESSION['ws-tags']['ws-user'][code].'/';       //ruta para crear dir
 										$photo = $_SESSION['ws-tags']['ws-user'][code].'/'.md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
-										$photo_= md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
+										//$photo_= md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
 
 										//existencia de la folder
 										if( !is_dir ($path) ) {
@@ -238,9 +239,9 @@
 											fclose($fp);
 										}// is_dir
 
-										if( redimensionar($_FILES[publi_img][tmp_name], "../../img/publicity/".$photo, 200) ) {
+										if( redimensionar($_FILES[publi_img][tmp_name], RELPATH."img/publicity/".$photo, 200) ) {
 											//echo $_FILES[photo][tmp_name].'<br>';
-											uploadFTP($photo_,"publicity", '../../');
+											FTPupload('publicity/'.$photo);
 
 										}else{
 											redirect("../../?publicity=error");
@@ -273,10 +274,11 @@
 							}
 
 							if( $save==1 ) {
-								if (PAYPAL_PAYMENTS) $_POST[payment] = '3';
+								$payment_type = $_POST[payment];
+								if (!PAYPAL_PAYMENTS) $payment_type = '3';
 
 						//payment methods
-								switch( $_POST[payment] ) {
+								switch( $payment_type ) {
 									//payment = points
 									case "3":
 										$monto_inversion = $_POST[number_of_points];
@@ -318,7 +320,7 @@
 														id_type_publicity	= '2',
 														id_cost				= '".$id_points[id]."',
 														id_user				= '".$_SESSION['ws-tags']['ws-user'][id]."',
-														id_currency			= '".$_POST[payment]."',
+														id_currency			= '".$payment_type."',
 														title				= '".$_POST[publi_title]."',
 														message				= '".$_POST[publi_msg]."',
 														link				= '".$_POST[publi_link]."',
@@ -334,7 +336,7 @@
 											echo "CAN'T UPDATE users TABLE";
 											die();
 										}
-										redirect("../../#home");
+										redirect(RELPATH."publicity");
 									break;//END - payment = points case "3":
 
 
@@ -377,7 +379,7 @@
 												id_type_publicity	= 2,
 												id_cost				= '".$costo[id]."',
 												id_user				= '".$_SESSION['ws-tags']['ws-user'][id]."',
-												id_currency			= '".$_POST[payment]."',
+												id_currency			= '".$payment_type."',
 												title				= '".$_POST[publi_title]."',
 												message				= '".$_POST[publi_msg]."',
 												link				= '".$_POST[publi_link]."',
@@ -399,7 +401,7 @@
 											// include ('../../views/pay.view.php');
 											@header('Location: ../../views/pay.view.php?payAcc=publicity&uid='.$id_publicity);
 										} else {
-												redirect("../../#home");
+												redirect("../../publicity");
 										}
 									break;//END - payment = $ case "1":
 								}

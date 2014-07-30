@@ -7,7 +7,9 @@
     <div class="ui-single-box-title limitTitle"><?=MAINMNU_NEWS_TITLE?></div>
     <div class="news-wrapper">
         <div id="news-here"></div>
-        <div id="newsloader" style="display:none;width: 555px;float: left;"><span class="news-span-loader"><?=JS_LOADING.' '.PRODUCTS_LIST?></span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" /></div>
+        <div id="newsloader" style="width: 555px;float: left;font-weight: bold;color: #ff8a28;">
+        	<span class="news-span-loader"><?=JS_LOADING?></span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" />
+       	</div>
         <div class="clearfix"></div>
     </div>
 </div>
@@ -24,10 +26,9 @@ $(function() {
 			else{ opc.get='&all=1'; }
 			$('.store-wrapper .mainMenu a').css('margin-bottom:','0px');$('aside').css('display','block');
 			//event handlers
-			var ns='.newsList',//namespace
-			interval,clearEvents=function(){
-				clearInterval(interval);
-			};
+			var  interval,clearEvents=function(){
+					clearInterval(interval);
+				};
 			//puntos
 			this.intervalmsk = setInterval(function(){ mskPointsReload('#mskPoints'); },40000);
 
@@ -57,7 +58,7 @@ $(function() {
 	        			'<div'+d.clase+' data-info="'+d.id+'">'+
 							'<div tipo="'+d.type+'" style="width:18px;height:18px;padding:10px; vertical-align:top; border-bottom: 1px solid #f8f8f8; display:inline-block;" align="center" border="0">'+
 							'</div>'+d.photos+
-							'<div style="padding:4px 8px 2px 0; font-size:10px;  border-bottom: 1px solid #f8f8f8;display:inline-block">'+
+							'<div style="padding:4px 8px 2px 5px; font-size:10px;  border-bottom: 1px solid #f8f8f8;display:inline-block">'+
 								d.txt+'  <em style="color:#CCC">'+d.date+'</em>'+
 							'</div>'+
 						'</div>'
@@ -84,29 +85,25 @@ $(function() {
 				imgs=imgs||('<div'+action+' class="usr-pic"></div>');
 				return [imgs,usrs];
 			}
-			function getNews(action,opc){
+			function getNews(action,opc){ 
 				if(!opc.on) opc.on={};
-				var act,
-					limit=opc.get?0:5,
+				var limit=5,
 					on=opc.on,
 					layer=opc.layer,
 					get=opc.get||'',
 					cancel=function(){return (action!='reload'&&on['reload']);},//cancel action
 					onca=function(val){if(val!==undefined)on[action]=val; return on[action];};//on current action
+					if (opc.get) limit=opc.limite?opc.limite:0;
 				if(!cancel()&&!onca()){
 					onca(true);
 					if(!opc.actions || action=='reload'){
 						opc.actions={refresh:{},more:{}};
 						opc.date='';
 					}
-					act=opc.actions[action=='refresh'?'refresh':'more'];
-
 					$.qajax('low',{
 						type	: 'GET',
 						url		: 'controls/news/newsjson.php?limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
-						// url		: 'controls/news/news.json.php?limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 						dataType: 'json',
-						data	: act||{},
 						complete: function(/*resp, status, error*/) {
 							onca(false);
 						},
@@ -115,9 +112,7 @@ $(function() {
 	                        if(data['info'] && data['info'].length>0){
 								var i,out='',info,txt,len,type,clase='';
 								opc.date=data['fecha'];
-								act.start=(act.start||0)+data['info'].length;
 								len=data['info'].length;
-
 								if(action!='reload') clase=' style="animation:myfirst 3s; -webkit-animation:myfirst 5s; background:#FFF;"';
 								for(i=0;i<len;i++){
 									info = data['info'][i];
@@ -128,8 +123,6 @@ $(function() {
 	                                    id:info['id'],
 	                                    clase:clase
 									};
-	                                // var friends=peopleFormat(info['friends'],info['num_friends'],info['id_type']),
-	                                //  	people=peopleFormat(info['usr'],1,info['id_type']);
 			                        var friends=peopleFormat(info['usrs'],null,info['id_type']),
 	                                 	people=peopleFormat(info['friend'],null,info['id_type']);
 	                                switch(info['type']){
@@ -173,38 +166,46 @@ $(function() {
 
 									}
 								}
-								console.log(out);
 								if (SECTION!='news'){
 									$('#adsListPubli').show();
 									$('#news-loader').fadeOut('slow',function(){$(layer).after(out);});
 									$('#info-container tr:gt(5)').remove();
-									$('#waitNewsInfo').show();
+									$('#NewsInfo').show();
 								}else{
-									$('#pageNews #news-here').prepend(out);
+									if(action!='more') $('#pageNews #news-here').prepend(out);
+									else $('#pageNews #news-here').append(out);
+									$('#newsloader').hide();
+									opc.limite=data['numResult'];
 								}
 							}else{
 								if (SECTION!='news'){
 									if(action=='reload')
 									   $('#news-loader').fadeOut('slow',function(){$('#waitNewsInfo').fadeIn('fast');});
-								}else{
-									
-								}
+								}else{ $('#newsloader').hide(); }
 							}
 						}
 					});
-				}
+				} 
 			}
 			interval=setInterval(function(){
 				if($(opc.layer).length>0){
 					getNews('refresh',opc);
 				}else clearEvents();
 			}, 30000);
+			if (SECTION=='news'){
+				var posi=true;
+				$(document).on('scroll',function(){
+                    if ($(document).scrollTop() >= ($(document).height() - $(window).height())*0.4){
+                        if(!posi){
+                            posi=true;
+                        	$('#newsloader').show();
+                        	getNews('more',opc);
+                        }
+                    }else{ posi=false; }
+	           });
+			}
 			// clearEvents();
 		},close:function(){
-			// $('#menuLeft').off();
-			// $.smt.news = $('#info-container').html();
-			//console.log($.smt.news)
-			//$(window).off(ns);
 			clearInterval(interval);
 			clearInterval(this.intervalmsk);
 		}

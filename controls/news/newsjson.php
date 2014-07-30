@@ -35,7 +35,6 @@
 		$limitsql="";
 	}
 	if ($num){
-		$ainfo=array();
 		$new=CON::query("SELECT un.id,
 								un.id_friend,
 								un.id_user,
@@ -61,7 +60,11 @@
 		while($row=CON::fetchAssoc($new)){
 			if ($mobile && $_GET['action']!='refresh'){
 				$res['numResult']++;
-				if (count($ainfo)==0) $res['fecha']=$row['date'];
+				if (!isset($infoa) || count($infoa)==0){
+					$res['fecha']=$row['date'];
+					$second=substr($res['fecha'],-1)+1;
+					$res['fecha']=substr($res['fecha'],0,strlen($res['fecha'])-1).$second;
+				}
 			}
 			if (isset($infoa[$row['id_source'].'-'.$row['id_type']])){
 				$band=false;
