@@ -336,7 +336,7 @@
 											echo "CAN'T UPDATE users TABLE";
 											die();
 										}
-										redirect("../../#home");
+										redirect(RELPATH."publicity");
 									break;//END - payment = points case "3":
 
 
@@ -401,7 +401,7 @@
 											// include ('../../views/pay.view.php');
 											@header('Location: ../../views/pay.view.php?payAcc=publicity&uid='.$id_publicity);
 										} else {
-												redirect("../../#home");
+												redirect("../../publicity");
 										}
 									break;//END - payment = $ case "1":
 								}
