@@ -36,6 +36,9 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 		<?php if($_GET['store']=='1'){ ?><input type="hidden" name="store" value="1" /><?php } ?>
 		<?php if($_GET['wpAddTag']=='1'){ ?><input type="hidden" name="wpAddTag" value="1" /><?php } ?>
 	</form>
+	<form id="login_redir" action="login.php" method="post" accept-charset="UTF-8">
+		<input type="hidden" name="goto" value="<?=$bodyPage=='main/failure.php'?'':$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']?>" /><?php } ?>
+	</form>
 	<!-- <div class="social-block">
 		<?=LOGIN_TITLECREATEACCOUNTFB?><br>
 	</div> -->
@@ -158,10 +161,8 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 						data:{keep:$keep.is(':checked')},
 						dataType:'json',
 						success:function(data){
-							$.session('login_url',data.first?'.#welcome':'.');
-							<?php if(false&&isset($_COOKIE['_DEBUG_'])){ ?>
-							console.log('FBuser success. debug=<?=$_COOKIE['_DEBUG_']?>');
-							console.log(data);
+							<?php if(is_debug('fb')){ ?>
+							$.debug('fb').log('FBuser success. data:',data);
 							<?php }else{ ?>
 							redir('login.php');
 							<?php } ?>
