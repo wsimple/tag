@@ -1,10 +1,15 @@
 <?php
-	include '../includes/session.php';
+	
 	include '../includes/config.php';
+	include '../includes/functions.php';
+	include '../includes/session.php';
 	include '../class/wconecta.class.php';
 	include '../class/validation.class.php';
-	include '../includes/functions.php';
 	include '../includes/languages.config.php';
+
+	// echo $_GET['id'].'<br>';
+	// echo $_GET['type'].'<br>';
+	// echo $_GET['opc'];
 
 	switch ($_GET['type']) {
 		case 'bc':
@@ -14,7 +19,15 @@
 		break;
 	}
 
-	echo 'ok';
+	if ($_GET['opc']=='dp') {
+		echo 'ok';
+		$GLOBALS['cn']->query('DELETE FROM users_publicity WHERE md5(id)="'.$_GET['id'].'" and id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"');
+	}else{
+		echo 'not ok';
+	}
+
+	
+// }
 
 
 ?>
