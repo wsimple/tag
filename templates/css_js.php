@@ -1,4 +1,4 @@
-<?php global $section,$noHash; ?>
+<?php global $section; ?>
 <?php if(preg_match('/msie [6-8]/i',$_SERVER['HTTP_USER_AGENT'])&&preg_match('/chromeframe/i',$_SERVER['HTTP_USER_AGENT'])) { ?>
 <meta http-equiv="X-UA-Compatible" content="chrome=1" />
 <?php } ?>
@@ -19,10 +19,9 @@ var BASEURL='<?=base_url()?>',
 	FILESERVER='<?=FILESERVER?>',
 	DOMINIO='<?=DOMINIO?>',
 	SECTION='<?=$section?>',
-	NOHASH=!!<?=$noHash?1:0?>,
 	ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>;
 if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localStorage.removeItem('logged');
-<?php if($noHash){?>(function(l){ if(!l.search.match(/hashtag=/)&&l.hash.match(/#[a-z]/)) l.href=BASEURL+'?'+l.search.substr(1)+'&hashtag='+l.hash.substr(1); })(document.location);<?php } ?>
+(function(l){ if(!l.search.match(/hashtag=/)&&l.hash.match(/#[a-z]/)) l.href=BASEURL+'?'+l.search.substr(1)+'&hashtag='+l.hash.substr(1); })(document.location);
 </script>
 <script src="min/?f=js/language_<?=$_SESSION['ws-tags']['language']?>.js" charset="utf-8"></script>
 <?php if(LOCAL){ 
@@ -38,9 +37,6 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 }else{ ?>
 	<link href="min/?g=css" rel="stylesheet"/>
 	<script src="min/?g=js" charset="utf-8"></script>
-<?php } ?>
-<?php if(!$noHash){ ?>
-	<script src="min/?f=js/conhash.js"></script>
 <?php } ?>
 
 <?php if(LOCAL){ ?>
