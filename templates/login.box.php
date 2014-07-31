@@ -35,9 +35,7 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 		<input type="hidden" name="hash" id="hash" value="" />
 		<?php if($_GET['store']=='1'){ ?><input type="hidden" name="store" value="1" /><?php } ?>
 		<?php if($_GET['wpAddTag']=='1'){ ?><input type="hidden" name="wpAddTag" value="1" /><?php } ?>
-	</form>
-	<form id="login_redir" action="login.php" method="post" accept-charset="UTF-8">
-		<input type="hidden" name="goto" value="<?=$bodyPage=='main/failure.php'?'':$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']?>" /><?php } ?>
+		<input type="hidden" name="goto" value="<?=$bodyPage=='main/failure.php'?'':$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']?>" />
 	</form>
 	<!-- <div class="social-block">
 		<?=LOGIN_TITLECREATEACCOUNTFB?><br>
