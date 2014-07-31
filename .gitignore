@@ -1,4 +1,5 @@
 .security/*.php
+includes/security/*.php
 img/bc_templates
 img/groups/
 img/publicity/
