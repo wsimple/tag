@@ -1,3 +1,9 @@
+<?php
+//obtemgo el nombre de usuario
+$epro = $_SERVER['REQUEST_URI'];
+$userp = explode("/", $epro);
+
+?>
 <div class="fleft loader"><loader class="page" style="display:none;"></loader></div>
 <div class="logoTbum"></div>
 <menu class="fright">
@@ -30,6 +36,9 @@
 	</select>
 </div>
 <div class="dnone" id="logindialog"><?php include 'templates/login.box.php'; ?></div>
+<?php 
+
+?>
 <script>
 	$(function(){
 
@@ -76,10 +85,15 @@
 		});
 		
 		$(window).hashchange(function(){
+			//alert(document.location.hash);
 			var hash = document.location.hash.split('/')[0];
 			
 			if((hash=='#')||(hash=='')||(hash=='#WhatIsIt')){
-				$('.logoTbum').fadeOut('slow');
+				if ('<?=$userp[1]?>'!=''){
+					$('.logoTbum').fadeIn('slow');
+				}else{
+					$('.logoTbum').fadeOut('slow');
+				}
 			}else{
 				$('.logoTbum').fadeIn('slow');
 			}

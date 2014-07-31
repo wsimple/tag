@@ -139,7 +139,7 @@ $query = $GLOBALS['cn']->query("SELECT	(SELECT name FROM type_publicity a WHERE 
                                 <img src	= "img/publicity/delete.png"
                                         title	= "<?=PUBLICITY_HELPICONTABLE_DEL?>"
                                         style	= "cursor:pointer"
-                                        onclick= "actionConfirm('<?=utf8_encode(INDEX_MSGCONFIRMATIONACTION)?>', '<?=INDEX_TITLECONFIRMACIONES?>', '', 'controls/publicity/delete.control.php?idPubli=<?=$array['id_p']?>|#tr_<?=$array["id_p"]?>');" />
+                                        onclick= "actionConfirm('<?=utf8_encode(INDEX_MSGCONFIRMATIONACTION)?>', '<?=INDEX_TITLECONFIRMACIONES?>', '', '<?=$array['id_p']?>|tr_<?=$array["id_p"]?>','dp');" />
 
                                <div id="<?=$array['id_p']?>" style="float: none; border-right: none; border-bottom: none; padding: 0px; display: inline-block; width: auto;">
                                 <?php //promote
