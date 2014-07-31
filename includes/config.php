@@ -21,7 +21,6 @@ if($_GET['hashtag']){#si se convirtio un hashtag en get
 	$section=array_shift(explode('?',$_SERVER['REQUEST_URI']));
 	if(strpos($section,'.php')) $section=str_replace($_SERVER['SCRIPT_NAME'],'',$section);
 	else $section=str_replace($config->path,'',$section);
-	if($_COOKIE['_DEBUG_']=='section') echo 'SECCION(1):'.$section.'<br>';
 }
 if($section==''){
 	$section='home';
@@ -30,8 +29,8 @@ if($section==''){
 	while(substr($section,0,1)=='/') $section=substr($section,1);
 	$params=explode('/',$section);
 	$section=array_shift($params);
-	if($_COOKIE['_DEBUG_']=='section') echo "section:$section - params:".implode(',',$params);
 }
+if($_COOKIE['_DEBUG_']=='section') echo "section:$section - params:".implode(',',$params);
 // echo '<pre>';print_r($config);echo '</pre>';die();
 	if($config){
 		define('LOCAL',$config->local);

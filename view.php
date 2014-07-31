@@ -75,7 +75,7 @@ if($idPage=='term') $idPage='terms';
 if($notAjax&&($idPage==''||$idPage=='/')) $idPage='home';
 if($idPage!='') switch($idPage){
 	case 'home':case 'WhatIsIt':case 'HowDoesWork':case 'HowDoesWork/1':case 'HowDoesWork/2':case 'App':
-		$currentPage='main/home.php'; break;
+		$bodyPage='main/home.php'; $numPanels=1; break;
 	case 'signup'			:$currentPage=$logged?'main/redir.php':'main/signUp.php'; break;
 	case 'resendPassword'	:$currentPage=$logged?'main/redir.php':'main/resendPassword.php';break;
 	case 'resetPassword'	:$currentPage='main/resetPassword.php';break;
@@ -101,7 +101,7 @@ if($idPage!='') switch($idPage){
 	case 'about':case 'blog':case 'help':case 'terms':
 	case 'cookies':case 'developers':case 'privacity':
 		$currentPage='main/dialogs.php';break;
-	case 'welcome'			:$currentPage='main/welcome.php';break;
+	case 'welcome'			:$bodyPage='main/welcome.php';$numPanels=1;break;
 	case 'mypublications'   :case 'freeproducts':case 'myfreeproducts'	:case 'myparticipation'	:
 	case 'store'            :$bodyPage='store/productList.php'; $rightPanel='store/panel.php'; break;
 	case 'detailprod'       :$bodyPage='store/detailProd.php';$numPanels=2;break;
@@ -166,7 +166,7 @@ if($dialog){
 	if($bodyPage) include('views/'.$bodyPage);
 	else include('views/'.$currentPage);
 }else{
-	// if($notAjax&&!$noHash&&$currentPage!='main/wrapper.php') echo '<container><content>';
+	if($notAjax&&$currentPage!='main/wrapper.php'){ $bodyPage=$currentPage; $currentPage='main/wrapper.php'; }
 	include('views/'.$currentPage);
-	// if($notAjax&&!$noHash&&$currentPage!='main/wrapper.php') echo '</content></container>';
+	// if($notAjax&&$currentPage!='main/wrapper.php') echo '</content></container>';
 }
