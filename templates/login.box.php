@@ -10,7 +10,7 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 		<p>
 			<strong><?=LOGIN_TITLEBUTTONCREATEACCOUNT?></strong>
 			<input type="button" class="fb-buttom" value="<?=LOGIN_TEXTBUTTONCREATEACCOUNT?> <?=JS_OR.' '.BTN_LOGIN?>"/>
-			<input type="button" id="lnkRegistro" value="<?=LOGIN_TEXTBUTTONCREATEACCOUNT?>" onclick="redirect('#signup')"/>
+			<input type="button" id="lnkRegistro" value="<?=LOGIN_TEXTBUTTONCREATEACCOUNT?>" onclick="redir('signup')"/>
 			<div id="fb-root"></div>
 		</p>
 		<p>
@@ -128,7 +128,7 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 //		});
 		function go_paypal(d){
 			if(d&&d['from']==='paypal'){
-				window.location='#paybusiness?uid='+d['msg']+'&'+Math.random();
+				redir('paybusiness?uid='+d['msg']+'&'+Math.random());
 			}
 		}
 	});

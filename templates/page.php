@@ -2,17 +2,11 @@
 	<?php include('templates/header.php'); ?>
 	<wrapper data-section="<?=$section?>">
 		<?php
-			global $section,$noHash;
-			if($noHash){
-				if($section){
-					$idPage=$section;
-				}
-				include('view.php');
-			}elseif(!$logged && $_GET['tag']==''){
-				include('views/main/home.php');
-			}else{
-				echo '<container><content></content></container>';
+			global $section;
+			if($section){
+				$idPage=$section;
 			}
+			include('view.php');
 		?>
 	</wrapper>
 	<?php include('templates/footer.php'); ?>

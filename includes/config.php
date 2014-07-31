@@ -4,36 +4,35 @@
  * Copy Rights :Tagamation, LLc
  * Date        :02/22/2011
  */
-global $section,$params,$noHash;
-if($_GET['hashtag']){
-	$noHash=true;
+include('security/security.php');
+include_once('relpath.php');
+if(!$config) @include($relpath.'.security/security.php');
+$config->relpath=$relpath?$relpath:'./';
+
+global $section,$params;
+#con secciones se permite manejar parametros en url (ejem: user/preferences)
+if($_GET['hashtag']){#si se convirtio un hashtag en get
+	if($_COOKIE['_DEBUG_']=='section') echo 'GET hashtag:'.$_GET['hashtag'].'<br>';
 	$section='/'.$_GET['hashtag'];
 	unset($_GET['hashtag']);
 	if(strpos($section,'?'))
 		$_GET=array_merge($_GET,parse_url(end(explode('?',$section))));
-}elseif($noHash){
-	$section=str_replace(str_replace('index.php','',$_SERVER['SCRIPT_NAME']),'',$_SERVER['REQUEST_URI']);
-	if(in_array($section,array('?','/',''))&&strpos($_SERVER['SCRIPT_NAME'],'.php')) $section='/home';
-	elseif(substr($section,0,1)!='/') $section=false;
+}else{
+	$section=array_shift(explode('?',$_SERVER['REQUEST_URI']));
+	if(strpos($section,'.php')) $section=str_replace($_SERVER['SCRIPT_NAME'],'',$section);
+	else $section=str_replace($config->path,'',$section);
+	if($_COOKIE['_DEBUG_']=='section') echo 'SECCION(1):'.$section.'<br>';
 }
-if($section){
-	$params=explode('/',array_shift(explode('?',substr($section,1))));
+if($section==''){
+	$section='home';
+	$params=array();
+}else{
+	while(substr($section,0,1)=='/') $section=substr($section,1);
+	$params=explode('/',$section);
 	$section=array_shift($params);
+	if($_COOKIE['_DEBUG_']=='section') echo "section:$section - params:".implode(',',$params);
 }
-
-	#definicion de variables que difieren entre produccion y local
-	if(preg_match('/^(local\.|localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
-		$tmp=strpos($_SERVER['SCRIPT_NAME'],'/',1)+1;
-		$tmp=substr($_SERVER['SCRIPT_NAME'],0,$tmp);
-		// die($_path);
-	}else{
-		$tmp='/';
-	}
-	$_local=$tmp;
-	define('RELPATH',str_repeat('../',substr_count(substr($_SERVER['SCRIPT_NAME'],strlen($tmp)),'/')));
-	global $config;
-	@include(RELPATH.'.security/security.php');
-	// echo '<pre>';print_r($config);echo '</pre>';die();
+// echo '<pre>';print_r($config);echo '</pre>';die();
 	if($config){
 		define('LOCAL',$config->local);
 		define('HOST',$config->db->host);
@@ -49,7 +48,9 @@ if($section){
 			define('NOFTP',true);
 		}
 		define('PATH_SITE',$config->path);//ruta de la carpeta de trabajo
-		if($config->imgserver) define('FILESERVER',$config->imgserver);
+		define('DOMINIO',$config->dominio);
+		define('DOMINIOSTORE',$config->dominio);
+		define('FILESERVER',$config->imgserver);
 	}else{
 		die('Not configured server.');
 	}
@@ -98,18 +99,8 @@ if($section){
 		if(strpos(' '.$_url,$_pruebas)) $_path=$_pruebas;
 		$_site=$_prod.$_path;
 	}
-	@define('FILESERVER','http://'.$_site.$_fserver);
-	//redireccionamos si comienza con www
-	// if(strpos(' '.$_name,'www.')) die('<meta HTTP-EQUIV="REFRESH" content="0;url=http://'.$_site.'">');
-	//removemos el ultimo slash si no es una carpeta valida (para evaluarlo como nombre de usuario)
-	// if(	$_name==$_prod&&
-	// 	$_url!='/'&&substr($_url,-1)=='/'&&
-	// 	!in_array(current(explode('/',substr($_url,1,-1))),$_folders)
-	// )	die('<meta HTTP-EQUIV="REFRESH" content="0;url='.substr($_url,0,-1).'">');
 
 	define('PRODUCCION',$_prod);//Nombre del dominio principal
-	define('DOMINIO','http://'.$_site);
-	define('DOMINIOSTORE',DOMINIO);
 	define('PATH',$_SERVER['DOCUMENT_ROOT'].$_path);//ruta de la carpeta de trabajo
 	//ruta relativa a la carpeta raiz dentro de $_path
 
@@ -117,27 +108,10 @@ if($section){
 	define('TAGWIDTH',650);
 	define('TAGHEIGHT',300);
 
-	// if(in_array($_name,array(PRODUCCION,'64.15.140.154'))||$_cronjob){
-	if(!LOCAL){
-		// define('HOST','localhost');
-		// define('LOCAL',false);
-		// define('NOFPT',false);
-		// define('FTPSERVER','10.4.23.10');
+	if(!$config->local){
 		define('SHOWNOTIFIXTMP',1);//temporal para controlar la muestra de notitificaciones
-		// @include(RELPATH.'.security/security.php');
-		// if($_sec!=''){
-		// 	$_sec=json_decode(base64_decode(base64_decode(base64_decode($_sec))),true);
-		// 	foreach($_sec as $key=>$val) define($key,$val);
-		// }
-	}else{
-		// define('HOST','localhost');
-		// define('LOCAL',true);
-		// define('NOFPT',true);
-		// define('USER','root');
-		// define('PASS','root');
-		// define('DATA','tagbum');
 	}
 	$_SESSION['ws-tags']['developer']=true;
-	unset($_pruebas,$_site,$_path,$_sec,$_url,$_prod,$config,$tmp);
+	unset($_pruebas,$_site,$_path,$_sec,$_url,$_prod,$tmp);
 	define('PAYPAL_PAYMENTS', false);
 ?>

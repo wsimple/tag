@@ -1,11 +1,11 @@
 <?php
-global $dialog,$notAjax,$bodyPage;
-if($idPage==''){
-include('includes/session.php');
+global $config,$dialog,$notAjax,$bodyPage;
+if(!$config){
 include('includes/config.php');
-include('class/Mobile_Detect.php');
+include('includes/session.php');
 include('includes/functions.php');
 include('class/wconecta.class.php');
+include('class/Mobile_Detect.php');
 include('includes/languages.config.php');
 include('class/forms.class.php');
 header('Cache-Control:no-cache,must-revalidate');
@@ -19,7 +19,7 @@ if(isset($_GET['page'])) $currentPage=$_GET['page'];
 //Logged: verificar si esta logeado
 $logged=$_SESSION['ws-tags']['ws-user']['id']!='';
 #local o servidor
-$local=!!preg_match('/^(localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME']);
+$local=!!preg_match('/^(local|127\.|192\.168\.)/',$_SERVER['SERVER_NAME']);
 //paginas que se pueden abrir sin logear
 $f_unlogged=array(
 	'main/home.php',
@@ -119,7 +119,7 @@ if($idPage!='') switch($idPage){
 			$bodyPage="$idPage.2.php";
 		}elseif(is_file("views/$idPage.3.php")){
 			$bodyPage="$idPage.3.php";
-		}elseif($local||$_COOKIE['_DEBUG_']){
+		}elseif($local||is_debug()){
 			if(is_file("views/temp/$idPage.php")){
 				$currentPage="temp/$idPage.php";
 			}elseif(is_file("views/temp/$idPage.2.php")){
@@ -165,17 +165,7 @@ if($dialog){
 	if($bodyPage) include('views/'.$bodyPage);
 	else include('views/'.$currentPage);
 }else{
-	if($notAjax&&!$noHash&&$currentPage!='main/wrapper.php') echo '<container><content>';
+	// if($notAjax&&!$noHash&&$currentPage!='main/wrapper.php') echo '<container><content>';
 	include('views/'.$currentPage);
-	if($notAjax&&!$noHash&&$currentPage!='main/wrapper.php') echo '</content></container>';
-	if(!$notAjax){
-?>
-<script>
-	$('body').css('background','<?=($_SESSION['ws-tags']['ws-user']['user_background']==''?'':($_SESSION['ws-tags']['ws-user']['user_background'][0]!='#' ?
-		'url('.FILESERVER.'img/users_backgrounds/'.$_SESSION['ws-tags']['ws-user']['user_background'].')' :
-		$_SESSION['ws-tags']['ws-user']['user_background']
-	))?>');
-</script>
-<?php
-	}
+	// if($notAjax&&!$noHash&&$currentPage!='main/wrapper.php') echo '</content></container>';
 }
