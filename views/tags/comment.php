@@ -30,7 +30,7 @@ global $dialog;
 <?php } ?>
 	<div class="comments-tags">
 		<div class="tag-box">
-			<div id="layerTag" class="tag-container"></div>
+			<div id="dialoglayerTag" class="tag-container"></div>
 		</div>
 		<div class="comments-box-c" tag="<?=$idTag?>">
 			<?php
@@ -64,7 +64,7 @@ global $dialog;
 			url: 'controls/tags/tagsList.json.php?id=<?=($idTag).($dialog?'&popup':'')?>',
 			success	: function(data){
 				if (data['tags'].length>0){
-					$('#layerTag').html(showTags(data['tags']));
+					$('#dialoglayerTag').html(showTags(data['tags']));
 					//$('[title]',tlc).tipsy({html: true,gravity: 'n'});
 					$("#menuTagnoLogged").click(function () {
 						$("#msgTagNologged").toggle("fade");
@@ -75,7 +75,7 @@ global $dialog;
 		<?php
 		}else{
 		?>	console.log('tag por defecto cuando el id no existe');
-			$('#layerTag').html('<div class="tagNoExits"><?=TAGS_WHENTAGNOEXIST?>.</div>'
+			$('#dialoglayerTag').html('<div class="tagNoExits"><?=TAGS_WHENTAGNOEXIST?>.</div>'
 							   +'<img src="img/templates/defaults/346f3ee097c010b4ed71ce0fb08bbaf2.jpg">');
 		<?php
 		}
