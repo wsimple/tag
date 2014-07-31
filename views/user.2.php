@@ -4,7 +4,7 @@ global $section,$params;
 if(!$section) include('users/account.php');
 else{
 	switch($params[0]){
-		case 7:
+		case 'privacy':
 			include('users/account/userPrivacy.view.php');break;
 		case 'preferences':
 			include('users/account/preferences.view.php');break;
@@ -16,9 +16,12 @@ else{
 			include('users/account/foto.view.php');break;
 		case 'external':case 'preview':
 			include('users/eprofile.php'); break;
-		case 'profile':
+		case 'user':case 'profile':
 		default:
-			include('users/account/profile.view.php');
+			if(preg_match('/^[0-9a-f]{32}$/i',$params[0]))
+				include('users/eprofile.php');
+			else
+				include('users/account/profile.view.php');
 	}
 }
 ?>
