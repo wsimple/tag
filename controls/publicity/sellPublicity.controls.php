@@ -139,11 +139,11 @@
 								if (in_array($ext,$imagesAllowed)){
 									//@unlink("../../img/publicity/".$dato[picture]); //borrado de la foto existente
 
-									$path  = "../../img/publicity/".$_SESSION['ws-tags']['ws-user'][code].'/';       //ruta para crear dir
+									$path  = RELPATH."img/publicity/".$_SESSION['ws-tags']['ws-user'][code].'/';       //ruta para crear dir
 
 									$photo = $_SESSION['ws-tags']['ws-user'][code].'/'.md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
 
-									$photo_= md5($_FILES[publi_img][name]).'.jpg';
+									// $photo_= md5($_FILES[publi_img][name]).'.jpg';
 
 									$picture_bd = " ,picture = '".$photo."' ";
 
@@ -156,10 +156,11 @@
 										fclose($fp);
 									}// is_dir
 
-									if (redimensionar($_FILES[publi_img][tmp_name], "../../img/publicity/".$photo, 200)){
+									if (redimensionar($_FILES[publi_img][tmp_name], RELPATH."img/publicity/".$photo, 200)){
 										//echo $_FILES[photo][tmp_name].'<br>';
 
-										uploadFTP($photo_,"publicity", '../../');
+										// uploadFTP($photo_,"publicity", '../../');
+										FTPupload('publicity/'.$photo);
 										deleteFTP( str_replace($_SESSION['ws-tags']['ws-user'][code].'/','',$dato[picture]),'publicity');
 
 									}else{
@@ -257,7 +258,7 @@
 								}//$_FILES
 							} else {//picture is not empty, product to publicity
 
-								$path  = '../../img/publicity/'.$_SESSION['ws-tags']['ws-user'][code].'/';
+								$path  = RELPATH.'img/publicity/'.$_SESSION['ws-tags']['ws-user'][code].'/';
 
 								//existencia de la folder
 								if( !is_dir ($path) ) {
@@ -269,6 +270,9 @@
 								}// is_dir
 
 								//copy('../../img/products/'.$_POST[picture], '../../img/publicity/'.$_POST[picture]);
+								
+								//FTPcopy('products/'.$_POST[picture],'publicity/'.$_POST[picture]);
+
 								copyFTP(str_replace($_SESSION['ws-tags']['ws-user'][code].'/','',$_POST[picture]), 'products', 'publicity', '../../');
 								$photo=$_POST[picture];
 							}
