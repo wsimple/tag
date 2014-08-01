@@ -168,5 +168,4 @@ if($dialog){
 }else{
 	if($notAjax&&$currentPage!='main/wrapper.php'){ $bodyPage=$currentPage; $currentPage='main/wrapper.php'; }
 	include('views/'.$currentPage);
-	// if($notAjax&&$currentPage!='main/wrapper.php') echo '</content></container>';
 }
