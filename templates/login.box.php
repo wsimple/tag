@@ -10,7 +10,7 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 		<p>
 			<strong><?=LOGIN_TITLEBUTTONCREATEACCOUNT?></strong>
 			<input type="button" class="fb-buttom" value="<?=LOGIN_TEXTBUTTONCREATEACCOUNT?> <?=JS_OR.' '.BTN_LOGIN?>"/>
-			<input type="button" id="lnkRegistro" value="<?=LOGIN_TEXTBUTTONCREATEACCOUNT?>" onclick="redirect('#signup')"/>
+			<input type="button" id="lnkRegistro" value="<?=LOGIN_TEXTBUTTONCREATEACCOUNT?>" onclick="redir('signup')"/>
 			<div id="fb-root"></div>
 		</p>
 		<p>
@@ -35,6 +35,7 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 		<input type="hidden" name="hash" id="hash" value="" />
 		<?php if($_GET['store']=='1'){ ?><input type="hidden" name="store" value="1" /><?php } ?>
 		<?php if($_GET['wpAddTag']=='1'){ ?><input type="hidden" name="wpAddTag" value="1" /><?php } ?>
+		<input type="hidden" name="goto" value="<?=$bodyPage=='main/failure.php'?'':'//'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']?>" />
 	</form>
 	<!-- <div class="social-block">
 		<?=LOGIN_TITLECREATEACCOUNTFB?><br>
@@ -125,7 +126,7 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 //		});
 		function go_paypal(d){
 			if(d&&d['from']==='paypal'){
-				window.location='#paybusiness?uid='+d['msg']+'&'+Math.random();
+				redir('paybusiness?uid='+d['msg']+'&'+Math.random());
 			}
 		}
 	});
@@ -158,10 +159,8 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 						data:{keep:$keep.is(':checked')},
 						dataType:'json',
 						success:function(data){
-							$.session('login_url',data.first?'.#welcome':'.');
-							<?php if(false&&isset($_COOKIE['_DEBUG_'])){ ?>
-							console.log('FBuser success. debug=<?=$_COOKIE['_DEBUG_']?>');
-							console.log(data);
+							<?php if(is_debug('fb')){ ?>
+							$.debug('fb').log('FBuser success. data:',data);
 							<?php }else{ ?>
 							redir('login.php');
 							<?php } ?>

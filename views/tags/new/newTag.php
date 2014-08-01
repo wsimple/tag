@@ -444,7 +444,7 @@ $(function(){
 	$('#formTags').ajaxFormLog(options);
 	$('#default-dialog').dialog('close');
 	//tour
-	tour(NOHASH?SECTION:window.location.hash);
+	tour(SECTION);
 });
 </script>
 <?php }else{ ?>
