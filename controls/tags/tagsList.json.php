@@ -425,20 +425,27 @@ function tagsList_json($data,$mobile=false){
 				unset($sponsor['id_product']);
 				$sponsor['num_likes']=numRecord('likes', 'WHERE id_source="'.$sponsor['id'].'"');
 				$sponsor['num_disLikes']=numRecord('dislikes', 'WHERE id_source="'.$sponsor['id'].'"');
-				if(isVideo('youtube',$sponsor['video'])){
+				if(isVideo('vimeo',$sponsor['video'])){
+					if(preg_match('/vimeo.com\\/([^\\?\\&]+)/i',$sponsor['video'],$matches)){
+						$sponsor['typeVideo']='vimeo';
+						$vec=explode('/', $matches[1]);
+						$code = end($vec);
+						$sponsor['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
+					}
+				}elseif(isVideo('youtube',$sponsor['video'])){
 					if($data['embed'])
-						$sponsor['video']=preg_replace(regex('youtube'),'http://youtube.com/embed/$7$9',$sponsor['video']);
-					$sponsor['typeVideo']='youtube';
+						$sponsor['video']=preg_replace(regex('youtube'), 'http://youtube.com/embed/$7$9', $sponsor['video']);
+					if(preg_match('/(youtube\\S*[\\/\\?\\&]v[\\/=]|youtu.be\\/)([^\\?\\&]+)/i',$sponsor['video'],$matches)){
+						$sponsor['typeVideo']='youtube';
+						$type='youtube';
+						$code=$matches[2];
+						// if (!$mobile) $sponsor['video']=$code;
+						// else $sponsor['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0';
+						$sponsor['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
+					}
+				}elseif(isVideo('local',$sponsor['video'])){
+					$sponsor['typeVideo']='local';
 				}
-				if($sponsor['uid']==$sponsor['rid'])
-					unset($sponsor['rid']);
-				else{
-					$sponsor['rname']=$sponsor['uname'];
-					$sponsor['name_redist']=$sponsor['uname'];//soporte para version vieja
-					unset($sponsor['uname']);
-				}
-				if(isVideo('vimeo',$sponsor['video']))
-					$sponsor['typeVideo']='vimeo';
 				$btn=buttons($sponsor,$myId);
 				if(count($btn)>0) $sponsor['btn']=$btn;
 				$res['tags'][]=$sponsor;
