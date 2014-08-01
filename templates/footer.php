@@ -40,7 +40,7 @@ $(function(){
 				document.location.hash='#HowDoesWork';
 			break;
 			case '#HowDoesWork':case '#HowDoesWork/1':case '#HowDoesWork/2':
-				document.location.hash='#app';
+				document.location.hash='#App';
 			break;
 			case '#App':
 				document.location.hash='#WhatIsIt';
