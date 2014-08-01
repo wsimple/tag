@@ -1,6 +1,4 @@
 <?php
-	global $noHash;
-	$noHash=true;
 	include ('../../../includes/config.php');
 	include ('../../../includes/session.php');
 	include ('../../../includes/functions.php');

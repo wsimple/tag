@@ -23,7 +23,8 @@ class CON{
 	}
 	public static function con($host=false,$user=false,$pass=false,$data=false){
 		if(!self::$dbcon){
-			include(RELPATH.'.security/security.php');
+			// include(RELPATH.'includes/security/security.php');
+			global $config;
 			$db=array();
 			$host=$host?$host:$config->db->host;
 			$user=$user?$user:$config->db->user;

@@ -1,6 +1,5 @@
 <?php
-	global $noHash;
-	$noHash=true;
+	if(!is_file('includes/security/security.php')){ include 'new.php'; }
 	// die($_SERVER['SERVER_NAME'].array_shift(split(basename(__DIR__),$_SERVER['REQUEST_URI'])).basename(__DIR__));
 	if (isset($_GET['resizeimg'])) {
 		include('includes/imagen.php');
@@ -222,7 +221,7 @@ if($detect->isMobile()&&!$_COOKIE['__FV__']){?>
 </script>
 </head>
 <body lang="<?=$_SESSION['ws-tags']['language']?>">
-<?php if(isset($_REQUEST['debug'])||isset($_COOKIE['_DEBUG_'])){//Debugger: imprime variables para verificarlas ?>
+<?php if(is_debug()){//Debugger: imprime variables para verificarlas ?>
 	<div id="debug" style="position:absolute;z-index:1000000;top:0;background:#fff;display:none;">
 		DOMINIO: <?=DOMINIO?><br/>
 		FILESERVER: <?=FILESERVER?><br/>
@@ -235,10 +234,10 @@ if($detect->isMobile()&&!$_COOKIE['__FV__']){?>
 	</div>
 <?php }
 	if(isset($_GET['command'])){
-			include('templates/commands.php');
-		}else{
-			include('templates/page.php');
-		}
-	?>
+		include('templates/commands.php');
+	}else{
+		include('templates/page.php');
+	}
+?>
 </body>
 </html>

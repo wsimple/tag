@@ -25,7 +25,7 @@ if($_GET['lang']!=''){
 if(!$actual) $actual='en';
 
 $lang=array();
-include(RELPATH."language/$actual.php");
+include($config->relpath."language/$actual.php");
 foreach ($lang as $key => $value){
 	define($key, $value);
 }

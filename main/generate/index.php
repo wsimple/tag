@@ -1,16 +1,12 @@
 <?php
-if(!is_dir('.security')||!is_file('.security/security.php')||isset($_GET['generate'])){
-	if(!is_dir('.security')||!is_file('.security/security.php')||isset($_GET['security'])){
+if(!is_file('includes/security/security.php')||isset($_GET['generate'])){
+	if(!is_file('includes/security/security.php')||isset($_GET['security'])){
 		include('main/generate/security.php');
-		if(is_dir('.security')&&is_file('.security/security.php')){
+		if(is_file('includes/security/security.php')){
 			echo 'instalado<br/>';
-			include('.security/security.php');
+			include('includes/security/security.php');
 			if(isset($_GET['show'])){
-				echo '<pre>';
-				var_dump($config);
-				echo '</pre>';
-				define('LOCAL',$config->local);
-				echo '<p>LOCAL:'.(LOCAL?'true':'false').'</p>';
+				echo '<pre>';var_dump($config);echo '</pre>';
 			}
 		}
 	}elseif(isset($_GET['language'])){

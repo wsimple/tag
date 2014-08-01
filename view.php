@@ -1,11 +1,11 @@
 <?php
-global $dialog,$notAjax,$bodyPage;
-if($idPage==''){
-include('includes/session.php');
+global $config,$dialog,$notAjax,$bodyPage;
+if(!$config){
 include('includes/config.php');
-include('class/Mobile_Detect.php');
+include('includes/session.php');
 include('includes/functions.php');
 include('class/wconecta.class.php');
+include('class/Mobile_Detect.php');
 include('includes/languages.config.php');
 include('class/forms.class.php');
 header('Cache-Control:no-cache,must-revalidate');
@@ -19,7 +19,7 @@ if(isset($_GET['page'])) $currentPage=$_GET['page'];
 //Logged: verificar si esta logeado
 $logged=$_SESSION['ws-tags']['ws-user']['id']!='';
 #local o servidor
-$local=!!preg_match('/^(localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME']);
+$local=!!preg_match('/^(local|127\.|192\.168\.)/',$_SERVER['SERVER_NAME']);
 //paginas que se pueden abrir sin logear
 $f_unlogged=array(
 	'main/home.php',
@@ -75,7 +75,7 @@ if($idPage=='term') $idPage='terms';
 if($notAjax&&($idPage==''||$idPage=='/')) $idPage='home';
 if($idPage!='') switch($idPage){
 	case 'home':case 'WhatIsIt':case 'HowDoesWork':case 'HowDoesWork/1':case 'HowDoesWork/2':case 'App':
-		$currentPage='main/home.php'; break;
+		$bodyPage='main/home.php'; $numPanels=1; break;
 	case 'signup'			:$currentPage=$logged?'main/redir.php':'main/signUp.php'; break;
 	case 'resendPassword'	:$currentPage=$logged?'main/redir.php':'main/resendPassword.php';break;
 	case 'resetPassword'	:$currentPage='main/resetPassword.php';break;
@@ -101,7 +101,7 @@ if($idPage!='') switch($idPage){
 	case 'about':case 'blog':case 'help':case 'terms':
 	case 'cookies':case 'developers':case 'privacity':
 		$currentPage='main/dialogs.php';break;
-	case 'welcome'			:$currentPage='main/welcome.php';break;
+	case 'welcome'			:$bodyPage='main/welcome.php';$numPanels=1;break;
 	case 'mypublications'   :case 'freeproducts':case 'myfreeproducts'	:case 'myparticipation'	:
 	case 'store'            :$bodyPage='store/productList.php'; $rightPanel='store/panel.php'; break;
 	case 'detailprod'       :$bodyPage='store/detailProd.php';$numPanels=2;break;
@@ -120,7 +120,7 @@ if($idPage!='') switch($idPage){
 			$bodyPage="$idPage.2.php";
 		}elseif(is_file("views/$idPage.3.php")){
 			$bodyPage="$idPage.3.php";
-		}elseif($local||$_COOKIE['_DEBUG_']){
+		}elseif($local||is_debug()){
 			if(is_file("views/temp/$idPage.php")){
 				$currentPage="temp/$idPage.php";
 			}elseif(is_file("views/temp/$idPage.2.php")){
@@ -166,17 +166,7 @@ if($dialog){
 	if($bodyPage) include('views/'.$bodyPage);
 	else include('views/'.$currentPage);
 }else{
-	if($notAjax&&!$noHash&&$currentPage!='main/wrapper.php') echo '<container><content>';
+	if($notAjax&&$currentPage!='main/wrapper.php'){ $bodyPage=$currentPage; $currentPage='main/wrapper.php'; }
 	include('views/'.$currentPage);
-	if($notAjax&&!$noHash&&$currentPage!='main/wrapper.php') echo '</content></container>';
-	if(!$notAjax){
-?>
-<script>
-	$('body').css('background','<?=($_SESSION['ws-tags']['ws-user']['user_background']==''?'':($_SESSION['ws-tags']['ws-user']['user_background'][0]!='#' ?
-		'url('.FILESERVER.'img/users_backgrounds/'.$_SESSION['ws-tags']['ws-user']['user_background'].')' :
-		$_SESSION['ws-tags']['ws-user']['user_background']
-	))?>');
-</script>
-<?php
-	}
+	// if($notAjax&&$currentPage!='main/wrapper.php') echo '</content></container>';
 }
