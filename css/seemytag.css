@@ -2014,6 +2014,11 @@ container .mid-pannel menu#carousel{
 	font-weight:bold;
 	font-size:13px;
 }
+
+container#creation input[type="text"]{
+	background-color: transparent;
+	border: 1px solid #eee;
+}
 .paddingTop{
 	padding-top:7px;
 }
