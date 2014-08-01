@@ -373,12 +373,26 @@ function tagsList_json($data,$mobile=false){
 			$tag['hashExCurrent']=$exCurrenHash;
 			$tag['video']=trim($tag['video']);
 			if($debug) $tag['test']='video='.$tag['video'].',vimeo='.isVideo('vimeo',$tag['video']).',youtube='.isVideo('youtube',$tag['video']);
-			if(isVideo('vimeo',$tag['video']))
-				$tag['typeVideo']='vimeo';
-			elseif(isVideo('youtube',$tag['video'])){
+			if(isVideo('vimeo',$tag['video'])){
+				if(preg_match('/vimeo.com\\/([^\\?\\&]+)/i',$tag['video'],$matches)){
+					$tag['typeVideo']='vimeo';
+					$vec=explode('/', $matches[1]);
+					$code = end($vec);
+					$tag['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
+				}
+			}elseif(isVideo('youtube',$tag['video'])){
 				if($data['embed'])
 					$tag['video']=preg_replace(regex('youtube'), 'http://youtube.com/embed/$7$9', $tag['video']);
-				$tag['typeVideo']='youtube';
+				if(preg_match('/(youtube\\S*[\\/\\?\\&]v[\\/=]|youtu.be\\/)([^\\?\\&]+)/i',$tag['video'],$matches)){
+					$tag['typeVideo']='youtube';
+					$type='youtube';
+					$code=$matches[2];
+					// if (!$mobile) $tag['video']=$code;
+					// else $tag['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0';
+					$tag['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
+				}
+			}elseif(isVideo('local',$tag['video'])){
+				$tag['typeVideo']='local';
 			}
 			$btn=buttons($tag,$myId);
 			if($data['current']=='privateTags'){ $btn['trash']=true; }
