@@ -1977,7 +1977,7 @@ container .mid-pannel menu#carousel{
 }
 #editTag-box .colorpickerDiv{
 	float:right;
-	width:200px;
+	/*width:200px;*/
 }
 #editTag-box #newTagImput ui-single-box{
 	float:left
@@ -2017,7 +2017,8 @@ container .mid-pannel menu#carousel{
 
 container#creation input[type="text"]{
 	background-color: transparent;
-	border: 1px solid #eee;
+	text-align: center;
+	color:#000;
 }
 .paddingTop{
 	padding-top:7px;
