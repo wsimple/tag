@@ -1,9 +1,6 @@
-<!-- <container id="news">
-	<content>
-	</content> 
-</container> -->
-
-<div class="ui-single-box mini" id="pageNews"> 
+<?php 
+$disble=($section!='news')?'style="display:none;width:0px;height:0px"':''; ?>
+<div class="ui-single-box mini" id="pageNews" <?php echo $disble; ?> >
     <div class="ui-single-box-title limitTitle"><?=MAINMNU_NEWS_TITLE?></div>
     <div class="news-wrapper">
         <div id="news-here"></div>
@@ -22,8 +19,7 @@ $(function() {
 					layer:'#noticeInsertTop',
 					get:''
 				};
-			if (SECTION!='news') $('#pageNews').css({display: 'none',width: '0px',height:'0px'});
-			else{ opc.get='&all=1'; }
+			if (SECTION=='news'){ opc.get='&all=1'; }
 			$('.store-wrapper .mainMenu a').css('margin-bottom:','0px');$('aside').css('display','block');
 			//event handlers
 			var  interval,clearEvents=function(){
