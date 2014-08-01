@@ -176,7 +176,7 @@ unset($detect);
 		ac=$.fn.jquery.versionLt('1.10')?$search.data('autocomplete'):$search.autocomplete('widget');
 		ac._renderMenu=function(ul,items){
 			var lastCategory='',that=this;
-			items.push({category:"searchall",url:'#searchall?srh='+$search.val()});
+			items.push({category:"searchall",search:$search.val()});
 			//console.log(['autocomplete',items]);
 			items.forEach(function(item){
 				if(lastCategory!==item.category && item.category!=='NORESULTS' && item.category!=='searchall'){
@@ -189,7 +189,7 @@ unset($detect);
 		ac._renderItem=function(ul,item){		
 			var $li=$('<li>'),res='',sp='';
 			if(item.category==='<?=SEARCHALL_PEOPLES?>'){
-				item.url='#profile?sc=6&userIdExternalProfile='+item.id;
+				item.url=BASEURL+'user/'+item.id;
 				// alert('Encontrada una persona');
 				$li.addClass('ui-autocomplete-person')
 				.append('<a href="'+item.url+'">'+
@@ -207,7 +207,7 @@ unset($detect);
 							'</div>'+
 						'</a>');
 			}else if(item.category==='<?=SEARCHALL_GROUPS?>'){
-				item.url='#groupsDetails?grp='+item.id;
+				item.url=BASEURL+'groupsDetails?grp='+item.id;
 				$li.addClass('ui-autocomplete-group')
 				.append('<a href="'+item.url+'"><img src="css/smt/menu_left/groups.png" alt="Groups Icons" title="Group" width="12" height="12">'+item.name+'</a>');
 			}else if(item.category==='<?=SEARCHALL_HASTASH?>'){
@@ -218,11 +218,11 @@ unset($detect);
 					res = item.hash;
 					sp  = '';
 				}
-				item.url='#searchall?srh='+item.hash+'&in=1';
+				item.url=BASEURL+'searchall?srh='+item.hash+'&in=1';
 				$li.addClass('ui-autocomplete-group')
 				.append('<a href="'+item.url+'"><img src="css/smt/menu_left/groups.png" width="12" height="12">'+res+sp+'</a>');
 			}else if(item.category==='<?=SEARCH_PRODUCT?>'){
-				item.url='#detailprod?prd='+item.id;
+				item.url=BASEURL+'detailprod?prd='+item.id;
 				$li.addClass('ui-autocomplete-person')
 				.append('<a href="'+item.url+'">'+
 							'<div class="quick-search-container">'+
@@ -238,6 +238,7 @@ unset($detect);
 								'<span><img src="'+item.photo+'" alt="'+item.name+'" width="50" height="50"></span>'+
 							'</div></a>');
 			}else if(item.category==='searchall'){
+				item.url=BASEURL+'searchall?srh='+item.search;
 				$li.addClass('ui-autocomplete-searchall')
 				.append('<a href="'+item.url+'" title="<?=MNUUSER_SEARCHALL?>"><?=MNUUSER_ALLRESULTS?></a>');
 			}else{
