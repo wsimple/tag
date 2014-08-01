@@ -23,7 +23,7 @@
 		echo 'ok';
 		$GLOBALS['cn']->query('DELETE FROM users_publicity WHERE md5(id)="'.$_GET['id'].'" and id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"');
 	}else{
-		echo 'not ok';
+		echo 'A error occurred. Try again later';
 	}
 
 	
