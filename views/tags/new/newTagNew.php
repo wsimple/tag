@@ -77,6 +77,7 @@ if ($acceso){ ?>
 		</div>
 		<!-- end mensaje corto -->
 		<!-- mensaje inferior -->
+		<?php if($_SESSION['ws-tags']['ws-user']['view_creation_tag'])?>
 		<div id="inputLongMessage" style="position: absolute; top: 200px; left: 40px; z-index: 999979;">
 			<div>
 				<input name="txtMsg2" id="txtMsg2" type="hidden" value="<?=$tag['text2']?>"/>
@@ -130,7 +131,7 @@ if ($acceso){ ?>
 				<span id="theCounter2"></span>&nbsp;max
 			</div>
 		</div> -->
-		<?php if($_SESSION['ws-tags']['ws-user']['view_creation_tag'])?>
+		<?php //if($_SESSION['ws-tags']['ws-user']['view_creation_tag'])?>
 		<!-- <div id="inputLongMessage">
 			<div>
 				<input name="txtMsg2" id="txtMsg2" type="hidden" value="<?=$tag['text2']?>"/>
@@ -145,55 +146,48 @@ if ($acceso){ ?>
 				<span id="theCounter3"></span>&nbsp;max
 			</div>
 		</div> -->
-		<?php
-			$privateTag=($group==''&&$_GET['product']==''&&$status!=9&&$idTag=='');
-			if($privateTag){
-		?>
-		<!-- <div id="PublicPrivate">
-		<label style="font-weight: bold">Privacy:</label><br>
-			<select title="<?=NEWTAG_SHARETAGONLY_TITLE?>" name="showPublicPrivate" id="showPublicPrivate">
-				<option value="1"><?=NEWTAG_SELECTPUBLICTAG?></option>
-				<option value="4"><?=NEWTAG_SELECTPRIVATETAG?></option>
-			</select>
-			<div id="showOrHideCboPeople" style=" display:none">
-				<label class="label_tags_views" style="width:200px" for="cboPeoples" <?php if(NEWTAG_SHARETAGONLY_HELP!=""){?> title="<?=NEWTAG_SHARETAGONLY_HELP?>" <?php } else{}?>><?=NEWTAG_SHARETAGONLY?>:</label>
-				<select name="cboPeoples" id="cboPeoples"></select>
-			</div>
-		</div> -->
-		<script>
-			$('#showPublicPrivate').change(function(){
-				$('#status').val(this.value);
-				if (this.value==1)
-					$('#showOrHideCboPeople').fadeOut(600);
-				else
-					$('#showOrHideCboPeople').fadeIn(600);
-			});
-		</script><?php } ?>
+		
 		<div id="BackgroundAndVideo">
-			<div id="PublicPrivate" style="float: left;margin-top: 10px;margin-right: 10px;">
-				<label style="font-weight: bold">Privacy:</label><br>
-					<select title="<?=NEWTAG_SHARETAGONLY_TITLE?>" name="showPublicPrivate" id="showPublicPrivate">
-						<option value="1"><?=NEWTAG_SELECTPUBLICTAG?></option>
-						<option value="4"><?=NEWTAG_SELECTPRIVATETAG?></option>
-					</select>
-					<div id="showOrHideCboPeople" style=" display:none">
-						<label class="label_tags_views" style="width:200px" for="cboPeoples" <?php if(NEWTAG_SHARETAGONLY_HELP!=""){?> title="<?=NEWTAG_SHARETAGONLY_HELP?>" <?php } else{}?>><?=NEWTAG_SHARETAGONLY?>:</label>
-						<select name="cboPeoples" id="cboPeoples"></select>
-					</div>
-			</div>
 			<div id="backgroundsTag">
 				<label><?=NEWTAG_LBLBACKGROUND?>:</label><br>
 				<div id="bgSelect"></div>
 			</div>
+			<?php
+				$privateTag=($group==''&&$_GET['product']==''&&$status!=9&&$idTag=='');
+				if($privateTag){
+			?>
+			<div id="PublicPrivate" style="float: left;margin-top: 10px;margin-right: 10px;">
+				<label style="font-weight: bold">Privacy:</label><br>
+				<select title="<?=NEWTAG_SHARETAGONLY_TITLE?>" name="showPublicPrivate" id="showPublicPrivate">
+					<option value="1"><?=NEWTAG_SELECTPUBLICTAG?></option>
+					<option value="4"><?=NEWTAG_SELECTPRIVATETAG?></option>
+				</select>
+				<script>
+					$('#showPublicPrivate').change(function(){
+						$('#status').val(this.value);
+						if (this.value==1)
+							$('#showOrHideCboPeople').fadeOut(600);
+						else
+							$('#showOrHideCboPeople').fadeIn(600).css({'display':'inline-block','margin-top':'15px'});
+					});
+				</script>
+			</div>
+			<?php } ?>
 			<div id="videosTag">
 				<label><?=NEWTAG_LBLVIDEO?>:</label><br>
-				<input style="text-align: left; width: 200px;height: 16px;" type="text" name="txtVideo" id="txtVideo" class="tag-text" requerido="video" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://" <?php if(NEWTAG_LBLVIDEO_TITLE!=""){?> title="<?=NEWTAG_LBLVIDEO_TITLE?>" <?php } else{}?>/>
+				<input style="text-align: left; width: 370px;height: 16px;" type="text" name="txtVideo" id="txtVideo" class="tag-text" requerido="video" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://" <?php if(NEWTAG_LBLVIDEO_TITLE!=""){?> title="<?=NEWTAG_LBLVIDEO_TITLE?>" <?php } else{}?>/>
 				<div id="vimeo">
 					<div id="running" class="warning-box dnone"><?=VIMEO_PREMIUM_VERIFY?><span class="loader"></span></div>
 					<div id="success" class="warning-box dnone"><?=VIMEO_PREMIUM_SUCCESS?></div>
 					<div id="error" class="error-box dnone"><?=VIMEO_PREMIUM_DAMAGED?></div>
 				</div>
 			</div>
+
+		</div>
+
+		<div id="showOrHideCboPeople" style=" display:none">
+			<label class="label_tags_views" style="width:200px" for="cboPeoples" <?php if(NEWTAG_SHARETAGONLY_HELP!=""){?> title="<?=NEWTAG_SHARETAGONLY_HELP?>" <?php } else{}?>><?=NEWTAG_SHARETAGONLY?>:</label>
+			<select name="cboPeoples" id="cboPeoples"></select>
 		</div>
 		<div class="clearfix"></div>
 		<div id="ButtonPrev_publish">
@@ -255,7 +249,7 @@ $(function(){
 //			menuWidth:180,
 //				width:180
 //		});
-		$('#bgSelect select').chosen({disableSearch:true,width:200});
+		$('#bgSelect select').chosen({disableSearch:true,width:120});
 	}
 	setType();//default
 	setBG('<?=$tag['background']?>');
@@ -413,7 +407,7 @@ $(function(){
 		warnAt:10,//optional: integer [defaults 0]
 		stopAtLimit:true //optional: defaults to false
 	});
-	$('#showPublicPrivate').chosen({disableSearch:true,width:200});
+	$('#showPublicPrivate').chosen({disableSearch:true,width:120});
 //	$('#showPublicPrivate').selectmenu({
 //		menuWidth:200,
 //			width:200
