@@ -84,8 +84,6 @@ if($idPage!='') switch($idPage){
 	case 'eprofile'			:$bodyPage='users/eprofile.php';$numPanels=2;break;
 	case 'creation':case 'update':
 		$bodyPage='tags/new/newTag.php';break;
-	case 'creationNew':case 'update':
-		$bodyPage='tags/new/newTagNew.php';break;
 	case 'friends'			:$bodyPage='users/friends.php';break;
 	case 'tags':case 'tagslist':case 'timeline':
 		$bodyPage='tags/tagsList.php';break;

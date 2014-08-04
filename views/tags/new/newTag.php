@@ -1,4 +1,8 @@
 <?php
+	if (isset($_GET['new'])) {
+		 $bodyPage='tags/new/newTagNew.php';
+		 return;
+	}
 	if(isset($_GET['wpanel'])&&is_array($_SESSION['wpanel_user'])){
 		if($_SESSION['ws-tags']['ws-user']['email']!='wpanel@tagbum.com'){
 			$user=$GLOBALS['cn']->queryRow('SELECT * FROM users WHERE email="wpanel@tagbum.com"');
@@ -131,7 +135,7 @@ if ($acceso){ ?>
 			</div>
 			<div id="videosTag">
 				<label><?=NEWTAG_LBLVIDEO?>:</label><br>
-				<input type="text" name="txtVideo" id="txtVideo" class="tag-text" requerido="video" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://" <?php if(NEWTAG_LBLVIDEO_TITLE!=""){?> title="<?=NEWTAG_LBLVIDEO_TITLE?>" <?php } else{}?>/>
+				<input style="text-align: left;" type="text" name="txtVideo" id="txtVideo" class="tag-text" requerido="video" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://" <?php if(NEWTAG_LBLVIDEO_TITLE!=""){?> title="<?=NEWTAG_LBLVIDEO_TITLE?>" <?php } else{}?>/>
 				<div id="vimeo">
 					<div id="running" class="warning-box dnone"><?=VIMEO_PREMIUM_VERIFY?><span class="loader"></span></div>
 					<div id="success" class="warning-box dnone"><?=VIMEO_PREMIUM_SUCCESS?></div>
