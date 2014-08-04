@@ -167,6 +167,7 @@ $(function() {
 									$('#news-loader').fadeOut('slow',function(){$(layer).after(out);});
 									$('#info-container tr:gt(5)').remove();
 									$('#NewsInfo').show();
+									$('#waitNewsInfo').hide('fast');
 								}else{
 									if(action!='more') $('#pageNews #news-here').prepend(out);
 									else $('#pageNews #news-here').append(out);
