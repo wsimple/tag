@@ -1216,6 +1216,12 @@ content.resendEmailPassword input[type='button']{
 	top: 0;
 	left: 0;
 }
+.tag-container [tag].ativeVideo .bg,
+.tag-container [tag].ativeVideo .profilepic,
+.tag-container [tag].ativeVideo .profile,
+.tag-container [tag].ativeVideo .loader,
+.tag-container [tag].ativeVideo .tagLink{ display: none !important; }
+.tag-container [tag].ativeVideo .videominitag{ display: block !important; }
 .tag-container [tag] div.video .placa{
 	z-index: 2001;
 	position: absolute;
