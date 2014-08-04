@@ -1023,6 +1023,7 @@ content.resendEmailPassword input[type='button']{
 .tag-container [tag] .tagLink,
 .tag-container [tag] menu{
 	width:20.3125em;/*650px;*/
+	right: 0em;
 }
 .tag-container [tag] .loader,
 .tag-container [tag] .minitag,
@@ -1059,6 +1060,7 @@ content.resendEmailPassword input[type='button']{
 .tag-container [tag] .tag-icons{
 	position:absolute;
 	top:0.4em;
+	width: 92%;
 	left:0.781em;/*25px;*/
 }
 .tag-container [tag] .tag-icons *{
@@ -1145,6 +1147,9 @@ content.resendEmailPassword input[type='button']{
 .tag-container [tag] .extras .vimeo{
 	background-image:url(smt/vimeo.png);
 }
+.tag-container [tag] .extras .local{
+	background-image:url(smt/video.png);
+}
 .tag-container [tag] menu{
 	position:relative;
 	display:block;
@@ -1193,14 +1198,15 @@ content.resendEmailPassword input[type='button']{
 	z-index:1;
 	background:#fff;
 }
+.tag-container [tag] div{ z-index: 2; }
 .tag-container [tag] div.video{
-	display: none;
 	position: relative;
-	z-index: 2000;
+	z-index: 1;
 	float: left;
 	height: 9.375em;
 	overflow: hidden;
 	width: 100%;
+	background-color: black;
 }
 .tag-container [tag] div.video video,
 .tag-container [tag] div.video iframe{
@@ -1210,6 +1216,12 @@ content.resendEmailPassword input[type='button']{
 	top: 0;
 	left: 0;
 }
+.tag-container [tag].ativeVideo .bg,
+.tag-container [tag].ativeVideo .profilepic,
+.tag-container [tag].ativeVideo .profile,
+.tag-container [tag].ativeVideo .loader,
+.tag-container [tag].ativeVideo .tagLink{ display: none !important; }
+.tag-container [tag].ativeVideo .videominitag{ display: block !important; }
 .tag-container [tag] div.video .placa{
 	z-index: 2001;
 	position: absolute;
@@ -1217,6 +1229,15 @@ content.resendEmailPassword input[type='button']{
 	background: url('smt/placa.png') 50% 50% no-repeat;
 	width: 100%;
 	height: 9.375em;
+}
+.tag-container [tag] div.video:hover .placa{ z-index: 0; }
+.tag-container [tag] div.videominitag{ 
+	z-index: 1;
+	float: right;
+	width: 2.9em;
+	height: 1.29em;
+	border-radius: 0.2em;
+	display: none;
 }
 
 .searchHash a{
@@ -1977,7 +1998,7 @@ container .mid-pannel menu#carousel{
 }
 #editTag-box .colorpickerDiv{
 	float:right;
-	width:200px;
+	/*width:200px;*/
 }
 #editTag-box #newTagImput ui-single-box{
 	float:left
@@ -2013,6 +2034,12 @@ container .mid-pannel menu#carousel{
 #editTag-box #newTagImput #BackgroundAndVideo #backgroundsTag label,#videosTag label,container#creation input[type="text"]{
 	font-weight:bold;
 	font-size:13px;
+}
+
+container#creation input[type="text"]{
+	background-color: transparent;
+	text-align: center;
+	color:#000;
 }
 .paddingTop{
 	padding-top:7px;
