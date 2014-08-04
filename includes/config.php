@@ -20,7 +20,7 @@ if($_GET['hashtag']){#si se convirtio un hashtag en get
 }else{
 	$section=array_shift(explode('?',$_SERVER['REQUEST_URI']));
 	if(strpos($section,'.php')) $section=str_replace($_SERVER['SCRIPT_NAME'],'',$section);
-	else $section=str_replace($config->path,'',$section);
+	elseif(strpos($section,$config->path)===0) $section=substr($section,strlen($config->path));
 }
 if($section==''){
 	$section='home';
