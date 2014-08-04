@@ -1,10 +1,9 @@
 <?php
 if($logged){
 	$idPage='timeline';
-	$currentPage='main/wrapper.php';
+	$section='timeline';
 	$numPanels=3;
 	$bodyPage='tags/tagsList.php';
-	include('views/'.$currentPage);
 }else{ ?>
 <container id="home" class="cache">
 	<content class="home2">

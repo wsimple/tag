@@ -28,6 +28,7 @@ $f_unlogged=array(
 	'main/resetPassword.php',
 	'main/dialogs.php',
     'users/eprofile.php',
+    'user.2.php',
     'users/account.php',
 	'tags/comment.php',
 	'users/business.paypal.php',
@@ -168,5 +169,4 @@ if($dialog){
 }else{
 	if($notAjax&&$currentPage!='main/wrapper.php'){ $bodyPage=$currentPage; $currentPage='main/wrapper.php'; }
 	include('views/'.$currentPage);
-	// if($notAjax&&$currentPage!='main/wrapper.php') echo '</content></container>';
 }
