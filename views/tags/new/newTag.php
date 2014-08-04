@@ -81,7 +81,7 @@ if ($acceso){ ?>
 			<div>
 				<input name="txtCodeNumber" id="txtCodeNumber" type="text" class="tag-text" value="<?=$tag['code_number']?>" placeholder="<?=NEWTAG_LBLCODENUMBER?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?>/>
 				<div class="colorpickerDiv">
-					<input type="text" id="hiddenColor2" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor2" value="<?=$tag['color_code2']?$tag['color_code2']:'#461'?>" class="colorBG" />
+					<input type="text" id="hiddenColor2" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor2" value="<?=$tag['color_code2']?$tag['color_code2']:'#77c574'?>" class="colorBG" />
 					<div id="hiddenColorDiv2"></div>
 					<div class="text font-size3 color-d paddingTop"><?=NEWTAG_FONTCOLOR?></div>
 				</div>
