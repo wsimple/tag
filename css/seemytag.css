@@ -2031,12 +2031,12 @@ container .mid-pannel menu#carousel{
 	margin:10px 10px 0 0;
 }
 
-#editTag-box #newTagImput #BackgroundAndVideo #backgroundsTag label,#videosTag label,container#creation input[type="text"]{
+#editTag-box #newTagImput #BackgroundAndVideo #backgroundsTag label,#videosTag label,container#creation input[type="text"],container#update input[type="text"]{
 	font-weight:bold;
 	font-size:13px;
 }
 
-container#creation input[type="text"]{
+container#creation input[type="text"],container#update input[type="text"]{
 	background-color: transparent;
 	text-align: center;
 	color:#000;
