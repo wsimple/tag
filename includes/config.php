@@ -19,8 +19,9 @@ if($_GET['hashtag']){#si se convirtio un hashtag en get
 		$_GET=array_merge($_GET,parse_url(end(explode('?',$section))));
 }else{
 	$section=array_shift(explode('?',$_SERVER['REQUEST_URI']));
+	if($_COOKIE['_DEBUG_']=='section') echo "section before filters: $section<br>";
 	if(strpos($section,'.php')) $section=str_replace($_SERVER['SCRIPT_NAME'],'',$section);
-	else $section=str_replace($config->path,'',$section);
+	elseif($config->path&&$config->path!='/') $section=str_replace($config->path,'',$section);
 }
 if($section==''){
 	$section='home';
