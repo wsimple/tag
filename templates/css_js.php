@@ -38,6 +38,7 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 	foreach ($jsLocal as $js) {
 		echo '<script src="'.str_replace('//', '', $js).'" charset="utf-8"></script>';
 	}?>
+	<script src="http://www.youtube.com/iframe_api"></script>
 	<script src="js/funciones.js.php" charset="utf-8"></script>
 <?php } ?>
 
