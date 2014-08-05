@@ -1224,6 +1224,9 @@ content.resendEmailPassword input[type='button']{
 .tag-container [tag].ativeVideo .profilepic,
 .tag-container [tag].ativeVideo .profile,
 .tag-container [tag].ativeVideo .loader,
+.tag-container [tag].ativeVideo .extras,
+.tag-container [tag].ativeVideo .minitag,
+.tag-container [tag].ativeVideo .tag,
 .tag-container [tag].ativeVideo .tagLink{ display: none !important; }
 .tag-container [tag].ativeVideo .videominitag{ display: block !important; }
 .tag-container [tag] div.video .placa{
