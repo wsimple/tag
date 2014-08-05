@@ -89,8 +89,7 @@ $userp = explode("/", $epro);
 			var hash = document.location.hash.split('/')[0];
 			
 			if((hash=='#')||(hash=='')||(hash=='#WhatIsIt')){
-				if ('<?=$userp[1]?>'!=''&&'<?=$userp[2]?>'!=''){
-					a
+				if ('<?=$userp[1]?>'!=''||'<?=$userp[2]?>'!=''){
 					$('.logoTbum').fadeIn('slow');
 				}else{
 					$('.logoTbum').fadeOut('slow');
