@@ -289,6 +289,7 @@ $(function(){
 						'<div class="clearfix"></div>'+
 					'</div>'
 				);
+				iniallYoutube();
 			},
 			buttons:{
 				'<?=JS_CANCEL?>':function(){
