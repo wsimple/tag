@@ -303,21 +303,25 @@ page>header,page>header logo,page loader.page{
 	-o-transition:width 0.25s,height 0.25s,margin 0.25s;
 	transition:width 0.25s,height 0.25s,margin 0.25s;
 }
-page wrapper{ display:block; }
+page wrapper{
+display:block;
+width:1024px;
+min-height:10px;
+margin:auto;
+padding:15px 0;
+}
 page container{
-	display:block;
-	position:relative;
-	left:0;
-	right:0;
-	margin:0;
-	z-index:5;
-	padding:15px 0;
+display:block;
+position:relative;
+left:0;
+right:0;
+margin:0;
+z-index:5;
 }
 page content{
-	display:block;
-	width:1024px;
-	min-height:10px;
-	margin:auto;
+display:block;
+width:1024px;
+margin:auto;
 }
 .ui-dialog button,.ui-dialog input[type="submit"],.ui-dialog input[type="reset"],.ui-dialog input[type="button"],
 page wrapper button,page wrapper input[type="submit"],page wrapper input[type="reset"],page wrapper input[type="button"],.button{
@@ -1220,6 +1224,9 @@ content.resendEmailPassword input[type='button']{
 .tag-container [tag].ativeVideo .profilepic,
 .tag-container [tag].ativeVideo .profile,
 .tag-container [tag].ativeVideo .loader,
+.tag-container [tag].ativeVideo .extras,
+.tag-container [tag].ativeVideo .minitag,
+.tag-container [tag].ativeVideo .tag,
 .tag-container [tag].ativeVideo .tagLink{ display: none !important; }
 .tag-container [tag].ativeVideo .videominitag{ display: block !important; }
 .tag-container [tag] div.video .placa{
@@ -2031,12 +2038,12 @@ container .mid-pannel menu#carousel{
 	margin:10px 10px 0 0;
 }
 
-#editTag-box #newTagImput #BackgroundAndVideo #backgroundsTag label,#videosTag label,container#creation input[type="text"]{
+#editTag-box #newTagImput #BackgroundAndVideo #backgroundsTag label,#videosTag label,container#creation input[type="text"],container#update input[type="text"]{
 	font-weight:bold;
 	font-size:13px;
 }
 
-container#creation input[type="text"]{
+container#creation input[type="text"],container#update input[type="text"]{
 	background-color: transparent;
 	text-align: center;
 	color:#000;

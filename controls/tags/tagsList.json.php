@@ -378,7 +378,8 @@ function tagsList_json($data,$mobile=false){
 					$tag['typeVideo']='vimeo';
 					$vec=explode('/', $matches[1]);
 					$code = end($vec);
-					$tag['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
+					if (!$mobile) $tag['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
+					// $tag['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
 				}
 			}elseif(isVideo('youtube',$tag['video'])){
 				if($data['embed'])
@@ -387,13 +388,11 @@ function tagsList_json($data,$mobile=false){
 					$tag['typeVideo']='youtube';
 					$type='youtube';
 					$code=$matches[2];
-					// if (!$mobile) $tag['video']=$code;
-					// else $tag['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0';
-					$tag['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
+					if (!$mobile) $tag['video']=$code;
+					// if (!$mobile) $tag['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
+					// $tag['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
 				}
-			}elseif(isVideo('local',$tag['video'])){
-				$tag['typeVideo']='local';
-			}
+			}elseif(isVideo('local',$tag['video'])){ $tag['typeVideo']='local'; }
 			$btn=buttons($tag,$myId);
 			if($data['current']=='privateTags'){ $btn['trash']=true; }
 			if(count($btn)>0){
@@ -430,7 +429,8 @@ function tagsList_json($data,$mobile=false){
 						$sponsor['typeVideo']='vimeo';
 						$vec=explode('/', $matches[1]);
 						$code = end($vec);
-						$sponsor['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
+						if (!$mobile) $sponsor['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';					
+						// $sponsor['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
 					}
 				}elseif(isVideo('youtube',$sponsor['video'])){
 					if($data['embed'])
@@ -439,13 +439,11 @@ function tagsList_json($data,$mobile=false){
 						$sponsor['typeVideo']='youtube';
 						$type='youtube';
 						$code=$matches[2];
-						// if (!$mobile) $sponsor['video']=$code;
-						// else $sponsor['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0';
-						$sponsor['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
+						if (!$mobile) $sponsor['video']=$code;
+						// if (!$mobile) $sponsor['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
+						// $sponsor['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
 					}
-				}elseif(isVideo('local',$sponsor['video'])){
-					$sponsor['typeVideo']='local';
-				}
+				}elseif(isVideo('local',$sponsor['video'])){ $sponsor['typeVideo']='local'; }
 				$btn=buttons($sponsor,$myId);
 				if(count($btn)>0) $sponsor['btn']=$btn;
 				$res['tags'][]=$sponsor;
