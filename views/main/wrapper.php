@@ -3,9 +3,14 @@ if(strpos($bodyPage,'.2.php')) $numPanels=2;
 if(strpos($bodyPage,'.3.php')) $numPanels=3;
 #output buffering
 ob_start();
-@include('views/'.$bodyPage);
+$error=@include('views/'.$bodyPage);
 $content=ob_get_contents();
 ob_end_clean();
+if(in_array($error,array(403,404))){
+	$numPanels=2;
+	$content='';
+	$bodyPage='main/failure.php';
+}
 #end output buffering
 if($logged){
 	if($numPanels>2&&!$rightPanel) $rightPanel='users/newsUsers.php';
