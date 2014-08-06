@@ -162,7 +162,7 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 							<?php if(is_debug('fb')){ ?>
 							$.debug('fb').log('FBuser success. data:',data);
 							<?php }else{ ?>
-							redir('login.php');
+								$(box).one('submit',_login);
 							<?php } ?>
 						}
 					});
