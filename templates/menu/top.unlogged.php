@@ -19,7 +19,7 @@ $userp = explode("/", $epro);
 	</div>
 </menu>
 <?php 
-	$languages = $GLOBALS['cn']->query("SELECT cod,id, name FROM languages");
+	$languages = CON::query("SELECT cod,id, name FROM languages");
 ?>
 <div class="langOut">
 
@@ -28,9 +28,9 @@ $userp = explode("/", $epro);
 	</form>
 	<select name="languajeOut" id="languajeOut" >
 		<option value="none" selected><?=FOOTMENU_LANGUAGES?></option>
-		<?php while ($language = mysql_fetch_assoc($languages)) { ?>
-			<option value="<?=$language[cod]?>">
-				<?=$language[name]?>
+		<?php while ($language = CON::fetchObject($languages)) { ?>
+			<option value="<?=$language->cod?>">
+				<?=$language->name?>
 			</option>
 		<?php } ?>
 	</select>
