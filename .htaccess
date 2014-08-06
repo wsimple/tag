@@ -1,7 +1,6 @@
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks -indexes
 	RewriteEngine On
-	RewriteBase /tag/
 
 	#ErrorDocument 403 errors/403.php
 	#ErrorDocument 404 errors/404.php

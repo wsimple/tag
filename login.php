@@ -8,4 +8,6 @@
    	elseif($_POST['url']!='') $url=$_POST['url'];
    	elseif($_GET['url']!='') $url=$_GET['url'];
    	else $url=$_SESSION['ws-tags']['ws-user']['logins_count']>1?base_url():base_url('welcome');
-	@header("Location:$url");
+      if($url=='') $url='.';
+   if(isset($_COOKIE['_DEBUG_'])) echo 'url='.$url;
+   if($_COOKIE['_DEBUG_']!='login') @header("Location:$url");
