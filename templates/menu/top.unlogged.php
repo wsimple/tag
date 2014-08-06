@@ -88,15 +88,15 @@ $userp = explode("/", $epro);
 			//alert(document.location.hash);
 			var hash = document.location.hash.split('/')[0];
 			
-			if((hash=='#')||(hash=='')||(hash=='#WhatIsIt')){
-				if ('<?=$userp[1]?>'!=''||'<?=$userp[2]?>'!=''){
-					$('.logoTbum').fadeIn('slow');
-				}else{
-					$('.logoTbum').fadeOut('slow');
-				}
-			}else{
-				$('.logoTbum').fadeIn('slow');
-			}
+			// if((hash=='#')||(hash=='')||(hash=='#WhatIsIt')){
+			// 	if ('<?=$userp[1]?>'!=''||'<?=$userp[2]?>'!=''){
+			// 		$('.logoTbum').fadeIn('slow');
+			// 	}else{
+			// 		$('.logoTbum').fadeOut('slow');
+			// 	}
+			// }else{
+			// 	$('.logoTbum').fadeIn('slow');
+			// }
 			
 			if((hash=='#')||(hash=='')){
 				hash = '#WhatIsIt';
