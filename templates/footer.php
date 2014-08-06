@@ -1,7 +1,8 @@
 <footer class="ui-single-box">
 <?php
 	global $section;
-	if(!$logged&&$section!='tag'){
+	// if(!$logged&&($section!='tag'&&$section!='home')){
+	if(!$logged&&$section=='home'){
 	?>
 	<div>
 		<div id="joinus">
