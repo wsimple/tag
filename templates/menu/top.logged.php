@@ -77,7 +77,7 @@ unset($detect);
 			<ul>
 				<li class="arrow"></li>
 				<li><a href="<?=base_url('home')?>"><?=MNUUSER_TITLEHOME?></a></li>
-				<li><a href="<?=HREF_DEFAULT?>" action="tourActive"><?=HELP?></a></li>
+				<li id="tourHelp"><a href="<?=HREF_DEFAULT?>" action="tourActive"><?=HELP?></a></li>
 				<li><a href="logout.php"><?=MNUUSER_TITLELOGOUT?></a></li>
 			</ul>
 			<div id="tourHome"></div>
@@ -91,6 +91,18 @@ unset($detect);
 <div class="fright loader"><loader class="page" style="display:none;"></loader></div>
 <script type="text/javascript">
 	$(function(){
+		$$.ajax({
+			type	: 'GET',
+			url		: 'controls/tour/tourHelp.json.php?section='+SECTION,
+			dataType: 'json',
+			success	: function (data){
+			    // console.log(data);
+				if (data=='no') {
+					$('#tourHelp').hide();	
+				};
+			}
+		});
+
 		$('.mainMenu').jMenu();
 		if (location.hash=='#carousel'){ $('#divAllNoti').slideUp(); }
         else{ $('#divAllNoti').slideDown(); }
