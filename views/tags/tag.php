@@ -53,6 +53,9 @@
 						$("#msgTagNologged").toggle("fade");
 					});
 				}
+			},
+			complete:function(){
+				iniallYoutube();
 			}
 		});
 		<?php

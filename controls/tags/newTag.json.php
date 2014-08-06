@@ -108,12 +108,25 @@ function newTag_json($data,$mobile=false){
 //	$data['video']=preg_replace(regex('youtubelong'),'http://youtu.be/$6',trim($data['video']));
 //	$data['video']=preg_replace(regex('video'),'http://$2',$data['video']);
 	$res['video']=$data['video'];
-	if(isVideo('vimeo',$res['video']))
-		$res['typeVideo']='vimeo';
-	elseif(isVideo('youtube',$res['video'])){
+	if(isVideo('vimeo',$res['video'])){
+		if(preg_match('/vimeo.com\\/([^\\?\\&]+)/i',$res['video'],$matches)){
+			$res['typeVideo']='vimeo';
+			$vec=explode('/', $matches[1]);
+			$code = end($vec);
+			if (!$mobile) $res['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
+			// $res['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
+		}
+	}elseif(isVideo('youtube',$res['video'])){
 		if($data['embed'])
 			$res['video']=preg_replace(regex('youtube'),'http://youtube.com/embed/$7$9',$res['video']);
-		$res['typeVideo']='youtube';
+		if(preg_match('/(youtube\\S*[\\/\\?\\&]v[\\/=]|youtu.be\\/)([^\\?\\&]+)/i',$res['video'],$matches)){
+			$res['typeVideo']='youtube';
+			$type='youtube';
+			$code=$matches[2];
+			if (!$mobile) $res['video']=$code;
+			// if (!$mobile) $res['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
+			// $res['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
+		}
 	}
 	#image64 (usado para subir fotos en mobile)
 	if($data['img64']!=''){

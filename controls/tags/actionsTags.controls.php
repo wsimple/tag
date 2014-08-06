@@ -219,7 +219,7 @@
 										if (trim($array['username'])!=''){
 												$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.$array['username']."' onFocus='this.blur();' target='_blank'>".DOMINIO.$array['username']."</a><br>";
 										}else {
-											$external=  formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']);
+											$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."' onFocus='this.blur();' target='_blank'>".DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."</a><br>";
 										}
 										if (trim($array['pais'])!=''){
 												$pais=USERS_BROWSERFRIENDSLABELCOUNTRY.":&nbsp;<span style='color:#999999'>".$array['pais']."</span><br/>";

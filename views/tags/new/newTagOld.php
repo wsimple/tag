@@ -1,4 +1,8 @@
 <?php
+	if (isset($_GET['new'])) {
+		 $bodyPage='tags/new/newTagNew.php';
+		 return;
+	}
 	if(isset($_GET['wpanel'])&&is_array($_SESSION['wpanel_user'])){
 		if($_SESSION['ws-tags']['ws-user']['email']!='wpanel@tagbum.com'){
 			$user=$GLOBALS['cn']->queryRow('SELECT * FROM users WHERE email="wpanel@tagbum.com"');
@@ -48,51 +52,6 @@ if ($acceso){ ?>
 		<div id="html_tag_placa">
 			<?=NEWTAG_DIMESIONS.': 650x300px'?>
 		</div>
-		<!-- mensaje superior -->
-		<div id="inputShortMessage" style="position: absolute; top: 41px; left: 115px; z-index: 999999;">
-			<div>
-				<input name="txtMsg" id="txtMsg" type="text" class="tag-text" placeholder="<?=NEWTAG_LBLTEXT?>" value="<?=$tag['text']?>" style="border: dashed #222 1px; color:#F82"/>
-					<div class="colorpickerDiv" style="position: absolute;top: 6px;left: 410px;">
-						<input style="width: 33px;border: none;height: 28px;" type="text" id="hiddenColor" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor" value="<?=$tag['color_code']?$tag['color_code']:'#F82'?>" class="colorBG" />
-						<div id="hiddenColorDiv"></div>
-					</div>
-			</div>
-			<div id="cont1" class="font-size3 bold">
-				<span id="theCounter"></span>&nbsp;max
-			</div>
-		</div>
-		<!-- end mensaje superior -->
-		<!-- mensaje corto -->
-		<div id="inputCode" style="position: absolute; top: 96px; left: 43px; z-index: 999989;">
-			<div>
-				<input name="txtCodeNumber" id="txtCodeNumber" type="text" class="tag-text" value="<?=$tag['code_number']?>" placeholder="<?=NEWTAG_LBLCODENUMBER?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?> style="border: dashed #222 1px;color:#461;font-size: 71px;padding: 33px 20px 34px 20px;width: 524px;font-weight: normal;"/>
-				<div class="colorpickerDiv" style="position: absolute;top: -4px;left: 485px;">
-					<input style="border: none" type="text" id="hiddenColor2" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor2" value="<?=$tag['color_code2']?$tag['color_code2']:'#461'?>" class="colorBG" />
-					<div id="hiddenColorDiv2"></div>
-				</div>
-			</div>
-			<div id="cont2" class="font-size3 bold">
-				<span id="theCounter2"></span>&nbsp;max
-			</div>
-		</div>
-		<!-- end mensaje corto -->
-		<!-- mensaje inferior -->
-		<?php if($_SESSION['ws-tags']['ws-user']['view_creation_tag'])?>
-		<div id="inputLongMessage" style="position: absolute; top: 200px; left: 40px; z-index: 999979;">
-			<div>
-				<input name="txtMsg2" id="txtMsg2" type="hidden" value="<?=$tag['text2']?>"/>
-				<textarea id="textlarg" name="textlarg" class="tag-text textareaComment" rows="3" placeholder="<?=NEWTAG_LBLTEXT?> 2 <?=INVITEUSERS_HELPMSG?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?> style="color:#fff;border: dashed #222 1px;;width: 563px;background: transparent;"><?=$tag['text2']?></textarea>
-				<div class="colorpickerDiv" style="position: absolute;top: -4px;left: 492px;">
-					<input style="border: none" type="text" id="hiddenColor3" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor3" value="<?=$tag['color_code3']?$tag['color_code3']:'#fff'?>"  class="colorBG" />
-					<div id="hiddenColorDiv3"></div>
-				</div>
-			</div>
-			<div id="cont3" class="font-size3 bold">
-				<span id="theCounter3"></span>&nbsp;max
-			</div>
-		</div>
-		<!-- end mensaje inferior -->
-
 		<input type="hidden" name="imgTemplate" id="imgTemplate" value=""/>
 		<div id="bckSelected" class="tag-container"></div>
 	</div>
@@ -105,7 +64,7 @@ if ($acceso){ ?>
 				<input type="radio" id="radio2" name="radio" <?=$_SESSION['ws-tags']['ws-user']['view_creation_tag']!=0?'checked="checked"':''?>/><label class="radio_view" for="radio1" style="float:right"><?=NEWTAG_VIEW_QUICK?></label>
 			</div>
 		</div>
-		<!-- <div id="inputShortMessage">
+		<div id="inputShortMessage">
 			<div>
 				<input name="txtMsg" id="txtMsg" type="text" class="tag-text" placeholder="<?=NEWTAG_LBLTEXT?>" value="<?=$tag['text']?>" />
 				<div class="colorpickerDiv">
@@ -122,7 +81,7 @@ if ($acceso){ ?>
 			<div>
 				<input name="txtCodeNumber" id="txtCodeNumber" type="text" class="tag-text" value="<?=$tag['code_number']?>" placeholder="<?=NEWTAG_LBLCODENUMBER?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?>/>
 				<div class="colorpickerDiv">
-					<input type="text" id="hiddenColor2" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor2" value="<?=$tag['color_code2']?$tag['color_code2']:'#461'?>" class="colorBG" />
+					<input type="text" id="hiddenColor2" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor2" value="<?=$tag['color_code2']?$tag['color_code2']:'#77c574'?>" class="colorBG" />
 					<div id="hiddenColorDiv2"></div>
 					<div class="text font-size3 color-d paddingTop"><?=NEWTAG_FONTCOLOR?></div>
 				</div>
@@ -130,10 +89,11 @@ if ($acceso){ ?>
 			<div id="cont2" class="font-size3 bold">
 				<span id="theCounter2"></span>&nbsp;max
 			</div>
-		</div> -->
-		<?php //if($_SESSION['ws-tags']['ws-user']['view_creation_tag'])?>
-		<!-- <div id="inputLongMessage">
+		</div>
+		<?php if($_SESSION['ws-tags']['ws-user']['view_creation_tag'])?>
+		<div id="inputLongMessage">
 			<div>
+				<!--<input name="txtMsg2" id="txtMsg2" type="text" class="tag-text" value="<?=$tag['text2']?>" placeholder="<?=NEWTAG_LBLTEXT?> 2 <?=INVITEUSERS_HELPMSG?> " <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?>/>-->
 				<input name="txtMsg2" id="txtMsg2" type="hidden" value="<?=$tag['text2']?>"/>
 				<textarea id="textlarg" name="textlarg" class="tag-text textareaComment" rows="4" placeholder="<?=NEWTAG_LBLTEXT?> 2 <?=INVITEUSERS_HELPMSG?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?>><?=$tag['text2']?></textarea>
 				<div class="colorpickerDiv">
@@ -145,49 +105,43 @@ if ($acceso){ ?>
 			<div id="cont3" class="font-size3 bold">
 				<span id="theCounter3"></span>&nbsp;max
 			</div>
-		</div> -->
-		
+		</div>
+		<?php
+			$privateTag=($group==''&&$_GET['product']==''&&$status!=9&&$idTag=='');
+			if($privateTag){
+		?><div id="PublicPrivate">
+			<select title="<?=NEWTAG_SHARETAGONLY_TITLE?>" name="showPublicPrivate" id="showPublicPrivate">
+				<option value="1"><?=NEWTAG_SELECTPUBLICTAG?></option>
+				<option value="4"><?=NEWTAG_SELECTPRIVATETAG?></option>
+			</select>
+			<div id="showOrHideCboPeople" style=" display:none">
+				<label class="label_tags_views" style="width:200px" for="cboPeoples" <?php if(NEWTAG_SHARETAGONLY_HELP!=""){?> title="<?=NEWTAG_SHARETAGONLY_HELP?>" <?php } else{}?>><?=NEWTAG_SHARETAGONLY?>:</label>
+				<select name="cboPeoples" id="cboPeoples"></select>
+			</div>
+		</div>
+		<script>
+			$('#showPublicPrivate').change(function(){
+				$('#status').val(this.value);
+				if (this.value==1)
+					$('#showOrHideCboPeople').fadeOut(600);
+				else
+					$('#showOrHideCboPeople').fadeIn(600);
+			});
+		</script><?php } ?>
 		<div id="BackgroundAndVideo">
 			<div id="backgroundsTag">
 				<label><?=NEWTAG_LBLBACKGROUND?>:</label><br>
 				<div id="bgSelect"></div>
 			</div>
-			<?php
-				$privateTag=($group==''&&$_GET['product']==''&&$status!=9&&$idTag=='');
-				if($privateTag){
-			?>
-			<div id="PublicPrivate" style="float: left;margin-top: 10px;margin-right: 10px;">
-				<label style="font-weight: bold">Privacy:</label><br>
-				<select title="<?=NEWTAG_SHARETAGONLY_TITLE?>" name="showPublicPrivate" id="showPublicPrivate">
-					<option value="1"><?=NEWTAG_SELECTPUBLICTAG?></option>
-					<option value="4"><?=NEWTAG_SELECTPRIVATETAG?></option>
-				</select>
-				<script>
-					$('#showPublicPrivate').change(function(){
-						$('#status').val(this.value);
-						if (this.value==1)
-							$('#showOrHideCboPeople').fadeOut(600);
-						else
-							$('#showOrHideCboPeople').fadeIn(600).css({'display':'inline-block','margin-top':'15px'});
-					});
-				</script>
-			</div>
-			<?php } ?>
 			<div id="videosTag">
 				<label><?=NEWTAG_LBLVIDEO?>:</label><br>
-				<input style="text-align: left; width: 370px;height: 16px;" type="text" name="txtVideo" id="txtVideo" class="tag-text" requerido="video" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://" <?php if(NEWTAG_LBLVIDEO_TITLE!=""){?> title="<?=NEWTAG_LBLVIDEO_TITLE?>" <?php } else{}?>/>
+				<input style="text-align: left;" type="text" name="txtVideo" id="txtVideo" class="tag-text" requerido="video" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://" <?php if(NEWTAG_LBLVIDEO_TITLE!=""){?> title="<?=NEWTAG_LBLVIDEO_TITLE?>" <?php } else{}?>/>
 				<div id="vimeo">
 					<div id="running" class="warning-box dnone"><?=VIMEO_PREMIUM_VERIFY?><span class="loader"></span></div>
 					<div id="success" class="warning-box dnone"><?=VIMEO_PREMIUM_SUCCESS?></div>
 					<div id="error" class="error-box dnone"><?=VIMEO_PREMIUM_DAMAGED?></div>
 				</div>
 			</div>
-
-		</div>
-
-		<div id="showOrHideCboPeople" style=" display:none">
-			<label class="label_tags_views" style="width:200px" for="cboPeoples" <?php if(NEWTAG_SHARETAGONLY_HELP!=""){?> title="<?=NEWTAG_SHARETAGONLY_HELP?>" <?php } else{}?>><?=NEWTAG_SHARETAGONLY?>:</label>
-			<select name="cboPeoples" id="cboPeoples"></select>
 		</div>
 		<div class="clearfix"></div>
 		<div id="ButtonPrev_publish">
@@ -212,21 +166,6 @@ if ($acceso){ ?>
 </div>
 <script type="text/javascript">
 $(function(){
-	$("#hiddenColorDiv").hover(function() {
-		var value = $("#hiddenColor").val();
-		 $("#txtMsg").css('color',value);
-	});
-
-	$("#hiddenColorDiv2").hover(function() {
-		var value = $("#hiddenColor2").val();
-		 $("#txtCodeNumber").css('color',value);
-	});
-
-	$("#hiddenColorDiv3").hover(function() {
-		var value = $("#hiddenColor3").val();
-		 $("#textlarg").css('color',value);
-	});
-
 	$('[title]').tipsy({html:true,gravity:'n'});
 	var pub=true;//activa y desactiva las acciones
 	$('.topBanner').remove();
@@ -249,7 +188,7 @@ $(function(){
 //			menuWidth:180,
 //				width:180
 //		});
-		$('#bgSelect select').chosen({disableSearch:true,width:120});
+		$('#bgSelect select').chosen({disableSearch:true,width:200});
 	}
 	setType();//default
 	setBG('<?=$tag['background']?>');
@@ -407,7 +346,7 @@ $(function(){
 		warnAt:10,//optional: integer [defaults 0]
 		stopAtLimit:true //optional: defaults to false
 	});
-	$('#showPublicPrivate').chosen({disableSearch:true,width:120});
+	$('#showPublicPrivate').chosen({disableSearch:true,width:200});
 //	$('#showPublicPrivate').selectmenu({
 //		menuWidth:200,
 //			width:200
