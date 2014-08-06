@@ -40,6 +40,8 @@ return array(
 		'//js/md5.js',
 		'//js/console.js',
 		'//js/chosen.jquery.js',
+		'//js/apivimeo.js',
+		// 'http://www.youtube.com/iframe_api',
 		'//js/base.js'
 	),
 	'css'=>array(

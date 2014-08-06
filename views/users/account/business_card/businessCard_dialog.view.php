@@ -87,9 +87,9 @@
 					<td width="171" style="border-right:1px solid #FFC800; padding-right:3px">
 						<div id="bc_embedded_logo"
 							 style="width:150px; height:50px;
-									background-image:<?=$theUserLogo ? 'url('.FILESERVER.'img/bc_logos/'.($userInfo[code] ? $userInfo[code] : $_SESSION['ws-tags']['ws-user'][code]).'/'.$theUserLogo.')' : 'url(css/smt/logo2.png)'?>;
+									background-image:<?=$theUserLogo ? 'url('.FILESERVER.'img/bc_logos/'.($userInfo[code] ? $userInfo[code] : $_SESSION['ws-tags']['ws-user'][code]).'/'.$theUserLogo.')' : 'url(css/tbum/logo-white-orange.png)'?>;
 									background-repeat:no-repeat;
-									background-position:center">
+									background-position:center;background-size: 145px 45px;">
 						</div>
 					</td>
 
