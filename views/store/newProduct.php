@@ -166,7 +166,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 					<input name="txtMethod" type="text" id="txtMethod" value="0" <?=!isset($_GET['activePayment'])?'disabled':''?>
 							class="invisible" requerido="<?=STORE_METHODPAYMENT?>"/>
 				<div class="div-li">
-					<label ><strong>(*) <?=$_SESSION['ws-tags']['ws-user']['id']==$wid?MNUUSER_LABELPOINTER:PRODUCTS_PRICE?></strong></label><br />
+					<label ><strong>(*) <?=$_SESSION['ws-tags']['ws-user']['id']!=$wid?MNUUSER_LABELPOINTER:PRODUCTS_PRICE?></strong></label><br />
 <!--					<input name="txtPrice" type="text" id="txtPrice" size="3" maxlength="4"
 						class="txt_box" value="<?=($_GET['idProd']?$product['cost']:'')?>" requerido="<?=PRODUCTS_PRICE?>"/><h6 id="value_Input_Price"><?=($_SESSION['ws-tags']['ws-user']['type']!=1)?' '.STORE_TITLEPOINTS:''?></h6>-->
 					<input name="txtPrice" type="text" id="txtPrice" size="6" maxlength="7"
