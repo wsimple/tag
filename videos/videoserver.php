@@ -1,9 +1,23 @@
 <?php
+$numPanels=1;
 global $get;
 $PATH = '$PATH';
 $HOME = isset($get['path'])?$get['path']:'$HOME';
 // $HOME = '/var/www';
-$text = <<<EOD
+ob_start();
+?>
+<style>span{background:#ddd;}span.block{display:inline-block;}</style>
+<p>otros tutoriales:</p>
+http://mysql-apache-php.com/ffmpeg-install.htm
+http://d.stavrovski.net/blog/install-ffmpeg-and-ffmpeg-php-in-centos-6-with-virtualmin
+http://ghamail.com/forum/read.php?6,139,139
+https://trac.ffmpeg.org/wiki/Using%20FFmpeg%20from%20PHP%20scripts
+composer: https://getcomposer.org/doc/00-intro.md
+
+
+test server 1: http://68.109.244.197/videos/videotest.php
+test server 2: http://68.109.244.198/videos/videotest.php
+<hr/><hr/>
 
 <b>Prerequisitos</b>
 yum install autoconf automake gcc gcc-c++ git libtool make pkgconfig zlib-devel
@@ -90,6 +104,9 @@ make install
 make clean
 cd ..
 
+<b>libavcodec55 (??)</b>
+rpm -Uhv ftp://rpmfind.net/linux/atrpms/el6-x86_64/atrpms/stable/libavcodec55-2.2.1-65.el6.x86_64.rpm
+
 
 <b>FFmpeg</b>
 git clone --depth 1 git://source.ffmpeg.org/ffmpeg
@@ -104,18 +121,36 @@ hash -r
 . ~/.bash_profile
 cd ..
 
+<hr/>
+<b>FFmpeg-devel</b>
+rpm -Uhv http://apt.sw.be/redhat/el6/en/x86_64/dag/RPMS/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
+cd /etc/yum.repos.d
+nano dag.repo <span>(repositorio yum de ffmpeg)</span>
+<b>- agregar:</b>
+<span class="block">[dag]
+name=Dag RPM Repository for Red Hat Enterprise Linux
+baseurl=http://apt.sw.be/redhat/el$releasever/en/$basearch/dag
+gpgcheck=1
+enabled=1
+</span>
+<b>- guardar con ctrl+x</b>
+yum install ffmpeg-devel
+
+<hr/>
 <b>FFmpeg-Php</b>
-cd /usr/local/src
-wget http://garr.dl.sourceforge.net/sourceforge/ffmpeg-php/ffmpeg-php-0.6.0.tbz2
-tar jxvf ffmpeg-php-0.6.0.tbz2
-cd ffmpeg-php-0.6.0
+mkdir /srv/build
+cd /srv/build
+wget http://downloads.sourceforge.net/project/ffmpeg-php/ffmpeg-php/0.6.0/ffmpeg-php-0.6.0.tbz2
+tar -xjf ffmpeg-php-0.6.0.tbz2
+cd ffmpeg-php-0.6.0/
 phpize
 ./configure
+sed -i 's#PIX_FMT_RGBA32#PIX_FMT_RGB32#' ./ffmpeg_frame.c
 make
 make install
 
 <hr/>
-<b>Revertir todos los cambios (incluyendo prerequisitos)</b>
+<b>Revertir todos los cambios (incluyendo prerequisitos <span>exceptundo ffmpeg-devel y ffmpeg-php</span>)</b>
 rm -rf ~/ffmpeg_build ~/ffmpeg_sources ~/bin/{ffmpeg,ffprobe,ffserver,lame,vsyasm,x264,yasm,ytasm}
 hash -r
 
@@ -123,9 +158,11 @@ hash -r
 rpm -e yasm
 rpm -e nasm
 
-EOD;
+<?php
+$text=ob_get_contents();
+ob_end_clean();
 
-if($HOME!='$HOME') $text=str_replace('~',$HOME,$text);
+if($HOME!='$HOME') $text=str_replace('$HOME',$HOME,str_replace('~',$HOME,$text));
 $text=preg_replace('/\r?\n/', '<br/>', trim($text));
 
 echo $text;
