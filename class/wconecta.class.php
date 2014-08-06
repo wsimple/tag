@@ -83,40 +83,52 @@ class CON{
 	public static function numRows($query){#cantidad de columnas en la consulta
 		return @mysqli_num_rows($query);
 	}
-	public static function fetchAssoc($query=false){#devuelve la siguiente columna de la consulta
-		if(!$query) $query=self::$lastQuery;
-		return @mysqli_fetch_assoc($query);
+	public static function normalizeString($data){#combierte caracteres especiales utf8 en html
+		return $data;
+		$tmp=json_encode($data);
+		$tmp=preg_replace('/\\\\u([\d\w]{4})/','&#x$1;',$tmp);
+		return json_decode($tmp,is_array($data));
 	}
-	public static function fetchArray($query=false){#devuelve la siguiente columna como un arreglo simple
+	public static function fetchAssoc($query=false,$normalize=true){#devuelve la siguiente columna de la consulta
 		if(!$query) $query=self::$lastQuery;
-		return @mysqli_fetch_array($query);
+		$data=@mysqli_fetch_assoc($query);
+		if($normalize) $data=self::normalizeString($data);
+		return $data;
 	}
-	public static function fetchObject($query=false){#devuelve la siguiente columna como un arreglo simple
+	public static function fetchArray($query=false,$normalize=true){#devuelve la siguiente columna como un arreglo simple
 		if(!$query) $query=self::$lastQuery;
-		return @mysqli_fetch_object($query);
+		$data=@mysqli_fetch_array($query);
+		if($normalize) $data=self::normalizeString($data);
+		return $data;
 	}
-	public static function getArray($sql,$a=false){#devuelve arreglo con todas las columnas de la consulta (arreglo simple)
+	public static function fetchObject($query=false,$normalize=true){#devuelve la siguiente columna como un arreglo simple
+		if(!$query) $query=self::$lastQuery;
+		$data=@mysqli_fetch_object($query);
+		if($normalize) $data=self::normalizeString($data);
+		return $data;
+	}
+	public static function getArray($sql,$a=false,$normalize=true){#devuelve arreglo con todas las columnas (arreglo simple)
 		$array=array();
 		$query=self::query($sql,$a);
 		if(self::numRows($query)>0)
-			while($row=@mysqli_fetch_array($query)) $array[]=$row;
+			while($row=self::fetchArray($query,$normalize)) $array[]=$row;
 		return $array;
 	}
-	public static function getAssoc($sql,$a=false){#devuelve arreglo con todas las columnas de la consulta (arreglo asociativo)
+	public static function getAssoc($sql,$a=false,$normalize=true){#devuelve arreglo con todas las columnas (arreglo asociativo)
 		$array=array();
 		$query=self::query($sql,$a);
 		if(self::numRows($query)>0)
-			while($row=@mysqli_fetch_assoc($query)) $array[]=$row;
+			while($row=self::fetchAssoc($query,$normalize)) $array[]=$row;
 		return $array;
 	}
-	public static function getObject($sql,$a=false){#devuelve arreglo con todas las columnas de la consulta (objetos)
+	public static function getObject($sql,$a=false,$normalize=true){#devuelve arreglo con todas las columnas (objetos)
 		$array=array();
 		$query=self::query($sql,$a);
 		if(self::numRows($query)>0)
-			while($row=@mysqli_fetch_object($query)) $array[]=$row;
+			while($row=self::fetchObject($query,$normalize)) $array[]=$row;
 		return $array;
 	}
-	public static function getRow($sql,$a=false){#devuelve la primera columna de una consulta
+	public static function getRow($sql,$a=false,$normalize=true){#devuelve la primera columna de una consulta
 		$row=array();
 		if(!preg_match('/\blimit\s+\d+\s*;?\s*$/i',$sql)){
 			$echo=self::$echo;
@@ -125,10 +137,10 @@ class CON{
 			self::$echo=$echo;
 		}
 		if(!$query) $query=self::query($sql,$a);
-		if(self::numRows($query)>0) $row=@mysqli_fetch_assoc($query);
+		if(self::numRows($query)>0) $row=self::fetchAssoc($query,$normalize);
 		return $row;
 	}
-	public static function getRowObject($sql,$a=false){#devuelve la primera columna de una consulta
+	public static function getRowObject($sql,$a=false,$normalize=true){#devuelve la primera columna de una consulta
 		$row=array();
 		if(!preg_match('/\blimit\s+\d+\s*;?\s*$/i',$sql)){
 			$echo=self::$echo;
@@ -137,13 +149,13 @@ class CON{
 			self::$echo=$echo;
 		}
 		if(!$query) $query=self::query($sql,$a);
-		if(self::numRows($query)>0) $row=@mysqli_fetch_object($query);
+		if(self::numRows($query)>0) $row=self::fetchObject($query,$normalize);
 		return $row;
 	}
-	public static function getVal($sql,$a=false){#devuelve el valor del primer elemento de una consulta
+	public static function getVal($sql,$a=false,$normalize=true){#devuelve el valor del primer elemento de una consulta
 		$el=NULL;
 		$query=self::query($sql,$a);
-		if(self::numRows($query)>0) $el=array_shift(@mysqli_fetch_array($query));
+		if(self::numRows($query)>0) $el=array_shift(self::fetchArray($query,$normalize));
 		return $el;
 	}
 	public static function count($tabla,$where='1',$a=false){#cuenta elementos de una consulta
