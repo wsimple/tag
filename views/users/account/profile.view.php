@@ -14,7 +14,7 @@
 	}
 	$all='frmProfile_btnSend';
 	//to fill language list
-	$languages = $GLOBALS['cn']->query("SELECT cod,id, name FROM languages");
+	$languages = CON::query("SELECT cod,id, name FROM languages");
 	//to fill countries list
 	$froms = $GLOBALS['cn']->query('SELECT id, name FROM countries');
 ?>
@@ -138,10 +138,8 @@
 			<div class="left"><?php //language ?>
 				<label><strong><?=USERPROFILE_LBLLANGUAGE?>:</strong></label>
 				<select name="frmProfile_cboLanguageUsr" id="frmProfile_cboLanguageUsr" w="150">
-					<?php while($language=mysql_fetch_assoc($languages)){ ?>
-						<option value="<?=$language[cod]?>" <?=($_SESSION['ws-tags']['ws-user'][language]==$language[cod] ? "selected" : '')?>>
-							<?=$language['name']?>
-						</option>
+					<?php while($language=CON::fetchObject($languages)){ ?>
+						<option value="<?=$language->cod?>" <?=($_SESSION['ws-tags']['ws-user'][language]!=$language->cod?'':'selected')?>><?=$language->name?></option>
 					<?php } ?>
 				</select>
 			</div>
