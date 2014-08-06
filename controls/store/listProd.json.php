@@ -1,5 +1,5 @@
 <?php 
-include '../header.json.php';
+	include '../header.json.php';
 
 	//variables necesarias para armar el select
 	$where='';$from='';$limit='LIMIT '.$_GET['limit'].',9';$select='';$order='';$array['tipo']='prod';
@@ -14,9 +14,8 @@ include '../header.json.php';
 	}else{//de lo contrario es el store
 		$where="p.id_status=1 AND p.stock>0 AND p.id_user!=".$_SESSION['ws-tags']['ws-user']['id']." ";
 	}
-	// if (PAYPAL_PAYMENTS) $_GET['source']='mobile';
-	// if($_GET['source']=='mobile'){ $where.=' AND p.formPayment=0';}
-	$where.=' AND p.formPayment=0';
+	if($_GET['source']=='mobile'){ $where.=' AND p.formPayment=0 ';}
+	
 
 	//module store para la lista del store
 	if($_GET['module']=='store'){
@@ -117,7 +116,9 @@ include '../header.json.php';
 	}
 	//consulta de categorias
 	if(isset($_GET['categoryJSON'])){
+		if (!PAYPAL_PAYMENTS){ $importantWhere.=' AND p.formPayment=0 ';}else $importantWhere='';
 		$where="";$JOIN='';
+
 		if(isset($_GET['scc'])){ // si viene este get es porque son mis productos 
 			$where=" AND p.id_status=1 AND p.stock>0 AND p.id_user=".$_SESSION['ws-tags']['ws-user']['id'];
 			if(isset($_GET['my'])){ $JOIN='INNER JOIN store_raffle r ON r.id_product = p.id '; }
@@ -142,6 +143,7 @@ include '../header.json.php';
 				case 'moreEd'   : $where.=' AND p.formPayment=1';	   break;
 			}
 		}
+		$array=array();
 		$array['select']="
 			md5(s.id) as mId,
 			s.id as id,
@@ -156,7 +158,7 @@ include '../header.json.php';
 							AND s.id_status=1 
 							AND (   SELECT SUM(p.id) 
 									FROM store_products AS p ".$JOIN."
-									WHERE p.id_sub_category=s.id ".$where.") > 0";
+									WHERE p.id_sub_category=s.id ".$where.$importantWhere.") > 0";
 		$array['order']=' ORDER BY s.id ASC';
 		$array['limit']=" ";$array['tipo']='category';
 		$res=consulListProd($array);
@@ -180,7 +182,6 @@ include '../header.json.php';
 			$result=$GLOBALS['cn']->query($sql);
 			if(mysql_num_rows($result)>0){
 				$data='';$array['noId']='';
-				$array['culo'][]=$array['noId'];
 				while($row=  mysql_fetch_assoc($result)){
 					$aux=  split(' ', $row['name']);
 					foreach($aux as $aux_){
@@ -208,6 +209,7 @@ include '../header.json.php';
 		}
 		if(isset($_SESSION['store']['srh'])){
 			$array['limit']=' LIMIT 0,4';$array['noId']='';
+			$array['tipo']='asoSrh';
 			if(isset($_SESSION['car']) && $data!=''){
 				foreach($_SESSION['car'] as $productC){
 					if(!$productC['order']){ $array['noId'].=($array['noId']==''?'':',').$productC['id']; }
@@ -215,9 +217,9 @@ include '../header.json.php';
 			}
 			$array['where']=$where.' (p.name REGEXP "'.$_SESSION['store']['srh'].'")';
 			if($array['noId']!=''){ $array['where'].=' AND p.id NOT IN ('.$array['noId'].')'; }
-			$array['tipo']='asoSrh';
 			$temp=consulListProd($array);
 			if($temp!='no-result'){
+				if (gettype($res)=='string') $res=array();
 				$res[$array['tipo']]=$temp[$array['tipo']];
 			}
 		}
@@ -245,6 +247,9 @@ include '../header.json.php';
 	if ($_SESSION['ws-tags']['ws-user']['id']==$wid)	$res['adtb']=1;
 	die(jsonp($res));
 	function consulListProd($array){
+		if (!PAYPAL_PAYMENTS && !isset($_GET['categoryJSON'])){ 
+			$importantWhere.=' AND p.formPayment=0 ';
+		}else $importantWhere='';
 		$select="
 			p.id,
 			p.id_user,
@@ -278,7 +283,7 @@ include '../header.json.php';
 
 		$sql='  SELECT '.$select.'
 				FROM '.$from.'
-				WHERE '.$where.' '.$order.' '.$limit;
+				WHERE '.$where.$importantWhere.' '.$order.' '.$limit;
 		if(isset($_GET['debug'])) echo '<br><br><div><pre>'.$sql.'</pre></div><br><br>'._imprimir($array).'<br><br>';
 		$result=$GLOBALS['cn']->query($sql);
 		$num=mysql_num_rows($result);
