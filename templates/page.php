@@ -1,8 +1,8 @@
+<?php global $section; ?>
 <page id="smt" class="<?=$logged?'':'un'?>logged" data-logged="<?=$logged?1:0?>">
 	<?php include('templates/header.php'); ?>
 	<wrapper data-section="<?=$section?>">
 		<?php
-			global $section;
 			if($section){
 				$idPage=$section;
 			}
@@ -25,12 +25,11 @@
 			if(isLogged()||(h!='#home'&&h!='#main')) $(window).hashchange();
 		}
 		<?=isset($_SESSION['ws-tags']['wpAddTag'])?'redir("creation")':''?>
-		
+
 		if(document.location.hash=='#signup'){
 			$('page').css('padding-bottom','0');
 		}else{
 			$('page').css('padding-bottom','30px');
 		}
-		
 	});
 </script>
