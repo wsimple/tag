@@ -22,6 +22,9 @@
 					showCarousel(data['tags'],$('.tag-container'));
 					$('.tag-container [title]').tipsy({html: true,gravity: 'n'});
 				}
+			},
+			complete:function(){
+				iniallYoutube();
 			}
 		});
 		//tour Tagbum
