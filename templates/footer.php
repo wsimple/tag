@@ -18,7 +18,7 @@
 	?>
 		<div>
 			<a href="<?php echo base_url('about'); ?>">About</a>&nbsp;-&nbsp; 
-			<a href="<?=HREF_DEFAULT?>" action="tourActive"><?=HELP?></a>&nbsp;-&nbsp;
+			<a id="tHf" href="<?=HREF_DEFAULT?>" action="tourActive"><?=HELP?></a><span id="tHfs">&nbsp;-&nbsp;</span>
 			<!-- <a href="<?=base_url('blog')?>">Blog</a>&nbsp;-&nbsp; -->
 			<a href="<?php echo base_url('terms'); ?>"><?=TERMSOFUSE?></a>&nbsp;-&nbsp;
 			<a href="<?php echo base_url('privacity') ?>"><?=PRIVACY?></a>&nbsp;-&nbsp;
@@ -48,5 +48,19 @@ $(function(){
 			break;
 		}
 	});
+
+	$$.ajax({
+			type	: 'GET',
+			url		: 'controls/tour/tourHelp.json.php?section='+SECTION,
+			dataType: 'json',
+			success	: function (data){
+			    // console.log(data);
+				if (data=='no') {
+					$('#tHf,#tHfs').hide();	
+				};
+			}
+		});
+
+
 });
 </script>
