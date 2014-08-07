@@ -13,8 +13,8 @@
 				</ul>
 			</li>
 		</ul>
-		<a id="btnNewGroup" class="float-right"><?=GROUPS_TITLEWINDOWSNEW?></a>
-		<a id="btncreateTags" class="float-right" ><?=MAINMNU_CREATETAG?></a>
+		<a id="btnNewGroup" class="float-right" style="margin-left:90px"><?=GROUPS_TITLEWINDOWSNEW?></a>
+		<!-- <a id="btncreateTags" class="float-right" ><?=MAINMNU_CREATETAG?></a> -->
 		<form>
 			<div class="tags-size">
 				<?=RADIOBTN_VIEW?>:
@@ -25,6 +25,7 @@
 	</div>
 	<br/>
     <div id="info-top-groups"></div>
+    <div class="float-right"style="margin: 10px 10px 20px 0;"><a id="btncreateTagsG" ><?=GROUPS_CONTRIBUTEGROUP?></a></div>
     <div class="clearfix"></div>
 	<div class="tags-list">
 		<div class="tag-container" style="margin: 0 auto;"></div>
@@ -50,7 +51,7 @@
 						if (data['list'][0]['isAdmin']){
 						  console.log(data['list'][0]['sqlw'])
 							$('.group-details .ui-single-box-title').css('display','block');
-							$('.group-details .ui-single-box-title a#btncreateTags').attr('href',BASEURL+'creation?group=<?=$_GET['grp']?>');
+							$('.group-details a#btncreateTags').attr('href',BASEURL+'creation?group=<?=$_GET['grp']?>');
 							if (data['list'][0]['isAdmin']=='1'){
 								$('li#btneditprofilegroup').html('<a class="linkOptionGrouop"><?=GROUPS_PROFILETITLE?></a>');
 								$('#btneditprofilegroup a').click(function(){
@@ -108,6 +109,7 @@
 					layer=$box.find('.tag-container')[0],
 					opc={
 						current:'group',
+						btncretagG:'#btncreateTagsG',
 						layer:layer,
 						grupo:'<?=$_GET['grp']?>',
 						get:'&grupo=<?=$_GET['grp']?>'
