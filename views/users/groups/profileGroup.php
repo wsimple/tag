@@ -25,7 +25,9 @@
 	</div>
 	<br/>
     <div id="info-top-groups"></div>
-    <div class="float-right"style="margin: 10px 10px 20px 0;"><a id="btncreateTagsG" ><?=GROUPS_CONTRIBUTEGROUP?></a></div>
+    <div id="divctg">
+    	<a class="ctgruop" id="btncreateTagsG" ><?=GROUPS_CONTRIBUTEGROUP?></a>
+    </div>
     <div class="clearfix"></div>
 	<div class="tags-list">
 		<div class="tag-container" style="margin: 0 auto;"></div>
@@ -36,6 +38,7 @@
 <script type="text/javascript">
 	//ScrollPane Favoroites
 	$(document).ready(function() {
+		//$('#btncreateTagsG').hide();
 		var $box=$('#taglist-box').last(),
 			idg='<?=$_GET['grp']?$_GET['grp']:''?>';
 		$('#subMenuAdminGroups').jMenu();
@@ -45,7 +48,7 @@
 				url		:	"controls/groups/listGroups.json.php?gid="+idg+"&profile=1",
 				dataType:	"json",
 				success	:	function (data) {
-					if (data['list']){
+					if (data['list']){ $('#divctg').addClass('ctg');
 						$('div#groupTitleStyle').attr('title',data['list'][0]['name']);
 						$('div#groupTitleStyle').html(data['list'][0]['name']);
 						if (data['list'][0]['isAdmin']){
