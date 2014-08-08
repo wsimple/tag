@@ -2,12 +2,8 @@
 	Options +FollowSymLinks -indexes
 	RewriteEngine On
 
-	#redireccion de errores
-	#ErrorDocument 403 errors/403.php
-	#ErrorDocument 404 errors/404.php
-
-	#redireccion en raiz
+	#si la imagen no existe local se busca en el servidor de imagenes
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^(.*)$ index.php [L]
+	RewriteRule ^(.*)$ http://68.109.244.201/img/$1 [L]
 </IfModule>
