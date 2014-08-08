@@ -2413,6 +2413,27 @@ a.plus{
 a.plus:hover{
 	text-decoration:none;
 }
+.ctg{
+	margin: 10px 10px 20px 0;
+	background-color: #77C574;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	padding-bottom: 3px;
+	padding-right: 14px;
+	float: right;
+}
+
+#btncreateTagsG{
+	display:none;
+	text-decoration: none;
+	color: #fff;
+	font-weight: bold;
+	background:none;
+}
+#btncreateTagsG:hover{
+	color: #000;
+}
 
 .ui-single-box-title>span>a{
 	font-weight:bold;
