@@ -333,7 +333,7 @@
 							}//if per
 						}//foreach
 					}//if (count($mails)>0)
-					echo (($correos!="")?'<div class="div_exito"><strong>'.MENUTAG_CTRSHAREMAILEXITO.":</strong></div><br><br> ".$correos : '<div class="div_error">'.DOMINIO.$device.MENUTAG_CTRSHAREMAILERROR.'</div>');
+					echo (($correos!="")?'<div class="div_exito"><strong>'.MENUTAG_CTRSHAREMAILEXITO.":</strong></div><br><br> ".$correos : $device? '<div class="div_error">'.$device.'<br>'.MENUTAG_CTRSHAREMAILERROR.'</div>':'<div class="div_error">'.MENUTAG_CTRSHAREMAILERROR.'</div>');
 				break; //share
 				//delete
 				case 6:
