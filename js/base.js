@@ -40,19 +40,20 @@
 		};
 	}
 })();
-//-- deshabilitar botones mientras se realiza un llamado ajax --//
+//-- opciones en llamados ajax --//
 (function($){
 	$(document).ajaxSend(function(event,xhr,data){
-		if(data.disablebuttons){
-			$.c('ajax-disable').log('disabled ajax buttons. data:',data);
+		if(data.disablebuttons){//deshabilitar botones
+			$.debug('disablebuttons').log('disabled ajax buttons. data:',data);
 			data.disabled=$('[ajax]:not([disabled])');
 			data.disabled.prop('disabled',true);
 		}
 	}).ajaxComplete(function(event,xhr,data){
-		if(data.disabled){
-			$.c('ajax-disable').log('enabled ajax buttons');
+		if(data.disabled){//habilitar botones
+			$.debug('disablebuttons').log('enabled ajax buttons');
 			data.disabled.prop('disabled',false);
 		}
+		$.debug('ajax').log('ajax sent:',data);
 	});
 })(jQuery);
 
@@ -253,7 +254,7 @@ function setAllLocals(opc){
 			b.url=a;
 			a=b;
 		}
-		if(console&&$.local('enableLogs')){
+		if(a.debug!==undefined&&$.local('enableLogs')){
 			var log={};
 			if(a.url) log.url=a.url;
 			b={s:a.success,e:a.error,c:a.complete};
@@ -267,7 +268,7 @@ function setAllLocals(opc){
 				if(typeof b.e=='function') b.e(jqXHR,textStatus,errorThrown);
 			};
 			a.complete=function(jqXHR, textStatus){
-				console.log(log);
+				$.debug(a.debug).log(log);
 				if(typeof b.c=='function') b.c(jqXHR,textStatus);
 			};
 		}
@@ -275,11 +276,11 @@ function setAllLocals(opc){
 	};
 	//-- load con registros de Log --//
 	$.fn.loadLog=function(a,b,c){
-		if(console&&$.local('enableLogs')){
+		if(a.debug!==undefined&&$.local('enableLogs')){
 			var log={url:a},complete=function(f){
 				return function(responseText,textStatus,XMLHttpRequest){
 					log.loaded=$(this).html();
-					console.log(log);
+					$.debug(a.debug).log(log);
 					if(typeof f=='function') f(responseText,textStatus,XMLHttpRequest);
 				};
 			};
