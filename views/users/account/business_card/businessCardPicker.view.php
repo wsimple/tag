@@ -69,6 +69,9 @@ $businessCards = $GLOBALS['cn']->query("SELECT	id,
 	//NEW BUSINESS CARD ?>
 <div class="ui-single-box">
 	<h3 class="ui-single-box-title"><?=USERPROFILE_BUSINESSCARD?></h3>
+		<div class="menuProfileBack" style="top: -5px">
+			<a href="<?=base_url('profile')?>"><?=USER_PROFILE?></a> > <?=USERPROFILE_BUSINESSCARD?>
+		</div>
 			<div style="margin-bottom: 10px;width: 100%;">
 					<?php if( $_SESSION['ws-tags']['ws-user'][super_user]=='0' && $_SESSION['ws-tags']['ws-user'][type]=='1' ) { ?>
 						<?php if (PAYPAL_PAYMENTS): ?>
