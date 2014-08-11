@@ -1,5 +1,7 @@
 <?php
 	if(!is_file('includes/security/security.php')){ include 'new.php'; }
+	include('includes/config.php');
+	if($section=='image'){ include 'includes/imagen.php'; }
 	// die($_SERVER['SERVER_NAME'].array_shift(split(basename(__DIR__),$_SERVER['REQUEST_URI'])).basename(__DIR__));
 	if (isset($_GET['resizeimg'])) {
 		include('includes/imagen.php');
@@ -13,7 +15,6 @@
 	setcookie('__logged__',NULL,time()-3600,'/',$_SERVER['SERVER_NAME']);
 	setcookie('__logged__',NULL,time()-3600,'/','.tagbum.com');
 	include('includes/session.php');
-	include('includes/config.php');
 	include('class/Mobile_Detect.php');
 	include('includes/functions.php');
 	include('class/wconecta.class.php');
