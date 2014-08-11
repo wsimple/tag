@@ -1458,6 +1458,14 @@ footer a:hover{ text-decoration:none; }
 .color_orange{ color:orange !important; }
 .color_red{ color:red !important; }
 .color_red_dark{ color:#900 !important; }
+.color-pro{
+	color: #71cbe9;
+	text-decoration: none;
+	font-size: 13px;
+}
+.color-pro:hover{
+	color: #000;
+}
 #carousel-box{
 	width:650px;
 	margin:auto;
@@ -2327,7 +2335,7 @@ container#toptag .tag-container{
 
 #frmProfileFormContainer{
 	float:right;
-	width:715px;
+	width:680px;
 	/*border:1px solid #999;*/
 }
 
