@@ -1,97 +1,70 @@
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#frmConfigmail_btnChange").click(function() {
-				$('#frmConfigmail').submit();
-		});
-		$("#frmConfigmail_btnHome").click(function() {
-			redir('');
-		});
-		
-		$('[title]').tipsy({html: true,gravity: 'n'});
-
-	});
-
-	function mail(id){
-		$('.tipsy').remove();
-		$('#box'+id).html('<img src="img/loader.gif" width="17" height="17" />');
-		$.ajax({
-			url: 'controls/users/settings/mail.php?id_noti='+id,
-			success	: function(responseText) {
-				//alert(responseText);
-				datos = responseText.split('|');
-				switch(datos[0]){
-					case '0':
-					case '1':
-						$('#box'+id).html(datos[1]);
-						$('[title]').tipsy({html: true,gravity: 'n'});
-					break;
-				}
-			}
-		});
-	}
-
-</script>
-
-<div class="ui-single-box mailSettings font_size1">
-	<h3 class="ui-single-box-title">
-		&nbsp;<?=USERPROFILE_TITLEMAILSETTINGS?>
-	</h3>
+<div id="mailSettings" class="ui-single-box font_size1">
+	<h3 class="ui-single-box-title"><?=$lang['USERPROFILE_TITLEMAILSETTINGS']?></h3>
 	<div class="legend">
-		<div class="text"><?=PRIVACY_DESCRIPTIONSECTION?></div>
+		<div class="text"><?=$lang['PRIVACY_DESCRIPTIONSECTION']?></div>
 		<div class="icons">
 			<div>
-				<span><?=PRIVACY_ACTIVESECTION?></span>
+				<span><?=$lang['PRIVACY_ACTIVESECTION']?></span>
 				<img src="imgs/config_noti_email.png" width="16" height="16"/>
 			</div>
 			<div>
-				<span><?=PRIVACY_INACTIVESECTION?></span>
+				<span><?=$lang['PRIVACY_INACTIVESECTION']?></span>
 				<img src="imgs/config_noti_unselect.png" width="16" height="16"/>
 			</div>
 		</div>
 	</div>
 	<div class="list">
 			<?php
-				$notifiTypes = $GLOBALS['cn']->query("
-					SELECT 
-						id,
-						name,
-						icon,
-						message_description 
-					FROM type_notifications 
-					WHERE status = 1 
-					ORDER BY id ASC
-				");
-				
-				while ($notifiType = mysql_fetch_assoc($notifiTypes)){
-					$notifiUsers = $GLOBALS['cn']->query('
-						SELECT * 
-						FROM users_config_notifications 
-						WHERE id_user = "'.$_SESSION['ws-tags']['ws-user']['id'].'" AND 
-							  id_notification="'.$notifiType['id'].'"
-					');
-					$notifiUser = mysql_fetch_assoc($notifiUsers);
-					//icon
-					if ($notifiUser['id_notification']==$notifiType['id']){
-						$icons['icon']['photo'] = 'imgs/config_noti_unselect.png';
-						$icons['icon']['title'] = PRIVACY_ACTIVESECTION;
-						$icons['icon']['id'] = 'btn_unmail';
-					}else{
-						$icons['icon']['photo'] = 'imgs/config_noti_email.png';
-						$icons['icon']['title'] = PRIVACY_INACTIVESECTION;
-						$icons['icon']['id'] = 'btn_mail';
-					}
+				$SQLIN='3';
+				if ($_SESSION['ws-tags']['ws-user']['type']==1){
+
+				}else{
+					$SQLIN.=',15,29';
+				}
+				$notifiTypes = CON::query("	SELECT t.id,t.label_name,t.label_desc,
+											(SELECT u.id FROM users_config_notifications u WHERE u.id_user=? AND u.id_notification=t.id) AS active 
+											FROM type_actions t
+											WHERE t.status = 1 AND t.id NOT IN ($SQLIN)
+											ORDER BY t.id ASC",array($_SESSION['ws-tags']['ws-user']['id']));
+				while ($row=CON::fetchAssoc($notifiTypes)){
 			?>	
 					<div class="row">
-						<img id="btn_mail_unmail" src="<?=$notifiType['icon']?>" class="type" />
-						<div class="name"><?=constant($notifiType[name])?></div>
-						<div class="desc"><?=constant($notifiType['message_description'])?></div>
-						<div class="acti" id="box<?=$notifiType['id']?>">
-							<img id="<?=$icons['icon']['id']?>" src="<?=$icons['icon']['photo']?>" onclick="mail('<?=$notifiType['id']?>');" title="<?=$icons['icon']['title']?>" />
-						</div>
+						<div tipo="<?=$row['id']?>"></div>
+						<div class="name"><?=$lang[$row['label_name']]?></div>
+						<div class="desc"><?=$lang[$row['label_desc']]?></div>
+						<div class="acti <?=$row['active']?'inactive':'active'?>" title="<?=$row['active']?$lang['PRIVACY_INACTIVESECTION']:$lang['PRIVACY_ACTIVESECTION']?>"></div>
 					</div>
-			<?php 
-				}//while 
-			?>
+			<?php } ?>
 	</div>
 	<div class="clearfix"></div>
 </div>
+<script >
+	$(document).ready(function() {
+		$('[title]').tipsy({html: true,gravity: 'n'});
+		$('#mailSettings div.list div.acti').click(function(){
+			if ($(this).hasClass('loader')) return;
+			var obje=this;
+			var action=$(obje).hasClass('active')?1:0,type=$(obje).parents('.row').find('div[tipo]').attr('tipo');
+			$(obje).addClass('loader').removeAttr('original-title');
+			$.ajax({
+				type:'POST',
+				data:{action:action,type:type},
+				url: 'controls/settings/mail.json.php',
+				dataType:'json',
+				success	: function(data) {
+					if (data['suc']){
+						switch(data['action']){
+							case '0': $(obje).removeClass('loader').removeClass('inactive')
+									.addClass('active').attr('title',"<?=$lang['PRIVACY_ACTIVESECTION']?>");
+							break;
+							case '1': $(obje).removeClass('loader').removeClass('active')
+									.addClass('inactive').attr('title',"<?=$lang['PRIVACY_ACTIVESECTION']?>");
+							break;
+						}
+					}else{ $(obje).removeClass('loader'); }
+					$('[title]').tipsy({html: true,gravity: 'n'});
+				}
+			});
+		});
+	});
+</script>

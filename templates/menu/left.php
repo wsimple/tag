@@ -6,15 +6,16 @@
 	<header><span></span></header>
 	<ul id="menuLeft">
 		<li id="cretationTag"><a href="<?=base_url('creation')?>"><?=MAINMNU_CREATETAG?></a></li>
-		<li id="profile">
+		<!-- <li id="profile">
 			<span><?=MAINMNU_ACCOUNT?></span>
 			<ul>
 				<li><a href="<?=base_url('user')?>"><?=USERPROFILE_PERSONALINFO?></a></li>
 				<li><a href="<?=base_url('user/preferences')?>"><?=USERPROFILE_PREFERENCES?></a></li>
 				<li><a href="<?=base_url('user/password')?>"><?=MAINSMNU_PASSWORD?></a></li>
 				<li><a href="<?=base_url('user/cards')?>"><?=USERPROFILE_BUSINESSCARD?></a></li>
+				<li><a href="<?=base_url('setting?sc=1')?>"><?=NOTIFICATIONS_CONFIGURATIONSECTION?></a></li>
 			</ul>
-		</li>
+		</li> -->
 		<li id="friends">
 			<span><?=USER_FINDFRIENDSTITLELINKS?></span>
 			<ul>
@@ -28,13 +29,6 @@
 			<ul>
 				<li><a href="<?=base_url('groups?sc=1')?>"><?=GROUPS_LABELTABLSTMYGROUPS?></a></li>
 				<li><a href="<?=base_url('groups')?>"><?=GROUPS_LABELTABLSTALL?></a></li>
-			</ul>
-		</li>
-		<li id="setting">
-			<span><?=MAINMNU_SETTINGLEFT?></span>
-			<ul>
-				<li><a href="<?=base_url('setting?sc=1')?>"><?=NOTIFICATIONS_CONFIGURATIONSECTION?></a></li>
-				<!-- <li><a href="<?=base_url()?>"><?=MAINMNU_SETTINGLEFT?></a></li> -->
 			</ul>
 		</li>
 		<li id="store">
