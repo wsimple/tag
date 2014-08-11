@@ -6,7 +6,7 @@
 	<header><span></span></header>
 	<ul id="menuLeft">
 		<li id="cretationTag"><a href="<?=base_url('creation')?>"><?=MAINMNU_CREATETAG?></a></li>
-		<li id="profile">
+		<!-- <li id="profile">
 			<span><?=MAINMNU_ACCOUNT?></span>
 			<ul>
 				<li><a href="<?=base_url('user')?>"><?=USERPROFILE_PERSONALINFO?></a></li>
@@ -14,7 +14,7 @@
 				<li><a href="<?=base_url('user/password')?>"><?=MAINSMNU_PASSWORD?></a></li>
 				<li><a href="<?=base_url('user/cards')?>"><?=USERPROFILE_BUSINESSCARD?></a></li>
 			</ul>
-		</li>
+		</li> -->
 		<li id="friends">
 			<span><?=USER_FINDFRIENDSTITLELINKS?></span>
 			<ul>

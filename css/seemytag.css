@@ -5797,3 +5797,15 @@ container .left-panel .menus ul span{
 .fotoCrop>form>div{
 	padding-bottom: 20px; color: #787878
 }
+.menuProfileBack{
+	color: #ff8a28 !important;
+	font-weight: bold;
+	font-size: 12px; 
+	margin-bottom: 10px;
+	margin-left: 20px;
+	position: relative;
+	top: -10px;
+}
+.menuProfileBack a{
+	color: #ff8a28 !important;
+}
