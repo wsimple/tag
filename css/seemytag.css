@@ -3522,25 +3522,17 @@ a.plus:hover{
 	border:0px;
 }
 
-.ui-single-box.mailSettings{
-	color:#999;
-}
-
-.ui-single-box.mailSettings .legend{
+#mailSettings{ color:#999; }
+#mailSettings .legend{
 	width:90%;
 	margin:auto 50px;
 }
-
-.ui-single-box.mailSettings .legend .text{
-	font-size:12px;
-}
-
-.ui-single-box.mailSettings .legend .icons{
+#mailSettings .legend .text{ font-size:12px; }
+#mailSettings .legend .icons{
 	height:30px;
 	margin:5px 0 20px 0;
 }
-
-.ui-single-box.mailSettings .legend .icons>div{
+#mailSettings .legend .icons>div{
 	display:inline-block;
 	float:right;
 	margin:0 0 0 15px;
@@ -3549,56 +3541,49 @@ a.plus:hover{
 	font-weight:bold;
 	font-size:12px;
 }
-
-.ui-single-box.mailSettings .legend .icons>div img{
-	display:block;
-	margin:0 0 0 15px;
+#mailSettings .legend .icons>div img{
+	display: block;
+	margin: 0 0 0 15px;
 }
-
-.mailSettings .list{
-	margin:auto 15px 60px;
-}
-
-.mailSettings .list .row{
+#mailSettings .list{ margin:auto 15px 60px; }
+#mailSettings .list .row{
 	display:block;
 	border-bottom:1px #F4F4F4 solid;
 	padding:10px 0 10px 0;
 }
-
-.mailSettings .list .row>div{
-	display:inline-block;
+#mailSettings .list .row>div{ display:inline-block; }
+#mailSettings div.list div.row div[tipo]{
+	background-size:100%;
+	background-position: 50% 50% !important;
+	width: 20px;
+	height: 20px;
+	margin-right: 20px;
 }
-
-.mailSettings .list .row .type{
+#mailSettings div.list div.type{
 	width:20px;
 	height:20px;
 	display:inline-block;
 	margin:0 5px 0;
 }
-
-.mailSettings .list .row .name{
-	display:inline-block;
+#mailSettings div.list div.name{
 	width:120px;
 	font-weight:bold;
 }
-
-.mailSettings .list .row .desc{
-	display:inline-block;
+#mailSettings div.list div.desc{
 	margin:0 0 0 5px;
 	width:560px;
 }
-
-.mailSettings .list .row .acti{
-	display:inline-block;
+#mailSettings div.list div.acti{
 	margin:0 0 0 15px;
 	width:20px;
-}
-
-.mailSettings .list .row .acti img{
-	width:20px;
-	height:20px;
+	height: 20px;
 	cursor:pointer;
+	background-size: 100%;
+	background-repeat: no-repeat;
 }
+#mailSettings div.list div.acti.active{ background-image: url('../imgs/config_noti_email.png'); }
+#mailSettings div.list div.acti.inactive{ background-image: url('../imgs/config_noti_unselect.png'); }
+#mailSettings div.list div.acti.loader{ background-image: url('../img/loader.gif'); }
 
 /*change password*/
 #imagenBackgroundPassword:hover div.this{
@@ -4774,11 +4759,22 @@ container.wrapper .right-panel #adsListPubli .outSideDivNoti{
 	background:#fff;
 	margin-top:-20px
 }
+container #mailSettings div.list div.row div[tipo],
 container.wrapper .left-panel #adsListPubli td[tipo],
 container #pageNews .news-wrapper #news-here div[tipo]{
     background-repeat:no-repeat;
     background-position:10px 10px;
 }
+container #mailSettings div.list div.row div[tipo="1"],
+container #mailSettings div.list div.row div[tipo="20"],
+container #mailSettings div.list div.row div[tipo="21"],
+container #mailSettings div.list div.row div[tipo="22"],
+container #mailSettings div.list div.row div[tipo="23"],
+container #mailSettings div.list div.row div[tipo="24"],
+container #mailSettings div.list div.row div[tipo="25"],
+container #mailSettings div.list div.row div[tipo="26"],
+container #mailSettings div.list div.row div[tipo="27"],
+container #mailSettings div.list div.row div[tipo="28"],
 container.wrapper .left-panel #adsListPubli td[tipo="1"],
 container.wrapper .left-panel #adsListPubli td[tipo="22"],
 container.wrapper .left-panel #adsListPubli td[tipo="25"],
@@ -4791,20 +4787,27 @@ container #pageNews .news-wrapper #news-here div[tipo="26"],
 container #pageNews .news-wrapper #news-here div[tipo="27"]{
     background-image:url(tbum/news/tags.png);
 }
+container #mailSettings div.list div.row div[tipo="2"],
 container.wrapper .left-panel #adsListPubli td[tipo="2"],
 container #pageNews .news-wrapper #news-here div[tipo="2"]{
     background-image:url(tbum/news/like.png);
 }
+container #mailSettings div.list div.row div[tipo="3"],
 container #pageNews .news-wrapper #news-here div[tipo="3"],
 container.wrapper .left-panel #adsListPubli td[tipo="3"]{
     background-image:url(tbum/news/imbox.png);
 }
+container #mailSettings div.list div.row div[tipo="4"],
+container #mailSettings div.list div.row div[tipo="15"],
 container.wrapper .left-panel #adsListPubli td[tipo="4"],
 container.wrapper .left-panel #adsListPubli td[tipo="15"],
 container #pageNews .news-wrapper #news-here div[tipo="4"],
 container #pageNews .news-wrapper #news-here div[tipo="15"]{
     background-image:url(tbum/news/comment.png);
 }
+container #mailSettings div.list div.row div[tipo="5"],
+container #mailSettings div.list div.row div[tipo="7"],
+container #mailSettings div.list div.row div[tipo="11"],
 container.wrapper .left-panel #adsListPubli td[tipo="5"],
 container.wrapper .left-panel #adsListPubli td[tipo="7"],
 container.wrapper .left-panel #adsListPubli td[tipo="11"],
@@ -4813,14 +4816,21 @@ container #pageNews .news-wrapper #news-here div[tipo="7"],
 container #pageNews .news-wrapper #news-here div[tipo="11"]{
     background-image:url(tbum/news/user.png);
 }
+container #mailSettings div.list div.row div[tipo="8"],
 container.wrapper .left-panel #adsListPubli td[tipo="8"],
 container #pageNews .news-wrapper #news-here div[tipo="8"]{
     background-image:url(tbum/news/redistributed.png);
 }
+container #mailSettings div.list div.row div[tipo="9"],
 container #pageNews .news-wrapper #news-here div[tipo="9"],
 container.wrapper .left-panel #adsListPubli td[tipo="9"]{
     background-image:url(tbum/news/patrocinar.png);
 }
+container #mailSettings div.list div.row div[tipo="6"],
+container #mailSettings div.list div.row div[tipo="10"],
+container #mailSettings div.list div.row div[tipo="12"],
+container #mailSettings div.list div.row div[tipo="13"],
+container #mailSettings div.list div.row div[tipo="14"],
 container.wrapper .left-panel #adsListPubli td[tipo="10"],
 container.wrapper .left-panel #adsListPubli td[tipo="12"],
 container.wrapper .left-panel #adsListPubli td[tipo="13"],
@@ -4831,6 +4841,11 @@ container #pageNews .news-wrapper #news-here div[tipo="13"],
 container #pageNews .news-wrapper #news-here div[tipo="14"]{
     background-image:url(tbum/news/group.png);
 }
+container #mailSettings div.list div.row div[tipo="16"],
+container #mailSettings div.list div.row div[tipo="17"],
+container #mailSettings div.list div.row div[tipo="18"],
+container #mailSettings div.list div.row div[tipo="19"],
+container #mailSettings div.list div.row div[tipo="29"],
 container.wrapper .left-panel #adsListPubli td[tipo="16"],
 container.wrapper .left-panel #adsListPubli td[tipo="17"],
 container.wrapper .left-panel #adsListPubli td[tipo="29"],
