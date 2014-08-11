@@ -1,3 +1,4 @@
+<style>span{background:#ddd;}span.block{display:inline-block;}</style>
 <?php
 $numPanels=1;
 global $get;
@@ -6,8 +7,7 @@ $HOME = isset($get['path'])?$get['path']:'$HOME';
 // $HOME = '/var/www';
 ob_start();
 ?>
-<style>span{background:#ddd;}span.block{display:inline-block;}</style>
-<p>otros tutoriales:</p>
+<h1>tutoriales:</h1> 
 http://mysql-apache-php.com/ffmpeg-install.htm
 http://d.stavrovski.net/blog/install-ffmpeg-and-ffmpeg-php-in-centos-6-with-virtualmin
 http://ghamail.com/forum/read.php?6,139,139
@@ -17,11 +17,17 @@ composer: https://getcomposer.org/doc/00-intro.md
 lista x264 codecs: http://download.videolan.org/pub/videolan/x264/snapshots/
 
 
-test server 1: http://68.109.244.197/videos/videotest.php
-test server 2: http://68.109.244.198/videos/videotest.php
-<hr/><hr/>
+<hr/> 
+test server 2: http://68.109.244.196/videos
+test server 3: http://68.109.244.197/videos
+test server 4: http://68.109.244.198/videos
+<hr/> 
 
-<b>Prerequisitos</b>
+<b>NOTA:</b> Revisar con cuidado en caso de usarse ya que hay mezclados varias formas de instalacion.
+En caso de dudas ver turoriales.
+
+<hr/> 
+<h1>Prerequisitos</h1>
 yum install autoconf automake gcc gcc-c++ git libtool make pkgconfig zlib-devel
 
 <b>yasm</b>
@@ -183,6 +189,8 @@ $text=ob_get_contents();
 ob_end_clean();
 
 if($HOME!='$HOME') $text=str_replace('$HOME',$HOME,str_replace('~',$HOME,$text));
-$text=preg_replace('/\r?\n/', '<br/>', trim($text));
+$text=preg_replace('/\b(https?:\/\/\S*)/','<a href="$1">$1</a>',$text);
+$text=preg_replace('/\r?\n/', '<br/>', $text);
+$text=preg_replace('/>\s+<br\/>/','>',$text);
 
 echo $text;
