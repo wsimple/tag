@@ -44,21 +44,22 @@
 		<div><img width="60" height="60" src="<?=$foto?>" style="border-radius: 50%;"/></div>
 		<?php /* BUTTON CHANGE - BUSINESS CARD - VIEW PROFILE */?>
 		<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
-			<div id="frmProfile_changePhotoButton" <?php if(RESETPASS_BTN1_TITLE!=""){?> title="<?=RESETPASS_BTN1_TITLE?>"<?php }?>>
-				<a href="javascript:void(0);" class="color-a font-size3"><?=RESETPASS_BTN1?></a>
+			<div id="frmProfile_changePhotoButton" >
+				<a href="javascript:void(0);" class="color-pro" <?php if(RESETPASS_BTN1_TITLE!=""){?> title="<?=RESETPASS_BTN1_TITLE?>"<?php }?>><?=RESETPASS_BTN1?></a><br><br>
 			</div>
 			<div id="frmProfile_changePhotoDiv">
 				<input name="frmProfile_filePhoto" type="file" id="frmProfile_filePhoto"/>
 			</div>
 			<div id="frmProfile_businessCardDiv">
 				<?php if(!strpos($foto,"default.png")){ ?>
-				<a href="<?=base_url('user/mini')?>" class="color-a font-size3" <?php if(USER_CROPPROFILE_TITLE!=""){?> title="<?=USER_CROPPROFILE_TITLE?>"<?php } ?>>
+				<a href="<?=base_url('user/mini')?>" class="color-pro" <?php if(USER_CROPPROFILE_TITLE!=""){?> title="<?=USER_CROPPROFILE_TITLE?>"<?php } ?>>
 					<?=USER_CROPPROFILE?>
-				</a>
+				</a><br><br>
 				<?php } ?>
-				<a href="<?=base_url('user/preferences')?>" class="color-a font-size3"><?=USERPROFILE_PREFERENCES?></a><br>
-				<a href="<?=base_url('user/password')?>" class="color-a font-size3"><?=MAINSMNU_PASSWORD?></a><br>
-				<a href="<?=base_url('user/cards')?>" class="color-a font-size3"><?=USERPROFILE_BUSINESSCARD?></a>
+				<a href="<?=base_url('user/preferences')?>" class="color-pro"><?=USERPROFILE_PREFERENCES?></a><br><br>
+				<a href="<?=base_url('user/password')?>" class="color-pro"><?=MAINSMNU_PASSWORD?></a><br><br>
+				<a href="<?=base_url('user/cards')?>" class="color-pro"><?=USERPROFILE_BUSINESSCARD?></a><br><br>
+				<a href="<?=base_url('setting?sc=1')?>" class="color-pro"><?=NOTIFICATIONS_CONFIGURATIONSECTION?></a>
 			</div>
 		<?php } ?>
 	</div>
