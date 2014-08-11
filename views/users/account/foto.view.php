@@ -9,7 +9,7 @@
 				&nbsp;<?=USER_THUMBCREATION?>
 			</h3>
 			<div class="menuProfileBack">
-				<a href="<?=base_url('profile')?>"><?=USER_PROFILE?></a> > <?=USER_THUMBCREATION_MINI?>
+				<a href="<?=base_url('profile')?>"><?=USER_PROFILE?></a> > <?=USER_CROPPROFILE?>
 			</div>
 			<input name="send" type="button" id="send" style="float:right;" value="<?=USERPROFILE_SAVE?>"/>
 		</div>
