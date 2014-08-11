@@ -56,9 +56,9 @@
 					<?=USER_CROPPROFILE?>
 				</a>
 				<?php } ?>
-				<a href="<?=base_url('user/preview')?>" class="color-a font-size3" <?php if(USER_HELPPREVIEWPROFILE_TITLE!=""){?> title="<?=USER_HELPPREVIEWPROFILE_TITLE?>"<?php } ?>>
-					<?=USER_HELPPREVIEWPROFILE?>
-				</a>
+				<a href="<?=base_url('user/preferences')?>" class="color-a font-size3"><?=USERPROFILE_PREFERENCES?></a><br>
+				<a href="<?=base_url('user/password')?>" class="color-a font-size3"><?=MAINSMNU_PASSWORD?></a><br>
+				<a href="<?=base_url('user/cards')?>" class="color-a font-size3"><?=USERPROFILE_BUSINESSCARD?></a>
 			</div>
 		<?php } ?>
 	</div>
