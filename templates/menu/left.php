@@ -13,6 +13,7 @@
 				<li><a href="<?=base_url('user/preferences')?>"><?=USERPROFILE_PREFERENCES?></a></li>
 				<li><a href="<?=base_url('user/password')?>"><?=MAINSMNU_PASSWORD?></a></li>
 				<li><a href="<?=base_url('user/cards')?>"><?=USERPROFILE_BUSINESSCARD?></a></li>
+				<li><a href="<?=base_url('setting?sc=1')?>"><?=NOTIFICATIONS_CONFIGURATIONSECTION?></a></li>
 			</ul>
 		</li>
 		<li id="friends">
@@ -28,13 +29,6 @@
 			<ul>
 				<li><a href="<?=base_url('groups?sc=1')?>"><?=GROUPS_LABELTABLSTMYGROUPS?></a></li>
 				<li><a href="<?=base_url('groups')?>"><?=GROUPS_LABELTABLSTALL?></a></li>
-			</ul>
-		</li>
-		<li id="setting">
-			<span><?=MAINMNU_SETTINGLEFT?></span>
-			<ul>
-				<li><a href="<?=base_url('setting?sc=1')?>"><?=NOTIFICATIONS_CONFIGURATIONSECTION?></a></li>
-				<!-- <li><a href="<?=base_url()?>"><?=MAINMNU_SETTINGLEFT?></a></li> -->
 			</ul>
 		</li>
 		<li id="store">
