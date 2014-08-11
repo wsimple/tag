@@ -384,8 +384,8 @@ function tagsList_json($data,$mobile=false){
 			}elseif(isVideo('youtube',$tag['video'])){
 				if($data['embed'])
 					$tag['video']=preg_replace(regex('youtube'), 'http://youtube.com/embed/$7$9', $tag['video']);
+				$tag['typeVideo']='youtube';
 				if(preg_match('/(youtube\\S*[\\/\\?\\&]v[\\/=]|youtu.be\\/)([^\\?\\&]+)/i',$tag['video'],$matches)){
-					$tag['typeVideo']='youtube';
 					$type='youtube';
 					$code=$matches[2];
 					if (!$mobile) $tag['video']=$code;
@@ -435,8 +435,8 @@ function tagsList_json($data,$mobile=false){
 				}elseif(isVideo('youtube',$sponsor['video'])){
 					if($data['embed'])
 						$sponsor['video']=preg_replace(regex('youtube'), 'http://youtube.com/embed/$7$9', $sponsor['video']);
+					$sponsor['typeVideo']='youtube';
 					if(preg_match('/(youtube\\S*[\\/\\?\\&]v[\\/=]|youtu.be\\/)([^\\?\\&]+)/i',$sponsor['video'],$matches)){
-						$sponsor['typeVideo']='youtube';
 						$type='youtube';
 						$code=$matches[2];
 						if (!$mobile) $sponsor['video']=$code;
