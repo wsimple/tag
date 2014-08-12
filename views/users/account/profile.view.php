@@ -1,7 +1,7 @@
 <?php
 	$paypalMsg=DIALOG_PAYPAL;
 	$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
-	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
+	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
 	$frmProfile=new forms();
 	//opciones de muestra de la fecha de nacimiento
 	$shows_birthday=$GLOBALS['cn']->query("SELECT * FROM users_profile_showbirthday ORDER BY id ASC");

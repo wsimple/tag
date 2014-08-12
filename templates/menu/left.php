@@ -1,6 +1,6 @@
 <?php 
 	$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";'); 
-	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
+	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
 ?>
 <article class="side-box menu">
 	<header><span></span></header>

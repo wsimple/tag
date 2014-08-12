@@ -40,7 +40,7 @@
 //		$wpanel_login=CON::getRow('
 //			SELECT '.fieldsLogin().'
 //			FROM users
-//			WHERE email="wpanel@seemytag.com" AND password_user="5a10d2e35f21dbab3e082e5732c69283"
+//			WHERE email="wpanel@tagbum.com" AND password_user="5a10d2e35f21dbab3e082e5732c69283"
 //		');
 //		createSession($wpanel_login);
 //
