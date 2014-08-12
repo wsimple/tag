@@ -140,7 +140,7 @@ function mailTag($tagId,$mails,$msj, $device){
 					'</div>
 				';
 				//envio del correo
-				sendMail(formatMail($body, "790"), "no-reply@seemytag.com", "Seemytag.com", MENUTAG_CTRSHAREMAILASUNTO, $per, "../../");
+				sendMail(formatMail($body, "790"), "no-reply@tagbum.com", "Seemytag.com", MENUTAG_CTRSHAREMAILASUNTO, $per, "../../");
 				$correos .= "-&nbsp;".$per.".<br/>";
 			}//if per
 		}//foreach

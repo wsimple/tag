@@ -316,8 +316,8 @@
 									</tr>
 								*/
 								//envio del correo
-								//if (sendMail(formatMail($body, "790"), "no-reply@seemytag.com", "Tagbum.com", MENUTAG_CTRSHAREMAILASUNTO, $per, "../../")){
-								if (sendMail(formatMail($body, "790"), "no-reply@seemytag.com", formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.MENUTAG_CTRSHAREMAILTITLE1, $per, "../../")){
+								//if (sendMail(formatMail($body, "790"), "no-reply@tagbum.com", "Tagbum.com", MENUTAG_CTRSHAREMAILASUNTO, $per, "../../")){
+								if (sendMail(formatMail($body, "790"), "no-reply@tagbum.com", formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.MENUTAG_CTRSHAREMAILTITLE1, $per, "../../")){
 									$correos .= "-&nbsp;".$per.".<br/>";
 									//insert tabla verificacion
 									if( !existe("tags_share_mails", "id_tag", " WHERE id_tag = '".$tag['idTag']."' AND referee_number = '".$_SESSION['ws-tags']['ws-user']['code']."' AND email_destiny = '".$per."' ") ) {

@@ -150,7 +150,7 @@
 						</table>
 					';
 
-			if( sendMail(formatMail($body, 800), 'no-reply@seemytag.com', 'Tagbum.com', 'Reset your Tagbum password', $_SESSION['ws-tags'][resendPass][email], '../../') ) {
+			if( sendMail(formatMail($body, 800), 'no-reply@tagbum.com', 'Tagbum.com', 'Reset your Tagbum password', $_SESSION['ws-tags'][resendPass][email], '../../') ) {
 			//if($body!=''){
 			echo "1*".$_SESSION['ws-tags'][resendPass][email];
 				//$msj = FORGOT_CTRMSGEXITO;
