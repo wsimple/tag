@@ -3,8 +3,8 @@
 include '../header.json.php';
 include (RELPATH.'class/class.phpmailer.php');
 include "../../class/validation.class.php";
-$res['action']=$_POST['action'];
 
+$res['action']=$_POST['action'];
 switch($_POST['action']){
     case '0': //enviar el code al correo del usuario 
         if(valid::isEmail($_POST['email'])) {
@@ -20,7 +20,7 @@ switch($_POST['action']){
     					   <tr>
                                 <td style="font-size:11px; color:#000; padding:0; text-align:justify">
                                     '.FORGOT_CTRMSGMAIL2.'.<br />'.FORGOT_CTRMSGMAIL3.':<br /><br />
-        					        <a href="'.base_url('resetPassword?usr='.$query['code']).'" target="_blank">'.DOMINIO.'/resetPassword?usr='.$query['code'].'</a>
+        					        <a href="'.DOMINIO.'resetPassword?usr='.$query['code'].'" target="_blank">'.DOMINIO.'/resetPassword?usr='.$query['code'].'</a>
     					        </td>
     					   </tr>
     					   <tr><td>&nbsp;</td></tr>
