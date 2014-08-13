@@ -1,5 +1,7 @@
 <?php
 	include '../header.json.php';
+	
+	include $config->relpath.'class/class.phpmailer.php';
 
 	if (quitar_inyect()){
 		include('../../includes/functions_mails.php');
