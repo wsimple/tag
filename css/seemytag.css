@@ -1075,18 +1075,19 @@ content.resendEmailPassword input[type='button']{
 	-webkit-background-size:100% auto;
 	-moz-background-size:100% auto;
 	background-size:100% auto;
+	margin-right: 1px;
 }
 .tag-container [tag] .tag-icons #likeIcon{
-	background-image:url(smt/tag/like_icon.png);
+	background-image:url(smt/tag/like_icon.png?1);
 }
 .tag-container [tag] .tag-icons #dislikeIcon{
-	background-image:url(smt/tag/dislike_icon.png);
+	background-image:url(smt/tag/dislike_icon.png?1);
 }
 .tag-container [tag] .tag-icons #redist{
-	background-image:url(smt/tag/redist_icon.png);
+	background-image:url(smt/tag/redist_icon.png?1);
 }
 .tag-container [tag] .tag-icons #sponsor{
-	background-image:url(smt/tag/sponsor_icon.png);
+	background-image:url(smt/tag/sponsor_icon.png?1);
 }
 .tag-container [tag] .redist{
 	position:absolute;
@@ -1331,67 +1332,67 @@ content.resendEmailPassword input[type='button']{
 	background-image:url('smt/tag/bcard_over.png');
 }
 .tag-container [tag] menu li#like{
-	background-image:url('smt/tag/like.png');
+	background-image:url('smt/tag/like.png?1');
 }
 .tag-container [tag] menu li#like:hover,
 .mobile .tag-container [tag] menu li.expand#like{
-	background-image:url('smt/tag/like_over.png');
+	background-image:url('smt/tag/like_over.png?1');
 }
 .tag-container [tag] menu li#dislike{
-	background-image:url('smt/tag/dislike.png');
+	background-image:url('smt/tag/dislike.png?1');
 }
 .tag-container [tag] menu li#dislike:hover,
 .mobile .tag-container [tag] menu li.expand#dislike{
-	background-image:url('smt/tag/dislike_over.png');
+	background-image:url('smt/tag/dislike_over.png?1');
 }
 .tag-container [tag] menu li#comment{
-	background-image:url('smt/tag/comment.png');
+	background-image:url('smt/tag/comment.png?1');
 }
 .tag-container [tag] menu li#comment:hover,
 .mobile .tag-container [tag] menu li.expand#comment{
-	background-image:url('smt/tag/comment_over.png');
+	background-image:url('smt/tag/comment_over.png?1');
 }
 .tag-container [tag] menu li#share{
-	background-image:url('smt/tag/share.png');
+	background-image:url('smt/tag/share.png?1');
 }
 .tag-container [tag] menu li#share:hover,
 .mobile .tag-container [tag] menu li.expand#share{
-	background-image:url('smt/tag/share_over.png');
+	background-image:url('smt/tag/share_over.png?1');
 }
 .tag-container [tag] menu li#redistr{
-	background-image:url('smt/tag/redist.png');
+	background-image:url('smt/tag/redist.png?1');
 }
 .tag-container [tag] menu li#redistr:hover,
 .mobile .tag-container [tag] menu li.expand#redistr{
-	background-image:url('smt/tag/redist_over.png');
+	background-image:url('smt/tag/redist_over.png?1');
 }
 .tag-container [tag] menu li#sponsors{
-	background-image:url('smt/tag/sponsor.png');
+	background-image:url('smt/tag/sponsor.png?1');
 }
 .tag-container [tag] menu li#sponsors:hover,
 .mobile .tag-container [tag] menu li.expand#sponsor{
-	background-image:url('smt/tag/sponsor_over.png');
+	background-image:url('smt/tag/sponsor_over.png?1');
 }
 .tag-container [tag] menu li#trash{
-	background-image:url('smt/tag/trash.png');
+	background-image:url('smt/tag/trash.png?1');
 }
 .tag-container [tag] menu li#trash:hover,
 .mobile .tag-container [tag] menu li.expand#trash{
-	background-image:url('smt/tag/trash_over.png');
+	background-image:url('smt/tag/trash_over.png?1');
 }
 .tag-container [tag] menu li#edit{
-	background-image:url('smt/tag/edit.png');
+	background-image:url('smt/tag/edit.png?1');
 }
 .tag-container [tag] menu li#edit:hover,
 .mobile .tag-container [tag] menu li.expand#edit{
-	background-image:url('smt/tag/edit_over.png');
+	background-image:url('smt/tag/edit_over.png?1');
 }
 .tag-container [tag] menu li#report{
-	background-image:url('smt/tag/report.png');
+	background-image:url('smt/tag/report.png?1');
 }
 .tag-container [tag] menu li#report:hover,
 .mobile .tag-container [tag] menu li.expand#report{
-	background-image:url('smt/tag/report_over.png');
+	background-image:url('smt/tag/report_over.png?1');
 }
 .mini .tags-list{ font-size:61.5%; }
 .mini .tag-container{ width:642px; }
@@ -1458,6 +1459,14 @@ footer a:hover{ text-decoration:none; }
 .color_orange{ color:orange !important; }
 .color_red{ color:red !important; }
 .color_red_dark{ color:#900 !important; }
+.color-pro{
+	color: #71cbe9;
+	text-decoration: none;
+	font-size: 13px;
+}
+.color-pro:hover{
+	color: #000;
+}
 #carousel-box{
 	width:650px;
 	margin:auto;
@@ -2327,7 +2336,7 @@ container#toptag .tag-container{
 
 #frmProfileFormContainer{
 	float:right;
-	width:715px;
+	width:680px;
 	/*border:1px solid #999;*/
 }
 
@@ -3522,25 +3531,17 @@ a.plus:hover{
 	border:0px;
 }
 
-.ui-single-box.mailSettings{
-	color:#999;
-}
-
-.ui-single-box.mailSettings .legend{
+#mailSettings{ color:#999; }
+#mailSettings .legend{
 	width:90%;
 	margin:auto 50px;
 }
-
-.ui-single-box.mailSettings .legend .text{
-	font-size:12px;
-}
-
-.ui-single-box.mailSettings .legend .icons{
+#mailSettings .legend .text{ font-size:12px; }
+#mailSettings .legend .icons{
 	height:30px;
 	margin:5px 0 20px 0;
 }
-
-.ui-single-box.mailSettings .legend .icons>div{
+#mailSettings .legend .icons>div{
 	display:inline-block;
 	float:right;
 	margin:0 0 0 15px;
@@ -3549,56 +3550,49 @@ a.plus:hover{
 	font-weight:bold;
 	font-size:12px;
 }
-
-.ui-single-box.mailSettings .legend .icons>div img{
-	display:block;
-	margin:0 0 0 15px;
+#mailSettings .legend .icons>div img{
+	display: block;
+	margin: 0 0 0 15px;
 }
-
-.mailSettings .list{
-	margin:auto 15px 60px;
-}
-
-.mailSettings .list .row{
+#mailSettings .list{ margin:auto 15px 60px; }
+#mailSettings .list .row{
 	display:block;
 	border-bottom:1px #F4F4F4 solid;
 	padding:10px 0 10px 0;
 }
-
-.mailSettings .list .row>div{
-	display:inline-block;
+#mailSettings .list .row>div{ display:inline-block; }
+#mailSettings div.list div.row div[tipo]{
+	background-size:100%;
+	background-position: 50% 50% !important;
+	width: 20px;
+	height: 20px;
+	margin-right: 20px;
 }
-
-.mailSettings .list .row .type{
+#mailSettings div.list div.type{
 	width:20px;
 	height:20px;
 	display:inline-block;
 	margin:0 5px 0;
 }
-
-.mailSettings .list .row .name{
-	display:inline-block;
+#mailSettings div.list div.name{
 	width:120px;
 	font-weight:bold;
 }
-
-.mailSettings .list .row .desc{
-	display:inline-block;
+#mailSettings div.list div.desc{
 	margin:0 0 0 5px;
 	width:560px;
 }
-
-.mailSettings .list .row .acti{
-	display:inline-block;
+#mailSettings div.list div.acti{
 	margin:0 0 0 15px;
 	width:20px;
-}
-
-.mailSettings .list .row .acti img{
-	width:20px;
-	height:20px;
+	height: 20px;
 	cursor:pointer;
+	background-size: 100%;
+	background-repeat: no-repeat;
 }
+#mailSettings div.list div.acti.active{ background-image: url('../imgs/config_noti_email.png'); }
+#mailSettings div.list div.acti.inactive{ background-image: url('../imgs/config_noti_unselect.png'); }
+#mailSettings div.list div.acti.loader{ background-image: url('../img/loader.gif'); }
 
 /*change password*/
 #imagenBackgroundPassword:hover div.this{
@@ -4774,11 +4768,22 @@ container.wrapper .right-panel #adsListPubli .outSideDivNoti{
 	background:#fff;
 	margin-top:-20px
 }
+container #mailSettings div.list div.row div[tipo],
 container.wrapper .left-panel #adsListPubli td[tipo],
 container #pageNews .news-wrapper #news-here div[tipo]{
     background-repeat:no-repeat;
     background-position:10px 10px;
 }
+container #mailSettings div.list div.row div[tipo="1"],
+container #mailSettings div.list div.row div[tipo="20"],
+container #mailSettings div.list div.row div[tipo="21"],
+container #mailSettings div.list div.row div[tipo="22"],
+container #mailSettings div.list div.row div[tipo="23"],
+container #mailSettings div.list div.row div[tipo="24"],
+container #mailSettings div.list div.row div[tipo="25"],
+container #mailSettings div.list div.row div[tipo="26"],
+container #mailSettings div.list div.row div[tipo="27"],
+container #mailSettings div.list div.row div[tipo="28"],
 container.wrapper .left-panel #adsListPubli td[tipo="1"],
 container.wrapper .left-panel #adsListPubli td[tipo="22"],
 container.wrapper .left-panel #adsListPubli td[tipo="25"],
@@ -4791,20 +4796,27 @@ container #pageNews .news-wrapper #news-here div[tipo="26"],
 container #pageNews .news-wrapper #news-here div[tipo="27"]{
     background-image:url(tbum/news/tags.png);
 }
+container #mailSettings div.list div.row div[tipo="2"],
 container.wrapper .left-panel #adsListPubli td[tipo="2"],
 container #pageNews .news-wrapper #news-here div[tipo="2"]{
     background-image:url(tbum/news/like.png);
 }
+container #mailSettings div.list div.row div[tipo="3"],
 container #pageNews .news-wrapper #news-here div[tipo="3"],
 container.wrapper .left-panel #adsListPubli td[tipo="3"]{
     background-image:url(tbum/news/imbox.png);
 }
+container #mailSettings div.list div.row div[tipo="4"],
+container #mailSettings div.list div.row div[tipo="15"],
 container.wrapper .left-panel #adsListPubli td[tipo="4"],
 container.wrapper .left-panel #adsListPubli td[tipo="15"],
 container #pageNews .news-wrapper #news-here div[tipo="4"],
 container #pageNews .news-wrapper #news-here div[tipo="15"]{
     background-image:url(tbum/news/comment.png);
 }
+container #mailSettings div.list div.row div[tipo="5"],
+container #mailSettings div.list div.row div[tipo="7"],
+container #mailSettings div.list div.row div[tipo="11"],
 container.wrapper .left-panel #adsListPubli td[tipo="5"],
 container.wrapper .left-panel #adsListPubli td[tipo="7"],
 container.wrapper .left-panel #adsListPubli td[tipo="11"],
@@ -4813,14 +4825,21 @@ container #pageNews .news-wrapper #news-here div[tipo="7"],
 container #pageNews .news-wrapper #news-here div[tipo="11"]{
     background-image:url(tbum/news/user.png);
 }
+container #mailSettings div.list div.row div[tipo="8"],
 container.wrapper .left-panel #adsListPubli td[tipo="8"],
 container #pageNews .news-wrapper #news-here div[tipo="8"]{
     background-image:url(tbum/news/redistributed.png);
 }
+container #mailSettings div.list div.row div[tipo="9"],
 container #pageNews .news-wrapper #news-here div[tipo="9"],
 container.wrapper .left-panel #adsListPubli td[tipo="9"]{
     background-image:url(tbum/news/patrocinar.png);
 }
+container #mailSettings div.list div.row div[tipo="6"],
+container #mailSettings div.list div.row div[tipo="10"],
+container #mailSettings div.list div.row div[tipo="12"],
+container #mailSettings div.list div.row div[tipo="13"],
+container #mailSettings div.list div.row div[tipo="14"],
 container.wrapper .left-panel #adsListPubli td[tipo="10"],
 container.wrapper .left-panel #adsListPubli td[tipo="12"],
 container.wrapper .left-panel #adsListPubli td[tipo="13"],
@@ -4831,6 +4850,11 @@ container #pageNews .news-wrapper #news-here div[tipo="13"],
 container #pageNews .news-wrapper #news-here div[tipo="14"]{
     background-image:url(tbum/news/group.png);
 }
+container #mailSettings div.list div.row div[tipo="16"],
+container #mailSettings div.list div.row div[tipo="17"],
+container #mailSettings div.list div.row div[tipo="18"],
+container #mailSettings div.list div.row div[tipo="19"],
+container #mailSettings div.list div.row div[tipo="29"],
 container.wrapper .left-panel #adsListPubli td[tipo="16"],
 container.wrapper .left-panel #adsListPubli td[tipo="17"],
 container.wrapper .left-panel #adsListPubli td[tipo="29"],
@@ -5797,9 +5821,8 @@ container .left-panel .menus ul span{
 .fotoCrop>form>div{
 	padding-bottom: 20px; color: #787878
 }
-
 .side-box.trendings>header span {
-	background-image: url('tbum/box-title/tag.png');
+	background-image: url('tbum/box-title/on-fire.png');
 	background-position: 0px center;
 	-webkit-background-size: 50px auto;
 	-moz-background-size: 50px auto;
@@ -5818,4 +5841,16 @@ container .left-panel .menus ul span{
 	font-size: .8em;
 	padding: .8em;
 	word-wrap: break-word;
+}
+.menuProfileBack{
+	color: #ff8a28 !important;
+	font-weight: bold;
+	font-size: 12px; 
+	margin-bottom: 10px;
+	margin-left: 20px;
+	position: relative;
+	top: -10px;
+}
+.menuProfileBack a{
+	color: #ff8a28 !important;
 }

@@ -1,13 +1,18 @@
 //-- Consola --//
-console.log('Agent: '+navigator.userAgent);
 (function(w,$){
-	var c,fakec={},types=[];
-	['log','alert','warn','error'].forEach(function(name){fakec[name]=function(){return;};});
-	if('console' in w) c=w.console; else c=fakec;
+	var c,fake={},typelist=[];
+	['log','alert','warn','error'].forEach(function(name){fake[name]=function(){return;};});
+	if('console' in w) c=w.console; else c=fake;
 	$.debug=function(type){
-		if($.cookie('_DEBUG_')===null) return fakec;
-		if(type!==undefined&&types.indexOf(type)<0) types.push(type);
-		return !type||$.cookie('_DEBUG_')==type?c:fakec;
+		if($.cookie('_DEBUG_')===null) return fake;
+		if(!type) return c;
+		if(!$.cookie('_DEBUG_')) return !type?c:fake;
+		var debuglist=$.cookie('_DEBUG_').split(','),types=type.split(','),len=types.length,show=false;
+		for(var i=0;i<len;i++){
+			if(typelist.indexOf(types[i])<0) typelist.push(types[i]);
+			if(debuglist.indexOf(types[i])>=0) show=true;
+		}
+		return show?c:fake;
 	};
 	$.debug.show=function(type){
 		$.cookie('_DEBUG_',type!==undefined?type:'');
@@ -17,8 +22,8 @@ console.log('Agent: '+navigator.userAgent);
 		$.cookie('_DEBUG_',null);
 		c.log('Disabled all Logs');
 	};
-	$.debug.list=function(){ return types; };
-	$.debug.is=function(type){ return $.cookie('_DEBUG_')==type; };
+	$.debug.list=function(){ return typelist; };
+	$.debug.isEnabled=function(){ return $.cookie('_DEBUG_')===null; };
 	$.c=$.debug;
 
 	var c1,c2={};
@@ -59,3 +64,4 @@ console.log('Agent: '+navigator.userAgent);
 		w.disableConsole=w.disableLogs=function(){console.hide();$.cookie('_DEBUG_',null);};
 	}
 })( window, jQuery );
+$.debug().log('Agent: '+navigator.userAgent);

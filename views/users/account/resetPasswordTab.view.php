@@ -2,6 +2,9 @@
 <div class="ui-single-box">
 	<div style="margin-left: 20px;">
 		<h3 class="ui-single-box-title" style="margin-bottom: 0px;">&nbsp;<?=MAINSMNU_PASSWORD?></h3>
+		<div class="menuProfileBack" style="top: 0">
+			<a href="<?=base_url('profile')?>"><?=USER_PROFILE?></a> > <?=MAINSMNU_PASSWORD?>
+		</div>
 		<form action="controls/users/resetPassword.json.php" id="frmChangePassword"  method="post" >
 			<div style="padding-bottom: 10px;">
 				<span style="font-size: 12px;"><?=RESETPASS_TITLE2?></span><br>

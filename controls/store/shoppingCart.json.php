@@ -477,7 +477,7 @@ include ('../../class/class.phpmailer.php');
 						$nOrden = $id_order;
 						if ($payment_status) $GLOBALS['cn']->query('DELETE FROM `users_notifications` WHERE id_type="17" AND id_user="427" AND id_friend="'.$car['order']['comprador'].'" AND id_source="'.$car['order']['order'].'"');
 						$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
-						if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
+						if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
 						notifications($car['order']['comprador'],$car['order']['order'],16,'',$wid);
 						unset($_SESSION['car']);
 					}else{

@@ -79,9 +79,8 @@ $edit=$obj->id==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
 	</div>
 	<div id="eProfileInfo">
 		<article id="externalProfileInfo" class="side-box imagenSug">
-			<?=$edit?$edit:''?>
-			<header><span style="background-image: url('<?=$photoT?>');"><?=INFO_PER?></span></header>
-			<div>
+			<header><span><?=INFO_PER?></span><?=$edit?$edit:''?></header>
+			<div>	
 				<ul>
 					<li><label><?=SIGNUP_LBLSCREENNAME_FIELD?>: </label><?=$obj->screen_name?></li>
 					<li><label><?=SIGNUP_LBLEMAIL?>: </label><?=$obj->email?></li>
@@ -98,8 +97,7 @@ $edit=$obj->id==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
 			<div class="clearfix"></div>
 		</article>
 		<article id="externalProfilePrefe" class="side-box imagenSug">
-			<?=$edit?$edit:''?>
-			<header><span><?=USERPROFILE_PREFERENCES?></span></header>
+			<header><span><?=USERPROFILE_PREFERENCES?></span><?=$edit?$edit:''?></header>
 			<div>
 				<ul>
 			   		<?php 
@@ -165,7 +163,19 @@ $(function(){
 			if(data['tags']&&data['tags'].length>0){
 				showCarousel(data['tags'],$$('.tag-container'));
 				if(data['tags'].length<2) $$('.tag-container').trigger('stop',true);
-			}else{ $('.tag-container').html('<div class="messageNoResultSearch more"><?=NORESULT_TIMELINE?></div>'); }
+			}else{ 
+				$$.ajax({
+					type:'GET',
+					dataType:'json',
+					url:'controls/tags/tagsList.json.php?current=myTags&uid=<?=$obj->id?>',
+					success:function(data){
+						if(data['tags']&&data['tags'].length>0){
+							showCarousel(data['tags'],$$('.tag-container'));
+							if(data['tags'].length<2) $$('.tag-container').trigger('stop',true);
+						}else{ $('.tag-container').html('<div class="messageNoResultSearch more"><?=NORESULT_TIMELINE?></div>'); }
+					}
+				});				
+			}
 		}
 	});
 

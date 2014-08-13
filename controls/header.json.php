@@ -31,6 +31,7 @@ if(!$_header_json){
 	include $config->relpath.'includes/session.php';
 	include $config->relpath.'includes/functions.php';
 	include $config->relpath.'class/wconecta.class.php';
+
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
 	if(!$_origin) include $config->relpath.'includes/languages.config.php';
 	if(!quitar_inyect()) die();

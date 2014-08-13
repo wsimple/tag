@@ -1,4 +1,5 @@
-<?php include 'inc/header.php'; ?>
+<?php include 'inc/header.php';		  	
+ ?>
 <div id="page-shareTag" data-role="page" data-cache="false">
 	<div data-role="header" data-position="fixed" data-theme="f">
 		<h1></h1>
