@@ -9,7 +9,7 @@
 
 	while ($array = mysql_fetch_assoc($query)){
 
-		if (sendMail(formatMail('Prueba',600), 'no-reply@seemytag.com', 'Gustavo Ocanto', 'Asunto', $array[email], '../../../'))
+		if (sendMail(formatMail('Prueba',600), 'no-reply@tagbum.com', 'Gustavo Ocanto', 'Asunto', $array[email], '../../../'))
 			$query = mysql_query('UPDATE '.$_GET[tabla].' SET sent = "1" WHERE id = "'.$array[id].'"') or die (mysql_error());
 
 	}

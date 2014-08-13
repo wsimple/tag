@@ -1,20 +1,10 @@
 <?php
-	header('Access-Control-Allow-Methods: POST, GET');
-	header('Access-Control-Allow-Origin: http://localhost');
-	header('Access-Control-Allow-Credentials: true');
-	header('Access-Control-Max-Age: 1000');
-	session_start();
-	include('../../includes/config.php');
-	include('../../includes/functions.php');
+	include '../header.json.php';
 
 	if (quitar_inyect()){
 		include('../../includes/functions_mails.php');
-		
-		include('../../class/wconecta.class.php');
-		include('../../includes/languages.config.php');
-		include('../../class/class.phpmailer.php');
-		include('../../class/validation.class.php');
-		$tag=$GLOBALS['cn']->queryRow('SELECT id,id_user FROM tags WHERE md5(id) = "'.intToMd5($_GET['tag']).'" LIMIT 0,1');
+
+		$tag=CON::getRow("SELECT id,id_user,status FROM tags WHERE md5(id)=?",array(intToMd5($_GET['tag'])));
 		switch($_GET['action']){
 			case 3://redistribute
 				//getting tag source
@@ -316,8 +306,8 @@
 									</tr>
 								*/
 								//envio del correo
-								//if (sendMail(formatMail($body, "790"), "no-reply@seemytag.com", "Tagbum.com", MENUTAG_CTRSHAREMAILASUNTO, $per, "../../")){
-								if (sendMail(formatMail($body, "790"), "no-reply@seemytag.com", formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.MENUTAG_CTRSHAREMAILTITLE1, $per, "../../")){
+								//if (sendMail(formatMail($body, "790"), "no-reply@tagbum.com", "Tagbum.com", MENUTAG_CTRSHAREMAILASUNTO, $per, "../../")){
+								if (sendMail(formatMail($body, "790"), "no-reply@tagbum.com", formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.MENUTAG_CTRSHAREMAILTITLE1, $per, "../../")){
 									$correos .= "-&nbsp;".$per.".<br/>";
 									//insert tabla verificacion
 									if( !existe("tags_share_mails", "id_tag", " WHERE id_tag = '".$tag['idTag']."' AND referee_number = '".$_SESSION['ws-tags']['ws-user']['code']."' AND email_destiny = '".$per."' ") ) {
@@ -339,59 +329,39 @@
 				case 6:
 					$myId = $_SESSION['ws-tags']['ws-user']['id'];
 					if(isset($_REQUEST['url'])){
-						$idcre=$GLOBALS['cn']->query('SELECT id_creator FROM tags WHERE id="'.$tag['id'].'"');
-						$idcrea=mysql_fetch_assoc($idcre);
-						if($idcrea['id_creator']==$myId){
-							$creator  = 'AND id_creator="'.$myId.'"';
-						}else{
-							$creator  = 'AND id_creator="'.$idcrea['id_creator'].'"';
-						}
-						$satusTag = 'AND status="10"';
-						$GLOBALS['cn']->query('UPDATE tags SET status="2" WHERE id="'.$tag['id'].'" AND source = "'.$tag['id'].'" '.$creator.' '.$satusTag.'');
+						$idcre=CON::getVal("SELECT id_creator FROM tags WHERE id=?",array($tag['id']));
+						CON::update("tags","status='2'","id=? AND source =? AND id_creator=? AND status='10' ",array($tag['id'],$tag['id'],$idcre));
 						header('Location: '.DOMINIO.$_REQUEST['url'].'');
 					}else{
-						$tag = $GLOBALS['cn']->queryRow('SELECT id,status FROM tags WHERE id = "'.$tag['id'].'"');
-						//$redist = $GLOBALS['cn']->queryRow('SELECT * FROM tags WHERE source != "'.$tag['id'].'" AND id!=source LIMIT 0,1');
 						if($tag['status']=='4') {//si la tag es privada
 							// eliminamos los tags privados
-							$delete = $GLOBALS['cn']->query("DELETE FROM tags_privates WHERE id_tag = '".$tag['id']."' AND id_friend = '".$myId."'");
+							$delete = CON::delete("tags_privates","id_tag =? AND id_friend=?",array($tag['id'],$myId));
 							// eliminamos las notificaciones de esa tag
-							$delete = $GLOBALS['cn']->query('DELETE FROM users_notifications WHERE id_source = "'.$tag['id'].'" AND id_friend = "'.$myId.'" AND id_type IN (1,2,4,7,8,9,10)');
+							$delete = CON::delete("users_notifications","id_source =? AND id_friend = ? AND id_type IN (1,2,4,7,8,9,10)",array($tag['id'],$myId));
 							// eliminamos los comentarios de la tag
-							$delete = $GLOBALS['cn']->query('DELETE FROM comments WHERE id_type="4" AND id_source = "'.$tag['id'].'" AND id_user_from = "'.$myId.'"');
+							$delete = CON::delete("comments","id_type='4' AND id_source=? AND id_user_from =?",array($tag['id'],$myId));
 							$msgBox = 1;
 						} else {
 							//validamos si la tag es un sponsor activo
-							$validateSponsor = $GLOBALS['cn']->query('
-								SELECT id_tag
-								FROM users_publicity
-								WHERE id_tag = "'.$tag['id'].'"
-									AND status = "1"
-							');//AND id_user = "'.$myId.'"
-							if (mysql_num_rows($validateSponsor)==0){ //si la tag no es un patrocinio
-								$redist = $GLOBALS['cn']->queryRow('SELECT id FROM tags WHERE source != "'.$tag['id'].'" AND id!=source LIMIT 0,1');
-								if($redist[id]!=''){//si fue redistribuida se le cambia el estado
-									$update = $GLOBALS['cn']->query('UPDATE tags SET status="2" WHERE source = "'.$tag['id'].'" AND (id_creator = "'.$myId.'" OR id_user = "'.$myId.'")');
-								}else{//si no fue redistribuida  la eliminamos
-									$delete = $GLOBALS['cn']->query('DELETE FROM users_notifications WHERE id_source = "'.$tag['id'].'" AND id_creator = "'.$myId.'"');
-									// eliminamos la tag
-//									$delete = $GLOBALS['cn']->query('
-//										DELETE FROM tags WHERE
-//										(source	="'.$tag['id'].'" AND id_creator	= "'.$myId.'") OR
-//										(id		="'.$tag['id'].'" AND id_user		= "'.$myId.'")
-//									');
-									$update = $GLOBALS['cn']->query('UPDATE tags SET status="2" WHERE source = "'.$tag['id'].'" AND (id_creator = "'.$myId.'" OR id_user = "'.$myId.'")');
+							$validateSponsor = CON::count("users_publicity","id_tag=? AND status ='1'",array($tag['id']));
+							//AND id_user = "'.$myId.'"
+							if ($validateSponsor==0){ //si la tag no es un patrocinio
+								$redist = CON::getVal("SELECT source FROM tags WHERE source !=? AND id!=source AND id=? LIMIT 1",array($tag['id'],$tag['id']));
+								if($redist!=''){//si fue redistribuida se le cambia el estado
+									CON::update("tags","status='2'","id=? AND source=? AND (id_creator=? OR id_user=?)",array($tag['id'],$redist,$myId,$myId));
+								}else{ //si no fue redistribuida  la eliminamos
+									CON::update("tags","status='2'","source=? AND id=source AND (id_creator=? OR id_user=?)",array($tag['id'],$myId,$myId));
 									// eliminamos los tags privados
-									$delete = $GLOBALS['cn']->query('DELETE FROM tags_privates WHERE id_tag = "'.$tag['id'].'"');
+									CON::delete("tags_privates","id_tag=?",array($tag['id']));
 									// eliminamos las notificaciones de esa tag
-									$delete = $GLOBALS['cn']->query('DELETE FROM users_notifications WHERE id_source = "'.$tag['id'].'" AND id_type IN (1,2,4,7,8,9,10)');
+									CON::delete("users_notifications","id_source=? AND id_type IN (1,2,4,7,8,9,10)",array($tag['id']));
 									// eliminamos los comentarios de la tag
-									$delete = $GLOBALS['cn']->query('DELETE FROM comments WHERE id_source = "'.$tag['id'].'"');
+									CON::delete("comments","id_source=?",array($tag['id']));
 								}
 								//decremento del numero de tags del usuario
 								updateUserCounters(	$_SESSION['ws-tags']['ws-user']['id'], 'tags_count', '1',	'-');
 								$msgBox = 1;
-							}elseif(mysql_num_rows($validateSponsor)>0){ //si la tag esta patrocinada
+							}elseif($validateSponsor>0){ //si la tag esta patrocinada
 								$msgBox = MENUTAG_CTRERRORDELETETAGSPONSORED;
 							}
 						}//else delprivate
