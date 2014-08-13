@@ -5797,3 +5797,25 @@ container .left-panel .menus ul span{
 .fotoCrop>form>div{
 	padding-bottom: 20px; color: #787878
 }
+
+.side-box.trendings>header span {
+	background-image: url('tbum/box-title/tag.png');
+	background-position: 0px center;
+	-webkit-background-size: 50px auto;
+	-moz-background-size: 50px auto;
+	background-size: 50px auto;
+	padding-left: 45px;
+}
+.side-box.trendings ul li{
+	text-indent: 10px !important;
+	min-height: .2em !important;
+}
+.side-box.trendings ul li:last-child{
+	margin-bottom: 1em;
+}
+.side-box.trendings div{
+	text-align: center;
+	font-size: .8em;
+	padding: .8em;
+	word-wrap: break-word;
+}

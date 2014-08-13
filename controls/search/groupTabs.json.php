@@ -22,6 +22,11 @@ include '../header.json.php';
 		$groups  = groups($whereGroups,$limit,$ini);
 
 		$cant = mysql_num_rows($groups);
+		if ($cant == 0) {
+			$groups = groups($whereGroups,$limit,$ini, true);
+			$cant = mysql_num_rows($groups);
+			$suggest = true;
+		}
 
 		while ($group = mysql_fetch_assoc($groups)){
 				$group['members'] = $group['num_members']; //$num_members
@@ -94,7 +99,8 @@ include '../header.json.php';
 		die(jsonp(array(
 			'group' => $groupsarray,
 			'cant'  => $cant,
-			'idsm'  => 'groups'
+			'idsm'  => 'groups',
+			'suggest' => ($suggest) ? $suggest : false
 		)));
 	}//quitar_inyect
 ?>

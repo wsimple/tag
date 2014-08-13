@@ -8,16 +8,18 @@ include('../includes/languages.config.php');
 //query
 $whereFriends = " WHERE u.status IN (1,5) ";
 
+$term = '';
 if ($_GET['term'] != ''){
-    $whereFriends .= ' AND CONCAT_WS( " ", email, name, last_name, screen_name, username) LIKE "%'.$_GET['term'].'%"';
-    $whereGroups = 'CONCAT_WS( " ",g.description, g.name) LIKE "%'.$_GET['term'].'%"';
+    $term = str_replace(' ', '%', $_GET['term']);
+    //$term = $_GET['term'];
+    $whereFriends .= ' AND CONCAT_WS( " ", email, name, last_name, screen_name, username) LIKE "%'.$term.'%"';
+    $whereGroups = 'CONCAT_WS( " ",g.description, g.name) LIKE "%'.$term.'%"';
 }
 
 $friends = users($whereFriends, 3);
 $groups  = groups($whereGroups, 3);
-$tags    = tags($_GET['term'],3);
-
-$productSe  = productS($_GET['term'],3);
+$tags    = tags($term,3);
+$productSe  = productS($term,3);
 
 //construye arreglo de resultados
 $numrowsinit = mysql_num_rows($friends);
@@ -65,7 +67,7 @@ while($tag = @mysql_fetch_assoc($tags)){
 	$textCount = count($textHash);
 
 	for($i=0;$i<$textCount;$i++){
-		if(strpos($textHash[$i],$_GET['term'])!==false){
+		if(strpos($textHash[$i],$term)!==false){
 			$newText[] = $textHash[$i];
 			$newText = array_unique($newText);
 			if(count($newText)>=$limit) break 2;
@@ -112,7 +114,7 @@ for ($x = $pro; $product = mysql_fetch_assoc($productSe); $x++) {
 //	$textCount = count($textHashp);
 //
 //	for($i=0;$i<$textCount;$i++){
-//		if(strpos($textHashp[$i],$_GET['term'])!==false){
+//		if(strpos($textHashp[$i],$term)!==false){
 //			$newTextp[] = $textHashp[$i];
 //			$newTextp = array_unique($newTextp);
 //			if(count($newTextp)>=$limitp) break 2;
@@ -133,7 +135,7 @@ for ($x = $pro; $product = mysql_fetch_assoc($productSe); $x++) {
 //	}
 //}
 
-if( count($jsonResult) <= 0 || !isset($jsonResult) || $_GET['term'] == '' ){
+if( count($jsonResult) <= 0 || !isset($jsonResult) || $term == '' ){
     $jsonResult[0] = array(
         "noresult"=> array(
             "category" => NORESULTS,

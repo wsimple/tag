@@ -18,6 +18,12 @@ include '../header.json.php';
 		}
 
 		$hashtags  = tags($srh,$limit);
+		$cant = mysql_num_rows($hashtags);
+		if ($cant == 0) {
+			$hashtags = tags($srh,$limit,true);
+			$cant = mysql_num_rows($hashtags);
+			$suggest = true;
+		}
 
 		$newText = array();
 		while($tag = @mysql_fetch_assoc($hashtags)){
@@ -57,7 +63,8 @@ include '../header.json.php';
 
 			die(jsonp(array(
 				'hash'   => $newText,
-				'cant'   => $textCount
+				'cant'   => $textCount,
+				'suggest' => ($suggest) ? $suggest : false
 			)));
 		}
 
