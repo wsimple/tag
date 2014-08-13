@@ -148,7 +148,7 @@
 					incPoints(7,$tag['idTag'],$tag['idUser'],$_SESSION['ws-tags']['ws-user']['id']); //incremento de hits a la tag que se recibe
 					incHitsTag($tag['idTag']);
                     $msj=$_GET['msj'];
-					$mails=explode(',',$_GET['mails']);
+					$mails=explode(',',ltrim($_GET['mails'],','));
 					if(count($mails)>0){
 						$correos='';
 						foreach($mails as $per){
@@ -310,7 +310,7 @@
 								//envio del correo
 								//if (sendMail(formatMail($body, "790"), "no-reply@tagbum.com", "Tagbum.com", MENUTAG_CTRSHAREMAILASUNTO, $per, "../../")){
 								if (sendMail(formatMail($body, "790"), "no-reply@tagbum.com", formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.MENUTAG_CTRSHAREMAILTITLE1, $per, "../../")){
-									$correos .= "-&nbsp;".$per.".<br/>";
+									$correos .= "-&nbsp;".$per."<br/>";
 									//insert tabla verificacion
 									if( !existe("tags_share_mails", "id_tag", " WHERE id_tag = '".$tag['idTag']."' AND referee_number = '".$_SESSION['ws-tags']['ws-user']['code']."' AND email_destiny = '".$per."' ") ) {
 										$insert  = $GLOBALS['cn']->query("
@@ -325,7 +325,8 @@
 							}//if per
 						}//foreach
 					}//if (count($mails)>0)
-					echo (($correos!="")?'<div class="div_exito"><strong>'.MENUTAG_CTRSHAREMAILEXITO.":</strong></div><br><br> ".$correos : $device? '<div class="div_error">'.$device.'<br>'.MENUTAG_CTRSHAREMAILERROR.'</div>':'<div class="div_error">'.MENUTAG_CTRSHAREMAILERROR.'</div>');
+
+					echo $correos!=""?'<div class="div_exito"><strong>'.MENUTAG_CTRSHAREMAILEXITO.":</strong></div><br><br> ".$correos : ($device? '<div class="div_error">'.$device.'<br>'.MENUTAG_CTRSHAREMAILERROR.'</div>':'<div class="div_error">'.MENUTAG_CTRSHAREMAILERROR.'</div>');
 				break; //share
 				//delete
 				case 6:
