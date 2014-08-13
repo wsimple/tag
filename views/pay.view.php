@@ -21,7 +21,7 @@ $notify_url    = "http://tagbum.com/wpruebas/controls/pay.controls.php";
 //Producto/s que se pagaran por Paypal
 $paypalProducts = array();
 $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
-if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
+if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
 //Verifica accion a realizar para pagos en paypal
 if(isset($_GET['payAcc'])){
     switch ($_GET['payAcc']) {

@@ -1075,18 +1075,19 @@ content.resendEmailPassword input[type='button']{
 	-webkit-background-size:100% auto;
 	-moz-background-size:100% auto;
 	background-size:100% auto;
+	margin-right: 1px;
 }
 .tag-container [tag] .tag-icons #likeIcon{
-	background-image:url(smt/tag/like_icon.png);
+	background-image:url(smt/tag/like_icon.png?1);
 }
 .tag-container [tag] .tag-icons #dislikeIcon{
-	background-image:url(smt/tag/dislike_icon.png);
+	background-image:url(smt/tag/dislike_icon.png?1);
 }
 .tag-container [tag] .tag-icons #redist{
-	background-image:url(smt/tag/redist_icon.png);
+	background-image:url(smt/tag/redist_icon.png?1);
 }
 .tag-container [tag] .tag-icons #sponsor{
-	background-image:url(smt/tag/sponsor_icon.png);
+	background-image:url(smt/tag/sponsor_icon.png?1);
 }
 .tag-container [tag] .redist{
 	position:absolute;
@@ -1331,67 +1332,67 @@ content.resendEmailPassword input[type='button']{
 	background-image:url('smt/tag/bcard_over.png');
 }
 .tag-container [tag] menu li#like{
-	background-image:url('smt/tag/like.png');
+	background-image:url('smt/tag/like.png?1');
 }
 .tag-container [tag] menu li#like:hover,
 .mobile .tag-container [tag] menu li.expand#like{
-	background-image:url('smt/tag/like_over.png');
+	background-image:url('smt/tag/like_over.png?1');
 }
 .tag-container [tag] menu li#dislike{
-	background-image:url('smt/tag/dislike.png');
+	background-image:url('smt/tag/dislike.png?1');
 }
 .tag-container [tag] menu li#dislike:hover,
 .mobile .tag-container [tag] menu li.expand#dislike{
-	background-image:url('smt/tag/dislike_over.png');
+	background-image:url('smt/tag/dislike_over.png?1');
 }
 .tag-container [tag] menu li#comment{
-	background-image:url('smt/tag/comment.png');
+	background-image:url('smt/tag/comment.png?1');
 }
 .tag-container [tag] menu li#comment:hover,
 .mobile .tag-container [tag] menu li.expand#comment{
-	background-image:url('smt/tag/comment_over.png');
+	background-image:url('smt/tag/comment_over.png?1');
 }
 .tag-container [tag] menu li#share{
-	background-image:url('smt/tag/share.png');
+	background-image:url('smt/tag/share.png?1');
 }
 .tag-container [tag] menu li#share:hover,
 .mobile .tag-container [tag] menu li.expand#share{
-	background-image:url('smt/tag/share_over.png');
+	background-image:url('smt/tag/share_over.png?1');
 }
 .tag-container [tag] menu li#redistr{
-	background-image:url('smt/tag/redist.png');
+	background-image:url('smt/tag/redist.png?1');
 }
 .tag-container [tag] menu li#redistr:hover,
 .mobile .tag-container [tag] menu li.expand#redistr{
-	background-image:url('smt/tag/redist_over.png');
+	background-image:url('smt/tag/redist_over.png?1');
 }
 .tag-container [tag] menu li#sponsors{
-	background-image:url('smt/tag/sponsor.png');
+	background-image:url('smt/tag/sponsor.png?1');
 }
 .tag-container [tag] menu li#sponsors:hover,
 .mobile .tag-container [tag] menu li.expand#sponsor{
-	background-image:url('smt/tag/sponsor_over.png');
+	background-image:url('smt/tag/sponsor_over.png?1');
 }
 .tag-container [tag] menu li#trash{
-	background-image:url('smt/tag/trash.png');
+	background-image:url('smt/tag/trash.png?1');
 }
 .tag-container [tag] menu li#trash:hover,
 .mobile .tag-container [tag] menu li.expand#trash{
-	background-image:url('smt/tag/trash_over.png');
+	background-image:url('smt/tag/trash_over.png?1');
 }
 .tag-container [tag] menu li#edit{
-	background-image:url('smt/tag/edit.png');
+	background-image:url('smt/tag/edit.png?1');
 }
 .tag-container [tag] menu li#edit:hover,
 .mobile .tag-container [tag] menu li.expand#edit{
-	background-image:url('smt/tag/edit_over.png');
+	background-image:url('smt/tag/edit_over.png?1');
 }
 .tag-container [tag] menu li#report{
-	background-image:url('smt/tag/report.png');
+	background-image:url('smt/tag/report.png?1');
 }
 .tag-container [tag] menu li#report:hover,
 .mobile .tag-container [tag] menu li.expand#report{
-	background-image:url('smt/tag/report_over.png');
+	background-image:url('smt/tag/report_over.png?1');
 }
 .mini .tags-list{ font-size:61.5%; }
 .mini .tag-container{ width:642px; }
@@ -1458,6 +1459,14 @@ footer a:hover{ text-decoration:none; }
 .color_orange{ color:orange !important; }
 .color_red{ color:red !important; }
 .color_red_dark{ color:#900 !important; }
+.color-pro{
+	color: #71cbe9;
+	text-decoration: none;
+	font-size: 13px;
+}
+.color-pro:hover{
+	color: #000;
+}
 #carousel-box{
 	width:650px;
 	margin:auto;
@@ -2327,7 +2336,7 @@ container#toptag .tag-container{
 
 #frmProfileFormContainer{
 	float:right;
-	width:715px;
+	width:680px;
 	/*border:1px solid #999;*/
 }
 
