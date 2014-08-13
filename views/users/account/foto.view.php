@@ -5,9 +5,12 @@
 		<input type="hidden" id="w" name="w" />
 		<input type="hidden" id="h" name="h" />
 		<div>
-		<h3 class="ui-single-box-title" style="padding-left: 40px">
+			<h3 class="ui-single-box-title" style="padding-left: 40px">
 				&nbsp;<?=USER_THUMBCREATION?>
 			</h3>
+			<div class="menuProfileBack">
+				<a href="<?=base_url('profile')?>"><?=USER_PROFILE?></a> > <?=USER_CROPPROFILE?>
+			</div>
 			<input name="send" type="button" id="send" style="float:right;" value="<?=USERPROFILE_SAVE?>"/>
 		</div>
 		<div>

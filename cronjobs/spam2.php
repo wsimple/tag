@@ -13,7 +13,7 @@ include ("includes/languages.config.php");
 
 
 // ******************** SOME MAIL DATA *************************************************************************************
-$from = 'no-reply@seemytag.com';
+$from = 'no-reply@tagbum.com';
 $fromName = 'seemytag.com';
 $path = '../';
 $formatMailWidth = "750";

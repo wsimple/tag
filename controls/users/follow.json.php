@@ -77,7 +77,7 @@ include RELPATH.'class/class.phpmailer.php';
 					';
 					//echo $body;
 					if( !LOCAL ) {
-						sendMail(formatMail($body,600), 'no-reply@seemytag.com', formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), MAILFALLOWFRIENDS_SUBJECT, $email, '../../');
+						sendMail(formatMail($body,600), 'no-reply@tagbum.com', formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), MAILFALLOWFRIENDS_SUBJECT, $email, '../../');
 					}//fin envio de email
 				}
 			}elseif(isset($_GET['unfollow']) && count($link)){//dejar de seguir

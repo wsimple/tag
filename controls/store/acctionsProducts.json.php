@@ -88,7 +88,7 @@ switch ($_GET['acc']) {
 			if($result){ 
 				$res['action'] = 'insert'; 
 				$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
-				if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
+				if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
 				notifications($userId,$idproduct,'29',"",$wid);
 			}			
 		}
@@ -363,7 +363,7 @@ switch ($_GET['acc']) {
 								notifications($Winner['id_user'],$idRaffle,19,'',427); //Ganador
 							}
 
-							if(sendMail(formatMail($body, '790'), 'no-reply@seemytag.com', 'Tagbum.com', STORE_RAFFLEEMAILMESSAGE, $All['email'], '../../'))
+							if(sendMail(formatMail($body, '790'), 'no-reply@tagbum.com', 'Tagbum.com', STORE_RAFFLEEMAILMESSAGE, $All['email'], '../../'))
 								$emailSendAll = '1';
 							else
 								$emailSendAll = '0';
@@ -400,7 +400,7 @@ switch ($_GET['acc']) {
 								</tr>
 							</table>';
 
-							sendMail(formatMail($bodyOwner, '790'), 'no-reply@seemytag.com', 'Tagbum.com', STORE_RAFFLEEMAILMESSAGE, $Owner['email'], '../../');
+							sendMail(formatMail($bodyOwner, '790'), 'no-reply@tagbum.com', 'Tagbum.com', STORE_RAFFLEEMAILMESSAGE, $Owner['email'], '../../');
 						//correo dueno
 					//fin detalles del correo
 					}

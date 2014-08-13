@@ -75,7 +75,9 @@
 
 			<div id="frmProfile_View" style="margin-left: 20px; padding-top: 8px; max-width: 690px;">
 				<h3 class="ui-single-box-title">&nbsp;<?=PREFERENCES_SETTINGS?></h3>
-
+					<div class="menuProfileBack">
+						<a href="<?=base_url('profile')?>"><?=USER_PROFILE?></a> > <?=USERPROFILE_PREFERENCES?>
+					</div>
 
 						
 						<div style="font-size: 12px; margin-bottom: 10px;margin-left: 20px;">

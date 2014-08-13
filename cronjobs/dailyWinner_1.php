@@ -23,7 +23,7 @@
 		return $GLOBALS['cn']->queryRow($sql);
 	}
 	$uid=current($GLOBALS['cn']->queryRow('SELECT id FROM users WHERE email="wpanel@tagbum.com";'));
-	if (!$uid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
+	if (!$uid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
 	$date=current($GLOBALS['cn']->queryRow('SELECT NOW();'));
 	$fecha=strtotime($date);
 	$actions=array(
