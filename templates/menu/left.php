@@ -1,6 +1,7 @@
 <?php 
 	$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";'); 
 	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
+	$trendings = get_trending(10);
 ?>
 <article class="side-box menu">
 	<header><span></span></header>
@@ -58,11 +59,23 @@
 				<?php } ?>
 
 				<?php if (PAYPAL_PAYMENTS): ?>
-					<li><a href="<?=HREF_DEFAULT?>" action="buyPoints"><?=STORE_SALE_POINTS?></a></li>	
+					<li><a href="<?=HREF_DEFAULT?>" action="buyPoints"><?=STORE_SALE_POINTS?></a></li>
 				<?php endif ?>
 			</ul>
 		</li>
 	</ul>
+</article>
+<article class="side-box trendings">
+	<header><span><?=LEFTSIDE_TRENDING?></span></header>
+	<?php if (mysql_num_rows($trendings) > 0): ?>
+		<ul>
+		<?php while($trending = mysql_fetch_assoc($trendings)): ?>
+			<li><a href="searchall?srh=<?php echo  urlencode($trending['word']) ?>"><?php echo ucwords($trending['word']) ?></a></li>
+		<?php endwhile; ?>
+		</ul>
+	<?php else: ?>
+		<div><?php LEFTSIDE_NOHAVE_TRENDINGS_TOPINGS ?></div>
+	<?php endif; ?>
 </article>
 <?php if ($section!='news'){ 
 	require('views/news/news.php');

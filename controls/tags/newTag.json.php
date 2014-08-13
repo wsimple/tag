@@ -266,6 +266,10 @@ function newTag_json($data,$mobile=false){
 				geo_lat				="",
 				geo_log				=""
 		';
+
+		//Usado para trending toping
+		set_trending_topings($data['topText'].' '.$data['middleText'].' '.$data['bottomText'],true);
+
 		$insert=$GLOBALS['cn']->query($sql);
 		$tagId=mysql_insert_id();
 		$GLOBALS['cn']->query('UPDATE tags SET source="'.$tagId.'" WHERE id="'.$tagId.'" AND id_user="'.$myId.'"');
