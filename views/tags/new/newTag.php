@@ -233,11 +233,6 @@ $(function(){
 	$('#radio').buttonset();
 	function setType(type){$('#type').val(type||'<?=$idPage?>');}
 	function setBG(img){
-		if(!img.match(/\.[a-z0-9]{3}/i)){
-			$('#bckSelected').css('background-image','');
-			$('#imgTemplate').val('');
-			return;
-		}
 		$('#imgTemplate').val(img);
 		var url=FILESERVER+'img/templates/'+img;
 		$('#bckSelected').css('background-image','url('+url+')');
