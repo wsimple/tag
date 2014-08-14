@@ -44,7 +44,7 @@
 		$.ajax.log({
 			type: 'GET',
 			dataType: 'json',
-			url: 'controls/tags/tagsList.json.php?id=<?=($tag['id']).($dialog?'&popup':'')?>',
+			url: 'controls/tags/tagsList.json.php?id=<?=$tag['id']?>',
 			success	: function(data){
 				if (data['tags'].length>0){
 					$('#layerTag').html(showTags(data['tags']));

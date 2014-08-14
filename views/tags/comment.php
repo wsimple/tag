@@ -54,14 +54,11 @@ global $dialog;
 		<?php
 		if($idTag!=''){
 		?>
-
-
-
 		console.log('tag con un id registrado');
 		$.ajax.log({
 			type: 'GET',
 			dataType: 'json',
-			url: 'controls/tags/tagsList.json.php?id=<?=($idTag).($dialog?'&popup':'')?>',
+			url: 'controls/tags/tagsList.json.php?id=<?=$idTag?>',
 			success	: function(data){
 				if (data['tags'].length>0){
 					$('#dialoglayerTag').html(showTags(data['tags']));
