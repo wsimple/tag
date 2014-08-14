@@ -2,11 +2,6 @@
 Options +FollowSymLinks -indexes
 RewriteEngine On
 
-#servidor de imagenes
-RewriteCond %{HTTP_HOST} ^i\.tagbum\.com|68\.109\.244\.201 [NC]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ img.php/$1 [L]
-
 #servidor principal
 RewriteCond %{HTTP_HOST} ^(www)?\.tagbum\.com|68\.109\.244\.199 [NC]
 RewriteCond %{REQUEST_FILENAME} !-f
