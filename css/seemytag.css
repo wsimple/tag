@@ -2364,10 +2364,11 @@ form #frmProfileFormContainer>div{
 	margin-bottom:10px;
 
 }
-#frmProfile_changePhotoDiv{
+#frmProfile_changePhotoDiv,#frmProfile_changeCoverDiv{
 	width:0px !important;
+	height: 0px !important;
 }
-#frmProfile_changePhotoDiv input{
+#frmProfile_changePhotoDiv input,#frmProfile_changeCoverDiv input{
 	height:0px;
 	width:0px;
 	margin:0px;
@@ -2999,7 +3000,7 @@ a.plus:hover{
     height: auto;
     max-height: inherit;
 }
-#externalProfile .photoProfile{ margin-right: 20px; }
+#externalProfile .photoProfile{ margin-right: 20px; width: 105px}
 #externalProfile .ui-single-box-title a,
 #externalProfile .ui-single-box-title img{ 
 	float: none;
@@ -3077,7 +3078,14 @@ a.plus:hover{
 #externalProfileInfo:hover .edit,
 #externalProfilePrefe:hover .edit,
 #eProfileTag:hover .edit{ display: block; }
-#externalProfilePrefe .edit{ float: left;}
+#photoProfileChange:hover .edit{ display: block; position:absolute;left: 85px; top: 115px}
+#coverExternalProfile{position: absolute;
+top: 0;
+left: 125px;
+width: 718px;
+height: 170px;}
+#coverExternalProfile:hover .edit{ display: block; position:absolute;left: 680px; top: 10px}
+/*#externalProfilePrefe .edit{ float: left;}*/
 #eProfileTag .edit{ top: -20px; }
 #info-top-groups .groupSecret,
 #info-top-groups.groupPrivate,
@@ -3085,6 +3093,26 @@ a.plus:hover{
     display: inline-block;
     float: none;
 }
+
+/*nuevo external. Linea 3018 y 3019 estilos activos del antiguo external*/
+
+#externalProfile #eProfileInfo #externalProfileInfo,#externalProfile #eProfileInfo #externalProfilePrefe{
+	float: none;
+	border: #ccc solid 1px;
+	width: 355px;
+	min-height: 115px;
+}
+#externalProfile #eProfileInfo #externalProfilePrefe span{right: inherit;}
+
+#externalProfile #eProfileInfo #externalProfilePrefe .externalPre{
+	color: #71cbe9;text-decoration: none;
+}
+
+#externalProfile #eProfileInfo #externalProfilePrefe .externalPre:hover{
+	color: #000;
+}
+/*fin nuevo external*/
+
 /* publicity rigth side */
 
 /*#adsListPublicity{
