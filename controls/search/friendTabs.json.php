@@ -25,6 +25,12 @@ include '../header.json.php';
 
 		$cant = mysql_num_rows($friends);
 
+		if ($cant == 0) {
+			$friends = users($whereFriends,$limit,$ini, true);
+			$cant = mysql_num_rows($friends);
+			$suggest = true;
+		}
+
 		while ($friend = mysql_fetch_assoc($friends)){
 			$countryUser = $GLOBALS['cn']->query("SELECT name FROM countries WHERE id = '".$friend['country']."'");
 			$nameCountryUser  = mysql_fetch_assoc($countryUser);
@@ -40,7 +46,8 @@ include '../header.json.php';
 		die(jsonp(array(
 			'friends' => $friendsarray,
 			'cant'    => $cant,
-			'idsm'    => 'friends'
+			'idsm'    => 'friends',
+			'suggest' => ($suggest) ? $suggest : false
 		)));
 
 	}//quitar_inyect
