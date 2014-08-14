@@ -242,7 +242,7 @@
 	} 
 	if (!is_array($res)) $res=array();
 	$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
-	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
+	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
 	if ($_SESSION['ws-tags']['ws-user']['type']==1)	$res['empre']=1;
 	if ($_SESSION['ws-tags']['ws-user']['id']==$wid)	$res['adtb']=1;
 	die(jsonp($res));
@@ -297,7 +297,7 @@
 					$row['sub_category_name']= formatoCadena(@constant($row['name']));
 				}else{
 					if ($row['eseller']=='wpanel@tagbum.com') $row['p_adtb'];
-					elseif ($row['eseller']=='wpanel@seemytag.com') $row['p_adtb'];
+					elseif ($row['eseller']=='wpanel@tagbum.com') $row['p_adtb'];
 
 					unset($row['eseller']);
 					$noId.=($noId==''?'':',').$row['id'];

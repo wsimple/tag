@@ -52,6 +52,10 @@ if($action=='del'){//si es eliminar
 		$res['inserted']=CON::insert('comments','id_type=?,id_source=?,id_user_from=?,id_user_to=?,comment=?',array(
 			$type,$_source['id'],$myId,$user_to,formatText($_POST['txt'])
 		));
+		
+		//Usado para trending toping
+		set_trending_topings($_POST['txt'],true);
+
 		$res['_sql_'][]=CON::lastSql();
 		if(CON::error()) $res['_sqlerror_'][]=CON::errorMsg();
 		if($res['inserted']){

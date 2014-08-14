@@ -38,7 +38,7 @@ if($textCount!=0){
 	}
 	echo  '<div id="moreHash"></div><div class="clearfix"></div></div>';
 }else{
-	echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.'</span> <br><span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div>';
+	echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div>';
 }
 
 ?>

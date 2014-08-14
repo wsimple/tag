@@ -220,7 +220,9 @@ function newTag_json($data,$mobile=false){
 				video_url			="'.$data['video'].'"
 			WHERE id = "'.$data['tag'].'"
 		';
-
+		//Usado para trending toping
+		set_trending_topings($data['topText'].' '.$data['middleText'].' '.$data['bottomText'],true);
+		
 		$update=$GLOBALS['cn']->query($sql);
 		$tag=createTag($data['tag'],true);
 
@@ -266,6 +268,10 @@ function newTag_json($data,$mobile=false){
 				geo_lat				="",
 				geo_log				=""
 		';
+
+		//Usado para trending toping
+		set_trending_topings($data['topText'].' '.$data['middleText'].' '.$data['bottomText'],true);
+
 		$insert=$GLOBALS['cn']->query($sql);
 		$tagId=mysql_insert_id();
 		$GLOBALS['cn']->query('UPDATE tags SET source="'.$tagId.'" WHERE id="'.$tagId.'" AND id_user="'.$myId.'"');

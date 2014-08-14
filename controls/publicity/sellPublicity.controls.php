@@ -102,7 +102,7 @@
 							 </table>
 				 ';
 
-				 @sendMail(formatMail($body, 700), "no-reply@seemytag.com", "Tagbum.com", PUBLICITY_CTREMAILASUNTO, $publi[email_persona], "../../");
+				 @sendMail(formatMail($body, 700), "no-reply@tagbum.com", "Tagbum.com", PUBLICITY_CTREMAILASUNTO, $publi[email_persona], "../../");
 
 			 }//if ($publi[click_max] == $public[click_current])
 
