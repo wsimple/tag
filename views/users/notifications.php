@@ -78,7 +78,7 @@
 				//si no hay mas tag, se cancela la consulta
 				if(act.more===false && action!='refresh'){ return onca(false); } //checked&
 				var url='controls/notifications/notifications.json.php?action='+action+(opc.date?'&date='+opc.date:'')+get
-				$.qajax('high',{
+				$.ajax({
 					url		:url,
 					data	:$.extend({},act,opc.data),
 					dataType:'json',
