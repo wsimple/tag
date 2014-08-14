@@ -13,6 +13,7 @@ if(isset($_GET['srh'])){
 $srh = urldecode($srh); //Fix De hashtags
 set_trending_topings($srh);
 if($srh!=""){
+	$srh = str_replace(' ', '%', $srh);
 	$whereFriends.=' AND CONCAT(email," ",name," ",last_name) LIKE "%'.$srh.'%"';
 	$whereGroups='CONCAT(g.description," ",g.name) LIKE "%'.$srh.'%"';
 }
@@ -27,6 +28,7 @@ $groups_count = mysql_num_rows($groups);
 if ($groups_count == 0) $groups=groups('', 3, 0, true);
 
 $hashtags=tags($srh,5);
+//die($hashtags);
 if (mysql_num_rows($hashtags) == 0) $hashtags=tags('', 5, true);
 
 if($srh=='invalid'){
@@ -55,14 +57,14 @@ if($srh=='invalid'){
 					 <div class="clearfix"></div>
 				</div>
 				<?php }else{ ?>
-				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.'</span> <br><span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
+				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
 				<?php } ?>
 				<div class="clearfix"></div>
 			</div>
 			<?php //*************************amigos*************************// ?>
 			<div class="titleSearchAllfriends"><?=SEARCHALL_PEOPLES?></div>
 				<?php if($friends_count==0){ ?>
-				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.'</span> <br><span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
+				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
 				<div class="ui-single-box-title"><?=SEARCHALL_PEOPLES.' '.EDITFRIEND_VIEWTITLESUGGES?></div>
 			<?php } ?>
 				<div>
@@ -75,7 +77,7 @@ if($srh=='invalid'){
 			<?php //*************************grupos*************************// ?>
 				<div class="titleSearchAllhashgroup"><?=SEARCHALL_GROUPS?></div>
 				<?php if($groups_count==0){ ?>
-				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.'</span> <br><span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
+				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
 				<div class="ui-single-box-title"><?=SEARCHALL_GROUPS.' '.EDITFRIEND_VIEWTITLESUGGES ?></div>
 				<?php } ?>
 				<div>

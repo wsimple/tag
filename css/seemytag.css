@@ -5399,10 +5399,10 @@ container #pageNews .news-wrapper #news-here div[tipo="29"]{
 
 .messageNoResultSearch{
 	border:1px solid rgba(240,143,67,0.29);
-	padding:15px;
+	padding:.4em;
 	background:rgba(242,250,57,0.16);
 	color:#666;
-	font-size:16px;
+	font-size:14px;
 	margin:10px 0;
 	
 }
@@ -5822,12 +5822,12 @@ container .left-panel .menus ul span{
 	padding-bottom: 20px; color: #787878
 }
 .side-box.trendings>header span {
-	background-image: url('tbum/box-title/on-fire.png');
+	background-image: url('smt/on-fire.png');
 	background-position: 0px center;
-	-webkit-background-size: 50px auto;
-	-moz-background-size: 50px auto;
-	background-size: 50px auto;
-	padding-left: 45px;
+	-webkit-background-size: 36px auto;
+	-moz-background-size: 36px auto;
+	background-size: 36px auto;
+	padding-left: 36px;
 }
 .side-box.trendings ul li{
 	text-indent: 10px !important;
@@ -5835,6 +5835,9 @@ container .left-panel .menus ul span{
 }
 .side-box.trendings ul li:last-child{
 	margin-bottom: 1em;
+}
+.side-box.trendings ul li a{
+	text-decoration: none;
 }
 .side-box.trendings div{
 	text-align: center;
