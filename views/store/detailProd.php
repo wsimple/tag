@@ -1,6 +1,6 @@
 <?php
 	$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
-	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@seemytag.com";');
+	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
 	$select='';$join='';
 	//valida el menu left
 	$numIt=createSessionCar('','','count');

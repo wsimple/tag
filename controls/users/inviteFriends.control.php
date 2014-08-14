@@ -66,7 +66,7 @@
 				if( $per ) {
 					$perso.=($perso!= '')?', '.$per:' '.$per;
 					//	sendMail($body,                 $from,                   $fromName,      $subject,                                     $address,                  $path='')
-					if(sendMail(formatMail($body,800), 'no-reply@seemytag.com', 'Tagbum.com', $_SESSION['ws-tags']['ws-user']['full_name'].', '.INVITEUSERS_CTRLSUBJECT, $per,     '../../') )
+					if(sendMail(formatMail($body,800), 'no-reply@tagbum.com', 'Tagbum.com', $_SESSION['ws-tags']['ws-user']['full_name'].', '.INVITEUSERS_CTRLSUBJECT, $per,     '../../') )
 						$correos = 1;
 				}
 			}

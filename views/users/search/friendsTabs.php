@@ -1,6 +1,6 @@
 <div id="friendsTabs">
 <?php
-	if(mysql_num_rows($friends)>0){
+	if($friends_count>0){
 	$friendsAll=users($whereFriends,5);
 	while($friend=mysql_fetch_assoc($friendsAll)){
 	$nameCountryUser=$GLOBALS['cn']->queryRow("SELECT name FROM countries WHERE id = '".$friend['country']."'");
@@ -38,11 +38,11 @@
 	</div>
 <?php }
 }else{
-	echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.'</span> <br><span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div>';
+	echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div>';
 }
 ?>
 </div>
-<?php if(mysql_num_rows($friends)==5){ ?>
+<?php if($friends_count==5){ ?>
 <div id="smTabsFriends" class="seemoreSearch"><?=USER_BTNSEEMORE?></div>
 <div class="clearfix"></div>
 <div id="loading_friends"></div>
