@@ -17,14 +17,14 @@
 				<li><a href="<?=base_url('setting?sc=1')?>"><?=NOTIFICATIONS_CONFIGURATIONSECTION?></a></li>
 			</ul>
 		</li> -->
-		<li id="friends">
+<!-- 		<li id="friends">
 			<span><?=USER_FINDFRIENDSTITLELINKS?></span>
 			<ul>
 				<li><a href="<?=base_url('friends?sc=1')?>"><?=MAINMNU_FINDFRIENDS?></a></li>
 				<li><a href="<?=base_url('friends?sc=2')?>"><?=EDITFRIEND_VIEWTAB1?></a></li>
 				<li><a href="<?=base_url('friends?sc=3')?>"><?=EDITFRIEND_VIEWTAB2?></a></li>
 			</ul>
-		</li>
+		</li> -->
 		<li id="groups">
 			<span><?=MAINMNU_GROUPS?></span>
 			<ul>
