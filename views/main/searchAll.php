@@ -1,4 +1,40 @@
-<?php $url=$_SERVER['REQUEST_URI']; ?>
+<?php 
+$url=$_SERVER['REQUEST_URI']; 
+$whereFriends= " WHERE u.status IN (1,5) AND u.id!='".$_SESSION['ws-tags']['ws-user']['id']."' ";
+$srh='';
+if(isset($_GET['srh'])){
+	$srh=$_GET['srh'];
+}elseif(isset($_GET['dato'])){
+	$srh=$_GET['dato'];
+}elseif(!isset($_GET['srh'])){
+	$srh='invalid';
+}
+
+$srh = urldecode($srh); //Fix De hashtags
+set_trending_topings($srh);
+if($srh!=""){
+	$srh = str_replace(' ', '%', $srh);
+	$whereFriends.=' AND CONCAT(email," ",name," ",last_name) LIKE "%'.$srh.'%"';
+	$whereGroups='CONCAT(g.description," ",g.name) LIKE "%'.$srh.'%"';
+}
+$friends=users($whereFriends,3);
+//Sugerencia de personas si no hay resultados por criterio de busqueda
+$friends_count = mysql_num_rows($friends);
+if ($friends_count == 0) $friends = users('', 3, 0, true);
+
+$groups=groups($whereGroups,3);
+$groups_count = mysql_num_rows($groups);
+//Sugerencias de grupos si no hay
+if ($groups_count == 0) $groups=groups('', 3, 0, true);
+
+$hashtags=tags($srh,5);
+//die($hashtags);
+if (mysql_num_rows($hashtags) == 0) $hashtags=tags('', 5, true);
+
+if($srh=='invalid'){
+	$srh=VARIABLE_INVALID;
+}
+?>
 <div id="tabs" class="ui-single-box">
 	<ul style="font-size:14px">
 		<li><a id="all" href="<?=$url?>#tabs-1"><?=SEARCH_ALLRESULT?></a></li>
@@ -10,27 +46,6 @@
 	</ul>
 	<div id="tabs-1">
 		<div id="searchAll">
-		<?php
-			$whereFriends= " WHERE u.status IN (1,5) AND u.id!='".$_SESSION['ws-tags']['ws-user']['id']."' ";
-			$srh='';
-			if(isset($_GET['srh'])){
-				$srh=$_GET['srh'];
-			}elseif(isset($_GET['dato'])){
-				$srh=$_GET['dato'];
-			}elseif(!isset($_GET['srh'])){
-				$srh='invalid';
-			}
-			if($srh!=""){
-				$whereFriends.=' AND CONCAT(email," ",name," ",last_name) LIKE "%'.$srh.'%"';
-				$whereGroups='CONCAT(g.description," ",g.name) LIKE "%'.$srh.'%"';
-			}
-			$friends=users($whereFriends,3);
-			$groups=groups($whereGroups,3);
-			$hashtags=tags($srh,5);
-			if($srh=='invalid'){
-				$srh=VARIABLE_INVALID;
-			}
-			//*************************hashtags*************************// ?>
 			<div id="contentHash">
 				<div class="titleSearchAllhash"><?=SEARCH_HASHTAGS?></div>
 				<?php if(@mysql_num_rows($hashtags)>0){?>
@@ -42,35 +57,35 @@
 					 <div class="clearfix"></div>
 				</div>
 				<?php }else{ ?>
-				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.'</span> <br><span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
+				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
 				<?php } ?>
 				<div class="clearfix"></div>
 			</div>
 			<?php //*************************amigos*************************// ?>
 			<div class="titleSearchAllfriends"><?=SEARCHALL_PEOPLES?></div>
-				<?php if(mysql_num_rows($friends)>0){ ?>
+				<?php if($friends_count==0){ ?>
+				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
+				<div class="ui-single-box-title"><?=SEARCHALL_PEOPLES.' '.EDITFRIEND_VIEWTITLESUGGES?></div>
+			<?php } ?>
 				<div>
 					 <img id="loadingwaitfriends" src="css/smt/loader.gif" width="15" height="15"/>
 					 <div id="friendsJson"></div>
 					 <div id="clickpeople" class="seemoreSearch" style="display:none;"><?=USER_BTNSEEMORE?></div>
 					 <div class="clearfix"></div>
 				</div>
-			<?php }else{ ?>
-				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.'</span> <br><span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
-			<?php } ?>
 				<div class="clearfix"></div>
 			<?php //*************************grupos*************************// ?>
 				<div class="titleSearchAllhashgroup"><?=SEARCHALL_GROUPS?></div>
-				<?php if(mysql_num_rows($groups)>0){ ?>
+				<?php if($groups_count==0){ ?>
+				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
+				<div class="ui-single-box-title"><?=SEARCHALL_GROUPS.' '.EDITFRIEND_VIEWTITLESUGGES ?></div>
+				<?php } ?>
 				<div>
 					<img id="loadingwaitgroup" src="css/smt/loader.gif" width="15" height="15"/>
 					<div id="groupJson"></div>
 					<div id="clickgroup" class="seemoreSearch" style="display:none;"><?=USER_BTNSEEMORE?></div>
 					<div class="clearfix"></div>
 				</div>
-				<?php }else{ ?>
-				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.'</span> <br><span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
-				<?php } ?>
 				<div class="clearfix"></div><br>
 				<!--**************************************PRODUCT**************************************************-->
 					<div class="titleSearchAllhashgroup"><?=SEARCH_PRODUCT?></div>
@@ -102,19 +117,14 @@
 <script type="text/javascript">
 $(function(){
 	$('#tabs').tabs();
-//	$('button,input:submit,input:reset,input:button,#group_info a').button();
 	//hash
 	<?php if(mysql_num_rows($hashtags)>0){?>
 		hashJson('#hashJson','#loadingwaithash',5,'<?=$srh?>','#clickhash');
 	<?php }?>
 	//friends
-	<?php if(mysql_num_rows($friends)>0){?>
-		friendsJson('#friendsJson','#loadingwaitfriends',3,'<?=$srh?>','#clickpeople');
-	<?php }?>
+	friendsJson('#friendsJson','#loadingwaitfriends',3,'<?=$srh?>','#clickpeople');
 	//groups
-	<?php if(mysql_num_rows($groups)>0){?>
-		groupsJson('#groupJson','#loadingwaitgroup',3,'<?=$srh?>','#clickgroup');
-	<?php }?>
+	groupsJson('#groupJson','#loadingwaitgroup',3,'<?=$srh?>','#clickgroup');
 	$('#clickhash').click(function(){
 		$('#hash').click();
 		$('html,body').animate({scrollTop:0},'slow');

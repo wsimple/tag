@@ -1,6 +1,6 @@
 <div id="groupTabs">
 <?php
-	if(mysql_num_rows($groups)>0){
+	if($groups_count>0){
 		$groupsTabs  = groups($whereGroups,5);
 		while ($group = mysql_fetch_assoc($groupsTabs)){
 			$num_members = $group['num_members'];
@@ -126,10 +126,10 @@
 			}
 		}
 	}else{
-		echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.'</span> <br><span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div>';
+		echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div>';
 	} ?>
 </div>
-<?php if(mysql_num_rows($groups)==5){ ?>
+<?php if($groups_count==5){ ?>
 <div id="smTabsGroups" class="seemoreSearch"><?=USER_BTNSEEMORE?></div>
 <div class="clearfix"></div>
 <div id="loading_groups_search"></div>
