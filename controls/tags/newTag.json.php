@@ -220,7 +220,9 @@ function newTag_json($data,$mobile=false){
 				video_url			="'.$data['video'].'"
 			WHERE id = "'.$data['tag'].'"
 		';
-
+		//Usado para trending toping
+		set_trending_topings($data['topText'].' '.$data['middleText'].' '.$data['bottomText'],true);
+		
 		$update=$GLOBALS['cn']->query($sql);
 		$tag=createTag($data['tag'],true);
 
