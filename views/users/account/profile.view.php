@@ -96,6 +96,11 @@
 				<em class="font-size3 color-d">(<?=USERPROFILE_LBLHELPUSERNAME1?>)</em>
 			</div>
 			<em class="font-size3 color-d "><?=(($_SESSION['ws-tags']['ws-user'][username]!='') ? str_replace('*', $_SESSION['ws-tags']['ws-user'][username], USERPROFILE_LBLHELPUSERNAME2) : str_replace('*', USER_PROFILE, USERPROFILE_LBLHELPUSERNAME2))?></em>
+			<label style="margin-top: 10px;"><strong><?=BIOMESSAGE?>:</strong></label>
+			<div style="font-size: 10px"><?php //message personal ?>
+				<input type="text" tipo="string" size="100" value="<?=$_SESSION['ws-tags']['ws-user']['personal_messages']?>" id="frmProfile_messagePersonal" name="frmProfile_messagePersonal"/>
+				<span id="theCounter" ></span>&nbsp;max
+			</div>
 		</div>
 		<div><?php //birth day ?>
 			<label>
@@ -289,6 +294,14 @@
 		if ($('#frmProfile_cboLanguageUsr').val()!='<?=$_SESSION['ws-tags']['ws-user']['language']?>') {
 			$("#frmProfile_").submit();
 		};
+	});
+
+	$('#theCounter').textCounter({
+		target:'#frmProfile_messagePersonal',//required: string
+		count:160,//optional: integer [defaults 140]
+		alertAt:20,//optional: integer [defaults 20]
+		warnAt:10,//optional: integer [defaults 0]
+		stopAtLimit:true //optional: defaults to false
 	});
 
 	$('[title]').tipsy({html:true,gravity:'n'});
