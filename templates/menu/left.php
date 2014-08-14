@@ -1,7 +1,7 @@
 <?php 
 	$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";'); 
 	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
-	$trendings = get_trending(10);
+	$trendings = get_trending(5);
 ?>
 <article class="side-box menu">
 	<header><span></span></header>
