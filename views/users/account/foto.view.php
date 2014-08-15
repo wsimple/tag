@@ -18,6 +18,9 @@
 				<img src="<?=FILESERVER."img/users/".$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']?>" id="cropbox" style="margin:0;" />
 			</div>
 		</div>
+		<?php if (isset($_GET['ep'])) { ?>
+			<input name="ep" type="hidden" id="ep" value="1"/>	
+		<?php }	?>
 	</form>
 </div>
 
@@ -48,7 +51,11 @@
 					success:function(data){
 						$.c().log('profile.json:',data);
 						if(data['upload']=='done'||data['resize']=='done'){
-							redir('user');
+							if ($('#ep').val()==1) {
+								redir('user/preview');
+							}else if(!$('#ep').val()){
+								redir('user');
+							};
 						}
 					},
 					complete:function(){
@@ -57,6 +64,7 @@
 				});
 			};
 		})();
+
 		$('#send').click(send);
 	});
 	$('#formCoordenadas').ajaxForm({
