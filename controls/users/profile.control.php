@@ -47,7 +47,7 @@ if (quitar_inyect()){
 			$ext           = strtolower(end($parts));
 
 			if( in_array($ext, $imagesAllowed) ) {
-				$path  = RELPATH."img/users_cover/".$_SESSION['ws-tags']['ws-user'][code].'/';//ruta para crear dir
+				$path  = RELPATH."users_cover/".$_SESSION['ws-tags']['ws-user'][code].'/';//ruta para crear dir
 				$photo = $_SESSION['ws-tags']['ws-user'][code].'/'.md5(str_replace(' ', '', $_FILES[frmProfile_fileCover][name])).'.jpg';
 				//existencia de la folder
 				if( !is_dir ($path) ) {
