@@ -2,6 +2,13 @@
 	if(!is_file('includes/security/security.php')){ include 'new.php'; }
 	include('includes/config.php');
 	if($section=='image'){ include 'includes/imagen.php'; }
+	if($section=='dialog'){
+		header('Content-type: text/html; charset=utf-8');
+		global $dialog;
+		$dialog=true;
+		include 'views.php';
+		die();
+	}
 	// die($_SERVER['SERVER_NAME'].array_shift(split(basename(__DIR__),$_SERVER['REQUEST_URI'])).basename(__DIR__));
 	if (isset($_GET['resizeimg'])) {
 		include('includes/imagen.php');
