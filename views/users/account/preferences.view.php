@@ -78,8 +78,6 @@
 					<div class="menuProfileBack">
 						<a href="<?=base_url('profile')?>"><?=USER_PROFILE?></a> > <?=USERPROFILE_PREFERENCES?>
 					</div>
-
-						
 						<div style="font-size: 12px; margin-bottom: 10px;margin-left: 20px;">
 							<!--span>It's all about <img src="css/preferences/exclamation_y.png align" align="middle">ou...<br-->
 							<span><?=PREFERENCESTEXT1?><br>

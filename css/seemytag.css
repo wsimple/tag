@@ -3001,27 +3001,49 @@ a.plus:hover{
     max-height: inherit;
 }
 #externalProfile .photoProfile{ margin-right: 20px; width: 105px}
+#externalProfile .ui-single-box-title{
+	margin-top: 115px;	
+}
+
 #externalProfile .ui-single-box-title a,
 #externalProfile .ui-single-box-title img{ 
 	float: none;
 	border-radius: 50%;
 }
-#externalProfile .ui-single-box-title .photoProfile,
-#externalProfile .ui-single-box-title h3{ display: inline-block; }
+#externalProfile .ui-single-box-title h3{
+text-shadow:4px 4px 7px #000; color:#fff;display: inline-block;
+}
+
+#externalProfile .ui-single-box-title .photoProfile{ display: inline-block; }
 #externalProfile .ui-single-box-title a#seeBusiness{ 
     font-size: 10px;
     margin-left: 20px;
 }
+
+#externalProfile #eProfileInfo{
+	margin-top: 200px;
+}
+
+
+
+
 #externalProfile #eProfileInfo article,
 #info-top-groups article{ width: 49%; }
 #externalProfile #eProfileInfo label,
 #info-top-groups li label{ font-weight:bold; }
-#externalProfile #eProfileInfo #externalProfileInfo,#info-top-groups article.info{ float: left; border-left: none; }
-#externalProfile #eProfileInfo #externalProfilePrefe,#info-top-groups article.member{ float: right; border-right: none; }
+#info-top-groups article.info{ float: left; border-left: none; }
+#info-top-groups article.member{ float: right; border-right: none; }
 #externalProfile #eProfileInfo #externalProfilePrefe span,#info-top-groups article.member span{ right: 0px; }
-#externalProfile #eProfileInfo #externalProfilePrefe,
-#externalProfile #eProfileInfo #externalProfileInfo{ min-height: 140px; }
+
 #info-top-groups article{ min-height: 115px; }
+
+#externalProfile #eProfileInfo #externalProfileInfo .tituloName{font-size: 24px;font-weight: bold;} 
+#externalProfile #eProfileInfo #externalProfileInfo .infoPerExter{	padding:3px 0;}
+#externalProfile #eProfileInfo #externalProfileInfo .infoPerExter.color{ color:#979797;}
+#externalProfile #eProfileInfo #externalProfileInfo .peddingEx{ padding:3px 0 15px 0}
+#externalProfile #eProfileInfo #taglist-box {	border: 1px solid #ccc;width: 425px;float: left;}
+#externalProfile #eProfileInfo #taglist-box .tags-list .tag-container{ margin: 0 auto; width: 325px}
+
 
 #externalProfile #externalProfileInfo  .preferences{
 	width:90%;
