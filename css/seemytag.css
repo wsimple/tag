@@ -5190,16 +5190,20 @@ container #pageNews .news-wrapper #news-here div[tipo="29"]{
 	color:#faf8f8;
 	background:#FF8A28;
 }
-#searchAll #contentHash #msghashclick{
+#searchAll #msghashclick{
 	margin:5px 0;padding:9px 0;font-size:11px;
 }
-#searchAll #contentHash #msghashclick #hashClick{
+#searchAll #msghashclick .hashClick{
 	color:#f82;
 	text-decoration:underline;
 	cursor:pointer
 }
-#searchAll #contentHash #msghashclick #hashClick:hover{
+#searchAll #msghashclick .hashClick:hover{
 	text-decoration:none
+}
+#searchAll #group-box, #searchAll .group-details {
+	border: none;
+	min-height: inherit;
 }
 #tabs-4 .btnFriendsSearch input{
 	font-size:10px
