@@ -18,7 +18,7 @@
 <?php } ?>
 	<div class="comments-tags">
 		<div class="tag-box">
-			<div id="layerTag" class="tag-container"></div>
+			<div id="layerTag<?=$dialog?'_':'';?>" class="tag-container"></div>
 		</div>
 		<div class="comments-box-c" tag="<?=$tag['id']?>">
 			<?php
@@ -47,7 +47,7 @@
 			url: 'controls/tags/tagsList.json.php?id=<?=$tag['id']?>',
 			success	: function(data){
 				if (data['tags'].length>0){
-					$('#layerTag').html(showTags(data['tags']));
+					$('#layerTag<?=$dialog?'_':'';?>').html(showTags(data['tags']));
 					//$('[title]',tlc).tipsy({html: true,gravity: 'n'});
 					$("#menuTagnoLogged").click(function () {
 						$("#msgTagNologged").toggle("fade");
