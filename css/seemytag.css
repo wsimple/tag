@@ -1188,7 +1188,7 @@ content.resendEmailPassword input[type='button']{
 	left:0.833em;
 }
 .tag-container [tag] menu div#hashTashMenu{
-	position:absolute;top:0;left:0;
+	float:left;	
 	padding:5px 5px;
 	width:335px;
 	cursor:default;
@@ -1200,7 +1200,6 @@ content.resendEmailPassword input[type='button']{
 	-moz-border-radius:0.3085em;
 	border-radius:0.3085em;
 	border:#eee 1px solid;
-	z-index:1;
 	background:#fff;
 }
 .tag-container [tag] div{ z-index: 2; }
@@ -2364,10 +2363,11 @@ form #frmProfileFormContainer>div{
 	margin-bottom:10px;
 
 }
-#frmProfile_changePhotoDiv{
+#frmProfile_changePhotoDiv,#frmProfile_changeCoverDiv{
 	width:0px !important;
+	height: 0px !important;
 }
-#frmProfile_changePhotoDiv input{
+#frmProfile_changePhotoDiv input,#frmProfile_changeCoverDiv input{
 	height:0px;
 	width:0px;
 	margin:0px;
@@ -2999,28 +2999,50 @@ a.plus:hover{
     height: auto;
     max-height: inherit;
 }
-#externalProfile .photoProfile{ margin-right: 20px; }
+#externalProfile .photoProfile{ margin-right: 20px; width: 105px}
+#externalProfile .ui-single-box-title{
+	margin-top: 115px;	
+}
+
 #externalProfile .ui-single-box-title a,
 #externalProfile .ui-single-box-title img{ 
 	float: none;
 	border-radius: 50%;
 }
-#externalProfile .ui-single-box-title .photoProfile,
-#externalProfile .ui-single-box-title h3{ display: inline-block; }
+#externalProfile .ui-single-box-title h3{
+text-shadow:4px 4px 7px #000; color:#fff;display: inline-block;
+}
+
+#externalProfile .ui-single-box-title .photoProfile{ display: inline-block; }
 #externalProfile .ui-single-box-title a#seeBusiness{ 
     font-size: 10px;
     margin-left: 20px;
 }
+
+#externalProfile #eProfileInfo{
+	margin-top: 200px;
+}
+
+
+
+
 #externalProfile #eProfileInfo article,
 #info-top-groups article{ width: 49%; }
 #externalProfile #eProfileInfo label,
 #info-top-groups li label{ font-weight:bold; }
-#externalProfile #eProfileInfo #externalProfileInfo,#info-top-groups article.info{ float: left; border-left: none; }
-#externalProfile #eProfileInfo #externalProfilePrefe,#info-top-groups article.member{ float: right; border-right: none; }
+#info-top-groups article.info{ float: left; border-left: none; }
+#info-top-groups article.member{ float: right; border-right: none; }
 #externalProfile #eProfileInfo #externalProfilePrefe span,#info-top-groups article.member span{ right: 0px; }
-#externalProfile #eProfileInfo #externalProfilePrefe,
-#externalProfile #eProfileInfo #externalProfileInfo{ min-height: 140px; }
+
 #info-top-groups article{ min-height: 115px; }
+
+#externalProfile #eProfileInfo #externalProfileInfo .tituloName{font-size: 24px;font-weight: bold;} 
+#externalProfile #eProfileInfo #externalProfileInfo .infoPerExter{	padding:3px 0;}
+#externalProfile #eProfileInfo #externalProfileInfo .infoPerExter.color{ color:#979797;}
+#externalProfile #eProfileInfo #externalProfileInfo .peddingEx{ padding:3px 0 15px 0}
+#externalProfile #eProfileInfo #taglist-box {	border: 1px solid #ccc;width: 425px;float: left;}
+#externalProfile #eProfileInfo #taglist-box .tags-list .tag-container{ margin: 0 auto; width: 325px}
+
 
 #externalProfile #externalProfileInfo  .preferences{
 	width:90%;
@@ -3077,7 +3099,14 @@ a.plus:hover{
 #externalProfileInfo:hover .edit,
 #externalProfilePrefe:hover .edit,
 #eProfileTag:hover .edit{ display: block; }
-#externalProfilePrefe .edit{ float: left;}
+#photoProfileChange:hover .edit{ display: block; position:absolute;left: 85px; top: 115px}
+#coverExternalProfile{position: absolute;
+top: 0;
+left: 125px;
+width: 718px;
+height: 170px;}
+#coverExternalProfile:hover .edit{ display: block; position:absolute;left: 680px; top: 10px}
+/*#externalProfilePrefe .edit{ float: left;}*/
 #eProfileTag .edit{ top: -20px; }
 #info-top-groups .groupSecret,
 #info-top-groups.groupPrivate,
@@ -3085,6 +3114,26 @@ a.plus:hover{
     display: inline-block;
     float: none;
 }
+
+/*nuevo external. Linea 3018 y 3019 estilos activos del antiguo external*/
+
+#externalProfile #eProfileInfo #externalProfileInfo,#externalProfile #eProfileInfo #externalProfilePrefe{
+	float: none;
+	border: #ccc solid 1px;
+	width: 355px;
+	min-height: 115px;
+}
+#externalProfile #eProfileInfo #externalProfilePrefe span{right: inherit;}
+
+#externalProfile #eProfileInfo #externalProfilePrefe .externalPre{
+	color: #71cbe9;text-decoration: none;
+}
+
+#externalProfile #eProfileInfo #externalProfilePrefe .externalPre:hover{
+	color: #000;
+}
+/*fin nuevo external*/
+
 /* publicity rigth side */
 
 /*#adsListPublicity{
@@ -5190,16 +5239,20 @@ container #pageNews .news-wrapper #news-here div[tipo="29"]{
 	color:#faf8f8;
 	background:#FF8A28;
 }
-#searchAll #contentHash #msghashclick{
+#searchAll #msghashclick{
 	margin:5px 0;padding:9px 0;font-size:11px;
 }
-#searchAll #contentHash #msghashclick #hashClick{
+#searchAll #msghashclick .hashClick{
 	color:#f82;
 	text-decoration:underline;
 	cursor:pointer
 }
-#searchAll #contentHash #msghashclick #hashClick:hover{
+#searchAll #msghashclick .hashClick:hover{
 	text-decoration:none
+}
+#searchAll #group-box, #searchAll .group-details {
+	border: none;
+	min-height: inherit;
 }
 #tabs-4 .btnFriendsSearch input{
 	font-size:10px
@@ -5856,4 +5909,24 @@ container .left-panel .menus ul span{
 }
 .menuProfileBack a{
 	color: #ff8a28 !important;
+}
+table.ui-smt-single {
+	width: 100%;
+	font-size: 11px;
+}
+
+table.ui-smt-single td {
+	text-align: left;
+	vertical-align: top;
+}
+td.ui-smt-help {
+	text-align: center !important;
+	background-color: #F4F4F4;
+	padding: 5px;
+}
+td.ui-smt-help #urlTag{
+	width: 330px;
+	font-weight: bold;
+	font-size: 16px;
+	height: 30px;
 }

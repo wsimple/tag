@@ -31,6 +31,9 @@ $query = CON::query("
 		type,
 		screen_name,
 		sex,
+		url,
+		personal_messages,
+		user_cover,
 		CONCAT(name,' ',last_name) AS nameUser,
 		md5(CONCAT(id,'_',email,'_',id)) AS code,
 		(SELECT c.name FROM countries c WHERE c.id=country) AS country,
@@ -48,105 +51,153 @@ if(CON::numRows($query)>0){
 $obj=CON::fetchObject($query);
 $edit='<div class="edit"></div>';
 $edit=$obj->id==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
+$styleCon = !$logged?'style="margin-left: 100px;"':'';
 ?>
-<div id="externalProfile" class="ui-single-box">
-	<div class="ui-single-box-title">
-		<div class="photoProfile">
-		<?php //Profile Picture
-			$photoT=FILESERVER.getUserPicture("$obj->code/$obj->profile_image_url",'img/users/default.png');
-			$photoF=FILESERVER."img/users/$obj->code/$obj->profile_image_url";
-			if($photoF!=$photoT && $logged){ 
-				$imgDetails='class="imgWithMouseOverEfect" title="'.EXTERNALPROFILE_VIEWPICTUREALBUM.'"';
-		?>
-			<a href="views/photos/picture.view.php?src=<?=$photoF?>&default&id_user=<?=$obj->id?>" class="grouped_PP" rel="PP_1"/>
-		<?php } ?>
-			<img <?=$imgDetails?> src="<?=$photoT?>" width="70px"/>
-		<?php if($photoF!=$photoT && $logged){ ?> </a> <?php } ?>
-		</div>
-		<?php if(numRecord('images',"WHERE id_user=$obj->id AND id_images_type=2")>0 && $logged){
-				echo generateAlbumView($obj->id,$edit,'PP_1','profile');
-		} ?>
-		<h3><?=formatoCadena("$obj->nameUser's ".USERPROFILE_PERSONALINFO)?></h3>
-		<a href="javascript:void(0)" id="seeBusiness"><?=formatoCadena(SEE_BUSINESS_CARD)?></a>
-		<?php if (!$edit && $logged){ ?>
-			<div id="userProfileDialog" style="float:right;">
-				<input type="button" id="btn_link_<?=md5($obj->id)?>" <?=$obj->follower?'style="display:none;margin-right:20px;"':''?>
+<div id="externalProfile" class="ui-single-box" <?=$styleCon?>>
+	<div id="coverExpro" style="background-image: url('img/users_cover/<?=$obj->user_cover?>');height: 196px;width: 846px;position: absolute;top: 0;left: 0;">
+		<div class="ui-single-box-title">
+			<div class="photoProfile" id="photoProfileChange"><?=$edit?$edit:''?>
+				<form action="?current=updateProfile" id="frmChangePhoto" name="frmChangePhoto" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
+					<input type="hidden" id="actionAjax" name="actionAjax"/>
+					<input type="hidden" id="validaActionAjax" name="validaActionAjax" value="save"/>
+					<div id="frmProfile_changePhotoDiv">
+						<input name="frmProfile_filePhoto" type="file" id="frmProfile_filePhoto"/>
+					</div>
+				</form>
+				<?php //Profile Picture
+				$photoT=FILESERVER.getUserPicture("$obj->code/$obj->profile_image_url",'img/users/default.png');
+				$photoF=FILESERVER."img/users/$obj->code/$obj->profile_image_url";
+				if($photoF!=$photoT && $logged){ 
+					$imgDetails='class="imgWithMouseOverEfect" title="'.EXTERNALPROFILE_VIEWPICTUREALBUM.'"';
+				?>
+				<a href="views/photos/picture.view.php?src=<?=$photoF?>&default&id_user=<?=$obj->id?>" class="grouped_PP" rel="PP_1"/>
+				<?php } ?>
+				<img <?=$imgDetails?> src="<?=$photoT?>" width="70px"/>
+				<?php if($photoF!=$photoT && $logged){ ?> </a> <?php } ?>
+			</div>
+			<?php if(numRecord('images',"WHERE id_user=$obj->id AND id_images_type=2")>0 && $logged){
+					echo generateAlbumView($obj->id,$edit,'PP_1','profile');
+			} ?>
+			<h3 style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena("$obj->nameUser's ".USERPROFILE_PERSONALINFO)?></h3>
+			<a href="javascript:void(0)" id="seeBusiness" style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena(SEE_BUSINESS_CARD)?></a>
+			<?php if (!$edit && $logged){ ?>
+			<div id="userProfileDialog" style="float:right; margin-top: 43px">
+				<input type="button" id="btn_link_<?=md5($obj->id)?>" <?=$obj->follower?'style="display:none;"':''?>
 					action="linkUser,,<?=md5($obj->id)?>" value="<?=USER_BTNLINK?>"/>
-				<input type="button" id="btn_unlink_<?=md5($obj->id)?>" <?=$obj->follower?'':'style="display:none;margin-right:20px;"'?> 
+				<input type="button" id="btn_unlink_<?=md5($obj->id)?>" <?=$obj->follower?'':'style="display:none;"'?> 
 					action="linkUser,,<?=md5($obj->id)?>,animate" value="<?=USER_BTNUNLINK?>"/>
 			</div>
-		<?php } ?>
+			<?php } ?>
+			<div id="coverExternalProfile">
+				<?=$edit?$edit:''?>
+				<form action="?current=updateProfile" id="frmChangeCover" name="frmChangeCover" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
+					<input type="hidden" id="validaActionAjax" name="validaActionAjax" value="fileCover"/>
+					<div id="frmProfile_changeCoverDiv">
+						<input name="frmProfile_fileCover" type="file" id="frmProfile_fileCover"/>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 	<div id="eProfileInfo">
-		<article id="externalProfileInfo" class="side-box imagenSug">
-			<header><span><?=INFO_PER?></span><?=$edit?$edit:''?></header>
-			<div>	
-				<ul>
-					<li><label><?=SIGNUP_LBLSCREENNAME_FIELD?>: </label><?=$obj->screen_name?></li>
-					<li><label><?=SIGNUP_LBLEMAIL?>: </label><?=$obj->email?></li>
-					<li><label><?=INVITEUSERS_FROM?>: </label><?=$obj->country?></li>
-					<li><label><?=USER_LBLFOLLOWERS." (</label>$obj->followers_count<label>) - ".USER_LBLFRIENDS." (</label>$obj->friends_count<label>)"?></label></li>
-					<?php if($obj->type=='0'){ ?>
-					<li><label><?=USERPROFILE_LBLHOMEPHONE?>: </label><?=($obj->home_phone?$obj->home_phone:'---')?></li>
-					<?php } ?>
-					<li><label><?=USERPROFILE_LBLWORKPHONE?>: </label><?=($obj->work_phone?$obj->work_phone:'---')?></li>
-					<li><label><?=USERPROFILE_LBLMOBILEPHONE?>: </label><?=($obj->mobile_phone?$obj->mobile_phone:'---')?></li>
-					<!--li><a href="#">My Business card</a></li-->
-				</ul>
-			</div>
-			<div class="clearfix"></div>
-		</article>
-		<article id="externalProfilePrefe" class="side-box imagenSug">
-			<header><span><?=USERPROFILE_PREFERENCES?></span><?=$edit?$edit:''?></header>
-			<div>
-				<ul>
-			   		<?php 
-						$titles=array(EXTERNALPROFILE_LIKES,EXTERNALPROFILE_NEEDS,EXTERNALPROFILE_WANTS);
-						$i=0;$queprueba='';
-						$query=CON::query("SELECT preference FROM users_preferences WHERE id_user='$obj->id'");
-						if(CON::numRows($query)>0){
-							while($detalles=CON::fetchObject($query)){ ?> 
-								  <li></a><label> <?=$titles[$i]?> : </label>
-						<?php	   if($detalles->preference!=''){ $links='';$strIN='';
-										foreach(explode(',',$detalles->preference) as $value){
-											$strIN.=($strIN==''?"'":"','").$value;
-										}
-										$strIN.="'";
-										$detalle=CON::query("SELECT detail,id FROM preference_details WHERE id IN (".$strIN.");");
-										if (CON::numRows($detalle)>0){
-											while($row=CON::fetchObject($detalle)){
-												$detalles->preference=str_replace($row->id,"",$detalles->preference);
-												$detalles->preference.=($detalles->preference==''?'':',').$row->detail;
+		<div style="float: left;width: 380px;">
+			<article id="externalProfileInfo" class="side-box imagenSug">
+				<header><span><?=INFO_PER?></span><?=$edit?$edit:''?></header>
+				<div>	
+					<ul>
+						<li class="tituloName"><?=$obj->screen_name?></li>
+						<?php 
+							echo ($obj->personal_messages!='')?'<li class="infoPerExter color">'.$obj->personal_messages.'</li>':'';
+						?>
+						<li style="padding:3px 0"><?=$obj->email?></li>
+						<?php 
+							echo ($obj->country!='')?'<li class="infoPerExter">'.$obj->country.'</li>':'';
+
+							echo ($obj->url!='')?'<li class="peddingEx"><a target="_blank" href="'.$obj->url.'">'.$obj->url.'</a></li>':'';
+						?>
+
+						<li><label><?=USER_LBLFOLLOWERS." (</label>$obj->followers_count<label>) - ".USER_LBLFRIENDS." (</label>$obj->friends_count<label>)"?></label></li>
+						<?php if($obj->type=='0'){ 
+							echo ($obj->home_phone!=''&&$obj->home_phone!='-')?'<li><label>'.USERPROFILE_LBLHOMEPHONE.': </label>'.$obj->home_phone.'</li>':'';
+						} 
+						echo ($obj->work_phone!=''&&$obj->work_phone!='-')?'<li><label>'.USERPROFILE_LBLWORKPHONE.': </label>'.$obj->work_phone.'</li>':'';
+
+						echo ($obj->mobile_phone!=''&&$obj->mobile_phone!='-')?'<li><label>'.USERPROFILE_LBLMOBILEPHONE.': </label>'.$obj->mobile_phone.'</li>':'';
+						?>
+					</ul>
+				</div>
+				<div class="clearfix"></div>
+			</article>
+			<article id="externalProfilePrefe" class="side-box imagenSug">
+				<header><span style="background-image: url('css/tbum/box-title/preferences.png')"><?=USERPROFILE_PREFERENCES?></span><?=$edit?$edit:''?></header>
+				<div>
+					<ul>
+				   		<?php 
+							$titles=array(EXTERNALPROFILE_LIKES,EXTERNALPROFILE_NEEDS,EXTERNALPROFILE_WANTS);
+							$i=0; 
+							$query=CON::query("SELECT preference FROM users_preferences WHERE id_user='$obj->id'");
+							if(CON::numRows($query)>0){
+								while($detalles=CON::fetchObject($query)){  ?> 
+									  <li>
+							<?php	   if($detalles->preference!=''){ $links='';$strIN='';
+											foreach(explode(',',$detalles->preference) as $value){
+												$strIN.=($strIN==''?"'":"','").$value;
 											}
-										}
-										$detalles->preference=explode(',',$detalles->preference);
-										for ($e=0;$e<count($detalles->preference);$e++)
-											if($detalles->preference[$e]!='') $links.=($links==''?'':' - ').'<a href="'.base_url('searchall?srh='.preg_replace('/ +/','%20',$detalles->preference[$e])).'">'.$detalles->preference[$e].'</a>';
-										echo $links;
-								}else{ echo "---"; } ?>
-								</li>
-						<?php  if(++$i>2) break;
-						   }  
-					   }else{ for($i=0;$i<=2;$i++) echo '<li><label>'.$titles[$i].'</label>: ---</li>'; }
-					?>
-				</ul>
+											$strIN.="'";
+											$detalle=CON::query("SELECT detail,id FROM preference_details WHERE id IN (".$strIN.");");
+											echo '<label>'.$titles[$i].' : </label>';
+											if (CON::numRows($detalle)>0){
+
+												while($row=CON::fetchObject($detalle)){
+													$detalles->preference=str_replace($row->id,"",$detalles->preference);
+													$detalles->preference.=($detalles->preference==''?'':',').$row->detail;
+												}
+											}
+											$detalles->preference=explode(',',$detalles->preference);
+											for ($e=0;$e<count($detalles->preference);$e++)
+												if($detalles->preference[$e]!='') $links.=($links==''?'':' , ').'<a class="externalPre" href="'.base_url('searchall?srh='.preg_replace('/ +/','%20',$detalles->preference[$e])).'">'.$detalles->preference[$e].'</a>';
+											echo $links;
+									}else{ echo ""; } ?>
+									</li><br>
+							<?php  if(++$i>2) break;
+							   }  
+						    }else{ //for($i=0;$i<=2;$i++) echo '<li><label>'.$titles[$i].'</label>: ---</li><br>'; 
+						    	echo SOONEXTERPREFERENCES.' '.formatoCadena("$obj->nameUser").SOONEXTERPREFERENCES2;
+							}
+						?>
+					</ul>
+				</div>
+				<div class="clearfix"></div>
+			</article>
+		</div>
+		<div id="taglist-box" class="tags mini side-box imagenSug" >
+			<header><span style="background-image: url('css/tbum/box-title/tags.png')"><?=MAINMNU_HOME?></span></header>
+			<?php //echo $edit?$edit:'';?>
+			<div class="tags-list">
+				<div class="tag-container" ></div>
+				<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="display: none;"/>
 			</div>
 			<div class="clearfix"></div>
-		</article>
+			<!-- include 'templates/tags/carousel.php';  -->
+			<?php if($logged){?>
+			<div style="text-align: center">
+				<a href="<?=HREF_DEFAULT?>" class="color-pro" action="tagsUser,1,'',<?=md5($obj->id)?>"><?=ALL_TAGS?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="<?=HREF_DEFAULT?>" class="color-pro" action="personalTags,5,<?=md5($obj->id)?>">
+				<?=MAINMNU_PERSONALTAGS?>
+				</a>
+			</div>
+			<div class="clearfix"></div>
+			<?php } ?>
+		</div>
 		<div class="clearfix"></div>
 	</div>
-	<div id="eProfileTag" class="tags">
-		<?php echo $edit?$edit:'';
-		include 'templates/tags/carousel.php'; 
-		if ($obj->nTags>0){ ?>
-		<a href="<?=HREF_DEFAULT?>" action="personalTags,5,<?=$obj->id?>"><?=USER_BTNSEEMORE?></a>
-		<div class="clearfix"></div>
-		<?php } ?>
-	</div>
+	
 </div>
 <script type="text/javascript">
 $(function(){
-	if(!isLogged()) $('.tag-container').addClass('noMenu');
+	!isLogged()?$('wrapper').css('width', '947px'):'';
+
+	if(!isLogged()) $('.tag-container').addClass('noMenu'); 
 	else
 		$('a.grouped_PP').fancybox({
 			type:'ajax',
@@ -155,29 +206,29 @@ $(function(){
 			title:"<?=$obj->nameUser?>'s <?=USERPROFILE_PHOTOPROFILE?>",
 			onClosed:function() {/*alert('aaa');*/}
 		});
-	$$.ajax({
-		type:'GET',
-		dataType:'json',
-		url:'controls/tags/tagsList.json.php?current=personalTags&uid=<?=$obj->id?>',
-		success:function(data){
-			if(data['tags']&&data['tags'].length>0){
-				showCarousel(data['tags'],$$('.tag-container'));
-				if(data['tags'].length<2) $$('.tag-container').trigger('stop',true);
-			}else{ 
-				$$.ajax({
-					type:'GET',
-					dataType:'json',
-					url:'controls/tags/tagsList.json.php?current=myTags&uid=<?=$obj->id?>',
-					success:function(data){
-						if(data['tags']&&data['tags'].length>0){
-							showCarousel(data['tags'],$$('.tag-container'));
-							if(data['tags'].length<2) $$('.tag-container').trigger('stop',true);
-						}else{ $('.tag-container').html('<div class="messageNoResultSearch more"><?=NORESULT_TIMELINE?></div>'); }
-					}
-				});				
+
+		var $box=$('#taglist-box').last(),
+			//ns='.tagsList',//namespace
+			layer=$box.find('.tag-container')[0],
+			opc={
+				limit:'8',
+				current:'myTags',
+				layer:layer
+			};
+			opc['get']='&uid=<?=md5($obj->id)?>';
+		//refresh=function(){ updateTags('refresh',opc,false); };
+		$.on({
+			open:function(){
+				updateTags('reload',opc);				
+			},
+			close:function(){
+				$('#taglist-box').removeClass('mini');
+				$(window).off(ns);
+				$box.off();
+				clearInterval(interval);
 			}
-		}
-	});
+		});
+
 
 	$('#seeBusiness').click(function(){
 		$.dialog({
@@ -194,12 +245,58 @@ $(function(){
 	$('.edit').click(function(){
 		var id=$(this).parents('[id]').attr('id'),destino='';
 		switch(id){
-			case 'eProfileTag':			 destino='timeline?current=personalTags'; break;
+			case 'eProfileTag':			    destino='timeline?current=personalTags'; break;
 			case 'externalProfilePrefe':	destino='profile?sc=2'; break;
-			case 'externalProfileInfo':	 destino='profile'; break;
+			case 'externalProfileInfo':	    destino='profile'; break;
+			case 'photoProfileChange':	    $('#frmProfile_filePhoto').click(); break;
+			case 'coverExternalProfile':	$('#frmProfile_fileCover').click(); break; /*alert('change Cover'); break;*/
 		}
 		if (destino!='') redir(destino);
 	});
+
+	$('#frmProfile_filePhoto').bind('change',function(){
+		
+		$("#actionAjax").val("UPLOADING-PROFILE-PICTURE");
+		$("#validaActionAjax").val("filePhoto");
+		$('loader.page',PAGE).show();
+		$("#frmChangePhoto").submit();
+	});
+
+	$('#frmProfile_fileCover').bind('change',function(){
+		$('loader.page',PAGE).show();
+		$("#frmChangeCover").submit();
+	});
+
+	$('#frmChangePhoto,#frmChangeCover').ajaxForm({
+		success:function(data){
+			if(data.indexOf('CROP')>=0){// going crop before changing profile picture
+				
+				redir('user/mini?ep');
+			}else if (data!=0) {
+				$('loader.page',PAGE).hide();
+				$('#coverExpro').css('background-image', 'url("img/users_cover/'+data+'")');	
+			}else{
+				$.dialog({
+					title:'<?=$lang["ERROR_COVER"]?>',
+					content:'<?=$lang["ERROR_UPLOADING_PROFILE_PICTURE"]?>',
+					close:function(){
+						$(this).off();
+					},				
+					width:350,
+					height:200,
+					modal:true,
+					buttons:{
+						Ok:function(){
+							$(this).dialog('close');
+						}
+					}
+				});
+			}
+			
+		}
+	});
+
+
 });
 </script>
 <?php

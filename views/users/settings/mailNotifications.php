@@ -1,5 +1,8 @@
 <div id="mailSettings" class="ui-single-box font_size1">
 	<h3 class="ui-single-box-title"><?=$lang['USERPROFILE_TITLEMAILSETTINGS']?></h3>
+	<div class="menuProfileBack">
+		<a href="<?=base_url('profile')?>"><?=USER_PROFILE?></a> > <?=NOTIFICATIONS_CONFIGURATIONSECTION?>
+	</div>
 	<div class="legend">
 		<div class="text"><?=$lang['PRIVACY_DESCRIPTIONSECTION']?></div>
 		<div class="icons">

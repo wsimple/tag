@@ -24,7 +24,7 @@
 	//ScrollPane Favoroites
 	$(function(){
 		//event handlers
-		var $box=$('#taglist-box').last();
+		var $box=$('#tagTabs #taglist-box').last();
 		$('.tags-size,.tray').buttonset()
 		.find('[title]').tipsy({html:true,gravity:'n'});
 		var ns='.tagsList',//namespace
