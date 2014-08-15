@@ -5,5 +5,7 @@ if(!preg_match('/\.[a-z0-9]{3,}$/',$url)) die();
 $img='img/not-found.jpg';
 if(file_exists('img/'.$url)&&is_file('img/'.$url))
 	$img='img/'.$url;
-header('Content-Type: '.image_type_to_mime_type(exif_imagetype($img)));
+$finfo=finfo_open(FILEINFO_MIME_TYPE);
+header('Content-Type: '.finfo_file($finfo,$img));
+// header('Content-Type: '.image_type_to_mime_type(exif_imagetype($img)));
 include($img);
