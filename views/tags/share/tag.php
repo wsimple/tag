@@ -2,7 +2,6 @@
 	session_start();
 	include ('../../../includes/functions.php');
 	include ('../../../includes/config.php');
-	include ('../../../class/wconecta.class.php');
 	include ('../../../includes/languages.config.php');
 ?>
 <div id="share_tag">
@@ -13,7 +12,7 @@
 		</tr>
 		<tr>
 			<td class="ui-smt-bold"><?=INVITEUSERS_TO?>:</td>
-			<td colspan="2" valign="top"><select name="txtEmails" id="txtEmails"></select></td>
+			<td colspan="2" valign="top"><input name="txtEmails" id="txtEmails"  style="width: 515px;" /></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
@@ -39,6 +38,9 @@
 			</td>
 		</tr>
 		<tr>
+			<td colspan="3" class="ui-smt-help"><input id="urlTag" type="text" value="<?=DOMINIO.'tag/'.$_GET['tag']?>" /></td>
+		</tr>
+		<tr>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
@@ -48,14 +50,27 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		$("#share_tag #txtEmails").fcbkcomplete({
-			json_url: "includes/friendsHelp.php?value=1",
-			newel:true,
-			filter_selected:true,
-			addontab : true,
-			filter_hide: true
+		$('input[type="text"]').select().focus(function(event) { 
+			$(this).select(); event.preventDefault(); 
 		});
-//        $("#view_friends").button().click(function() {
+		$('#share_tag #txtEmails').select2({
+			placeholder:'<?=formatoCadena($lang["MAINMNU_FRIENDS"])." ".strtolower($lang["JS_OR"])." ".LBL_LOGIN."s"?>',
+			minimumInputLength:1,
+			multiple:true,
+			maximumSelectionSize:15,
+			formatInputTooShort:"<?=$lang['MINIMOCARACTERESSELECT2']?>",
+			createSearchChoice:function(term, data) { 
+				if ($(data).filter(function() { 
+					return this.text.localeCompare(term)===0; 
+				}).length===0) {return {id:term, text:term};} 
+			},
+			openOnEnter:true,
+			ajax:{
+				url:'includes/friendsHelp.php?value=1',
+				data:function(term,page){ return { term: term }; },
+				results:function(data,page){ return { results: data };}
+			}
+		});
 		$("#view_friends").click(function() {
 			shareTag_friendsList("views/tags/share/friendsList.php", "<?=FRIENDS_SELECTFRIENDS_TITLE?>",'share=0&');
 		});

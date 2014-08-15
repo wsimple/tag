@@ -96,7 +96,7 @@ $(function() {
 						opc.actions={refresh:{},more:{}};
 						opc.date='';
 					}
-					$.qajax('low',{
+					$.ajax({
 						type	: 'GET',
 						url		: 'controls/news/newsjson.php?limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 						dataType: 'json',

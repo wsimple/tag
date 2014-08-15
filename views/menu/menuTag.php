@@ -62,7 +62,7 @@
 			  <li onclick="actionsTags(4,  '<?=(($_GET['current']!="")?$time[idTag].'|0':'current_tag|1')?>', 'controls/tags/actionsTags.controls.php',	'<?=str_replace(chr(13), ' ',str_replace(chr(10), ' ', MNUTAG_TITLEFAVORITE))?>|<?=$_GET["current"]?>|<?=$view_comment?>');"				<?=$eventos?> title="<?=MNUTAG_TITLEFAVORITE?>" >				<img src="img/menu_tag/favorito.png" border="0"  />				</li>
 		<?php if($_GET['current']!="comments"&&$_GET['current']!='groups'){?>
 	
-			  <li onclick="actionsTags(2,  '<?=(($_GET['current']!="")?$time[idTag].'|0':'current_tag|1')?>', 'views/tags/comment.php',	'<?=str_replace(chr(13), ' ',str_replace(chr(10), ' ', MNUTAG_TITLEMSGCOMMENTS))?>|<?=$_GET["current"]?>');"				<?=$eventos?> title="<?=MNUTAG_TITLEMSGCOMMENTS?>" >				<img src="img/menu_tag/comment.png" border="0"  /></li>
+			  <li onclick="actionsTags(2,  '<?=(($_GET['current']!="")?$time[idTag].'|0':'current_tag|1')?>', 'views/tags/tag.php',	'<?=str_replace(chr(13), ' ',str_replace(chr(10), ' ', MNUTAG_TITLEMSGCOMMENTS))?>|<?=$_GET["current"]?>');"				<?=$eventos?> title="<?=MNUTAG_TITLEMSGCOMMENTS?>" >				<img src="img/menu_tag/comment.png" border="0"  /></li>
 	
 		<?php } 
         

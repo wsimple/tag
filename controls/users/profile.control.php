@@ -2,6 +2,7 @@
 include 'includes/funciones_upload.php';
 include 'class/validation.class.php';
 if (quitar_inyect()){
+	
 	//validating if he comes to save
 	if ($_POST['validaActionAjax']=='save'){
 		// Birth Date
@@ -34,6 +35,44 @@ if (quitar_inyect()){
 			}
 		}
 		// END - User Name
+	}
+
+	//cambiando el cover del external rofile
+	if ($_POST['validaActionAjax']=='fileCover'){
+		// print_r($_FILES);
+		// print_r($_POST);
+		if( $_FILES[frmProfile_fileCover][error]==0 ) {
+			$imagesAllowed = array('jpg','jpeg','png','gif');
+			$parts         = explode('.', $_FILES[frmProfile_fileCover][name]);
+			$ext           = strtolower(end($parts));
+
+			if( in_array($ext, $imagesAllowed) ) {
+				$path  = RELPATH."img/users_cover/".$_SESSION['ws-tags']['ws-user'][code].'/';//ruta para crear dir
+				$photo = $_SESSION['ws-tags']['ws-user'][code].'/'.md5(str_replace(' ', '', $_FILES[frmProfile_fileCover][name])).'.jpg';
+				//existencia de la folder
+				if( !is_dir ($path) ) {
+					$old = umask(0);
+					mkdir($path,0777);
+					umask($old);
+					$fp=fopen($path.'index.html',"w");
+					fclose($fp);
+				}// is_dir
+
+				if( redimensionar($_FILES[frmProfile_fileCover][tmp_name], RELPATH."img/users_cover/".$photo, 845) ) {
+					FTPupload('users_cover/'.$photo);
+					echo $photo;
+					$_SESSION['ws-tags']['ws-user']['user_cover'] = $photo;
+
+				}else{
+					echo '0';//error redimension
+				}//copy
+
+			} else {
+				echo '0';//error extension
+			}
+		}else{
+			echo '0'; //error internov
+		}//$_FILES
 	}
 
 	//validating if he comes to save, or change profile picture
@@ -107,7 +146,9 @@ if (quitar_inyect()){
 		$_SESSION['ws-tags']['ws-user']['country']       = $_POST['frmProfile_cboFrom'];
 		$_SESSION['ws-tags']['ws-user']['sex']           = $_POST['frmProfile_sex'];
 		$_SESSION['ws-tags']['ws-user']['taxId']         = $_POST['frmProfile_taxId'];
-		$_SESSION['ws-tags']['ws-user']['paypal']      = $_POST['frmProfile_paypal'];
+		$_SESSION['ws-tags']['ws-user']['paypal']        = $_POST['frmProfile_paypal'];
+		$_SESSION['ws-tags']['ws-user']['personal_messages'] = $_POST['frmProfile_messagePersonal'];
+
 		// phone numbers
 		$home_area	= ($_POST['frmProfile_home_code']		? getTableRow('code_area', 'countries', 'id='.$_POST['frmProfile_home_code'])		: "");
 		$work_area	= ($_POST['frmProfile_work_code']		? getTableRow('code_area', 'countries', 'id='.$_POST['frmProfile_work_code'])		: "");
@@ -216,10 +257,11 @@ if (quitar_inyect()){
 						language			= "'.$_SESSION['ws-tags']['ws-user']['language'].			'",
 						user_background		= "'.$_SESSION['ws-tags']['ws-user']['user_background'].	'",
 						country				= "'.$_SESSION['ws-tags']['ws-user']['country'].			'",
-						sex					= "'.$_SESSION['ws-tags']['ws-user']['sex'].				'",
-						paypal				= "'.$_POST['frmProfile_paypal'].						'",
-						zip_code			= "'.$_SESSION['ws-tags']['ws-user']['zip_code'].			'",
-						taxId				= "'.$_SESSION['ws-tags']['ws-user']['taxId'].			'"'.
+						sex					= "'.$_SESSION['ws-tags']['ws-user']['sex'].'",
+						paypal				= "'.$_POST['frmProfile_paypal'].'",
+						zip_code			= "'.$_SESSION['ws-tags']['ws-user']['zip_code'].'",
+						taxId				= "'.$_SESSION['ws-tags']['ws-user']['taxId'].'",
+						personal_messages	= "'.$_SESSION['ws-tags']['ws-user']['personal_messages'].'"'.
 						$sql_pais.
 						$sql_userName.'
 					WHERE id = "'.$_SESSION['ws-tags']['ws-user'][id].'"
@@ -231,6 +273,14 @@ if (quitar_inyect()){
 			$GLOBALS['cn']->query('
 				UPDATE users SET
 					profile_image_url="'.$_SESSION['ws-tags']['ws-user']['photo'].'"
+				WHERE id="'.$_SESSION['ws-tags']['ws-user']['id'].'"
+			');
+		break;
+		case 'fileCover':
+			// updating database
+			$GLOBALS['cn']->query('
+				UPDATE users SET
+					user_cover="'.$_SESSION['ws-tags']['ws-user']['user_cover'].'"
 				WHERE id="'.$_SESSION['ws-tags']['ws-user']['id'].'"
 			');
 		break;

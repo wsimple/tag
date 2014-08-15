@@ -20,6 +20,13 @@
 	include('class/wconecta.class.php');
 	include('includes/languages.config.php');
 	include('class/forms.class.php'); 
+	if($section=='dialog'){
+		header('Content-type: text/html; charset=utf-8');
+		global $dialog;
+		$dialog=true;
+		include 'view.php';
+		die();
+	}
 	keepLogin();
 	//se detecta si se navega desde un mobile
 	$detect=new Mobile_Detect();   

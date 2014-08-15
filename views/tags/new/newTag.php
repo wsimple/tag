@@ -234,7 +234,7 @@ $(function(){
 	function setType(type){$('#type').val(type||'<?=$idPage?>');}
 	function setBG(img){
 		$('#imgTemplate').val(img);
-		var url=(img.match(/default/i)?'<?=DOMINIO?>':'<?=FILESERVER?>')+'img/templates/'+img;
+		var url=FILESERVER+'img/templates/'+img;
 		$('#bckSelected').css('background-image','url('+url+')');
 	}
 	function selectBG(){
