@@ -8,7 +8,8 @@ if($config){
 		$numfolders--;
 	}
 }
-$relpath=str_repeat('../',$numfolders);
+if($numfolders<1) $relpath='./';
+else $relpath=str_repeat('../',$numfolders);
 if($_COOKIE['_DEBUG_']=='relpath') echo 'relpath='.$relpath.'<br>';
 define('RELPATH',$relpath?$relpath:'./');
 unset($numfolders);
