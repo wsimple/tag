@@ -121,102 +121,59 @@
 			// END - favorite (4)
 				// share (by mail)
 				case 5:
-					$tags = $GLOBALS['cn']->query('
-						SELECT
-							u.screen_name AS nameUsr,
-							(SELECT screen_name FROM users WHERE id=t.id_user) AS nameUsr2,
-							md5(CONCAT(u.id, "_", u.email, "_", u.id)) AS code,
-							u.profile_image_url	 AS photoUser,
-							t.id AS idTag,
-							t.id_user AS idUser,
-							t.id_creator AS idCreator,
-							t.code_number AS code_number,
-							t.color_code AS color_code,
-							t.color_code2 AS color_code2,
-							t.color_code3 AS color_code3,
-							t.text AS texto,
-							t.text2 AS texto2,
-							t.date AS fechaTag,
-							t.background AS fondoTag,
-							t.video_url AS video_url,
-							u.email AS email,
-							u.referee_number AS referee_number
-						FROM tags t JOIN users u ON t.id_creator = u.id
-						WHERE t.id = "'.$tag['id'].'"
-					');
-					$tag = mysql_fetch_assoc($tags);
+					$tags = CON::getRow("SELECT 
+											md5(CONCAT(u.id, '_', u.email, '_', u.id)) AS code,
+											u.profile_image_url	 AS photoUser,
+											t.id AS idTag,
+											t.id_user AS idUser,
+											u.email AS email,
+											u.referee_number AS referee_number
+										FROM tags t JOIN users u ON t.id_creator = u.id
+										WHERE t.id =?",array($tag['id']));
 					incPoints(7,$tag['idTag'],$tag['idUser'],$_SESSION['ws-tags']['ws-user']['id']); //incremento de hits a la tag que se recibe
 					incHitsTag($tag['idTag']);
-                    $msj=$_GET['msj'];
-					$mails=explode(',',ltrim($_GET['mails'],','));
+                    $msj=$_POST['msj'];
+					$mails=explode(',',$_POST['mails']);
 					if(count($mails)>0){
-						$correos='';
+						$correos='';$numE=0;$numA=0;
 						foreach($mails as $per){
 							if($per!=''){
-								//verificar si el correo esta registrado o no en Tagbum
-								$query=$GLOBALS['cn']->query('SELECT u.id,u.email FROM users u WHERE u.email LIKE "'.$per.'" OR md5(u.id)="'.$per.'"');
-								if (mysql_num_rows($query)>0){
-									$emailUserSend = mysql_fetch_assoc($query);
-									$sendDataPublicity = $emailUserSend['id'];
-									$per = $emailUserSend['email'];
+								//verificar si es un correo valido
+								if (isValidEmail($per)){ if ($numE++>20) continue;
+								}else{
+									$query=CON::getRow("SELECT u.id,u.email FROM users u WHERE md5(u.id)=?",array($per));
+									if (count($query)>0){
+										$sendDataPublicity = $query['id'];
+										$per = $query['email'];
+									}else continue;
 								}
 								$sendDataPublicity = $tag['idTag'];
-								//echo '- '.$per.'<br>';
-								//----------------------- revisar link de tag
-								//imagenes del email
-								//$backg = (strpos(' '.$tag['fondoTag'],'default') ? DOMINIO : FILESERVER).'img/templates/'.$tag['fondoTag'];
-								//$placa = DOMINIO.'img/placaFondo.png';
-								//$linkTag = DOMINIO.'#timeline?current=timeLine&tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'];
-								//
 								$linkTag = DOMINIO.'tag?id='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($tag['email']);
 								$imgTag	= tagURL($tag['idTag']);
-
-								//$imgTag = DOMINIO.'includes/tag.php?tag='.md5($tag['idTag']);
-								//$linkTag = base_url('&tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code']);
-
 								$iconoSpon = DOMINIO.'/img/menu_users/publicidad.png';
 								$foto_usuario=FILESERVER.getUserPicture($tag['code'].'/'.$tag['photoUser']);
 								$foto_remitente	=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']);
 								$share=DOMINIO.'/css/smt/tag/share.png';
-								//product tags
-								if( $product=isProductTag($tag['idTag']) ) {
-									$foto_usuario = FILESERVER."img/products/".$product['picture'];
-									$tag['nameUsr'] = $product['name'];
-								}
+
 								if ($msj!=""){
-									$trMsj = '
-										<tr>
-											<td style="padding:5px; font-size:12px; color:#000; text-align:justify">'.convertir_especiales_html($msj).'</td>
-										</tr>
-									';
-								} else {
-									$trMsj = '';
+									$trMsj = '<tr><td style="padding:5px; font-size:12px; color:#000; text-align:justify">'.convertir_especiales_html($msj).'</td></tr>';
+								} else { $trMsj = ''; }
+								//datos de la cabecera del correo del usuario
+								$array = CON::getRow("SELECT
+															(SELECT a.name FROM countries a WHERE a.id=u.country) AS pais,
+															u.followers_count AS followers,
+															u.friends_count AS friends
+														FROM users u
+														WHERE u.id =?",array($_SESSION['ws-tags']['ws-user']['id']));
+								if (trim($_SESSION['ws-tags']['ws-user']['username'])!=''){
+										$external=$lang['USERS_BROWSERFRIENDSLABELEXTERNALPROFILE'].":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.$_SESSION['ws-tags']['ws-user']['username']."' onFocus='this.blur();' target='_blank'>".DOMINIO.$_SESSION['ws-tags']['ws-user']['username']."</a><br>";
+								}else {
+									$external=$lang['USERS_BROWSERFRIENDSLABELEXTERNALPROFILE'].":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."' onFocus='this.blur();' target='_blank'>".DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."</a><br>";
 								}
-								//datos de la tag
-								$_texto1 = ($tag['texto']!='&nbsp') ? $tag['texto'] : '<br/>';
-								$_texto2 = (trim($tag['code_number'])!='&nbsp') ? $tag['code_number'] : '<br/>';
-								$_texto3 = (trim($tag['texto2'])!='&nbsp') ? $tag['texto2'] : '<br/>';
-									//datos de la cabecera del correo del usuario
-										$query = $GLOBALS['cn']->query('
-												SELECT
-														CONCAT(u.name, " ", u.last_name) AS name_user,
-														u.username AS username,
-														(SELECT a.name FROM countries a WHERE a.id=u.country) AS pais,
-														u.followers_count AS followers,
-														u.friends_count AS friends
-												FROM users u
-												WHERE u.id = "'.$_SESSION['ws-tags']['ws-user']['id'].'"
-										');
-										$array = mysql_fetch_assoc($query);
-										if (trim($array['username'])!=''){
-												$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.$array['username']."' onFocus='this.blur();' target='_blank'>".DOMINIO.$array['username']."</a><br>";
-										}else {
-											$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."' onFocus='this.blur();' target='_blank'>".DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."</a><br>";
-										}
-										if (trim($array['pais'])!=''){
-												$pais=USERS_BROWSERFRIENDSLABELCOUNTRY.":&nbsp;<span style='color:#999999'>".$array['pais']."</span><br/>";
-										}
-										//cuerpo del email
+								if (trim($array['pais'])!=''){
+										$pais=$lang['USERS_BROWSERFRIENDSLABELCOUNTRY'].":&nbsp;<span style='color:#999999'>".$array['pais']."</span><br/>";
+								}
+								//cuerpo del email
 								$body  = '<table align="center" width="650" border="0" cellpadding="0" cellspacing="0" style="font-family:Verdana, Geneva, sans-serif; font-size:12px; border-radius:7px; background: #fff; padding-top:25px;">
 										<tr>
 											<td>
@@ -229,7 +186,7 @@
 																<div>
 																		'.$external.'<br>
 																		'.$pais.'<br>
-																		<strong>'.USERS_BROWSERFRIENDSLABELFRIENDS.'('.$array[friends].'),&nbsp;'.USERS_BROWSERFRIENDSLABELADMIRERS.'('.$array['followers'].')</strong>
+																		<strong>'.$lang['USERS_BROWSERFRIENDSLABELFRIENDS'].'('.$array['friends'].'),&nbsp;'.$lang['USERS_BROWSERFRIENDSLABELADMIRERS'].'('.$array['followers'].')</strong>
 																</div>
 														</td>
 													 </tr>
@@ -244,10 +201,11 @@
 															<img src="'.$share.'" width="16" height="16" border="0">
 														</td>
 														<td style="text-align: left; width: 450px;">
-															<strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).'&nbsp;</strong>'.MENUTAG_CTRSHAREMAILTITLE1.'
+															<strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).'&nbsp;</strong>'
+															.$lang['MENUTAG_CTRSHAREMAILTITLE1'].'
 														</td>
 														<td background="'.DOMINIO.'css/smt/email/yellowbutton_get_started2.png" style="width: 140px; height: 22px;  display: inline-block; background-repeat: no-repeat; padding: 10px 14px 5px 5px;">
-															<a style="font-weight: bold; color: #2d2d2d; font-size:12px; text-decoration: none" href="'.$linkTag.'">'.MENUTAG_CTRSHAREMAILTITLE2.'</a>
+															<a style="font-weight: bold; color: #2d2d2d; font-size:12px; text-decoration: none" href="'.$linkTag.'">'.$lang['MENUTAG_CTRSHAREMAILTITLE2'].'</a>
 														</td>
 													</tr>
 												</table>
@@ -274,12 +232,12 @@
 														<td colspan="2" valign="top" style="border-bottom: 1px #f4f4f4 solid; border-top: 1px #f4f4f4 solid; padding: 8px 0px 0px 0px;">
 															<img src="'.DOMINIO.'/css/smt/email/publicidad3.png">
 															&nbsp;
-															'.USERPUBLICITY_PAYMENT.'
+															'.$lang['USERPUBLICITY_PAYMENT'].'
 														</td>
 													</tr>
 													<tr>
 														<td colspan="2" valign="top" style="padding: 70px 0px 0px 0px; font-size: 13px; text-align: center; height: 70px;">
-															'.PUBLICITYSPACETEXT.'
+															'.$lang['PUBLICITYSPACETEXT'].'
 														</td>
 													</tr>
 												</table></center>
@@ -291,14 +249,13 @@
 														<tr>
 															<td align="center" style="padding-left:5px; text-align:center; width:100%;">
 																'.(isset($device) ? 'This tag have been sent using my '.$device : '').'<br>'.
-																MENUTAG_CTRSHAREMAILTITLE3.':&nbsp;<a href="'.$linkTag.'">Tagbum.com</a>
+																$lang['MENUTAG_CTRSHAREMAILTITLE3'].':&nbsp;<a href="'.$linkTag.'">Tagbum.com</a>
 															</td>
 														</tr>
 													</table></center>
 												</td>
 											</tr>
-									</table>
-								';
+									</table>';
 								/*
 									esto es la publicidad de la linea 314 se comento por peticion del cliente
 									<tr>
@@ -308,25 +265,19 @@
 									</tr>
 								*/
 								//envio del correo
-								//if (sendMail(formatMail($body, "790"), "no-reply@tagbum.com", "Tagbum.com", MENUTAG_CTRSHAREMAILASUNTO, $per, "../../")){
-								if (sendMail(formatMail($body, "790"), "no-reply@tagbum.com", formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.MENUTAG_CTRSHAREMAILTITLE1, $per, "../../")){
+								if (sendMail(formatMail($body, "790"), "no-reply@tagbum.com", formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.$lang['MENUTAG_CTRSHAREMAILTITLE1'], $per, "../../")){
 									$correos .= "-&nbsp;".$per."<br/>";
 									//insert tabla verificacion
-									if( !existe("tags_share_mails", "id_tag", " WHERE id_tag = '".$tag['idTag']."' AND referee_number = '".$_SESSION['ws-tags']['ws-user']['code']."' AND email_destiny = '".$per."' ") ) {
-										$insert  = $GLOBALS['cn']->query("
-											INSERT INTO tags_share_mails SET
-												id_tag = '".$tag['id']."',
-												referee_number = '".$_SESSION['ws-tags']['ws-user']['code']."',
-												email_destiny  = '".$per."',
-												view = '0'
-										");
-									}
-								}//end if envio de correo
+									if(!CON::exist("tags_share_mails","id_tag=? AND referee_number=? AND email_destiny =?",array($tag['idTag'],$_SESSION['ws-tags']['ws-user']['code'],$per)))
+										CON::insert("tags_share_mails","id_tag = ?,referee_number =?,email_destiny =?,view = '0'",
+											array($tag['id'],$_SESSION['ws-tags']['ws-user']['code'],$per));
+								} //end if envio de correo
 							}//if per
 						}//foreach
 					}//if (count($mails)>0)
-
-					echo $correos!=""?'<div class="div_exito"><strong>'.MENUTAG_CTRSHAREMAILEXITO.":</strong></div><br><br> ".$correos : ($device? '<div class="div_error">'.$device.'<br>'.MENUTAG_CTRSHAREMAILERROR.'</div>':'<div class="div_error">'.MENUTAG_CTRSHAREMAILERROR.'</div>');
+					$msgBox='<div class="div_exito"><strong>'.$lang['MENUTAG_CTRSHAREMAILEXITO'].":</strong></div><br><br> ".$correos;
+					
+					if ($correos==="") $msgBox=$device? '<div class="div_error">'.$device.'<br>'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>':'<div class="div_error">'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>';
 				break; //share
 				//delete
 				case 6:
