@@ -49,7 +49,7 @@
 		$.ajax.log({
 			type: 'GET',
 			dataType: 'json',
-			url: 'controls/tags/tagsList.json.php?id=<?=$tag->id?>',
+			url: 'controls/tags/tagsList.json.php?id=<?=$tag->id?><?=dialog?"&popup":""?>',
 			success	: function(data){
 				if (data['tags'].length>0){
 					$('#layerTag<?=$dialog?'_':'';?>').html(showTags(data['tags']));
