@@ -68,7 +68,7 @@
 		<?php endwhile; ?>
 		</ul>
 	<?php else: ?>
-		<div><?php LEFTSIDE_NOHAVE_TRENDINGS_TOPINGS ?></div>
+		<div><?=LEFTSIDE_NOHAVE_TRENDINGS_TOPINGS ?></div>
 	<?php endif; ?>
 </article>
 <?php if ($section!='news'){ 
