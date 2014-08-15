@@ -360,9 +360,19 @@ function setAllLocals(opc){
 				else if(opc.content)
 					$(this).html(opc.content);
 				if(opc.open) opc.open.call(this);
+				if(opc.altUrl){
+					var u=opc.altUrl||'';
+					opc.altUrl=location.href;
+					history.replaceState(null,'',u);
+				}
 			},
 			beforeClose:function(){
 				$overlay.filter(':not(:last)').fadeIn();
+				if(opc.altUrl){
+					var u=opc.altUrl;
+					console.log(u);
+					history.replaceState(null,'',u);
+				}
 			},
 			close:function(){
 				if(opc.focus){

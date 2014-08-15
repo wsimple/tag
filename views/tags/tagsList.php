@@ -166,7 +166,8 @@
 						sizeTags=id;
 						if(bandera){
 							bandera=false;
-							$.ajax({
+							console.log(id);
+							$$.ajax({
 								url:'controls/users/viewTimeline.control.php?'+id,
 								type:'get'
 							}).done(function(){

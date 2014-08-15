@@ -12,7 +12,7 @@
 </div>
 <script>
 	$(function(){
-		$.qajax('high',{
+		$.ajax({
 			type	: 'GET',
 			dataType: 'json',
 			url		: 'controls/tags/tagsList.json.php?current=timeLine&limit=10&action=reload',
