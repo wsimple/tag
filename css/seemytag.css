@@ -1188,7 +1188,7 @@ content.resendEmailPassword input[type='button']{
 	left:0.833em;
 }
 .tag-container [tag] menu div#hashTashMenu{
-	position:absolute;top:0;left:0;
+	float:left;	
 	padding:5px 5px;
 	width:335px;
 	cursor:default;
@@ -1200,7 +1200,6 @@ content.resendEmailPassword input[type='button']{
 	-moz-border-radius:0.3085em;
 	border-radius:0.3085em;
 	border:#eee 1px solid;
-	z-index:1;
 	background:#fff;
 }
 .tag-container [tag] div{ z-index: 2; }
