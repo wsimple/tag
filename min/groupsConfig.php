@@ -24,7 +24,7 @@ return array(
 		'//js/jquery.ba-hashchange.min.js',
 		'//js/jquery.placeholder-1.01.js',
 		'//js/jquery.form.js',
-		// '//js/jquery.qajax.js',
+		'//js/jquery.qajax.js',
 		'//js/carousels/jquery.carouFredSel.js',
 		'//js/jquery.easing.1.3.js',
 		'//js/jquery.textCounter.js',
