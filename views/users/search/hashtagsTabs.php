@@ -11,13 +11,12 @@ while($tag = @mysql_fetch_assoc($hashtabs)){
 	$textHash = array_unique($textHash);
 	$textCount = count($textHash);
 
-	for($i=0;$i<$textCount;$i++){
-		if(strpos($textHash[$i],$srh)!==false){
+	for($i=0;$i<=$textCount;$i++){
+		if( preg_match("/(".$srh.")([A-z])*/i", $textHash[$i]) ){
 			$newText[] = $textHash[$i];
-			$newText = array_unique($newText);
-			if(count($newText)>=$limit) break 2;
 		}
 	}
+	$newText = array_unique($newText);
 }
 $textCount = count($newText);
 if($textCount!=0){
