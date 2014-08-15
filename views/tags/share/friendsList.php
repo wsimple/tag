@@ -8,15 +8,6 @@
 <div style="margin-top:-0px; padding:5px; height:auto; width:580px">
 <table width="99%" border="0" cellspacing="0" cellpadding="0" class="table_frm_new_group" style="margin-top:-0px; border:1px solid #fff;">
 	<?php
-		unset($_SESSION['ws-tags']['lstUsrBrowser']);
-		$lstUsrs = $GLOBALS['cn']->query('
-			SELECT	id_user
-			FROM users_groups
-			WHERE md5(id_group) = "'.$_GET[grp].'" AND id_user != "'.$_SESSION['ws-tags']['ws-user']['id'].'"
-			GROUP BY id_user
-		');
-
-		$_SESSION['ws-tags']['lstUsrBrowser'] = mysqlFetchAssocToArray($lstUsrs, 'id_user'); //array de miembros del grupo
 		$brower_type = 2;
 		include ('../../users/browser/grid.view.php');
 	?>
