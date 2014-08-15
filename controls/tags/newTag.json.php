@@ -277,7 +277,7 @@ function newTag_json($data,$mobile=false){
 		$GLOBALS['cn']->query('UPDATE tags SET source="'.$tagId.'" WHERE id="'.$tagId.'" AND id_user="'.$myId.'"');
 
 		$res['idTag']=$tagId;
-		$tag=createTag($tagId);
+		$tag=createTag($tagId,true);
 		$res['img']=FILESERVER.'/img/tags/'.$tag.'.jpg';
 		if($data['tag']){//si es un update
 //			$updateCom=$GLOBALS['cn']->queryRow('SELECT id FROM comments WHERE id_source="'.$data['tag'].'"');
