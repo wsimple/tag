@@ -1,6 +1,6 @@
 <h1>Convertir video</h1>
 <p>Elija un archivo y luego coloque el nombre de destino. Incluya extencion (recomendado <b>.mp4</b> para video)</p>
-<form action="videotest.php" method="get">
+<form action="videotest.php" method="post" enctype="multipart/form-data">
 	<select name="input">
 <?php
 if(($dir=opendir('.'))){
@@ -17,6 +17,7 @@ OPC;
 }
 ?>
 	</select>
+	<input type="file" name="video">
 	<input type="text" name="output"/>
 	<input type="submit" value="encode"/>
 </form>

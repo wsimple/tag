@@ -10,9 +10,25 @@ function ffmpeg_encode($origen,$destino){
 	if(strpos($destino,'.mp4')||strpos($destino,'.m4a')) $destino='-strict -2 '.$destino;
 	return run("ffmpeg -i $origen $destino");
 }
-
-$input=$_GET['input']!=''?$_GET['input']:'homero.mp4';
-$output=$_GET['output']!=''?$_GET['output']:'output.mp4';
+if(isset($_FILES['video'])){
+	$input=md5(time()).'.'.pathinfo($_FILES['video']['name'],PATHINFO_EXTENSION);
+	if($_FILES['video']&&$_FILES['video']['error']>0){
+		die('Error: '.$_FILES['video']['error']);
+	}elseif(!is_file($_FILES['video']['tmp_name'])){
+		unlink($_FILES['video']['tmp_name']);
+		die('Error: File uploaded but damaged.');
+	}else{
+		copy($_FILES['video']['tmp_name'],$input);
+		echo 'Upload: '.$_FILES['video']['name'].'<br/>';
+		echo 'Type: '.$_FILES['video']['type'].'<br/>';
+		echo 'Size: '.($_FILES['video']['size']/1024).'kB<br/>';
+		echo 'Stored in: '.$_FILES['video']['tmp_name'].'<br/>';
+		echo 'Moved to: '.$input.'<br/>';
+	}
+}else{
+	$input=$_REQUEST['input']!=''?$_REQUEST['input']:'homero.mp4';
+}
+$output=$_REQUEST['output']!=''?$_REQUEST['output']:'output.mp4';
 $video='output/'.$output;
 echo "<p>Starting ffmpeg...</p>";
 echo "<p>Encoding <a href='$input'>$input</a> to <a href='$video'>$output</a> with ffmpeg...</p>";
