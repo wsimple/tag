@@ -38,7 +38,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3" class="ui-smt-help"><input id="urlTag" type="text" value="<?=DOMINIO.'tag/'.$_GET['tag']?>" style="width:200px;" /></td>
+			<td colspan="3" class="ui-smt-help"><input id="urlTag" type="text" value="<?=DOMINIO.'tag/'.$_GET['tag']?>" /></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
