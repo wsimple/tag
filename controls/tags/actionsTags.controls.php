@@ -10,9 +10,13 @@
 		switch($_GET['action']){
 			case 3://redistribute
 				//getting tag source
-				$_sourceTag=$GLOBALS['cn']->query('SELECT source FROM tags WHERE id="'.$tag['id'].'"');
+				$_sourceTag=$GLOBALS['cn']->query('SELECT source, CONCAT(t.text," ",t.text2," ",t.code_number) AS text FROM tags WHERE id="'.$tag['id'].'"');
 				$_sourceTag=mysql_fetch_assoc($_sourceTag);
 				$_sourceTag=$_sourceTag['source'];
+
+				//Toma redistribuciones de tags como trending toping
+				set_trending_topings($_sourceTag['text'],true);
+
 				$_valRedist=$GLOBALS['cn']->query('
 					SELECT id FROM tags
 					WHERE id_creator!=id_user AND id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND source="'.$_sourceTag.'"

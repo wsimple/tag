@@ -3,7 +3,7 @@ include '../header.json.php';
 
 	if (quitar_inyect()){
 
-		$srh = $_REQUEST['search'];
+		$srh = urldecode($_REQUEST['search']);
 
 		if($_REQUEST['more']!=1){
 			$x = 0;
@@ -19,30 +19,21 @@ include '../header.json.php';
 
 		$hashtags  = tags($srh,$limit);
 		$cant = mysql_num_rows($hashtags);
-		if ($cant == 0) {
-			$hashtags = tags($srh,$limit,true);
-			$cant = mysql_num_rows($hashtags);
-			$suggest = true;
-		}
-
 		$newText = array();
 		while($tag = @mysql_fetch_assoc($hashtags)){
 			$textHash = get_hashtags($tag['text']);
 			$textHash = array_unique($textHash);
 			$textCount = count($textHash);
 
-			for($i=0;$i<$textCount;$i++){
-				if(strpos($textHash[$i],$srh)!==false){
+			for($i=0;$i<=$textCount;$i++){
+				if( preg_match("/(".$srh.")([A-z])*/i", $textHash[$i]) ){
 					$newText[] = $textHash[$i];
-					$newText = array_unique($newText);
-					if($limit==5){if(count($newText)>=$limit) break 2;}
 				}
+				//if($limit==5){if(count($newText)==$limit) break 2;}
 			}
+			$newText = array_unique($newText);
 		}
-
-
 		$textCount = count($newText);
-
 		if($_REQUEST['more']==1){
 			$c = 0;
 			if($textCount!=0){

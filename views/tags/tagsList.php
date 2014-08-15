@@ -74,7 +74,7 @@
 			</div>
 		<?php }?>
 		<?php if (isset($_GET['select'])){ ?> <h3 style="font-size:18px;text-align:center;"><?=SELECTTAG?></h3><?php } ?>
-		<div class="tag-container <?php if((isset($_GET['select']))||($current=='user')){ ?>noMenu <?php } ?>"></div>
+		<div class="tag-container <?php if((isset($_GET['select']))){ ?>noMenu <?php } ?>"></div>
 		<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="display: none;" />
 	</div>
 	<div class="clearfix"></div>
@@ -166,7 +166,8 @@
 						sizeTags=id;
 						if(bandera){
 							bandera=false;
-							$.ajax({
+							console.log(id);
+							$$.ajax({
 								url:'controls/users/viewTimeline.control.php?'+id,
 								type:'get'
 							}).done(function(){
