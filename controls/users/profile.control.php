@@ -47,7 +47,7 @@ if (quitar_inyect()){
 			$ext           = strtolower(end($parts));
 
 			if( in_array($ext, $imagesAllowed) ) {
-				$path  = RELPATH."img/user_cover/".$_SESSION['ws-tags']['ws-user'][code].'/';//ruta para crear dir
+				$path  = RELPATH."img/users_cover/".$_SESSION['ws-tags']['ws-user'][code].'/';//ruta para crear dir
 				$photo = $_SESSION['ws-tags']['ws-user'][code].'/'.md5(str_replace(' ', '', $_FILES[frmProfile_fileCover][name])).'.jpg';
 				//existencia de la folder
 				if( !is_dir ($path) ) {
@@ -58,8 +58,8 @@ if (quitar_inyect()){
 					fclose($fp);
 				}// is_dir
 
-				if( redimensionar($_FILES[frmProfile_fileCover][tmp_name], RELPATH."img/user_cover/".$photo, 845) ) {
-					FTPupload('user_cover/'.$photo);
+				if( redimensionar($_FILES[frmProfile_fileCover][tmp_name], RELPATH."img/users_cover/".$photo, 845) ) {
+					FTPupload('users_cover/'.$photo);
 					echo $photo;
 					$_SESSION['ws-tags']['ws-user']['user_cover'] = $photo;
 
