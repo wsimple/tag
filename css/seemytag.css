@@ -5857,3 +5857,23 @@ container .left-panel .menus ul span{
 .menuProfileBack a{
 	color: #ff8a28 !important;
 }
+table.ui-smt-single {
+	width: 100%;
+	font-size: 11px;
+}
+
+table.ui-smt-single td {
+	text-align: left;
+	vertical-align: top;
+}
+td.ui-smt-help {
+	text-align: center !important;
+	background-color: #F4F4F4;
+	padding: 5px;
+}
+td.ui-smt-help #urlTag{
+	width: 330px;
+	font-weight: bold;
+	font-size: 16px;
+	height: 30px;
+}

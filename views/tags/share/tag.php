@@ -38,7 +38,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3" class="ui-smt-help"><input type="text" value="<?=DOMINIO.'tag/'.$_GET['tag']?>" style="width:200px;" /></td>
+			<td colspan="3" class="ui-smt-help"><input id="urlTag" type="text" value="<?=DOMINIO.'tag/'.$_GET['tag']?>" style="width:200px;" /></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
@@ -53,18 +53,12 @@
 		$('input[type="text"]').select().focus(function(event) { 
 			$(this).select(); event.preventDefault(); 
 		});
-		// $("#share_tag #txtEmails").fcbkcomplete({
-		// 	json_url: "includes/friendsHelp.php?value=1",
-		// 	newel:false,
-		// 	filter_selected:true,
-		// 	addontab : false,
-		// 	filter_hide: true
-		// });
 		$('#share_tag #txtEmails').select2({
-			placeholder:'Owner, Phone Number, Brand, Model',
+			placeholder:'<?=formatoCadena($lang["MAINMNU_FRIENDS"])." ".strtolower($lang["JS_OR"])." ".LBL_LOGIN."s"?>',
 			minimumInputLength:1,
 			multiple:true,
 			maximumSelectionSize:15,
+			formatInputTooShort:"<?=$lang['MINIMOCARACTERESSELECT2']?>",
 			createSearchChoice:function(term, data) { 
 				if ($(data).filter(function() { 
 					return this.text.localeCompare(term)===0; 
