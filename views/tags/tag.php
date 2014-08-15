@@ -1,6 +1,11 @@
 <?php
-	global $dialog;
-	$tid=isset($_GET['tag'])?$_GET['tag']:$_GET['id'];
+	global $dialog,$section,$params;
+	if(is_debug()&&preg_match('/^\d+$/i',$params[0]))//solo se permite el id numerico para debug
+		$tid=$params[0];
+	elseif(preg_match('/^[0-9a-f]{32}$/i',$params[0]))
+		$tid=$params[0];
+	else
+		$tid=isset($_GET['tag'])?$_GET['tag']:$_GET['id'];
 	$tag=CON::getRow('
 		SELECT id,id_user,status,id_group
 		FROM tags
