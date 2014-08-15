@@ -98,7 +98,6 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 				</form>
 			</div>
 		</div>
-		
 	</div>
 	<div id="eProfileInfo">
 		<div style="float: left;width: 380px;">
