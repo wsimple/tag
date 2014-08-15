@@ -28,12 +28,12 @@ $groups_count = mysql_num_rows($groups);
 if ($groups_count == 0) $groups=groups('', 3, 0, true);
 
 $hashtags=tags($srh,5);
-//die($hashtags);
 if (mysql_num_rows($hashtags) == 0) $hashtags=tags('', 5, true);
 
 if($srh=='invalid'){
 	$srh=VARIABLE_INVALID;
 }
+$hash=end(explode('#',$srh));
 ?>
 <div id="tabs" class="ui-single-box">
 	<ul style="font-size:14px">
@@ -46,6 +46,18 @@ if($srh=='invalid'){
 	</ul>
 	<div id="tabs-1">
 		<div id="searchAll">
+			<div id="contentTag">
+				<div class="titleSearchAllhash"><?=SEARCH_HASHTAGS?></div>
+				<div class="group-details mini" id="taglist-box">
+					<br/><br/>
+					<div class="tags-list" id="searchtags">
+						<div class="tag-container" style="margin:0 auto;"></div>
+						<img src="img/loader.gif" width="25" height="25" class="loader" style="display: none;"/>
+					</div>
+					<div class="clearfix"></div>
+					<div id="msghashclick"><?=USER_BTNSEEMORE?> Tags,<span class="hashClick"><?=SEARCHALL_SEEMORECLKHERE?></span></div>
+				</div>
+			</div>
 			<div id="contentHash">
 				<div class="titleSearchAllhash"><?=SEARCH_HASHTAGS?></div>
 				<?php if(@mysql_num_rows($hashtags)>0){?>
@@ -53,7 +65,7 @@ if($srh=='invalid'){
 					 <img id="loadingwaithash" src="css/smt/loader.gif" width="15" height="15"/>
 					 <div id="hashJson"></div>
 					 <div id="clickhash" class="seemoreSearch" style="display:none"><?=USER_BTNSEEMORE?></div>
-					 <div id="msghashclick"><?=SEARCHALL_SEEMORETAGS?> <span id="hashClick"><?=SEARCHALL_SEEMORECLKHERE?></span></div>
+					 <div id="msghashclick"><?=SEARCHALL_SEEMORETAGS?> <span class="hashClick"><?=SEARCHALL_SEEMORECLKHERE?></span></div>
 					 <div class="clearfix"></div>
 				</div>
 				<?php }else{ ?>
@@ -141,8 +153,9 @@ $(function(){
 		$('#tagsearch').click();
 		$('html,body').animate({scrollTop:0},'slow');
 	<?php } ?>
-	$('#hashClick').click(function(){
-		$('#tagsearch').click();
+	$('.hashClick').click(function(){
+		//$('#tagsearch').click();
+		$("#tabs").tabs({ active: 1 });
 		$('html,body').animate({scrollTop:0},'slow');
 	});
 	
@@ -194,6 +207,31 @@ $(function(){
 			}
 		};
 		seemoreNew('<?=$_SESSION['ws-tags']['ws-user']['fullversion']==1?'1':'0'?>','controls/search/groupTabs.json.php','#groupTabs','#smTabsGroups','#loading_groups_search','15','auto',opc);
+	});
+
+	//TAGS
+	var $boxi=$('#contentTag #taglist-box');
+	var ns='.tagsList',//namespace
+		layer2=$boxi.find('.tag-container')[0],//container
+		opc2={
+			current	:'hash',
+			force: true,
+			layer	:layer2,
+			idsearch:'1',
+			radiobtn:'.tags-size',
+			get		:'&hash=<?=$hash?>',
+			limit: 3
+		};
+	var sizeTags='mini',interval;
+	$.on({
+		open:function(){
+			updateTags('reload',opc2);
+		},
+		close:function(){
+			$(window).off(ns);
+			$box.off();
+			clearInterval(interval);
+		}
 	});
 });
 </script>
