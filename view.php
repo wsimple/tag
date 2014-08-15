@@ -90,7 +90,7 @@ if($idPage!='') switch($idPage){
 		$bodyPage='tags/tagsList.php';break;
 	case 'tag'			    :$bodyPage='tags/tag.php';break;
 	case 'toptag'			:$bodyPage='tags/tagsList.php';$cache=true;break;
-	case 'comment'			:$bodyPage='tags/comment.php';break;
+	case 'comment'			:$bodyPage='tags/tag.php';break;
 	case 'carousel'			:$bodyPage='tags/carousel.php';break;
 	case 'news'				:$bodyPage='news/news.php';break;
 	case 'groups'			:$bodyPage='users/groups/allGroups.php';$rightPanel='users/groups/panel.php';break;
