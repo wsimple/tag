@@ -6,8 +6,8 @@ function run($command){
 	return preg_replace('/\r?\n/', '<br/>',shell_exec($command.' 2>&1'));
 }
 function ffmpeg_encode($origen,$destino){
-	// if(strpos($destino,'.mp4')) $destino='-c:v libx264 '.$destino;
 	if(is_file($destino)) unlink($destino);
+	if(strpos($destino,'.mp4')||strpos($destino,'.m4a')) $destino='-strict -2 '.$destino;
 	return run("ffmpeg -i $origen $destino");
 }
 
