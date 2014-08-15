@@ -6,7 +6,7 @@
 		header('Content-type: text/html; charset=utf-8');
 		global $dialog;
 		$dialog=true;
-		include 'views.php';
+		include 'view.php';
 		die();
 	}
 	// die($_SERVER['SERVER_NAME'].array_shift(split(basename(__DIR__),$_SERVER['REQUEST_URI'])).basename(__DIR__));
