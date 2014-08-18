@@ -54,7 +54,7 @@ $edit=$obj->id==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
 $styleCon = !$logged?'style="margin-left: 100px;"':'';
 ?>
 <div id="externalProfile" class="ui-single-box" <?=$styleCon?>>
-	<div id="coverExpro" style="background-image: url('img/users_cover/<?=$obj->user_cover?>');height: 196px;width: 846px;position: absolute;top: 0;left: 0;">
+	<div id="coverExpro" style="background-image: url('<?=FILESERVER?>img/users_cover/<?=$obj->user_cover?>');height: 196px;width: 846px;position: absolute;top: 0;left: 0;">
 		<div class="ui-single-box-title">
 			<div class="photoProfile" id="photoProfileChange"><?=$edit?$edit:''?>
 				<form action="?current=updateProfile" id="frmChangePhoto" name="frmChangePhoto" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
@@ -270,11 +270,11 @@ $(function(){
 	$('#frmChangePhoto,#frmChangeCover').ajaxForm({
 		success:function(data){
 			if(data.indexOf('CROP')>=0){// going crop before changing profile picture
-				
 				redir('user/mini?ep');
 			}else if (data!=0) {
+				console.log(data);
 				$('loader.page',PAGE).hide();
-				$('#coverExpro').css('background-image', 'url("img/users_cover/'+data+'")');	
+				$('#coverExpro').css('background-image', 'url("<?=FILESERVER?>img/users_cover/'+data+'")');	
 			}else{
 				$.dialog({
 					title:'<?=$lang["ERROR_COVER"]?>',

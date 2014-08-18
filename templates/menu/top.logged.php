@@ -22,7 +22,7 @@ unset($detect);
 			<div id="tourNotifications"></div>
 		</li>
 		<li>
-			<a class="user" href="<?=base_url('user/preview')?>">
+			<a class="user" href="<?=base_url(($_SESSION['ws-tags']['ws-user']['username']!=''?$_SESSION['ws-tags']['ws-user']['username']:'user/preview'))?>">
 				<img src="<?=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['pic'],'img/users/default.png')?>"/>
 				<?=MENU_MAINME?>
 			</a>
