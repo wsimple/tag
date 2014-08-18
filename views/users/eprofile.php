@@ -18,6 +18,8 @@ elseif($section=='user'||$section=='profile'){
 }elseif($section!='') $where = "username!='' AND username LIKE '$section'";
 else{ $where='id='.$_SESSION['ws-tags']['ws-user']['id']; }
 $sid=$_SESSION['ws-tags']['ws-user']['id']!=''?"'".$_SESSION['ws-tags']['ws-user']['id']."'":"id";
+
+//echo $sid.'--'.$_SESSION['ws-tags']['ws-user']['id'];
 $query = CON::query("
 	SELECT
 		id,
@@ -40,11 +42,16 @@ $query = CON::query("
 		(SELECT s.label FROM sex s WHERE s.id=sex) AS sex,
 		followers_count,
 		friends_count,
+		
 		(SELECT id_user FROM users_links WHERE id_friend=id AND id_user=".$sid." LIMIT 1) AS follower,
 		(SELECT count(id) FROM tags WHERE id_creator = ".$sid." AND id_user = id_creator AND status = 1) AS nTags
 	FROM users
 	WHERE $where
 ");
+
+//SELECT * FROM users_links l JOIN users u ON u.id=l.id_friend WHERE md5(l.id_user)="'.$user.'" AND l.is_friend = 1
+
+
 if(CON::numRows($query)>0){
 	if(is_debug('user')) echo CON::lastSql();
 // $array = CON::fetchArray($query);
@@ -52,6 +59,8 @@ $obj=CON::fetchObject($query);
 $edit='<div class="edit"></div>';
 $edit=$obj->id==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
 $styleCon = !$logged?'style="margin-left: 100px;"':'';
+
+echo 'f: '.$obj->follower;
 ?>
 <div id="externalProfile" class="ui-single-box" <?=$styleCon?>>
 	<div id="coverExpro" style="background-image: url('<?=FILESERVER?>img/users_cover/<?=$obj->user_cover?>');height: 196px;width: 846px;position: absolute;top: 0;left: 0;">
@@ -98,7 +107,7 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 				</form>
 			</div>
 		</div>
-	</div>
+	</div><?=$obj->follower?>
 	<div id="eProfileInfo">
 		<div style="float: left;width: 380px;">
 			<article id="externalProfileInfo" class="side-box imagenSug">
