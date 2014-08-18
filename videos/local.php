@@ -1,4 +1,4 @@
-<a href="videolist.php"><button>select video</button></a>
+<a href="."><button>select video</button></a>
 <hr/>
 <?php
 error_reporting(E_ALL);
@@ -10,9 +10,10 @@ function ffmpeg_encode($origen,$destino){
 	if(strpos($destino,'.mp4')||strpos($destino,'.m4a')) $destino='-strict -2 '.$destino;
 	return run("ffmpeg -i $origen $destino");
 }
-if(isset($_FILES['video'])){
+if($_FILES['video']&&$_FILES['video']['tmp_name']){
+	echo 'upload file<br/>';
 	$input=md5(time()).'.'.pathinfo($_FILES['video']['name'],PATHINFO_EXTENSION);
-	if($_FILES['video']&&$_FILES['video']['error']>0){
+	if($_FILES['video']['error']>0){
 		die('Error: '.$_FILES['video']['error']);
 	}elseif(!is_file($_FILES['video']['tmp_name'])){
 		unlink($_FILES['video']['tmp_name']);
@@ -54,12 +55,10 @@ echo ffmpeg_encode($input,$video);
 </div>
 <div style="clear:both;"></div>
 <hr/>
-<a href="videolist.php"><button>select video</button></a>
+<a href="."><button>select video</button></a>
 <hr/>
 <p>CODECS:</p>
 <?php echo run("ffmpeg -codecs"); ?>
 <hr/>
 <p>HELP:</p>
 <?php echo run("ffmpeg --help"); ?>
-
-<div><img src="../img/tags/97f4bed609c869f7.jpg" alt=""></div>
