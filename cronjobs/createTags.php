@@ -35,7 +35,7 @@ include RELPATH.'includes/languages.config.php';
 <!DOCTYPE html>
 <html>
 <head>
-	<title>CometChat</title>
+	<title>Create Tag</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <?php
 	if($data['more']>0){
@@ -49,6 +49,7 @@ include RELPATH.'includes/languages.config.php';
 	echo $html;
 	echo '<hr/>Tags done:'.$data['done'];
 	echo '<br/>Tags pending:'.$data['more'];
+	if($_GET['id']!='') echo '<br/>Tag:<br/><img src="'.tagURL($_GET['id']).'"/>';
 ?>
 </body>
 </html>
