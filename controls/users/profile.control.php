@@ -59,6 +59,7 @@ if (quitar_inyect()){
 				}// is_dir
 
 				if( redimensionar($_FILES[frmProfile_fileCover][tmp_name], RELPATH."img/users_cover/".$photo, 845) ) {
+					if(is_debug('filecover')) echo 'users_cover/'.$photo;
 					FTPupload('users_cover/'.$photo);
 					echo $photo;
 					$_SESSION['ws-tags']['ws-user']['user_cover'] = $photo;
