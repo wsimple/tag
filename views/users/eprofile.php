@@ -166,7 +166,7 @@ if (isset($follower['id_user'])) {
 											}
 											$detalles->preference=explode(',',$detalles->preference);
 											for ($e=0;$e<count($detalles->preference);$e++)
-												if($detalles->preference[$e]!='') $links.=($links==''?'':' , ').'<a class="externalPre" href="'.base_url('searchall?srh='.preg_replace('/ +/','%20',$detalles->preference[$e])).'">'.$detalles->preference[$e].'</a>';
+												if($detalles->preference[$e]!='') $links.=($links==''?'':' , ').''.($logged?'<a class="externalPre" href="'.base_url('searchall?srh='.preg_replace('/ +/','%20',$detalles->preference[$e])).'">'.$detalles->preference[$e].'</a>':'<a class="externalPre">'.$detalles->preference[$e].'</a>');
 											echo $links;
 									}else{ echo ""; } ?>
 									</li><br>
