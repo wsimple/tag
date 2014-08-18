@@ -28,7 +28,7 @@ $f_unlogged=array(
 	'main/resetPassword.php',
 	'main/dialogs.php',
     'users/eprofile.php',
-    'user.2.php',
+    'user.php',
     'users/account.php',
 	'tags/comment.php',
 	'users/business.paypal.php',
