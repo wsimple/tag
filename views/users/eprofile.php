@@ -17,7 +17,7 @@ elseif($section=='user'||$section=='profile'){
 	else $where='id='.$_SESSION['ws-tags']['ws-user']['id'];
 }elseif($section!='') $where = "username!='' AND username LIKE '$section'";
 else{ $where='id='.$_SESSION['ws-tags']['ws-user']['id']; }
-$sid=$_SESSION['ws-tags']['ws-user']['id']!=''?"'".$_SESSION['ws-tags']['ws-user']['id']."'":"id";
+$sid=$_SESSION['ws-tags']['ws-user']['id']!=''?$_SESSION['ws-tags']['ws-user']['id']:"id";
 
 //echo $sid.'--'.$_SESSION['ws-tags']['ws-user']['id'];
 $query = CON::query("
@@ -42,25 +42,27 @@ $query = CON::query("
 		(SELECT s.label FROM sex s WHERE s.id=sex) AS sex,
 		followers_count,
 		friends_count,
-		
-		(SELECT id_user FROM users_links WHERE id_friend=id AND id_user=".$sid." LIMIT 1) AS follower,
+		(SELECT id_user FROM users_links WHERE id_friend=id AND id_user=".$sid." LIMIT 1) as follower,
 		(SELECT count(id) FROM tags WHERE id_creator = ".$sid." AND id_user = id_creator AND status = 1) AS nTags
 	FROM users
 	WHERE $where
 ");
 
-//SELECT * FROM users_links l JOIN users u ON u.id=l.id_friend WHERE md5(l.id_user)="'.$user.'" AND l.is_friend = 1
-
-
 if(CON::numRows($query)>0){
 	if(is_debug('user')) echo CON::lastSql();
-// $array = CON::fetchArray($query);
+
 $obj=CON::fetchObject($query);
 $edit='<div class="edit"></div>';
 $edit=$obj->id==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
 $styleCon = !$logged?'style="margin-left: 100px;"':'';
 
-echo 'f: '.$obj->follower;
+$follo = $GLOBALS['cn']->query("SELECT id_user FROM users_links WHERE id_friend='".$obj->id."' AND id_user='".$sid."' LIMIT 1");
+
+$follower = mysql_fetch_array($follo);
+if (isset($follower['id_user'])) {
+	$is = $follower['id_user'];
+}
+// echo 'idSe: '.$sid.' idExt: '.$obj->id.' follower: '.$obj->follower.', is: '.$is;
 ?>
 <div id="externalProfile" class="ui-single-box" <?=$styleCon?>>
 	<div id="coverExpro" style="background-image: url('<?=FILESERVER?>img/users_cover/<?=$obj->user_cover?>');height: 196px;width: 846px;position: absolute;top: 0;left: 0;">
@@ -91,9 +93,9 @@ echo 'f: '.$obj->follower;
 			<a href="javascript:void(0)" id="seeBusiness" style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena(SEE_BUSINESS_CARD)?></a>
 			<?php if (!$edit && $logged){ ?>
 			<div id="userProfileDialog" style="float:right; margin-top: 43px">
-				<input type="button" id="btn_link_<?=md5($obj->id)?>" <?=$obj->follower?'style="display:none;"':''?>
+				<input type="button" id="btn_link_<?=md5($obj->id)?>" <?=$is?'style="display:none;"':''?>
 					action="linkUser,,<?=md5($obj->id)?>" value="<?=USER_BTNLINK?>"/>
-				<input type="button" id="btn_unlink_<?=md5($obj->id)?>" <?=$obj->follower?'':'style="display:none;"'?> 
+				<input type="button" id="btn_unlink_<?=md5($obj->id)?>" <?=$is?'':'style="display:none;"'?> 
 					action="linkUser,,<?=md5($obj->id)?>,animate" value="<?=USER_BTNUNLINK?>"/>
 			</div>
 			<?php } ?>
@@ -107,7 +109,7 @@ echo 'f: '.$obj->follower;
 				</form>
 			</div>
 		</div>
-	</div><?=$obj->follower?>
+	</div>
 	<div id="eProfileInfo">
 		<div style="float: left;width: 380px;">
 			<article id="externalProfileInfo" class="side-box imagenSug">
@@ -225,7 +227,6 @@ $(function(){
 				layer:layer
 			};
 			opc['get']='&uid=<?=md5($obj->id)?>';
-		//refresh=function(){ updateTags('refresh',opc,false); };
 		$.on({
 			open:function(){
 				updateTags('reload',opc);				
@@ -238,8 +239,8 @@ $(function(){
 			}
 		});
 
-
 	$('#seeBusiness').click(function(){
+		// console.log('<?=md5($obj->id)?>');
 		$.dialog({
 			id:'default',
 			title:'<?=USERPROFILE_LINKSHOWBUSINESSCARD?>',
@@ -301,7 +302,6 @@ $(function(){
 					}
 				});
 			}
-			
 		}
 	});
 
