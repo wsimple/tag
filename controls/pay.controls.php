@@ -121,7 +121,7 @@
 
 								$nvpstr;
 								$emailSubject =urlencode(STORE_PURCHASETITLENEW);  //Asunto del correo al vendedor
-								$receiverType = urlencode( $receiver_email ); //Correo seemytag o del comprador
+								$receiverType = urlencode( $receiver_email ); //Correo tagbum o del comprador
 								$currency=urlencode('USD'); // USD
 								
 								$code=md5($custom[1].'_'.$custom[2].'_'.$custom[1]);

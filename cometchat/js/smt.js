@@ -1,3 +1,3 @@
 (function($){
-	jqcc.cometchat.homePage='http://seemytag.com/app/timeLine.php';
+	jqcc.cometchat.homePage='http://tagbum.com/app/timeLine.php';
 })(jqcc);

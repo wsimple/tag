@@ -150,13 +150,13 @@
 				'js.src="//connect.facebook.net/en_US/all.js#xfbml=1";'+
 				'fjs.parentNode.insertBefore(js,fjs);'+
 			'}(document,"script","facebook-jssdk"));<\/script>'+
-			'<div class="fb-like" data-href="http://seemytag.com/?tag='+idTag.substr(-16)+'" data-layout="button_count" data-show-faces="false"></div>'
+			'<div class="fb-like" data-href="http://tagbum.com/?tag='+idTag.substr(-16)+'" data-layout="button_count" data-show-faces="false"></div>'
 		);/**/
 		//twitter button
 		/*$('#tagShare_twitter').html(
 			'<a href="https://twitter.com/share" class="twitter-share-button"'+
 				'data-url="'+DOMINIO+'?tag='+md5(idTag).substr(-16)+'"'+
-				'data-via="seemytag" data-text="Disfruten cha lala" data-lang="en"></a>'+
+				'data-via="tagbum" data-text="Disfruten cha lala" data-lang="en"></a>'+
 			'<script type="text/javascript" src="http://platform.twitter.com/widgets.js"><\/script>'
 		);/**/
 	</script>

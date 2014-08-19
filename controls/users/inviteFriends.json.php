@@ -68,12 +68,12 @@ if (quitar_inyect()){
 			foreach( $personas as $per ) {
 				if( $per ) {
 					$perso.=($perso!= '')?', '.$per:' '.$per;
-					if(sendMail(formatMail($body,800), 'no-reply@tagbum.com', 'Tagbum.com', $_SESSION['ws-tags']['ws-user']['full_name'].', '.INVITEUSERS_CTRLSUBJECT, $per,     '../../') )
+					if(sendMail(formatMail($body,800), EMAIL_NO_RESPONDA, 'Tagbum.com', $_SESSION['ws-tags']['ws-user']['full_name'].', '.INVITEUSERS_CTRLSUBJECT, $per,     '../../') )
 						$jsonResult['status'] = 1;
 				}
 			}
 		}else{
-			if(sendMail(formatMail($body,800), 'no-reply@tagbum.com', 'Tagbum.com', $_SESSION['ws-tags']['ws-user']['full_name'].', '.INVITEUSERS_CTRLSUBJECT, $_GET['email'],'../../') )
+			if(sendMail(formatMail($body,800), EMAIL_NO_RESPONDA, 'Tagbum.com', $_SESSION['ws-tags']['ws-user']['full_name'].', '.INVITEUSERS_CTRLSUBJECT, $_GET['email'],'../../') )
 				$jsonResult['status'] = 1;
 		}
 	}//if mails
