@@ -137,7 +137,7 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 				title+=': '+opc.title;
 				$('.ui-page-active .ui-header h1').html(opc.title);
 			}
-			document.title=navigator.userAgent.match(/seemytag/i)?title:'Tagbum Web';
+			document.title=navigator.userAgent.match(/tagbum/i)?title:'Tagbum Web';
 			$('.ui-page-active .ui-header,.ui-page-active .ui-footer').fixedtoolbar({ tapToggle: false });
 			setTimeout(function(){
 				if ($('.ui-page-active .ui-footer').length>0)

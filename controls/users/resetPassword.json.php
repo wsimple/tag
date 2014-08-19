@@ -31,8 +31,8 @@ switch($_POST['action']){
     					   <tr><td style="text-align:left; font-size:14px; padding:0">&nbsp;</td></tr>
     					   <tr><td>'.SIGNUP_BODYEMAIL4.'</td></tr>
     					</table>';
-                if( sendMail(formatMail($body, 800), 'no-reply@tagbum.com', 'Tagbum.com', 'Reset your Tagbum password',$_POST['email'], '../../') ) {
-                    //sendMail(formatMail($body, 800), 'no-reply@tagbum.com', 'Tagbum.com', 'Reset your Tagbum password',$_POST['email'], '../../');
+                if( sendMail(formatMail($body, 800), EMAIL_NO_RESPONDA, 'Tagbum.com', 'Reset your Tagbum password',$_POST['email'], '../../') ) {
+                    //sendMail(formatMail($body, 800), EMAIL_NO_RESPONDA, 'Tagbum.com', 'Reset your Tagbum password',$_POST['email'], '../../');
                     $res['exit']=$_POST['email'];
                 }else{ $res['error']='notEmail'; }
     		}else{ $res['error']='emailNotExist'; }

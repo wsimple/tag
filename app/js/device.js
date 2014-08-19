@@ -14,17 +14,17 @@
 (function(w,$){
 	$(function(){
 		function cambiar(){
-			if(DOMINIO!=='http://seemytag.com/'){
-				DOMINIO='http://seemytag.com/';
+			if(DOMINIO!=='http://tagbum.com/'){
+				DOMINIO='http://tagbum.com/';
 				$.local('host',null)
 				$('body > #menu .menu .header').css('color','');
 			}else{
-				DOMINIO=$.local('host','http://seemytag.com/wpruebas/');
+				DOMINIO=$.local('host','http://tagbum.com/wpruebas/');
 				$('body > #menu .menu .header').css('color','#f00');
 			}
 		}
 		setTimeout(function(){
-			if(DOMINIO!=='http://seemytag.com/'){
+			if(DOMINIO!=='http://tagbum.com/'){
 				$('body > #menu .menu .header').css('color','#f00');
 			}
 		},1000);

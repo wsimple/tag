@@ -95,7 +95,7 @@ function readTxt(url){
 			case 'myPubli'		:func=function(){redir(PAGE['storeMypubli']);};break;
 			case 'notif'		:func=function(){redir(PAGE['notify']);};break;
 			case 'friends'		:func=function(){redir(PAGE['userfriends']+'?type=1&friend=1&id_user='+$.local('code'));};break;
-			case 'chat'			:func=function(){document.location=LOCAL?PAGE['chat']:'http://seemytag.com/cometchat/';};break;
+			case 'chat'			:func=function(){document.location=LOCAL?PAGE['chat']:'http://tagbum.com/cometchat/';};break;
 			case 'profile'		:func=function(){redir(PAGE['profile']+'?id='+$.local('code'));};break;
 			case 'profilepic'	:func=function(){redir(PAGE['profilepic']);};break;
 			case 'myGroup'		:func=function(){redir(PAGE['tagslist']+'?current=group&id='+(data.group||$this.attr('group')));};break;
