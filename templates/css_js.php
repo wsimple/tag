@@ -23,7 +23,7 @@ var BASEURL='<?=base_url()?>',
 if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localStorage.removeItem('logged');
 (function(l){ if(!l.search.match(/hashtag=/)&&l.hash.match(/#[a-z]/)) l.href=BASEURL+'?'+l.search.substr(1)+'&hashtag='+l.hash.substr(1); })(document.location);
 </script>
-<script src="min/?f=js/language_<?=$_SESSION['ws-tags']['language']?>.js" charset="utf-8"></script>
+<script src="min/?f=js/language_<?=$lang['langcode']?>.js" charset="utf-8"></script>
 <?php if($minify){ ?>
 	<link href="min/?g=css" rel="stylesheet"/>
 	<script src="min/?g=js" charset="utf-8"></script>
