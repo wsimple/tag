@@ -169,6 +169,9 @@ function tagsList_json($data,$mobile=false){
 		}elseif($data['current']=='personalTags'||$data['current']=='personal'){//tags personales de un usuario
 			$res['info']='tag personales de un usuario -24-';
 			$where.=safe_sql(' AND t.id_creator=? AND t.status=9 ',array($uid));
+		}elseif($data['current']=='myTags'){//listado de tags del usuario deslogeado
+			$res['info']='listado de tags del usuario logeado -2-';
+			$where.=safe_sql(' AND t.id_user=? AND t.id_user=t.id_creator AND t.status=1 ',array($uid));
 		}elseif($data['current']=='tagsUser'||$data['current']=='user'){//tags de un usuario
 			$res['info']='tags de un usuario (tagsUser) -25-';
 			$where.=safe_sql(' AND t.id_user=? AND t.status=1 ',array($uid));
