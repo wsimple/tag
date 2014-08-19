@@ -43,7 +43,7 @@ function mailTag($tagId,$mails,$msj, $device){
 
 			if ($per!='' && valid::isEmail($per)) {
 
-				//verificar si el correo esta registrado o no en seemytag
+				//verificar si el correo esta registrado o no en tagbum
 				$query = $GLOBALS['cn']->query('
 					SELECT
 						u.id AS id,
@@ -140,7 +140,7 @@ function mailTag($tagId,$mails,$msj, $device){
 					'</div>
 				';
 				//envio del correo
-				sendMail(formatMail($body, "790"), "no-reply@tagbum.com", "Seemytag.com", MENUTAG_CTRSHAREMAILASUNTO, $per, "../../");
+				sendMail(formatMail($body, "790"), EMAIL_NO_RESPONDA, "Tagbum.com", MENUTAG_CTRSHAREMAILASUNTO, $per, "../../");
 				$correos .= "-&nbsp;".$per.".<br/>";
 			}//if per
 		}//foreach

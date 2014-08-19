@@ -24,7 +24,7 @@ if(false){?><script><?php }?>
 		var closedList = 0;
 		var openList = 0;
 		var longNameLength = 20;
-//		if(navigator.userAgent.match(/SeeMyTag/)) top = header;
+//		if(navigator.userAgent.match(/tagbum/)) top = header;
 		var baseWidth,baseHeight;
 //		var ipad = navigator.userAgent.match(/ipad/i);
 		var mobile = 'onorientationchange' in window;
