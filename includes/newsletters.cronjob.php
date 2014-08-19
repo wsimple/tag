@@ -12,8 +12,8 @@ include '../includes/functions.php';
 
 
 // ******************** SOME MAIL DATA *************************************************************************************
-$from = 'no-reply@tagbum.com';
-$fromName = 'seemytag.com';
+$from = EMAIL_NO_RESPONDA;
+$fromName = 'tagbum.com';
 $path = '../';
 $formatMailWidth = "750";
 // ******************** END - SOME MAIL DATA *******************************************************************************

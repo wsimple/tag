@@ -105,7 +105,7 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 		if(!logged) redir(PAGE['ini']);
 	};
 	//if(match) console.log('no necesita login. Url coincide con: '+match);
-	//smt: contenedor para funciones de seemytag
+	//smt: contenedor para funciones de tagbum
 	window.smt=function(opc){
 		console.log(location);
 		console.log(opc);
@@ -137,7 +137,7 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 				title+=': '+opc.title;
 				$('.ui-page-active .ui-header h1').html(opc.title);
 			}
-			document.title=navigator.userAgent.match(/seemytag/i)?title:'Tagbum Web';
+			document.title=navigator.userAgent.match(/tagbum/i)?title:'Tagbum Web';
 			$('.ui-page-active .ui-header,.ui-page-active .ui-footer').fixedtoolbar({ tapToggle: false });
 			setTimeout(function(){
 				if ($('.ui-page-active .ui-footer').length>0)

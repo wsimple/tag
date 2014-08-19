@@ -269,7 +269,7 @@
 									</tr>
 								*/
 								//envio del correo
-								if (sendMail(formatMail($body, "790"), "no-reply@tagbum.com", formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.$lang['MENUTAG_CTRSHAREMAILTITLE1'], $per, "../../")){
+								if (sendMail(formatMail($body, "790"), EMAIL_NO_RESPONDA, formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.$lang['MENUTAG_CTRSHAREMAILTITLE1'], $per, "../../")){
 									$correos .= "-&nbsp;".$per."<br/>";
 									//insert tabla verificacion
 									if(!CON::exist("tags_share_mails","id_tag=? AND referee_number=? AND email_destiny =?",array($tag['idTag'],$_SESSION['ws-tags']['ws-user']['code'],$per)))
