@@ -3,7 +3,7 @@
 	define(NUMBOXES, 5);
 	define (_PATH_, "../img/publicity/banners/");
 	
-//	if (in_array($_SERVER['SERVER_NAME'],array('64.15.140.154','seemytag.com','www.seemytag.com'))){
+//	if (in_array($_SERVER['SERVER_NAME'],array('64.15.140.154','tagbum.com','www.tagbum.com'))){
 //		define (_PATH_, "../newDesign/img/publicity/banners/");
 //	}else{
 //		define (_PATH_, "../img/publicity/banners/");
