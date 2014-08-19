@@ -4,7 +4,7 @@ set_time_limit(1000);
 include('functions.php');
 include('receivemail.class.php');
 mysql_connect('10.4.23.12','db_seemytag_user','4kUHbM7KiadrHwOyUPiadr4kUH');
-mysql_select_db('seemytag');
+mysql_select_db('tagbum');
 function microtime_float(){
 	list($useg,$seg)=explode(' ',microtime());
 	return ((float)$useg+(float)$seg);

@@ -10,9 +10,10 @@ if(isset($_GET['srh'])){
 	$srh='invalid';
 }
 
-$srh = urldecode($srh); //Fix De hashtags
-set_trending_topings($srh);
 if($srh!=""){
+	$srh = urldecode($srh); //Fix De hashtags
+	set_trending_topings($srh);
+
 	$srh = str_replace(' ', '%', $srh);
 	$whereFriends.=' AND CONCAT(email," ",name," ",last_name) LIKE "%'.$srh.'%"';
 	$whereGroups='CONCAT(g.description," ",g.name) LIKE "%'.$srh.'%"';
@@ -28,7 +29,8 @@ $groups_count = mysql_num_rows($groups);
 if ($groups_count == 0) $groups=groups('', 3, 0, true);
 
 $hashtags=tags($srh,5);
-if (mysql_num_rows($hashtags) == 0) $hashtags=tags('', 5, true);
+$hashtags_count = mysql_num_rows($hashtags);
+if ($hashtags_count == 0) $hashtags=tags('', 8, true);
 
 if($srh=='invalid'){
 	$srh=VARIABLE_INVALID;
@@ -47,7 +49,7 @@ $hash=end(explode('#',$srh));
 	<div id="tabs-1">
 		<div id="searchAll">
 			<div id="contentTag">
-				<div class="titleSearchAllhash"><?=SEARCH_HASHTAGS?></div>
+				<div class="titleSearchAllhash">Tags</div>
 				<div class="group-details mini" id="taglist-box">
 					<br/><br/>
 					<div class="tags-list" id="searchtags">
@@ -60,7 +62,10 @@ $hash=end(explode('#',$srh));
 			</div>
 			<div id="contentHash">
 				<div class="titleSearchAllhash"><?=SEARCH_HASHTAGS?></div>
-				<?php if(@mysql_num_rows($hashtags)>0){?>
+				<?php if($hashtags_count == 0){?>
+				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
+				<div class="ui-single-box-title"><?=SEARCH_HASHTAGS.' '.EDITFRIEND_VIEWTITLESUGGES?></div>
+				<?php } ?>
 				<div>
 					 <img id="loadingwaithash" src="css/smt/loader.gif" width="15" height="15"/>
 					 <div id="hashJson"></div>
@@ -68,9 +73,6 @@ $hash=end(explode('#',$srh));
 					 <div id="msghashclick"><?=SEARCHALL_SEEMORETAGS?> <span class="hashClick"><?=SEARCHALL_SEEMORECLKHERE?></span></div>
 					 <div class="clearfix"></div>
 				</div>
-				<?php }else{ ?>
-				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
-				<?php } ?>
 				<div class="clearfix"></div>
 			</div>
 			<?php //*************************amigos*************************// ?>
@@ -130,9 +132,7 @@ $hash=end(explode('#',$srh));
 $(function(){
 	$('#tabs').tabs();
 	//hash
-	<?php if(mysql_num_rows($hashtags)>0){?>
-		hashJson('#hashJson','#loadingwaithash',5,'<?=$srh?>','#clickhash');
-	<?php }?>
+	hashJson('#hashJson','#loadingwaithash',5,'<?=$srh?>','#clickhash');
 	//friends
 	friendsJson('#friendsJson','#loadingwaitfriends',3,'<?=$srh?>','#clickpeople');
 	//groups

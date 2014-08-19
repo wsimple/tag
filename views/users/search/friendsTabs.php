@@ -1,11 +1,15 @@
 <div id="friendsTabs">
 <?php
-	if($friends_count>0){
+if ($friends_count == 0) {
+	$friendsAll = $friends;
+	echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div><div class="ui-single-box-title">'.EDITFRIEND_VIEWTITLESUGGES.'</div>';
+}else{
 	$friendsAll=users($whereFriends,5);
-	while($friend=mysql_fetch_assoc($friendsAll)){
+}
+while($friend=mysql_fetch_assoc($friendsAll)):
 	$nameCountryUser=$GLOBALS['cn']->queryRow("SELECT name FROM countries WHERE id = '".$friend['country']."'");
 	$follower=$friend['follower'];
-	?>
+?>
 	<div id="div_<?=md5($friend[id_friend])?>" class="divYourFriends">
 		<div style="float:left;width:65px;cursor:pointer;">
 			<img onclick="userProfile('<?=$friend['name_user']?>','Close','<?=md5($friend['id_friend'])?>')" src="<?=FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['photo_friend'],'img/users/default.png')?>" border="0"  width="50" height="50" style="border:1px solid #ccc" />
@@ -36,10 +40,8 @@
 		</div>
 		<div class="clearfix"></div>
 	</div>
-<?php }
-}else{
-	echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div>';
-}
+<?php
+endwhile; 
 ?>
 </div>
 <?php if($friends_count==5){ ?>
