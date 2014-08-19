@@ -88,7 +88,7 @@ function login_json($data){
 					);
 					cookie('last',$sesion['email'],90);
 				}
-				if(preg_match('/seemytag/i',$_SERVER['HTTP_USER_AGENT'])){//app
+				if(preg_match('/tagbum/i',$_SERVER['HTTP_USER_AGENT'])){//app
 					$res['locals']['kldata']=keepLogin($device);
 				}
 				if($data['mobile']||$data['keep']){

@@ -35,8 +35,8 @@
 			before:function(){
 				if($_GET['host']!==undefined){
 					var host=null;
-					if($_GET['host']=='p') host='seemytag.com';
-					if(($_GET['host']||'').match(/\d{1,3}/i)) host='192.168.1.'+$_GET['host']+'/seemytag';
+					if($_GET['host']=='p') host='tagbum.com';
+					if(($_GET['host']||'').match(/\d{1,3}/i)) host='192.168.1.'+$_GET['host']+'/tag';
 					if(host) host='http://'+host+'/';
 					$.local('host',host);
 				}
