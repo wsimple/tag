@@ -52,7 +52,7 @@ if ( quitar_inyect() ){
 			if (!strpos($per,'@')){ $per = campo("users", "md5(id)", $per, "email"); }
 
             if ($per!='' && valid::isEmail($per)) {
-				//verificar si el correo esta registrado o no en seemytag
+				//verificar si el correo esta registrado o no en tagbum
 				$query = $GLOBALS['cn']->query('
 					SELECT 
 						u.id AS id,
@@ -160,7 +160,7 @@ if ( quitar_inyect() ){
  </tr>
  */
 				//envio del correo
-				if (sendMail(formatMail($body, "790"), "no-reply@tagbum.com",formatoCadena($_SESSION['ws-tags']['ws-user'][full_name]), formatoCadena($_SESSION['ws-tags']['ws-user'][full_name]).' '.GROUP_EMAILASUNTOSUGGEST, $per, "../../")){
+				if (sendMail(formatMail($body, "790"),EMAIL_NO_RESPONDA,formatoCadena($_SESSION['ws-tags']['ws-user'][full_name]), formatoCadena($_SESSION['ws-tags']['ws-user'][full_name]).' '.GROUP_EMAILASUNTOSUGGEST, $per, "../../")){
 					$correos .= "-&nbsp;".$per.".<br/>";
 					//insert tabla verificacion
 					// if( !existe("tags_share_mails", "id_tag", " WHERE id_tag = '".$group['idTag']."' AND referee_number = '".$_SESSION['ws-tags']['ws-user']['code']."' AND email_destiny = '".$per."' ") ) {

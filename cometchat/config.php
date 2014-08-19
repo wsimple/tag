@@ -9,7 +9,7 @@ include dirname(__FILE__).DIRECTORY_SEPARATOR.'integration.php';
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /* BASE URL START */
-$chat_path=$_GET['callbackfn']==''?'cometchat/':($_GET['callbackfn']=='m'||$_GET['callbackfn']=='iphone'?'../':'http://seemytag.com/cometchat/');
+$chat_path=$_GET['callbackfn']==''?'cometchat/':($_GET['callbackfn']=='m'||$_GET['callbackfn']=='iphone'?'../':'http://tagbum.com/cometchat/');
 define('BASE_URL',$chat_path);
 unset($chat_path);
 /* BASE URL END */
