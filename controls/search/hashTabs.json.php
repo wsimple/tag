@@ -2,12 +2,9 @@
 include '../header.json.php';
 
 	if (quitar_inyect()){
-
-		$srh = urldecode($_REQUEST['search']);
-
 		if($_REQUEST['more']!=1){
 			$x = 0;
-			$limit = 5;
+			$limit = 16;
 		}else{
 			$limit = '';
 			if(!isset($_SESSION['ws-tags']['see_more']['hashTabs'])){
@@ -17,8 +14,14 @@ include '../header.json.php';
 			}
 		}
 
+		$srh = urldecode($_REQUEST['search']);
 		$hashtags  = tags($srh,$limit);
 		$cant = mysql_num_rows($hashtags);
+
+		if ($cant == 0) {
+			$hashtags  = tags('',$limit, true);
+			$suggest = true;
+		}
 		$newText = array();
 		while($tag = @mysql_fetch_assoc($hashtags)){
 			$textHash = get_hashtags($tag['text']);
@@ -26,10 +29,9 @@ include '../header.json.php';
 			$textCount = count($textHash);
 
 			for($i=0;$i<=$textCount;$i++){
-				if( preg_match("/(".$srh.")([A-z])*/i", $textHash[$i]) ){
+				if( $suggest || preg_match("/(".$srh.")([A-z0-9])*/i", $textHash[$i]) ){
 					$newText[] = $textHash[$i];
 				}
-				//if($limit==5){if(count($newText)==$limit) break 2;}
 			}
 			$newText = array_unique($newText);
 		}

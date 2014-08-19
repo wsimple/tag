@@ -1,18 +1,24 @@
 <div id="hashTabs">
 <?php
 //PESTANA HASHTAGS
-$hashtabs  = tags($srh);
+if (mysql_num_rows($hashtabsAll) == 0) {
+	$hashtabsAll = $hashtags;
+	$suggest = true;
+	echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div><div class="ui-single-box-title">'.EDITFRIEND_VIEWTITLESUGGES.'</div>';
+}else{
+	$hashtabsAll  = tags($srh);
+}
 
 $x = 0;
 $limit = 5;
 $newText = array();
-while($tag = @mysql_fetch_assoc($hashtabs)){
+while($tag = @mysql_fetch_assoc($hashtabsAll)){
 	$textHash = get_hashtags($tag['text']);
 	$textHash = array_unique($textHash);
 	$textCount = count($textHash);
 
 	for($i=0;$i<=$textCount;$i++){
-		if( preg_match("/(".$srh.")([A-z])*/i", $textHash[$i]) ){
+		if( $suggest || preg_match("/(".$srh.")([\w])+/i", $textHash[$i]) ){
 			$newText[] = $textHash[$i];
 		}
 	}
@@ -36,8 +42,6 @@ if($textCount!=0){
 		}
 	}
 	echo  '<div id="moreHash"></div><div class="clearfix"></div></div>';
-}else{
-	echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div>';
 }
 
 ?>
