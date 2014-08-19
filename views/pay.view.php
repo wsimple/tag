@@ -6,7 +6,7 @@ include ("../class/wconecta.class.php");
 include ("../includes/languages.config.php");
 
 //Variables por defecto para paypal
-$business      = 'elijose.c-facilitator@gmail.com'; //Cuenta de paypal de seemytag
+$business      = 'elijose.c-facilitator@gmail.com'; //Cuenta de paypal de tagbum
 $custom        = '';
 $tax           = 0;
 $currency_code = "USD";

@@ -105,7 +105,7 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 		if(!logged) redir(PAGE['ini']);
 	};
 	//if(match) console.log('no necesita login. Url coincide con: '+match);
-	//smt: contenedor para funciones de seemytag
+	//smt: contenedor para funciones de tagbum
 	window.smt=function(opc){
 		console.log(location);
 		console.log(opc);

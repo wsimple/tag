@@ -10,7 +10,7 @@
 	switch ($_GET['tabla']){
 		
 		case 'users_publicity':
-			if (in_array($_SERVER['SERVER_NAME'],array('64.15.140.154','seemytag.com','www.seemytag.com'))){
+			if (in_array($_SERVER['SERVER_NAME'],array('68.109.244.199','tagbum.com','www.tagbum.com'))){
 				define (_PATH_, "../newDesign/img/publicity/");
 			}else{
 				define (_PATH_, "../img/publicity/");
@@ -26,7 +26,7 @@
 		break;
 	
 		case 'banners':
-			if (in_array($_SERVER['SERVER_NAME'],array('64.15.140.154','seemytag.com','www.seemytag.com'))){
+			if (in_array($_SERVER['SERVER_NAME'],array('68.109.244.199','tagbum.com','www.tagbum.com'))){
 				define (_PATH_, "../newDesign/img/publicity/banners/");
 			}else{
 				define (_PATH_, "../img/publicity/banners/");

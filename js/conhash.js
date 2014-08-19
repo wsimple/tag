@@ -61,7 +61,7 @@ var hashBack;
 			var tmp=getHash(),
 				hash=tmp[0],
 				get=tmp[1],
-				str=document.location.pathname.match(/^(\/(seemytag|[\w\d\.]*tag[\w\d\.]*|wpruebas))?\/(.*)/i);
+				str=document.location.pathname.match(/^(\/(tagbum|[\w\d\.]*tag[\w\d\.]*|wpruebas))?\/(.*)/i);
 			grupo.forEach(function(el){
 				if(el.indexOf(hash)>=0) hash=el[0];
 			});
