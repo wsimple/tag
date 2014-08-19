@@ -1,4 +1,5 @@
 <?php
+	include 'main/index.php';
 	if(!is_file('includes/security/security.php')){ include 'new.php'; }
 	include('includes/config.php');
 	if($section=='image'){ include 'includes/imagen.php'; }
