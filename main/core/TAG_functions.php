@@ -24,6 +24,15 @@ class TAG_functions{
 		else extract($_v_a_r);
 		include("main/views/$_n_a_m_e.php");
 	}
+	public static function is_view($_n_a_m_e=''){
+		if($_n_a_m_e=='') return false;
+		return is_file("main/views/$_n_a_m_e.php");
+	}
+
+	function lan($text='',$format=false){
+		global $lang;
+		return (isset($lang[$text])?$lang[$text]:$text);
+	}
 
 	function load_model($name){
 		$name=ucfirst($name);
