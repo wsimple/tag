@@ -47,6 +47,11 @@
 			open:function(){
 				updateTags('reload',opc);
 				interval=setInterval(refresh, 30000);
+				if(sizeTags=='normal'){
+					$box.removeClass('mini');
+				}else{
+					$box.addClass('mini');
+				}
 				//scrolling
 				$(window).on('scroll'+ns,function(){
 					if(opc.actions.more.more===false){
