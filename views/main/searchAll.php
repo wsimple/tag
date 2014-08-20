@@ -41,7 +41,7 @@ $hash=end(explode('#',$srh));
 	<ul style="font-size:14px">
 		<li><a id="all" href="<?=$url?>#tabs-1"><?=SEARCH_ALLRESULT?></a></li>
 		<li><a id="tagsearch" href="<?=$url?>#tabs-2">Tag</a></li>
-		<li><a id="hash" href="<?=$url?>#tabs-3"><?=SEARCH_HASHTAGS?></a></li>
+		<!--<li><a id="hash" href="<?=$url?>#tabs-3"><?=SEARCH_HASHTAGS?></a></li>-->
 		<li><a id="people" href="<?=$url?>#tabs-4"><?=SEARCH_FRIENDS?></a></li>
 		<li><a id="group" href="<?=$url?>#tabs-5"><?=SEARCH_GROUPS?></a></li>
 		<li><a id="product" href="<?=$url?>#tabs-6"><?=SEARCH_PRODUCT?></a></li>
@@ -57,7 +57,9 @@ $hash=end(explode('#',$srh));
 						<img src="img/loader.gif" width="25" height="25" class="loader" style="display: none;"/>
 					</div>
 					<div class="clearfix"></div>
+					<?php if ($hashtags_count > 0): ?>
 					<div id="msghashclick"><?=USER_BTNSEEMORE?> Tags,<span class="hashClick"><?=SEARCHALL_SEEMORECLKHERE?></span></div>
+					<?php endif; ?>
 				</div>
 			</div>
 			<div id="contentHash">
@@ -69,8 +71,10 @@ $hash=end(explode('#',$srh));
 				<div>
 					 <img id="loadingwaithash" src="css/smt/loader.gif" width="15" height="15"/>
 					 <div id="hashJson"></div>
-					 <div id="clickhash" class="seemoreSearch" style="display:none"><?=USER_BTNSEEMORE?></div>
+					 <!-- <div id="clickhash" class="seemoreSearch" style="display:none"><?=USER_BTNSEEMORE?></div> -->
+					 <?php if ($hashtags_count > 0): ?>
 					 <div id="msghashclick"><?=SEARCHALL_SEEMORETAGS?> <span class="hashClick"><?=SEARCHALL_SEEMORECLKHERE?></span></div>
+					 <?php endif ?>
 					 <div class="clearfix"></div>
 				</div>
 				<div class="clearfix"></div>
@@ -115,9 +119,9 @@ $hash=end(explode('#',$srh));
 	<div id="tabs-2">
 		<?php include('views/users/search/tagsTabs.php') ?>
 	</div>
-	<div id="tabs-3">
-		<?php include('views/users/search/hashtagsTabs.php') ?>
-	</div>
+	<!-- <div id="tabs-3">
+		<?php //include('views/users/search/hashtagsTabs.php') ?>
+	</div> -->
 	<div id="tabs-4">
 		<?php include('views/users/search/friendsTabs.php') ?>
 	</div>
