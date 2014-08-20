@@ -1,6 +1,8 @@
 <div id="groupTabs">
 <?php
 if ($groups_count == 0) {
+	mysqli_data_seek($groups, 0);
+	echo $groups;
 	$groupsTabs = $groups;
 	echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div><div class="ui-single-box-title">'.EDITFRIEND_VIEWTITLESUGGES.'</div>';
 }else{

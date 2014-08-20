@@ -1,6 +1,7 @@
 <div id="friendsTabs">
 <?php
 if ($friends_count == 0) {
+	mysqli_data_seek($friends, 0);
 	$friendsAll = $friends;
 	echo '<div class="messageNoResultSearch">'.SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span></div><div class="ui-single-box-title">'.EDITFRIEND_VIEWTITLESUGGES.'</div>';
 }else{
