@@ -41,7 +41,7 @@ $hash=end(explode('#',$srh));
 	<ul style="font-size:14px">
 		<li><a id="all" href="<?=$url?>#tabs-1"><?=SEARCH_ALLRESULT?></a></li>
 		<li><a id="tagsearch" href="<?=$url?>#tabs-2">Tag</a></li>
-		<li><a id="hash" href="<?=$url?>#tabs-3"><?=SEARCH_HASHTAGS?></a></li>
+		<!--<li><a id="hash" href="<?=$url?>#tabs-3"><?=SEARCH_HASHTAGS?></a></li>-->
 		<li><a id="people" href="<?=$url?>#tabs-4"><?=SEARCH_FRIENDS?></a></li>
 		<li><a id="group" href="<?=$url?>#tabs-5"><?=SEARCH_GROUPS?></a></li>
 		<li><a id="product" href="<?=$url?>#tabs-6"><?=SEARCH_PRODUCT?></a></li>
@@ -115,9 +115,9 @@ $hash=end(explode('#',$srh));
 	<div id="tabs-2">
 		<?php include('views/users/search/tagsTabs.php') ?>
 	</div>
-	<div id="tabs-3">
-		<?php include('views/users/search/hashtagsTabs.php') ?>
-	</div>
+	<!-- <div id="tabs-3">
+		<?php //include('views/users/search/hashtagsTabs.php') ?>
+	</div> -->
 	<div id="tabs-4">
 		<?php include('views/users/search/friendsTabs.php') ?>
 	</div>
