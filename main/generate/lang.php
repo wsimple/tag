@@ -18,13 +18,20 @@ foreach($languageList as $code){
 
 	#lenguajes en php
 	$array=str_replace('":"','"=>"',substr($json, 1, -1));
+	$array=str_replace(',"',",\n\"",$array);
 	$array=str_replace('\\/','/',$array);
 	$salida=<<<PHPLANG
 <?php
-\$lang=array($array);
 function lan(\$text='',\$format=false){
+	global \$lang;
 	return (isset(\$lang[\$text])?\$lang[\$text]:\$text);
 }
+global \$lang;
+\$lang=array(
+
+$array,
+
+);
 PHPLANG;
 	file_put_contents("language/$code.php", $salida);
 
