@@ -125,7 +125,7 @@
 			// END - favorite (4)
 				// share (by mail)
 				case 5:
-					$tags = CON::getRow("SELECT 
+					$tag = CON::getRow("SELECT 
 											md5(CONCAT(u.id, '_', u.email, '_', u.id)) AS code,
 											u.profile_image_url	 AS photoUser,
 											t.id AS idTag,
@@ -136,12 +136,14 @@
 										WHERE t.id =?",array($tag['id']));
 					incPoints(7,$tag['idTag'],$tag['idUser'],$_SESSION['ws-tags']['ws-user']['id']); //incremento de hits a la tag que se recibe
 					incHitsTag($tag['idTag']);
+
                     $msj=$_POST['msj'];
-					$mails=explode(',',$_POST['mails']);
+					$mails=explode(',',$_GET['mails']);
 					if(count($mails)>0){
+
 						$correos='';$numE=0;$numA=0;
 						foreach($mails as $per){
-							if($per!=''){
+							if($per!=''){ 
 								//verificar si es un correo valido
 								if (isValidEmail($per)){ if ($numE++>20) continue;
 								}else{
@@ -280,7 +282,7 @@
 						}//foreach
 					}//if (count($mails)>0)
 					$msgBox='<div class="div_exito"><strong>'.$lang['MENUTAG_CTRSHAREMAILEXITO'].":</strong></div><br><br> ".$correos;
-					
+
 					if ($correos==="") $msgBox=$device? '<div class="div_error">'.$device.'<br>'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>':'<div class="div_error">'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>';
 				break; //share
 				//delete
