@@ -2,12 +2,13 @@
 include 'includes/config.php';
 $migrating=TRUE;#mientras este en migracion, trabaja paralelo con la interfaz antigua
 // $migrating=FALSE;#activar para forzar solo interfaz nueva
+if(!isset($_COOKIE['_DEBUG_'])&&$section=='ejemplo') return;
 if(!$migrating||is_file($config->relpath.'main/controllers/'.$section.'.php')){
 	#temporales (transicion)
 	include('includes/session.php');
 	include('includes/functions.php');
 	include('includes/languages.config.php');
-	include('class/forms.class.php'); 
+	include('class/forms.class.php');
 	#fin temporales (transicion)
 	function __autoload($classname){
 		$path=$config->relpath.'main';
@@ -21,10 +22,11 @@ if(!$migrating||is_file($config->relpath.'main/controllers/'.$section.'.php')){
 		elseif(is_debug()) die("No existe la clase '$classname' ($folder).");
 		else die('Page not found.');
 	}
-	global $control;
-	$control=new $section();//TAG_functions::class_loader('controls',$section);
+	global $section,$params,$control;
+	$control=new $section($params);
+	if(method_exists($control,'__onload')) $control->__onload($params);
 	$function='index';
-	if(count($params)>0) $function=array_shift($params);
+	if($control->use_methods()&&count($params)>0) $function=array_shift($params);
 	TAG_functions::call_method($control,$function,$params);
 	die();
 }
