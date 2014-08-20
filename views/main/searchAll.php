@@ -57,7 +57,9 @@ $hash=end(explode('#',$srh));
 						<img src="img/loader.gif" width="25" height="25" class="loader" style="display: none;"/>
 					</div>
 					<div class="clearfix"></div>
+					<?php if ($hashtags_count > 0): ?>
 					<div id="msghashclick"><?=USER_BTNSEEMORE?> Tags,<span class="hashClick"><?=SEARCHALL_SEEMORECLKHERE?></span></div>
+					<?php endif; ?>
 				</div>
 			</div>
 			<div id="contentHash">
@@ -69,8 +71,10 @@ $hash=end(explode('#',$srh));
 				<div>
 					 <img id="loadingwaithash" src="css/smt/loader.gif" width="15" height="15"/>
 					 <div id="hashJson"></div>
-					 <div id="clickhash" class="seemoreSearch" style="display:none"><?=USER_BTNSEEMORE?></div>
+					 <!-- <div id="clickhash" class="seemoreSearch" style="display:none"><?=USER_BTNSEEMORE?></div> -->
+					 <?php if ($hashtags_count > 0): ?>
 					 <div id="msghashclick"><?=SEARCHALL_SEEMORETAGS?> <span class="hashClick"><?=SEARCHALL_SEEMORECLKHERE?></span></div>
+					 <?php endif ?>
 					 <div class="clearfix"></div>
 				</div>
 				<div class="clearfix"></div>
