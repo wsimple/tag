@@ -23,6 +23,7 @@ if(!$migrating||is_file($config->relpath.'main/controllers/'.$section.'.php')){
 	}
 	global $control;
 	$control=new $section();//TAG_functions::class_loader('controls',$section);
+	if(method_exists($control,'__onload')) TAG_functions::call_method($control,'__onload');
 	$function='index';
 	if(count($params)>0) $function=array_shift($params);
 	TAG_functions::call_method($control,$function,$params);
