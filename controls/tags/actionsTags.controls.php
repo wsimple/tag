@@ -138,7 +138,7 @@
 					incHitsTag($tag['idTag']);
 
                     $msj=$_POST['msj'];
-					$mails=explode(',',$_GET['mails']);
+					$mails=explode(',',$_POST['mails']);
 					if(count($mails)>0){
 
 						$correos='';$numE=0;$numA=0;
