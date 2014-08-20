@@ -74,8 +74,10 @@ function tagsList_json($data,$mobile=false){
 		}elseif($data['current']=='hash'){//Listado de hash
 			$hash=end(explode('#',$data['hash']));
 			$res['info']='listado de tags del HashTash #'.$hash;
+	
 			$where.='
 				AND CONCAT_WS( " ",t.text,t.text2,t.code_number) LIKE "%#'.$hash.'%"
+				OR t.id IN (SELECT cms.id_source FROM comments cms WHERE cms.comment LIKE "%#'.$hash.'%")
 				AND t.status="1"
 			';
 		}elseif($data['current']=='myTags'){//listado de tags del usuario logeado
@@ -304,6 +306,7 @@ function tagsList_json($data,$mobile=false){
 	$res['query'][]=str_minify($sql);
 	$res['tags']=array();
 	$timeLines=CON::query($sql);
+	if(is_debug('taglist')) echo CON::lastSql();
 	if(CON::numRows($timeLines)>0){
 		function likes($tag,$user){
 			return $user==''?0:
