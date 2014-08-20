@@ -22,6 +22,7 @@ $friends=users($whereFriends,3);
 //Sugerencia de personas si no hay resultados por criterio de busqueda
 $friends_count = mysql_num_rows($friends);
 if ($friends_count == 0) $friends = users('', 3, 0, true);
+//die($friends);
 
 $groups=groups($whereGroups,3);
 $groups_count = mysql_num_rows($groups);
@@ -141,10 +142,10 @@ $(function(){
 	friendsJson('#friendsJson','#loadingwaitfriends',3,'<?=$srh?>','#clickpeople');
 	//groups
 	groupsJson('#groupJson','#loadingwaitgroup',3,'<?=$srh?>','#clickgroup');
-	$('#clickhash').click(function(){
-		$('#hash').click();
-		$('html,body').animate({scrollTop:0},'slow');
-	});
+	// $('#clickhash').click(function(){
+	// 	$('#hash').click();
+	// 	$('html,body').animate({scrollTop:0},'slow');
+	// });
 	$('#clickpeople').click(function(){
 		$('#people').click();
 		$('html,body').animate({scrollTop:0},'slow');

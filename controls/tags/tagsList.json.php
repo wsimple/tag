@@ -77,7 +77,7 @@ function tagsList_json($data,$mobile=false){
 	
 			$where.='
 				AND CONCAT_WS( " ",t.text,t.text2,t.code_number) LIKE "%#'.$hash.'%"
-				OR t.id IN (SELECT cms.id_source FROM comments cms WHERE cms.comment LIKE "%#'.$hash.'%")
+				OR t.id IN (SELECT cms.id_source FROM comments cms WHERE cms.comment LIKE "%#'.$hash.'% ORDERY BY RAND() LIMIT 6")
 				AND t.status="1"
 			';
 		}elseif($data['current']=='myTags'){//listado de tags del usuario logeado
