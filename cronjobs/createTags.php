@@ -4,7 +4,7 @@ header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 define('RELPATH','../');
 include RELPATH.'includes/config.php';
 include RELPATH.'includes/session.php';
-include RELPATH.'includes/functions.php';
+include RELPATH.'cronjobs/functions.php';
 include RELPATH.'class/wconecta.class.php';
 include RELPATH.'includes/languages.config.php';
 	$limit=10;
