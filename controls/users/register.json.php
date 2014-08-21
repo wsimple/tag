@@ -140,7 +140,7 @@ function register_json($data){
 				</tr>
 			</table>
 		';
-		if(sendMail(formatMail($body,'800'),EMAIL_NO_RESPONDA,'Tagbum.com',SIGNUP_ASUNTOEMAIL.', '.$nombreCompleto.'!',$data['email'],'../../')){
+		if(sendMail(formatMail($body,'800'),EMAIL_NO_RESPONDA,'Tagbum.com',SIGNUP_ASUNTOEMAIL.', '.$nombreCompleto.'!',$data['email'],'../../',true)){
 			$res['email']=1;
 		}
 		$res['ok']='si';
