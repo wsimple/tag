@@ -173,7 +173,7 @@ if (isset($follower['id_user'])) {
 							<?php  if(++$i>2) break;
 							   }  
 						    }else{ //for($i=0;$i<=2;$i++) echo '<li><label>'.$titles[$i].'</label>: ---</li><br>'; 
-						    	echo SOONEXTERPREFERENCES.' '.formatoCadena("$obj->nameUser").SOONEXTERPREFERENCES2;
+						    	echo SOONEXTERPREFERENCES.' '.formatoCadena("$obj->nameUser").' '.SOONEXTERPREFERENCES2;
 							}
 						?>
 					</ul>
