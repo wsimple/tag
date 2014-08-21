@@ -234,7 +234,7 @@ $(function(){
 		},
 		close:function(){
 			$(window).off(ns);
-			$box.off();
+			$boxi.off();
 			clearInterval(interval);
 		}
 	});
