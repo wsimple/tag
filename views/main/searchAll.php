@@ -29,9 +29,9 @@ $groups_count = mysql_num_rows($groups);
 //Sugerencias de grupos si no hay
 if ($groups_count == 0) $groups=groups('', 3, 0, true);
 
-$hashtags=tags($srh,5);
+$hashtags=tags($srh,4);
 $hashtags_count = mysql_num_rows($hashtags);
-if ($hashtags_count == 0) $hashtags=tags('', 8, true);
+if ($hashtags_count == 0) $hashtags=tags('', 3, true);
 
 if($srh=='invalid'){
 	$srh=VARIABLE_INVALID;
