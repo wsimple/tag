@@ -24,16 +24,16 @@ include '../header.json.php';
 		}
 		$newText = array();
 		while($tag = @mysql_fetch_assoc($hashtags)){
-			$textHash = get_hashtags($tag['text']);
+			$textHash = get_hashtags(strtolower($tag['text']));
 			$textHash = array_unique($textHash);
 			$textCount = count($textHash);
 
 			for($i=0;$i<=$textCount;$i++){
 				if( $suggest || preg_match("/(".$srh.")([A-z0-9])*/i", $textHash[$i]) ){
 					$newText[] = $textHash[$i];
+					if (count($newText) > $limit) break 2;
 				}
 			}
-			$newText = array_unique($newText);
 		}
 		$textCount = count($newText);
 		if($_REQUEST['more']==1){
