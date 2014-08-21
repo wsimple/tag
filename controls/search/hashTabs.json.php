@@ -25,7 +25,7 @@ include '../header.json.php';
 		$newText = array();
 		while($tag = @mysql_fetch_assoc($hashtags)){
 			$textHash = get_hashtags(strtolower($tag['text']));
-			$textHash = array_unique($textHash);
+			//$textHash = array_unique($textHash);
 			$textCount = count($textHash);
 
 			for($i=0;$i<=$textCount;$i++){
@@ -35,6 +35,7 @@ include '../header.json.php';
 				}
 			}
 		}
+		//$newText = array_unique($newText);
 		$textCount = count($newText);
 		if($_REQUEST['more']==1){
 			$c = 0;
@@ -53,9 +54,8 @@ include '../header.json.php';
 			)));
 		}else{
 			$_SESSION['ws-tags']['ws-user'][textCounter] = $textCount;
-
 			die(jsonp(array(
-				'hash'   => $newText,
+				'hash'   => array_unique($newText),
 				'cant'   => $textCount,
 				'suggest' => ($suggest) ? $suggest : false
 			)));
