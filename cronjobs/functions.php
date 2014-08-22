@@ -546,66 +546,48 @@ function factorPublicity($type, $monto){
 	return intval(($costo[cost]!="") ? ($monto/$costo[cost]) : 0);
 }
 
-function redimensionar($img_original, $img_nueva, $img_nueva_anchura, $img_nueva_altura='') {
-
-	$type=Array(1 => 'gif', 2 => 'jpg', 3 => 'png');
-	//_imprimir(getimagesize($img_original));
-	list($imgWidth, $imgHeight, $tipo, $imgAttr) = getimagesize($img_original);
-	$type = $type[$tipo];
-
+function redimensionar($original,$img_nueva,$width,$height=''){
+	$type=Array(1=>'gif',2=>'jpg',3=>'png');
+	//_imprimir(getimagesize($original));
+	list($_width,$_height,$tipo,$imgAttr)=getimagesize($original);
+	$type=$type[$tipo];
 	switch($type){
-		case "jpg" :
-		case "jpeg":  $img = imagecreatefromjpeg($img_original); break;
-		case "gif" :  $img = imagecreatefromgif($img_original); break;
-		case "png" :  $img = imagecreatefrompng($img_original); break;
+		case 'jpeg':
+		case 'jpg':$img=imagecreatefromjpeg($original);break;
+		case 'gif':$img=imagecreatefromgif($original);break;
+		case 'png':$img=imagecreatefrompng($original);break;
 	}
-
-	//Obtengo el tama�o del original
-	$img_original_anchura = $imgWidth;
-	$img_original_altura  = $imgHeight;
-	// Obtengo la relacion de escala
-
-	if($img_original_anchura > $img_nueva_anchura && $img_nueva_anchura > 0)
-		$percent = (double)(($img_nueva_anchura * 100) / $img_original_anchura);
-
-	if($img_original_anchura <= $img_nueva_anchura)
-		$percent = 100;
-
-	if(floor(($img_original_altura * $percent )/100)>$img_nueva_altura && $img_nueva_altura > 0)
-		$percent = (double)(($img_nueva_altura * 100) / $img_original_altura);
-
-	$img_nueva_anchura=($img_original_anchura*$percent)/100;
-
-	$img_nueva_altura=($img_original_altura*$percent)/100;
-
-	// crea imagen nueva redimencionada
-	$thumb = imagecreatetruecolor ($img_nueva_anchura,$img_nueva_altura);
-
-	if($type=='gif' || $type=='png'){
-				/** Code to keep transparency of image **/
-				$colorTransparancia=imagecolortransparent($img);// devuelve el color usado como transparencia o -1 si no tiene transparencias
-				if($colorTransparancia!=-1)$colorTransparente = imagecolorsforindex($img, $colorTransparancia); //devuelve un array con las componentes de lso colores RGB + alpha
-				$idColorTransparente = imagecolorallocatealpha($thumb, $colorTransparente['red'], $colorTransparente['green'], $colorTransparente['blue'], $colorTransparente['alpha']); // Asigna un color en una imagen retorna identificador de color o FALSO o -1 apartir de la version 5.1.3
-				imagefill($thumb, 0, 0, $idColorTransparente);// rellena de color desde una cordenada, en este caso todo rellenado del color que se definira como transparente
-				imagecolortransparent($thumb, $idColorTransparente); //Ahora definimos que en el nueva imagen el color transparente ser� el que hemos pintado el fondo.
-
-
+	//Obtengo la relacion de escala
+	if($_width>$width&&$width>0)
+		$percent=(double)(($width*100)/$_width);
+	if($_width<=$width)
+		$percent=100;
+	if(floor(($_height*$percent)/100)>$height&&$height>0)
+		$percent=(double)(($height*100)/$_height);
+	$width=($_width*$percent)/100;
+	$height=($_height*$percent)/100;
+	//crea imagen nueva redimencionada
+	$thumb=imagecreatetruecolor($width,$height);
+	if($type=='gif'||$type=='png'){
+		#se mantiene la transparencia de la imagen
+		$colorTransparancia=imagecolortransparent($img);#devuelve el color usado como transparencia o -1 si no tiene transparencias
+		if($colorTransparancia!=-1)$colorTransparente=imagecolorsforindex($img,$colorTransparancia);//devuelve un array con las componentes de lso colores RGB + alpha
+		$idColorTransparente=imagecolorallocatealpha($thumb,$colorTransparente['red'],$colorTransparente['green'],$colorTransparente['blue'],$colorTransparente['alpha']);//Asigna un color en una imagen retorna identificador de color o FALSO o -1 apartir de la version 5.1.3
+		imagefill($thumb,0,0,$idColorTransparente);//rellena de color desde una cordenada,en este caso todo rellenado del color que se definira como transparente
+		imagecolortransparent($thumb,$idColorTransparente);//Ahora definimos que en la nueva imagen el color transparente sera el que hemos pintado el fondo.
 	}
-
-	// redimensionar imagen original copiandola en la imagen nueva
-	imagecopyresampled ($thumb,$img,0,0,0,0,$img_nueva_anchura,$img_nueva_altura, $imgWidth,$imgHeight);
-	// guardar la imagen redimensionada donde indica $img_nueva
+	#redimensionar imagen original copiandola en la imagen nueva
+	imagecopyresampled($thumb,$img,0,0,0,0,$width,$height,$_width,$_height);
+	#guardar la imagen redimensionada donde indica $img_nueva
 	switch($type){
-		case "jpg":
-		case "jpeg": imagejpeg($thumb,$img_nueva); break;
-		case "gif":  imagegif($thumb,$img_nueva); break;
-		case "png":  imagepng($thumb,$img_nueva); break;
+		case 'jpeg':
+		case 'jpg':
+		case 'gif'://imagegif($thumb,$img_nueva);break;
+		case 'png'://imagepng($thumb,$img_nueva);break;
+			imagejpeg($thumb,$img_nueva,90);
 	}
-
 	imagedestroy($img);
 	imagedestroy($thumb);
-
-
 	return true;
 }
 function CreateThumb($img_original, $img_nueva, $tamanio,$x,$y, $ancho, $alto){
@@ -1318,23 +1300,14 @@ function updateUserCounters($id_user, $field, $inc, $action) {
 }
 
 function getUserProfile(&$user_id){
-
-		 $profiles = $GLOBALS['cn']->query("SELECT id FROM users WHERE username = '".basename($_SERVER['REQUEST_URI'])."' ");
-
-		 if (mysql_num_rows($profiles) == 0){
-
-			 return false;
-
-		 }elseif (mysql_num_rows($profiles)>0){
-
-			 $profile = mysql_fetch_assoc($profiles);
-
-			 $user_id = $profile[id];
-
-			 return true;
-
-		 }
-
+	$profiles=$GLOBALS['cn']->query("SELECT id FROM users WHERE username='".basename($_SERVER['REQUEST_URI'])."' ");
+	if (mysql_num_rows($profiles)==0){
+		return false;
+	}elseif (mysql_num_rows($profiles)>0){
+		$profile=mysql_fetch_assoc($profiles);
+		$user_id=$profile[id];
+		return true;
+	}
 }
 
 function formatMail($body, $width="600"){
@@ -1388,24 +1361,17 @@ function formatMail($body, $width="600"){
 			     ';
 }
 
-function arrayBackgroundsBlocked($id_user=""){
-
-		 $backgrounds = $GLOBALS['cn']->query(" SELECT background 
-												
-												FROM tags_delete_backgrounds
-												
-												WHERE id_user = '".(($id_user!='') ? $id_user : $_SESSION['ws-tags']['ws-user'][id])."' 
-											  
-											  ");
-											  
-		$array[] = ''; //validación, si no hay fondos borrados
-		
-		while ($background = mysql_fetch_assoc($backgrounds)){
-	           
-			   $array [] = $background[background];
-	    }
-		
-		return $array;
+function arrayBackgroundsBlocked($id_user=''){
+	$backgrounds=$GLOBALS['cn']->query('
+		SELECT background
+		FROM tags_delete_backgrounds
+		WHERE id_user="'.(($id_user!='')?$id_user:$_SESSION['ws-tags']['ws-user']['id']).'"
+	');
+	$array=array('');//validacion,si no hay fondos borrados
+	while ($background=mysql_fetch_assoc($backgrounds)){
+		$array[]=$background['background'];
+	}
+	return $array;
 }
 
 function viewChatFriends($id=""){
@@ -1467,18 +1433,7 @@ function viewChatFriends($id=""){
 }
 
 function replaceCharacters($cad){
-         
-		 $characters = array(chr(39), chr(34)); // ', ""
-		 
-		 $replace    = array('\'', '\"');
-		 
-		 for ($i=0; $i<count($characters); $i++){
-			  
-			 $cad = str_replace($characters[$i], $replace[$i], $cad);
-		 
-		 }
-		 
-		 return $cad;    
+	return mysql_real_escape_string($cad);
 }
 function tagURL($tag,$mini=false){
 	$tid=substr(intToMd5($tag),-16);
@@ -1488,6 +1443,7 @@ function createTag($tag,$force=false,$msg=false){
 	global $config;
 	//Informacion basica para crear la imagen de tag
 	$default='tmp'.rand(0,99);
+	require('../class/wideImage/WideImage.php');
 	$path='img/tags';
 	$debug=isset($_GET['debug'])||(is_array($tag)&&$tag['debug']!='');
 	$tid=substr(intToMd5(is_array($tag)?($tag['idTag']==''?$default:$tag['idTag']):$tag),-16);
@@ -1545,66 +1501,14 @@ function createTag($tag,$force=false,$msg=false){
 			}
 			//Bordes redondeados
 			$cr=25;//radio de la curva
-			$ce=array(1,1,1,1);//esquinas a redondear. (si,sd,ii,id). (tl,tr,bl,br).
-			$mask=imagecreatetruecolor($cr*2+1,$cr*2+1);
-			imagealphablending($mask,false);
-			//$maskcolor=imagecolorallocate($im,255,0,255);//color para remplazar por transparencia
-			$maskcolor=imagecolorallocate($im,255,255,255);
-			$transparent=imagecolorallocatealpha($im,0,0,0,127);
-			imagefilledrectangle($mask,0,0,$cr*2+1,$cr*2+1,$maskcolor);
-			imagefilledellipse($mask,$cr,$cr,$cr*2,$cr*2,$transparent);
-			//Top-left corner-esquina superior izquierda
-			if ($ce[0]){
-				$cx=0;
-				$cy=0;
-				$dx=0;
-				$dy=0;
-				imagecopy($im,$mask,$dx,$dy,$cx,$cy,$cr,$cr);
-			}
-			//Top-right corner - esquina superior derecha
-			if ($ce[1]){
-				$cx=$cr+1;
-				$cy=0;
-				$dx=TAGWIDTH-$cr;
-				$dy=0;
-				imagecopy($im,$mask,$dx,$dy,$cx,$cy,$cr,$cr);
-			}
-			//Bottom-left corner - esquina inferior izquierda
-			if ($ce[2]){
-				$cx=0;
-				$cy=$cr+1;
-				$dx=0;
-				$dy=TAGHEIGHT-$cr;
-				imagecopy($im,$mask,$dx,$dy,$cx,$cy,$cr,$cr);
-			}
-			//Bottom-right corner - esquina inferior derecha
-			if ($ce[3]){
-				$cx=$cr+1;
-				$cy=$cr+1;
-				$dx=TAGWIDTH-$cr;
-				$dy=TAGHEIGHT-$cr;
-				imagecopy($im,$mask,$dx,$dy,$cx,$cy,$cr,$cr);
-			}
-			imagedestroy($mask);
-			/*
-			//Transparencia en las esquinas (solo para png)
-			imagealphablending($im,false);
-			imagesavealpha($im,true);
-			$transparent=imagecolorallocatealpha($im,255,0,255,127);
-			for($i=0;$i<TAGWIDTH;$i++)for($j=0;$j<TAGHEIGHT;$j++){
-				$rgb=imagecolorat($im,$i,$j);
-				if($rgb==16711935) imagesetpixel($im,$i,$j,$transparent);
-			}
-			imagealphablending($im,true);
+			$mask=imagecreatetruecolor(TAGWIDTH,TAGHEIGHT);
+			imagecopy($mask,$im,0,0,0,0,TAGWIDTH,TAGHEIGHT);
+			$im1=WideImage::loadFromHandle($mask);
+			$im1=$im1->roundCorners(30,$im1->allocateColor(255,255,255), 2,255);
+			echo '<pre>'; print_r($im1); echo '</pre>';
+			imagecopy($im,$im1->getHandle(),0,0,0,0,TAGWIDTH,TAGHEIGHT);
+			$im1->destroy(); 
 			/**/
-			//Imagen de placa
-			$imagen=RELPATH.'img/placaFondo.png';
-			$img=imagecreatefromany($imagen);
-			if($img){
-				$is=getimagesize($imagen);
-				imagecopy($im,$img,0,0,0,0,$is[0],$is[1]);
-				imagedestroy($img);
-			}
 			//Imagen de usuario
 			if($tag['idProduct'])
 				$imagen=$_path.$tag['photoOwner'];
@@ -1614,41 +1518,10 @@ function createTag($tag,$force=false,$msg=false){
 			$img=imagecreatefromany($imagen);
 			if($img){
 				$au=120;
-				//auxiliares para escalar la imagen
-				$trans=imagecreatetruecolor($au,$au);
-				$trans3=imagecreate($au,$au);
-				imagepng($img,'1.png');
-				imageantialias($trans3,true);
-				imagecopy($trans,imagescale($img,$au,$au),0,0,0,0,$au,$au);
-				imagepng($trans,'2.png');
-				imagecopy($trans3,$trans,0,0,0,0,$au,$au);
-				imagecolorset($trans3,imagecolorexact($trans3,0,0,0),1,1,1);
-				imagecopy($trans,$trans3,0,0,0,0,$au,$au);
-				imagepng($trans,'3.png');
-				//auxiliar para crear el marco con el elipse transparente 
-				$mask=imagecreatetruecolor($au,$au);
-				imageantialias($mask,true);
-				imagealphablending($mask,false);
-				imagefilledrectangle($mask,0,0,$au,$au,imagecolorallocate($mask,0,0,0));
-				imagefilledellipse($mask,($au/2)-1,($au/2)-1,$au-1,$au-1,imagecolorallocatealpha($mask,0,0,0,127));
-				imagepng($mask,'4.png');
-				imagecopy($trans,$mask,0,0,0,0,$au,$au); //copiar el marco en la imagen del usuario escalada 
-				imagepng($trans,'5.png');
-				
-				$trans2=imagescale($trans,60,60);
-				imagepng($trans2,'6.png');
-				imageantialias($trans2,true);
-				imagecolortransparent($trans2,imagecolorexact($trans2,0,0,0));				
-				imagepng($trans2,'7.png');
-				$border=RELPATH.'img/border.png';
-				$img2=imagecreatefromany($border);
-				if($img2){
-					imagecopy($trans2,$img2,0,0,0,0,60,60);
-					imagedestroy($img2);
-				}
-				imagecopymerge($im,$trans2,40,215,0,0,60,60,100); 
-			
-				imagedestroy($img); imagedestroy($mask); imagedestroy($trans); imagedestroy($trans2); imagedestroy($trans3);
+				$im2=WideImage::loadFromHandle($img);
+				$im2=$im2->roundCorners(33,null, 2,255);
+				imagecopy($im,$im2->getHandle(),40,215,0,0,60,60); 
+				$im2->destroy();
 			}
 			//Textos de la tag.
 			//texto1 y texto2 por su tamaño se les define un ancho maximo y pueden tener multiples lineas
@@ -1733,6 +1606,14 @@ function createTag($tag,$force=false,$msg=false){
 				imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
 				$y+=15;
 			}while(count($tmp)>$i);
+			//Imagen de placa
+			$imagen=RELPATH.'img/placaFondo.png';
+			$img=imagecreatefromany($imagen);
+			if($img){
+				$is=getimagesize($imagen);
+				imagecopy($im,$img,0,0,0,0,$is[0],$is[1]);
+				imagedestroy($img);
+			}
 		}
 		//subir el archivo al servidor
 		if(!$debug){//si estamos en debug no se guarda
@@ -1761,6 +1642,280 @@ function createTag($tag,$force=false,$msg=false){
 	CON::update('tags',"img=?",'id=?',array($tid,$tag['id']));
 	return $tid;
 }
+// function createTag($tag,$force=false,$msg=false){
+// 	global $config;
+// 	//Informacion basica para crear la imagen de tag
+// 	$default='tmp'.rand(0,99);
+// 	$path='img/tags';
+// 	$debug=isset($_GET['debug'])||(is_array($tag)&&$tag['debug']!='');
+// 	$tid=substr(intToMd5(is_array($tag)?($tag['idTag']==''?$default:$tag['idTag']):$tag),-16);
+// 	$tmpFile=$default;
+// 	if($tid==$default){
+// 		$force=true;
+// 		$tid=$tmpFile;
+// 	}
+// 	$photo=$tid.'.jpg';
+// 	$photom=$tid.'.m.jpg';
+// 	$photopath=$path.'/'.$photo;
+// 	$photompath=$path.'/'.$photom;
+// 	$_path=$config->local?RELPATH:FILESERVER;
+// 	//Se busca la imagen de la tag
+// 	if(!$force) $im=imagecreatefromany($_path.$photopath);
+// 	//Si la imagen de la tag no existe,se crea
+// 	if(!$im||$debug){
+// 		if(!is_array($tag)) $tag=getTagData($tid);
+// 		//Debugger
+// 		if($debug){
+// 			_imprimir($tag);
+// 			echo '<br/>fondo='.(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
+// 			echo '<br/>path='.$_path;
+// 			echo '<br/>photo='.$tag['photoOwner'];
+// 			echo '<br/>getUserPicture='.getUserPicture($tag['photoOwner']);
+// 		}
+// 		if($tag){
+// 			$font=array(
+// 				RELPATH.'fonts/trebuc.ttf',
+// 				RELPATH.'fonts/trebucbd.ttf',
+// 				RELPATH.'fonts/verdana.ttf',
+// 				RELPATH.'fonts/verdanab.ttf'
+// 			);
+// 			//Se crea la imagen con el tamaño normal - 650 x 300.
+// 			$im=imagecreatetruecolor(TAGWIDTH,TAGHEIGHT);
+// 			//Crear algunos colores
+// 			$blanco=imagecolorallocate($im,255,255,255);
+// 			$negro=imagecolorallocate($im,0,0,0);
+// 			//Fondo
+// 			$imagen=(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
+// 			$img=imagecreatefromany($imagen);
+// 			if($img){
+// 				$is=getimagesize($imagen);
+// 				$dy=intval((TAGHEIGHT-$is[1])/2);
+// 				while($dy>0) $dy-=$is[1];
+// 				do{
+// 					$dx=$is[0]>TAGWIDTH?intval((TAGWIDTH-$is[0])/2):0;
+// 					do{
+// 						imagecopy($im,$img,$dx,$dy,0,0,$is[0],$is[1]);
+// 						$dx+=$is[0];
+// 					}while($dx<TAGWIDTH);
+// 					$dy+=$is[1];
+// 				}while($dy<TAGHEIGHT);
+// 				imagedestroy($img);
+// 			}
+// 			//Bordes redondeados
+// 			$cr=25;//radio de la curva
+// 			$ce=array(1,1,1,1);//esquinas a redondear. (si,sd,ii,id). (tl,tr,bl,br).
+// 			$mask=imagecreatetruecolor($cr*2+1,$cr*2+1);
+// 			imagealphablending($mask,false);
+// 			//$maskcolor=imagecolorallocate($im,255,0,255);//color para remplazar por transparencia
+// 			$maskcolor=imagecolorallocate($im,255,255,255);
+// 			$transparent=imagecolorallocatealpha($im,0,0,0,127);
+// 			imagefilledrectangle($mask,0,0,$cr*2+1,$cr*2+1,$maskcolor);
+// 			imagefilledellipse($mask,$cr,$cr,$cr*2,$cr*2,$transparent);
+// 			//Top-left corner-esquina superior izquierda
+// 			if ($ce[0]){
+// 				$cx=0;
+// 				$cy=0;
+// 				$dx=0;
+// 				$dy=0;
+// 				imagecopy($im,$mask,$dx,$dy,$cx,$cy,$cr,$cr);
+// 			}
+// 			//Top-right corner - esquina superior derecha
+// 			if ($ce[1]){
+// 				$cx=$cr+1;
+// 				$cy=0;
+// 				$dx=TAGWIDTH-$cr;
+// 				$dy=0;
+// 				imagecopy($im,$mask,$dx,$dy,$cx,$cy,$cr,$cr);
+// 			}
+// 			//Bottom-left corner - esquina inferior izquierda
+// 			if ($ce[2]){
+// 				$cx=0;
+// 				$cy=$cr+1;
+// 				$dx=0;
+// 				$dy=TAGHEIGHT-$cr;
+// 				imagecopy($im,$mask,$dx,$dy,$cx,$cy,$cr,$cr);
+// 			}
+// 			//Bottom-right corner - esquina inferior derecha
+// 			if ($ce[3]){
+// 				$cx=$cr+1;
+// 				$cy=$cr+1;
+// 				$dx=TAGWIDTH-$cr;
+// 				$dy=TAGHEIGHT-$cr;
+// 				imagecopy($im,$mask,$dx,$dy,$cx,$cy,$cr,$cr);
+// 			}
+// 			imagedestroy($mask);
+// 			/*
+// 			//Transparencia en las esquinas (solo para png)
+// 			imagealphablending($im,false);
+// 			imagesavealpha($im,true);
+// 			$transparent=imagecolorallocatealpha($im,255,0,255,127);
+// 			for($i=0;$i<TAGWIDTH;$i++)for($j=0;$j<TAGHEIGHT;$j++){
+// 				$rgb=imagecolorat($im,$i,$j);
+// 				if($rgb==16711935) imagesetpixel($im,$i,$j,$transparent);
+// 			}
+// 			imagealphablending($im,true);
+// 			/**/
+// 			//Imagen de placa
+// 			$imagen=RELPATH.'img/placaFondo.png';
+// 			$img=imagecreatefromany($imagen);
+// 			if($img){
+// 				$is=getimagesize($imagen);
+// 				imagecopy($im,$img,0,0,0,0,$is[0],$is[1]);
+// 				imagedestroy($img);
+// 			}
+// 			//Imagen de usuario
+// 			if($tag['idProduct'])
+// 				$imagen=$_path.$tag['photoOwner'];
+// 			else
+// 				$imagen=$_path.getUserPicture($tag['photoOwner'],'img/users/default.png');
+// 			if($debug) echo '<br/>'.$imagen;
+// 			$img=imagecreatefromany($imagen);
+// 			if($img){
+// 				$au=120;
+// 				//auxiliares para escalar la imagen
+// 				$trans=imagecreatetruecolor($au,$au);
+// 				$trans3=imagecreate($au,$au);
+// 				imageantialias($trans3,true);
+// 				imagecopy($trans,imagescale($img,$au,$au),0,0,0,0,$au,$au);
+// 				imagefilledrectangle($trans3,0,0,$au,$au,imagecolorallocate($trans3,0,0,0));
+// 				imagecopy($trans3,$trans,0,0,0,0,$au,$au);
+// 				imagecolorset($trans3,imagecolorexact($trans3,0,0,0),1,1,1);
+// 				imagetruecolortopalette($trans3,true,255);
+// 				// imagefilledrectangle($trans,0,0,$au,$au,imagecolorallocate($trans,0,0,0));
+// 				// imagecolortransparent($trans,imagecolorexact($trans,0,0,0));
+// 				imagecopy($trans,$trans3,0,0,0,0,$au,$au);
+// 				//auxiliar para crear el marco con el elipse transparente 
+// 				$mask=imagecreatetruecolor($au,$au);
+// 				imageantialias($mask,true);
+// 				imagealphablending($mask,false);
+// 				imagefilledrectangle($mask,0,0,$au,$au,imagecolorallocate($mask,0,0,0));
+// 				imagefilledellipse($mask,($au/2)-1,($au/2)-1,$au-1,$au-1,imagecolorallocatealpha($mask,0,0,0,127));
+// 				imagecopy($trans,$mask,0,0,0,0,$au,$au); //copiar el marco en la imagen del usuario escalada 
+				
+// 				$trans2=imagescale($trans,60,60);
+// 				imageantialias($trans2,true);
+// 				imagecolortransparent($trans2,imagecolorexact($trans2,0,0,0));				
+// 				// $border=RELPATH.'img/border.png';
+// 				// $img2=imagecreatefromany($border);
+// 				// if($img2){
+// 				// 	imagecopy($trans2,$img2,0,0,0,0,60,60);
+// 				// 	imagedestroy($img2);
+// 				// }
+// 				imagecopymerge($im,$trans2,40,215,0,0,60,60,100); 
+			
+// 				imagedestroy($img); imagedestroy($mask); imagedestroy($trans); imagedestroy($trans2); imagedestroy($trans3);
+// 			}
+// 			//Textos de la tag.
+// 			//texto1 y texto2 por su tamaño se les define un ancho maximo y pueden tener multiples lineas
+// 			$luz	=imagecolorhexallocatealpha($im,'#FFFFFF');
+// 			$sombra	=imagecolorhexallocatealpha($im,'#000000');
+// 			//Tipos de fuentes. 0=normal,1=negrita
+// 			//texto1 - Parte superior
+// 			$fuente=$font[1];
+// 			$texto=strclean($tag['texto']);
+// 			$color=imagecolorhexallocate($im,$tag['color_code']);
+// 			$size=15;
+// 			$txt=imagettfbbox($size,0,$fuente,$texto);
+// 			$y=73;
+// 			$mw=600;//max width - ancho maximo
+// 			$tmp=explode(' ',$texto);
+// 			$i=0;
+// 			do{
+// 				$texto=$tmp[$i++];
+// 				$txt=imagettfbbox($size,0,$fuente,$texto);
+// 				while(count($tmp)>$i&&$txt[2]<$mw){
+// 					$txt=imagettfbbox($size,0,$fuente,$texto.' '.$tmp[$i]);
+// 					if($txt[2]<$mw) $texto.=' '.$tmp[$i++];
+// 				}
+// 				$txt=imagettfbbox($size,0,$fuente,$texto);
+// 				$x=intval((TAGWIDTH-$txt[2])/2);
+// 				imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
+// 				imagettftext($im,$size,0,$x-1,$y-1,$luz,$fuente,$texto);
+// 				imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
+// 				$y+=23;
+// 			}while(count($tmp)>$i);
+// 			//texto principal - Centro
+// 			$fuente=$font[0];
+// 			$texto=strtoupper(strclean($tag['code_number']));
+// 			$color=imagecolorhexallocate($im,$tag['color_code2']);
+// 			$size=45;
+// 			$s=0;//separacion entre letras
+// 			$len=strlen($texto);
+// 			$txt=imagettfbbox($size,0,$fuente,$texto);
+// 			$x=intval((TAGWIDTH-$txt[2])/2);
+// 			$y=165;
+// 			imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
+// 			imagettftext($im,$size,0,$x-1,$y-1,$luz,$fuente,$texto);
+// 			imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
+// 			//nombre usuario
+// 			$fuente=$font[1];
+// 			$texto=strclean($tag['nameOwner']);
+// 			$color=$blanco;
+// 			$sombra=$negro;
+// 			$size=15;
+// 			$x=115;
+// 			$y=223;
+// 			imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
+// 			imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
+// 			//fecha
+// 			$txt=imagettfbbox($size,0,$fuente,$texto);
+// 			$fuente=$font[0];
+// 			$texto=date('d-M-Y H:i',$tag['date']);
+// 			$size=8;
+// 			$x+=$txt[2]+10;
+// 			imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
+// 			imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
+
+// 			//texto2 - parte baja
+// 			$fuente=$font[1];
+// 			$texto=strclean($tag['texto2']);
+// 			$color=imagecolorhexallocate($im,$tag['color_code3']);
+// 			$size=10;
+// 			$x=115;
+// 			$y=241;
+// 			$mw=430;//max width-ancho maximo
+// 			$tmp=explode(' ',$texto);
+// 			$i=0;
+// 			do{
+// 				$texto=$tmp[$i++];
+// 				$txt=imagettfbbox($size,0,$fuente,$texto);
+// 				while(count($tmp)>$i&&$txt[2]<$mw){
+// 					$txt=imagettfbbox($size,0,$fuente,$texto.' '.$tmp[$i]);
+// 					if($txt[2]<$mw) $texto.=' '.$tmp[$i++];
+// 				}
+// 				imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
+// 				imagettftext($im,$size,0,$x-1,$y-1,$luz,$fuente,$texto);
+// 				imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
+// 				$y+=15;
+// 			}while(count($tmp)>$i);
+// 		}
+// 		//subir el archivo al servidor
+// 		if(!$debug){//si estamos en debug no se guarda
+// 			$phototmp=RELPATH.$path.'/tmp'.rand().'.png';
+// 			imagepng($im,$phototmp);
+// 			if (redimensionar($phototmp,RELPATH.$photopath,650)){
+// 				@unlink($phototmp);
+// 				FTPupload("tags/$photo");
+// 				if($msg) echo '<br/>guardada imagen '.$photo;
+// 			}
+// 		}
+// 	}elseif($msg) echo '<br/>ya existe la imagen '.$photo;
+// 	//FIN - creacion de la imagen de la tag
+// 	//creamos la miniatura si no existe
+// 	if(!fileExistsRemote($_path.$photompath)||$force){
+// 		if(!$debug){//si estamos en debug no se guarda
+// 			$phototmp=RELPATH.$path.'/'.$tmpFile.'.png';
+// 			imagepng($im,$phototmp);
+// 			if (redimensionar($phototmp,RELPATH.$photompath,200)){
+// 				@unlink($phototmp);
+// 				FTPupload("tags/$photom");
+// 				if($msg) echo '<br/>guardada miniatura '.$photom;
+// 			}
+// 		}
+// 	}
+// 	CON::update('tags',"img=?",'id=?',array($tid,$tag['id']));
+// 	return $tid;
+// }
 function intToMd5($id){
 	if(is_string($id)) $id=trim($id);
 	if($id!=''&&!preg_match('/\D/',$id)) $id=md5($id);
