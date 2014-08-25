@@ -17,8 +17,10 @@
  * Alternativamente, si decea desactivar los metodos y llamar siempre al index,
  * utilice la funcion disable_methods() en el constructor o en el __onload().
  */
-class Ejemplo extends TAG_controler{
+class Ejemplo extends TAG_controller{
 	function __construct(){
+		#validacion: si no esta en modo debug, se retorna error 404
+		if(!$this->is_debug()) $this->error_view(404);
 		parent::__construct();
 	}
 	function __onload($params){
