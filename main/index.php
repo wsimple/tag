@@ -2,7 +2,6 @@
 include 'includes/config.php';
 $migrating=TRUE;#mientras este en migracion, trabaja paralelo con la interfaz antigua
 // $migrating=FALSE;#activar para forzar solo interfaz nueva
-if(!isset($_COOKIE['_DEBUG_'])&&$section=='ejemplo') return;
 if(!$migrating||is_file($config->relpath.'main/controllers/'.$section.'.php')){
 	#temporales (transicion)
 	include('includes/session.php');
@@ -10,6 +9,7 @@ if(!$migrating||is_file($config->relpath.'main/controllers/'.$section.'.php')){
 	include('includes/languages.config.php');
 	include('class/forms.class.php');
 	#fin temporales (transicion)
+	include('main/core/BASE_classes.php');
 	function __autoload($classname){
 		$path=$config->relpath.'main';
 		$folder='controllers';
