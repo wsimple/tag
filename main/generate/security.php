@@ -45,12 +45,16 @@ if($data['tipo']){
 		$data['ftp']['user']='userimg';
 		$data['ftp']['pass']='-t@gvzlA_ftp';
 		$data['imgserver']='http://68.109.244.201/';
+		$data['img_server']='http://i.tagbum.com/';
+		$data['video_server']='http://v.tagbum.com/';
 	}elseif($data['tipo']=='local'){
 		$data['db']['host']='localhost';
 		$data['db']['user']='root';
 		$data['db']['pass']='root';
 		$data['db']['data']='tagbum';
 		$data['imgserver']=$data['dominio'];
+		$data['img_server']=$data['dominio'].'img_server/';
+		$data['video_server']=$data['dominio'].'video_server/';
 	}
 	if($data['db']){
 		$tipo=$data['tipo'];
