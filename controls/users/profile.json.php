@@ -112,6 +112,19 @@ if($data['action']=='save'||$data['action']=='picture'||$data['action']=='filePh
 				$size=$is[0];
 			}
 		}
+		if ($size==''){
+			$is=getimagesize(FILESERVER.$photo);
+			$x=$y=abs($is[0]-$is[1])/2;
+			if($is[0]>$is[1]){
+				$y=0;
+				$size=$is[1];
+			}else{
+				$x=0;
+				$size=$is[0];
+			}
+		}
+		$x=$x!=''?$x:0;
+		$y=$y!=''?$y:0;
 		CreateThumb(FILESERVER.$photo,RELPATH.$thumb,60,$x,$y,$size,$size);
 		FTPupload(end(explode('img/',$thumb)));
 		$_SESSION['ws-tags']['ws-user']['updatePicture']=0;
