@@ -42,22 +42,20 @@ class UploadHandler
 	protected $image_objects = array();
 
 	function __construct($options = null, $initialize = true, $error_messages = null) {
-		$path=$this->folder;
-		if($_GET['code']!=''){
-            $code=$_GET['code'];
-			$path.=$_COOKIE['__code__'].'/';
-
-		}
-		#debug
-		$server=$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_HOST'];
-		$cookies=json_encode($_COOKIE);
-		$logfile='pending/handler.log';
-		$log='';
-		if(is_file($logfile)) $log=file_get_contents($logfile);
-		$log.=date("Y-m-d H:i:s")."($server). Folder: $path\n";
-		$log.=date("Y-m-d H:i:s")."($server). Cookies: $cookies\n";
-		file_put_contents($logfile,$log);
-		#end debug
+		#personalizado
+		global $user;
+		$path=$this->folder.$user->folder();
+			#debug
+			// $server=$_SERVER['REMOTE_ADDR'];
+			// $cookies=json_encode($_COOKIE);
+			// $logfile='pending/handler.log';
+			// $log='';
+			// if(is_file($logfile)) $log=file_get_contents($logfile);
+			// $log.=date("Y-m-d H:i:s")."($server). Folder: $path\n";
+			// $log.=date("Y-m-d H:i:s")."($server). Cookies: $cookies\n";
+			// file_put_contents($logfile,$log);
+			#end debug
+		#fin_personalizado
 		$this->options = array(
 			'script_url' => $this->get_full_url().'/',
 			'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).$path,

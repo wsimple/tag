@@ -9,6 +9,11 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
+require('includes/functions.php');
+if(!$user->folder()){
+	json_headers();
+	die('{}');
+}
 
 error_reporting(E_ALL | E_STRICT);
 require('UploadHandler.php');
