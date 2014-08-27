@@ -86,7 +86,7 @@ class TAG_controller extends TAG_functions{
 					$_SESSION['ws-tags']['language']=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
 				}else{
 					$ip_num=sprintf("%u",ip2long($_SERVER['REMOTE_ADDR']));
-					$locale=CON::getVal('SELECT idioma FROM geo_ip WHERE ? BETWEEN start AND end',array($ip_num));
+					$locale=$this->db->getVal('SELECT idioma FROM geo_ip WHERE ? BETWEEN start AND end',array($ip_num));
 					$_SESSION['ws-tags']['language']=$locale;
 				}
 			}
