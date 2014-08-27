@@ -42,7 +42,7 @@ class CON{
 		if($params){
 			$params=self::cleanStrings($params);
 			# str_replace - cambiando ?? -> %s y ? -> "%s". %s is ugly in raw sql query
-			# ?? for expressions manually scaped like that: LIKE '%??%'
+			# ?? for expressions manually scaped like that: LIKE "%??%"
 			$query=preg_replace('/%([\s\?\'"])/','%%$1',$query);
 			$query=str_replace('??','%s',$query);
 			$query=str_replace('?','"%s"',$query);
@@ -173,6 +173,17 @@ class CON{
 		$query=self::query("INSERT INTO $tabla SET $set",$a);
 		return $query?mysqli_insert_id(self::$dbcon):false;
 	}
+	public static function insert_or_update($tabla,$set,$set_if_insert,$where_if_update,$a=false){
+		list($tabla,$set,$set_if_insert,$where_if_update)=explode(' [[,]] ',
+			self::escape_string(implode(' [[,]] ',
+				array($tabla,$set,$set_if_insert,$where_if_update)
+			),$a)
+		);
+		if(self::exist($tabla,$where_if_update))
+			return self::update($tabla,$set,$where_if_update);
+		else
+			return self::insert($tabla,"$set,$set_if_insert");
+	}
 	public static function update($tabla,$set,$where,$a=false){
 		return !!self::query("UPDATE $tabla SET $set WHERE $where",$a);
 	}
@@ -194,6 +205,20 @@ class CON{
 	}
 }
 CON::con();
+
+#ACTIVIDAD: si el usuario esta logeado, actualizamos
+if($_SESSION['ws-tags']['ws-user']['id'])
+CON::insert_or_update('activity_users',
+	'id_user=?,code=?,time=now()',
+	'REMOTE_ADDR=?,HTTP_USER_AGENT=?,session_id=?',
+	'REMOTE_ADDR=? AND HTTP_USER_AGENT=? AND session_id=?',
+	array(
+		$_SESSION['ws-tags']['ws-user']['id'],$_SESSION['ws-tags']['ws-user']['code'],
+		$_SERVER['REMOTE_ADDR'],$_SERVER['HTTP_USER_AGENT'],session_id(),
+		$_SERVER['REMOTE_ADDR'],$_SERVER['HTTP_USER_AGENT'],session_id(),
+	)
+);
+#ACTIVIDAD_END
 
 class wconecta{
 	private $dbhost,$dbuser,$dbpass,$dbase;
