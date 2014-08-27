@@ -1,5 +1,31 @@
 <?php
+#accceso a base de datos
+require_once('security/security.php');
+require_once('TAG_db.php');
 
+#verificacion de datos de usuario
+class User{
+	private $_id='',$_code='',$db;
+	function __construct($code=0){
+		$this->db=new TAG_db();
+		$usr=$this->db->getRowObject(
+			'SELECT id_user,code,TIMEDIFF(now(),time) as timedif FROM activity_users
+			WHERE code=? AND REMOTE_ADDR=? AND HTTP_USER_AGENT=? AND TIMEDIFF(now(),time)<"00:30:00"',
+			array($code,$_SERVER['REMOTE_ADDR'],$_SERVER['HTTP_USER_AGENT'])
+		);
+		if($usr&&$usr->code){
+			$this->_id=$usr->id_user;
+			$this->_code=$usr->code;
+		}
+	}
+	function id(){ return $this->_id; }
+	function code(){ return $this->_code; }
+	function folder(){ return $this->_code?$this->_code.'/':''; }
+}
+global $user;
+$user=new User($_GET['code']);
+
+#funciones
 function json_headers($cors=false){
 	header('Access-Control-Allow-Methods: POST, GET');
 	if($cors){
