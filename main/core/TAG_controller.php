@@ -125,7 +125,8 @@ class TAG_controller extends TAG_functions{
 		return $data;
 	}
 	public function error_view($code=404){
-		die($this->lib->Error_views->msg($code));
+		die('Page not found.');
+		// die($this->lib->Error_views->msg($code));
 	}
 	public function set_echo($html){
 		$this->echo_data.=$html;
