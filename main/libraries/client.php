@@ -1,5 +1,5 @@
 <?php
-class Logged_user_lib extends TAG_librarie{
+class Client_lib extends TAG_librarie{
 	private $user_id,$DATA;
 	function __construct($control=false){
 		parent::__construct($control);
