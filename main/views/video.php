@@ -1,4 +1,3 @@
-<?php global $control; ?>
 <!DOCTYPE HTML>
 <!--
 /*
@@ -18,7 +17,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
 <meta charset="utf-8">
 <title>jQuery File Upload Demo - Basic version</title>
-<base href="http://<?=$_SERVER['SERVER_NAME'].preg_replace('/[^\/]*$/','',$_SERVER['SCRIPT_NAME'])?>" />
+<base href="<?=$setting->dominio?>" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap styles -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -50,6 +49,7 @@
 </div>
 <div class="container">
 	<h1>jQuery File Upload Demo</h1>
+	<div><?=$client->code?></div>
 	<h2 class="lead">Basic version</h2>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="basic.html">Basic</a></li>
@@ -110,8 +110,7 @@
 $(function () {
 	'use strict';
 	// Change this to the location of your server-side upload handler:
-    // var url = 'server/php/';
-	var url = '<?=$control->setting->video_server_path?>';
+	var url = '<?="$setting->video_server_path?code=$client->code"?>';
 	$('#fileupload').fileupload({
 		url:url,
 		dataType:'json',
@@ -129,21 +128,6 @@ $(function () {
 		}
 	}).prop('disabled', !$.support.fileInput)
 		.parent().addClass($.support.fileInput ? undefined : 'disabled');
-    $.ajax({
-        url: url,
-        type:'POST',
-        dataType:'json',
-    })
-    .done(function() {
-        console.log("success");
-    })
-    .fail(function() {
-        console.log("error");
-    })
-    .always(function() {
-        console.log("complete");
-    });
-
 });
 </script>
 </body> 
