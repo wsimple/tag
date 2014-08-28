@@ -9,6 +9,7 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
+require_once('includes/client.php');
 
 class UploadHandler
 {
@@ -36,32 +37,19 @@ class UploadHandler
 		'max_height' => 'Image exceeds maximum height',
 		'min_height' => 'Image requires a minimum height',
 		'abort' => 'File upload aborted',
-		'image_resize' => 'Failed to resize image'
+		'image_resize' => 'Failed to resize image',
+		'invalid_user' => 'Invalid user.'
 	);
 
 	protected $image_objects = array();
 
 	function __construct($options = null, $initialize = true, $error_messages = null) {
-		#personalizado
-		global $client;
-		$path=$this->folder.$client->folder();
-			#debug
-			// $server=$_SERVER['REMOTE_ADDR'];
-			// $cookies=json_encode($_COOKIE);
-			// $logfile='pending/handler.log';
-			// $log='';
-			// if(is_file($logfile)) $log=file_get_contents($logfile);
-			// $log.=date("Y-m-d H:i:s")."($server). Folder: $path\n";
-			// $log.=date("Y-m-d H:i:s")."($server). Cookies: $cookies\n";
-			// file_put_contents($logfile,$log);
-			#end debug
-		#fin_personalizado
 		$this->options = array(
 			'script_url' => $this->get_full_url().'/',
-			'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).$path,
-			'upload_url' => $this->get_full_url().$path,
-			'user_dirs' => false,
-			'mkdir_mode' => 0755,
+			'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).$this->folder,
+			'upload_url' => $this->get_full_url().$this->folder,
+			'user_dirs' => true,
+			'mkdir_mode' => 0777,
 			'param_name' => 'files',
 			// Set the following option to 'POST', if your server does not support
 			// DELETE requests. This is a parameter sent to the client:
@@ -207,8 +195,15 @@ class UploadHandler
 	}
 
 	protected function get_user_id() {
-		@session_start();
-		return session_id();
+		// @session_start();
+		// return session_id();
+		$client=new Client();
+		$code=isset($_GET['code'])?$_GET['code']:'';
+		$id=isset($_GET['id'])?$_GET['id']:'';
+		if($client->valid_code($code)||$client->valid_id($id))
+			return $client->code();
+		die('{}');
+		return '';
 	}
 
 	protected function get_user_path() {
@@ -364,6 +359,9 @@ class UploadHandler
 	protected function validate($uploaded_file, $file, $error, $index) {
 		if ($error) {
 			$file->error = $this->get_error_message($error);
+			return false;
+		}elseif($this->get_user_id()==''){
+			$file->error = $this->get_error_message('invalid_user');
 			return false;
 		}
 		$content_length = $this->fix_integer_overflow(intval(
