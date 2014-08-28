@@ -9,11 +9,15 @@ include RELPATH.'class/wconecta.class.php';
 include RELPATH.'includes/languages.config.php';
 	$limit=10;
 	if(isset($_GET['clear'])){
-		$id=$_GET['id']!=''?'id="'.$_GET['id'].'"':'';
-		$timeLines = CON::update('tags','img=""',($_GET['id']!=''?'id="'.$_GET['id'].'"':'img!=""'));
+		if (isset($_GET['id'])) $where='id="'.$_GET['id'].'"';
+		elseif(isset($_GET['idUser'])) $where='id_user="'.$_GET['idUser'].'"';
+		else $where='img!=""';
+		$timeLines = CON::update('tags','img=""',$where);
 	}else{
-		$where=$_GET['id']==''?'img=""':'id="'.$_GET['id'].'"';
-		$sql='SELECT id FROM tags WHERE '.$where.' ORDER BY id DESC LIMIT 0,'.$limit;
+		if (isset($_GET['id'])) $where='id="'.$_GET['id'].'"';
+		elseif(isset($_GET['idUser'])) $where='id_user="'.$_GET['id'].'" AND img=""';
+		else $where='img=""';
+		$sql="SELECT id FROM tags WHERE $where ORDER BY id DESC LIMIT 0,$limit";
 		$timeLines = CON::query($sql);
 		$num=CON::numRows($timeLines);
 		$html='';
