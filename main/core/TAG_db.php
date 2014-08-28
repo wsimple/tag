@@ -164,6 +164,17 @@ class TAG_db{
 		$query=$this->query("INSERT INTO $tabla SET $set",$a);
 		return $query?mysqli_insert_id($this->dbcon):false;
 	}
+	public function insert_or_update($tabla,$set,$set_if_insert,$where_if_update,$a=false){
+		list($tabla,$set,$set_if_insert,$where_if_update)=explode(' [[,]] ',
+			$this->escape_string(implode(' [[,]] ',
+				array($tabla,$set,$set_if_insert,$where_if_update)
+			),$a)
+		);
+		if($this->exist($tabla,$where_if_update))
+			return $this->update($tabla,$set,$where_if_update);
+		else
+			return $this->insert($tabla,"$set,$set_if_insert");
+	}
 	public function update($tabla,$set,$where,$a=false){
 		return !!$this->query("UPDATE $tabla SET $set WHERE $where",$a);
 	}
