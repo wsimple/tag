@@ -1518,7 +1518,22 @@ function createTag($tag,$force=false,$msg=false){
 			if($img){
 				$au=120;
 				$im2=WideImage::loadFromHandle($img);
-				if ($im2->getWidth()!=60 ||$im2->getWidth()!=60 ) $im2=$im2->resize(60,60);
+				if ($im2->getWidth()!=60 || $im2->getHeight()!=60 ){
+					if ($im2->getWidth()!==$im2->getHeight()){
+						$w=$im2->getWidth();$h=$im2->getHeight();
+						if ($w>$h){
+							$y=0;
+							$x=($w-$h)/2;
+							$t=$h;
+						}else{
+							$x=0;
+							$y=($h-$w)/2;
+							$t=$w;
+						}
+						$im2 = $im2->crop($x,$y,$t,$t);
+					}
+					$im2=$im2->resize(60,60);
+				} 
 				$im2=$im2->roundCorners(33,null, 2,255);
 				imagecopy($im,$im2->getHandle(),40,215,0,0,60,60); 
 				$im2->destroy();
