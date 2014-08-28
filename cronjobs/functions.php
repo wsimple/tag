@@ -546,66 +546,48 @@ function factorPublicity($type, $monto){
 	return intval(($costo[cost]!="") ? ($monto/$costo[cost]) : 0);
 }
 
-function redimensionar($img_original, $img_nueva, $img_nueva_anchura, $img_nueva_altura='') {
-
-	$type=Array(1 => 'gif', 2 => 'jpg', 3 => 'png');
-	//_imprimir(getimagesize($img_original));
-	list($imgWidth, $imgHeight, $tipo, $imgAttr) = getimagesize($img_original);
-	$type = $type[$tipo];
-
+function redimensionar($original,$img_nueva,$width,$height=''){
+	$type=Array(1=>'gif',2=>'jpg',3=>'png');
+	//_imprimir(getimagesize($original));
+	list($_width,$_height,$tipo,$imgAttr)=getimagesize($original);
+	$type=$type[$tipo];
 	switch($type){
-		case "jpg" :
-		case "jpeg":  $img = imagecreatefromjpeg($img_original); break;
-		case "gif" :  $img = imagecreatefromgif($img_original); break;
-		case "png" :  $img = imagecreatefrompng($img_original); break;
+		case 'jpeg':
+		case 'jpg':$img=imagecreatefromjpeg($original);break;
+		case 'gif':$img=imagecreatefromgif($original);break;
+		case 'png':$img=imagecreatefrompng($original);break;
 	}
-
-	//Obtengo el tama�o del original
-	$img_original_anchura = $imgWidth;
-	$img_original_altura  = $imgHeight;
-	// Obtengo la relacion de escala
-
-	if($img_original_anchura > $img_nueva_anchura && $img_nueva_anchura > 0)
-		$percent = (double)(($img_nueva_anchura * 100) / $img_original_anchura);
-
-	if($img_original_anchura <= $img_nueva_anchura)
-		$percent = 100;
-
-	if(floor(($img_original_altura * $percent )/100)>$img_nueva_altura && $img_nueva_altura > 0)
-		$percent = (double)(($img_nueva_altura * 100) / $img_original_altura);
-
-	$img_nueva_anchura=($img_original_anchura*$percent)/100;
-
-	$img_nueva_altura=($img_original_altura*$percent)/100;
-
-	// crea imagen nueva redimencionada
-	$thumb = imagecreatetruecolor ($img_nueva_anchura,$img_nueva_altura);
-
-	if($type=='gif' || $type=='png'){
-				/** Code to keep transparency of image **/
-				$colorTransparancia=imagecolortransparent($img);// devuelve el color usado como transparencia o -1 si no tiene transparencias
-				if($colorTransparancia!=-1)$colorTransparente = imagecolorsforindex($img, $colorTransparancia); //devuelve un array con las componentes de lso colores RGB + alpha
-				$idColorTransparente = imagecolorallocatealpha($thumb, $colorTransparente['red'], $colorTransparente['green'], $colorTransparente['blue'], $colorTransparente['alpha']); // Asigna un color en una imagen retorna identificador de color o FALSO o -1 apartir de la version 5.1.3
-				imagefill($thumb, 0, 0, $idColorTransparente);// rellena de color desde una cordenada, en este caso todo rellenado del color que se definira como transparente
-				imagecolortransparent($thumb, $idColorTransparente); //Ahora definimos que en el nueva imagen el color transparente ser� el que hemos pintado el fondo.
-
-
+	//Obtengo la relacion de escala
+	if($_width>$width&&$width>0)
+		$percent=(double)(($width*100)/$_width);
+	if($_width<=$width)
+		$percent=100;
+	if(floor(($_height*$percent)/100)>$height&&$height>0)
+		$percent=(double)(($height*100)/$_height);
+	$width=($_width*$percent)/100;
+	$height=($_height*$percent)/100;
+	//crea imagen nueva redimencionada
+	$thumb=imagecreatetruecolor($width,$height);
+	if($type=='gif'||$type=='png'){
+		#se mantiene la transparencia de la imagen
+		$colorTransparancia=imagecolortransparent($img);#devuelve el color usado como transparencia o -1 si no tiene transparencias
+		if($colorTransparancia!=-1)$colorTransparente=imagecolorsforindex($img,$colorTransparancia);//devuelve un array con las componentes de lso colores RGB + alpha
+		$idColorTransparente=imagecolorallocatealpha($thumb,$colorTransparente['red'],$colorTransparente['green'],$colorTransparente['blue'],$colorTransparente['alpha']);//Asigna un color en una imagen retorna identificador de color o FALSO o -1 apartir de la version 5.1.3
+		imagefill($thumb,0,0,$idColorTransparente);//rellena de color desde una cordenada,en este caso todo rellenado del color que se definira como transparente
+		imagecolortransparent($thumb,$idColorTransparente);//Ahora definimos que en la nueva imagen el color transparente sera el que hemos pintado el fondo.
 	}
-
-	// redimensionar imagen original copiandola en la imagen nueva
-	imagecopyresampled ($thumb,$img,0,0,0,0,$img_nueva_anchura,$img_nueva_altura, $imgWidth,$imgHeight);
-	// guardar la imagen redimensionada donde indica $img_nueva
+	#redimensionar imagen original copiandola en la imagen nueva
+	imagecopyresampled($thumb,$img,0,0,0,0,$width,$height,$_width,$_height);
+	#guardar la imagen redimensionada donde indica $img_nueva
 	switch($type){
-		case "jpg":
-		case "jpeg": imagejpeg($thumb,$img_nueva); break;
-		case "gif":  imagegif($thumb,$img_nueva); break;
-		case "png":  imagepng($thumb,$img_nueva); break;
+		case 'jpeg':
+		case 'jpg':
+		case 'gif'://imagegif($thumb,$img_nueva);break;
+		case 'png'://imagepng($thumb,$img_nueva);break;
+			imagejpeg($thumb,$img_nueva,90);
 	}
-
 	imagedestroy($img);
 	imagedestroy($thumb);
-
-
 	return true;
 }
 function CreateThumb($img_original, $img_nueva, $tamanio,$x,$y, $ancho, $alto){
@@ -1318,23 +1300,14 @@ function updateUserCounters($id_user, $field, $inc, $action) {
 }
 
 function getUserProfile(&$user_id){
-
-		 $profiles = $GLOBALS['cn']->query("SELECT id FROM users WHERE username = '".basename($_SERVER['REQUEST_URI'])."' ");
-
-		 if (mysql_num_rows($profiles) == 0){
-
-			 return false;
-
-		 }elseif (mysql_num_rows($profiles)>0){
-
-			 $profile = mysql_fetch_assoc($profiles);
-
-			 $user_id = $profile[id];
-
-			 return true;
-
-		 }
-
+	$profiles=$GLOBALS['cn']->query("SELECT id FROM users WHERE username='".basename($_SERVER['REQUEST_URI'])."' ");
+	if (mysql_num_rows($profiles)==0){
+		return false;
+	}elseif (mysql_num_rows($profiles)>0){
+		$profile=mysql_fetch_assoc($profiles);
+		$user_id=$profile[id];
+		return true;
+	}
 }
 
 function formatMail($body, $width="600"){
@@ -1388,24 +1361,17 @@ function formatMail($body, $width="600"){
 			     ';
 }
 
-function arrayBackgroundsBlocked($id_user=""){
-
-		 $backgrounds = $GLOBALS['cn']->query(" SELECT background 
-												
-												FROM tags_delete_backgrounds
-												
-												WHERE id_user = '".(($id_user!='') ? $id_user : $_SESSION['ws-tags']['ws-user'][id])."' 
-											  
-											  ");
-											  
-		$array[] = ''; //validación, si no hay fondos borrados
-		
-		while ($background = mysql_fetch_assoc($backgrounds)){
-	           
-			   $array [] = $background[background];
-	    }
-		
-		return $array;
+function arrayBackgroundsBlocked($id_user=''){
+	$backgrounds=$GLOBALS['cn']->query('
+		SELECT background
+		FROM tags_delete_backgrounds
+		WHERE id_user="'.(($id_user!='')?$id_user:$_SESSION['ws-tags']['ws-user']['id']).'"
+	');
+	$array=array('');//validacion,si no hay fondos borrados
+	while ($background=mysql_fetch_assoc($backgrounds)){
+		$array[]=$background['background'];
+	}
+	return $array;
 }
 
 function viewChatFriends($id=""){
@@ -1467,18 +1433,370 @@ function viewChatFriends($id=""){
 }
 
 function replaceCharacters($cad){
-         
-		 $characters = array(chr(39), chr(34)); // ', ""
-		 
-		 $replace    = array('\'', '\"');
-		 
-		 for ($i=0; $i<count($characters); $i++){
-			  
-			 $cad = str_replace($characters[$i], $replace[$i], $cad);
-		 
-		 }
-		 
-		 return $cad;    
+	return mysql_real_escape_string($cad);
 }
+function tagURL($tag,$mini=false){
+	$tid=substr(intToMd5($tag),-16);
+	return FILESERVER.'img/tags/'.$tid.($mini?'.m':'').'.jpg';
+}
+function createTag($tag,$force=false,$msg=false){
+	global $config;
+	//Informacion basica para crear la imagen de tag
+	$default='tmp'.rand(0,99);
+	if (!class_exists('WideImage')) require('../class/wideImage/WideImage.php');
+	$path='img/tags';
+	$debug=isset($_GET['debug'])||(is_array($tag)&&$tag['debug']!='');
+	$tid=substr(intToMd5(is_array($tag)?($tag['idTag']==''?$default:$tag['idTag']):$tag),-16);
+	$tmpFile=$default;
+	if($tid==$default){
+		$force=true;
+		$tid=$tmpFile;
+	}
+	$photo=$tid.'.jpg';
+	$photom=$tid.'.m.jpg';
+	$photopath=$path.'/'.$photo;
+	$photompath=$path.'/'.$photom;
+	$_path=$config->local?RELPATH:FILESERVER;
+	//Se busca la imagen de la tag
+	if(!$force) $im=imagecreatefromany($_path.$photopath);
+	//Si la imagen de la tag no existe,se crea
+	if(!$im||$debug){
+		if(!is_array($tag)) $tag=getTagData($tid);
+		//Debugger
+		if($debug){
+			_imprimir($tag);
+			echo '<br/>fondo='.(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
+			echo '<br/>path='.$_path;
+			echo '<br/>photo='.$tag['photoOwner'];
+			echo '<br/>getUserPicture='.getUserPicture($tag['photoOwner']);
+		}
+		if($tag){
+			$font=array(
+				RELPATH.'fonts/trebuc.ttf',
+				RELPATH.'fonts/trebucbd.ttf',
+				RELPATH.'fonts/verdana.ttf',
+				RELPATH.'fonts/verdanab.ttf'
+			);
+			//Se crea la imagen con el tamaño normal - 650 x 300.
+			$im=imagecreatetruecolor(TAGWIDTH,TAGHEIGHT);
+			//Crear algunos colores
+			$blanco=imagecolorallocate($im,255,255,255);
+			$negro=imagecolorallocate($im,0,0,0);
+			//Fondo
+			$imagen=(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
+			$img=imagecreatefromany($imagen);
+			if($img){
+				$is=getimagesize($imagen);
+				$dy=intval((TAGHEIGHT-$is[1])/2);
+				while($dy>0) $dy-=$is[1];
+				do{
+					$dx=$is[0]>TAGWIDTH?intval((TAGWIDTH-$is[0])/2):0;
+					do{
+						imagecopy($im,$img,$dx,$dy,0,0,$is[0],$is[1]);
+						$dx+=$is[0];
+					}while($dx<TAGWIDTH);
+					$dy+=$is[1];
+				}while($dy<TAGHEIGHT);
+				imagedestroy($img);
+			}
+			//Bordes redondeados
+			$cr=25;//radio de la curva
+			$mask=imagecreatetruecolor(TAGWIDTH,TAGHEIGHT);
+			imagecopy($mask,$im,0,0,0,0,TAGWIDTH,TAGHEIGHT);
+			$im1=WideImage::loadFromHandle($mask);
+			$im1=$im1->roundCorners(30,$im1->allocateColor(255,255,255), 2,255);
+			imagecopy($im,$im1->getHandle(),0,0,0,0,TAGWIDTH,TAGHEIGHT);
+			$im1->destroy(); 
+			/**/
+			//Imagen de usuario
+			if($tag['idProduct'])
+				$imagen=$_path.$tag['photoOwner'];
+			else
+				$imagen=$_path.getUserPicture($tag['photoOwner'],'img/users/default.png');
+			if($debug) echo '<br/>'.$imagen;
+			$img=imagecreatefromany($imagen);
+			if($img){
+				$au=120;
+				$im2=WideImage::loadFromHandle($img);
+				if ($im2->getWidth()!=60 ||$im2->getWidth()!=60 ) $im2=$im2->resize(60,60);
+				$im2=$im2->roundCorners(33,null, 2,255);
+				imagecopy($im,$im2->getHandle(),40,215,0,0,60,60); 
+				$im2->destroy();
+			}
+			//Textos de la tag.
+			//texto1 y texto2 por su tamaño se les define un ancho maximo y pueden tener multiples lineas
+			$luz	=imagecolorhexallocatealpha($im,'#FFFFFF');
+			$sombra	=imagecolorhexallocatealpha($im,'#000000');
+			//Tipos de fuentes. 0=normal,1=negrita
+			//texto1 - Parte superior
+			$fuente=$font[1];
+			$texto=strclean($tag['texto']);
+			$color=imagecolorhexallocate($im,$tag['color_code']);
+			$size=15;
+			$txt=imagettfbbox($size,0,$fuente,$texto);
+			$y=73;
+			$mw=600;//max width - ancho maximo
+			$tmp=explode(' ',$texto);
+			$i=0;
+			do{
+				$texto=$tmp[$i++];
+				$txt=imagettfbbox($size,0,$fuente,$texto);
+				while(count($tmp)>$i&&$txt[2]<$mw){
+					$txt=imagettfbbox($size,0,$fuente,$texto.' '.$tmp[$i]);
+					if($txt[2]<$mw) $texto.=' '.$tmp[$i++];
+				}
+				$txt=imagettfbbox($size,0,$fuente,$texto);
+				$x=intval((TAGWIDTH-$txt[2])/2);
+				imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
+				imagettftext($im,$size,0,$x-1,$y-1,$luz,$fuente,$texto);
+				imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
+				$y+=23;
+			}while(count($tmp)>$i);
+			//texto principal - Centro
+			$fuente=$font[0];
+			$texto=strtoupper(strclean($tag['code_number']));
+			$color=imagecolorhexallocate($im,$tag['color_code2']);
+			$size=45;
+			$s=0;//separacion entre letras
+			$len=strlen($texto);
+			$txt=imagettfbbox($size,0,$fuente,$texto);
+			$x=intval((TAGWIDTH-$txt[2])/2);
+			$y=165;
+			imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
+			imagettftext($im,$size,0,$x-1,$y-1,$luz,$fuente,$texto);
+			imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
+			//nombre usuario
+			$fuente=$font[1];
+			$texto=strclean($tag['nameOwner']);
+			$color=$blanco;
+			$sombra=$negro;
+			$size=15;
+			$x=115;
+			$y=223;
+			imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
+			imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
+			//fecha
+			$txt=imagettfbbox($size,0,$fuente,$texto);
+			$fuente=$font[0];
+			$texto=date('d-M-Y H:i',$tag['date']);
+			$size=8;
+			$x+=$txt[2]+10;
+			imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
+			imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
 
+			//texto2 - parte baja
+			$fuente=$font[1];
+			$texto=strclean($tag['texto2']);
+			$color=imagecolorhexallocate($im,$tag['color_code3']);
+			$size=10;
+			$x=115;
+			$y=241;
+			$mw=430;//max width-ancho maximo
+			$tmp=explode(' ',$texto);
+			$i=0;
+			do{
+				$texto=$tmp[$i++];
+				$txt=imagettfbbox($size,0,$fuente,$texto);
+				while(count($tmp)>$i&&$txt[2]<$mw){
+					$txt=imagettfbbox($size,0,$fuente,$texto.' '.$tmp[$i]);
+					if($txt[2]<$mw) $texto.=' '.$tmp[$i++];
+				}
+				imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
+				imagettftext($im,$size,0,$x-1,$y-1,$luz,$fuente,$texto);
+				imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
+				$y+=15;
+			}while(count($tmp)>$i);
+			//Imagen de placa
+			$imagen=RELPATH.'img/placaFondo.png';
+			$img=imagecreatefromany($imagen);
+			if($img){
+				$is=getimagesize($imagen);
+				imagecopy($im,$img,0,0,0,0,$is[0],$is[1]);
+				imagedestroy($img);
+			}
+		}
+		//subir el archivo al servidor
+		if(!$debug){//si estamos en debug no se guarda
+			$phototmp=RELPATH.$path.'/tmp'.rand().'.png';
+			imagepng($im,$phototmp);
+			if (redimensionar($phototmp,RELPATH.$photopath,650)){
+				@unlink($phototmp);
+				FTPupload("tags/$photo");
+				if($msg) echo '<br/>guardada imagen '.$photo;
+			}
+		}
+	}elseif($msg) echo '<br/>ya existe la imagen '.$photo;
+	//FIN - creacion de la imagen de la tag
+	//creamos la miniatura si no existe
+	if(!fileExistsRemote($_path.$photompath)||$force){
+		if(!$debug){//si estamos en debug no se guarda
+			$phototmp=RELPATH.$path.'/'.$tmpFile.'.png';
+			imagepng($im,$phototmp);
+			if (redimensionar($phototmp,RELPATH.$photompath,200)){
+				@unlink($phototmp);
+				FTPupload("tags/$photom");
+				if($msg) echo '<br/>guardada miniatura '.$photom;
+			}
+		}
+	}
+	CON::update('tags',"img=?",'id=?',array($tid,$tag['id']));
+	return $tid;
+}
+function intToMd5($id){
+	if(is_string($id)) $id=trim($id);
+	if($id!=''&&!preg_match('/\D/',$id)) $id=md5($id);
+	return $id;
+}
+function getTagData($tid=''){
+	$noTag=array('idTag'=>$tid,'code_number'=>'notag','color_code2'=>'#333','photoOwner'=>'img/users/default.jpg','fondoTag'=>$tag[fondoTag]);
+	if($tid=='') return $noTag;
+	$tid=intToMd5($tid);
+	$where=safe_sql('substring(md5(t.id),-16)=?',array(substr($tid,-16)));
+	if(strlen($tid)==15) $where=safe_sql('substring(md5(t.id),-15)=?',array(substr($tid,-15)));
+	$tag=CON::getRow(getTagQuery().' WHERE '.$where);
+	if($tag['id']=='') return $noTag;
+	return $tag;
+}
+function getTagQuery($extra=''){ //t=tag,p=product,u=user(owner)
+	return '
+		SELECT
+			t.id,
+			t.id			as idTag,
+			t.background	as fondoTag,
+			t.id_creator	as idOwner,
+			t.id_user		as idUser,
+			if(p.id is null,u.screen_name,p.name) as nameOwner,
+			(SELECT screen_name FROM users WHERE id=t.id_user) as nameUsr,
+			if(p.id is null,
+				if(u.profile_image_url="","img/users/default.jpg",concat("img/users/",md5(CONCAT(u.id,"_",u.email,"_",u.id)),"/",u.profile_image_url)),
+				concat("img/",p.photo)
+			) as photoOwner,
+			p.id			as idProduct,
+			t.text			as texto,
+			t.text2			as texto2,
+			t.date			as fechaTag,
+			t.video_url		as video,
+			t.color_code,t.color_code2,t.color_code3,
+			t.points,t.code_number,t.profile_img_url,t.status,
+			md5(CONCAT(u.id,"_",u.email,"_",u.id)) as code,
+			unix_timestamp(t.date) AS date
+			'.($extra==''||$extra==' '?'':','.$extra).'
+		FROM tags t
+		JOIN users u ON u.id=t.id_creator
+		LEFT JOIN store_products p ON p.id=t.id_product
+	';
+}
+function imagecreatefromany($imagen){
+	if(!fileExistsRemote($imagen)){
+		if(isset($_GET['debug'])) echo '<br/>No existe '.$imagen;
+		return false;
+	}
+	$type=getimagesize($imagen);
+	$type=$type[2];
+	//$type:1=gif,2=jpg,3=png
+	if($type==1) return imagecreatefromgif ($imagen);
+	if($type==2) return imagecreatefromjpeg($imagen);
+	if($type==3) return imagecreatefrompng ($imagen);
+	//Retorna falso si no es ninguno de los tipos identificados
+	return false;
+}
+function getUserPicture($photo,$default='img/users/default.png'){
+	$path='img/users/';
+	if(strpos($photo,$path)===false) $photo=$path.$photo;
+	if(preg_match('/\S+\.\S+$/',$photo)){
+		$thumb=preg_replace('/(\.\S+)$/','_thumb$1',$photo);
+		if(fileExistsRemote(FILESERVER.$thumb))
+			return $thumb;
+		elseif(fileExistsRemote(FILESERVER.$photo))
+			return $photo;
+	}
+	return $default;
+}
+function imagecolorhexallocatealpha(&$im,$hex,$alpha=50){
+	$color=HexToRGB($hex);
+	return imagecolorallocatealpha($im,$color['r'],$color['g'],$color['b'],$alpha);
+}
+function HexToRGB($hex){
+	$hex=str_replace('#','',$hex);
+	$color=array();
+	if(strlen($hex)==3){
+		$color['r']=hexdec(substr($hex,0,1).substr($hex,0,1));
+		$color['g']=hexdec(substr($hex,1,1).substr($hex,1,1));
+		$color['b']=hexdec(substr($hex,2,1).substr($hex,2,1));
+	}elseif(strlen($hex)==6){
+		$color['r']=hexdec(substr($hex,0,2));
+		$color['g']=hexdec(substr($hex,2,2));
+		$color['b']=hexdec(substr($hex,4,2));
+	}
+	return $color;
+}
+//funcion para limpiar y corregir caracteres especiales en una cadena.
+function strclean($txt){
+	$txt=preg_replace('/&nbsp;?/i',' ',$txt);
+	$array=array(
+		'\\\\'=>'\\',
+		'\\\''=>'\'',
+		'\\"'=>'"',
+		'&amp;'=>'&'
+	);
+	return str_replace(array_keys($array),array_values($array),$txt);
+}
+function imagecolorhexallocate(&$im,$hex){
+	if($hex=='') $hex='#fff';
+	$color=HexToRGB($hex);
+	return imagecolorallocate($im,$color['r'],$color['g'],$color['b']);
+}
+#subir imagenes por FTP. Usar rutas relativas desde dentro de IMG.
+function FTPupload($origen,$destino='',$borrar=true){
+	#origen: donde esta la imagen. destino: donde ira la imagen.
+	#borrar: falso si no se quiere eliminar la imagen original
+	#las rutas deben ser relativas a img. si destino es vacio o false, se colocara en la misma ruta del origen
+	global $config;
+	$connected=false;
+	if($destino=='') $destino=$origen;
+	$count=preg_match('/(.+\/)*/',$destino,$path);
+	if(isset($config->ftp)){
+		if(!$img_ftp_con){
+			$img_ftp_con=ftp_connect($config->ftp->host,21);
+			$connected=ftp_login($img_ftp_con,$config->ftp->user,$config->ftp->pass);
+			ftp_pasv($img_ftp_con,true);
+			if(!$connected) return $img_ftp_con=false;
+		}
+		#vamos a la carpeta raiz
+		// ftp_cdup($img_ftp_con);
+		#Nos vamos a la carpeta destino. Se crean las carpetas que no existan.
+		$foldercount=0;
+		$path=$path[1];
+		while(($pos=strpos($path,'/'))!==false){
+			$folder=substr($path,0,$pos);
+			@ftp_mkdir($img_ftp_con,$folder);
+			if(ftp_chdir($img_ftp_con,$folder)){
+				$foldercount++;
+				@ftp_put($img_ftp_con,'index.html',RELPATH.'img/index.html',FTP_BINARY);
+			}else{
+				ftp_quit($img_ftp_con);
+				return false;
+			}
+			$path=substr($path,$pos+1);
+		}
+		#Copiamos el archivo
+		$file=end(explode('/',$destino));
+		if($file!=''){
+			@ftp_put($img_ftp_con,$file,RELPATH.'img/'.$origen,FTP_BINARY);
+			ftp_quit($img_ftp_con);
+		}
+		#Borramos la imagen de origen si es requerido
+		if($borrar){
+			@unlink(RELPATH.$origen);
+		}
+	}elseif($destino!=$origen){
+		#Cuando no es ftp, y el origen es distinto al destino, se mueve/copia el archivo
+		@mkdir(substr($path[1],0,-1),0777,true);
+		if($borrar)
+			rename(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino);
+		else
+			copy(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino);
+	}
+	return $connected;
+}
 ?>

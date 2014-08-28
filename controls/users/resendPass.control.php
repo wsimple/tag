@@ -63,7 +63,7 @@
 					';
 
 			
-			if( sendMail(formatMail($body, 800), EMAIL_NO_RESPONDA, 'Tagbum.com', 'Reset your Tagbum password', $_SESSION['ws-tags']['resendPass']['email'], '../../') ) {
+			if( sendMail(formatMail($body, 800), EMAIL_NO_RESPONDA, 'Tagbum.com', 'Reset your Tagbum password', $_SESSION['ws-tags']['resendPass']['email'], '../../',true) ) {
 				echo "1*".$_SESSION['ws-tags']['resendPass']['email'];
 			} else { echo "0*"; }
 		} else { echo "0*"; }

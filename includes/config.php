@@ -4,7 +4,7 @@
  * Copy Rights :Tagamation, LLc
  * Date        :02/22/2011
  */
-include('security/security.php');
+if(!$config) @include('security/security.php');
 include_once('relpath.php');
 if(!$config) @include($relpath.'.security/security.php');
 $config->relpath=$relpath?$relpath:'./';

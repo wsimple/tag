@@ -1,5 +1,5 @@
 <?php
-class Template extends TAG_controler{
+class Template extends TAG_controller{
 	function __onload(){
 		$this->disable_methods();
 	}
