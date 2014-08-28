@@ -43,8 +43,8 @@ class UploadHandler
 
 	function __construct($options = null, $initialize = true, $error_messages = null) {
 		#personalizado
-		global $user;
-		$path=$this->folder.$user->folder();
+		global $client;
+		$path=$this->folder.$client->folder();
 			#debug
 			// $server=$_SERVER['REMOTE_ADDR'];
 			// $cookies=json_encode($_COOKIE);

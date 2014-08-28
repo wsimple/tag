@@ -120,7 +120,6 @@ class TAG_db{
 		return $array;
 	}
 	public function getRow($sql,$a=false,$normalize=true){#devuelve la primera columna de una consulta
-		$row=array();
 		if(!preg_match('/\blimit\s+\d+\s*;?\s*$/i',$sql)){
 			$echo=$this->echo;
 			$this->echo=false;
@@ -129,6 +128,7 @@ class TAG_db{
 		}
 		if(!$query) $query=$this->query($sql,$a);
 		if($this->numRows($query)>0) $row=$this->fetchAssoc($query,$normalize);
+		else $row=array();
 		return $row;
 	}
 	public function getRowObject($sql,$a=false,$normalize=true){#devuelve la primera columna de una consulta
@@ -139,7 +139,9 @@ class TAG_db{
 			$this->echo=$echo;
 		}
 		if(!$query) $query=$this->query($sql,$a);
-		return $this->numRows($query)>0?$this->fetchObject($query,$normalize):new stdClass();
+		if($this->numRows($query)>0) $row=$this->fetchObject($query,$normalize);
+		else $row=new stdClass();
+		return $row;
 	}
 	public function getVal($sql,$a=false,$normalize=true){#devuelve el valor del primer elemento de una consulta
 		$el=NULL;

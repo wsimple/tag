@@ -10,7 +10,7 @@
  * http://www.opensource.org/licenses/MIT
  */
 require('includes/functions.php');
-if(!$user->folder()){
+if(!$client->folder()){
 	json_headers();
 	die('{}');
 }
