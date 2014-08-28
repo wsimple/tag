@@ -12,7 +12,7 @@
 class Ejemplo_lib extends TAG_librarie{
 	function __construct($control=false){
 		parent::__construct($control);
-		echo 'Lib example.<br>';
+		$this->control->set_echo('Lib example.<br>');
 	}
 	function __destruct(){
 	}
