@@ -4,7 +4,7 @@ require_once('security/security.php');
 require_once('TAG_db.php');
 
 #verificacion de datos de usuario
-class User{
+class Client{
 	private $_id='',$_code='',$db;
 	function __construct($code=0){
 		$this->db=new TAG_db();
@@ -22,8 +22,8 @@ class User{
 	function code(){ return $this->_code; }
 	function folder(){ return $this->_code?$this->_code.'/':''; }
 }
-global $user;
-$user=new User($_GET['code']);
+global $client;
+$client=new Client($_GET['code']);
 
 #funciones
 function json_headers($cors=false){
