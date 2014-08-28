@@ -1,8 +1,9 @@
 <?php
 class TAG_controller extends TAG_functions{
 	#configuracion general para todos los controles
-	public $setting,$db,$model,$lib,$location,$user;
-	private $echo_data='',$no_method,$lang;
+	public $setting,$db,$model,$lib,$location,
+		$client,$lang;
+	private $echo_data='',$no_method;
 	function __construct($params=array()){
 		include('includes/security/security.php');
 		$this->setting=$config;
@@ -14,9 +15,8 @@ class TAG_controller extends TAG_functions{
 		$this->load_lib('error_views');
 		$name=strtolower(get_class($this));
 		if(is_file("main/models/$name.php")) $this->load_model($name);
-		$this->load_lang();
-		#libreria para manejo del usuario logeado
-		$this->user=new Logged_user_lib($this);
+		$this->lang=new Lang_lib($this);#libreria para manejo de lenguaje
+		$this->client=new Client_lib($this);#libreria para manejo del cliente (usuario logeado)
 	}
 	function __destruct(){
 	}
@@ -29,11 +29,6 @@ class TAG_controller extends TAG_functions{
 	}
 	public function use_methods(){
 		return !$this->no_method;
-	}
-
-	function lan($text='',$format=false){
-		global $lang;
-		return (isset($lang[$text])?$lang[$text]:$text);
 	}
 	function load_model($name){
 		$name=ucfirst($name);
@@ -53,51 +48,17 @@ class TAG_controller extends TAG_functions{
 	}
 	public function view($name,$data=array()){
 		if(!is_array($data)) $data=array('data'=>$data);
+		$data['setting']=$this->setting;
+		$data['control']=$this;
+		$data['location']=$this->location;
+		$data['client']=$this->client->data();
+		$data['lang']=$this->lang;
 		if(preg_match('/^partial\/(header|footer)/i',$name)){
-			$data['config']=$data['setting']=$this->setting;
-			$data['control']=$this;
-			$data['location']=$this->location;
-			$data['user']=$this->user->data();
-			$data['is_logged']=$data['user']->is_logged;
-			$data['lang']=$this->lang;
+			$data['is_logged']=$data['client']->is_logged;
 			$data['language']=$this->lang['langcode'];
 			$data['bg']=($_SESSION['ws-tags']['ws-user']['user_background']==''?'' : ($_SESSION['ws-tags']['ws-user']['user_background'][0]!='#' ? 'style="background-image:url('.$this->setting->img_server.'users_backgrounds/'.$_SESSION['ws-tags']['ws-user']['user_background'].')"':''));
 		}
 		parent::view($name,$data);
-	}
-	function load_lang(){
-		#lenguajes permitidos
-		$languages=array('en','es');
-		#deteccion de lenguaje
-		$actual='';
-		if($_GET['lang']!=''){
-			$actual=$_GET['lang'];
-		}else{
-			#si llego el lenguaje y el usuario esta logueado
-			if ($_SESSION['ws-tags']['ws-user']['language']!=''){
-				$_SESSION['ws-tags']['language']=$_SESSION['ws-tags']['ws-user']['language'];
-			}elseif($_POST['lang']!=''){
-				$_SESSION['ws-tags']['language']=$_POST['lang'];
-				@header('Location:'.$_POST['actualUrl']);//Url Actual donde se cambiara el idioma
-			}
-			#detecta el idioma segun la ip del usuario si no esta logeado
-			if($_GET['lang']==''&&empty($_SESSION['ws-tags']['language'])){
-				if(preg_match('/^(local\.|localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
-					$_SESSION['ws-tags']['language']=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
-				}else{
-					$ip_num=sprintf("%u",ip2long($_SERVER['REMOTE_ADDR']));
-					$locale=$this->db->getVal('SELECT idioma FROM geo_ip WHERE ? BETWEEN start AND end',array($ip_num));
-					$_SESSION['ws-tags']['language']=$locale;
-				}
-			}
-			$actual=$_SESSION['ws-tags']['language'];
-		}
-		#si el lenguaje no esta permitido, cargamos el ingles
-		if(!in_array($actual,$languages)) $actual='en';
-		#carga de traducciones
-		$lang=array();
-		include("language/$actual.php");
-		$this->lang=$lang;
 	}
 	function location_data(){
 		$data=new stdClass();
