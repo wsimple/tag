@@ -214,6 +214,7 @@ $(function(){
 			type:'ajax',
 			transitionIn:'fade',
 			transitionOut:'elastic',
+			scrolling : 'no',
 			title:"<?=$obj->nameUser?>'s <?=USERPROFILE_PHOTOPROFILE?>",
 			onClosed:function() {/*alert('aaa');*/}
 		});

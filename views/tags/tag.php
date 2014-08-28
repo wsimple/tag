@@ -23,7 +23,7 @@
 <?php } ?>
 	<div class="comments-tags">
 		<div class="tag-box">
-			<div id="layerTag<?=$dialog?'_':'';?>" class="tag-container"></div>
+			<div id="layerTag<?=$dialog?'_':'';?>" class="tag-container <?=!$logged?'noMenu':''?>"></div>
 		</div>
 		<div class="comments-box-c" tag="<?=$tag->id?>" data-tagid="<?=md5($tag->id)?>">
 			<?php
@@ -36,7 +36,7 @@
 			?>
 		</div>
 	</div>
-	<p id="msgTagNologged">
+	<p id="msgTagNologged" <?=!$logged?'style="display:block;"':''?>>
 		<?=TAGS_MSGTAGNOLOGGED?>
 		<strong><a href="<?=base_url('signup')?>" style="color: #f82"><?=SIGNUP_BTNNEXT?></a></strong> o <strong><a href="#" style="color: #f82"><?=MNUUSER_TITLEHOME?></a></strong>.
 		<?=TAGS_MSGTAGNOLOGGED2?>

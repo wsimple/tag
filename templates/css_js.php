@@ -55,7 +55,7 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 
 <?php if($_SESSION['ws-tags']['ws-user']['id']!=''){//si esta loggeado ?>
 <script	type="text/javascript"	src="<?=$minify?"min/?f=":""?>js/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-<link	type="text/css"			href="<?=$minify?"min/?f=":""?>css/fancybox/jquery.fancybox-1.3.4.css" rel="stylesheet"/>
+<link	type="text/css"			href="<?=$minify?"min/?f=":""?>css/jquery.fancybox-1.3.4.css" rel="stylesheet"/>
 <?php }else{//deslogeado ?>
 <link rel="stylesheet" type="text/css" href="<?=$minify?"min/?f=":""?>css/jquery.fullPage.css" />
 <script type="text/javascript" src="<?=$minify?"min/?f=":""?>js/jquery.fullPage.js"></script>
