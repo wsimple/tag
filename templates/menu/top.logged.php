@@ -230,7 +230,7 @@ unset($detect);
 					res = item.hash;
 					sp  = '';
 				}
-				item.url=BASEURL+'searchall?srh='+item.hash+'&in=1';
+				item.url=BASEURL+'searchall?srh='+encodeURIComponent(item.hash)+'&in=1';
 				$li.addClass('ui-autocomplete-group')
 				.append('<a href="'+item.url+'"><img src="css/smt/menu_left/groups.png" width="12" height="12">'+res+sp+'</a>');
 			}else if(item.category==='<?=SEARCH_PRODUCT?>'){

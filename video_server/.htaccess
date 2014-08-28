@@ -1,0 +1,24 @@
+<IfModule mod_rewrite.c>
+Options +FollowSymLinks -indexes
+RewriteEngine On
+
+#redireccion de errores
+#ErrorDocument 403 errors/403.php
+#ErrorDocument 404 errors/404.php
+
+#servidor de imagenes
+RewriteCond %{HTTP_HOST} ^i\.tagbum\.com|68\.109\.244\.201 [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ img.php/$1 [L]
+
+#servidor de videos
+RewriteCond %{HTTP_HOST} ^v.*\.tagbum\.com|68\.109\.244\.19[6-8] [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ videos.php/$1 [L]
+
+#otros servers
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L]
+</IfModule>

@@ -12,7 +12,7 @@
 class Ejemplo_model extends TAG_model{
 	function __construct($control=false){
 		parent::__construct($control);
-		echo 'Model Example.<br>';
+		$this->control->set_echo('Model example.<br>');
 	}
 	function __destruct(){
 	}
