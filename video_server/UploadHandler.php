@@ -198,10 +198,11 @@ class UploadHandler
 		// @session_start();
 		// return session_id();
 		$client=new Client();
-		$code=isset($_GET['code'])?$_GET['code']:'';
-		$id=isset($_GET['id'])?$_GET['id']:'';
+		$code=isset($_REQUEST['code'])?$_REQUEST['code']:'';
+		$id=isset($_REQUEST['id'])?$_REQUEST['id']:'';
 		if($client->valid_code($code)||$client->valid_id($id))
 			return $client->code();
+		$this->send_content_type_header();
 		die('{}');
 		return '';
 	}
