@@ -60,31 +60,6 @@ class TAG_controller extends TAG_functions{
 		}
 		parent::view($name,$data);
 	}
-	function location_data(){
-		$data=new stdClass();
-		$data->uri=$_SERVER['REQUEST_URI'];
-		#seccion completa desde la url (ejem: user/preferences)
-		$data->full_section=array_shift(explode('?',$data->uri));
-		if(strpos($data->full_section,$this->setting->path)===0) $data->full_section=substr($data->full_section,strlen($this->setting->path));
-		$data->full_section=preg_replace('/^(.*\.php)?\//','',$data->full_section);
-		#seccion (ejem: de full_section, el primero es la seccion, el resto son parametros )
-		if($_GET['hashtag']){#si la seccion se convirtio desde un hashtag transformado a get
-			$section=array_shift(explode('?',$_GET['hashtag']));
-			$data->full_section="$section/$data->full_section";
-			if(strpos($_GET['hashtag'],'?'))
-				$_GET=array_merge($_GET,parse_url(end(explode('?',$_GET['hashtag']))));
-			unset($_GET['hashtag']);
-		}
-		if($data->full_section=='') $data->full_section='home';
-		$data->full_params=explode('/',$data->full_section);
-		$data->section=array_shift($data->full_params);
-		$data->params=$data->full_params;
-		$data->method=count($data->params)>0?array_shift($data->params):'index';
-
-		if($this->is_debug('location'))
-			$this->set_echo('<pre id="location" style="display:none;">'.json_encode($data).'</pre>');
-		return $data;
-	}
 	public function error_view($code=404){
 		die('Page not found.');
 		// die($this->lib->Error_views->msg($code));
