@@ -13,9 +13,12 @@ require_once('includes/client.php');
 
 class UploadHandler
 {
-	private $folder='/pending/';
-
 	protected $options;
+
+	// Get folder
+	protected function folder() {
+		return '/pending/';
+	}
 
 	// PHP File Upload error message codes:
 	// http://php.net/manual/en/features.file-upload.errors.php
@@ -46,8 +49,8 @@ class UploadHandler
 	function __construct($options = null, $initialize = true, $error_messages = null) {
 		$this->options = array(
 			'script_url' => $this->get_full_url().'/',
-			'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).$this->folder,
-			'upload_url' => $this->get_full_url().$this->folder,
+			'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).$this->folder(),
+			'upload_url' => $this->get_full_url().$this->folder(),
 			'user_dirs' => true,
 			'mkdir_mode' => 0777,
 			'param_name' => 'files',
@@ -204,7 +207,6 @@ class UploadHandler
 			return $client->code();
 		$this->send_content_type_header();
 		die('{}');
-		return '';
 	}
 
 	protected function get_user_path() {
