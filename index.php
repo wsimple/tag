@@ -30,5 +30,10 @@ global $section,$params,$control;
 $control=new $section($params);
 if(method_exists($control,'__onload')) $control->__onload($params);
 $function='index';
-if($control->use_methods()&&count($params)>0) $function=array_shift($params);
+if($control->use_methods()&&count($params)>0){
+	if(method_exists($control,$params[0])) $function=array_shift($params);
+	elseif(method_exists($control,'error')) $function='error';
+	elseif(TAG_functions::is_debug()) die("No existe el metodo '{$params[0]}' ($section).");
+	else die('Page not found.');
+}
 TAG_functions::call_method($control,$function,$params);
