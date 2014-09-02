@@ -6,6 +6,8 @@ class TAG_controller extends TAG_functions{
 	private $echo_data='',$no_method;
 	function __construct($params=array()){
 		include('includes/security/security.php');
+		$detect=new Mobile_Detect();
+		$config->is_mobile=$detect->isMobile();
 		$this->setting=$config;
 		$this->db=new TAG_db($config->db);
 		$this->db->showErrors($this->is_debug());
@@ -55,7 +57,7 @@ class TAG_controller extends TAG_functions{
 		$data['lang']=$this->lang;
 		if(preg_match('/^partial\/(header|footer)/i',$name)){
 			$data['is_logged']=$data['client']->is_logged;
-			$data['language']=$this->lang['langcode'];
+			$data['language']=$this->lang->code();
 			$data['bg']=($_SESSION['ws-tags']['ws-user']['user_background']==''?'' : ($_SESSION['ws-tags']['ws-user']['user_background'][0]!='#' ? 'style="background-image:url('.$this->setting->img_server.'users_backgrounds/'.$_SESSION['ws-tags']['ws-user']['user_background'].')"':''));
 		}
 		parent::view($name,$data);

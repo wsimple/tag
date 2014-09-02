@@ -13,6 +13,8 @@ if($migrating){
 	}
 }
 
+include 'main/core/globals.php';
+
 function __autoload($classname){
 	#carga automatica de clases permitidas
 	$path='main';
