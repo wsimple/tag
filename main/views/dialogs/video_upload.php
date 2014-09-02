@@ -19,7 +19,7 @@
 <body>
 <div class="container">
 	<!-- The file upload form used as target for the file upload widget -->
-	<form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+	<form id="fileuploadVideos" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
 		<!-- Redirect browsers with JavaScript disabled to the origin page -->
 		<noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
 		<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -58,6 +58,13 @@
 			</div>
 		</div>
 		<!-- The table listing the files available for upload/download -->
+		<h3>Videos</h3>
+		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+	</form>
+	<!-- The file upload form used as target for the file upload widget -->
+	<form id="fileuploadImages" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+		<h3>Images</h3>
+		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 	</form>
 	<br>
@@ -94,30 +101,30 @@ $(function(){
 	var url='<?=$setting->video_server_path?>',
 		formData={code:'<?=$client->code?>'};
 	//Initialize the jQuery File Upload widget:
-	$('#fileupload').fileupload({
+	$('#fileuploadVideos').fileupload({
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
-		url: url,
+		url:url,
 		formData:formData,
-		acceptFileTypes: /(\.|\/)(mp4|jpe?g|gif|png)$/i,
-		maxFileSize: 15000000,//15 MB
+		acceptFileTypes:/(\.|\/)(mp4)$/i,
+		// acceptFileTypes:/(\.|\/)(mp4|jpe?g|gif|png)$/i,
+		maxFileSize:15000000,//15MB
 	});
-
 	//Load existing files:
-	$('#fileupload').addClass('fileupload-processing');
+	$('#fileuploadVideos').addClass('fileupload-processing');
 	$.ajax({
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
-		url: $('#fileupload').fileupload('option', 'url'),
-		dataType: 'json',
+		url:$('#fileuploadVideos').fileupload('option','url'),
+		dataType:'json',
 		data:formData,
-		context: $('#fileupload')[0]
+		context:$('#fileuploadVideos')[0]
 	}).always(function(){
 		$(this).removeClass('fileupload-processing');
 	}).done(function(result){
 		console.log('result:',result,'this data:',$(this).data());
-		$(this).fileupload('option', 'done')
-			.call(this, $.Event('done'), {result: result});
+		$(this).fileupload('option','done')
+			.call(this,$.Event('done'),{result:result});
 	});
 });
 </script>
