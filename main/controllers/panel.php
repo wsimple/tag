@@ -34,7 +34,7 @@ class Panel extends TAG_controller{
 			$list=$this->db->getObject("SELECT DISTINCT tt.label, IFNULL(tr.text,tt.text) as `text` FROM translations_template tt LEFT JOIN translations tr ON tr.label=tt.label AND tr.cod='$code'");
 			$lang=array();
 			foreach($list as $el){
-				$lang[$el->label]=preg_replace('/[\r\n]+/',' ',utf8_encode($el->text));
+				$lang[$el->label]=preg_replace('/[\r\n]+/',' ',$el->text);
 			}
 			$lang=array_merge(array('langcode'=>$code),$lang);
 			$lang['langcode']=$code;
@@ -48,10 +48,6 @@ class Panel extends TAG_controller{
 			$array=str_replace('\\/','/',$array);
 			$salida=<<<PHPLANG
 <?php
-function lan(\$text='',\$format=false){
-	global \$lang;
-	return (isset(\$lang[\$text])?\$lang[\$text]:\$text);
-}
 global \$lang;
 \$lang=array(
 
