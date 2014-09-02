@@ -98,18 +98,22 @@
 $(function(){
 	'use strict';
 
-	var url='<?=$setting->video_server_path?>',
+	var url='<?=$setting->video_server_path?>',url2='<?=$setting->img_server_path?>?folder=templates',
 		formData={code:'<?=$client->code?>'};
 	//Initialize the jQuery File Upload widget:
 	$('#fileuploadVideos').fileupload({
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
 		url:url,
+		url2:url,
+		url3:url2,
 		formData:formData,
-		acceptFileTypes:/(\.|\/)(mp4)$/i,
-		// acceptFileTypes:/(\.|\/)(mp4|jpe?g|gif|png)$/i,
+		// acceptFileTypes:/(\.|\/)(mp4)$/i,
+		acceptFileTypes:/(\.|\/)(mp4|jpe?g|gif|png)$/i,
 		maxFileSize:15000000,//15MB
 	});
+	// $('#fileuploadVideos').fileupload('option','url',url);
+	// console.log($('#fileuploadVideos').fileupload('option'));
 	//Load existing files:
 	$('#fileuploadVideos').addClass('fileupload-processing');
 	$.ajax({
