@@ -1,16 +1,10 @@
 .security/*.php
-includes/security/*.php
-img/bc_templates
-img/groups/
-img/publicity/
-img/store/
-img/tags/
-img/templates/
-img/users/
-img/temp/
-img/bc_logos/
-img/users_backgrounds/
-img/users_cover/
+img/*/
 language/
 
-local/*
+#security
+includes/security/*.php
+img_server/includes/security/*.php
+video_server/includes/security/*.php
+
+local/*.*
