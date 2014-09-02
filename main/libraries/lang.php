@@ -36,13 +36,13 @@ class Lang_lib extends TAG_librarie{
 		#carga de traducciones
 		$lang=array();
 		include("language/$actual.php");
+		$lang=array_merge(@include("main/lang/en.php"),@include("main/lang/$actual.php"),$lang);
 		$this->lang=$lang;
 	}
 	function code(){
 		return $this->_code;
 	}
 	function get($text='',$format=false){
-		$lang=&$this->lang;
-		return (isset($lang[$text])?$lang[$text]:$text);
+		return (isset($this->lang[$text])?$this->lang[$text]:$text);
 	}
 }
