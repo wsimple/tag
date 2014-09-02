@@ -1,11 +1,10 @@
 <header>
 <content>
-	<!--<a href="<?=base_url()?>"><logo></logo></a>-->
+	<a href="."><logo></logo></a>
 	<?php
 		if(!$logged){
 			include('templates/menu/top.unlogged.php');
 		}else{
-			echo '<a href="'.base_url().'"><logo></logo></a>';
 			include('templates/menu/top.logged.php');
 		}
 	?>

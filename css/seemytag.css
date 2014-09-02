@@ -46,13 +46,13 @@ page.unlogged>header{
 	height:60px;
 	z-index:500;
 }
-.unlogged>header #titleNormal a{
+.unlogged>header #titleNormal>a{
 	float:left;
-	margin-left:15px;
+	margin:0 5px;
 }
 .prinTitle{
 	color:#000;
-	padding:5px 30px;
+	padding:5px 25px;
 	cursor:pointer;
 	text-decoration:none;
 }
@@ -67,13 +67,17 @@ page.unlogged>header{
 	color:#FFF;
 	background:#f72
 }
-.iconLogin{
+span.iconLogin{
+	display:inline-block;
 	background-image:url('tbum/black_arrow_right.png');
 	background-repeat:no-repeat;
-	background-position:6px 7px;
+	background-position:0 0;
 	background-size:20px 14px;
+	width:20px;height:14px;
+	padding:0 3px;
+	position:relative;top:2px;
 }
-.prinTitleActive.iconLogin,.iconLogin:hover{
+.prinTitleActive>.iconLogin,a:hover>.iconLogin{
 	background-image:url('tbum/white_arrow_right.png');
 }
 page container#home{
@@ -168,12 +172,6 @@ page container#home .appLinks #gPlay{
 	background: url('tbum/icon_googlePlay.png') no-repeat;
 	float: left;
 }
-page.unlogged .langOut{
-	position: absolute;
-	left: 935px;
-	top: 8px;
-	font-size: 12px;
-}
 page.unlogged footer{
 	position:fixed;
 	bottom:0;
@@ -262,6 +260,9 @@ page>header menu{
 	height:100%;
 	font-size:14px;
 }
+page.unlogged>header menu{
+	margin-right:0px;
+}
 page>header menu>div{
 	position:absolute;
 }
@@ -294,7 +295,7 @@ page>header input[type="submit"]{
 	text-decoration:underline;
 	cursor:pointer;
 }
-page>header menu,page>header menu a,page>header input[type="submit"]{
+page.logged>header menu,page>header menu a,page>header input[type="submit"]{
 	color:#fddfc6;
 }
 page>header,page>header logo,page loader.page{
@@ -437,9 +438,22 @@ img.preload.done{
 logo{
 	display:inline-block;
 	background:url(tbum/logo-white.png) no-repeat 50%;
+	background-repeat:no-repeat;
 	background-size:100% 100%;
 	width:268px;
 	height:107px;
+}
+page.unlogged logo{
+	background-image:url(tbum/logo-white-orange.png);
+	width:170px;
+	height:57px;
+}
+page.unlogged>header logo{
+	background-size:140px 45px;
+	background-position:center center;
+	width:180px;
+	height:60px;
+	margin:0;
 }
 
 .ui-box-outline{
