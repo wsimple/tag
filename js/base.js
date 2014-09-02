@@ -104,8 +104,8 @@ var PAGE,wrapper,container,home,footer,INFO=[];
 	if($.cookie('__FV__')) INFO[3]='mobile';
 	var $loader;
 	$.loader=function(mode){
-		if(mode=='show') $loader.show();
-		if(mode=='hide') $loader.hide();
+		if(mode=='show') $loader&&$loader.show();
+		if(mode=='hide') $loader&&$loader.hide();
 	};
 	window.beforeInit=function(){
 		PAGE=$('page')[0];
