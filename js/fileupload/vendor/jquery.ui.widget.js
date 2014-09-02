@@ -10,13 +10,13 @@
  */
 
 (function (factory) {
-    if (typeof define === "function" && define.amd) {
-        // Register as an anonymous AMD module:
-        define(["jquery"], factory);
-    } else {
-        // Browser globals:
-        factory(jQuery);
-    }
+	if (typeof define === "function" && define.amd) {
+		// Register as an anonymous AMD module:
+		define(["jquery"], factory);
+	} else {
+		// Browser globals:
+		factory(jQuery);
+	}
 }(function( $, undefined ) {
 
 var uuid = 0,
