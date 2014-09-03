@@ -15,10 +15,12 @@ class UploadHandler
 {
 	protected $options;
 
+	private $_folder='';
 	// Get folder
 	protected function folder() {
 		$path='/img/';
-		$folder=isset($_GET['folder'])?$_GET['folder'].'/':'';
+		if(isset($_GET['folder'])) $this->_folder=$_GET['folder'];
+		$folder=$this->_folder?$this->_folder.'/':'';
 		return $path.$folder;
 	}
 
@@ -266,6 +268,7 @@ class UploadHandler
 			.$this->get_query_separator($this->options['script_url'])
 			.$this->get_singular_param_name()
 			.'='.rawurlencode($file->name);
+		if($this->_folder) $file->folder=$this->_folder;
 		$file->deleteType = $this->options['delete_type'];
 		if ($file->deleteType !== 'DELETE') {
 			$file->deleteUrl .= '&_method=DELETE';
@@ -303,8 +306,8 @@ class UploadHandler
 		return false;
 	}
 
-	protected function get_file_object($file_name) {
-		if ($this->is_valid_file_object($file_name)) {
+	protected function get_file_object($file_name){
+		if ($this->is_valid_file_object($file_name)){
 			$file = new \stdClass();
 			$file->name = $file_name;
 			$file->size = $this->get_file_size(
@@ -312,7 +315,7 @@ class UploadHandler
 			);
 			$file->url = $this->get_download_url($file->name);
 			foreach($this->options['image_versions'] as $version => $options) {
-				if (!empty($version)) {
+				if (!empty($version)){
 					if (is_file($this->get_upload_path($file_name, $version))) {
 						$file->{$version.'Url'} = $this->get_download_url(
 							$file->name,
