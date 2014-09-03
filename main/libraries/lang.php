@@ -34,9 +34,17 @@ class Lang_lib extends TAG_librarie{
 		if(!in_array($actual,$languages)) $actual='en';
 		$this->_code=$actual;
 		#carga de traducciones
-		$lang=array();
-		include("language/$actual.php");
-		$lang=array_merge(@include("main/lang/en.php"),@include("main/lang/$actual.php"),$lang);
+		$lang=array_merge(
+			@include("main/lang/en.php"),
+			@include("language/en.php")
+		);
+		if($actual!='en'){
+			$lang=array_merge(
+				$lang,
+				@include("main/lang/$actual.php"),
+				@include("language/$actual.php")
+			);
+		}
 		$this->lang=$lang;
 	}
 	function code(){
@@ -44,5 +52,10 @@ class Lang_lib extends TAG_librarie{
 	}
 	function get($text='',$format=false){
 		return (isset($this->lang[$text])?$this->lang[$text]:$text);
+	}
+	function dump(){
+		echo '<pre>';
+		var_dump($this->lang);
+		echo '</pre>';
 	}
 }
