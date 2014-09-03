@@ -54,6 +54,7 @@ global \$lang;
 $array,
 
 );
+return \$lang;
 PHPLANG;
 			$file="language/$code.php";
 			echo "<br>$file ".(file_put_contents($file,$salida)?'done':'fail');
