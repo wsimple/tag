@@ -543,6 +543,7 @@
 		},
 
 		_initFormSettings: function (options) {
+			if(options.beforeSubmit) options.beforeSubmit.call(options,options.files[0],options);
 			// Retrieve missing options from the input field and the
 			// associated form, if available:
 			if (!options.form || !options.form.length) {
@@ -554,13 +555,9 @@
 				}
 			}
 			options.paramName = this._getParamName(options);
-            var tipo=options.originalFiles[0].type.split('/');
-            console.log(options);
-            if (tipo[0]==='video'){ options.url=options.url2; }
-            else if(tipo[0]==='image'){ options.url=options.url3; }
-			// if (!options.url) {
-			// 	options.url = options.form.prop('action') || location.href;
-			// }
+			if (!options.url) {
+				options.url = options.form.prop('action') || location.href;
+			}
 			// The HTTP request method must be "POST" or "PUT":
 			options.type = (options.type ||
 				($.type(options.form.prop('method')) === 'string' &&
@@ -797,6 +794,7 @@
 		},
 
 		_beforeSend: function (e, data) {
+			// console.log('before send. data:',this);
 			if (this._active === 0) {
 				// the start callback is triggered when an upload starts
 				// and no other uploads are currently running,
