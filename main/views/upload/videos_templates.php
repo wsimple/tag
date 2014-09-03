@@ -83,7 +83,9 @@
 $(function(){
 	'use strict';
 
-	var video={
+	var all_supported=/(\.|\/)(jpe?g|gif|png|mp4|flv|3gp|mov|ogg)$/i,
+		img_supported=/(\.|\/)(jpe?g|gif|png)$/i,
+		video={
 			url:'<?=$setting->video_server_path?>',
 			data:{code:'<?=$client->code?>'},
 		},
@@ -96,26 +98,24 @@ $(function(){
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
 		<?php //definimos la url antes de hacer submit, ya que manejamos varios servidores ?>
-		beforeSubmit:function(file){
-			console.log(this);
-			if(file.type.match(/(\.|\/)(jpe?g|gif|png)$/i)){
+		beforeSubmit:function(file,options){
+			if(file.type.match(img_supported)){
 				//servidor de imagenes
-				this.url=img.url;
-				this.formData=img.data;
+				options.url=img.url;
+				options.formData=img.data;
 			}else{
 				//servidor de videos
-				this.url=video.url;
-				this.formData=video.data;
+				options.url=video.url;
+				options.formData=video.data;
 			}
 		},
-		// acceptFileTypes:/(\.|\/)(mp4)$/i,
-		acceptFileTypes:/(\.|\/)(mp4|jpe?g|gif|png)$/i,
+		acceptFileTypes:all_supported,
 		maxFileSize:15000000,//15MB
 	});
 	// $('#fileuploadVideos').fileupload('option','url',url);
 	// console.log($('#fileuploadVideos').fileupload('option'));
 	//Load existing files:
-	$('#fileupload').addClass('fileupload-processing');
+	// $('#fileupload').addClass('fileupload-processing');
 	//lista de videos
 	$('#videoList').fileupload();
 	$.ajax({

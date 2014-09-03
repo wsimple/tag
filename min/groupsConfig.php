@@ -43,7 +43,8 @@ return array(
 		'//js/chosen.jquery.js',
 		'//js/apivimeo.js',
 		// 'http://www.youtube.com/iframe_api',
-		'//js/base.js'
+		'//js/base.js',
+		'//js/tmpl.min.js',
 	),
 	'css'=>array(
 		'//css/normalize.css',
@@ -51,6 +52,7 @@ return array(
 		'//css/jquery-ui-1.9.2.custom.css',
 		// '//css/jquery-ui-1.11.0.min.css',
 		'//css/jquery-ui.smt.css',
+		'//css/fileupload/bootstrap2.min.css',
 		'//css/farbtastic.css',
 		'//css/jquery.ui.selectmenu.css',
 		'//css/autocompleter.css',

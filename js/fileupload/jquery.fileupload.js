@@ -543,7 +543,7 @@
 		},
 
 		_initFormSettings: function (options) {
-			if(options.beforeSubmit) options.beforeSubmit.call(options,options.files[0],options);
+			if(options.beforeSubmit) options.beforeSubmit.call(this,options.files[0],options);
 			// Retrieve missing options from the input field and the
 			// associated form, if available:
 			if (!options.form || !options.form.length) {
