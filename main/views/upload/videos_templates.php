@@ -1,7 +1,57 @@
 <link rel="stylesheet" href="css/fileupload/style.css">
 <link rel="stylesheet" href="css/fileupload/jquery.fileupload.css">
 <link rel="stylesheet" href="css/fileupload/jquery.fileupload-ui.css">
-<div class="container">
+<style>
+	#tag-multime{
+		min-height: 50px;
+		width: 100%;
+		margin-bottom: 15px;
+		padding-top: 10px;
+		background-color: rgba(233,233,233,0.2);
+		-webkit-box-shadow: inset 1px 1px 0 rgba(233,233,233,0.1),inset 0 -1px 0 rgba(233,233,233,0.07);
+	}
+	#tag-multime div{
+		background: transparent;
+		border: none;
+		color: #222;
+		float: left;
+		height: 14px;
+		margin: 0 18px;
+		padding: 16px 4px 7px;
+	}
+	#tag-multime div:hover,
+	#tag-multime div.active{
+		background: transparent !important;
+		border-bottom: 2px solid #4d90fe;
+		border-left: 0;
+		border-right: 0;
+		border-top: 0;
+		color: #262626;
+		padding-bottom: 18px;
+	}
+	div#container-up #fileupload,
+	div#container-up #videoList,
+	div#container-up #imageList,
+	div#container-up #urlUpload{ display: none; }
+	#tag-multime div.active{ font-weight: bold; }
+	div#container-up.up #fileupload,
+	div#container-up.vid #videoList,
+	div#container-up.alt #imageList,
+	div#container-up.img #urlUpload{ display: block !important; }
+</style>
+<div class="container">	
+	<div id="urlUpload">
+		<div id="videosTag">
+			<label><?=NEWTAG_LBLVIDEO?>:</label><br>
+			<input style="text-align: left; width: 370px;height: 16px;" type="text" name="txtVideo" id="txtVideo" class="tag-text" requerido="video" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://" <?php if(NEWTAG_LBLVIDEO_TITLE!=""){?> title="<?=NEWTAG_LBLVIDEO_TITLE?>" <?php } else{}?>/>
+			<div id="vimeo">
+				<div id="running" class="warning-box dnone"><?=VIMEO_PREMIUM_VERIFY?><span class="loader"></span></div>
+				<div id="success" class="warning-box dnone"><?=VIMEO_PREMIUM_SUCCESS?></div>
+				<div id="error" class="error-box dnone"><?=VIMEO_PREMIUM_DAMAGED?></div>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
 	<!-- The file upload form used as target for the file upload widget -->
 	<form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
 		<!-- Redirect browsers with JavaScript disabled to the origin page -->
@@ -118,6 +168,11 @@ $(function(){
 	// $('#fileupload').addClass('fileupload-processing');
 	//lista de videos
 	$('#videoList').fileupload();
+	$('#tag-multime div').click(function(event) {
+		var id=$(this).attr('id').split('-');
+		$(this).parent().addClass(id).find('div').removeClass('active');
+		$(this).addClass('active');
+	});
 	$.ajax({
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
