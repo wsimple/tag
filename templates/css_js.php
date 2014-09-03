@@ -17,7 +17,7 @@
 <script>
 var BASEURL='<?=base_url()?>',
 	FILESERVER='<?=FILESERVER?>',
-	DOMINIO='<?=DOMINIO?>',
+	DOMINIO='//<?=$_SERVER['SERVER_NAME'].PATH_SITE?>',
 	SECTION='<?=$section?>',
 	ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>;
 if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localStorage.removeItem('logged');
