@@ -3,7 +3,7 @@ class Client_lib extends TAG_librarie{
 	private $user_id,$DATA;
 	function __construct($control=false){
 		parent::__construct($control);
-		$this->control->load_model('user');
+		$this->load->model('user');
 		session_start();
 		if($_SESSION['ws-tags']['ws-user']['id']!='')
 			$this->user_id=$_SESSION['ws-tags']['ws-user']['id'];

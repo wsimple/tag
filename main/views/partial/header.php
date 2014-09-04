@@ -369,7 +369,7 @@ $languages=$control->db->getObject('SELECT cod,name FROM languages');
 		</div>
 	</div>
 </menu>
-<div class="dnone" id="logindialog"><?php $control->view('partial/login'); ?></div>
+<div class="dnone" id="logindialog"><?php $control->load->view('partial/login'); ?></div>
 <script>
 	$(function(){
 		$('#lang_list').chosen({disableSearch:true, width:100});
