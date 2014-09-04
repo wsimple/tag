@@ -15,9 +15,12 @@ class UploadHandler
 {
 	protected $options;
 
+	private $_folder='',$_path='/videos/';
 	// Get folder
 	protected function folder() {
-		return '/pending/';
+		if(isset($_GET['folder'])) $this->_folder=$_GET['folder'];
+		$folder=$this->_folder?$this->_folder.'/':'';
+		return $this->_path.$folder;
 	}
 
 	// PHP File Upload error message codes:
