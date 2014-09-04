@@ -2,7 +2,7 @@
 img/*/
 language/
 img_server/img/*
-video_server/pending/*
+video_server/videos/pending/*/
 
 #security
 includes/security/*.php
