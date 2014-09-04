@@ -15,13 +15,12 @@ class UploadHandler
 {
 	protected $options;
 
-	private $_folder='';
+	private $_folder='',$_path='/img/';
 	// Get folder
 	protected function folder() {
-		$path='/img/';
 		if(isset($_GET['folder'])) $this->_folder=$_GET['folder'];
 		$folder=$this->_folder?$this->_folder.'/':'';
-		return $path.$folder;
+		return $this->_path.$folder;
 	}
 
 	// PHP File Upload error message codes:
