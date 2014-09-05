@@ -1033,6 +1033,7 @@ content.resendEmailPassword input[type='button']{
 	text-align:left;
 }
 .tag-container,
+.tag-container .template,
 .tag-container [tag],
 .tag-container [tag] .loader,
 .tag-container [tag] .minitag,
@@ -1043,6 +1044,7 @@ content.resendEmailPassword input[type='button']{
 	width:20.3125em;/*650px;*/
 	right: 0em;
 }
+.tag-container .template,
 .tag-container [tag] .loader,
 .tag-container [tag] .minitag,
 .tag-container [tag] .tag,
@@ -1055,6 +1057,7 @@ content.resendEmailPassword input[type='button']{
 .tag-container [tag] .bg{
 	position:relative;
 }
+.tag-container .template,
 .tag-container [tag] .loader,
 .tag-container [tag] .minitag,
 .tag-container [tag] .tag,
@@ -1065,12 +1068,18 @@ content.resendEmailPassword input[type='button']{
 .tag-container [tag] .loader{
 
 }
+.tag-container,
+.tag-container .template,
 .tag-container [tag] .minitag,
 .tag-container [tag] div.video,
 .tag-container [tag] .tag{
-	border-radius:0.875em;/*28px;*/
 	-moz-border-radius:0.875em;/*28px;*/
+	border-radius:0.875em;/*28px;*/
 	-webkit-border-radius:0.875em;/*28px;*/
+}
+.tag-container [tag] .minitag,
+.tag-container [tag] div.video,
+.tag-container [tag] .tag{
 	background-size:100% auto;
 	-moz-background-size:100% auto;
 	-webkit-background-size:100% auto;
@@ -1425,6 +1434,7 @@ content.resendEmailPassword input[type='button']{
 .tag-container.clean .tagLink,.tag-container.clean .profile,
 .tag-container.clean menu,.tag-container.clean .product
 { display:none; }
+.tag-container.noMenu,
 .tag-container.noMenu [tag]{
 	height:9.375em;
 }
