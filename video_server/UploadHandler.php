@@ -18,7 +18,7 @@ class UploadHandler
 	private $_folder='',$_path='/videos/';
 	// Get folder
 	protected function folder() {
-		if(isset($_GET['folder'])) $this->_folder=$_GET['folder'];
+		if(isset($_REQUEST['folder'])) $this->_folder=$_REQUEST['folder'];
 		$folder=$this->_folder?$this->_folder.'/':'';
 		return $this->_path.$folder;
 	}

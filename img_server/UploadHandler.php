@@ -18,7 +18,7 @@ class UploadHandler
 	private $_folder='',$_path='/img/';
 	// Get folder
 	protected function folder() {
-		if(isset($_GET['folder'])) $this->_folder=$_GET['folder'];
+		if(isset($_REQUEST['folder'])) $this->_folder=$_REQUEST['folder'];
 		$folder=$this->_folder?$this->_folder.'/':'';
 		return $this->_path.$folder;
 	}
@@ -1122,6 +1122,7 @@ class UploadHandler
 	protected function generate_response($content, $print_response = true) {
 		if ($print_response) {
 			$content['request']=$_REQUEST;
+			$content['folder']=$this->folder();
 			$json = json_encode($content);
 			$redirect = isset($_REQUEST['redirect']) ?
 				stripslashes($_REQUEST['redirect']) : null;
