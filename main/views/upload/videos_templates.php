@@ -200,6 +200,52 @@ $(function(){
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
 	});
+	$('#txtVideo').click(function(){
+		this.selectionStart=0;
+	});
+	var vc=0,sto;//vimeo counter ajax
+	$('#txtVideo').bind('change keyup',function(){
+		var that=this,URL=that.value;
+		console.log(URL);
+		if(URL.match(/^https?:\/\/vimeo\.com\/.+\/.+/)){
+			var $running=$('#vimeo #running'),
+				$success=$('#vimeo #success'),
+				$error=$('#vimeo #error');
+			function hideMsgs(){
+				if(sto) clearTimeout(sto);
+				sto=setTimeout(function(){
+					$success.fadeOut('slow');
+					$error.fadeOut('slow');
+				},3000);
+			}
+			pub=false;
+			$success.hide();
+			$error.hide();
+			if(!vc) $running.show();
+			vc++;
+			$.ajax({
+				url:'http://vimeo.com/api/oembed.json',
+				type:'GET',
+				data:{url:URL},
+				success:function(data){
+					if(that.value==URL){
+						that.value='http://vimeo.com/'+data['video_id'];
+						$success.show();
+						hideMsgs();
+					}
+				},
+				error:function(){
+					$error.show();
+					hideMsgs();
+				},
+				complete:function(){
+					vc--;
+					if(!vc) $running.hide();
+					pub=true;
+				}
+			});
+		}
+	}).trigger('change');
 	//lista de imagenes
 	$.ajax({
 		context:$('#imageList').first().fileupload(),
