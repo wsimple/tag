@@ -44,16 +44,13 @@
 	div#container-up.img #urlUpload{ display: block !important; }
 	div.upload.container{
 		width:750px;
-		height:350px;
+		min-height:350px;
 		margin: 0; 
 		padding: 0;
 		/*overflow-y:auto;*/
 	}
-	.col-lg-7{
-		width:100%;
-	}
 	.template-download .preview img{
-		width:300px;
+		width:650px;
 	}
 </style>
 <div class="upload-panel">
@@ -70,7 +67,7 @@
 		<noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
 		<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 		<div class="row fileupload-buttonbar">
-			<div class="col-lg-7">
+			<div>
 				<!-- The fileinput-button span is used to style the file input field as button -->
 				<span class="btn btn-success fileinput-button">
 					<i class="glyphicon glyphicon-plus"></i>
@@ -336,7 +333,11 @@ $(function(){
 		<td style="width:50%;">
 			<span class="preview" action="tag-template" data-url="{%=file.url%}" data-thumb="{%=file.thumbnailUrl%}">
 				{% if(file.thumbnailUrl){ %}
-					<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.url%}"></a>
+					<!--<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.url%}"></a>-->
+					<div class="tag-container noMenu">
+						<div class="template" style="background-image:url({%=file.url%})"></div>
+						<div tag></div>
+					</div>
 				{% }else if(file.url.match(/\.mp4$/i)){ %}
 					<video src="{%=file.url%}" controls></video>
 				{% } %}
