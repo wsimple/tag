@@ -98,13 +98,13 @@ if ($acceso){ ?>
 	</div>
 
 	<div id="newTagImput">
-		<div id="radio" style="margin:10px 0;height:24px;">
+		<!-- <div id="radio" style="margin:10px 0;height:24px;"> -->
 			<!--img src="css/smt/menu_left/settings.png" width="14" height="14" style="display:inline; margin-right: 4px;"-->
-			<div id="tourRadio" style="float:right;">
-				<input type="radio" id="radio1" name="radio" <?=$_SESSION['ws-tags']['ws-user']['view_creation_tag']==0?'checked="checked"':''?>/><label class="radio_view" for="radio2" style="float:right"><?=NEWTAG_VIEW_ADVANCE?></label>
-				<input type="radio" id="radio2" name="radio" <?=$_SESSION['ws-tags']['ws-user']['view_creation_tag']!=0?'checked="checked"':''?>/><label class="radio_view" for="radio1" style="float:right"><?=NEWTAG_VIEW_QUICK?></label>
-			</div>
-		</div>
+			<!-- <div id="tourRadio" style="float:right;"> -->
+				<!-- <input type="radio" id="radio1" name="radio" <?=$_SESSION['ws-tags']['ws-user']['view_creation_tag']==0?'checked="checked"':''?>/><label class="radio_view" for="radio2" style="float:right"><?=NEWTAG_VIEW_ADVANCE?></label> -->
+				<!-- <input type="radio" id="radio2" name="radio" <?=$_SESSION['ws-tags']['ws-user']['view_creation_tag']!=0?'checked="checked"':''?>/><label class="radio_view" for="radio1" style="float:right"><?=NEWTAG_VIEW_QUICK?></label> -->
+			<!-- </div> -->
+		<!-- </div> -->
 		<!-- <div id="inputShortMessage">
 			<div>
 				<input name="txtMsg" id="txtMsg" type="text" class="tag-text" placeholder="<?=NEWTAG_LBLTEXT?>" value="<?=$tag['text']?>" />
@@ -149,31 +149,19 @@ if ($acceso){ ?>
 		
 		<div id="BackgroundAndVideo">
 			<div id="backgroundsTag">
-				<label><?=NEWTAG_LBLBACKGROUND?>:</label><br>
-				<div id="bgSelect"></div>
+				<!-- <label><?=NEWTAG_LBLBACKGROUND?>:</label><br> -->
+				<!-- <div id="bgSelect"></div> -->
+				<input id="bgAndVideo" type="button" value="<?='Imagen/Video'?>"/>
 			</div>
 			<?php
 				$privateTag=($group==''&&$_GET['product']==''&&$status!=9&&$idTag=='');
 				if($privateTag){
 			?>
 			<div id="PublicPrivate" style="float: left;margin-top: 10px;margin-right: 10px;">
-				<label style="font-weight: bold">Privacy:</label><br>
-				<select title="<?=NEWTAG_SHARETAGONLY_TITLE?>" name="showPublicPrivate" id="showPublicPrivate">
-					<option value="1"><?=NEWTAG_SELECTPUBLICTAG?></option>
-					<option value="4"><?=NEWTAG_SELECTPRIVATETAG?></option>
-				</select>
-				<script>
-					$('#showPublicPrivate').change(function(){
-						$('#status').val(this.value);
-						if (this.value==1)
-							$('#showOrHideCboPeople').fadeOut(600);
-						else
-							$('#showOrHideCboPeople').fadeIn(600).css({'display':'inline-block','margin-top':'15px'});
-					});
-				</script>
+				<input id="showPrivacy" type="button" value="<?='Show Privacy'?>"/>
 			</div>
 			<?php } ?>
-			<div id="videosTag">
+			<!-- <div id="videosTag">
 				<label><?=NEWTAG_LBLVIDEO?>:</label><br>
 				<input style="text-align: left; width: 370px;height: 16px;" type="text" name="txtVideo" id="txtVideo" class="tag-text" requerido="video" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://" <?php if(NEWTAG_LBLVIDEO_TITLE!=""){?> title="<?=NEWTAG_LBLVIDEO_TITLE?>" <?php } else{}?>/>
 				<div id="vimeo">
@@ -181,14 +169,24 @@ if ($acceso){ ?>
 					<div id="success" class="warning-box dnone"><?=VIMEO_PREMIUM_SUCCESS?></div>
 					<div id="error" class="error-box dnone"><?=VIMEO_PREMIUM_DAMAGED?></div>
 				</div>
-			</div>
+			</div -->
 
 		</div>
-
+		<?php if($privateTag){ ?>
 		<div id="showOrHideCboPeople" style=" display:none">
-			<label class="label_tags_views" style="width:200px" for="cboPeoples" <?php if(NEWTAG_SHARETAGONLY_HELP!=""){?> title="<?=NEWTAG_SHARETAGONLY_HELP?>" <?php } else{}?>><?=NEWTAG_SHARETAGONLY?>:</label>
-			<select name="cboPeoples" id="cboPeoples"></select>
+			<div id="PublicPrivate" style="float: left;margin-top: 10px;margin-right: 10px;">
+				<label style="font-weight: bold">Privacy:</label><br>
+				<select title="<?=NEWTAG_SHARETAGONLY_TITLE?>" name="showPublicPrivate" id="showPublicPrivate">
+					<option value="1"><?=NEWTAG_SELECTPUBLICTAG?></option>
+					<option value="4"><?=NEWTAG_SELECTPRIVATETAG?></option>
+				</select>
+			</div>
+			<div id="divcboPeoples" style="display:none;">
+				<label class="label_tags_views" style="width:200px" for="cboPeoples" <?php if(NEWTAG_SHARETAGONLY_HELP!=""){?> title="<?=NEWTAG_SHARETAGONLY_HELP?>" <?php } else{}?>><?=NEWTAG_SHARETAGONLY?>:</label>
+				<select name="cboPeoples" id="cboPeoples"></select>
+			</div>
 		</div>
+		<?php } ?>
 		<div class="clearfix"></div>
 		<div id="ButtonPrev_publish">
 			<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){//NEXT LINE IS THE FILE-CHOOSER ?>
@@ -212,6 +210,7 @@ if ($acceso){ ?>
 </div>
 <script type="text/javascript">
 $(function(){
+	var pub=true,bgd="<?=$tag['background']?$tag['background']:''?>";
 	$("#hiddenColorDiv").hover(function() {
 		var value = $("#hiddenColor").val();
 		 $("#txtMsg").css('color',value);
@@ -228,7 +227,6 @@ $(function(){
 	});
 
 	$('[title]').tipsy({html:true,gravity:'n'});
-	var pub=true;//activa y desactiva las acciones
 	$('.topBanner').remove();
 	$('#radio').buttonset();
 	function setType(type){$('#type').val(type||'<?=$idPage?>');}
@@ -237,23 +235,95 @@ $(function(){
 		var url=FILESERVER+'img/templates/'+img;
 		$('#bckSelected').css('background-image','url('+url+')');
 	}
-	function selectBG(){
-		$('#bgSelect').empty().html(
-			'<select>'+
-				'<option value="...">...</option>'+
-				'<option value="file"><?=NEWTAG_UPLOADBACKGROUND?></option>'+
-				'<option value="archive"><?=NEWTAG_SELECTBACKGROUND?></option>'+
-			'</select>'
-		);
-//		$('#bgSelect select').selectmenu({
-//			menuWidth:180,
-//				width:180
-//		});
-		$('#bgSelect select').chosen({disableSearch:true,width:120});
+	if ($('#showPublicPrivate').length>0){ //acciones privacidad
+		$('#showPublicPrivate').chosen({disableSearch:true,width:120});
+		$('#showPrivacy').click(function(event) {
+			if($(this).attr('act')==1){
+				$('#showOrHideCboPeople').show();
+				$(this).attr('act',2).val('Hide Privacy');
+			}else{
+				$('#showOrHideCboPeople').hide();
+				$(this).attr('act',1).val('Show Privacy');
+			}
+		});
+		$('#showPublicPrivate').change(function(){
+			$('#status').val(this.value);
+			if (this.value==1) $('#divcboPeoples').fadeOut(600);
+			else $('#divcboPeoples').fadeIn(600).css({'display':'inline-block','margin-top':'15px'});
+		});
 	}
+	$('#bgAndVideo').click(function(event) {
+		$.dialog({
+			title:'Preview',
+			resizable:false,
+			width:820,
+			height:600,
+			modal:true,
+			open:function(){ $(this).load('upload/videos_templates/dialog'); }
+			// ,buttons:{
+			// 	'<?=JS_CANCEL?>':function(){
+			// 		if(pub){
+			// 			$(this).dialog('close');
+			// 			redirTo();
+			// 		}
+			// 	},
+			// 	'<?=JS_CHANGE?>':function(){
+			// 		if(pub){
+			// 			$(this).dialog('close');
+			// 		}
+			// 	},
+			// 	'<?=JS_PUBLISH?>':function(){
+			// 		if(pub){
+			// 			$(this).dialog('close');
+			// 			$('#formTags').submit();
+			// 		}
+			// 	}//click publish
+			// }
+		});
+	});
+
+/*******************************************************************************/ 
+// selectBG();
+// 	function selectBG(){
+// 		$('#bgSelect').empty().html(
+// 			'<select>'+
+// 				'<option value="...">...</option>'+
+// 				'<option value="file"><?=NEWTAG_UPLOADBACKGROUND?></option>'+
+// 				'<option value="archive"><?=NEWTAG_SELECTBACKGROUND?></option>'+
+// 			'</select>'
+// 		);
+// //		$('#bgSelect select').selectmenu({
+// //			menuWidth:180,
+// //				width:180
+// //		});
+// 		$('#bgSelect select').chosen({disableSearch:true,width:120});
+// 	}
+// $('#bgSelect').on('change','select',function(){
+// 	console.log(this.value);
+// 	if(this.value=='file'){
+// 		$('#fileUpload input').click();
+// 	}else if(this.value=='archive'){
+// 		$.dialog({
+// 			id:'#dialogBck',
+// 			title:"<?=NEWTAG_SELECTEBCKTAG?>",
+// 			resizable:false,
+// 			width:584,
+// 			height:500,
+// 			modal:true,
+// 			open:function(){
+// 				$(this).load('views/tags/new/templates.view.php');
+// 			},
+// 			close:function(){
+// 				$(this).empty();
+// 			}
+// 		});
+// 	}
+// 	selectBG();
+// });
+/**************************************************************/ 
+
 	setType();//default
-	setBG('<?=$tag['background']?>');
-	selectBG();
+	if (bgd!=''){ setBG(); }
 
 	function redirTo(){
 		<?php if($personal){//if personal tag ?>
@@ -312,53 +382,6 @@ $(function(){
 			}
 		});
 	}
-	$('#txtVideo').click(function(){
-		this.selectionStart=0;
-	});
-	var vc=0,sto;//vimeo counter ajax
-	$('#txtVideo').bind('change keyup',function(){
-		var that=this,URL=that.value;
-		console.log(URL);
-		if(URL.match(/^https?:\/\/vimeo\.com\/.+\/.+/)){
-			var $running=$('#vimeo #running'),
-				$success=$('#vimeo #success'),
-				$error=$('#vimeo #error');
-			function hideMsgs(){
-				if(sto) clearTimeout(sto);
-				sto=setTimeout(function(){
-					$success.fadeOut('slow');
-					$error.fadeOut('slow');
-				},3000);
-			}
-			pub=false;
-			$success.hide();
-			$error.hide();
-			if(!vc) $running.show();
-			vc++;
-			$.ajax({
-				url:'http://vimeo.com/api/oembed.json',
-				type:'GET',
-				data:{url:URL},
-				success:function(data){
-					if(that.value==URL){
-						that.value='http://vimeo.com/'+data['video_id'];
-						$success.show();
-						hideMsgs();
-					}
-				},
-				error:function(){
-					$error.show();
-					hideMsgs();
-				},
-				complete:function(){
-					vc--;
-					if(!vc) $running.hide();
-					pub=true;
-				}
-			});
-		}
-	}).trigger('change');
-
 	var $advanced=$('#inputLongMessage,#PublicPrivate,#videosTag label,#txtVideo'),
 		$data=$advanced.find('input,textarea');
 	$('#radio1').click(function(){//esconder
@@ -408,7 +431,6 @@ $(function(){
 		warnAt:10,//optional: integer [defaults 0]
 		stopAtLimit:true //optional: defaults to false
 	});
-	$('#showPublicPrivate').chosen({disableSearch:true,width:120});
 //	$('#showPublicPrivate').selectmenu({
 //		menuWidth:200,
 //			width:200
@@ -426,28 +448,6 @@ $(function(){
 	<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
 		//$('#photo').customFileInput();
 	<?php } ?>
-	$('#bgSelect').on('change','select',function(){
-		console.log(this.value);
-		if(this.value=='file'){
-			$('#fileUpload input').click();
-		}else if(this.value=='archive'){
-			$.dialog({
-				id:'#dialogBck',
-				title:"<?=NEWTAG_SELECTEBCKTAG?>",
-				resizable:false,
-				width:584,
-				height:500,
-				modal:true,
-				open:function(){
-					$(this).load('views/tags/new/templates.view.php');
-				},
-				close:function(){
-					$(this).empty();
-				}
-			});
-		}
-		selectBG();
-	});
 	$('#fileUpload').on('change','input',function(){ // boton de preview
 		$('#fileUploadText').html('<span>Uploading file. Wait a moment...</span> <img src="css/smt/loader.gif" />').show();
 		setType('uploadfile');
