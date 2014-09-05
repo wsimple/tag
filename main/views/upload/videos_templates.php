@@ -52,6 +52,23 @@
 	.template-download .preview img{
 		width:650px;
 	}
+	#loadPreview{
+		border-color: #e9e9e9 #e9eaed #d1d1d1;
+		width: 100%;
+	}
+	#loadPreview div.onPreview{
+		border: 1px #e8e8e8 solid;
+		height: 180px;
+		padding: 2px;
+		margin: 2px;
+	}
+	#loadPreview div.onPreview .video{
+		float: left;
+		height: 180px;
+		overflow: hidden;
+		width: 46%;
+		background-color: black;
+	}
 </style>
 <div class="upload-panel">
 <div class="upload-menu">
@@ -107,11 +124,13 @@
 		<div id="videosTag">
 			<label><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
 			<input type="text" name="txtVideo" style="width: 600px" id="txtVideo" class="tag-text" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://"<?php if($lang->get('NEWTAG_LBLVIDEO_TITLE')!=""){?> title="<?=$lang->get('NEWTAG_LBLVIDEO_TITLE')?>" <?php }else{}?>/>
-			<div id="vimeo">
-				<div id="running" class="warning-box dnone"><?=$lang->get('VIMEO_PREMIUM_VERIFY')?><span class="loader"></span></div>
-				<div id="success" class="warning-box dnone"><?=$lang->get('VIMEO_PREMIUM_SUCCESS')?></div>
-				<div id="error" class="error-box dnone"><?=$lang->get('VIMEO_PREMIUM_DAMAGED')?></div>
-			</div>
+			<div id="loadPreview"></div>
+
+			<!-- <div id="vimeo"> -->
+				<!-- <div id="running" class="warning-box dnone"><?=$lang->get('VIMEO_PREMIUM_VERIFY')?><span class="loader"></span></div> -->
+				<!-- <div id="success" class="warning-box dnone"><?=$lang->get('VIMEO_PREMIUM_SUCCESS')?></div> -->
+				<!-- <div id="error" class="error-box dnone"><?=$lang->get('VIMEO_PREMIUM_DAMAGED')?></div> -->
+			<!-- </div> -->
 		</div>
 	</div>
 	<form id="imageList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
@@ -203,44 +222,30 @@ $(function(){
 	$('#txtVideo').on('blur',function(){
 		var that=this,URL=that.value;
 		console.log(URL);
-		if(URL.match(/^https?:\/\/vimeo\.com\/.+\/.+/)){
-			console.log('aqui');
-			// var $running=$('#vimeo #running'),
-			// 	$success=$('#vimeo #success'),
-			// 	$error=$('#vimeo #error');
-			// function hideMsgs(){
-			// 	if(sto) clearTimeout(sto);
-			// 	sto=setTimeout(function(){
-			// 		$success.fadeOut('slow');
-			// 		$error.fadeOut('slow');
-			// 	},3000);
-			// }
-			// pub=false;
-			// $success.hide();
-			// $error.hide();
-			// if(!vc) $running.show();
-			// vc++;
-			// $.ajax({
-			// 	url:'http://vimeo.com/api/oembed.json',
-			// 	type:'GET',
-			// 	data:{url:URL},
-			// 	success:function(data){
-			// 		if(that.value==URL){
-			// 			that.value='http://vimeo.com/'+data['video_id'];
-			// 			$success.show();
-			// 			hideMsgs();
-			// 		}
-			// 	},
-			// 	error:function(){
-			// 		$error.show();
-			// 		hideMsgs();
-			// 	},
-			// 	complete:function(){
-			// 		vc--;
-			// 		if(!vc) $running.hide();
-			// 		pub=true;
-			// 	}
-			// });
+		if (URL!='' && URL!='http://'){
+			$.ajax({
+				url:'video/validate/1',
+				type:'POST',
+				dataType:'json',
+				data:{thisvideo:URL},
+				success:function(data){
+					if (data['success']){
+						var vid=false;
+						switch(data['type']){
+							case 'youtube': 
+								vid='v'+Math.random();
+								video='<div id="'+vid+'" width="319" height="180" data-src="'+data['urlV']+'" class="ytplayer"></div>';
+							break;
+							case 'vimeo': video='<iframe src="'+data['urlV']+'" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'; break;
+						}					
+						$('#loadPreview').append('<div class="onPreview"><div class="video">'+video+'</div></div>');
+						if (vid) iniallYoutube();
+					}
+				},
+				complete:function(){
+				
+				}
+			});
 		}
 	});
 	//lista de imagenes
