@@ -45,7 +45,9 @@
 	div.upload.container{
 		width:750px;
 		height:350px;
-		overflow-x:auto;
+		margin: 0; 
+		padding: 0;
+		/*overflow-y:auto;*/
 	}
 	.col-lg-7{
 		width:100%;
@@ -288,7 +290,7 @@ $(function(){
 		<td style="width:50%;">
 			<span class="preview" action="tag-template" data-url="{%=file.url%}" data-thumb="{%=file.thumbnailUrl%}">
 				{% if(file.thumbnailUrl){ %}
-					<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+					<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.url%}"></a>
 				{% }else if(file.url.match(/\.mp4$/i)){ %}
 					<video src="{%=file.url%}" controls></video>
 				{% } %}
