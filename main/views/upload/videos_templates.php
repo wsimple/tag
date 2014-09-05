@@ -21,10 +21,11 @@
 		height: 14px;
 		margin: 0 18px;
 		padding: 16px 4px 7px;
+		cursor:pointer;
 	}
 	.upload-menu div:hover,
 	.upload-menu div.active{
-		background: transparent !important;
+		background: transparent;
 		border-bottom: 2px solid #4d90fe;
 		border-left: 0;
 		border-right: 0;
@@ -48,6 +49,9 @@
 	}
 	.col-lg-7{
 		width:100%;
+	}
+	.template-download .preview{
+		width:150px;
 	}
 </style>
 <div class="upload-panel">
@@ -279,10 +283,10 @@ $(function(){
 		return '&code=<?=$client->code?>';
 	}
 }; %}
-{% for(var i=0,file; file=o.files[i]; i++){ %}
+{% for(var i=0,file;file=o.files[i];i++){ %}
 	<tr class="template-download fade">
 		<td style="width:50%;">
-			<span class="preview" action="tag-template" data-url="{%=file.url%}">
+			<span class="preview" action="tag-template" data-url="{%=file.url%}" data-thumb="{%=file.thumbnailUrl%}">
 				{% if(file.thumbnailUrl){ %}
 					<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
 				{% }else if(file.url.match(/\.mp4$/i)){ %}
