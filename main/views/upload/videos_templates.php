@@ -52,8 +52,8 @@
 	.col-lg-7{
 		width:100%;
 	}
-	.template-download .preview{
-		width:150px;
+	.template-download .preview img{
+		width:300px;
 	}
 </style>
 <div class="upload-panel">
