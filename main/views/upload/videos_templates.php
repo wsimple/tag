@@ -108,8 +108,8 @@
 	</form>
 	<div id="videoLink" class="dnone">
 		<div id="videosTag">
-			<label><?=$lang->get('Video Link')?>:</label><br>
-			<input style="text-align:left;width:370px;height:16px;" type="text" name="txtVideo" id="txtVideo" class="tag-text" requerido="video" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://"<?php if($lang->get('NEWTAG_LBLVIDEO_TITLE')!=""){?> title="<?=$lang->get('NEWTAG_LBLVIDEO_TITLE')?>" <?php }else{}?>/>
+			<label><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
+			<input type="text" name="txtVideo" style="width: 600px" id="txtVideo" class="tag-text" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://"<?php if($lang->get('NEWTAG_LBLVIDEO_TITLE')!=""){?> title="<?=$lang->get('NEWTAG_LBLVIDEO_TITLE')?>" <?php }else{}?>/>
 			<div id="vimeo">
 				<div id="running" class="warning-box dnone"><?=$lang->get('VIMEO_PREMIUM_VERIFY')?><span class="loader"></span></div>
 				<div id="success" class="warning-box dnone"><?=$lang->get('VIMEO_PREMIUM_SUCCESS')?></div>
@@ -203,49 +203,49 @@ $(function(){
 	$('#txtVideo').click(function(){
 		this.selectionStart=0;
 	});
-	var vc=0,sto;//vimeo counter ajax
-	$('#txtVideo').bind('change keyup',function(){
+	$('#txtVideo').on('blur',function(){
 		var that=this,URL=that.value;
 		console.log(URL);
 		if(URL.match(/^https?:\/\/vimeo\.com\/.+\/.+/)){
-			var $running=$('#vimeo #running'),
-				$success=$('#vimeo #success'),
-				$error=$('#vimeo #error');
-			function hideMsgs(){
-				if(sto) clearTimeout(sto);
-				sto=setTimeout(function(){
-					$success.fadeOut('slow');
-					$error.fadeOut('slow');
-				},3000);
-			}
-			pub=false;
-			$success.hide();
-			$error.hide();
-			if(!vc) $running.show();
-			vc++;
-			$.ajax({
-				url:'http://vimeo.com/api/oembed.json',
-				type:'GET',
-				data:{url:URL},
-				success:function(data){
-					if(that.value==URL){
-						that.value='http://vimeo.com/'+data['video_id'];
-						$success.show();
-						hideMsgs();
-					}
-				},
-				error:function(){
-					$error.show();
-					hideMsgs();
-				},
-				complete:function(){
-					vc--;
-					if(!vc) $running.hide();
-					pub=true;
-				}
-			});
+			console.log('aqui');
+			// var $running=$('#vimeo #running'),
+			// 	$success=$('#vimeo #success'),
+			// 	$error=$('#vimeo #error');
+			// function hideMsgs(){
+			// 	if(sto) clearTimeout(sto);
+			// 	sto=setTimeout(function(){
+			// 		$success.fadeOut('slow');
+			// 		$error.fadeOut('slow');
+			// 	},3000);
+			// }
+			// pub=false;
+			// $success.hide();
+			// $error.hide();
+			// if(!vc) $running.show();
+			// vc++;
+			// $.ajax({
+			// 	url:'http://vimeo.com/api/oembed.json',
+			// 	type:'GET',
+			// 	data:{url:URL},
+			// 	success:function(data){
+			// 		if(that.value==URL){
+			// 			that.value='http://vimeo.com/'+data['video_id'];
+			// 			$success.show();
+			// 			hideMsgs();
+			// 		}
+			// 	},
+			// 	error:function(){
+			// 		$error.show();
+			// 		hideMsgs();
+			// 	},
+			// 	complete:function(){
+			// 		vc--;
+			// 		if(!vc) $running.hide();
+			// 		pub=true;
+			// 	}
+			// });
 		}
-	}).trigger('change');
+	});
 	//lista de imagenes
 	$.ajax({
 		context:$('#imageList').first().fileupload(),
