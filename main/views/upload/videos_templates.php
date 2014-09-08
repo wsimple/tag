@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="css/fileupload/jquery.fileupload.css">
 <link rel="stylesheet" href="css/fileupload/jquery.fileupload-ui.css">
 <style>
-	.upload-panel{
+	.upload-panel.tag{
 		width:750px;
 	}
 	.upload-menu{
@@ -63,36 +63,36 @@
 		position: relative;
 		z-index: 500;
 	}
-	.upload-panel .table[role="presentation"] td.download>div,
-	.upload-panel .table[role="presentation"] td.upload>div{
+	.upload-panel.tag .table[role="presentation"] td.download>div,
+	.upload-panel.tag .table[role="presentation"] td.upload>div{
 		float:left;
 		margin:5px;
 		text-align:center;
 	}
-	.upload-panel .table[role="presentation"] td.upload>div:first-child{
+	.upload-panel.tag .table[role="presentation"] td.upload>div:first-child{
 		width:350px;
 	}
-	.upload-panel .table[role="presentation"] td.upload>div:nth-child(2){
+	.upload-panel.tag .table[role="presentation"] td.upload>div:nth-child(2){
 		width:120px;
 	}
-	.upload-panel .table[role="presentation"] td.upload>div:last-child{
+	.upload-panel.tag .table[role="presentation"] td.upload>div:last-child{
 		width:230px;
 	}
-	.upload-panel .table[role="presentation"] td.download>div:first-child{
+	.upload-panel.tag .table[role="presentation"] td.download>div:first-child{
 		width:650px;
 	}
-	.upload-panel .table[role="presentation"] td.download>div:last-child{
+	.upload-panel.tag .table[role="presentation"] td.download>div:last-child{
 		width:60px;
 	}
-	.upload-panel td.upload video{
+	.upload-panel.tag td.upload video{
 		max-width:340px;
 	}
-	.upload-panel td.download video{
+	.upload-panel.tag td.download video{
 		max-width:650px;
 		width:650px;
 	}
 </style>
-<div class="upload-panel">
+<div class="upload-panel tag">
 <div class="upload-menu">
 	<div data-container="#fileupload" class="active"><?=$lang->get('Upload file')?></div>
 	<div data-container="#videoLink"><?=$lang->get('Youtube/Vimeo Videos')?></div>
