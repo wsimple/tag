@@ -182,6 +182,7 @@ $(function(){
 
 	var all_supported=/(\.|\/)(jpe?g|gif|png|mp4|flv|3gp|mov|ogg)$/i,
 		img_supported=/(\.|\/)(jpe?g|gif|png)$/i,
+		only_views={dropZone:null},
 		video={
 			url:'<?=$setting->video_server_path?>',
 			data:{code:'<?=$client->code?>'},
@@ -265,7 +266,7 @@ $(function(){
 
 	//lista de imagenes
 	$.ajax({
-		context:$('#imageList').first().fileupload(),
+		context:$('#imageList').first().fileupload(only_views),
 		url:img.url,
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
@@ -279,7 +280,7 @@ $(function(){
 	});
 	//lista de videos
 	$.ajax({
-		context:$('#videoList').first().fileupload(),
+		context:$('#videoList').first().fileupload(only_views),
 		url:video.url,
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
@@ -293,7 +294,7 @@ $(function(){
 	});
 	//lista de videos pendientes
 	$.ajax({
-		context:$('#pendingVideoList').first().fileupload(),
+		context:$('#pendingVideoList').first().fileupload(only_views),
 		url:video.url,
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
@@ -306,6 +307,13 @@ $(function(){
 		$(this).fileupload('option','done')
 			.call(this,$.Event('done'),{result:result});
 	});
+	$(document).off('.fileupload').on('dragover.fileupload',function(){
+		if($('#fileupload').length>0){
+			$('[data-container="#fileupload"]').click();
+		}else{
+			$(this).off('.fileupload');
+		}
+	})
 });
 </script>
 <!-- Teplates -->
@@ -314,22 +322,22 @@ $(function(){
 {% console.log(o.files); %}
 {% for(var i=0,file;file=o.files[i];i++){ %}
 	<tr class="template-upload fade">
-		<td style="width:50%;">
+		<td style="width:40%;">
 			<span class="preview"></span>
 			<strong class="error text-danger"></strong>
 		</td>
-		<td>
+		<td style="width:30%;">
 			<p class="size">Processing...</p>
 			<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
 		</td>
-		<td style="width:25%;">
-			{% if (!i && !o.options.autoUpload) { %}
+		<td style="width:30%;" colspan="2">
+			{% if(!i&&!o.options.autoUpload){ %}
 				<button class="btn btn-primary start" disabled>
 					<i class="glyphicon glyphicon-upload"></i>
 					<span><?=$lang->get('Start')?></span>
 				</button>
 			{% } %}
-			{% if (!i) { %}
+			{% if(!i){ %}
 				<button class="btn btn-warning cancel">
 					<i class="glyphicon glyphicon-ban-circle"></i>
 					<span><?=$lang->get('Cancel')?></span>
@@ -350,11 +358,11 @@ $(function(){
 }; %}
 {% for(var i=0,file;file=o.files[i];i++){ %}
 	<tr class="template-download fade">
-		<td style="width:50%;">
+		<td style="width:87%;" colspan="3">
 			<span class="preview" action="tag-template" data-url="{%=file.url%}" data-thumb="{%=file.thumbnailUrl%}">
 				{% if(file.thumbnailUrl){ %}
 					<!--<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.url%}"></a>-->
-					<div class="tag-container noMenu">
+					<div class="tag-container noMenu" action="tag/bgselect" data-url="{%=file.url%}">
 						<div class="template" style="background-image:url({%=file.url%})"></div>
 						<div tag></div>
 					</div>
@@ -367,16 +375,13 @@ $(function(){
 				<div><span class="label label-danger">Error</span> {%=file.error%}</div>
 			{% } %}
 		</td>
-		<td style="width:25%;">
-			<span class="size"></span>
-		</td>
-		<td>
+		<td style="width:13%;">
 			{% if(file.deleteUrl){ %}
 				<button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
 					{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
 					data-url="{%=file.deleteUrl+o.get(file.name)%}">
 					<i class="glyphicon glyphicon-trash"></i>
-					<span><?=$lang->get('Delete')?></span>
+					<span><?=''//$lang->get('Delete')?></span>
 				</button>
 				<input type="checkbox" name="delete" value="1" class="toggle">
 			{% }else{ %}
