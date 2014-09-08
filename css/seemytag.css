@@ -1032,6 +1032,9 @@ content.resendEmailPassword input[type='button']{
 	margin:0 0 0.313em;/*0 0 10px;*/
 	text-align:left;
 }
+.tag-container .template{
+	background-position:0px center;
+}
 .tag-container,
 .tag-container .template,
 .tag-container [tag],
