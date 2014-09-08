@@ -14,7 +14,7 @@ $minify=!$setting->local&&!$control->is_debug('minify');
 		<meta HTTP-EQUIV="REFRESH" content="10;url=.?<?=end(explode('?',$_SERVER['REQUEST_URI']))?>">
 	<?php } ?>
 	<?php if(preg_match('/msie [6-8]/i',$_SERVER['HTTP_USER_AGENT'])&&preg_match('/chromeframe/i',$_SERVER['HTTP_USER_AGENT'])) { ?>
-	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="chrome=1"/>
 	<?php } ?>
 	<link rel="apple-touch-startup-image" href="css/smt/main_bg.png"/>
 	<link rel="icon" href="css/smt/icon.png" type="image/png"/>
@@ -30,7 +30,15 @@ $minify=!$setting->local&&!$control->is_debug('minify');
 	<link rel="apple-touch-icon" href="css/smt/icon.png"/>
 	<script>
 	<?php if(!$client->is_logged){ ?>'localStorage' in window && localStorage.removeItem('logged');<?php } ?>
-	var BASEURL='./',FILESERVER='<?=$setting->img_server?>',DOMINIO='<?=$setting->dominio?>',SECTION='<?=$location->section?>',ISLOGGED=<?=$client->is_logged?'true':'false'?>;
+	var BASEURL='./',
+		FILESERVER='<?=$setting->img_server?>',
+		DOMINIO='<?=$setting->dominio?>',
+		SECTION='<?=$location->section?>',
+		SERVERS={
+			img:'<?=$location->img_server?>',
+			video:'<?=$location->video_server?>'
+		},
+		ISLOGGED=<?=$client->is_logged?'true':'false'?>;
 	</script>
 	<script src="min/?f=js/language_<?=$lang->code()?>.js" charset="utf-8"></script>
 	<?php if($minify){ ?>
