@@ -61,7 +61,6 @@
 		_videoElement: document.createElement('video'),
 
 		processActions: {
-
 			// Loads the video file given via data.files and data.index
 			// as video element if the browser supports playing it.
 			// Accepts the options fileTypes (regular expression)
@@ -90,7 +89,6 @@
 				}
 				return data;
 			},
-
 			// Sets the video element as a property of the file object:
 			setVideo: function (data, options) {
 				if (data.video && !options.disabled) {
@@ -98,9 +96,6 @@
 				}
 				return data;
 			}
-
 		}
-
 	});
-
 }));

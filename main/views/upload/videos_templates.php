@@ -63,6 +63,34 @@
 		position: relative;
 		z-index: 500;
 	}
+	.upload-panel .table[role="presentation"] td.download>div,
+	.upload-panel .table[role="presentation"] td.upload>div{
+		float:left;
+		margin:5px;
+		text-align:center;
+	}
+	.upload-panel .table[role="presentation"] td.upload>div:first-child{
+		width:350px;
+	}
+	.upload-panel .table[role="presentation"] td.upload>div:nth-child(2){
+		width:120px;
+	}
+	.upload-panel .table[role="presentation"] td.upload>div:last-child{
+		width:230px;
+	}
+	.upload-panel .table[role="presentation"] td.download>div:first-child{
+		width:650px;
+	}
+	.upload-panel .table[role="presentation"] td.download>div:last-child{
+		width:60px;
+	}
+	.upload-panel td.upload video{
+		max-width:340px;
+	}
+	.upload-panel td.download video{
+		max-width:650px;
+		width:650px;
+	}
 </style>
 <div class="upload-panel">
 <div class="upload-menu">
@@ -108,7 +136,7 @@
 					<div class="progress-bar progress-bar-success" style="width:0%;"></div>
 				</div>
 				<!-- The extended global progress state -->
-				<div class="progress-extended tag-container">&nbsp;</div>
+				<div class="progress-extended">&nbsp;</div>
 			</div>
 		</div>
 		<!-- The table listing the files available for upload/download -->
@@ -322,6 +350,37 @@ $(function(){
 {% console.log(o.files); %}
 {% for(var i=0,file;file=o.files[i];i++){ %}
 	<tr class="template-upload fade">
+		<td class="upload">
+			<div>
+				<span class="preview"></span>
+				<strong class="error text-danger"></strong>
+			</div>
+			<div>
+				<p class="size">Processing...</p>
+				<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+			</div>
+			<div>
+				{% if(!i&&!o.options.autoUpload){ %}
+					<button class="btn btn-primary start" disabled>
+						<i class="glyphicon glyphicon-upload"></i>
+						<span><?=$lang->get('Start')?></span>
+					</button>
+				{% } %}
+				{% if(!i){ %}
+					<button class="btn btn-warning cancel">
+						<i class="glyphicon glyphicon-ban-circle"></i>
+						<span><?=$lang->get('Cancel')?></span>
+					</button>
+				{% } %}
+			</div>
+		</td>
+	</tr>
+{% } %}
+</script>
+<script id="template-upload-old" type="text/x-tmpl">
+{% console.log(o.files); %}
+{% for(var i=0,file;file=o.files[i];i++){ %}
+	<tr class="template-upload fade">
 		<td style="width:40%;">
 			<span class="preview"></span>
 			<strong class="error text-danger"></strong>
@@ -358,10 +417,56 @@ $(function(){
 }; %}
 {% for(var i=0,file;file=o.files[i];i++){ %}
 	<tr class="template-download fade">
+		<td class="download">
+			<div>
+				<span class="preview" data-thumb="{%=file.thumbnailUrl%}">
+					{% if(file.thumbnailUrl){ %}
+						<div class="tag-container noMenu" action="tag/bgselect" data-url="{%=file.url%}">
+							<div class="template" style="background-image:url({%=file.url%})"></div>
+							<div tag></div>
+						</div>
+					{% }else if(file.url.match(/\.mp4$/i)){ %}
+						<video src="{%=file.url%}" controls></video>
+					{% } %}
+				<strong class="error text-danger"></strong>
+				</span>
+				{% if(file.error){ %}
+					<div><span class="label label-danger">Error</span> {%=file.error%}</div>
+				{% } %}
+			</div>
+			<div>
+				{% if(file.deleteUrl){ %}
+					<button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
+						{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
+						data-url="{%=file.deleteUrl+o.get(file.name)%}">
+						<i class="glyphicon glyphicon-trash"></i>
+						<span><?=''//$lang->get('Delete')?></span>
+					</button>
+					<input type="checkbox" name="delete" value="1" class="toggle">
+				{% }else{ %}
+					<button class="btn btn-warning cancel">
+						<i class="glyphicon glyphicon-ban-circle"></i>
+						<span><?=$lang->get('Cancel')?></span>
+					</button>
+				{% } %}
+			</div>
+		</td>
+	</tr>
+{% } %}
+</script>
+<script id="template-download-old" type="text/x-tmpl">
+{% o.get=function(name){
+	if(name.match(/(\.|\/)(jpe?g|gif|png)$/i)){
+		return '&code=<?=$client->code?>&folder=templates';
+	}else{
+		return '&code=<?=$client->code?>';
+	}
+}; %}
+{% for(var i=0,file;file=o.files[i];i++){ %}
+	<tr class="template-download fade">
 		<td style="width:87%;" colspan="3">
-			<span class="preview" action="tag-template" data-url="{%=file.url%}" data-thumb="{%=file.thumbnailUrl%}">
+			<span class="preview" action="tag-template" data-thumb="{%=file.thumbnailUrl%}">
 				{% if(file.thumbnailUrl){ %}
-					<!--<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.url%}"></a>-->
 					<div class="tag-container noMenu" action="tag/bgselect" data-url="{%=file.url%}">
 						<div class="template" style="background-image:url({%=file.url%})"></div>
 						<div tag></div>
