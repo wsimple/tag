@@ -91,6 +91,32 @@
 		max-width:650px;
 		width:650px;
 	}
+	.btn.btn-success{
+		background-color:#77c574;
+	}
+	.btn.btn-success:hover{
+		background-color:#55a352;
+	}
+	.btn.btn-primary{
+		background-color:#8286c2;
+	}
+	.btn.btn-primary:hover{
+		background-color:#6064a0;
+	}
+	.btn.btn-warning{
+		background-color:#f82;
+	}
+	.btn.btn-warning:hover{
+		background-color:#d60;
+	}
+	.btn.btn-danger{
+		background-color:#f32;
+	}
+	.btn.btn-danger:hover{
+		background-color:#d10;
+	}
+	.fade{opacity:0;-webkit-transition:opacity 0.15s linear;-o-transition:opacity 0.15s linear;transition:opacity 0.15s linear}
+	.fade.in{opacity:1}
 </style>
 <div class="upload-panel tag">
 <div class="upload-menu">
@@ -108,11 +134,11 @@
 		<div class="row fileupload-buttonbar">
 			<div>
 				<!-- The fileinput-button span is used to style the file input field as button -->
-				<span class="btn btn-success fileinput-button">
+				<button class="btn btn-success fileinput-button">
 					<i class="glyphicon glyphicon-plus"></i>
 					<span><?=$lang->get('Add files')?>...</span>
 					<input type="file" name="files[]" multiple>
-				</span>
+				</button>
 				<button type="submit" class="btn btn-primary start">
 					<i class="glyphicon glyphicon-upload"></i>
 					<span><?=$lang->get('Start upload')?></span>
@@ -121,11 +147,6 @@
 					<i class="glyphicon glyphicon-ban-circle"></i>
 					<span><?=$lang->get('Cancel upload')?></span>
 				</button>
-				<button type="button" class="btn btn-danger delete">
-					<i class="glyphicon glyphicon-trash"></i>
-					<span><?=$lang->get('Delete')?></span>
-				</button>
-				<input type="checkbox" class="toggle">
 				<!-- The global file processing state -->
 				<span class="fileupload-process"></span>
 			</div>
@@ -442,7 +463,6 @@ $(function(){
 						<i class="glyphicon glyphicon-trash"></i>
 						<span><?=''//$lang->get('Delete')?></span>
 					</button>
-					<input type="checkbox" name="delete" value="1" class="toggle">
 				{% }else{ %}
 					<button class="btn btn-warning cancel">
 						<i class="glyphicon glyphicon-ban-circle"></i>
@@ -488,7 +508,6 @@ $(function(){
 					<i class="glyphicon glyphicon-trash"></i>
 					<span><?=''//$lang->get('Delete')?></span>
 				</button>
-				<input type="checkbox" name="delete" value="1" class="toggle">
 			{% }else{ %}
 				<button class="btn btn-warning cancel">
 					<i class="glyphicon glyphicon-ban-circle"></i>
