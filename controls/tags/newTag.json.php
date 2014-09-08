@@ -382,7 +382,7 @@ if(!$notAjax){
 	$data['bottomColor']=$_POST['bottomColor']!=''?cls_string($_POST['bottomColor']):cls_string($_POST['hiddenColor3']);
 	$data['status']=$_POST['status'];
 	$data['type']=$_POST['type']!=''?$_POST['type']:$_GET['type'];
-	$data['video']=$_POST['txtVideo'];
+	$data['video']=$_POST['htxtVideo'];
 	$data['group']=$_POST['group']!=''?$_POST['group']:$_GET['group'];
 	$data['bcard']=$_POST['idBusinessC'];
 	$data['tag']=$_POST['tag'];
