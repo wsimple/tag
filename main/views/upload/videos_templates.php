@@ -95,10 +95,10 @@
 <div class="upload-panel tag">
 <div class="upload-menu">
 	<div data-container="#fileupload" class="active"><?=$lang->get('Upload file')?></div>
-	<div data-container="#videoLink"><?=$lang->get('Youtube/Vimeo Videos')?></div>
+	<div data-container="#videoLink"><?=$lang->get('Youtube/Vimeo')?></div>
 	<div data-container="#imageList"><?=$lang->get('Backgrounds')?></div>
 	<div data-container="#videoList"><?=$lang->get('Videos')?></div>
-	<div data-container="#pendingVideoList"><?=$lang->get('Pending Videos')?></div>
+	<!-- <div data-container="#pendingVideoList"><?=$lang->get('Pending Videos')?></div> -->
 </div>
 <div class="upload container">
 	<form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
@@ -147,12 +147,6 @@
 			<label><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
 			<input type="text" name="txtVideo" style="width: 600px" id="txtVideo" class="tag-text" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://"<?php if($lang->get('NEWTAG_LBLVIDEO_TITLE')!=""){?> title="<?=$lang->get('NEWTAG_LBLVIDEO_TITLE')?>" <?php }else{}?>/>
 			<div id="loadPreview" class="tag-container"></div>
-
-			<!-- <div id="vimeo"> -->
-				<!-- <div id="running" class="warning-box dnone"><?=$lang->get('VIMEO_PREMIUM_VERIFY')?><span class="loader"></span></div> -->
-				<!-- <div id="success" class="warning-box dnone"><?=$lang->get('VIMEO_PREMIUM_SUCCESS')?></div> -->
-				<!-- <div id="error" class="error-box dnone"><?=$lang->get('VIMEO_PREMIUM_DAMAGED')?></div> -->
-			<!-- </div> -->
 		</div>
 	</div>
 	<form id="imageList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
@@ -165,12 +159,12 @@
 		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 	</form>
-	<form id="pendingVideoList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
-		<h3><?=$lang->get('Pending Videos')?></h3>
-		<p><?=$lang->get('PENDING_VIDEO_INFO')?><p>
+	<!-- <form id="pendingVideoList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data"> -->
+		<!-- <h3><?=$lang->get('Pending Videos')?></h3> -->
+		<!-- <p><?=$lang->get('PENDING_VIDEO_INFO')?><p> -->
 		<!-- The table listing the files available for upload/download -->
-		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
-	</form>
+		<!-- <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table> -->
+	<!-- </form> -->
 </div>
 </div>
 
@@ -239,12 +233,13 @@ $(function(){
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
 	});
+	var videos=[],tempLoader='<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="display: none;">';
 	$('#txtVideo').click(function(){
 		this.selectionStart=0;
-	});
-	var videos=[],tempLoader='<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="display: none;">';
-	$('#txtVideo').on('blur',function(){
-		var that=this,URL=that.value;
+	}).keypress(function(event) {
+		if (event.keyCode==13) $(this).blur();	
+	}).on('blur',function(){
+		var that=this,URL=that.value,htmlv='';
 		if (URL!='' && URL!='http://'){
 		// if (videos.length<1 && URL!='' && URL!='http://'){
 			$('#loadPreview').append(tempLoader);
@@ -258,23 +253,12 @@ $(function(){
 						var vid=false,band=true;
 						for (var i=0; i<videos.length;i++) if (videos[i]==data['urlV']) band=false;
 						if (band){
-							switch(data['type']){
-								case 'youtube': 
-									vid='v'+Math.random();
-									video='<div id="'+vid+'" data-src="'+data['urlV']+'" class="ytplayer"></div>';
-								break;
-								case 'vimeo': video='<iframe src="'+data['urlV']+'" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'; break;
-							}
-							video='<div class="video"><div class="placa"></div>'+
-									'<button class="btn btn-primary start">'+
-									'<i class="glyphicon glyphicon-upload"></i></button>'+
-									'<button class="btn btn-danger delete">'+
-									'<i class="glyphicon glyphicon-trash"></i></button>'+video+'</div>'					
-							$('#loadPreview').html('<div tag="'+0+'">'+video+'</div>');
+							htmlv=htmlVideo(data['urlV'],data['type'],URL,true)
+							$('#loadPreview').html('<div tag="'+0+'">'+htmlv+'</div>');
 							videos[0]=data['urlV'];
-							// $('#loadPreview').append('<div tag="'+videos.length+'">'+video+'</div>');
+							// $('#loadPreview').append('<div tag="'+videos.length+'">'+htmlVideo+'</div>');
 							// videos[videos.length]=data['urlV'];
-							if (vid) iniallYoutube();
+							if (data['type']=='youtube') iniallYoutube();
 						}
 					}
 				},
@@ -288,8 +272,6 @@ $(function(){
 		var id=$(this).parents('div[tag]').attr('tag')*1;
 		videos.splice(id,1);
 		$(this).parents('div[tag]').hide().remove()
-	}).on('click', 'div[tag] .video button.start', function(event) {
-		alert('test');
 	});
 
 	//lista de imagenes
@@ -321,20 +303,20 @@ $(function(){
 			.call(this,$.Event('done'),{result:result});
 	});
 	//lista de videos pendientes
-	$.ajax({
-		context:$('#pendingVideoList').first().fileupload(only_views),
-		url:video.url,
-		//Uncomment the following to send cross-domain cookies:
-		//xhrFields: {withCredentials: true},
-		dataType:'json',
-		data:video.pending
-	}).always(function(){
-		$(this).removeClass('fileupload-processing');
-	}).done(function(result){
-		console.log('pendig videos:',result);
-		$(this).fileupload('option','done')
-			.call(this,$.Event('done'),{result:result});
-	});
+	// $.ajax({
+	// 	context:$('#pendingVideoList').first().fileupload(only_views),
+	// 	url:video.url,
+	// 	//Uncomment the following to send cross-domain cookies:
+	// 	//xhrFields: {withCredentials: true},
+	// 	dataType:'json',
+	// 	data:video.pending
+	// }).always(function(){
+	// 	$(this).removeClass('fileupload-processing');
+	// }).done(function(result){
+	// 	console.log('pendig videos:',result);
+	// 	$(this).fileupload('option','done')
+	// 		.call(this,$.Event('done'),{result:result});
+	// });
 	$(document).off('.fileupload').on('dragover.fileupload',function(){
 		if($('#fileupload').length>0){
 			$('[data-container="#fileupload"]').click();
