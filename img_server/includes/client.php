@@ -5,7 +5,8 @@ require_once('TAG_db.php');
 
 #verificacion de datos de usuario
 class Client{
-	private $db,$_code;
+	private $_code;
+	public $db;
 	function __construct(){
 		$this->db=new TAG_db();
 	}
