@@ -257,28 +257,9 @@ $(function(){
 			title:'Preview',
 			resizable:false,
 			width:820,
-			height:600,
+			height:650,
 			modal:true,
 			open:function(){ $(this).load('upload/videos_templates/dialog'); }
-			// ,buttons:{
-			// 	'<?=JS_CANCEL?>':function(){
-			// 		if(pub){
-			// 			$(this).dialog('close');
-			// 			redirTo();
-			// 		}
-			// 	},
-			// 	'<?=JS_CHANGE?>':function(){
-			// 		if(pub){
-			// 			$(this).dialog('close');
-			// 		}
-			// 	},
-			// 	'<?=JS_PUBLISH?>':function(){
-			// 		if(pub){
-			// 			$(this).dialog('close');
-			// 			$('#formTags').submit();
-			// 		}
-			// 	}//click publish
-			// }
 		});
 	});
 
