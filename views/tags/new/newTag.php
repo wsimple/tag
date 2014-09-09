@@ -205,8 +205,8 @@ $(function(){
 		$.dialog({
 			title:'Preview',
 			resizable:false,
-			width:820,
-			height:650,
+			width:650,
+			height:500,
 			modal:true,
 			open:function(){ $(this).load('upload/videos_templates/dialog'); }
 		});
