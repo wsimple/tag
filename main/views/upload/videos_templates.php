@@ -79,7 +79,14 @@
 		width:230px;
 	}
 	.upload-panel.tag .table[role="presentation"] td.download>div:first-child{
-		width:650px;
+		width:325px;
+		height:150px;
+		overflow:hidden;
+	}
+	.upload-panel.tag .table[role="presentation"] td.download>div:first-child .tag-container{
+		-ms-transform:scale(.5,.5) translate(-50%,-50%);
+		-webkit-transform:scale(.5,.5) translate(-50%,-50%);
+		transform:scale(.5,.5) translate(-50%,-50%);
 	}
 	.upload-panel.tag .table[role="presentation"] td.download>div:last-child{
 		width:60px;
@@ -269,6 +276,7 @@ $(function(){
 	//File upload form
 	$('#fileupload').fileupload({
 		<?php //definimos la url antes de hacer submit, ya que manejamos varios servidores ?>
+		autoUpload:true,
 		beforeSubmit:function(file,options){
 			if(file.type.match(img_supported)){
 				//servidor de imagenes
