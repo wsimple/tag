@@ -83,7 +83,7 @@
 		height:150px;
 		overflow:hidden;
 	}
-	.upload-panel.tag .table[role="presentation"] td.download>div:first-child .tag-container{
+	.upload-panel.tag .table[role="presentation"] td.download>div:first-child .tag-container.img{
 		-ms-transform:scale(.5,.5) translate(-50%,-50%);
 		-webkit-transform:scale(.5,.5) translate(-50%,-50%);
 		transform:scale(.5,.5) translate(-50%,-50%);
@@ -366,21 +366,6 @@ $(function(){
 		$(this).fileupload('option','done')
 			.call(this,$.Event('done'),{result:result});
 	});
-	//lista de videos pendientes
-	// $.ajax({
-	// 	context:$('#pendingVideoList').first().fileupload(only_views),
-	// 	url:video.url,
-	// 	//Uncomment the following to send cross-domain cookies:
-	// 	//xhrFields: {withCredentials: true},
-	// 	dataType:'json',
-	// 	data:video.pending
-	// }).always(function(){
-	// 	$(this).removeClass('fileupload-processing');
-	// }).done(function(result){
-	// 	console.log('pendig videos:',result);
-	// 	$(this).fileupload('option','done')
-	// 		.call(this,$.Event('done'),{result:result});
-	// });
 	$(document).off('.fileupload').on('dragover.fileupload',function(){
 		if($('#fileupload').length>0){
 			$('[data-container="#fileupload"]').click();
@@ -465,7 +450,7 @@ $(function(){
 			<div>
 				<span class="preview" data-thumb="{%=file.thumbnailUrl%}">
 					{% if(file.thumbnailUrl){ %}
-						<div class="tag-container noMenu" action="tag/bgselect" data-url="{%=file.url%}">
+						<div class="tag-container img noMenu" action="tag/bgselect" data-url="{%=file.url%}">
 							<div class="template" style="background-image:url({%=file.url%})"></div>
 							<div tag></div>
 						</div>
