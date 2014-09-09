@@ -126,6 +126,10 @@
 		height: 200px;
 		text-align: center;
 	}
+	#videoLink .tag-container [tag],
+	#videoLink .tag-container [tag] .video{ width: 10.1562em; height: 4.687em; }
+	#videoLink .tag-container [tag] button,
+	#videoList .tag-container [tag] button{ padding: 20px 25px; }
 	.displayUpload div[image]{
 		background-image: url('css/tbum/file.png');
 		background-size: 100%;
@@ -202,7 +206,7 @@
 	<div id="videoLink" class="dnone">
 		<div id="videosTag">
 			<label><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
-			<input type="text" name="txtVideo" style="width: 600px" id="txtVideo" class="tag-text" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://"<?php if($lang->get('NEWTAG_LBLVIDEO_TITLE')!=""){?> title="<?=$lang->get('NEWTAG_LBLVIDEO_TITLE')?>" <?php }else{}?>/>
+			<input type="text" name="txtVideo" style="width: 430px" id="txtVideo" class="tag-text" tipo="video" value="http://" placeholder="http://"/>
 			<div id="loadPreview" class="tag-container"></div>
 		</div>
 	</div>
