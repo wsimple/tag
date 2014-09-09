@@ -283,9 +283,6 @@ $(function(){
 	$('#fileupload').fileupload({
 		<?php //definimos la url antes de hacer submit, ya que manejamos varios servidores ?>
 		autoUpload:true,
-		beforeAdd:function(files,options){
-			options.filesContainer.empty();
-		},
 		beforeSubmit:function(file,options){
 			if(file.type.match(img_supported)){
 				//servidor de imagenes
@@ -303,6 +300,14 @@ $(function(){
 		maxFileSize:15000000,//15MB
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
+	}).bind('fileuploadadd',function(e,data){
+		var $this=$(this),
+			that =$this.data('blueimp-fileupload')||$this.data('fileupload');
+		that.options.filesContainer.empty();
+	}).bind('fileuploadsubmit',function(e,data){
+		$('.displayUpload button input').prop('disabled',true);
+	}).bind('fileuploadalways',function(e,data){
+		$('.displayUpload button input').prop('disabled',false);
 	});
 	var videos=[],tempLoader='<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="display: none;">';
 	$('#txtVideo').click(function(){
