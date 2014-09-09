@@ -117,13 +117,35 @@
 	}
 	.fade{opacity:0;-webkit-transition:opacity 0.15s linear;-o-transition:opacity 0.15s linear;transition:opacity 0.15s linear}
 	.fade.in{opacity:1}
+	.displayUpload{
+		margin: 50px 0;
+		width: 100%;
+		height: 200px;
+		text-align: center;
+	}
+	.displayUpload div[image]{
+		background-image: url('css/tbum/file.png');
+		background-size: 100%;
+		background-position: 50%;
+		background-repeat: no-repeat;
+		width: 48px;
+		height: 60px;
+		margin: 0 auto;
+	}	
+	.displayUpload div[text],.displayUpload div[o]{
+		color: #aaa;
+		font-size: 20px;
+		padding: 0 10px;
+		margin-bottom: 10px;
+	}	
+	.displayUpload div[text]{ font-size: 30px; }
 </style>
 <div class="upload-panel tag">
 <div class="upload-menu">
 	<div data-container="#fileupload" class="active"><?=$lang->get('Upload file')?></div>
 	<div data-container="#videoLink"><?=$lang->get('Youtube/Vimeo')?></div>
-	<div data-container="#imageList"><?=$lang->get('Backgrounds')?></div>
-	<div data-container="#videoList"><?=$lang->get('Videos')?></div>
+	<div data-container="#imageList"><?=$lang->get('My Backgrounds')?></div>
+	<div data-container="#videoList"><?=$lang->get('My Videos')?></div>
 	<!-- <div data-container="#pendingVideoList"><?=$lang->get('Pending Videos')?></div> -->
 </div>
 <div class="upload container">
@@ -159,6 +181,15 @@
 				<!-- The extended global progress state -->
 				<div class="progress-extended">&nbsp;</div>
 			</div>
+		</div>
+		<div class="displayUpload">
+			<div image></div>
+			<div text><?=$lang->get('Drag a file here')?></div>
+			<div o>O</div>
+			<button class="btn btn-success fileinput-button">
+					<span><?=$lang->get('Select a file from your computer')?></span>
+					<input type="file" name="files">
+			</button>
 		</div>
 		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>

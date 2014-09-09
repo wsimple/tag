@@ -16,9 +16,13 @@ $lang=array(
 	#Upload de videos e imagenes
 	'Upload file' => 'Subir archivos',
 	'Backgrounds' => 'Fondos',
+	'My Backgrounds' => 'Mis Fondos',
+	'My Videos' => 'Mis Videos',
 	'Pending Videos' => 'Videos Pendientes',
 	'Add files' => 'Añadir archivos',
 	'Start upload' => 'Iniciar subida',
+	'Drag a file here' => 'Arrastra un archivo aquí',
+	'Select a file from your computer' => 'Seleccione un archivo de tu equipo',
 	'Cancel upload' => 'Cancelar subida',
 	'Delete' => 'Borrar',
 	'PENDING_VIDEO_INFO' => 'Los videos en esta lista ya han sido subidos, pero el sistema debe procesarlos y convertirlos a un formato estandar antes de que usted pueda utilizarlos en una tag.',
