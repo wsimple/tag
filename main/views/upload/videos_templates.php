@@ -92,10 +92,6 @@
 	.upload-panel.tag td.upload video{
 		max-width:300px;
 	}
-	.upload-panel.tag td.download video{
-		max-width:650px;
-		width:650px;
-	}
 	.btn.btn-success{
 		background-color:#77c574;
 	}
@@ -127,8 +123,16 @@
 		text-align: center;
 	}
 	#videoLink .tag-container [tag],
-	#videoLink .tag-container [tag] .video{ width: 10.1562em; height: 4.687em; }
+	#videoLink .tag-container [tag] .video,
+	#fileupload .tag-container [tag],
+	#fileupload .tag-container [tag] .video{ 
+		-moz-border-radius: 0.437em;
+		border-radius: 0.437em;
+		-webkit-border-radius: 0.437em;
+		width: 10.1562em; height: 4.687em; 
+	}
 	#videoLink .tag-container [tag] button,
+	#fileupload .tag-container [tag] button,
 	#videoList .tag-container [tag] button{ padding: 20px 25px; }
 	.displayUpload div[image]{
 		background-image: url('css/tbum/file.png');
@@ -191,7 +195,7 @@
 				<div class="progress-extended">&nbsp;</div>
 			</div>
 		</div>
-		<div class="displayUpload fade in">
+		<div class="displayUpload">
 			<div image></div>
 			<div text><?=$lang->get('Drag a file here')?></div>
 			<div o>O</div>
@@ -255,7 +259,7 @@
 /*global window, $ */
 $(function(){
 	'use strict';
-	//menu
+	//menu	
 	$('.upload-menu>div').click(function(event){
 		$(this).parent().children().removeClass('active');
 		$(this).addClass('active');
@@ -289,8 +293,7 @@ $(function(){
 				options.url=video.url;
 				options.formData=video.pending;
 			}
-			console.log('aqui');
-			$('.displayUpload').hide();
+			$('.displayUpload div').hide().parents('.displayUpload').css({ margin: '25px 0',height: 'auto' });
 
 		},
 		acceptFileTypes:all_supported,
@@ -454,10 +457,13 @@ $(function(){
 							<div class="template" style="background-image:url({%=file.url%})"></div>
 							<div tag></div>
 						</div>
-					{% }else if(file.url.match(/\.mp4$/i)){ %}
+					{% }else if(file.url.match(/\.mp4$/i)){ 
+						var dat=file.url.split('<?=$setting->video_server_path?>videos/');
+					%}
 						<div class="tag-container noMenu" >
 							<div tag>
 								<div class="video" style="z-index: 1001;">
+									<button class="btn btn-primary start" action="tag/videoSelect" data-set="{%=file.url%}" data-type="local" data-pre="{%=dat[1]%}"><i class="glyphicon glyphicon-upload"></i></button>
 									<div class="placa"></div>
 									<video controls="controls"><source src="{%=file.url%}" type="video/mp4" /></video>
 								</div>
