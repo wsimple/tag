@@ -120,13 +120,35 @@
 	.btn.btn-danger:hover{
 		background-color:#d10;
 	}
+	.displayUpload{
+		margin: 50px 0;
+		width: 100%;
+		height: 200px;
+		text-align: center;
+	}
+	.displayUpload div[image]{
+		background-image: url('css/tbum/file.png');
+		background-size: 100%;
+		background-position: 50%;
+		background-repeat: no-repeat;
+		width: 48px;
+		height: 60px;
+		margin: 0 auto;
+	}	
+	.displayUpload div[text],.displayUpload div[o]{
+		color: #aaa;
+		font-size: 20px;
+		padding: 0 10px;
+		margin-bottom: 10px;
+	}	
+	.displayUpload div[text]{ font-size: 30px; }
 </style>
 <div class="upload-panel tag">
 <div class="upload-menu">
 	<div data-container="#fileupload" class="active"><?=$lang->get('Upload file')?></div>
 	<div data-container="#videoLink"><?=$lang->get('Youtube/Vimeo')?></div>
-	<div data-container="#imageList"><?=$lang->get('Backgrounds')?></div>
-	<div data-container="#videoList"><?=$lang->get('Videos')?></div>
+	<div data-container="#imageList"><?=$lang->get('My Backgrounds')?></div>
+	<div data-container="#videoList"><?=$lang->get('My Videos')?></div>
 	<!-- <div data-container="#pendingVideoList"><?=$lang->get('Pending Videos')?></div> -->
 </div>
 <div class="upload container">
@@ -134,7 +156,7 @@
 		<!-- Redirect browsers with JavaScript disabled to the origin page -->
 		<noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
 		<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-		<div class="row fileupload-buttonbar">
+		<div class="row fileupload-buttonbar dnone">
 			<div>
 				<!-- The fileinput-button span is used to style the file input field as button -->
 				<button class="btn btn-success fileinput-button">
@@ -154,6 +176,8 @@
 				<span class="fileupload-process"></span>
 			</div>
 			<!-- The global progress state -->
+
+
 			<div class="fileupload-progress fade dnone">
 				<!-- The global progress bar -->
 				<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
@@ -162,6 +186,15 @@
 				<!-- The extended global progress state -->
 				<div class="progress-extended">&nbsp;</div>
 			</div>
+		</div>
+		<div class="displayUpload fade in">
+			<div image></div>
+			<div text><?=$lang->get('Drag a file here')?></div>
+			<div o>O</div>
+			<button class="btn btn-success fileinput-button">
+					<span><?=$lang->get('Select a file from your computer')?></span>
+					<input type="file" name="files">
+			</button>
 		</div>
 		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
@@ -252,6 +285,9 @@ $(function(){
 				options.url=video.url;
 				options.formData=video.pending;
 			}
+			console.log('aqui');
+			$('.displayUpload').hide();
+
 		},
 		acceptFileTypes:all_supported,
 		maxFileSize:15000000,//15MB
@@ -298,7 +334,6 @@ $(function(){
 		videos.splice(id,1);
 		$(this).parents('div[tag]').hide().remove()
 	});
-
 	//lista de imagenes
 	$.ajax({
 		context:$('#imageList').first().fileupload(only_views),
@@ -431,7 +466,14 @@ $(function(){
 							<div tag></div>
 						</div>
 					{% }else if(file.url.match(/\.mp4$/i)){ %}
-						<video src="{%=file.url%}" controls></video>
+						<div class="tag-container noMenu" >
+							<div tag>
+								<div class="video" style="z-index: 1001;">
+									<div class="placa"></div>
+									<video controls="controls"><source src="{%=file.url%}" type="video/mp4" /></video>
+								</div>
+							</div>
+						</div>
 					{% } %}
 				<strong class="error text-danger"></strong>
 				</span>
