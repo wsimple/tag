@@ -10,3 +10,4 @@ img_server/includes/security/*.php
 video_server/includes/security/*.php
 
 local/*.*
+quepeo.php
