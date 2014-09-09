@@ -245,6 +245,7 @@ $(function(){
 	//File upload form
 	$('#fileupload').fileupload({
 		<?php //definimos la url antes de hacer submit, ya que manejamos varios servidores ?>
+		autoUpload:true,
 		beforeSubmit:function(file,options){
 			if(file.type.match(img_supported)){
 				//servidor de imagenes
