@@ -3,7 +3,8 @@
 <link rel="stylesheet" href="css/fileupload/jquery.fileupload-ui.css">
 <style>
 	.upload-panel.tag{
-		width:750px;
+		min-width:500px;
+		margin:auto;
 	}
 	.upload-menu{
 		min-height: 50px;
