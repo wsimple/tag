@@ -44,8 +44,8 @@
 	div#container-up.alt #imageList,
 	div#container-up.img #urlUpload{ display: block !important; }
 	div.upload.container{
-		width:750px;
-		min-height:350px;
+/*		width:750px;
+		min-height:350px;*/
 		margin: 0; 
 		padding: 0;
 		/*overflow-y:auto;*/
@@ -211,7 +211,7 @@
 		<div id="videosTag">
 			<label><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
 			<input type="text" name="txtVideo" style="width: 430px" id="txtVideo" class="tag-text" tipo="video" value="http://" placeholder="http://"/>
-			<div id="loadPreview" class="tag-container"></div>
+			<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
 		</div>
 	</div>
 	<form id="imageList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
@@ -306,6 +306,8 @@ $(function(){
 		this.selectionStart=0;
 	}).keypress(function(event) {
 		if (event.keyCode==13) $(this).blur();	
+	}).change(function(event) {
+		$(this).blur();
 	}).on('blur',function(){
 		var that=this,URL=that.value,htmlv='';
 		if (URL!='' && URL!='http://'){
@@ -463,7 +465,7 @@ $(function(){
 						<div class="tag-container noMenu" >
 							<div tag>
 								<div class="video" style="z-index: 1001;">
-									<button class="btn btn-primary start" action="tag/videoSelect" data-set="{%=file.url%}" data-type="local" data-pre="{%=dat[1]%}"><i class="glyphicon glyphicon-upload"></i></button>
+									<button onclick="alert('aaaaaaaaaaaaaaaaaa')" class="btn btn-primary start" action="tag/videoSelect" data-set="{%=file.url%}" data-type="local" data-pre="{%=dat[1]%}"><i class="glyphicon glyphicon-upload"></i></button>
 									<div class="placa"></div>
 									<video controls="controls"><source src="{%=file.url%}" type="video/mp4" /></video>
 								</div>
