@@ -1,8 +1,8 @@
 .security/*.php
 img/*/
 language/
-img_server/img/*
-video_server/videos/pending/*/
+img_server/img/
+video_server/videos/
 
 #security
 includes/security/*.php
