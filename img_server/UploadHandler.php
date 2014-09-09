@@ -14,6 +14,7 @@ require_once('includes/client.php');
 class UploadHandler
 {
 	protected $options;
+	private $local_time_delay=5;#retraso en respuesta, para pruebas locales.
 
 	private $_folder='',$_path='/img/';
 	// Get folder
@@ -179,6 +180,8 @@ class UploadHandler
 			case 'PATCH':
 			case 'PUT':
 			case 'POST':
+				global $config;
+				if($config->tipo=='local') sleep($this->local_time_delay);
 				$this->post();
 				break;
 			case 'DELETE':
