@@ -160,35 +160,35 @@
 		<!-- Redirect browsers with JavaScript disabled to the origin page -->
 		<noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
 		<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-		<div class="row fileupload-buttonbar">
-			<div>
+		<!-- <div class="row fileupload-buttonbar"> -->
+			<!-- <div> -->
 				<!-- The fileinput-button span is used to style the file input field as button -->
-				<button class="btn btn-success fileinput-button">
-					<i class="glyphicon glyphicon-plus"></i>
-					<span><?=$lang->get('Add files')?>...</span>
-					<input type="file" name="files[]" multiple>
-				</button>
-				<button type="submit" class="btn btn-primary start">
-					<i class="glyphicon glyphicon-upload"></i>
-					<span><?=$lang->get('Start upload')?></span>
-				</button>
-				<button type="reset" class="btn btn-warning cancel">
-					<i class="glyphicon glyphicon-ban-circle"></i>
-					<span><?=$lang->get('Cancel upload')?></span>
-				</button>
+				<!-- <button class="btn btn-success fileinput-button"> -->
+					<!-- <i class="glyphicon glyphicon-plus"></i> -->
+					<!-- <span><?=$lang->get('Add files')?>...</span> -->
+					<!-- <input type="file" name="files[]" multiple> -->
+				<!-- </button> -->
+				<!-- <button type="submit" class="btn btn-primary start"> -->
+					<!-- <i class="glyphicon glyphicon-upload"></i> -->
+					<!-- <span><?=$lang->get('Start upload')?></span> -->
+				<!-- </button> -->
+				<!-- <button type="reset" class="btn btn-warning cancel"> -->
+					<!-- <i class="glyphicon glyphicon-ban-circle"></i> -->
+					<!-- <span><?=$lang->get('Cancel upload')?></span> -->
+				<!-- </button> -->
 				<!-- The global file processing state -->
-				<span class="fileupload-process"></span>
-			</div>
+				<!-- <span class="fileupload-process"></span> -->
+			<!-- </div> -->
 			<!-- The global progress state -->
-			<div class="col-lg-5 fileupload-progress fade">
+			<!-- <div class="col-lg-5 fileupload-progress fade"> -->
 				<!-- The global progress bar -->
-				<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-					<div class="progress-bar progress-bar-success" style="width:0%;"></div>
-				</div>
+				<!-- <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"> -->
+					<!-- <div class="progress-bar progress-bar-success" style="width:0%;"></div> -->
+				<!-- </div> -->
 				<!-- The extended global progress state -->
-				<div class="progress-extended">&nbsp;</div>
-			</div>
-		</div>
+				<!-- <div class="progress-extended">&nbsp;</div> -->
+			<!-- </div> -->
+		<!-- </div> -->
 		<div class="displayUpload">
 			<div image></div>
 			<div text><?=$lang->get('Drag a file here')?></div>
@@ -287,6 +287,7 @@ $(function(){
 				options.url=video.url;
 				options.formData=video.pending;
 			}
+			$('.displayUpload',this).addClass('fade');
 		},
 		acceptFileTypes:all_supported,
 		maxFileSize:15000000,//15MB
@@ -333,7 +334,6 @@ $(function(){
 		videos.splice(id,1);
 		$(this).parents('div[tag]').hide().remove()
 	});
-
 	//lista de imagenes
 	$.ajax({
 		context:$('#imageList').first().fileupload(only_views),
@@ -468,7 +468,14 @@ $(function(){
 							<div tag></div>
 						</div>
 					{% }else if(file.url.match(/\.mp4$/i)){ %}
-						<video src="{%=file.url%}" controls></video>
+						<div class="tag-container noMenu" >
+							<div tag>
+								<div class="video" style="z-index: 1001;">
+									<div class="placa"></div>
+									<video controls="controls"><source src="{%=file.url%}" type="video/mp4" /></video>
+								</div>
+							</div>
+						</div>
 					{% } %}
 				<strong class="error text-danger"></strong>
 				</span>
