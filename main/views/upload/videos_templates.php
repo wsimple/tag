@@ -69,14 +69,13 @@
 		margin:5px;
 		text-align:center;
 	}
-	.upload-panel.tag .table[role="presentation"] td.upload>div:first-child{
-		width:350px;
-	}
-	.upload-panel.tag .table[role="presentation"] td.upload>div:nth-child(2){
-		width:120px;
-	}
-	.upload-panel.tag .table[role="presentation"] td.upload>div:last-child{
-		width:230px;
+	.upload-panel.tag .table[role="presentation"] td.upload>div:first-child{ width:300px; }
+	.upload-panel.tag .table[role="presentation"] td.upload>div:last-child{	width:150px; }
+	.upload-panel.tag .table[role="presentation"] td.upload>div .btn,
+	.upload-panel.tag .table[role="presentation"] td.upload>div .progress{
+		display:block;
+		margin:5px auto;
+		width:125px;
 	}
 	.upload-panel.tag .table[role="presentation"] td.download>div:first-child{
 		width:325px;
@@ -88,11 +87,9 @@
 		-webkit-transform:scale(.5,.5) translate(-50%,-50%);
 		transform:scale(.5,.5) translate(-50%,-50%);
 	}
-	.upload-panel.tag .table[role="presentation"] td.download>div:last-child{
-		width:60px;
-	}
+	.upload-panel.tag .table[role="presentation"] td.download>div:last-child{ width:100px; }
 	.upload-panel.tag td.upload video{
-		max-width:340px;
+		max-width:300px;
 	}
 	.upload-panel.tag td.download video{
 		max-width:650px;
@@ -122,8 +119,6 @@
 	.btn.btn-danger:hover{
 		background-color:#d10;
 	}
-	.fade{opacity:0;-webkit-transition:opacity 0.15s linear;-o-transition:opacity 0.15s linear;transition:opacity 0.15s linear}
-	.fade.in{opacity:1}
 </style>
 <div class="upload-panel tag">
 <div class="upload-menu">
@@ -158,7 +153,7 @@
 				<span class="fileupload-process"></span>
 			</div>
 			<!-- The global progress state -->
-			<div class="col-lg-5 fileupload-progress fade">
+			<div class="fileupload-progress fade dnone">
 				<!-- The global progress bar -->
 				<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
 					<div class="progress-bar progress-bar-success" style="width:0%;"></div>
@@ -367,10 +362,6 @@ $(function(){
 				<strong class="error text-danger"></strong>
 			</div>
 			<div>
-				<p class="size">Processing...</p>
-				<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
-			</div>
-			<div>
 				{% if(!i&&!o.options.autoUpload){ %}
 					<button class="btn btn-primary start" disabled>
 						<i class="glyphicon glyphicon-upload"></i>
@@ -383,6 +374,8 @@ $(function(){
 						<span><?=$lang->get('Cancel')?></span>
 					</button>
 				{% } %}
+				<p class="size">Processing...</p>
+				<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
 			</div>
 		</td>
 	</tr>
