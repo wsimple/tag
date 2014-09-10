@@ -159,6 +159,7 @@ if ($acceso){ ?>
 </div>
 <script type="text/javascript">
 $(function(){
+	if (!window.players){ window.players=[]; }
 	var pub=true,bgd="<?=$tag['background']?$tag['background']:''?>";
 	$("#hiddenColorDiv").hover(function() {
 		var value = $("#hiddenColor").val();
