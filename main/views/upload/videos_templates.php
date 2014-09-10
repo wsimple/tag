@@ -60,9 +60,10 @@
 		padding: 2px;
 		margin: 2px;
 	}*/
-	#loadPreview div[tag]:hover .video button{
+	#loadPreview div[tag]:hover .video button,
+	#fileupload div[tag]:hover .video button{
 		position: relative;
-		z-index: 500;
+		z-index: 1002;
 	}
 	.upload-panel.tag .table[role="presentation"] td.download>div,
 	.upload-panel.tag .table[role="presentation"] td.upload>div{
@@ -88,49 +89,36 @@
 		-webkit-transform:scale(.5,.5) translate(-50%,-50%);
 		transform:scale(.5,.5) translate(-50%,-50%);
 	}
-	.upload-panel.tag .table[role="presentation"] td.download>div:first-child .tag-container.video{
-		-moz-border-radius: 0.437em;
-		border-radius: 0.437em;
-		-webkit-border-radius: 0.437em;
-		width: 10.1562em; height: 4.687em; 
-	}
 	.upload-panel.tag .table[role="presentation"] td.download>div:last-child{ width:100px; }
 	.upload-panel.tag td.upload video{
 		max-width:300px;
 	}
-	.btn.btn-success{
-		background-color:#77c574;
-	}
-	.btn.btn-success:hover{
-		background-color:#55a352;
-	}
-	.btn.btn-primary{
-		background-color:#8286c2;
-	}
-	.btn.btn-primary:hover{
-		background-color:#6064a0;
-	}
-	.btn.btn-warning{
-		background-color:#f82;
-	}
-	.btn.btn-warning:hover{
-		background-color:#d60;
-	}
-	.btn.btn-danger{
-		background-color:#f32;
-	}
-	.btn.btn-danger:hover{
-		background-color:#d10;
-	}
+	.btn.btn-success{ background-color:#77c574; }
+	.btn.btn-success:hover{ background-color:#55a352; }
+	.btn.btn-primary{ background-color:#8286c2; }
+	.btn.btn-primary:hover{ background-color:#6064a0; }
+	.btn.btn-warning{ background-color:#f82; }
+	.btn.btn-warning:hover{ background-color:#d60; }
+	.btn.btn-danger{ background-color:#f32; }
+	.btn.btn-danger:hover{ background-color:#d10; }
 	.displayUpload{
 		margin: 50px 0;
 		width: 100%;
 		height: 200px;
 		text-align: center;
 	}
+/*	.upload-panel.tag .table[role="presentation"] td.download>div:first-child .tag-container.video{
+		-moz-border-radius: 0.437em;
+		border-radius: 0.437em;
+		-webkit-border-radius: 0.437em;
+		width: 10.1562em; height: 4.687em; 
+	}*/
 	#videoLink .tag-container [tag],
+	#fileupload .tag-container.video [tag],
+	#videoList .tag-container.video [tag],
 	#videoLink .tag-container [tag] .video,
-	#fileupload .tag-container [tag] .video{
+	#videoList .tag-container.video [tag] .video,
+	#fileupload .tag-container.video [tag] .video{
 		-moz-border-radius: 0.437em;
 		border-radius: 0.437em;
 		-webkit-border-radius: 0.437em;
@@ -213,12 +201,10 @@
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 	</form>
 	<div id="videoLink" class="dnone">
-		<div id="videosTag">
-			<label><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
-			<input type="text" style="width: 430px" id="txtVideo" placeholder="http://"/>
-			<input type="hidden"  id="alternaVideo" />
-			<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
-		</div>
+		<label style="font-weight: bold;font-size: 13px;"><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
+		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://"/>
+		<button class="btn btn-danger delete" style="display:none;"><i class="glyphicon glyphicon-trash"></i></button>
+		<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
 	</div>
 	<form id="imageList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
 		<h3>Images</h3>
@@ -262,6 +248,12 @@
 <script src="js/fileupload/jquery.fileupload-ui.js"></script>
 <script>
 /*jslint unparam: true */
+if (!window.players){ window.players=[]; }
+function des(objet){
+	// var content=$(objet).parents('div[tag]').parent(),html=buttonVideo(objet.dataset.set,objet.dataset.type,objet.dataset.pre);
+	// console.log(html,content);
+	// $(content).append(html);
+}
 /*global window, $ */
 $(function(){
 	'use strict';
@@ -272,7 +264,6 @@ $(function(){
 		$('.upload.container').children().addClass('dnone')
 		.filter(this.dataset.container).removeClass('dnone');
 		if (this.dataset.container=='#videoLink') $('#txtVideo').focus();
-
 	});
 
 	var all_supported=/(\.|\/)(jpe?g|gif|png|mp4|flv|3gp|mov|ogg)$/i,
@@ -317,7 +308,7 @@ $(function(){
 	}).bind('fileuploadalways',function(e,data){
 		$('.displayUpload').fadeIn('slow');
 	});
-	var videos=[],tempLoader='<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="display: none;">';
+	var videos=[];
 	$('#txtVideo').click(function(){
 		this.selectionStart=0;
 	}).keypress(function(event) {
@@ -328,7 +319,6 @@ $(function(){
 		var that=this,URL=that.value,htmlv='';
 		if (URL!='' && URL!='http://'){
 		// if (videos.length<1 && URL!='' && URL!='http://'){
-			$('#loadPreview').append(tempLoader);
 			$.ajax({
 				url:'video/validate/1',
 				type:'POST',
@@ -336,15 +326,16 @@ $(function(){
 				data:{thisvideo:URL},
 				success:function(data){
 					if (data['success']){
-						var vid=false,band=true;
+						var vid=false,band=true,text1='<?=$lang->get("Upload a new background")?>',text2='<?=$lang->get("Use previous backgrounds")?>';
 						for (var i=0; i<videos.length;i++) if (videos[i]==data['urlV']) band=false;
 						if (band){
-							htmlv=htmlVideo(data['urlV'],data['type'],URL,true)
-							$('#loadPreview').html('<div tag="'+0+'">'+htmlv+'</div>');
+							htmlv=htmlVideo(data['urlV'],data['type'],URL)
+							$('#loadPreview').html('<div tag="'+0+'" style="margin: 20px auto;">'+htmlv+'</div>');
 							videos[0]=data['urlV'];
-							// $('#loadPreview').append('<div tag="'+videos.length+'">'+htmlVideo+'</div>');
-							// videos[videos.length]=data['urlV'];
-							if (data['type']=='youtube') iniallYoutube();
+							// if (data['type']=='youtube') iniallYoutube();
+							htmlv='<div><button id="uploadNewBackgrond" class="btn btn-success" style="float:left;">'+text1+'</button><button id="selectMyBackgrond" class="btn btn-success" style="float:right;">'+text2+'</button></div>';
+							$('#loadPreview').append(htmlv).find('div[tag] .video button.start').click();
+							$('#videoLink button.delete').show().removeAttr('disabled');
 						}
 					}
 				},
@@ -354,11 +345,25 @@ $(function(){
 			});
 		}
 	});
-	$('#loadPreview').on('click','div[tag] .video button.delete',function(){
-		var id=$(this).parents('div[tag]').attr('tag')*1;
+	$('#videoLink button.delete').click(function(){
+		var id=$('#loadPreview').find('div[tag]').attr('tag')*1;
 		videos.splice(id,1);
-		$(this).parents('div[tag]').hide().remove()
+		$('#loadPreview').empty().html('');
+		// $(this).parents('div[tag]').hide().remove()
+		$(this).prev('input[type="text"]').val('');
+		$(this).hide();
+		var video=$('#htxtVideo')[0];
+		if(video){
+			video.value=''
+			$('#preVideTags').empty().html('');
+		}
 	});
+	$('#loadPreview').on('click','#uploadNewBackgrond',function(){
+		$('div.upload-menu div[data-container="#fileupload"]').click();
+	}).on('click','#selectMyBackgrond',function(){
+		$('div.upload-menu div[data-container="#imageList"]').click();
+	});
+
 	//lista de imagenes
 	$.ajax({
 		context:$('#imageList').first().fileupload(only_views),
@@ -452,7 +457,7 @@ $(function(){
 						<div class="tag-container video noMenu" >
 							<div tag>
 								<div class="video" style="z-index: 1001;">
-									<button onclick="alert('aaaaaaaaaaaaaaaaaa')" class="btn btn-primary start" action="tag/videoSelect" data-set="{%=file.url%}" data-type="local" data-pre="{%=dat[1]%}"><i class="glyphicon glyphicon-upload"></i></button>
+									<button class="btn btn-primary start" onclick="des(this);"  data-set="{%=dat[1]%}" data-type="local" data-pre="{%=file.url%}"><i class="glyphicon glyphicon-upload"></i></button>
 									<div class="placa"></div>
 									<video controls="controls"><source src="{%=file.url%}" type="video/mp4" /></video>
 								</div>
