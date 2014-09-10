@@ -208,7 +208,8 @@ $(function(){
 			width:650,
 			height:500,
 			modal:true,
-			open:function(){ $(this).load('upload/videos_templates/dialog'); }
+			open:function(){ $(this).load('upload/videos_templates/dialog'); },
+			buttons:[]
 		});
 	});
 	$('#preVideTags').on('click','div[tag] .video button.delete',function(){

@@ -210,7 +210,8 @@
 	<div id="videoLink" class="dnone">
 		<div id="videosTag">
 			<label><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
-			<input type="text" name="txtVideo" style="width: 430px" id="txtVideo" class="tag-text" tipo="video" value="http://" placeholder="http://"/>
+			<input type="text" style="width: 430px" id="txtVideo" placeholder="http://"/>
+			<input type="hidden"  id="alternaVideo" />
 			<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
 		</div>
 	</div>
@@ -265,6 +266,8 @@ $(function(){
 		$(this).addClass('active');
 		$('.upload.container').children().addClass('dnone')
 		.filter(this.dataset.container).removeClass('dnone');
+		if (this.dataset.container=='#videoLink') $('#txtVideo').focus();
+
 	});
 
 	var all_supported=/(\.|\/)(jpe?g|gif|png|mp4|flv|3gp|mov|ogg)$/i,
