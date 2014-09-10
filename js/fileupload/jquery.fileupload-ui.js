@@ -87,15 +87,13 @@
 			// widget (via file input selection, drag & drop or add API call).
 			// See the basic file upload widget for more information:
 			add: function (e, data) {
+				if (e.isDefaultPrevented()) {
+					return false;
+				}
 				var $this = $(this),
 					that = $this.data('blueimp-fileupload') ||
 						$this.data('fileupload'),
 					options = that.options;
-				if(options.beforeAdd)
-					options.beforeAdd.call(this,data.files,options);
-				if (e.isDefaultPrevented()) {
-					return false;
-				}
 				data.context = that._renderUpload(data.files)
 					.data('data', data)
 					.addClass('processing');
