@@ -88,6 +88,12 @@
 		-webkit-transform:scale(.5,.5) translate(-50%,-50%);
 		transform:scale(.5,.5) translate(-50%,-50%);
 	}
+	.upload-panel.tag .table[role="presentation"] td.download>div:first-child .tag-container.video{
+		-moz-border-radius: 0.437em;
+		border-radius: 0.437em;
+		-webkit-border-radius: 0.437em;
+		width: 10.1562em; height: 4.687em; 
+	}
 	.upload-panel.tag .table[role="presentation"] td.download>div:last-child{ width:100px; }
 	.upload-panel.tag td.upload video{
 		max-width:300px;
@@ -124,8 +130,7 @@
 	}
 	#videoLink .tag-container [tag],
 	#videoLink .tag-container [tag] .video,
-	#fileupload .tag-container [tag],
-	#fileupload .tag-container [tag] .video{ 
+	#fileupload .tag-container [tag] .video{
 		-moz-border-radius: 0.437em;
 		border-radius: 0.437em;
 		-webkit-border-radius: 0.437em;
@@ -286,9 +291,6 @@ $(function(){
 	$('#fileupload').fileupload({
 		<?php //definimos la url antes de hacer submit, ya que manejamos varios servidores ?>
 		autoUpload:true,
-		beforeAdd:function(files,options){
-			options.filesContainer.empty();
-		},
 		beforeSubmit:function(file,options){
 			if(file.type.match(img_supported)){
 				//servidor de imagenes
@@ -306,6 +308,14 @@ $(function(){
 		maxFileSize:15000000,//15MB
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
+	}).bind('fileuploadadd',function(e,data){
+		var $this=$(this),
+			that =$this.data('blueimp-fileupload')||$this.data('fileupload');
+		that.options.filesContainer.empty();
+	}).bind('fileuploadsubmit',function(e,data){
+		$('.displayUpload').hide();
+	}).bind('fileuploadalways',function(e,data){
+		$('.displayUpload').fadeIn('slow');
 	});
 	var videos=[],tempLoader='<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="display: none;">';
 	$('#txtVideo').click(function(){
@@ -417,35 +427,6 @@ $(function(){
 	</tr>
 {% } %}
 </script>
-<script id="template-upload-old" type="text/x-tmpl">
-{% console.log(o.files); %}
-{% for(var i=0,file;file=o.files[i];i++){ %}
-	<tr class="template-upload fade">
-		<td style="width:40%;">
-			<span class="preview"></span>
-			<strong class="error text-danger"></strong>
-		</td>
-		<td style="width:30%;">
-			<p class="size">Processing...</p>
-			<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
-		</td>
-		<td style="width:30%;" colspan="2">
-			{% if(!i&&!o.options.autoUpload){ %}
-				<button class="btn btn-primary start" disabled>
-					<i class="glyphicon glyphicon-upload"></i>
-					<span><?=$lang->get('Start')?></span>
-				</button>
-			{% } %}
-			{% if(!i){ %}
-				<button class="btn btn-warning cancel">
-					<i class="glyphicon glyphicon-ban-circle"></i>
-					<span><?=$lang->get('Cancel')?></span>
-				</button>
-			{% } %}
-		</td>
-	</tr>
-{% } %}
-</script>
 <!-- The template to display files available for download -->
 <script id="template-download" type="text/x-tmpl">
 {% o.get=function(name){
@@ -468,7 +449,7 @@ $(function(){
 					{% }else if(file.url.match(/\.mp4$/i)){ 
 						var dat=file.url.split('<?=$setting->video_server_path?>videos/');
 					%}
-						<div class="tag-container noMenu" >
+						<div class="tag-container video noMenu" >
 							<div tag>
 								<div class="video" style="z-index: 1001;">
 									<button onclick="alert('aaaaaaaaaaaaaaaaaa')" class="btn btn-primary start" action="tag/videoSelect" data-set="{%=file.url%}" data-type="local" data-pre="{%=dat[1]%}"><i class="glyphicon glyphicon-upload"></i></button>
@@ -499,50 +480,6 @@ $(function(){
 					</button>
 				{% } %}
 			</div>
-		</td>
-	</tr>
-{% } %}
-</script>
-<script id="template-download-old" type="text/x-tmpl">
-{% o.get=function(name){
-	if(name.match(/(\.|\/)(jpe?g|gif|png)$/i)){
-		return '&code=<?=$client->code?>&folder=templates';
-	}else{
-		return '&code=<?=$client->code?>';
-	}
-}; %}
-{% for(var i=0,file;file=o.files[i];i++){ %}
-	<tr class="template-download fade">
-		<td style="width:87%;" colspan="3">
-			<span class="preview" action="tag-template" data-thumb="{%=file.thumbnailUrl%}">
-				{% if(file.thumbnailUrl){ %}
-					<div class="tag-container noMenu" action="tag/bgselect" data-url="{%=file.url%}">
-						<div class="template" style="background-image:url({%=file.url%})"></div>
-						<div tag></div>
-					</div>
-				{% }else if(file.url.match(/\.mp4$/i)){ %}
-					<video src="{%=file.url%}" controls></video>
-				{% } %}
-			<strong class="error text-danger"></strong>
-			</span>
-			{% if(file.error){ %}
-				<div><span class="label label-danger">Error</span> {%=file.error%}</div>
-			{% } %}
-		</td>
-		<td style="width:13%;">
-			{% if(file.deleteUrl){ %}
-				<button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
-					{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
-					data-url="{%=file.deleteUrl+o.get(file.name)%}">
-					<i class="glyphicon glyphicon-trash"></i>
-					<span><?=''//$lang->get('Delete')?></span>
-				</button>
-			{% }else{ %}
-				<button class="btn btn-warning cancel">
-					<i class="glyphicon glyphicon-ban-circle"></i>
-					<span><?=$lang->get('Cancel')?></span>
-				</button>
-			{% } %}
 		</td>
 	</tr>
 {% } %}
