@@ -1246,6 +1246,13 @@ content.resendEmailPassword input[type='button']{
 	top: 0;
 	left: 0;
 }
+.tag-container [tag] div.video .msgError{
+	color: white;
+	position: relative;
+	float: left;
+	text-align: center;
+	padding: 20px;
+}
 .tag-container [tag].ativeVideo .bg,
 .tag-container [tag].ativeVideo .profilepic,
 .tag-container [tag].ativeVideo .profile,
@@ -2077,7 +2084,14 @@ container .mid-pannel menu#carousel{
 	font-weight:bold;
 	font-size:13px;
 }
-
+#preVideTags .tag-container div[tag]:hover .video button{
+	position: relative;
+	z-index: 500;
+}
+#divcboPeoples .facebook-auto,
+#divcboPeoples .facebook-auto #cboPeoples_feed,
+#divcboPeoples .facebook-auto .default{ width: 360px !important; }
+#divcboPeoples .facebook-auto .default{ padding: 2px 0 !important; }
 container#creation input[type="text"],container#update input[type="text"]{
 	background-color: transparent;
 	text-align: center;

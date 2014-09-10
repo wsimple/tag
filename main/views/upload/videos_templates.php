@@ -144,6 +144,12 @@
 	}	
 	.displayUpload div[text]{ font-size: 30px; }
 </style>
+<?php 
+	if (isset($_GET['video'])){
+		$video=$_GET['video'];
+		$tipovideo=$_GET['tipo'];
+	}else{ $video=''; $tipovideo=''; }
+?>
 <div class="upload-panel tag">
 <div class="upload-menu">
 	<div data-container="#fileupload" class="active"><?=$lang->get('Upload file')?></div>
@@ -202,17 +208,15 @@
 	</form>
 	<div id="videoLink" class="dnone">
 		<label style="font-weight: bold;font-size: 13px;"><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
-		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://"/>
+		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://" value="<?=$video?>"/>
 		<button class="btn btn-danger delete" style="display:none;"><i class="glyphicon glyphicon-trash"></i></button>
 		<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
 	</div>
 	<form id="imageList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
-		<h3>Images</h3>
 		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 	</form>
 	<form id="videoList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
-		<h3>Videos</h3>
 		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 	</form>
@@ -308,61 +312,6 @@ $(function(){
 	}).bind('fileuploadalways',function(e,data){
 		$('.displayUpload').fadeIn('slow');
 	});
-	var videos=[];
-	$('#txtVideo').click(function(){
-		this.selectionStart=0;
-	}).keypress(function(event) {
-		if (event.keyCode==13) $(this).blur();	
-	}).change(function(event) {
-		$(this).blur();
-	}).on('blur',function(){
-		var that=this,URL=that.value,htmlv='';
-		if (URL!='' && URL!='http://'){
-		// if (videos.length<1 && URL!='' && URL!='http://'){
-			$.ajax({
-				url:'video/validate/1',
-				type:'POST',
-				dataType:'json',
-				data:{thisvideo:URL},
-				success:function(data){
-					if (data['success']){
-						var vid=false,band=true,text1='<?=$lang->get("Upload a new background")?>',text2='<?=$lang->get("Use previous backgrounds")?>';
-						for (var i=0; i<videos.length;i++) if (videos[i]==data['urlV']) band=false;
-						if (band){
-							htmlv=htmlVideo(data['urlV'],data['type'],URL)
-							$('#loadPreview').html('<div tag="'+0+'" style="margin: 20px auto;">'+htmlv+'</div>');
-							videos[0]=data['urlV'];
-							// if (data['type']=='youtube') iniallYoutube();
-							htmlv='<div><button id="uploadNewBackgrond" class="btn btn-success" style="float:left;">'+text1+'</button><button id="selectMyBackgrond" class="btn btn-success" style="float:right;">'+text2+'</button></div>';
-							$('#loadPreview').append(htmlv).find('div[tag] .video button.start').click();
-							$('#videoLink button.delete').show().removeAttr('disabled');
-						}
-					}
-				},
-				complete:function(){
-					$('#loadPreview img').remove();
-				}
-			});
-		}
-	});
-	$('#videoLink button.delete').click(function(){
-		var id=$('#loadPreview').find('div[tag]').attr('tag')*1;
-		videos.splice(id,1);
-		$('#loadPreview').empty().html('');
-		// $(this).parents('div[tag]').hide().remove()
-		$(this).prev('input[type="text"]').val('');
-		$(this).hide();
-		var video=$('#htxtVideo')[0];
-		if(video){
-			video.value=''
-			$('#preVideTags').empty().html('');
-		}
-	});
-	$('#loadPreview').on('click','#uploadNewBackgrond',function(){
-		$('div.upload-menu div[data-container="#fileupload"]').click();
-	}).on('click','#selectMyBackgrond',function(){
-		$('div.upload-menu div[data-container="#imageList"]').click();
-	});
 
 	//lista de imagenes
 	$.ajax({
@@ -398,7 +347,71 @@ $(function(){
 		}else{
 			$(this).off('.fileupload');
 		}
-	})
+	});
+
+
+	/*******************************        YOUTUBE AND VIMEO             *******************************/
+	var videos=[];
+	$('#txtVideo').click(function(){
+		this.selectionStart=0;
+	}).keypress(function(event) {
+		if (event.keyCode==13) $(this).blur();	
+	}).change(function(event) {
+		$(this).blur();
+	}).on('blur',function(){
+		var that=this,URL=that.value,htmlv='';
+		if (URL!='' && URL!='http://'){
+		// if (videos.length<1 && URL!='' && URL!='http://'){
+			$.ajax({
+				url:'video/validate/1',
+				type:'POST',
+				dataType:'json',
+				data:{thisvideo:URL},
+				success:function(data){
+					if (data['success']){
+						var vid=false,band=true,text1='<?=$lang->get("Upload a new background")?>',text2='<?=$lang->get("Use previous backgrounds")?>';
+						for (var i=0; i<videos.length;i++) if (videos[i]==data['urlV']) band=false;
+						if (band){
+							htmlv=htmlVideo(data['urlV'],data['type'],URL)
+							$('#loadPreview').html('<div tag="'+0+'" style="margin: 20px auto;">'+htmlv+'</div>');
+							videos[0]=data['urlV'];
+							// if (data['type']=='youtube') iniallYoutube();
+							htmlv='<div><button id="uploadNewBackgrond" class="btn btn-success" style="float:left;">'+text1+'</button><button id="selectMyBackgrond" class="btn btn-success" style="float:right;">'+text2+'</button></div>';
+							$('#loadPreview').append(htmlv).find('div[tag] .video button.start').click();
+							$('#videoLink button.delete').show().removeAttr('disabled');
+						}
+					}
+				}
+			});
+		}
+	});
+	$('#videoLink button.delete').click(function(){
+		var id=$('#loadPreview').find('div[tag]').attr('tag')*1;
+		videos.splice(id,1);
+		$('#loadPreview').empty().html('');
+		// $(this).parents('div[tag]').hide().remove()
+		$(this).prev('input[type="text"]').val('');
+		$(this).hide();
+		var video=$('#htxtVideo')[0];
+		if(video){
+			video.value=''
+			$('#preVideTags').empty().html('');
+		}
+	});
+	$('#loadPreview').on('click','#uploadNewBackgrond',function(){
+		$('div.upload-menu div[data-container="#fileupload"]').click();
+	}).on('click','#selectMyBackgrond',function(){
+		$('div.upload-menu div[data-container="#imageList"]').click();
+	});
+	var existvideo='<?=$video?>',tipovideo='<?=$tipovideo?>';
+	if (existvideo!=''){
+		if (tipovideo!='' && tipovideo!='local'){
+			$('div.upload-menu div[data-container="#videoLink"]').click();
+			$('#txtVideo').blur();
+		}else if(tipovideo!='' && tipovideo=='local')
+			$('div.upload-menu div[data-container="#videoList"]').click();
+	}
+	/*******************************      END YOUTUBE AND VIMEO             *******************************/
 });
 </script>
 <!-- Teplates -->

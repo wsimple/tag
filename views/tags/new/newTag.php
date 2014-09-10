@@ -1,22 +1,14 @@
-<style>
-	div[tag]:hover .video button{
-		position: relative;
-		z-index: 500;
-	}
-</style>
 <?php
 	if(isset($_GET['wpanel'])&&is_array($_SESSION['wpanel_user'])){
 		if($_SESSION['ws-tags']['ws-user']['email']!='wpanel@tagbum.com'){
-			$user=$GLOBALS['cn']->queryRow('SELECT * FROM users WHERE email="wpanel@tagbum.com"');
-			createSession($user);
-		}elseif($_SESSION['ws-tags']['ws-user']['email']!='wpanel@tagbum.com'){
-			$user=$GLOBALS['cn']->queryRow('SELECT * FROM users WHERE email="wpanel@tagbum.com"');
+			$user=CON::getRow("SELECT * FROM users WHERE email='wpanel@tagbum.com'");
 			createSession($user);
 		}
 	}
-	$idTag=!isset($_GET['tag'])?'':(is_numeric($_GET['tag'])?md5($_GET['tag']):$_GET['tag']);
+	$idTag=!isset($_GET['tag'])?'':$_GET['tag'];
 	$idUser = isset($_GET['wpanel'])?'':'AND id_creator ="'.$_SESSION['ws-tags']['ws-user']['id'].'"';
-	$tag = $GLOBALS['cn']->queryRow('SELECT	* FROM tags WHERE md5(id) ="'.$idTag.'" '.$idUser.' AND status NOT IN (2,4)');
+	$tag = CON::getRow("SELECT * FROM tags WHERE md5(id) =? $idUser AND status NOT IN (2,4)",array(intToMd5($idTag)));
+	if (!isset($tag['video_url'])) $tag['video_url']='';
 	$group=isset($tag['id_group'])&&$tag['id_group']!='0'?md5($tag['id_group']):$_GET['group'];
 	$bcard=isset($tag['id_business_card'])&&$tag['id_business_card']!='0'?$tag['id_business_card']:$_GET['bc'];
 	$personal=$tag['status']==9||isset($_GET['personal']);
@@ -109,7 +101,7 @@ if ($acceso){ ?>
 				<!-- <label><?=NEWTAG_LBLBACKGROUND?>:</label><br> -->
 				<!-- <div id="bgSelect"></div> -->
 				<input id="bgAndVideo" type="button" value="<?='Imagen/Video'?>"/>
-				<input type="hidden" name="htxtVideo" id="htxtVideo" value="<?=$tag['video_url']?>" />
+				<input type="hidden" name="htxtVideo" id="htxtVideo" data-tipo="" value="<?=$tag['video_url']?>" />
 			</div>
 			<?php
 				$privateTag=($group==''&&$_GET['product']==''&&$status!=9&&$idTag=='');
@@ -128,7 +120,7 @@ if ($acceso){ ?>
 			<?php } ?>
 		</div>
 		<div>
-			<div id="preVideTags" class="mini" style="width:150px;float:left;"></div>
+			<div id="preVideTags" class="mini" style="width:280px;float:left;"></div>
 		<?php if($privateTag){ ?>
 			<div id="divcboPeoples" style="display:none;float:right;">
 				<label class="label_tags_views" for="cboPeoples"><?=NEWTAG_SHARETAGONLY?>:</label>
@@ -160,7 +152,7 @@ if ($acceso){ ?>
 <script type="text/javascript">
 $(function(){
 	if (!window.players){ window.players=[]; }
-	var pub=true,bgd="<?=$tag['background']?$tag['background']:''?>";
+	var pub=true,bgd="<?=$tag['background']?$tag['background']:''?>",videoE="<?=$tag['video_url']?>";
 	$("#hiddenColorDiv").hover(function() {
 		var value = $("#hiddenColor").val();
 		 $("#txtMsg").css('color',value);
@@ -181,6 +173,7 @@ $(function(){
 	$('#radio').buttonset();
 	function setType(type){$('#type').val(type||'<?=$idPage?>');}
 	function setBG(img){
+		console.log(img);
 		$('#imgTemplate').val(img);
 		var url=FILESERVER+'img/templates/'+img;
 		$('#bckSelected').css('background-image','url('+url+')');
@@ -202,23 +195,46 @@ $(function(){
 			else $('#divcboPeoples').fadeIn(600).css({'display':'inline-block','margin-top':'15px'});
 		});
 	}
+	if (videoE!=''){
+		$.ajax({
+			url:'video/validate/1',
+			type:'POST',
+			dataType:'json',
+			data:{thisvideo:videoE},
+			success:function(data){
+				var video=document.getElementById('htxtVideo');
+				if (data['success']){
+					var band=true;
+					if (band){
+						htmlv=htmlVideo(data['urlV'],data['type'],null,true);
+						video.dataset.tipo=data['type'];
+						if (htmlv!='') $('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+htmlv+'</div></div>');
+						iniallYoutube();
+					}else video.value='';
+				}else video.value='';
+			}
+		});
+	}
 	$('#bgAndVideo').click(function(event) {
+		var video=document.getElementById('htxtVideo');
+		if (video.value!='') get='?video='+video.value+'&tipo='+video.dataset.tipo;
+		else get='';
 		$.dialog({
 			title:'Preview',
 			resizable:false,
 			width:650,
 			height:500,
 			modal:true,
-			open:function(){ $(this).load('upload/videos_templates/dialog'); },
+			open:function(){ $(this).load('upload/videos_templates/dialog'+get); },
 			buttons:[]
 		});
 	});
 	$('#preVideTags').on('click','div[tag] .video button.delete',function(){
-		$(this).parents('div[tag]').hide().remove();
+		$(this).parents('div[tag]').hide().parent('.tag-container').remove();
 		$('#htxtVideo').val('');
 	});
 	setType();//default
-	if (bgd!=''){ setBG(); }
+	if (bgd!=''){ setBG(bgd); }
 	function redirTo(){
 		<?php if($personal){//if personal tag ?>
 			redir('timeline?current=personalTags');
@@ -330,12 +346,12 @@ $(function(){
 //			width:200
 //	});
 	$('#cboPeoples').fcbkcomplete({
+			width : '250px',
 			json_url:'includes/friendsHelp.php?value=1',
 			newel:true,
 			filter_selected:true,
 			addontab:false,
-			filter_hide:true,
-			width: 250
+			filter_hide:true
 	});
 	$('#textlarg').keyup(function(){
 		$('#txtMsg2').val($('#textlarg').val());
