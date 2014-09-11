@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="css/fileupload/style.css">
+<link rel="stylesheet" href="css/fileupload/jquery.fileupload.css">
+<link rel="stylesheet" href="css/fileupload/jquery.fileupload-ui.css">
 <?php
 	if(isset($_GET['wpanel'])&&is_array($_SESSION['wpanel_user'])){
 		if($_SESSION['ws-tags']['ws-user']['email']!='wpanel@tagbum.com'){
@@ -18,7 +21,7 @@
         elseif (isset($_GET['product'])) $acceso=  existe('store_products', 'id', 'WHERE id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND md5(id)="'.$_GET['product'].'"');
     }else{ $acceso=true; }
     // echo $status.' Variable del wpanel';
-if ($acceso){ ?>
+if ($acceso){  ?>
 <div id="editTag-box" class="ui-single-box">
 	<form action="controls/tags/newTag.json.php" method="post" enctype="multipart/form-data" id="formTags" style="margin:0;padding:0;">
 		<input type="hidden" name="type" id="type" value="" />
@@ -100,7 +103,7 @@ if ($acceso){ ?>
 			<div id="backgroundsTag">
 				<!-- <label><?=NEWTAG_LBLBACKGROUND?>:</label><br> -->
 				<!-- <div id="bgSelect"></div> -->
-				<input id="bgAndVideo" type="button" value="<?='Imagen/Video'?>"/>
+				<input id="bgAndVideo" type="button" value="<?='Imagen/Video'?>" ajax/>
 				<input type="hidden" name="htxtVideo" id="htxtVideo" data-tipo="" value="<?=$tag['video_url']?>" />
 			</div>
 			<?php
@@ -141,7 +144,7 @@ if ($acceso){ ?>
 				<input id="cancel" type="button" value="<?=JS_CANCEL?>"/>
 				<input id="preview" type="button" value="<?=NEWTAG_BTNPREVIEW?>"/>
 				<?php if(!isset($_GET['wpanel'])){ ?>
-				<input id="publi" type="button" value="<?=NEWTAG_BTNPUBLISH?>"/>
+				<input id="publi" type="button" value="<?=NEWTAG_BTNPUBLISH?>" ajax/>
 				<?php } ?>
 			</div>
 		</div>
@@ -149,6 +152,27 @@ if ($acceso){ ?>
   </form>
 	<div class="clearfix"></div>
 </div>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="js/fileupload/vendor/jquery.ui.widget.js"></script>
+<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+<script src="js/load-image.min.js"></script>
+<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+<script src="js/canvas-to-blob.min.js"></script>
+<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="js/fileupload/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="js/fileupload/jquery.fileupload.js"></script>
+<!-- The File Upload processing plugin -->
+<script src="js/fileupload/jquery.fileupload-process.js"></script>
+<!-- The File Upload video preview plugin -->
+<script src="js/fileupload/jquery.fileupload-image.js"></script>
+<script src="js/fileupload/jquery.fileupload-video.js"></script>
+<!-- The File Upload validation plugin -->
+<script src="js/fileupload/jquery.fileupload-validate.js"></script>
+<!-- The File Upload user interface plugin -->
+<script src="js/fileupload/jquery.fileupload-ui.js"></script>
 <script type="text/javascript">
 $(function(){
 	if (!window.players){ window.players=[]; }
@@ -173,7 +197,6 @@ $(function(){
 	$('#radio').buttonset();
 	function setType(type){$('#type').val(type||'<?=$idPage?>');}
 	function setBG(img){
-		console.log(img);
 		$('#imgTemplate').val(img);
 		var url=FILESERVER+'img/templates/'+img;
 		$('#bckSelected').css('background-image','url('+url+')');
@@ -226,7 +249,13 @@ $(function(){
 			height:500,
 			modal:true,
 			open:function(){ $(this).load('upload/videos_templates/dialog'+get); },
-			buttons:[]
+			buttons:[],
+			close:function(){
+				$('video',this).each(function(index, el) {
+					this.pause();
+					this.src="";
+				});
+			}
 		});
 	});
 	$('#preVideTags').on('click','div[tag] .video button.delete',function(){

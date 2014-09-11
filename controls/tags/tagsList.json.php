@@ -2,7 +2,7 @@
 include '../header.json.php';
 include_once RELPATH.'includes/qr/qrlib.php';
 function tagsList_json($data,$mobile=false){
-	global $debug;
+	global $debug; global $config;
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
 	//objeto que guarda los datos json a enviar
 	$res=array();
@@ -401,7 +401,10 @@ function tagsList_json($data,$mobile=false){
 					// if (!$mobile) $tag['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
 					// $tag['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
 				}
-			}elseif(isVideo('local',$tag['video'])){ $tag['typeVideo']='local'; }
+			}elseif(isVideo('local',$tag['video'])){ 
+				$tag['video']=$config->video_server.'videos/'.$tag['video']; 
+				$tag['typeVideo']='local'; 
+			} 
 			$btn=buttons($tag,$myId);
 			if($data['current']=='privateTags'){ $btn['trash']=true; }
 			if(count($btn)>0){
@@ -452,7 +455,10 @@ function tagsList_json($data,$mobile=false){
 						// if (!$mobile) $sponsor['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
 						// $sponsor['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
 					}
-				}elseif(isVideo('local',$sponsor['video'])){ $sponsor['typeVideo']='local'; }
+				}elseif(isVideo('local',$sponsor['video'])){ 
+					$sponsor['video']=$config->video_server.'videos/'.$sponsor['video']; 
+					$sponsor['typeVideo']='local'; 
+				}
 				$btn=buttons($sponsor,$myId);
 				if(count($btn)>0) $sponsor['btn']=$btn;
 				$res['tags'][]=$sponsor;
