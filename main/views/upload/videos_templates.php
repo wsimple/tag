@@ -48,6 +48,9 @@
 		min-height:350px;*/
 		margin: 0; 
 		padding: 0;
+		max-height: 370px;
+		min-height: 370px;
+		overflow: auto;
 		/*overflow-y:auto;*/
 	}
 	.template-download .preview img{
@@ -60,12 +63,18 @@
 		padding: 2px;
 		margin: 2px;
 	}*/
-	#loadPreview div[tag]:hover .video button,
-	#fileupload div[tag]:hover .video button{
+	div[tag]:hover .video button{
 		position: relative;
 		z-index: 1002;
+		display: block;
 	}
-	.upload-panel.tag .table[role="presentation"] td.download>div,
+/*	#videoList div.tag-container.video div[tag]:hover .video button,
+	#fileupload div.tag-container.video div[tag]:hover .video button{
+		position: relative;
+		z-index: 1002;
+		display: block;
+	}
+*/	.upload-panel.tag .table[role="presentation"] td.download>div,
 	.upload-panel.tag .table[role="presentation"] td.upload>div{
 		float:left;
 		margin:5px;
@@ -141,8 +150,31 @@
 		font-size: 20px;
 		padding: 0 10px;
 		margin-bottom: 10px;
-	}	
+	}
 	.displayUpload div[text]{ font-size: 30px; }
+	.actionButton{ display: none; }	
+	.tag-container:hover + .actionButton,.actionButton:hover{ display: block; }	
+	.actionButton button{
+		position: relative;
+		z-index: 1002;
+	}
+	.actionButton.video button{ top: -160px; }
+	.actionButton.img button{ 
+		top: -310px;
+		left: 137px;
+	 }
+	.actionButton.video button.start{ left: -109px; }
+	.actionButton.video button.delete{ left: 108px; }
+	.actionButton button.start{
+		-moz-border-top-left-radius: 0.850em;
+		border-top-left-radius: 0.850em;
+		-webkit-border-top-left-radius: 0.850em; 
+	}
+	.actionButton button.delete{
+		-moz-border-top-right-radius: 0.850em;
+		border-top-right-radius: 0.850em;
+		-webkit-border-top-right-radius: 0.850em;
+	}
 </style>
 <?php 
 	if (isset($_GET['video'])){
@@ -254,9 +286,7 @@
 /*jslint unparam: true */
 if (!window.players){ window.players=[]; }
 function des(objet){
-	// var content=$(objet).parents('div[tag]').parent(),html=buttonVideo(objet.dataset.set,objet.dataset.type,objet.dataset.pre);
-	// console.log(html,content);
-	// $(content).append(html);
+
 }
 /*global window, $ */
 $(function(){
@@ -454,43 +484,54 @@ $(function(){
 		return '&code=<?=$client->code?>';
 	}
 }; %}
-{% for(var i=0,file;file=o.files[i];i++){ %}
+{% for(var i=0,file;file=o.files[i];i++){ 
+	var dat=file.url.split('<?=$setting->video_server_path?>videos/'),clas;
+%}
 	<tr class="template-download fade">
 		<td class="download">
 			<div>
-				<span class="preview" data-thumb="{%=file.thumbnailUrl%}">
-					{% if(file.thumbnailUrl){ %}
-						<div class="tag-container img noMenu" action="tag/bgselect" data-url="{%=file.url%}">
+				<!--span class="preview" data-thumb="{%=file.thumbnailUrl%}"-->
+					{% if(file.thumbnailUrl){ clas='img'; %}
+						<div class="tag-container img noMenu" style="height: auto;">
 							<div class="template" style="background-image:url({%=file.url%})"></div>
-							<div tag></div>
+							<div tag action="tag/bgselect" data-url="{%=file.url%}"></div>
 						</div>
-					{% }else if(file.url.match(/\.mp4$/i)){ 
-						var dat=file.url.split('<?=$setting->video_server_path?>videos/');
-					%}
-						<div class="tag-container video noMenu" >
+					{% }else if(file.url.match(/\.mp4$/i)){ clas='video'; %}
+						<div class="tag-container video noMenu" style="width: auto;height: auto;">
 							<div tag>
 								<div class="video" style="z-index: 1001;">
-									<button class="btn btn-primary start" onclick="des(this);"  data-set="{%=dat[1]%}" data-type="local" data-pre="{%=file.url%}"><i class="glyphicon glyphicon-upload"></i></button>
 									<div class="placa"></div>
 									<video controls="controls"><source src="{%=file.url%}" type="video/mp4" /></video>
 								</div>
 							</div>
 						</div>
 					{% } %}
-				<strong class="error text-danger"></strong>
-				</span>
-				{% if(file.error){ %}
-					<div><span class="label label-danger">Error</span> {%=file.error%}</div>
-				{% } %}
-			</div>
-			<div>
-				{% if(file.deleteUrl){ %}
+				<div class="actionButton {%=clas%}">
+					{% if(file.url.match(/\.mp4$/i)){ %}
+					<button class="btn btn-primary start" onclick="des(this);"  data-set="{%=dat[1]%}" data-type="local" data-pre="{%=file.url%}" ><i class="glyphicon glyphicon-upload" ></i></button>
+					{% } if(file.deleteUrl){ %}
 					<button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
 						{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
 						data-url="{%=file.deleteUrl+o.get(file.name)%}">
 						<i class="glyphicon glyphicon-trash"></i>
 						<span><?=''//$lang->get('Delete')?></span>
 					</button>
+					{% } %}					
+				</div>
+				<strong class="error text-danger"></strong>
+				<!--/span-->
+				{% if(file.error){ %}
+					<div><span class="label label-danger">Error</span> {%=file.error%}</div>
+				{% } %}
+			</div>
+			<div>
+				{% if(file.deleteUrl){ %}
+					<!--button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
+						{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
+						data-url="{%=file.deleteUrl+o.get(file.name)%}"-->
+						<!--i class="glyphicon glyphicon-trash"></i-->
+						<!--span><?=''//$lang->get('Delete')?></span-->
+					<!--/button-->
 				{% }else{ %}
 					<button class="btn btn-warning cancel">
 						<i class="glyphicon glyphicon-ban-circle"></i>
