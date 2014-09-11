@@ -1,6 +1,3 @@
-<link rel="stylesheet" href="css/fileupload/style.css">
-<link rel="stylesheet" href="css/fileupload/jquery.fileupload.css">
-<link rel="stylesheet" href="css/fileupload/jquery.fileupload-ui.css">
 <style>
 	.upload-panel.tag{
 		min-width:500px;
@@ -191,7 +188,7 @@
 	<!-- <div data-container="#pendingVideoList"><?=$lang->get('Pending Videos')?></div> -->
 </div>
 <div class="upload container">
-	<form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+	<form id="fileupload"  method="POST" enctype="multipart/form-data">
 		<!-- Redirect browsers with JavaScript disabled to the origin page -->
 		<noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
 		<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -244,11 +241,11 @@
 		<button class="btn btn-danger delete" style="display:none;"><i class="glyphicon glyphicon-trash"></i></button>
 		<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
 	</div>
-	<form id="imageList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+	<form id="imageList" class="dnone"  method="POST" enctype="multipart/form-data">
 		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 	</form>
-	<form id="videoList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+	<form id="videoList" class="dnone"  method="POST" enctype="multipart/form-data">
 		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 	</form>
@@ -260,33 +257,12 @@
 	<!-- </form> -->
 </div>
 </div>
-
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="js/fileupload/vendor/jquery.ui.widget.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="js/load-image.min.js"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="js/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="js/fileupload/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="js/fileupload/jquery.fileupload.js"></script>
-<!-- The File Upload processing plugin -->
-<script src="js/fileupload/jquery.fileupload-process.js"></script>
-<!-- The File Upload video preview plugin -->
-<script src="js/fileupload/jquery.fileupload-image.js"></script>
-<script src="js/fileupload/jquery.fileupload-video.js"></script>
-<!-- The File Upload validation plugin -->
-<script src="js/fileupload/jquery.fileupload-validate.js"></script>
-<!-- The File Upload user interface plugin -->
-<script src="js/fileupload/jquery.fileupload-ui.js"></script>
 <script>
 /*jslint unparam: true */
 if (!window.players){ window.players=[]; }
 function des(objet){
-
+	$(objet).removeProp('disabled').removeAttr('onclick').addClass('invisible');
+	$('#videoLink').append(objet).find('button.start').click().remove()
 }
 /*global window, $ */
 $(function(){
@@ -339,6 +315,17 @@ $(function(){
 		that.options.filesContainer.empty();
 	}).bind('fileuploadsubmit',function(e,data){
 		$('.displayUpload').hide();
+	}).bind('fileuploaddone',function(e,data){
+		var Utype=data.files[0].type.split('/');
+		if (Utype[0]=='video'){ 
+			setTimeout(function(){
+				$('form#fileupload [action]').attr('action',$('form#fileupload [action]').attr('action')+',1').click();
+			}, 1000);
+		}else if (Utype[0]=='image'){
+			setTimeout(function(){
+				$('form#fileupload [action]').click();
+			}, 1000);
+		}
 	}).bind('fileuploadalways',function(e,data){
 		$('.displayUpload').fadeIn('slow');
 	});
@@ -508,7 +495,7 @@ $(function(){
 					{% } %}
 				<div class="actionButton {%=clas%}">
 					{% if(file.url.match(/\.mp4$/i)){ %}
-					<button class="btn btn-primary start" onclick="des(this);"  data-set="{%=dat[1]%}" data-type="local" data-pre="{%=file.url%}" ><i class="glyphicon glyphicon-upload" ></i></button>
+					<button action="tag/videoSelect,1" class="btn btn-primary start" onclick="des(this);"  data-set="{%=dat[1]%}" data-type="local" data-pre="{%=file.url%}" ><i class="glyphicon glyphicon-upload" ></i></button>
 					{% } if(file.deleteUrl){ %}
 					<button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
 						{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
