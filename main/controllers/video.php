@@ -3,7 +3,7 @@ class Video extends TAG_controller{
 	// function __onload(){
 	// 	$this->disable_methods();
 	// }
-	function validate($is_ajax=0,$url='',$nolocal=0){
+	function validate($is_ajax=0,$url='',$nolocal=0,$mobile=false,$config=false){
 		$success=false;$type=false;$test='';
 		if ($url==''){
 			if (isset($_GET['thisvideo'])) $url=$_GET['thisvideo'];
@@ -37,20 +37,27 @@ class Video extends TAG_controller{
 					// if (!$mobile) $url='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
 					// $url='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
 				}
-			}elseif($nolocal!=0 && $this->isVideo('local',$url)){ $success=true; $type='local'; }
+			}elseif($nolocal!=0 && $this->isVideo('local',$url,$config)){ 
+				$success=true; $type='local'; 
+				if (!isset($setting) && $config!=false) $setting=$config;
+				$url=$setting->video_server.'videos/'.$url;
+			}
 		}
 		if ($is_ajax==0) return array('success'=>$success,'urlV'=>$url,'type'=>$type,'test'=>$test);
 		else $this->load->view('partial/json',array('json'=>array('success'=>$success,'urlV'=>$url,'type'=>$type,'test'=>$test)));
 		// else echo json_encode(array('success'=>$success,'urlV'=>$url,'type'=>$type,'test'=>$test));
 		return true;
 	}
-	function isVideo($type,&$value){
+	function isVideo($type,&$value,$config=false){
 		if($type=='youtube')
 			return preg_match('/youtu\\.be|youtube\\.com/i',$value);
 		elseif($type=='vimeo')
 			return preg_match('/vimeo\\.com/i',$value);
-		elseif($type=='local')
-			return preg_match('/video/i',$value);
+		elseif($type=='local' && $value!='' && $value!='http://'){
+			if (!isset($setting) && $config!=false) $setting=$config;
+			return (@fopen($setting->video_server.'videos/'.$value,'r')==true);
+			// return fileExistsRemote($config->video_server.'videos/'.$value);
+		}
 	}
 	function regex($name){
 		switch($name){
@@ -62,5 +69,14 @@ class Video extends TAG_controller{
 			case 'validurl'		:return '/\b(https?:\\/\\/(www\\.)?([a-z][-a-z0-9]+\\.)?([a-z][-a-z0-9]*)\\.([a-zA-Z]{2}|aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel)(\.[a-z]{2})?(\/.*)?)\b/i';
 			default				:return '/.*/i';
 		}
+	}
+	function test($a){
+		echo json_encode(array('error'=>false,
+						   'video'=>'videos/3a4ad9a63825f8c78c321ac7bab8e1ce/1029064_668821293206823_.mp4',
+						   'capture'=>array('videos/3a4ad9a63825f8c78c321ac7bab8e1ce/1.jpg',
+						   					'videos/3a4ad9a63825f8c78c321ac7bab8e1ce/2.jpg',
+						   					'videos/3a4ad9a63825f8c78c321ac7bab8e1ce/3.jpg',
+						   					'videos/3a4ad9a63825f8c78c321ac7bab8e1ce/4.jpg')
+					));
 	}
 }

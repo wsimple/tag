@@ -324,7 +324,7 @@ display:block;
 width:1024px;
 margin:auto;
 }
-.ui-dialog button,.ui-dialog input[type="submit"],.ui-dialog input[type="reset"],.ui-dialog input[type="button"],
+.ui-dialog button,.ui-dialog span.btn-success.fileinput-button,.ui-dialog input[type="submit"],.ui-dialog input[type="reset"],.ui-dialog input[type="button"],
 page wrapper button,page wrapper input[type="submit"],page wrapper input[type="reset"],page wrapper input[type="button"],.button{
     border:none;
     color:white;
@@ -2084,9 +2084,28 @@ container .mid-pannel menu#carousel{
 	font-weight:bold;
 	font-size:13px;
 }
+#preVideTags .tag-container div[tag] .video button{
+	display: none;
+}
 #preVideTags .tag-container div[tag]:hover .video button{
 	position: relative;
-	z-index: 500;
+	z-index: 1002;
+	display: block;
+}
+#preVideTags .tag-container .select-capture{
+	width: 280px;
+	height: 70px;
+	padding: 10px;
+	text-align: center;
+}
+#preVideTags .tag-container .select-capture .option-cap{
+	width:60px;
+	height:60px;
+	/*background-repeat: no-repeat;*/
+	background-size: 100%;
+	float: left;
+	margin: 0 5px;
+	cursor: pointer;
 }
 #divcboPeoples .facebook-auto,
 #divcboPeoples .facebook-auto #cboPeoples_feed,
