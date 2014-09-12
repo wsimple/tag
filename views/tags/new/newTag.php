@@ -223,7 +223,7 @@ $(function(){
 			url:'video/validate/1',
 			type:'POST',
 			dataType:'json',
-			data:{thisvideo:videoE},
+			data:{thisvideo:videoE,nolocal:'1'},
 			success:function(data){
 				var video=document.getElementById('htxtVideo');
 				if (data['success']){
