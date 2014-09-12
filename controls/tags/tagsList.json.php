@@ -1,6 +1,10 @@
 <?php
 include '../header.json.php';
 include_once RELPATH.'includes/qr/qrlib.php';
+include_once RELPATH.'main/controllers/video.php';
+class TAG_controller{
+	function __construct(){}
+}
 function tagsList_json($data,$mobile=false){
 	global $debug; global $config;
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
@@ -382,29 +386,13 @@ function tagsList_json($data,$mobile=false){
 			$tag['hashExCurrent']=$exCurrenHash;
 			$tag['video']=trim($tag['video']);
 			if($debug) $tag['test']='video='.$tag['video'].',vimeo='.isVideo('vimeo',$tag['video']).',youtube='.isVideo('youtube',$tag['video']);
-			if(isVideo('vimeo',$tag['video'])){
-				if(preg_match('/vimeo.com\\/([^\\?\\&]+)/i',$tag['video'],$matches)){
-					$tag['typeVideo']='vimeo';
-					$vec=explode('/', $matches[1]);
-					$code = end($vec);
-					if (!$mobile) $tag['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
-					// $tag['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
-				}
-			}elseif(isVideo('youtube',$tag['video'])){
-				if($data['embed'])
-					$tag['video']=preg_replace(regex('youtube'), 'http://youtube.com/embed/$7$9', $tag['video']);
-				$tag['typeVideo']='youtube';
-				if(preg_match('/(youtube\\S*[\\/\\?\\&]v[\\/=]|youtu.be\\/)([^\\?\\&]+)/i',$tag['video'],$matches)){
-					$type='youtube';
-					$code=$matches[2];
-					if (!$mobile) $tag['video']=$code;
-					// if (!$mobile) $tag['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
-					// $tag['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
-				}
-			}elseif(isVideo('local',$tag['video'])){ 
-				$tag['video']=$config->video_server.'videos/'.$tag['video']; 
-				$tag['typeVideo']='local'; 
-			} 
+			$validaVideo=new Video();
+			$validaVideo=$validaVideo->validate(0,$tag['video'],1,$mobile,$config);
+			// array('success'=>$success,'urlV'=>$url,'type'=>$type,'test'=>$test)
+			if ($validaVideo['success']){
+				$tag['typeVideo']=$validaVideo['type'];
+				$tag['video']=$validaVideo['urlV'];
+			}else $tag['video']=''; 
 			$btn=buttons($tag,$myId);
 			if($data['current']=='privateTags'){ $btn['trash']=true; }
 			if(count($btn)>0){
@@ -436,29 +424,13 @@ function tagsList_json($data,$mobile=false){
 				unset($sponsor['id_product']);
 				$sponsor['num_likes']=numRecord('likes', 'WHERE id_source="'.$sponsor['id'].'"');
 				$sponsor['num_disLikes']=numRecord('dislikes', 'WHERE id_source="'.$sponsor['id'].'"');
-				if(isVideo('vimeo',$sponsor['video'])){
-					if(preg_match('/vimeo.com\\/([^\\?\\&]+)/i',$sponsor['video'],$matches)){
-						$sponsor['typeVideo']='vimeo';
-						$vec=explode('/', $matches[1]);
-						$code = end($vec);
-						if (!$mobile) $sponsor['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';					
-						// $sponsor['video']='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
-					}
-				}elseif(isVideo('youtube',$sponsor['video'])){
-					if($data['embed'])
-						$sponsor['video']=preg_replace(regex('youtube'), 'http://youtube.com/embed/$7$9', $sponsor['video']);
-					$sponsor['typeVideo']='youtube';
-					if(preg_match('/(youtube\\S*[\\/\\?\\&]v[\\/=]|youtu.be\\/)([^\\?\\&]+)/i',$sponsor['video'],$matches)){
-						$type='youtube';
-						$code=$matches[2];
-						if (!$mobile) $sponsor['video']=$code;
-						// if (!$mobile) $sponsor['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
-						// $sponsor['video']='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
-					}
-				}elseif(isVideo('local',$sponsor['video'])){ 
-					$sponsor['video']=$config->video_server.'videos/'.$sponsor['video']; 
-					$sponsor['typeVideo']='local'; 
-				}
+				$validaVideo=new Video();
+				$validaVideo=$validaVideo->validate(0,$sponsor['video'],1,$mobile,$config);
+				// array('success'=>$success,'urlV'=>$url,'type'=>$type,'test'=>$test)
+				if ($validaVideo['success']){
+					$sponsor['typeVideo']=$validaVideo['type'];
+					$sponsor['video']=$validaVideo['urlV'];
+				}else $sponsor['video']='';
 				$btn=buttons($sponsor,$myId);
 				if(count($btn)>0) $sponsor['btn']=$btn;
 				$res['tags'][]=$sponsor;

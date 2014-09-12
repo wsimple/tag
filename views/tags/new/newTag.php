@@ -261,7 +261,12 @@ $(function(){
 	$('#preVideTags').on('click','div[tag] .video button.delete',function(){
 		$(this).parents('div[tag]').hide().parent('.tag-container').remove();
 		$('#htxtVideo').val('');
-	});
+	}).on('click','.tag-container .select-capture .option-cap',function(){
+		var img=$('#imgTemplate')[0];
+		img.value=this.dataset.src.replace('videos/');
+		// img.value=this.dataset.url.replace(SERVERS.img+'img/templates/','');
+		$('#bckSelected').css('background-image','url('+SERVERS.video+this.dataset.src+')');
+	});	
 	setType();//default
 	if (bgd!=''){ setBG(bgd); }
 	function redirTo(){

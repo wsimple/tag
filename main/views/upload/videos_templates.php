@@ -227,10 +227,10 @@
 			<div image></div>
 			<div text><?=$lang->get('Drag a file here')?></div>
 			<div o>O</div>
-			<button class="btn btn-success fileinput-button">
+			<span class="btn btn-success fileinput-button">
 					<span><?=$lang->get('Select a file from your computer')?></span>
 					<input type="file" name="files">
-			</button>
+			</span>
 		</div>
 		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
