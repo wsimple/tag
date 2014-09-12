@@ -3,16 +3,17 @@ class Video extends TAG_controller{
 	// function __onload(){
 	// 	$this->disable_methods();
 	// }
-	function validate($is_ajax=0,$url='',$nolocal=0,$mobile=false,$config=false){
+	function validate($is_ajax=0,$url=0,$nolocal=0,$mobile=false,$config=false){
+		if (!$config) global $config;
 		$success=false;$type=false;$test='';
-		if ($url==''){
+		if ($url==0){
 			if (isset($_GET['thisvideo'])) $url=$_GET['thisvideo'];
 			if (isset($_POST['thisvideo'])) $url=$_POST['thisvideo'];
 		}
-		if ($url!=''){
+		if ($url!=0){
 			if ($nolocal===0){
-				if (isset($_GET['nolocal'])) $url=$_GET['nolocal'];
-				if (isset($_POST['nolocal'])) $url=$_POST['nolocal'];	
+				if (isset($_GET['nolocal'])) $nolocal=$_GET['nolocal'];
+				if (isset($_POST['nolocal'])) $nolocal=$_POST['nolocal'];	
 			}
 			$url=trim($url);
 			if(isset($debug) && $debug) $test='video='.$url.',vimeo='.$this->isVideo('vimeo',$url).',youtube='.$this->isVideo('youtube',$url);
