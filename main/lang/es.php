@@ -30,6 +30,7 @@ $lang=array(
 	'Cancel upload' => 'Cancelar subida',
 	'Delete' => 'Borrar',
 	'PENDING_VIDEO_INFO' => 'Los videos en esta lista ya han sido subidos, pero el sistema debe procesarlos y convertirlos a un formato estandar antes de que usted pueda utilizarlos en una tag.',
+	'ERRORFILEINFO' => 'Disculpe, este archivo no puede ser procesado, por favor intente nuevamente con un archivo diferente.',
 	#Otros
 	'example' => 'ejemplo',
 );

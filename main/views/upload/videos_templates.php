@@ -237,7 +237,7 @@
 	</form>
 	<div id="videoLink" class="dnone">
 		<label style="font-weight: bold;font-size: 13px;"><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
-		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://" value="<?=$video?>"/>
+		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://" value="<?=$tipovideo!='local'&&$tipovideo!=''?$video:''?>"/>
 		<button class="btn btn-danger delete" style="display:none;"><i class="glyphicon glyphicon-trash"></i></button>
 		<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
 	</div>
@@ -312,6 +312,7 @@ $(function(){
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
 	}).bind('fileuploadadd',function(e,data){
+		$('.error_message',this).remove();
 		var $this=$(this),
 			that =$this.data('blueimp-fileupload')||$this.data('fileupload');
 		that.options.filesContainer.empty();
@@ -331,7 +332,13 @@ $(function(){
 		}
 	}).bind('fileuploadalways',function(e,data){
 		$('.displayUpload').fadeIn('slow');
+	}).bind('fileuploadprocessfail',function(e,data){
+		$('#fileupload').prepend('<div class="error_message" style="width: 455px; margin: 0px auto;display:block;text-align:center;"><img src="imgs/message_error.png" width="12" height="12"> <?=$lang->get("ERRORFILEINFO")?></div>');
+		var $this=$(this),
+			that =$this.data('blueimp-fileupload')||$this.data('fileupload');
+		that.options.filesContainer.empty();
 	});
+
 
 	//lista de imagenes
 	$.ajax({
