@@ -261,8 +261,10 @@
 /*jslint unparam: true */
 if (!window.players){ window.players=[]; }
 function des(objet){
+	if ($(objet).attr('raction')) $(objet).attr('action',$(objet).attr('raction')).removeAttr('raction');
 	$(objet).removeProp('disabled').removeAttr('onclick').addClass('invisible');
-	$('#videoLink').append(objet).find('button.start').click().remove()
+	$('#videoLink').append(objet+'').find('button.start').click();
+	$(objet).remove();
 }
 /*global window, $ */
 $(function(){
@@ -319,7 +321,8 @@ $(function(){
 		var Utype=data.files[0].type.split('/');
 		if (Utype[0]=='video'){ 
 			setTimeout(function(){
-				$('form#fileupload [action]').attr('action',$('form#fileupload [action]').attr('action')+',1').click();
+				var v=$('form#fileupload table [action]')[0];
+				if (v){ $(v).attr('raction',$(v).attr('action')+',1').removeAttr('action').click(); }
 			}, 1000);
 		}else if (Utype[0]=='image'){
 			setTimeout(function(){
