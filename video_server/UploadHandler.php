@@ -9,7 +9,6 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
-require_once('includes/client.php');
 
 class UploadHandler
 {
@@ -1040,11 +1039,9 @@ class UploadHandler
 		$this->destroy_image_object($file_path);
 	}
 
-	protected function handle_file_upload($uploaded_file, $name, $size, $type, $error,
-			$index = null, $content_range = null) {
+	protected function handle_file_upload($uploaded_file,$name,$size,$type,$error,$index=null,$content_range=null){
 		$file = new \stdClass();
-		$file->name = $this->get_file_name($uploaded_file, $name, $size, $type, $error,
-			$index, $content_range);
+		$file->name = $this->get_file_name($uploaded_file,$name,$size,$type,$error,$index,$content_range);
 		$file->size = $this->fix_integer_overflow(intval($size));
 		$file->type = $type;
 		if ($this->validate($uploaded_file, $file, $error, $index)) {
@@ -1294,9 +1291,15 @@ class UploadHandler
 			// param_name is an array identifier like "files[]",
 			// $_FILES is a multi-dimensional array:
 			foreach ($upload['tmp_name'] as $index => $value) {
+				#definimos nombre personalizado
+				$ext=pathinfo($upload['tmp_name'][$index],PATHINFO_EXTENSION);
+				$filename=hash_file('crc32',$upload['tmp_name'][$index]).'_'.date('YmdHis').'.'.$ext;
 				$files[] = $this->handle_file_upload(
 					$upload['tmp_name'][$index],
-					$file_name ? $file_name : $upload['name'][$index],
+					$file_name?$file_name:(
+						$filename?$filename:$upload['name'][$index]
+					),
+					$filename,
 					$size ? $size : $upload['size'][$index],
 					$upload['type'][$index],
 					$upload['error'][$index],
@@ -1307,10 +1310,15 @@ class UploadHandler
 		} else {
 			// param_name is a single object identifier like "file",
 			// $_FILES is a one-dimensional array:
+			$_file=isset($upload['tmp_name']) ? $upload['tmp_name'] : null;
+			$filename=!$_file?null:hash_file('crc32',$_file).'_'.date('YmdHis').'.'.pathinfo($upload['name'],PATHINFO_EXTENSION);
 			$files[] = $this->handle_file_upload(
-				isset($upload['tmp_name']) ? $upload['tmp_name'] : null,
-				$file_name ? $file_name : (isset($upload['name']) ?
-						$upload['name'] : null),
+				$_file,
+				$file_name?$file_name:(
+					$filename?$filename:(
+						isset($upload['name']) ? $upload['name'] : null
+					)
+				),
 				$size ? $size : (isset($upload['size']) ?
 						$upload['size'] : $this->get_server_var('CONTENT_LENGTH')),
 				isset($upload['type']) ?
@@ -1326,7 +1334,7 @@ class UploadHandler
 		);
 	}
 
-	public function delete($print_response = true) {
+	public function delete($print_response = true){
 		$file_names = $this->get_file_names_params();
 		if (empty($file_names)) {
 			$file_names = array($this->get_file_name_param());
@@ -1349,5 +1357,4 @@ class UploadHandler
 		}
 		return $this->generate_response($response, $print_response);
 	}
-
 }
