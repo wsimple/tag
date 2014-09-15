@@ -53,7 +53,7 @@ $friend = CON::getRow("SELECT
 			</li>
 			<li style="padding-top:10px;margin-bottom:10px;text-align:center;">
 				<?php if ($friend['nPTags']> 0){ ?>
-					<input type="button" id="Mytag" action="personalTags,<?=$friend['screen_name'].' : '.USERPROFILE_TITLEMYUNIQUETAG?>,<?=md5($friend['id'])?>" value="<?=USERPROFILE_LABLEBTNVIEWMYTAGS?>"/>
+					<input type="button" id="Mytag" action="tagsUser,1,1,<?=md5($friend['id'])?>" value="<?=MAINMNU_MYTAGS?>"/>
 				<?php }
 				//IF HAS PAID AND DEFINED PERSONAL BUSINESS CARD -> SHOW BUTTON ON PROFILE
 				if ($friend['nBCar']> 0 && !isset($_GET['calledProfile'])) {?>

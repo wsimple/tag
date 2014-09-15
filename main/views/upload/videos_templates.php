@@ -1,6 +1,3 @@
-<link rel="stylesheet" href="css/fileupload/style.css">
-<link rel="stylesheet" href="css/fileupload/jquery.fileupload.css">
-<link rel="stylesheet" href="css/fileupload/jquery.fileupload-ui.css">
 <style>
 	.upload-panel.tag{
 		min-width:500px;
@@ -48,6 +45,9 @@
 		min-height:350px;*/
 		margin: 0; 
 		padding: 0;
+		max-height: 370px;
+		min-height: 370px;
+		overflow: auto;
 		/*overflow-y:auto;*/
 	}
 	.template-download .preview img{
@@ -60,12 +60,18 @@
 		padding: 2px;
 		margin: 2px;
 	}*/
-	#loadPreview div[tag]:hover .video button,
-	#fileupload div[tag]:hover .video button{
+	div[tag]:hover .video button{
 		position: relative;
 		z-index: 1002;
+		display: block;
 	}
-	.upload-panel.tag .table[role="presentation"] td.download>div,
+/*	#videoList div.tag-container.video div[tag]:hover .video button,
+	#fileupload div.tag-container.video div[tag]:hover .video button{
+		position: relative;
+		z-index: 1002;
+		display: block;
+	}
+*/	.upload-panel.tag .table[role="presentation"] td.download>div,
 	.upload-panel.tag .table[role="presentation"] td.upload>div{
 		float:left;
 		margin:5px;
@@ -141,8 +147,31 @@
 		font-size: 20px;
 		padding: 0 10px;
 		margin-bottom: 10px;
-	}	
+	}
 	.displayUpload div[text]{ font-size: 30px; }
+	.actionButton{ display: none; }	
+	.tag-container:hover + .actionButton,.actionButton:hover{ display: block; }	
+	.actionButton button{
+		position: relative;
+		z-index: 1002;
+	}
+	.actionButton.video button{ top: -160px; }
+	.actionButton.img button{ 
+		top: -310px;
+		left: 137px;
+	 }
+	.actionButton.video button.start{ left: -109px; }
+	.actionButton.video button.delete{ left: 108px; }
+	.actionButton button.start{
+		-moz-border-top-left-radius: 0.850em;
+		border-top-left-radius: 0.850em;
+		-webkit-border-top-left-radius: 0.850em; 
+	}
+	.actionButton button.delete{
+		-moz-border-top-right-radius: 0.850em;
+		border-top-right-radius: 0.850em;
+		-webkit-border-top-right-radius: 0.850em;
+	}
 </style>
 <?php 
 	if (isset($_GET['video'])){
@@ -159,7 +188,7 @@
 	<!-- <div data-container="#pendingVideoList"><?=$lang->get('Pending Videos')?></div> -->
 </div>
 <div class="upload container">
-	<form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+	<form id="fileupload"  method="POST" enctype="multipart/form-data">
 		<!-- Redirect browsers with JavaScript disabled to the origin page -->
 		<noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
 		<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -198,25 +227,25 @@
 			<div image></div>
 			<div text><?=$lang->get('Drag a file here')?></div>
 			<div o>O</div>
-			<button class="btn btn-success fileinput-button">
+			<span class="btn btn-success fileinput-button">
 					<span><?=$lang->get('Select a file from your computer')?></span>
 					<input type="file" name="files">
-			</button>
+			</span>
 		</div>
 		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 	</form>
 	<div id="videoLink" class="dnone">
 		<label style="font-weight: bold;font-size: 13px;"><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
-		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://" value="<?=$video?>"/>
+		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://" value="<?=$tipovideo!='local'&&$tipovideo!=''?$video:''?>"/>
 		<button class="btn btn-danger delete" style="display:none;"><i class="glyphicon glyphicon-trash"></i></button>
 		<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
 	</div>
-	<form id="imageList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+	<form id="imageList" class="dnone"  method="POST" enctype="multipart/form-data">
 		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 	</form>
-	<form id="videoList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+	<form id="videoList" class="dnone"  method="POST" enctype="multipart/form-data">
 		<!-- The table listing the files available for upload/download -->
 		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 	</form>
@@ -228,35 +257,14 @@
 	<!-- </form> -->
 </div>
 </div>
-
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="js/fileupload/vendor/jquery.ui.widget.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="js/load-image.min.js"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="js/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="js/fileupload/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="js/fileupload/jquery.fileupload.js"></script>
-<!-- The File Upload processing plugin -->
-<script src="js/fileupload/jquery.fileupload-process.js"></script>
-<!-- The File Upload video preview plugin -->
-<script src="js/fileupload/jquery.fileupload-image.js"></script>
-<script src="js/fileupload/jquery.fileupload-video.js"></script>
-<!-- The File Upload validation plugin -->
-<script src="js/fileupload/jquery.fileupload-validate.js"></script>
-<!-- The File Upload user interface plugin -->
-<script src="js/fileupload/jquery.fileupload-ui.js"></script>
 <script>
 /*jslint unparam: true */
 if (!window.players){ window.players=[]; }
 function des(objet){
-	// var content=$(objet).parents('div[tag]').parent(),html=buttonVideo(objet.dataset.set,objet.dataset.type,objet.dataset.pre);
-	// console.log(html,content);
-	// $(content).append(html);
+	if ($(objet).attr('raction')) $(objet).attr('action',$(objet).attr('raction')).removeAttr('raction');
+	$(objet).removeProp('disabled').removeAttr('onclick').addClass('invisible');
+	$('#videoLink').append(objet+'').find('button.start').click();
+	$(objet).remove();
 }
 /*global window, $ */
 $(function(){
@@ -304,14 +312,33 @@ $(function(){
 		//Uncomment the following to send cross-domain cookies:
 		//xhrFields: {withCredentials: true},
 	}).bind('fileuploadadd',function(e,data){
+		$('.error_message',this).remove();
 		var $this=$(this),
 			that =$this.data('blueimp-fileupload')||$this.data('fileupload');
 		that.options.filesContainer.empty();
 	}).bind('fileuploadsubmit',function(e,data){
 		$('.displayUpload').hide();
+	}).bind('fileuploaddone',function(e,data){
+		var Utype=data.files[0].type.split('/');
+		if (Utype[0]=='video'){ 
+			setTimeout(function(){
+				var v=$('form#fileupload table [action]')[0];
+				if (v){ $(v).attr('raction',$(v).attr('action')+',1').removeAttr('action').click(); }
+			}, 1000);
+		}else if (Utype[0]=='image'){
+			setTimeout(function(){
+				$('form#fileupload [action]').click();
+			}, 1000);
+		}
 	}).bind('fileuploadalways',function(e,data){
 		$('.displayUpload').fadeIn('slow');
+	}).bind('fileuploadprocessfail',function(e,data){
+		$('#fileupload').prepend('<div class="error_message" style="width: 455px; margin: 0px auto;display:block;text-align:center;"><img src="imgs/message_error.png" width="12" height="12"> <?=$lang->get("ERRORFILEINFO")?></div>');
+		var $this=$(this),
+			that =$this.data('blueimp-fileupload')||$this.data('fileupload');
+		that.options.filesContainer.empty();
 	});
+
 
 	//lista de imagenes
 	$.ajax({
@@ -454,43 +481,54 @@ $(function(){
 		return '&code=<?=$client->code?>';
 	}
 }; %}
-{% for(var i=0,file;file=o.files[i];i++){ %}
+{% for(var i=0,file;file=o.files[i];i++){ 
+	var dat=file.url.split('<?=$setting->video_server_path?>videos/'),clas;
+%}
 	<tr class="template-download fade">
 		<td class="download">
 			<div>
-				<span class="preview" data-thumb="{%=file.thumbnailUrl%}">
-					{% if(file.thumbnailUrl){ %}
-						<div class="tag-container img noMenu" action="tag/bgselect" data-url="{%=file.url%}">
+				<!--span class="preview" data-thumb="{%=file.thumbnailUrl%}"-->
+					{% if(file.thumbnailUrl){ clas='img'; %}
+						<div class="tag-container img noMenu" style="height: auto;">
 							<div class="template" style="background-image:url({%=file.url%})"></div>
-							<div tag></div>
+							<div tag action="tag/bgselect" data-url="{%=file.url%}"></div>
 						</div>
-					{% }else if(file.url.match(/\.mp4$/i)){ 
-						var dat=file.url.split('<?=$setting->video_server_path?>videos/');
-					%}
-						<div class="tag-container video noMenu" >
+					{% }else if(file.url.match(/\.mp4$/i)){ clas='video'; %}
+						<div class="tag-container video noMenu" style="width: auto;height: auto;">
 							<div tag>
 								<div class="video" style="z-index: 1001;">
-									<button class="btn btn-primary start" onclick="des(this);"  data-set="{%=dat[1]%}" data-type="local" data-pre="{%=file.url%}"><i class="glyphicon glyphicon-upload"></i></button>
 									<div class="placa"></div>
 									<video controls="controls"><source src="{%=file.url%}" type="video/mp4" /></video>
 								</div>
 							</div>
 						</div>
 					{% } %}
-				<strong class="error text-danger"></strong>
-				</span>
-				{% if(file.error){ %}
-					<div><span class="label label-danger">Error</span> {%=file.error%}</div>
-				{% } %}
-			</div>
-			<div>
-				{% if(file.deleteUrl){ %}
+				<div class="actionButton {%=clas%}">
+					{% if(file.url.match(/\.mp4$/i)){ %}
+					<button action="tag/videoSelect,1" class="btn btn-primary start" onclick="des(this);"  data-set="{%=dat[1]%}" data-type="local" data-pre="{%=file.url%}" ><i class="glyphicon glyphicon-upload" ></i></button>
+					{% } if(file.deleteUrl){ %}
 					<button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
 						{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
 						data-url="{%=file.deleteUrl+o.get(file.name)%}">
 						<i class="glyphicon glyphicon-trash"></i>
 						<span><?=''//$lang->get('Delete')?></span>
 					</button>
+					{% } %}					
+				</div>
+				<strong class="error text-danger"></strong>
+				<!--/span-->
+				{% if(file.error){ %}
+					<div><span class="label label-danger">Error</span> {%=file.error%}</div>
+				{% } %}
+			</div>
+			<div>
+				{% if(file.deleteUrl){ %}
+					<!--button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
+						{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
+						data-url="{%=file.deleteUrl+o.get(file.name)%}"-->
+						<!--i class="glyphicon glyphicon-trash"></i-->
+						<!--span><?=''//$lang->get('Delete')?></span-->
+					<!--/button-->
 				{% }else{ %}
 					<button class="btn btn-warning cancel">
 						<i class="glyphicon glyphicon-ban-circle"></i>
