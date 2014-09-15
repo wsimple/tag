@@ -1,17 +1,16 @@
-<link rel="stylesheet" href="css/fileupload/style.css">
-<link rel="stylesheet" href="css/fileupload/jquery.fileupload.css">
-<link rel="stylesheet" href="css/fileupload/jquery.fileupload-ui.css">
 <?php
 	if(isset($_GET['wpanel'])&&is_array($_SESSION['wpanel_user'])){
 		if($_SESSION['ws-tags']['ws-user']['email']!='wpanel@tagbum.com'){
-			$user=CON::getRow("SELECT * FROM users WHERE email='wpanel@tagbum.com'");
+			$user=$GLOBALS['cn']->queryRow('SELECT * FROM users WHERE email="wpanel@tagbum.com"');
+			createSession($user);
+		}elseif($_SESSION['ws-tags']['ws-user']['email']!='wpanel@tagbum.com'){
+			$user=$GLOBALS['cn']->queryRow('SELECT * FROM users WHERE email="wpanel@tagbum.com"');
 			createSession($user);
 		}
 	}
-	$idTag=!isset($_GET['tag'])?'':$_GET['tag'];
+	$idTag=!isset($_GET['tag'])?'':(is_numeric($_GET['tag'])?md5($_GET['tag']):$_GET['tag']);
 	$idUser = isset($_GET['wpanel'])?'':'AND id_creator ="'.$_SESSION['ws-tags']['ws-user']['id'].'"';
-	$tag = CON::getRow("SELECT * FROM tags WHERE md5(id) =? $idUser AND status NOT IN (2,4)",array(intToMd5($idTag)));
-	if (!isset($tag['video_url'])) $tag['video_url']='';
+	$tag = $GLOBALS['cn']->queryRow('SELECT	* FROM tags WHERE md5(id) ="'.$idTag.'" '.$idUser.' AND status NOT IN (2,4)');
 	$group=isset($tag['id_group'])&&$tag['id_group']!='0'?md5($tag['id_group']):$_GET['group'];
 	$bcard=isset($tag['id_business_card'])&&$tag['id_business_card']!='0'?$tag['id_business_card']:$_GET['bc'];
 	$personal=$tag['status']==9||isset($_GET['personal']);
@@ -21,7 +20,7 @@
         elseif (isset($_GET['product'])) $acceso=  existe('store_products', 'id', 'WHERE id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND md5(id)="'.$_GET['product'].'"');
     }else{ $acceso=true; }
     // echo $status.' Variable del wpanel';
-if ($acceso){  ?>
+if ($acceso){ ?>
 <div id="editTag-box" class="ui-single-box">
 	<form action="controls/tags/newTag.json.php" method="post" enctype="multipart/form-data" id="formTags" style="margin:0;padding:0;">
 		<input type="hidden" name="type" id="type" value="" />
@@ -66,7 +65,7 @@ if ($acceso){  ?>
 		<!-- mensaje corto -->
 		<div id="inputCode" style="position: absolute; top: 96px; left: 43px; z-index: 999989;">
 			<div>
-				<input name="txtCodeNumber" id="txtCodeNumber" type="text" class="tag-text" value="<?=$tag['code_number']?>" placeholder="<?=NEWTAG_LBLCODENUMBER?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?> style="border: dashed #222 1px;color:#77c574;font-size: 71px;height:71px;width: 524px;font-weight: normal;"/>
+				<input name="txtCodeNumber" id="txtCodeNumber" type="text" class="tag-text" value="<?=$tag['code_number']?>" placeholder="<?=NEWTAG_LBLCODENUMBER?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?> style="border: dashed #222 1px;color:#77c574;font-size: 71px;padding: 33px 20px 34px 20px;width: 524px;font-weight: normal;"/>
 				<div class="colorpickerDiv" style="position: absolute;top: -4px;left: 485px;">
 					<input style="border: none" type="text" id="hiddenColor2" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor2" value="<?=$tag['color_code2']?$tag['color_code2']:'#77c574'?>" class="colorBG" />
 					<div id="hiddenColorDiv2"></div>
@@ -99,37 +98,96 @@ if ($acceso){  ?>
 	</div>
 
 	<div id="newTagImput">
+		<div id="radio" style="margin:10px 0;height:24px;">
+			<!--img src="css/smt/menu_left/settings.png" width="14" height="14" style="display:inline; margin-right: 4px;"-->
+			<div id="tourRadio" style="float:right;">
+				<input type="radio" id="radio1" name="radio" <?=$_SESSION['ws-tags']['ws-user']['view_creation_tag']==0?'checked="checked"':''?>/><label class="radio_view" for="radio2" style="float:right"><?=NEWTAG_VIEW_ADVANCE?></label>
+				<input type="radio" id="radio2" name="radio" <?=$_SESSION['ws-tags']['ws-user']['view_creation_tag']!=0?'checked="checked"':''?>/><label class="radio_view" for="radio1" style="float:right"><?=NEWTAG_VIEW_QUICK?></label>
+			</div>
+		</div>
+		<!-- <div id="inputShortMessage">
+			<div>
+				<input name="txtMsg" id="txtMsg" type="text" class="tag-text" placeholder="<?=NEWTAG_LBLTEXT?>" value="<?=$tag['text']?>" />
+				<div class="colorpickerDiv">
+					<input type="text" id="hiddenColor" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor" value="<?=$tag['color_code']?$tag['color_code']:'#F82'?>" class="colorBG" />
+					<div id="hiddenColorDiv"></div>
+					<div class="text font-size3 color-d paddingTop"><?=NEWTAG_FONTCOLOR?></div>
+				</div>
+			</div>
+			<div id="cont1" class="font-size3 bold">
+				<span id="theCounter"></span>&nbsp;max
+			</div>
+		</div>
+		<div id="inputCode">
+			<div>
+				<input name="txtCodeNumber" id="txtCodeNumber" type="text" class="tag-text" value="<?=$tag['code_number']?>" placeholder="<?=NEWTAG_LBLCODENUMBER?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?>/>
+				<div class="colorpickerDiv">
+					<input type="text" id="hiddenColor2" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor2" value="<?=$tag['color_code2']?$tag['color_code2']:'#461'?>" class="colorBG" />
+					<div id="hiddenColorDiv2"></div>
+					<div class="text font-size3 color-d paddingTop"><?=NEWTAG_FONTCOLOR?></div>
+				</div>
+			</div>
+			<div id="cont2" class="font-size3 bold">
+				<span id="theCounter2"></span>&nbsp;max
+			</div>
+		</div> -->
+		<?php //if($_SESSION['ws-tags']['ws-user']['view_creation_tag'])?>
+		<!-- <div id="inputLongMessage">
+			<div>
+				<input name="txtMsg2" id="txtMsg2" type="hidden" value="<?=$tag['text2']?>"/>
+				<textarea id="textlarg" name="textlarg" class="tag-text textareaComment" rows="4" placeholder="<?=NEWTAG_LBLTEXT?> 2 <?=INVITEUSERS_HELPMSG?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?>><?=$tag['text2']?></textarea>
+				<div class="colorpickerDiv">
+					<input type="text" id="hiddenColor3" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor3" value="<?=$tag['color_code3']?$tag['color_code3']:'#fff'?>"  class="colorBG" />
+					<div class="text font-size3 color-d paddingTop"><?=NEWTAG_FONTCOLOR?></div>
+					<div id="hiddenColorDiv3"></div>
+				</div>
+			</div>
+			<div id="cont3" class="font-size3 bold">
+				<span id="theCounter3"></span>&nbsp;max
+			</div>
+		</div> -->
+		
 		<div id="BackgroundAndVideo">
 			<div id="backgroundsTag">
-				<!-- <label><?=NEWTAG_LBLBACKGROUND?>:</label><br> -->
-				<!-- <div id="bgSelect"></div> -->
-				<input id="bgAndVideo" type="button" value="<?='Imagen/Video'?>" ajax/>
-				<input type="hidden" name="htxtVideo" id="htxtVideo" data-tipo="" value="<?=$tag['video_url']?>" />
+				<label><?=NEWTAG_LBLBACKGROUND?>:</label><br>
+				<div id="bgSelect"></div>
 			</div>
 			<?php
 				$privateTag=($group==''&&$_GET['product']==''&&$status!=9&&$idTag=='');
 				if($privateTag){
 			?>
-			<div style="float: right;margin-top: 10px;margin-right: 10px;">
-				<input id="showPrivacy" type="button" act="1" value="<?='Show Privacy'?>"/>
-			</div>
-			<div id="PublicPrivate" style="display:none;float: right;margin-top: 10px;margin-right: 10px;">
-				<!-- <label style="font-weight: bold">Privacy:</label><br> -->
+			<div id="PublicPrivate" style="float: left;margin-top: 10px;margin-right: 10px;">
+				<label style="font-weight: bold">Privacy:</label><br>
 				<select title="<?=NEWTAG_SHARETAGONLY_TITLE?>" name="showPublicPrivate" id="showPublicPrivate">
 					<option value="1"><?=NEWTAG_SELECTPUBLICTAG?></option>
 					<option value="4"><?=NEWTAG_SELECTPRIVATETAG?></option>
 				</select>
+				<script>
+					$('#showPublicPrivate').change(function(){
+						$('#status').val(this.value);
+						if (this.value==1)
+							$('#showOrHideCboPeople').fadeOut(600);
+						else
+							$('#showOrHideCboPeople').fadeIn(600).css({'display':'inline-block','margin-top':'15px'});
+					});
+				</script>
 			</div>
 			<?php } ?>
-		</div>
-		<div>
-			<div id="preVideTags" class="mini" style="width:280px;float:left;"></div>
-		<?php if($privateTag){ ?>
-			<div id="divcboPeoples" style="display:none;float:right;">
-				<label class="label_tags_views" for="cboPeoples"><?=NEWTAG_SHARETAGONLY?>:</label>
-				<select name="cboPeoples" id="cboPeoples" ></select>
+			<div id="videosTag">
+				<label><?=NEWTAG_LBLVIDEO?>:</label><br>
+				<input style="text-align: left; width: 370px;height: 16px;" type="text" name="txtVideo" id="txtVideo" class="tag-text" requerido="video" tipo="video" value="<?=$tag['video_url']?$tag['video_url']:'http://'?>" placeholder="http://" <?php if(NEWTAG_LBLVIDEO_TITLE!=""){?> title="<?=NEWTAG_LBLVIDEO_TITLE?>" <?php } else{}?>/>
+				<div id="vimeo">
+					<div id="running" class="warning-box dnone"><?=VIMEO_PREMIUM_VERIFY?><span class="loader"></span></div>
+					<div id="success" class="warning-box dnone"><?=VIMEO_PREMIUM_SUCCESS?></div>
+					<div id="error" class="error-box dnone"><?=VIMEO_PREMIUM_DAMAGED?></div>
+				</div>
 			</div>
-		<?php } ?>
+
+		</div>
+
+		<div id="showOrHideCboPeople" style=" display:none">
+			<label class="label_tags_views" style="width:200px" for="cboPeoples" <?php if(NEWTAG_SHARETAGONLY_HELP!=""){?> title="<?=NEWTAG_SHARETAGONLY_HELP?>" <?php } else{}?>><?=NEWTAG_SHARETAGONLY?>:</label>
+			<select name="cboPeoples" id="cboPeoples"></select>
 		</div>
 		<div class="clearfix"></div>
 		<div id="ButtonPrev_publish">
@@ -144,7 +202,7 @@ if ($acceso){  ?>
 				<input id="cancel" type="button" value="<?=JS_CANCEL?>"/>
 				<input id="preview" type="button" value="<?=NEWTAG_BTNPREVIEW?>"/>
 				<?php if(!isset($_GET['wpanel'])){ ?>
-				<input id="publi" type="button" value="<?=NEWTAG_BTNPUBLISH?>" ajax/>
+				<input id="publi" type="button" value="<?=NEWTAG_BTNPUBLISH?>"/>
 				<?php } ?>
 			</div>
 		</div>
@@ -152,31 +210,8 @@ if ($acceso){  ?>
   </form>
 	<div class="clearfix"></div>
 </div>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="js/fileupload/vendor/jquery.ui.widget.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="js/load-image.min.js"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="js/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="js/fileupload/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="js/fileupload/jquery.fileupload.js"></script>
-<!-- The File Upload processing plugin -->
-<script src="js/fileupload/jquery.fileupload-process.js"></script>
-<!-- The File Upload video preview plugin -->
-<script src="js/fileupload/jquery.fileupload-image.js"></script>
-<script src="js/fileupload/jquery.fileupload-video.js"></script>
-<!-- The File Upload validation plugin -->
-<script src="js/fileupload/jquery.fileupload-validate.js"></script>
-<!-- The File Upload user interface plugin -->
-<script src="js/fileupload/jquery.fileupload-ui.js"></script>
 <script type="text/javascript">
 $(function(){
-	if (!window.players){ window.players=[]; }
-	var pub=true,bgd="<?=$tag['background']?$tag['background']:''?>",videoE="<?=$tag['video_url']?>";
 	$("#hiddenColorDiv").hover(function() {
 		var value = $("#hiddenColor").val();
 		 $("#txtMsg").css('color',value);
@@ -193,6 +228,7 @@ $(function(){
 	});
 
 	$('[title]').tipsy({html:true,gravity:'n'});
+	var pub=true;//activa y desactiva las acciones
 	$('.topBanner').remove();
 	$('#radio').buttonset();
 	function setType(type){$('#type').val(type||'<?=$idPage?>');}
@@ -201,74 +237,24 @@ $(function(){
 		var url=FILESERVER+'img/templates/'+img;
 		$('#bckSelected').css('background-image','url('+url+')');
 	}
-	if ($('#showPublicPrivate').length>0){ //acciones privacidad
-		$('#showPublicPrivate').chosen({disableSearch:true,width:120});
-		$('#showPrivacy').click(function(event) {
-			if($(this).attr('act')==1){
-				$('#PublicPrivate').show();
-				$(this).attr('act',2).val('Hide Privacy');
-			}else{
-				$('#PublicPrivate').hide();
-				$(this).attr('act',1).val('Show Privacy');
-			}
-		});
-		$('#showPublicPrivate').change(function(){
-			$('#status').val(this.value);
-			if (this.value==1) $('#divcboPeoples').fadeOut(600);
-			else $('#divcboPeoples').fadeIn(600).css({'display':'inline-block','margin-top':'15px'});
-		});
+	function selectBG(){
+		$('#bgSelect').empty().html(
+			'<select>'+
+				'<option value="...">...</option>'+
+				'<option value="file"><?=NEWTAG_UPLOADBACKGROUND?></option>'+
+				'<option value="archive"><?=NEWTAG_SELECTBACKGROUND?></option>'+
+			'</select>'
+		);
+//		$('#bgSelect select').selectmenu({
+//			menuWidth:180,
+//				width:180
+//		});
+		$('#bgSelect select').chosen({disableSearch:true,width:120});
 	}
-	if (videoE!=''){
-		$.ajax({
-			url:'video/validate/1',
-			type:'POST',
-			dataType:'json',
-			data:{thisvideo:videoE,nolocal:'1'},
-			success:function(data){
-				var video=document.getElementById('htxtVideo');
-				if (data['success']){
-					var band=true;
-					if (band){
-						htmlv=htmlVideo(data['urlV'],data['type'],null,true);
-						video.dataset.tipo=data['type'];
-						if (htmlv!='') $('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+htmlv+'</div></div>');
-						iniallYoutube();
-					}else video.value='';
-				}else video.value='';
-			}
-		});
-	}
-	$('#bgAndVideo').click(function(event) {
-		var video=document.getElementById('htxtVideo');
-		if (video.value!='') get='?video='+video.value+'&tipo='+video.dataset.tipo;
-		else get='';
-		$.dialog({
-			title:'Preview',
-			resizable:false,
-			width:650,
-			height:500,
-			modal:true,
-			open:function(){ $(this).load('upload/videos_templates/dialog'+get); },
-			buttons:[],
-			close:function(){
-				$('video',this).each(function(index, el) {
-					this.pause();
-					this.src="";
-				});
-			}
-		});
-	});
-	$('#preVideTags').on('click','div[tag] .video button.delete',function(){
-		$(this).parents('div[tag]').hide().parent('.tag-container').remove();
-		$('#htxtVideo').val('');
-	}).on('click','.tag-container .select-capture .option-cap',function(){
-		var img=$('#imgTemplate')[0];
-		img.value=this.dataset.src.replace('videos/');
-		// img.value=this.dataset.url.replace(SERVERS.img+'img/templates/','');
-		$('#bckSelected').css('background-image','url('+SERVERS.video+this.dataset.src+')');
-	});	
 	setType();//default
-	if (bgd!=''){ setBG(bgd); }
+	setBG('<?=$tag['background']?>');
+	selectBG();
+
 	function redirTo(){
 		<?php if($personal){//if personal tag ?>
 			redir('timeline?current=personalTags');
@@ -326,6 +312,53 @@ $(function(){
 			}
 		});
 	}
+	$('#txtVideo').click(function(){
+		this.selectionStart=0;
+	});
+	var vc=0,sto;//vimeo counter ajax
+	$('#txtVideo').bind('change keyup',function(){
+		var that=this,URL=that.value;
+		console.log(URL);
+		if(URL.match(/^https?:\/\/vimeo\.com\/.+\/.+/)){
+			var $running=$('#vimeo #running'),
+				$success=$('#vimeo #success'),
+				$error=$('#vimeo #error');
+			function hideMsgs(){
+				if(sto) clearTimeout(sto);
+				sto=setTimeout(function(){
+					$success.fadeOut('slow');
+					$error.fadeOut('slow');
+				},3000);
+			}
+			pub=false;
+			$success.hide();
+			$error.hide();
+			if(!vc) $running.show();
+			vc++;
+			$.ajax({
+				url:'http://vimeo.com/api/oembed.json',
+				type:'GET',
+				data:{url:URL},
+				success:function(data){
+					if(that.value==URL){
+						that.value='http://vimeo.com/'+data['video_id'];
+						$success.show();
+						hideMsgs();
+					}
+				},
+				error:function(){
+					$error.show();
+					hideMsgs();
+				},
+				complete:function(){
+					vc--;
+					if(!vc) $running.hide();
+					pub=true;
+				}
+			});
+		}
+	}).trigger('change');
+
 	var $advanced=$('#inputLongMessage,#PublicPrivate,#videosTag label,#txtVideo'),
 		$data=$advanced.find('input,textarea');
 	$('#radio1').click(function(){//esconder
@@ -375,12 +408,12 @@ $(function(){
 		warnAt:10,//optional: integer [defaults 0]
 		stopAtLimit:true //optional: defaults to false
 	});
+	$('#showPublicPrivate').chosen({disableSearch:true,width:120});
 //	$('#showPublicPrivate').selectmenu({
 //		menuWidth:200,
 //			width:200
 //	});
 	$('#cboPeoples').fcbkcomplete({
-			width : '250px',
 			json_url:'includes/friendsHelp.php?value=1',
 			newel:true,
 			filter_selected:true,
@@ -393,6 +426,28 @@ $(function(){
 	<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
 		//$('#photo').customFileInput();
 	<?php } ?>
+	$('#bgSelect').on('change','select',function(){
+		console.log(this.value);
+		if(this.value=='file'){
+			$('#fileUpload input').click();
+		}else if(this.value=='archive'){
+			$.dialog({
+				id:'#dialogBck',
+				title:"<?=NEWTAG_SELECTEBCKTAG?>",
+				resizable:false,
+				width:584,
+				height:500,
+				modal:true,
+				open:function(){
+					$(this).load('views/tags/new/templates.view.php');
+				},
+				close:function(){
+					$(this).empty();
+				}
+			});
+		}
+		selectBG();
+	});
 	$('#fileUpload').on('change','input',function(){ // boton de preview
 		$('#fileUploadText').html('<span>Uploading file. Wait a moment...</span> <img src="css/smt/loader.gif" />').show();
 		setType('uploadfile');
