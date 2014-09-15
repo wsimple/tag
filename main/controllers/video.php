@@ -10,7 +10,8 @@ class Video extends TAG_controller{
 			if (isset($_GET['thisvideo'])) $url=$_GET['thisvideo'];
 			if (isset($_POST['thisvideo'])) $url=$_POST['thisvideo'];
 		}
-		if ($url!=0){
+		$url=(string)$url;
+		if ($url!=''){
 			if ($nolocal===0){
 				if (isset($_GET['nolocal'])) $nolocal=$_GET['nolocal'];
 				if (isset($_POST['nolocal'])) $nolocal=$_POST['nolocal'];	
@@ -50,13 +51,15 @@ class Video extends TAG_controller{
 		return true;
 	}
 	function isVideo($type,&$value,$config=false){
+		// echo $type.' '.$value.' ';
 		if($type=='youtube')
 			return preg_match('/youtu\\.be|youtube\\.com/i',$value);
 		elseif($type=='vimeo')
 			return preg_match('/vimeo\\.com/i',$value);
 		elseif($type=='local' && $value!='' && $value!='http://'){
-			if (!isset($setting) && $config!=false) $setting=$config;
-			return (@fopen($setting->video_server.'videos/'.$value,'r')==true);
+			return preg_match('/.mp4/',$value);
+			// if (!isset($setting) && $config!=false) $setting=$config;
+			// return (fopen($setting->video_server.'videos/'.$value,'r')==true);
 			// return fileExistsRemote($config->video_server.'videos/'.$value);
 		}
 	}
