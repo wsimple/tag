@@ -95,7 +95,7 @@
 		-webkit-transform:scale(.5,.5) translate(-50%,-50%);
 		transform:scale(.5,.5) translate(-50%,-50%);
 	}
-	.upload-panel.tag .table[role="presentation"] td.download>div:last-child{ width:100px; }
+	/*.upload-panel.tag .table[role="presentation"] td.download>div:last-child{ width:100px; }*/
 	.upload-panel.tag td.upload video{
 		max-width:300px;
 	}
@@ -172,6 +172,8 @@
 		border-top-right-radius: 0.850em;
 		-webkit-border-top-right-radius: 0.850em;
 	}
+	#imageList table.table tbody tr,
+	#videoList table.table tbody tr{ float: left; }
 </style>
 <?php 
 	if (isset($_GET['video'])){
@@ -237,7 +239,7 @@
 	</form>
 	<div id="videoLink" class="dnone">
 		<label style="font-weight: bold;font-size: 13px;"><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
-		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://" value="<?=$tipovideo!='local'&&$tipovideo!=''?$video:''?>"/>
+		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://" value="<?=$tipovideo!='local'&&$tipovideo!=''?$video:''?>" />
 		<button class="btn btn-danger delete" style="display:none;"><i class="glyphicon glyphicon-trash"></i></button>
 		<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
 	</div>
