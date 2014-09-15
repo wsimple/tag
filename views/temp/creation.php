@@ -137,8 +137,8 @@ if ($acceso){  ?>
 				<div id="bckArchive" class="float-left invisible">
 					<input name="photo" type="file" id="photo" class="invisible"/>
 				</div>
-				<div id="fileUpload" class="invisible"><input name="picture" type="file" class="invisible"/></div>
-				<div id="fileUploadText"></div>
+				<!-- <div id="fileUpload" class="invisible"><input name="picture" type="file" class="invisible"/></div> -->
+				<!-- <div id="fileUploadText"></div> -->
 			<?php } ?>
 			<div id="btnPanel" class="float-right">
 				<input id="cancel" type="button" value="<?=JS_CANCEL?>"/>
@@ -245,7 +245,7 @@ $(function(){
 		$.dialog({
 			title:'Preview',
 			resizable:false,
-			width:650,
+			width:750,
 			height:500,
 			modal:true,
 			open:function(){ $(this).load('upload/videos_templates/dialog'+get); },
@@ -326,7 +326,7 @@ $(function(){
 			}
 		});
 	}
-	var $advanced=$('#inputLongMessage,#PublicPrivate,#videosTag label,#txtVideo'),
+	var $advanced=$('#inputLongMessage,#PublicPrivate,#videosTag label'),
 		$data=$advanced.find('input,textarea');
 	$('#radio1').click(function(){//esconder
 		$advanced.fadeOut(function(){
@@ -393,11 +393,11 @@ $(function(){
 	<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
 		//$('#photo').customFileInput();
 	<?php } ?>
-	$('#fileUpload').on('change','input',function(){ // boton de preview
-		$('#fileUploadText').html('<span>Uploading file. Wait a moment...</span> <img src="css/smt/loader.gif" />').show();
-		setType('uploadfile');
-		$('#formTags').submit();
-	});
+	// $('#fileUpload').on('change','input',function(){ // boton de preview
+	// 	$('#fileUploadText').html('<span>Uploading file. Wait a moment...</span> <img src="css/smt/loader.gif" />').show();
+	// 	setType('uploadfile');
+	// 	$('#formTags').submit();
+	// });
 	$('#btnPanel input').click(function(){/*-- panel de botones de acciones - final de la pagina --*/
 		if(pub){
 			if(this.id=='cancel') redirTo();//cancela creacion/edicion
@@ -428,10 +428,10 @@ $(function(){
 			if(!data) return;
 			if(data['bg']) setBG(data['bg']);
 			switch(data['type']){
-				case 'uploadfile':
-					$('#fileUploadText').html(data['msg']);
-					setTimeout(function(){$('#fileUploadText').fadeOut('slow');},2000);
-				break;
+				// case 'uploadfile':
+				// 	$('#fileUploadText').html(data['msg']);
+				// 	setTimeout(function(){$('#fileUploadText').fadeOut('slow');},2000);
+				// break;
 				case 'preview':
 					tagPreview({img:data['img'],typeVideo:data['typeVideo'],video:data['video']});
 //					$('#loading').dialog('close');
@@ -449,7 +449,7 @@ $(function(){
 			pub=true;
 //			$('loader.page',PAGE).hide();
 			setType();
-			$('#fileUpload').empty().html('<input name="picture" type="file" />');
+			// $('#fileUpload').empty().html('<input name="picture" type="file" />');
 		}
 	};
 	$('#formTags').ajaxFormLog(options);
