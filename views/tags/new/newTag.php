@@ -195,8 +195,8 @@ if ($acceso){ ?>
 				<div id="bckArchive" class="float-left invisible">
 					<input name="photo" type="file" id="photo" class="invisible"/>
 				</div>
-				<!-- <div id="fileUpload" class="invisible"><input name="picture" type="file" class="invisible"/></div> -->
-				<!-- <div id="fileUploadText"></div> -->
+				<div id="fileUpload" class="invisible"><input name="picture" type="file" class="invisible"/></div>
+				<div id="fileUploadText"></div>
 			<?php } ?>
 			<div id="btnPanel" class="float-right">
 				<input id="cancel" type="button" value="<?=JS_CANCEL?>"/>
@@ -483,10 +483,10 @@ $(function(){
 			if(!data) return;
 			if(data['bg']) setBG(data['bg']);
 			switch(data['type']){
-				// case 'uploadfile':
-				// 	$('#fileUploadText').html(data['msg']);
-				// 	setTimeout(function(){$('#fileUploadText').fadeOut('slow');},2000);
-				// break;
+				case 'uploadfile':
+					$('#fileUploadText').html(data['msg']);
+					setTimeout(function(){$('#fileUploadText').fadeOut('slow');},2000);
+				break;
 				case 'preview':
 					tagPreview({img:data['img'],typeVideo:data['typeVideo'],video:data['video']});
 //					$('#loading').dialog('close');
@@ -504,7 +504,7 @@ $(function(){
 			pub=true;
 //			$('loader.page',PAGE).hide();
 			setType();
-			// $('#fileUpload').empty().html('<input name="picture" type="file" />');
+			$('#fileUpload').empty().html('<input name="picture" type="file" />');
 		}
 	};
 	$('#formTags').ajaxFormLog(options);
