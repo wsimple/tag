@@ -385,9 +385,10 @@ function tagsList_json($data,$mobile=false){
             }
 			$tag['hashExCurrent']=$exCurrenHash;
 			$tag['video']=trim($tag['video']);
-			if($debug) $tag['test']='video='.$tag['video'].',vimeo='.isVideo('vimeo',$tag['video']).',youtube='.isVideo('youtube',$tag['video']);
 			$validaVideo=new Video();
-			$validaVideo=$validaVideo->validate(0,$tag['video'],1,$mobile,$config);
+			if ($tag['video']!='') $_GET['thisvideo']=$tag['video'];
+			else unset($_GET['thisvideo']);
+			$validaVideo=$validaVideo->validate(0,0,1,$mobile,$config);
 			// array('success'=>$success,'urlV'=>$url,'type'=>$type,'test'=>$test)
 			if ($validaVideo['success']){
 				$tag['typeVideo']=$validaVideo['type'];
@@ -425,7 +426,9 @@ function tagsList_json($data,$mobile=false){
 				$sponsor['num_likes']=numRecord('likes', 'WHERE id_source="'.$sponsor['id'].'"');
 				$sponsor['num_disLikes']=numRecord('dislikes', 'WHERE id_source="'.$sponsor['id'].'"');
 				$validaVideo=new Video();
-				$validaVideo=$validaVideo->validate(0,$sponsor['video'],1,$mobile,$config);
+				if ($tag['video']!='') $_GET['thisvideo']=$sponsor['video'];
+				else unset($_GET['thisvideo']);
+				$validaVideo=$validaVideo->validate(0,0,1,$mobile,$config);
 				// array('success'=>$success,'urlV'=>$url,'type'=>$type,'test'=>$test)
 				if ($validaVideo['success']){
 					$sponsor['typeVideo']=$validaVideo['type'];
