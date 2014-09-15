@@ -5,18 +5,10 @@ require_once('TAG_db.php');
 
 #verificacion de datos de usuario
 class Client{
-	private $_code;
+	private $usr;
 	public $db;
 	function __construct(){
 		$this->db=new TAG_db();
-	}
-	private function validate($usr=false){
-		$this->_code='';
-		if($usr&&isset($usr->code)){
-			$this->_code=$usr->code;
-			return true;
-		}
-		return false;
 	}
 	function valid_id($id){
 		$usr=$this->db->getRowObject(
@@ -34,5 +26,16 @@ class Client{
 		);
 		return $this->validate($usr);
 	}
-	function code(){ return $this->_code; }
+	private function validate($usr=false){
+		if($usr&&isset($usr->code)){
+			$usr->type=$this->db->getVal('SELECT u.type FROM users u WHERE u.id=?',array($usr->id_user));
+			$this->usr=$usr;
+			return true;
+		}else
+			$this->usr=new stdClass();
+		return false;
+	}
+	function get($val){ return isset($this->usr->$val)?$this->usr->$val:''; }
+	function code(){ return $this->get('code'); }
+	function type(){ return $this->get('type'); }
 }
