@@ -74,7 +74,17 @@ if( isset($_GET['tag'])&&( (!$logged&&$idPage=='home')||($logged&&$idPage=='caro
 	$idPage='comment';
 if($idPage=='term') $idPage='terms';
 if($notAjax&&($idPage==''||$idPage=='/')) $idPage='home';
-if($idPage!='') switch($idPage){
+$go_switch=true;
+if($idPage!=''){#paginas
+	if(is_file("views/temp/$idPage.php")&&(/*$local||*/is_debug())){
+		$currentPage="temp/$idPage.php";
+		$go_switch=false;
+	}elseif(is_file("views/$idPage.php")){
+		$currentPage="$idPage.php";
+		$go_switch=false;
+	}
+}
+if($go_switch) switch($idPage){
 	case 'home':case 'WhatIsIt':case 'HowDoesWork':case 'HowDoesWork/1':case 'HowDoesWork/2':case 'App':
 		$bodyPage='main/home.php'; $numPanels=1; break;
 	case 'signup'			:$currentPage=$logged?'main/redir.php':'main/signUp.php'; break;
@@ -115,25 +125,7 @@ if($idPage!='') switch($idPage){
 		$url=preg_replace('/[\?&]/','?',$url,1);
 		die('<script>document.location="wpanel'.$url.'";</script>');break;
 	default:
-		if(is_file("views/$idPage.php")){
-			$currentPage="$idPage.php";
-		}elseif(is_file("views/$idPage.2.php")){
-			$bodyPage="$idPage.2.php";
-		}elseif(is_file("views/$idPage.3.php")){
-			$bodyPage="$idPage.3.php";
-		}elseif($local||is_debug()){
-			if(is_file("views/temp/$idPage.php")){
-				$currentPage="temp/$idPage.php";
-			}elseif(is_file("views/temp/$idPage.2.php")){
-				$bodyPage="temp/$idPage.2.php";
-			}elseif(is_file("views/temp/$idPage.3.php")){
-				$bodyPage="temp/$idPage.3.php";
-			}else{
-				$bodyPage='users/eprofile.php';$numPanels=2;
-			}
-		}else{
-			$bodyPage='users/eprofile.php';$numPanels=2;
-		}
+		$bodyPage='users/eprofile.php';$numPanels=2;
 }
 
 if($bodyPage) $currentPage='main/wrapper.php';
