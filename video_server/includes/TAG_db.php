@@ -23,9 +23,16 @@ class TAG_db{
 			echo 'No se han suministrado datos para realizar la coneccion. ';
 			return false;
 		}
-		$this->dbcon=mysqli_connect($data->host,$data->user,$data->pass,$data->data);
-		if(mysqli_connect_errno())
-			echo 'Error en conexion ('.$_SERVER['PHP_SELF'].'): '.mysqli_connect_error();
+		$con=new mysqli($data->host,$data->user,$data->pass,$data->data);
+		if($con->connect_errno){
+			echo 'Error en conexion ('.$_SERVER['PHP_SELF'].'): '.$con->connect_error;
+			return;
+		}
+		if(!$con->set_charset("utf8")){
+			printf("Error cargando el conjunto de caracteres utf8: %s\n",$con->error);
+			return;
+		}
+		$this->dbcon=$con;
 		return $this->dbcon;
 	}
 	public function escape_string($query,$params=false){
@@ -51,12 +58,12 @@ class TAG_db{
 		if(!$sql) return $this->lastQuery;
 		$sql=$this->escape_string($sql,$a);
 		$this->sql=$sql;
-		if($query=mysqli_query($this->dbcon,$sql)){
+		if($query=$this->dbcon->query($sql)){
 			$this->error=false;
 			$this->errorMsg='';
 		}else{
 			$this->error=true;
-			$this->errorMsg='Error en query ('.$_SERVER['PHP_SELF'].'): '.mysqli_error($this->dbcon).'<br>'.$sql;
+			$this->errorMsg='Error en query ('.$_SERVER['PHP_SELF'].'): '.$this->dbcon->error.'<br>'.$sql;
 			if($this->echo) echo $this->errorMsg;
 		}
 		$this->lastQuery=$query;
@@ -74,52 +81,43 @@ class TAG_db{
 	public function numRows($query){#cantidad de columnas en la consulta
 		return @mysqli_num_rows($query);
 	}
-	public function normalizeString($data){#combierte caracteres especiales utf8 en html
-		return $data;
-		$tmp=json_encode($data);
-		$tmp=preg_replace('/\\\\u([\d\w]{4})/','&#x$1;',$tmp);
-		return json_decode($tmp,is_array($data));
-	}
-	public function fetchAssoc($query=false,$normalize=true){#devuelve la siguiente columna de la consulta
+	public function fetchAssoc($query=false){#devuelve la siguiente columna de la consulta
 		if(!$query) $query=$this->lastQuery;
 		$data=@mysqli_fetch_assoc($query);
-		if($normalize) $data=$this->normalizeString($data);
 		return $data;
 	}
-	public function fetchArray($query=false,$normalize=true){#devuelve la siguiente columna como un arreglo simple
+	public function fetchArray($query=false){#devuelve la siguiente columna como un arreglo simple
 		if(!$query) $query=$this->lastQuery;
-		$data=@mysqli_fetch_array($query);
-		if($normalize) $data=$this->normalizeString($data);
+		$data=@mysqli_fetch_array($query,MYSQLI_NUM);
 		return $data;
 	}
-	public function fetchObject($query=false,$normalize=true){#devuelve la siguiente columna como un arreglo simple
+	public function fetchObject($query=false){#devuelve la siguiente columna como un arreglo simple
 		if(!$query) $query=$this->lastQuery;
 		$data=@mysqli_fetch_object($query);
-		if($normalize) $data=$this->normalizeString($data);
 		return $data;
 	}
-	public function getArray($sql,$a=false,$normalize=true){#devuelve arreglo con todas las columnas (arreglo simple)
+	public function getArray($sql,$a=false){#devuelve arreglo con todas las columnas (arreglo simple)
 		$array=array();
 		$query=$this->query($sql,$a);
 		if($this->numRows($query)>0)
-			while($row=$this->fetchArray($query,$normalize)) $array[]=$row;
+			while($row=$this->fetchArray($query)) $array[]=$row;
 		return $array;
 	}
-	public function getAssoc($sql,$a=false,$normalize=true){#devuelve arreglo con todas las columnas (arreglo asociativo)
+	public function getAssoc($sql,$a=false){#devuelve arreglo con todas las columnas (arreglo asociativo)
 		$array=array();
 		$query=$this->query($sql,$a);
 		if($this->numRows($query)>0)
-			while($row=$this->fetchAssoc($query,$normalize)) $array[]=$row;
+			while($row=$this->fetchAssoc($query)) $array[]=$row;
 		return $array;
 	}
-	public function getObject($sql,$a=false,$normalize=true){#devuelve arreglo con todas las columnas (objetos)
+	public function getObject($sql,$a=false){#devuelve arreglo con todas las columnas (objetos)
 		$array=array();
 		$query=$this->query($sql,$a);
 		if($this->numRows($query)>0)
-			while($row=$this->fetchObject($query,$normalize)) $array[]=$row;
+			while($row=$this->fetchObject($query)) $array[]=$row;
 		return $array;
 	}
-	public function getRow($sql,$a=false,$normalize=true){#devuelve la primera columna de una consulta
+	public function getRow($sql,$a=false){#devuelve la primera columna de una consulta
 		if(!preg_match('/\blimit\s+\d+\s*;?\s*$/i',$sql)){
 			$echo=$this->echo;
 			$this->echo=false;
@@ -127,11 +125,11 @@ class TAG_db{
 			$this->echo=$echo;
 		}
 		if(!$query) $query=$this->query($sql,$a);
-		if($this->numRows($query)>0) $row=$this->fetchAssoc($query,$normalize);
+		if($this->numRows($query)>0) $row=$this->fetchAssoc($query);
 		else $row=array();
 		return $row;
 	}
-	public function getRowObject($sql,$a=false,$normalize=true){#devuelve la primera columna de una consulta
+	public function getRowObject($sql,$a=false){#devuelve la primera columna de una consulta
 		if(!preg_match('/\blimit\s+\d+\s*;?\s*$/i',$sql)){
 			$echo=$this->echo;
 			$this->echo=false;
@@ -139,14 +137,15 @@ class TAG_db{
 			$this->echo=$echo;
 		}
 		if(!$query) $query=$this->query($sql,$a);
-		if($this->numRows($query)>0) $row=$this->fetchObject($query,$normalize);
+		if($this->numRows($query)>0) $row=$this->fetchObject($query);
 		else $row=new stdClass();
 		return $row;
 	}
-	public function getVal($sql,$a=false,$normalize=true){#devuelve el valor del primer elemento de una consulta
+	public function getVal($sql,$a=false){#devuelve el valor del primer elemento de una consulta
 		$el=NULL;
 		$query=$this->query($sql,$a);
-		if($this->numRows($query)>0) $el=array_shift($this->fetchArray($query,$normalize));
+		if($this->numRows($query)) $array=$this->fetchArray($query);
+		if($array) $el=array_shift($array);
 		return $el;
 	}
 	public function count($tabla,$where='1',$a=false){#cuenta elementos de una consulta
