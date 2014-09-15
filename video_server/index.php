@@ -9,7 +9,10 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
-
+require_once('includes/client.php');
+if(!count($_REQUEST)) include 'show_video.php';
 error_reporting(E_ALL | E_STRICT);
+require('VideoConvertion.php');
+$video_convertion = new VideoConvertion();
 require('UploadHandler.php');
 $upload_handler = new UploadHandler();
