@@ -1465,7 +1465,8 @@ function createTag($tag,$force=false,$msg=false){
 		//Debugger
 		if($debug){
 			_imprimir($tag);
-			echo '<br/>fondo='.(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
+			echo '<br/>fondo='.$config->img_server.'img/templates/'.$tag['fondoTag'];
+			// echo '<br/>fondo='.(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
 			echo '<br/>path='.$_path;
 			echo '<br/>photo='.$tag['photoOwner'];
 			echo '<br/>getUserPicture='.getUserPicture($tag['photoOwner']);
@@ -1483,7 +1484,8 @@ function createTag($tag,$force=false,$msg=false){
 			$blanco=imagecolorallocate($im,255,255,255);
 			$negro=imagecolorallocate($im,0,0,0);
 			//Fondo
-			$imagen=(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
+			$imagen=$config->img_server.'img/templates/'.$tag['fondoTag'];
+			// $imagen=(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
 			$img=imagecreatefromany($imagen);
 			if($img){
 				$is=getimagesize($imagen);
@@ -1708,6 +1710,7 @@ function imagecreatefromany($imagen){
 	}
 	$type=getimagesize($imagen);
 	$type=$type[2];
+
 	//$type:1=gif,2=jpg,3=png
 	if($type==1) return imagecreatefromgif ($imagen);
 	if($type==2) return imagecreatefromjpeg($imagen);
