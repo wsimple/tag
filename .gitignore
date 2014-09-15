@@ -11,3 +11,4 @@ video_server/includes/security/*.php
 
 local/*.*
 quepeo.php
+video_server/jqueryupload/
