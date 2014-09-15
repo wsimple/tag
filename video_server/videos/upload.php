@@ -8,7 +8,7 @@ function run($command){
 function ffmpeg_encode($origen,$destino){
 	if(is_file($destino)) unlink($destino);
 	if(strpos($destino,'.mp4')||strpos($destino,'.m4a')) $destino='-strict -2 '.$destino;
-	return run("ffmpeg -i $origen $destino");
+	return run("ffmpeg -loglevel error -i $origen $destino");
 }
 if($_FILES['video']&&$_FILES['video']['tmp_name']){
 	echo 'upload file<br/>';

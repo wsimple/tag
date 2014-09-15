@@ -12,3 +12,10 @@ video_server/includes/security/*.php
 local/*.*
 quepeo.php
 video_server/jqueryupload/
+
+
+main/views/templates/tags.php
+video_server/list.php
+video_server/upload.php
+video_server/show_video.php
+video_server/videos/upload.php

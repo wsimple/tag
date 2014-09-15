@@ -9,9 +9,7 @@ if(preg_match($formats,$url)){
 		$tmp=explode($config->video_server_path,$url);
 		if(count($tmp)>1) $url=end($tmp);
 	}
-	$file="videos/$url";
-	echo getcwd()."<br>$file<br>";
-	echo (is_file($file)?'is ':'not ').'file';
+	if(is_file("videos/$url")) $file="videos/$url";
 	header('Content-Type: '.mime_content_type($file));
 }else{
 	header("HTTP/1.0 404 Not Found");
