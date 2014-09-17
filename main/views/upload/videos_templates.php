@@ -43,7 +43,7 @@
 	div.upload.container{
 /*		width:750px;
 		min-height:350px;*/
-		margin: 0; 
+		margin: 0;
 		padding: 0;
 		max-height: 370px;
 		min-height: 370px;
@@ -73,6 +73,7 @@
 	}
 */	.upload-panel.tag .table[role="presentation"] td.download>div,
 	.upload-panel.tag .table[role="presentation"] td.upload>div{
+		position:relative;
 		float:left;
 		margin:5px;
 		text-align:center;
@@ -90,7 +91,7 @@
 		height:150px;
 		overflow:hidden;
 	}
-	.upload-panel.tag .table[role="presentation"] td.download>div:first-child .tag-container.img{
+	.upload-panel.tag .table[role="presentation"] td.download.img>div:first-child .tag-container{
 		-ms-transform:scale(.5,.5) translate(-50%,-50%);
 		-webkit-transform:scale(.5,.5) translate(-50%,-50%);
 		transform:scale(.5,.5) translate(-50%,-50%);
@@ -117,22 +118,20 @@
 		-moz-border-radius: 0.437em;
 		border-radius: 0.437em;
 		-webkit-border-radius: 0.437em;
-		width: 10.1562em; height: 4.687em; 
+		width: 10.1562em; height: 4.687em;
 	}*/
-	#videoLink .tag-container [tag],
-	#fileupload .tag-container.video [tag],
-	#videoList .tag-container.video [tag],
-	#videoLink .tag-container [tag] .video,
-	#videoList .tag-container.video [tag] .video,
-	#fileupload .tag-container.video [tag] .video{
+	.upload-panel .video .tag-container [tag],
+	.upload-panel .tag-container [tag] .video{
 		-moz-border-radius: 0.437em;
 		border-radius: 0.437em;
 		-webkit-border-radius: 0.437em;
-		width: 10.1562em; height: 4.687em; 
+		width: 10.1562em; height: 4.687em;
 	}
-	#videoLink .tag-container [tag] button,
-	#fileupload .tag-container [tag] button,
-	#videoList .tag-container [tag] button{ padding: 20px 25px; }
+	.upload-panel.tag .table[role="presentation"] td.download.video .tag-container [tag] div.video .placa{
+		background-size: 100% auto;
+		background-position: 0 0;
+	}
+	.upload-panel .tag-container [tag] button{ padding: 20px 25px; }
 	.displayUpload div[image]{
 		background-image: url('css/tbum/file.png');
 		background-size: 100%;
@@ -141,7 +140,7 @@
 		width: 48px;
 		height: 60px;
 		margin: 0 auto;
-	}	
+	}
 	.displayUpload div[text],.displayUpload div[o]{
 		color: #aaa;
 		font-size: 20px;
@@ -149,33 +148,32 @@
 		margin-bottom: 10px;
 	}
 	.displayUpload div[text]{ font-size: 30px; }
-	.actionButton{ display: none; }	
-	.tag-container:hover + .actionButton,.actionButton:hover{ display: block; }	
+	.actionButton{ display: none; }
+	.tag-container:hover + .actionButton,.actionButton:hover{ display: block; }
 	.actionButton button{
-		position: relative;
+		position: absolute;
 		z-index: 1002;
 	}
-	.download.video .actionButton button{ top: -160px; }
-	.download.img .actionButton button{ 
-		top: -310px;
-		left: 137px;
-	 }
-	.download.video .actionButton button.start{ left: -109px; }
-	.download.video .actionButton button.delete{ left: 108px; }
-	.actionButton button.start{
+	.download .actionButton button.start{
+		left: 0;
 		-moz-border-top-left-radius: 0.850em;
 		border-top-left-radius: 0.850em;
-		-webkit-border-top-left-radius: 0.850em; 
+		-webkit-border-top-left-radius: 0.850em;
 	}
-	.actionButton button.delete{
+	.download .actionButton button.delete{
+		right: 0;
 		-moz-border-top-right-radius: 0.850em;
 		border-top-right-radius: 0.850em;
 		-webkit-border-top-right-radius: 0.850em;
 	}
-	#imageList table.table tbody tr,
-	#videoList table.table tbody tr{ float: left;}
+	table.table tbody tr{ float: left;}
+	.upload-panel .download .actionButton{
+		position:absolute;
+		top:0;
+		width:100%;
+	}
 </style>
-<?php 
+<?php
 	if (isset($_GET['video'])){
 		$video=$_GET['video'];
 		$tipovideo=$_GET['tipo'];
@@ -271,7 +269,7 @@ function des(objet){
 /*global window, $ */
 $(function(){
 	'use strict';
-	//menu	
+	//menu
 	$('.upload-menu>div').click(function(event){
 		$(this).parent().children().removeClass('active');
 		$(this).addClass('active');
@@ -284,12 +282,12 @@ $(function(){
 		img_supported=/(\.|\/)(jpe?g|gif|png)$/i,
 		only_views={dropZone:null},
 		video={
-			url:'<?=$setting->video_server_path?>',
+			url:'<?=$setting->video_server?>',
 			data:{code:'<?=$client->code?>'},
 			pending:{code:'<?=$client->code?>',folder:'pending'},
 		},
 		img={
-			url:'<?=$setting->img_server_path?>',
+			url:'<?=$setting->img_server?>',
 			data:{code:'<?=$client->code?>',folder:'templates'},
 		};
 	//File upload form
@@ -322,7 +320,7 @@ $(function(){
 		$('.displayUpload').hide();
 	}).bind('fileuploaddone',function(e,data){
 		var Utype=data.files[0].type.split('/');
-		if (Utype[0]=='video'){ 
+		if (Utype[0]=='video'){
 			setTimeout(function(){
 				var v=$('form#fileupload table [action]')[0];
 				if (v){ $(v).attr('raction',$(v).attr('action')+',1').removeAttr('action').click(); }
@@ -383,9 +381,9 @@ $(function(){
 	var videos=[];
 	$('#txtVideo').click(function(){
 		this.selectionStart=0;
-	}).keypress(function(event) {
-		if (event.keyCode==13) $(this).blur();	
-	}).change(function(event) {
+	}).keypress(function(event){
+		if (event.keyCode==13) $(this).blur();
+	}).change(function(event){
 		$(this).blur();
 	}).on('blur',function(){
 		var that=this,URL=that.value,htmlv='';
@@ -423,7 +421,7 @@ $(function(){
 		$(this).hide();
 		var video=$('#htxtVideo')[0];
 		if(video){
-			video.value=''
+			video.value='';
 			$('#preVideTags').empty().html('');
 		}
 	});
@@ -485,7 +483,7 @@ $(function(){
 }; %}
 {%
 for(var i=0,file;file=o.files[i];i++){
-	file.type=file.url.match(/(\.|\/)(jpe?g|gif|png)$/i)?'img':(file.url.match(/\.mp4$/i)?'video':'');
+	file.type=file.name.match(/(\.|\/)(jpe?g|gif|png)$/i)?'img':(file.name.match(/\.mp4$/i)?'video':'');
 	if(file.type!=''){
 %}
 	<tr class="template-download fade">
@@ -509,7 +507,7 @@ for(var i=0,file;file=o.files[i];i++){
 					{% } %}
 				<div class="actionButton">
 					{% if(file.type=='video'){ %}
-					<button action="tag/videoSelect,1" class="btn btn-primary start" onclick="des(this);"  data-set="{%=file.url.split('<?=$setting->video_server_path?>videos/')[1]%}" data-type="local" data-pre="{%=file.url%}" ><i class="glyphicon glyphicon-upload" ></i></button>
+					<button action="tag/videoSelect,1" class="btn btn-primary start" onclick="des(this);" data-set="{%=file.url.split('<?=$setting->video_server_path?>videos/')[1]%}" data-type="local" data-pre="{%=file.url%}"><i class="glyphicon glyphicon-upload"></i></button>
 					{% } if(file.deleteUrl){ %}
 					<button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
 						{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
@@ -517,7 +515,7 @@ for(var i=0,file;file=o.files[i];i++){
 						<i class="glyphicon glyphicon-trash"></i>
 						<span><?=''//$lang->get('Delete')?></span>
 					</button>
-					{% } %}					
+					{% } %}
 				</div>
 				<strong class="error text-danger"></strong>
 				<!--/span-->
