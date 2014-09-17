@@ -155,13 +155,13 @@
 		position: relative;
 		z-index: 1002;
 	}
-	.actionButton.video button{ top: -160px; }
-	.actionButton.img button{ 
+	.download.video .actionButton button{ top: -160px; }
+	.download.img .actionButton button{ 
 		top: -310px;
 		left: 137px;
 	 }
-	.actionButton.video button.start{ left: -109px; }
-	.actionButton.video button.delete{ left: 108px; }
+	.download.video .actionButton button.start{ left: -109px; }
+	.download.video .actionButton button.delete{ left: 108px; }
 	.actionButton button.start{
 		-moz-border-top-left-radius: 0.850em;
 		border-top-left-radius: 0.850em;
@@ -483,19 +483,21 @@ $(function(){
 		return '&code=<?=$client->code?>';
 	}
 }; %}
-{% for(var i=0,file;file=o.files[i];i++){ 
-	var dat=file.url.split('<?=$setting->video_server_path?>videos/'),clas;
+{%
+for(var i=0,file;file=o.files[i];i++){
+	file.type=file.url.match(/(\.|\/)(jpe?g|gif|png)$/i)?'img':(file.url.match(/\.mp4$/i)?'video':'');
+	if(file.type!=''){
 %}
 	<tr class="template-download fade">
-		<td class="download">
+		<td class="download {%=file.type%}">
 			<div>
 				<!--span class="preview" data-thumb="{%=file.thumbnailUrl%}"-->
-					{% if(file.thumbnailUrl){ clas='img'; %}
+					{% if(file.type=='img'){ %}
 						<div class="tag-container img noMenu" style="height: auto;">
 							<div class="template" style="background-image:url({%=file.url%})"></div>
 							<div tag action="tag/bgselect" data-url="{%=file.url%}"></div>
 						</div>
-					{% }else if(file.url.match(/\.mp4$/i)){ clas='video'; %}
+					{% }else if(file.type=='video'){ %}
 						<div class="tag-container video noMenu" style="width: auto;height: auto;">
 							<div tag>
 								<div class="video" style="z-index: 1001;">
@@ -505,9 +507,9 @@ $(function(){
 							</div>
 						</div>
 					{% } %}
-				<div class="actionButton {%=clas%}">
-					{% if(file.url.match(/\.mp4$/i)){ %}
-					<button action="tag/videoSelect,1" class="btn btn-primary start" onclick="des(this);"  data-set="{%=dat[1]%}" data-type="local" data-pre="{%=file.url%}" ><i class="glyphicon glyphicon-upload" ></i></button>
+				<div class="actionButton">
+					{% if(file.type=='video'){ %}
+					<button action="tag/videoSelect,1" class="btn btn-primary start" onclick="des(this);"  data-set="{%=file.url.split('<?=$setting->video_server_path?>videos/')[1]%}" data-type="local" data-pre="{%=file.url%}" ><i class="glyphicon glyphicon-upload" ></i></button>
 					{% } if(file.deleteUrl){ %}
 					<button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
 						{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
@@ -540,5 +542,8 @@ $(function(){
 			</div>
 		</td>
 	</tr>
-{% } %}
+{%
+	}
+}
+%}
 </script>
