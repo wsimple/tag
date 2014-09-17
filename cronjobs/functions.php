@@ -1484,7 +1484,7 @@ function createTag($tag,$force=false,$msg=false){
 			$blanco=imagecolorallocate($im,255,255,255);
 			$negro=imagecolorallocate($im,0,0,0);
 			//Fondo
-			$imagen=$config->img_server.'img/templates/'.$tag['fondoTag'];
+			$imagen=$config->img_server_path.'img/templates/'.$tag['fondoTag'];
 			// $imagen=(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
 			$img=imagecreatefromany($imagen);
 			if($img){

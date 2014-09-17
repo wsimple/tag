@@ -49,10 +49,10 @@ if($data->tipo){
 		$data->ftp['user']='userimg';
 		$data->ftp['pass']='-t@gvzlA_ftp';
 		$data->imgserver='http://68.109.244.201/';
-		$data->img_server_path='//i.tagbum.com/';
-		$data->video_server_path='//v.tagbum.com/';
-		$data->img_server=$data->img_server_path;
-		$data->video_server=$data->video_server_path;
+		$data->img_server_path='http://192.168.57.16/';
+		$data->video_server_path='http://192.168.57.11/';
+		$data->img_server='//i.tagbum.com/';
+		$data->video_server='//v.tagbum.com/';
 	}elseif($data->tipo=='local'){
 		$data->db['host']='localhost';
 		$data->db['user']='root';
