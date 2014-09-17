@@ -140,7 +140,10 @@ class TAG_db{
 	public function getVal($sql,$a=false){#devuelve el valor del primer elemento de una consulta
 		$el=NULL;
 		$query=$this->query($sql,$a);
-		if($query->num_rows) $el=array_shift($query->fetch_array());
+		if($query->num_rows){
+			$el=$query->fetch_array();
+			$el=array_shift($el);
+		}
 		return $el;
 	}
 	public function count($tabla,$where='1',$a=false){#cuenta elementos de una consulta
