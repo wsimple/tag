@@ -3,7 +3,7 @@ $security=preg_match('/security\.php/',$_SERVER['SCRIPT_NAME'])?'security.php':'
 ?>
 <h1>Generador de archivo de seguridad</h1>
 se requiere su ejecucion para acceso a la base de datos.<br/>
-<?=$_GET['tipo']?(!is_file('includes/security/security.php')?'No hay configuracion de base de datos.':'Modificar configuracion de base de datos').'<br/>':''?>
+<?php echo $_GET['tipo']?(!is_file('includes/security/security.php')?'No hay configuracion de base de datos.':'Modificar configuracion de base de datos').'<br/>':'';?>
 <?php
 if(!is_file('includes/security/security.php')||isset($_GET['help'])){
 $show=isset($_COOKIE['_DEBUG_'])?'&show':'';
@@ -52,6 +52,8 @@ if($data->tipo){
 		$data->video_server_path='//v.tagbum.com/';
 		$data->img_server=$data->img_server_path;
 		$data->video_server=$data->video_server_path;
+		$data->allow_origin='http://tagbum.com';
+		// $data->allow_credentials=true;
 	}elseif($data->tipo=='local'){
 		$data->db['host']='localhost';
 		$data->db['user']='root';
