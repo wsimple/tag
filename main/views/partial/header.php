@@ -38,6 +38,7 @@ $minify=!$setting->local&&!$control->is_debug('minify');
 			img:'<?=$location->img_server?>',
 			video:'<?=$location->video_server?>'
 		},
+		LOCAL=<?=$setting->local?'true':'false'?>,
 		ISLOGGED=<?=$client->is_logged?'true':'false'?>;
 	</script>
 	<script src="min/?f=js/language_<?=$lang->code()?>.js" charset="utf-8"></script>
