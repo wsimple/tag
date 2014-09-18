@@ -14,8 +14,9 @@ class TAG_db{
 		$this->dbcon=false;
 	}
 	public function con($data=false){
+		if(!$data&&$this->dbcon) return $this->dbcon;
 		if($data&&$this->dbcon) $this->close();
-		if(!$data){
+		if(!$data&&!$this->dbcon){
 			global $config;
 			if($config) $data=$config->db;
 		}
@@ -24,32 +25,27 @@ class TAG_db{
 			return false;
 		}
 		$con=new mysqli($data->host,$data->user,$data->pass,$data->data);
-		if($con->connect_errno){
-			echo 'Error en conexion ('.$_SERVER['PHP_SELF'].'): '.$con->connect_error;
-			return;
-		}
-		if(!$con->set_charset("utf8")){
+		if($con->connect_error)
+			echo 'Error #'.$con->connect_errno.' en conexion ('.$_SERVER['PHP_SELF'].'): '.$con->connect_error;
+		if(!$con->set_charset("utf8"))
 			printf("Error cargando el conjunto de caracteres utf8: %s\n",$con->error);
-			return;
-		}
-		$this->dbcon=$con;
-		return $this->dbcon;
+		return $this->dbcon=$con;
 	}
-	public function escape_string($query,$params=false){
+	public function escape_string($sql,$params=false){
 		#crea una cadena sql segura
 		if($params){
 			$params=$this->cleanStrings($params);
-			# str_replace - cambiando ?? -> %s y ? -> "%s". %s is ugly in raw sql query
+			# str_replace - cambiando ?? -> %s y ? -> "%s". %s is ugly in raw sql sql
 			# ?? for expressions manually scaped like that: LIKE '%??%'
-			$query=preg_replace('/%([\s\?\'"])/','%%$1',$query);
-			$query=str_replace('??','%s',$query);
-			$query=str_replace('?','"%s"',$query);
+			$sql=preg_replace('/%([\s\?\'"])/','%%$1',$sql);
+			$sql=str_replace('??','%s',$sql);
+			$sql=str_replace('?','"%s"',$sql);
 			# vsprintf - replacing all %s to parameters
-			$query=vsprintf($query,$params);
-			$query=str_replace('"%s"','?',$query);
-			$query=str_replace('%s','??',$query);
+			$sql=vsprintf($sql,$params);
+			$sql=str_replace('"%s"','?',$sql);
+			$sql=str_replace('%s','??',$sql);
 		}
-		return ($query);
+		return $sql;
 	}
 	public function showErrors($val=true){
 		$this->echo=$val;
@@ -58,7 +54,7 @@ class TAG_db{
 		if(!$sql) return $this->lastQuery;
 		$sql=$this->escape_string($sql,$a);
 		$this->sql=$sql;
-		if($query=$this->dbcon->query($sql)){
+		if($query=new TAG_dbquery($this->dbcon,$sql)){
 			$this->error=false;
 			$this->errorMsg='';
 		}else{
@@ -76,31 +72,31 @@ class TAG_db{
 		return $this->errorMsg;
 	}
 	public function lastSql(){
-		return preg_replace('/\s+/',' ',$this->sql);;
+		return preg_replace('/\s+/',' ',$this->sql);
 	}
 	public function numRows($query){#cantidad de columnas en la consulta
-		return @mysqli_num_rows($query);
+		return $query->num_rows;
 	}
 	public function fetchAssoc($query=false){#devuelve la siguiente columna de la consulta
 		if(!$query) $query=$this->lastQuery;
-		$data=@mysqli_fetch_assoc($query);
+		$data=@$query->fetch_assoc();
 		return $data;
 	}
 	public function fetchArray($query=false){#devuelve la siguiente columna como un arreglo simple
 		if(!$query) $query=$this->lastQuery;
-		$data=@mysqli_fetch_array($query,MYSQLI_NUM);
+		$data=@$query->fetch_array();
 		return $data;
 	}
-	public function fetchObject($query=false){#devuelve la siguiente columna como un arreglo simple
+	public function fetchObject($query=false){#devuelve la siguiente columna como un objeto
 		if(!$query) $query=$this->lastQuery;
-		$data=@mysqli_fetch_object($query);
+		$data=@$query->fetch_object();
 		return $data;
 	}
 	public function getArray($sql,$a=false){#devuelve arreglo con todas las columnas (arreglo simple)
 		$array=array();
 		$query=$this->query($sql,$a);
-		if($this->numRows($query)>0)
-			while($row=$this->fetchArray($query)) $array[]=$row;
+		if($query->num_rows>0)
+			while($row=$query->fetch_array($query)) $array[]=$row;
 		return $array;
 	}
 	public function getAssoc($sql,$a=false){#devuelve arreglo con todas las columnas (arreglo asociativo)
@@ -137,35 +133,37 @@ class TAG_db{
 			$this->echo=$echo;
 		}
 		if(!$query) $query=$this->query($sql,$a);
-		if($this->numRows($query)>0) $row=$this->fetchObject($query);
+		if($query->num_rows) $row=$query->fetch_object();
 		else $row=new stdClass();
 		return $row;
 	}
 	public function getVal($sql,$a=false){#devuelve el valor del primer elemento de una consulta
 		$el=NULL;
 		$query=$this->query($sql,$a);
-		if($this->numRows($query)) $array=$this->fetchArray($query);
-		if($array) $el=array_shift($array);
+		if($query->num_rows){
+			$el=$query->fetch_array();
+			$el=array_shift($el);
+		}
 		return $el;
 	}
 	public function count($tabla,$where='1',$a=false){#cuenta elementos de una consulta
-		$query=$this->query("SELECT id FROM $tabla WHERE $where",$a);
-		return $this->numRows($query);
+		$query=$this->query("SELECT * FROM $tabla WHERE $where",$a);
+		return $query->num_rows;
 	}
 	public function sum($campo,$tabla,$where='1',$a=false){
 		return $this->getVal("SELECT SUM($campo) FROM $tabla WHERE $where",$a);
 	}
-	public function exist($tabla,$where,$a=false){
-		$row=$this->getRow("SELECT * FROM $tabla WHERE $where",$a);
-		return count($row)>0;
+	public function exist($tabla,$where='1',$a=false){
+		$query=$this->query("SELECT * FROM $tabla WHERE $where",$a);
+		return $query->num_rows>0;
 	}
 	public function insert($tabla,$set,$a=false){
 		$query=$this->query("INSERT INTO $tabla SET $set",$a);
-		return $query?mysqli_insert_id($this->dbcon):false;
+		return $query?$query->insert_id:false;
 	}
 	public function insert_or_update($tabla,$set,$set_if_insert,$where_if_update,$a=false){
-		list($tabla,$set,$set_if_insert,$where_if_update)=explode(' [[,]] ',
-			$this->escape_string(implode(' [[,]] ',
+		list($tabla,$set,$set_if_insert,$where_if_update)=explode(' {[(,)]} ',
+			$this->escape_string(implode(' {[(,)]} ',
 				array($tabla,$set,$set_if_insert,$where_if_update)
 			),$a)
 		);
@@ -183,14 +181,39 @@ class TAG_db{
 	public function cleanStrings($a){#formatea cadenas para uso en sql.
 		$con=$this->con();
 		if(get_magic_quotes_gpc()) return $a;
-		elseif(is_string($a)) return mysqli_real_escape_string($con,$a);
+		elseif(is_string($a)) return $con->real_escape_string($a);
 		elseif(!is_array($a)) return $a;
 		foreach($a as $key => &$value){
 			if(is_array($value))
 				$value=$this->cleanStrings($value);
 			elseif(is_string($value))
-				$value=mysqli_real_escape_string($con,$value);
+				$value=$con->real_escape_string($value);
 		}
 		return $a;
+	}
+}
+
+class TAG_dbquery{
+	var $query,$num_rows=0,$insert_id=false;
+	function __construct($con=false,$sql=''){
+		if($con&&$sql){
+			$query=$con->query($sql);
+			$this->query=$query;
+			$copy=array('num_rows');
+			foreach($copy as $name) if(isset($query->$name)) $this->$name=$query->$name;
+			if(preg_match('/^\s*insert\s/i',$sql)) $this->insert_id=$query->insert_id;
+		}
+	}
+	function fetch_assoc(){#devuelve la siguiente columna de la consulta como un arreglo asociativo
+		if(!$this->query) return false;
+		return $this->query->fetch_assoc();
+	}
+	public function fetch_array($type=MYSQLI_NUM){#devuelve la siguiente columna como un arreglo simple
+		if(!$this->query) return false;
+		return $this->query->fetch_array($type);
+	}
+	public function fetch_object(){#devuelve la siguiente columna como un objeto
+		if(!$this->query) return false;
+		return $this->query->fetch_object();
 	}
 }

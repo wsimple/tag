@@ -1,7 +1,10 @@
 <?php
 $formats='/\.(mp4)$/';
 if(isset($_GET['path'])) $url=$_GET['path'];
-else $url=array_shift(explode('?',$_SERVER['REQUEST_URI']));
+else{
+	$url=explode('?',$_SERVER['REQUEST_URI']);
+	$url=array_shift($url);
+}
 // if(!preg_match('/\.[a-z0-9]{3,}$/',$url)) die($_SERVER['SCRIPT_NAME'].', '.$_SERVER['REQUEST_URI'].', '.$url);
 $file='videos/not-found.mp4';
 if(preg_match($formats,$url)){
@@ -14,4 +17,4 @@ if(preg_match($formats,$url)){
 }else{
 	header("HTTP/1.0 404 Not Found");
 }
-readfile($file);
+if(is_file($file)) readfile($file);

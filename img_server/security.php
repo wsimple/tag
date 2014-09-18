@@ -3,7 +3,7 @@ $security=preg_match('/security\.php/',$_SERVER['SCRIPT_NAME'])?'security.php':'
 ?>
 <h1>Generador de archivo de seguridad</h1>
 se requiere su ejecucion para acceso a la base de datos.<br/>
-<?=$_GET['tipo']?(!is_file('includes/security/security.php')?'No hay configuracion de base de datos.':'Modificar configuracion de base de datos').'<br/>':''?>
+<?php echo $_GET['tipo']?(!is_file('includes/security/security.php')?'No hay configuracion de base de datos.':'Modificar configuracion de base de datos').'<br/>':'';?>
 <?php
 if(!is_file('includes/security/security.php')||isset($_GET['help'])){
 $show=isset($_COOKIE['_DEBUG_'])?'&show':'';
@@ -48,10 +48,15 @@ if($data->tipo){
 		$data->ftp['user']='userimg';
 		$data->ftp['pass']='-t@gvzlA_ftp';
 		$data->imgserver='http://68.109.244.201/';
-		$data->img_server_path='//i.tagbum.com/';
-		$data->video_server_path='//v.tagbum.com/';
-		$data->img_server=$data->img_server_path;
-		$data->video_server=$data->video_server_path;
+		$data->img_server_path='http://192.168.57.16/';
+		$data->video_server_path='http://192.168.57.11/';
+		$data->img_server='//i.tagbum.com/';
+		$data->video_server='//v.tagbum.com/';
+		$data->allow_origin=array(
+			'http://tagbum.com',
+			'http://i.tagbum.com',
+			'http://v.tagbum.com',
+		);
 	}elseif($data->tipo=='local'){
 		$data->db['host']='localhost';
 		$data->db['user']='root';
