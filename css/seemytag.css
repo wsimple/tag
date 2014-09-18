@@ -2730,7 +2730,7 @@ a.plus:hover{
 	height:25px;
 }
 .group-details .linkOptionGrouop:hover{ background:#F2F2F2; }
-.group-details .messageAdver,.product-list .messageAdver,.pay-help .messageAdver,.listGroup .messageAdver,#editTag-box .messageAdver,#list_orderProduct .messageAdver,#list_orderProduct_wish .messageAdver{
+.group-details .messageAdver,.product-list .messageAdver,.pay-help .messageAdver,.listGroup .messageAdver,#editTag-box .messageAdver,#list_orderProduct .messageAdver,#list_orderProduct_wish .messageAdver,#yourFriendsView .messageAdver{
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	border-radius:5px;
@@ -2793,7 +2793,7 @@ a.plus:hover{
 	font-style:inherit !important;
 	font-size:12px !important;
 }
-.listGroup .messageAdver,#editTag-box .messageAdver,.group-details .messageAdver,#list_orderProduct .messageAdver,#list_orderProduct_wish .messageAdver{
+.listGroup .messageAdver,#editTag-box .messageAdver,.group-details .messageAdver,#list_orderProduct .messageAdver,#list_orderProduct_wish .messageAdver,#yourFriendsView .messageAdver{
 	margin-left:50px;
 	margin-right:50px;
 	padding:10px;

@@ -1,13 +1,12 @@
 <?php 
 include '../header.json.php';
-
-if (!isset($_GET['action'])) die(jsonp(array()));
+if ($myId=='' || !isset($_GET['action'])) die(jsonp(array()));
 $res= array();
 switch ($_GET['action']) {
-	case 'friendsAndFollow':
+	case 'friendsAndFollow': //amigos admiradores admirados y encontrar amigos
 		if (!isset($_GET['mod'])) $_GET['mod']='friends';
 		if (!isset($_GET['limit'])) $_GET['limit']=0;
-		$thisId=$_SESSION['ws-tags']['ws-user']['id'];
+		$thisId=$myId;$numAction=1;
 		if (!isset($_POST['uid']))	$uid=$thisId;
 		else $uid=CON::getVal("SELECT id FROM users WHERE md5(id)=?",array($_POST['uid']));
 		if (!$uid) die(jsonp(array('error'=>'noIdValid')));
@@ -32,6 +31,7 @@ switch ($_GET['action']) {
 				$array['where']=safe_sql('ul.id_friend=?',array($uid));
 			break;
 			case 'find': //encontrar amigos
+				$numAction=3;
 				$array['order']='ORDER BY RAND()';
 				$array['join']='';
 				$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
@@ -42,7 +42,6 @@ switch ($_GET['action']) {
 					foreach ($searches as $word) {
 						// AND g.name LIKE ?",array('%'.$hash[0].'%'));
 						$where.=safe_sql('AND  CONCAT_WS(" ",username,last_name,screen_name,name,email) LIKE "%??%"',array($word));
-						$res['where'].=$where;
 					}
 					$array['where']=safe_sql('u.id!=? '.$where,array($uid));
 				}else
@@ -66,16 +65,19 @@ switch ($_GET['action']) {
 		$info=array();
 		while ($row=CON::fetchAssoc($query)){
 			$info[]=$row;
-			if (isset($_GET['withHtml'])) $html.=htmlfriends($row,$thisId);
+			if (isset($_GET['withHtml'])) $html.=htmlfriends($row,$thisId,$numAction);
 		}
 
 		$res['dato']=$info;
 		if ($html!='') $res['html']=$html;
 	break;
+	case 'usersLikesTags': 
+
+	break;
 }
 die(jsonp($res));
 
-function htmlfriends($row,$thisId){
+function htmlfriends($row,$thisId,$numAction=1){
 	$foto=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend'],'img/users/default.png');
 	$width=!isset($_GET['w'])?'width:450px;':'width:'.$_GET['w'].'px;';
 	$body='<div class="divYourFriends thisPeople">
@@ -99,8 +101,8 @@ function htmlfriends($row,$thisId){
 	$body.='</div>';
 	if ($row['iAm']=='0'){
 		$body.='<div style="height:70px; width:0px;float: right; text-align: right;">
-	            <input type="button" value="'.USER_BTNLINK.'" action="linkUser,'.$row['id_friend'].',1" '.($row['conocido']?'style="display:none"':'').'/>					
-				<input type="button" value="'.USER_BTNUNLINK.'" action="linkUser,'.$row['id_friend'].',1" '.($row['conocido']?'':'style="display:none"').' />
+	            <input type="button" value="'.USER_BTNLINK.'" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['conocido']?'style="display:none"':'').'/>					
+				<input type="button" value="'.USER_BTNUNLINK.'" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['conocido']?'':'style="display:none"').' />
 	        </div>';
 	}        
 	$body.='</div><div class="clearfix"></div></div>';

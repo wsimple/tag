@@ -1,7 +1,7 @@
 <?php
 include '../header.json.php';
 include RELPATH.'class/class.phpmailer.php';
-
+if ($myId=='') die(jsonp(array()));
 	$res=array();
 	if(quitar_inyect()) {
 		$uid=$_SESSION['ws-tags']['ws-user']['id'];
@@ -15,7 +15,7 @@ include RELPATH.'class/class.phpmailer.php';
 					CON::insert('users_links','id_user=?,id_friend=?,is_friend=?',array($uid,$users['id'],($hislink?1:0)));
 					if ($hislink) CON::update('users_links','is_friend=1','id_user=? AND id_friend=?',array($users['id'],$uid));
 					notifications($users['id'],$users['id'],$hislink?5:11);
-					$_mail=updateUsersCounters(md5($uid));
+					$res['my']=updateUsersCounters(md5($uid));
 					$res['friend']=updateUsersCounters($_GET['uid']);
 					$photo = FILESERVER.'img/users/'.getUserPicture($_SESSION['ws-tags']['ws-user']['photo']);
 					$body = '<table width="500" border="0" align="center" cellpadding="2" cellspacing="0" style="font-family:Verdana, Geneva, sans-serif; font-size:12px; text-align:left">
@@ -30,8 +30,8 @@ include RELPATH.'class/class.phpmailer.php';
 						</tr>
 						<tr style="text-align:center; font-weight:bold; background-color:#F4F4F4">
 							<td width="108" style="border-bottom:1px solid #CCC; border-right:1px solid #CCC">'.mskPoints($_SESSION['ws-tags']['ws-user']['tags_count']).'</td>
-							<td width="157" style="border-bottom:1px solid #CCC; border-right:1px solid #CCC">'.mskPoints($_mail['admirers']).'</td>
-							<td width="147" style="border-bottom:1px solid #CCC; border-right:1px solid #CCC">'.mskPoints($_mail['admired']).'</td>
+							<td width="157" style="border-bottom:1px solid #CCC; border-right:1px solid #CCC">'.mskPoints($res['my']['admirers']).'</td>
+							<td width="147" style="border-bottom:1px solid #CCC; border-right:1px solid #CCC">'.mskPoints($res['my']['admired']).'</td>
 						</tr>
 						<tr><td colspan="4">&nbsp;</td></tr>
 						<tr><td colspan="4" style="text-align:center">'.MAILFALLOWFRIENDS_GOTO.' <a href="'.base_url().'">Tagbum</a></td></tr>
