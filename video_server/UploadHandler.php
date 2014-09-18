@@ -51,7 +51,7 @@ class UploadHandler
 
 	function __construct($options = null, $initialize = true, $error_messages = null) {
 		global $config;
-		$origin=preg_replace('/(https?:\/\/[^\/]*).*/i','$1',$_SERVER['HTTP_REFERER']);
+		$origin=!empty($_SERVER['HTTP_REFERER'])?preg_replace('/(https?:\/\/[^\/]+)(\/.*)?/i','$1',$_SERVER['HTTP_REFERER']):'*';
 		$allow=isset($config->allow_origin)?explode(',',$config->allow_origin):array();
 		$this->options = array(
 			'script_url' => $this->get_full_url().'/',
@@ -196,6 +196,13 @@ class UploadHandler
 		}
 	}
 
+	function cancel($data=array()){
+		$this->head();
+		if(!is_array($data)) $data=array('data'=>$data);
+		$data['canceled']=true;
+		die(json_encode($data));
+	}
+
 	protected function get_full_url() {
 		$https = !empty($_SERVER['HTTPS']) && strcasecmp($_SERVER['HTTPS'], 'on') === 0;
 		return
@@ -211,14 +218,13 @@ class UploadHandler
 		// @session_start();
 		// return session_id();
 		$code=isset($_COOKIE['__code__'])?$_COOKIE['__code__']:
-			isset($_REQUEST['code'])?$_REQUEST['code']:'';
+			(isset($_REQUEST['code'])?$_REQUEST['code']:'');
 		if(isset($_REQUEST['testmode'])) return $code;
-		$client=new Client();
 		$id=isset($_REQUEST['id'])?$_REQUEST['id']:'';
+		$client=new Client();
 		if($client->valid_code($code)||$client->valid_id($id))
 			return $client->code();
-		$this->head();
-		die('{}');
+		$this->cancel();
 	}
 
 	protected function get_user_path() {
@@ -276,6 +282,7 @@ class UploadHandler
 			.$this->get_query_separator($this->options['script_url'])
 			.$this->get_singular_param_name()
 			.'='.rawurlencode($file->name);
+		if($this->_folder) $file->folder=$this->_folder;
 		$file->deleteType = $this->options['delete_type'];
 		if ($file->deleteType !== 'DELETE') {
 			$file->deleteUrl .= '&_method=DELETE';
@@ -1127,6 +1134,8 @@ class UploadHandler
 
 	protected function generate_response($content, $print_response = true) {
 		if ($print_response) {
+			$content['request']=$_REQUEST;
+			$content['folder']=$this->folder();
 			$json = json_encode($content);
 			$redirect = isset($_REQUEST['redirect']) ?
 				stripslashes($_REQUEST['redirect']) : null;
