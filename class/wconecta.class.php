@@ -30,21 +30,21 @@ class CON{
 		}
 		return self::$dbcon;
 	}
-	public static function escape_string($query,$params=false){
+	public static function escape_string($sql,$params=false){
 		#crea una cadena sql segura
 		if($params){
 			$params=self::cleanStrings($params);
-			# str_replace - cambiando ?? -> %s y ? -> "%s". %s is ugly in raw sql query
+			# str_replace - cambiando ?? -> %s y ? -> "%s". %s is ugly in raw sql sql
 			# ?? for expressions manually scaped like that: LIKE "%??%"
-			$query=preg_replace('/([^%])%([^%])/','$1%%$2',$query);
-			$query=str_replace('??','%s',$query);
-			$query=str_replace('?','"%s"',$query);
+			$sql=preg_replace('/%([^0-9%bcdeEfFgGosuxX]|$)/','%%$1',$sql);
+			$sql=str_replace('??','%s',$sql);
+			$sql=str_replace('?','"%s"',$sql);
 			# vsprintf - replacing all %s to parameters
-			$query=vsprintf($query,$params);
-			$query=str_replace('"%s"','?',$query);
-			$query=str_replace('%s','??',$query);
+			$sql=vsprintf($sql,$params);
+			$sql=str_replace('"%s"','?',$sql);
+			$sql=str_replace('%s','??',$sql);
 		}
-		return ($query);
+		return ($sql);
 	}
 	public static function showErrors($val=true){
 		self::$echo=$val;
