@@ -133,12 +133,10 @@
 						var $follow=$('#followButton');
 						setFollowButton(data['follow']);
 						$follow.fadeIn('slow').click(function(){
-							var get='';
-							if($follow.attr('data-theme')==='a') get='&unfollow';
 							setFriendsButtons({});
 							myAjax({
 								type:'GET',
-								url:DOMINIO+'controls/users/follow.json.php?uid='+md5(data['id'])+get,
+								url:DOMINIO+'controls/users/follow.json.php?uid='+md5(data['id']),
 								error:function() {
 									console.log('follow button ERROR');
 								},
@@ -146,7 +144,7 @@
 									if(!data['error']){
 										setFriendsButtons(data['friend']);
 										$follow.fadeOut('slow', function () {
-											setFollowButton(get=='');//si get esta vacio, se hizo seguidos
+											setFollowButton(!data['unlink']);//si get esta vacio, se hizo seguidos
 											$follow.fadeIn('slow');
 										});
 									}
