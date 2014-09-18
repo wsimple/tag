@@ -23,6 +23,7 @@ var BASEURL='<?=base_url()?>',
 		img:'<?=$config->img_server?>',
 		video:'<?=$config->video_server?>'
 	},
+	LOCAL=<?=$config->local?'true':'false'?>,
 	ISLOGGED=<?=$_SESSION['ws-tags']['ws-user']['id']!=''?'true':'false'?>;
 if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localStorage.removeItem('logged');
 (function(l){ if(!l.search.match(/hashtag=/)&&l.hash.match(/#[a-z]/)) l.href=BASEURL+'?'+l.search.substr(1)+'&hashtag='+l.hash.substr(1); })(document.location);

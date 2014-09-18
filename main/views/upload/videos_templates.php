@@ -493,7 +493,7 @@ for(var i=0,file;file=o.files[i];i++){
 					{% if(file.type=='img'){ %}
 						<div class="tag-container img noMenu" style="height: auto;">
 							<div class="template" style="background-image:url({%=file.url%})"></div>
-							<div tag action="tag/bgselect" data-url="{%=file.url%}"></div>
+							<div tag action="tag/bgselect" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="{%=file.code%}"></div>
 						</div>
 					{% }else if(file.type=='video'){ %}
 						<div class="tag-container video noMenu" style="width: auto;height: auto;">
@@ -507,10 +507,10 @@ for(var i=0,file;file=o.files[i];i++){
 					{% } %}
 				<div class="actionButton">
 					{% if(file.type=='video'){ %}
-					<button action="tag/videoSelect,1" class="btn btn-primary start" onclick="des(this);" data-set="{%=file.url.split('<?=$setting->video_server_path?>videos/')[1]%}" data-type="local" data-pre="{%=file.url%}"><i class="glyphicon glyphicon-upload"></i></button>
+					<button action="tag/videoSelect,1" class="btn btn-primary start" onclick="des(this);" data-type="local" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="{%=file.code%}"><i class="glyphicon glyphicon-upload"></i></button>
 					{% } if(file.deleteUrl){ %}
 					<button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
-						{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
+						{% if(file.deleteWithCredentials){ %}data-xhr-fields='{"withCredentials":true}'{% } %}
 						data-url="{%=file.deleteUrl+o.get(file.name)%}">
 						<i class="glyphicon glyphicon-trash"></i>
 						<span><?=''//$lang->get('Delete')?></span>

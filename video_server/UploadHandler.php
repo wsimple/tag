@@ -15,7 +15,7 @@ class UploadHandler
 	protected $options;
 	private $local_time_delay=5;#retraso en respuesta, para pruebas locales.
 
-	private $_folder='',$_path='/videos/';
+	private $_folder='',$_code='',$_path='/videos/';
 	// Get folder
 	protected function folder() {
 		if(isset($_REQUEST['folder'])) $this->_folder=$_REQUEST['folder'];
@@ -219,6 +219,7 @@ class UploadHandler
 		// return session_id();
 		$code=isset($_COOKIE['__code__'])?$_COOKIE['__code__']:
 			(isset($_REQUEST['code'])?$_REQUEST['code']:'');
+		$this->_code=$code;
 		if(isset($_REQUEST['testmode'])) return $code;
 		$id=isset($_REQUEST['id'])?$_REQUEST['id']:'';
 		$client=new Client();
@@ -282,7 +283,7 @@ class UploadHandler
 			.$this->get_query_separator($this->options['script_url'])
 			.$this->get_singular_param_name()
 			.'='.rawurlencode($file->name);
-		if($this->_folder) $file->folder=$this->_folder;
+		if($this->_code) $file->code=$this->_code;
 		$file->deleteType = $this->options['delete_type'];
 		if ($file->deleteType !== 'DELETE') {
 			$file->deleteUrl .= '&_method=DELETE';
@@ -1308,13 +1309,12 @@ class UploadHandler
 			// $_FILES is a multi-dimensional array:
 			foreach ($upload['tmp_name'] as $index => $value) {
 				#definimos nombre personalizado
-				$ext=pathinfo($upload['tmp_name'][$index],PATHINFO_EXTENSION);
-				$filename=hash_file('crc32',$upload['tmp_name'][$index]).'_'.date('YmdHis').'.'.$ext;
+				$filename=hash_file('crc32',$upload['tmp_name'][$index]).'_'.date('YmdHis').'.'.pathinfo($upload['tmp_name'][$index],PATHINFO_EXTENSION);
 				$files[] = $this->handle_file_upload(
 					$upload['tmp_name'][$index],
-					$file_name?$file_name:(
-						$filename?$filename:$upload['name'][$index]
-					),
+					// $file_name?$file_name:(
+					// 	$filename?$filename:$upload['name'][$index]
+					// ),
 					$filename,
 					$size ? $size : $upload['size'][$index],
 					$upload['type'][$index],
@@ -1330,11 +1330,12 @@ class UploadHandler
 			$filename=!$_file?null:hash_file('crc32',$_file).'_'.date('YmdHis').'.'.pathinfo($upload['name'],PATHINFO_EXTENSION);
 			$files[] = $this->handle_file_upload(
 				$_file,
-				$file_name?$file_name:(
-					$filename?$filename:(
-						isset($upload['name']) ? $upload['name'] : null
-					)
-				),
+				// $file_name?$file_name:(
+				// 	$filename?$filename:(
+				// 		isset($upload['name']) ? $upload['name'] : null
+				// 	)
+				// ),
+				$filename,
 				$size ? $size : (isset($upload['size']) ?
 						$upload['size'] : $this->get_server_var('CONTENT_LENGTH')),
 				isset($upload['type']) ?
