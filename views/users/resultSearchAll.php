@@ -63,8 +63,8 @@ if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){
 									<?php } ?>
 								</div>
 								<div style="height:70px; width:0px;float: right; text-align: right;">
-									<input style="margin-top:20px;<?=$follower['id_user']?'display:none;':''?>" name="btn_link_<?=md5($friend['id_friend'])?>" id="btn_link_<?=md5($friend['id_friend'])?>" type="button" value="<?=USER_BTNLINK?>" action="linkUser,#div_<?=md5($friend['id_friend'])?>,<?=md5($friend['id_friend'])?>"/>
-									<input style="margin-top: 20px;<?=$follower['id_user']?'':'display:none;'?>" name="btn_unlink_<?=md5($friend['id_friend'])?>" id="btn_unlink_<?=md5($friend['id_friend'])?>" type="button" value="<?=USER_BTNUNLINK?>" action="linkUser,#div_<?=md5($friend['id_friend'])?>,<?=md5($friend['id_friend'])?>,true" />
+								<input style="margin-top:20px;<?=$follower['id_user']?'display:none;':''?>" type="button" value="<?=USER_BTNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2"/>
+								<input style="margin-top: 20px;<?=$follower['id_user']?'':'display:none;'?>" type="button" value="<?=USER_BTNUNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2" />
 								</div>
 							</div>
 							<div class="clearfix"></div>
@@ -100,8 +100,9 @@ if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){
 									<?php }?>
 								</div>
 								<div style="height:70px; width:0px;float: right; text-align: right;">
-									<input style="margin-top: 20px;<?=$follower['id_user']?'display:none;':''?>" name="btn_link_<?=md5($friend['id_friend'])?>" id="btn_link_<?=md5($friend['id_friend'])?>" type="button" value="<?=USER_BTNLINK?>" action="linkUser,#div_<?=md5($friend['id_friend'])?>,<?=md5($friend['id_friend'])?>" />
-									<input style="margin-top: 20px;<?=$follower['id_user']?'':'display:none;'?>" name="btn_unlink_<?=md5($friend['id_friend'])?>" id="btn_unlink_<?=md5($friend['id_friend'])?>" type="button" value="<?=USER_BTNUNLINK?>" action="linkUser,#div_<?=md5($friend['id_friend'])?>,<?=md5($friend['id_friend'])?>,true" />
+								<input style="margin-top: 20px;<?=$follower['id_user']?'display:none;':''?>" type="button" value="<?=USER_BTNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2" />
+								<input style="margin-top: 20px;<?=$follower['id_user']?'':'display:none;'?>" 
+								type="button" value="<?=USER_BTNUNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2" />
 								</div>
 							</div>
 							<div class="clearfix"></div>
@@ -109,13 +110,8 @@ if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){
 					<?php
 						}//fin while de relleno
 						$viewsMySql=array(
-							"view_friends_level01",
-							"view_friends_level02",
-							"view_friends_level03",
-							"view_friends_level04",
-							"view_friends_level05",
-							"view_friends_level06",
-							"view_friends_level07"
+							"view_friends_level01","view_friends_level02","view_friends_level03","view_friends_level04",
+							"view_friends_level05","view_friends_level06","view_friends_level07"
 						);
 						dropViews($viewsMySql);
 					?>

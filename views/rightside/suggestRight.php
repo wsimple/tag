@@ -7,8 +7,8 @@
 		echo '<div class="suggest-friends">';
 		while($friend=mysql_fetch_assoc($friends)){
 		?>
-		<div class="contentSuggestFriends">
-			<div id="div_<?=md5($friend['id_friend'])?>" class="divYourFriendsSuggest" >
+		<div class="contentSuggestFriends thisPeople">
+			<div class="divYourFriendsSuggest" >
 				<div class="divYourFriendsSuggestPhoto">
 					<img action="profile,<?=md5($friend['id_friend'])?>,<?=$friend['name_user']?>" border="0"
 						src="<?=FILESERVER.getUserPicture('img/users/'.$friend['code_friend'].'/'.$friend['photo_friend'],'img/users/default.png')?>"/>
@@ -20,6 +20,7 @@
 						</a>
 					</div>
 				</div>
+				<input type="button" action="linkUser,<?=md5($friend['id_friend'])?>,1" style="display:none;"/>
 				<div class="clearfix"></div>
 			</div>
 		</div>

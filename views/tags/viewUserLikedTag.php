@@ -58,7 +58,7 @@
 		   $follower=$friend['follower'];
 ?>
                 <!--<div id="div_<?=md5($friend['id_friend'])?>" style="margin:3px; background-color:#FFF; border:1px solid #CCC; height:75px; border-radius:5px; behavior: url(css/border-radius.htc); -moz-border-radius:5px; -webkit-border-radius:5px; font-size:11px;">-->
-                <div class="divYourFriends">
+                <div class="divYourFriends thisPeople">
                    	<div style="float:left; width:80px; cursor:pointer;">
 						<?php
 							$fot_	=	FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['photo_friend'],'img/users/default.png');
@@ -91,14 +91,10 @@
 					if($_GET['rfl']==''){
 					 if ($friend['id_friend']!=$_SESSION['ws-tags']['ws-user']['id']){ ?>
 					<div  style="float:right;">
-							<input name="btn_link_<?=md5($friend['id_friend'])?>"
-								   id="dialog_btn_link_<?=md5($friend['id_friend'])?>"
-								   type="button" value="<?=USER_BTNLINK?>"
-								   action="linkUser,div_<?=md5($friend['id_friend'])?>,<?=md5($friend['id_friend'])?>,,,true" <?=$follower?'style="display:none"':''?>/>
-							<input name="btn_unlink_<?=md5($friend['id_friend'])?>"
-								   id="dialog_btn_unlink_<?=md5($friend['id_friend'])?>"
-								   type="button" value="<?=USER_BTNUNLINK?>"
-								   action="linkUser,div_<?=md5($friend['id_friend'])?>,<?=md5($friend['id_friend'])?>,animate,,true" <?=$follower?'':'style="display:none"'?>/>
+							<input type="button" value="<?=USER_BTNLINK?>"
+								   action="linkUser,<?=md5($friend['id_friend'])?>,2" <?=$follower?'style="display:none"':''?>/>
+							<input type="button" value="<?=USER_BTNUNLINK?>"
+								   action="linkUser,<?=md5($friend['id_friend'])?>,2" <?=$follower?'':'style="display:none"'?>/>
 					</div>
 					<?php }
 					}?>
