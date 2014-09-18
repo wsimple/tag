@@ -8,7 +8,7 @@ class VideoConvertion
 
 	function __construct(){
 		if(!isset($_GET['convert'])) return;
-		$file_name=isset($_GET['file'])?$_GET['file']:'';
+		$file_name=isset($_REQUEST['file'])?$_REQUEST['file']:'';
 		if(!$file_name) return;
 		//proceso de video
 		$data=$this->get_info($file_name);

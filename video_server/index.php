@@ -9,9 +9,11 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
-require_once('includes/client.php');
-if(!count($_REQUEST)) include 'show_video.php';
 error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors',1);
+require_once('includes/client.php');
+
+if(in_array(strtoupper($_SERVER['REQUEST_METHOD']),array('GET','POST'))&&!count($_REQUEST)) include 'show_video.php';
 require('VideoConvertion.php');
 $video_convertion = new VideoConvertion();
 require('UploadHandler.php');
