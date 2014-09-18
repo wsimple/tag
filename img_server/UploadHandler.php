@@ -15,7 +15,7 @@ class UploadHandler
 	protected $options;
 	private $local_time_delay=5;#retraso en respuesta, para pruebas locales.
 
-	private $_folder='',$_path='/img/';
+	private $_folder='',$_code='',$_path='/img/';
 	// Get folder
 	protected function folder() {
 		if(isset($_REQUEST['folder'])) $this->_folder=$_REQUEST['folder'];
@@ -223,6 +223,8 @@ class UploadHandler
 		// return session_id();
 		$code=isset($_COOKIE['__code__'])?$_COOKIE['__code__']:
 			(isset($_REQUEST['code'])?$_REQUEST['code']:'');
+			$this->_code=$code;
+		$this->_code=$code;
 		if(isset($_REQUEST['testmode'])) return $code;
 		$id=isset($_REQUEST['id'])?$_REQUEST['id']:'';
 		$client=new Client();
@@ -286,7 +288,7 @@ class UploadHandler
 			.$this->get_query_separator($this->options['script_url'])
 			.$this->get_singular_param_name()
 			.'='.rawurlencode($file->name);
-		if($this->_folder) $file->folder=$this->_folder;
+		if($this->_code) $file->code=$this->_code;
 		$file->deleteType = $this->options['delete_type'];
 		if ($file->deleteType !== 'DELETE') {
 			$file->deleteUrl .= '&_method=DELETE';
