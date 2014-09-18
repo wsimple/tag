@@ -36,7 +36,7 @@ class CON{
 			$params=self::cleanStrings($params);
 			# str_replace - cambiando ?? -> %s y ? -> "%s". %s is ugly in raw sql sql
 			# ?? for expressions manually scaped like that: LIKE "%??%"
-			$sql=preg_replace('/%([^0-9%bcdeEfFgGosuxX]|$)/','%%$1',$sql);
+			$sql=preg_replace('/%{1,2}/','%%',$sql);
 			$sql=str_replace('??','%s',$sql);
 			$sql=str_replace('?','"%s"',$sql);
 			# vsprintf - replacing all %s to parameters
