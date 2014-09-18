@@ -52,7 +52,7 @@ class UploadHandler
 	function __construct($options = null, $initialize = true, $error_messages = null) {
 		global $config;
 		$origin=!empty($_SERVER['HTTP_REFERER'])?preg_replace('/(https?:\/\/[^\/]+)(\/.*)?/i','$1',$_SERVER['HTTP_REFERER']):'*';
-		$allow=isset($config->allow_origin)?explode(',',$config->allow_origin):array();
+		$allow=isset($config->allow_origin)?(is_array($config->allow_origin)?$config->allow_origin:explode(',',$config->allow_origin)):array();
 		$this->options = array(
 			'script_url' => $this->get_full_url().'/',
 			'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).$this->folder(),
