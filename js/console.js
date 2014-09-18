@@ -16,7 +16,21 @@
 	};
 	$.debug.show=function(type){
 		$.cookie('_DEBUG_',type!==undefined?type:'');
-		return ['Enabled ',type||'Global',' Logs'].join('');
+		return ['Enabled',type||'Global','Logs'].join(' ');
+	};
+	$.debug.add=function(type){
+		var debuglist=$.cookie('_DEBUG_')?$.cookie('_DEBUG_').split(','):[],
+		i=debuglist.indexOf(type);
+		if(i<0&&type) debuglist.push(type);
+		$.cookie('_DEBUG_',debuglist.join(','));
+		return ['Added',type||'Global','to Logs'].join(' ');
+	};
+	$.debug.remove=function(type){
+		var debuglist=$.cookie('_DEBUG_')?$.cookie('_DEBUG_').split(','):[],
+			i=debuglist.indexOf(type);
+		if(i>=0) debuglist.splice(i, 1);
+		$.cookie('_DEBUG_',debuglist.join(','));
+		return ['Removed',type||'Global','from Logs'].join(' ');
 	};
 	$.debug.hide=function(){
 		$.cookie('_DEBUG_',null);
