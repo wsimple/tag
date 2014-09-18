@@ -50,6 +50,9 @@ class UploadHandler
 	protected $image_objects = array();
 
 	function __construct($options = null, $initialize = true, $error_messages = null) {
+		global $config;
+		$origin=!empty($_SERVER['HTTP_REFERER'])?preg_replace('/(https?:\/\/[^\/]+)(\/.*)?/i','$1',$_SERVER['HTTP_REFERER']):'*';
+		$allow=isset($config->allow_origin)?(is_array($config->allow_origin)?$config->allow_origin:explode(',',$config->allow_origin)):array();
 		$this->options = array(
 			'script_url' => $this->get_full_url().'/',
 			'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).$this->folder(),
@@ -60,8 +63,10 @@ class UploadHandler
 			// Set the following option to 'POST', if your server does not support
 			// DELETE requests. This is a parameter sent to the client:
 			'delete_type' => 'DELETE',
-			'access_control_allow_origin' => '*',
-			'access_control_allow_credentials' => false,
+			// 'access_control_allow_origin' => '*',
+			// 'access_control_allow_credentials' => false,
+			'access_control_allow_origin' => in_array($origin,$allow)?$origin:'*',
+			'access_control_allow_credentials' => in_array($origin,$allow),
 			'access_control_allow_methods' => array(
 				'OPTIONS',
 				'HEAD',
@@ -191,6 +196,13 @@ class UploadHandler
 		}
 	}
 
+	function cancel($data=array()){
+		$this->head();
+		if(!is_array($data)) $data=array('data'=>$data);
+		$data['canceled']=true;
+		die(json_encode($data));
+	}
+
 	protected function get_full_url() {
 		$https = !empty($_SERVER['HTTPS']) && strcasecmp($_SERVER['HTTPS'], 'on') === 0;
 		return
@@ -202,17 +214,17 @@ class UploadHandler
 			substr($_SERVER['SCRIPT_NAME'],0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
 	}
 
-	protected function get_user_id() {
+	protected function get_user_id(){
 		// @session_start();
 		// return session_id();
-		$code=isset($_REQUEST['code'])?$_REQUEST['code']:'';
+		$code=isset($_COOKIE['__code__'])?$_COOKIE['__code__']:
+			(isset($_REQUEST['code'])?$_REQUEST['code']:'');
 		if(isset($_REQUEST['testmode'])) return $code;
-		$client=new Client();
 		$id=isset($_REQUEST['id'])?$_REQUEST['id']:'';
+		$client=new Client();
 		if($client->valid_code($code)||$client->valid_id($id))
 			return $client->code();
-		$this->send_content_type_header();
-		die('{}');
+		$this->cancel();
 	}
 
 	protected function get_user_path() {
@@ -270,6 +282,7 @@ class UploadHandler
 			.$this->get_query_separator($this->options['script_url'])
 			.$this->get_singular_param_name()
 			.'='.rawurlencode($file->name);
+		if($this->_folder) $file->folder=$this->_folder;
 		$file->deleteType = $this->options['delete_type'];
 		if ($file->deleteType !== 'DELETE') {
 			$file->deleteUrl .= '&_method=DELETE';
@@ -1121,6 +1134,8 @@ class UploadHandler
 
 	protected function generate_response($content, $print_response = true) {
 		if ($print_response) {
+			$content['request']=$_REQUEST;
+			$content['folder']=$this->folder();
 			$json = json_encode($content);
 			$redirect = isset($_REQUEST['redirect']) ?
 				stripslashes($_REQUEST['redirect']) : null;

@@ -9,7 +9,6 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
-require_once('includes/client.php');
 
 class UploadHandler
 {
@@ -51,6 +50,9 @@ class UploadHandler
 	protected $image_objects = array();
 
 	function __construct($options = null, $initialize = true, $error_messages = null) {
+		global $config;
+		$origin=!empty($_SERVER['HTTP_REFERER'])?preg_replace('/(https?:\/\/[^\/]+)(\/.*)?/i','$1',$_SERVER['HTTP_REFERER']):'*';
+		$allow=isset($config->allow_origin)?(is_array($config->allow_origin)?$config->allow_origin:explode(',',$config->allow_origin)):array();
 		$this->options = array(
 			'script_url' => $this->get_full_url().'/',
 			'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).$this->folder(),
@@ -61,8 +63,10 @@ class UploadHandler
 			// Set the following option to 'POST', if your server does not support
 			// DELETE requests. This is a parameter sent to the client:
 			'delete_type' => 'DELETE',
-			'access_control_allow_origin' => '*',
-			'access_control_allow_credentials' => false,
+			// 'access_control_allow_origin' => '*',
+			// 'access_control_allow_credentials' => false,
+			'access_control_allow_origin' => in_array($origin,$allow)?$origin:'*',
+			'access_control_allow_credentials' => in_array($origin,$allow),
 			'access_control_allow_methods' => array(
 				'OPTIONS',
 				'HEAD',
@@ -172,6 +176,7 @@ class UploadHandler
 		switch ($this->get_server_var('REQUEST_METHOD')) {
 			case 'OPTIONS':
 			case 'HEAD':
+				//$this->cancel(array('initialize'=>'head'));
 				$this->head();
 				break;
 			case 'GET':
@@ -180,16 +185,26 @@ class UploadHandler
 			case 'PATCH':
 			case 'PUT':
 			case 'POST':
+				//$this->cancel(array('initialize'=>'patch, put or post'));
 				global $config;
 				if($config->tipo=='local') sleep($this->local_time_delay);
 				$this->post();
 				break;
 			case 'DELETE':
+				//$this->cancel(array('initialize'=>'delete'));
 				$this->delete();
 				break;
 			default:
+				//$this->cancel(array('initialize'=>'default'));
 				$this->header('HTTP/1.1 405 Method Not Allowed');
 		}
+	}
+
+	function cancel($data=array()){
+		$this->head();
+		if(!is_array($data)) $data=array('data'=>$data);
+		$data['canceled']=true;
+		die(json_encode($data));
 	}
 
 	protected function get_full_url() {
@@ -203,16 +218,17 @@ class UploadHandler
 			substr($_SERVER['SCRIPT_NAME'],0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
 	}
 
-	protected function get_user_id() {
+	protected function get_user_id(){
 		// @session_start();
 		// return session_id();
-		$client=new Client();
-		$code=isset($_REQUEST['code'])?$_REQUEST['code']:'';
+		$code=isset($_COOKIE['__code__'])?$_COOKIE['__code__']:
+			(isset($_REQUEST['code'])?$_REQUEST['code']:'');
+		if(isset($_REQUEST['testmode'])) return $code;
 		$id=isset($_REQUEST['id'])?$_REQUEST['id']:'';
+		$client=new Client();
 		if($client->valid_code($code)||$client->valid_id($id))
 			return $client->code();
-		$this->send_content_type_header();
-		die('{}');
+		$this->cancel();
 	}
 
 	protected function get_user_path() {
@@ -334,6 +350,7 @@ class UploadHandler
 
 	protected function get_file_objects($iteration_method = 'get_file_object') {
 		$upload_dir = $this->get_upload_path();
+		//$this->cancel(array('method'=>'get_file_objects'));
 		if (!is_dir($upload_dir)) {
 			return array();
 		}
@@ -1263,6 +1280,7 @@ class UploadHandler
 		}
 		$file_name = $this->get_file_name_param();
 		if ($file_name) {
+		//$this->cancel(array('method'=>'get. file name'));
 			$response = array(
 				$this->get_singular_param_name() => $this->get_file_object($file_name)
 			);

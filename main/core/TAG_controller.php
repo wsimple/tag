@@ -7,12 +7,12 @@ class TAG_controller extends TAG_functions{
 	function __construct($params=array()){
 		include('includes/security/security.php');
 		$this->setting=$config;
-		$this->lang=new Lang_lib($this);#libreria para manejo de lenguaje
 		$this->lib=new stdClass();
 		$this->model=new stdClass();
 		$this->load=new MAIN_load($this);
 		$this->db=new TAG_db($config->db);
 		$this->db->showErrors($this->is_debug());
+		$this->lang=new Lang_lib($this);#libreria para manejo de lenguaje
 		$detect=new Mobile_Detect();
 		$config->is_mobile=$detect->isMobile();
 		$this->location=$this->location_data();
