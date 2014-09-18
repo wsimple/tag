@@ -25,12 +25,17 @@ if($_GET['lang']!=''){
 if(!$actual) $actual='en';
 
 include($config->relpath."language/en.php");
+$_tmp=$lang;
+include($config->relpath."main/lang/en.php");
+$_tmp=array_merge($_tmp,$lang);
 if($actual!='en'){
-	$_tmp=$lang;
 	include($config->relpath."language/$actual.php");
-	$lang=array_merge($_tmp,$lang);
-	unset($_tmp);
+	$_tmp=array_merge($_tmp,$lang);
+	include($config->relpath."main/lang/$actual.php");
+	$_tmp=array_merge($_tmp,$lang);
 }
+$lang=$_tmp;
+unset($_tmp);
 foreach ($lang as $key => $value){
 	define($key, $value);
 }
