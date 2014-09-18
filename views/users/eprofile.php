@@ -1,10 +1,5 @@
 <?php
 global $section,$params;
-// if($section && $section!='profile') $where = "username!='' AND username LIKE '$section'";
-// elseif ($_GET['uid']!='') { $where = "md5(id) = '".$_GET['uid']."'"; }
-// elseif ($_GET['userIdExternalProfile']!='') { $where = "md5(id) = '".$_GET['userIdExternalProfile']."'"; }
-// elseif(isset($_GET['usr'])){ $where = "username LIKE '".$_GET['usr']."'"; }
-// else{ $where = "id = ".$_SESSION['ws-tags']['ws-user']['id']; }
 
 if(isset($_GET['sc']) && $_GET['sc']=='6'){
 	if (isset($_GET['userIdExternalProfile'])) $where = "md5(id) = '".$_GET['userIdExternalProfile']."'";
@@ -45,8 +40,7 @@ $query = CON::query("
 		(SELECT id_user FROM users_links WHERE id_friend=id AND id_user=".$sid." LIMIT 1) as follower,
 		(SELECT count(id) FROM tags WHERE id_creator = ".$sid." AND id_user = id_creator AND status = 1) AS nTags
 	FROM users
-	WHERE $where
-");
+	WHERE $where ");
 
 if(CON::numRows($query)>0){
 	if(is_debug('user')) echo CON::lastSql();
@@ -55,14 +49,6 @@ $obj=CON::fetchObject($query);
 $edit='<div class="edit"></div>';
 $edit=$obj->id==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
 $styleCon = !$logged?'style="margin-left: 100px;"':'';
-
-$follo = $GLOBALS['cn']->query("SELECT id_user FROM users_links WHERE id_friend='".$obj->id."' AND id_user='".$sid."' LIMIT 1");
-
-$follower = mysql_fetch_array($follo);
-if (isset($follower['id_user'])) {
-	$is = $follower['id_user'];
-}
-// echo 'idSe: '.$sid.' idExt: '.$obj->id.' follower: '.$obj->follower.', is: '.$is;
 ?>
 <div id="externalProfile" class="ui-single-box" <?=$styleCon?>>
 	<div id="coverExpro" style="background-image: url('<?=FILESERVER?>img/users_cover/<?=$obj->user_cover?>');height: 196px;width: 846px;position: absolute;top: 0;left: 0;">
@@ -93,10 +79,8 @@ if (isset($follower['id_user'])) {
 			<a href="javascript:void(0)" id="seeBusiness" style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena(SEE_BUSINESS_CARD)?></a>
 			<?php if (!$edit && $logged){ ?>
 			<div id="userProfileDialog" style="float:right; margin-top: 43px">
-				<input type="button" id="btn_link_<?=md5($obj->id)?>" <?=$is?'style="display:none;"':''?>
-					action="linkUser,,<?=md5($obj->id)?>" value="<?=USER_BTNLINK?>"/>
-				<input type="button" id="btn_unlink_<?=md5($obj->id)?>" <?=$is?'':'style="display:none;"'?> 
-					action="linkUser,,<?=md5($obj->id)?>,animate" value="<?=USER_BTNUNLINK?>"/>
+				<input type="button" <?=$obj->follower?'style="display:none;"':''?> action="linkUser,<?=md5($obj->id)?>" value="<?=USER_BTNLINK?>"/>
+				<input type="button" <?=$obj->follower?'':'style="display:none;"'?>  action="linkUser,<?=md5($obj->id)?>" value="<?=USER_BTNUNLINK?>"/>
 			</div>
 			<?php } ?>
 			<div id="coverExternalProfile">
@@ -126,14 +110,13 @@ if (isset($follower['id_user'])) {
 
 							echo ($obj->url!='')?'<li class="peddingEx"><a target="_blank" href="'.$obj->url.'">'.$obj->url.'</a></li>':'';
 						?>
-
 						<li><label><?=USER_LBLFOLLOWERS." (</label>$obj->followers_count<label>) - ".USER_LBLFRIENDS." (</label>$obj->friends_count<label>)"?></label></li>
 						<?php if($obj->type=='0'){ 
 							echo ($obj->home_phone!=''&&$obj->home_phone!='-')?'<li><label>'.USERPROFILE_LBLHOMEPHONE.': </label>'.$obj->home_phone.'</li>':'';
-						} 
-						echo ($obj->work_phone!=''&&$obj->work_phone!='-')?'<li><label>'.USERPROFILE_LBLWORKPHONE.': </label>'.$obj->work_phone.'</li>':'';
+							} 
+							echo ($obj->work_phone!=''&&$obj->work_phone!='-')?'<li><label>'.USERPROFILE_LBLWORKPHONE.': </label>'.$obj->work_phone.'</li>':'';
 
-						echo ($obj->mobile_phone!=''&&$obj->mobile_phone!='-')?'<li><label>'.USERPROFILE_LBLMOBILEPHONE.': </label>'.$obj->mobile_phone.'</li>':'';
+							echo ($obj->mobile_phone!=''&&$obj->mobile_phone!='-')?'<li><label>'.USERPROFILE_LBLMOBILEPHONE.': </label>'.$obj->mobile_phone.'</li>':'';
 						?>
 					</ul>
 				</div>
@@ -190,7 +173,7 @@ if (isset($follower['id_user'])) {
 			</div>
 			<div class="clearfix"></div>
 			<!-- include 'templates/tags/carousel.php';  -->
-			<?php if($logged){?>
+			<?php if($logged){ ?>
 			<div style="text-align: center">
 				<a href="<?=HREF_DEFAULT?>" class="color-pro" action="tagsUser,1,'',<?=md5($obj->id)?>"><?=ALL_TAGS?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="<?=HREF_DEFAULT?>" class="color-pro" action="personalTags,5,<?=md5($obj->id)?>">
@@ -305,11 +288,7 @@ $(function(){
 			}
 		}
 	});
-
-
 });
 </script>
 <?php
-}else{
-	$bodyPage='main/failure.php';
-}
+}else{ $bodyPage='main/failure.php'; }

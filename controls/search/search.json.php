@@ -21,7 +21,7 @@ if (quitar_inyect()){
         $array['order']='ORDER BY u.name ASC, u.email ASC';
         $friends = peoples($array);
         $friendsarray=array();
-        while ($friend = mysql_fetch_assoc($friends)){
+        while ($friend=CON::fetchAssoc($friends)){
     		$friend['name_user'] = utf8_encode(formatoCadena($friend['name_user']));
     		$friend['img'] = FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['photo_friend'],'img/users/default.png');
     		$friendsarray[] = $friend;
