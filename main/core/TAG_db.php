@@ -37,9 +37,10 @@ class TAG_db{
 			$params=$this->cleanStrings($params);
 			# str_replace - cambiando ?? -> %s y ? -> "%s". %s is ugly in raw sql sql
 			# ?? for expressions manually scaped like that: LIKE '%??%'
-			$sql=preg_replace('/%([\s\?\'"])/','%%$1',$sql);
+			$sql=preg_replace('/([^%])%([^%])/','$1%%$2',$sql);
 			$sql=str_replace('??','%s',$sql);
 			$sql=str_replace('?','"%s"',$sql);
+
 			# vsprintf - replacing all %s to parameters
 			$sql=vsprintf($sql,$params);
 			$sql=str_replace('"%s"','?',$sql);

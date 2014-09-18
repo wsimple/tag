@@ -9,8 +9,8 @@ $friend = CON::getRow("SELECT
 						concat(u.name, ' ', u.last_name) AS nameUsr,
 						u.screen_name,
 						u.date_birth,
-						u.followers_count,
-						u.following_count,
+						(SELECT COUNT(*) FROM users_links ul WHERE u.id=ul.id_user	) AS following_count,
+						(SELECT COUNT(*) FROM users_links ul WHERE u.id=ul.id_friend	) AS followers_count,
 						u.tags_count,
 						u.profile_image_url,
 						(SELECT count(t.id) FROM tags t WHERE t.id_user=u.id AND t.status = 1) AS nTags,
@@ -24,32 +24,23 @@ $friend = CON::getRow("SELECT
 						u.username,
 						u.country FROM users u
 						WHERE md5(u.id)=?",array($_SESSION['ws-tags']['ws-user']['id'],$_GET['id']));
-
 ?>
 <div data-role="page" id="userProfileDialog">
 	<div data-role="content" id="userProfile" class="userProfileStyle">
 		<img src="<?=FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['profile_image_url'], 'img/users/default.png')?>" width="60" height="60" style="float:right;border-radius:50%;" />
 		<ul class="list_inline">
-			<li style="margin-bottom:10px;">
-				<strong><?=USER_LBLNAME?>:</strong> <?=$friend['nameUsr']?>
-			</li>
-			<li style="margin-bottom:10px;">
-				<strong><?=SIGNUP_LBLSCREENNAME?>: </strong> <?=$friend['screen_name']?>
-			</li>
+			<li style="margin-bottom:10px;"><strong><?=USER_LBLNAME?>:</strong> <?=$friend['nameUsr']?></li>
+			<li style="margin-bottom:10px;"><strong><?=SIGNUP_LBLSCREENNAME?>: </strong> <?=$friend['screen_name']?></li>
 			<li style="margin-bottom:10px;">
 				<strong><?=USER_LBLBIRTHDATE?>: </strong> <?=maskBirthday($friend['date_birth'],$friend['show_my_birthday'])?>
 			</li>
 			<li style="margin-bottom:10px;">
 				<strong><?=USER_LBLFOLLOWERS?>: </strong>
-				<input type="button" id="followers" onclick="<?php if ($friend['followers_count'] > 0) {?>friendsUser('<?=$friend[screen_name].' : '.USER_LBLFOLLOWERS?>','?uid=<?=md5($friend[id])?>&follower=1&fid=<?=md5($friend['id'])?>'); <?php }?>"
-					value="<?=mskPoints($friend['followers_count'])?>"/>
-
+				<input userF="follow" type="button" id="followers" value="<?=mskPoints($friend['followers_count'])?>"/>
 				<strong><?=USER_LBLFRIENDS?>: </strong>
-				<input type="button" id="friends" onclick="<?php if ($friend['following_count'] > 0) {?>friendsUser('<?=$friend[screen_name].' : '.USER_LBLFRIENDS?>','?uid=<?=md5($friend[id])?>&fid=<?=md5($friend['id'])?>'); <?php }?>"
-					value="<?=mskPoints($friend['following_count'])?>"/>
+				<input userF="unfollow" type="button" id="friends" value="<?=mskPoints($friend['following_count'])?>"/>
 				<strong><?=MAINMNU_HOME?>: </strong>
-				<input type="button" id="tags" action="tagsUser,<?=$friend['nTags']?>,<?=$friend['screen_name']?>:Tags,<?=md5($friend['id'])?>"
-					value="<?=$friend['nTags']?>"/>
+				<input type="button" id="tags" action="tagsUser,<?=$friend['nTags']?>,<?=$friend['screen_name']?>:Tags,<?=md5($friend['id'])?>" value="<?=$friend['nTags']?>"/>
 			</li>
 			<li style="padding-top:10px;margin-bottom:10px;text-align:center;">
 				<?php if ($friend['nPTags']> 0){ ?>
@@ -64,10 +55,8 @@ $friend = CON::getRow("SELECT
 		<br/>
 <?php if ($_SESSION['ws-tags']['ws-user']['id'] != $friend['id']) { ?>
 		<div style="width:100%; text-align:center;">
-			<input type="button" id="dialog_btn_link_<?=md5($friend['id'])?>" <?=$friend['follower']?'style="display:none; margin-right: 20px;color: white;"':'style="color: white;"'?> action="linkUser,#div_<?=md5($friend['id'])?>,<?=md5($friend['id'])?>,,,true"
-				value="<?=USER_BTNLINK?>"/>
-			<input type="button" id="dialog_btn_unlink_<?=md5($friend['id'])?>" <?=$friend['follower']?'style="color: white;"':'style="display:none; margin-right: 20px;color: white;"'?> action="linkUser,#div_<?=md5($friend['id'])?>,<?=md5($friend['id'])?>,animate,,true"
-				value="<?=USER_BTNUNLINK?>"/>
+			<input type="button" style="<?=$friend['follower']?'display:none;':''?> margin-right: 20px;color: white;"  action="linkUser,<?=md5($friend['id'])?>,2" value="<?=USER_BTNLINK?>"/>
+			<input type="button" style="<?=$friend['follower']?'':'display:none;'?> margin-right: 20px;color: white;" action="linkUser,<?=md5($friend['id'])?>,2" value="<?=USER_BTNUNLINK?>"/>
 	<?php
 	if ($friend['username'] != '') $externalProfileId = $friend['username'];
 	else $externalProfileId = "user/".md5($friend['id']);
@@ -82,5 +71,11 @@ $friend = CON::getRow("SELECT
 <script type="text/javascript">
 $(function(){
 	var isOpen=$('#tagsUser').dialog("isOpen");
+	$('#userProfileDialog li input[userF]').click(function(){
+		if ($(this).val()*1>0){
+			var title=$(this).attr('userF')=='unfollow'?'<?=USER_LBLFRIENDS?>':'<?=USER_LBLFOLLOWERS?>';
+			friendsUser('<?=$friend["screen_name"]?>: '+title,'<?=md5($friend["id"])?>',$(this).attr('userF'));
+		}
+	});
 });
 </script>

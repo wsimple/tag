@@ -1,13 +1,6 @@
 <?php
 function safe_sql($query,$params=false){#crea una cadena sql segura
-	if($params){
-		$params=CON::cleanStrings($params);
-		# str_replace - replacing ? -> %s. %s is ugly in raw sql query
-		# vsprintf - replacing all %s to parameters
-		$query=vsprintf( str_replace('?','"%s"',$query), $params );
-		$query=str_replace('"%s"','?',$query);
-	}
-	return ($query);
+	return CON::escape_string($query,$params);
 }
 class CON{
 	private static $dbcon,$lastQuery='',$sql,$error,$errorMsg,
@@ -43,7 +36,7 @@ class CON{
 			$params=self::cleanStrings($params);
 			# str_replace - cambiando ?? -> %s y ? -> "%s". %s is ugly in raw sql query
 			# ?? for expressions manually scaped like that: LIKE "%??%"
-			$query=preg_replace('/%([\s\?\'"])/','%%$1',$query);
+			$query=preg_replace('/([^%])%([^%])/','$1%%$2',$query);
 			$query=str_replace('??','%s',$query);
 			$query=str_replace('?','"%s"',$query);
 			# vsprintf - replacing all %s to parameters
