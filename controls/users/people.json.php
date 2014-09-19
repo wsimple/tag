@@ -67,7 +67,7 @@ switch ($_GET['action']) {
 		$info=array();
 		while ($row=CON::fetchAssoc($query)){
 			$info[]=$row;
-			if (isset($_GET['withHtml'])) $html.=htmlfriends($row,$myId,$numAction);
+			if (isset($_GET['withHtml'])) $html.=htmlfriends($row,$numAction);
 		}
 		$res['dato']=$info;
 		if ($html!='') $res['html']=$html;
