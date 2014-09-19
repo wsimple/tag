@@ -99,8 +99,8 @@
 			<?php if($_GET['rfl']=='1'){?>
 			<h3><?=STORE_TITLEPOINTS.': <span id="lblCost">'.$product['raffle_points'].'</span>'?></h3>
 				<div class="anytext">* <strong><?=PRODUCTS_FECHA_INI?>: </strong><?=$product['raffle_start_date']?></div>
-				<div class="anytext" action="userRaffle,<?=$product['raffle_id']?>">* <strong id="parTiUserRaffle"><?=STORE_PARTICIPANTS?>: </strong><?=$product['numParti']?></div>
-				<div class="anytext" action="userRaffle,<?=$product['raffle_id']?>">* <strong id="parTiUserRaffle"><?=STORE_PLACES_A?>: </strong><?=  intval($product['raffle_cant_users'])-  intval($product['numParti'])?></div>
+				<div class="anytext" action="UserLikedOrRaffle,r,<?=$product['raffle_id']?>">* <strong id="parTiUserRaffle"><?=STORE_PARTICIPANTS?>: </strong><?=$product['numParti']?></div>
+				<div class="anytext" action="UserLikedOrRaffle,r,<?=$product['raffle_id']?>">* <strong id="parTiUserRaffle"><?=STORE_PLACES_A?>: </strong><?=  intval($product['raffle_cant_users'])-  intval($product['numParti'])?></div>
 			<?php }else{ ?>
 				<h3><?=(($product['formPayment']=='1')?TYPEPRICEMONEY.': <span id="lblCost">'.$product['cost'].'</span>':STORE_TITLEPOINTS.': <span id="lblCost">'.$product['cost'].'</span>')?></h3>
 				<div class="anytext">* <strong><?=STORE_CATEGORIES2?>: </strong><?=formatoCadena(constant($product['category']))?></div>
