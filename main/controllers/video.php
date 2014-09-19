@@ -39,8 +39,8 @@ class Video extends TAG_controller{
 					// if (!$mobile) $url='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
 					// $url='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
 				}
-			}elseif($nolocal!=0 && $this->isVideo('local',$url,$config)){ 
-				$success=true; $type='local'; 
+			}elseif($nolocal!=0 && $this->isVideo('local',$url,$config)){
+				$success=true; $type='local';
 				if (!isset($setting) && $config!=false) $setting=$config;
 				$url=$setting->video_server.'videos/'.$url;
 			}
@@ -74,13 +74,15 @@ class Video extends TAG_controller{
 			default				:return '/.*/i';
 		}
 	}
-	function test($a){
-		echo json_encode(array('error'=>false,
-						   'video'=>'videos/3a4ad9a63825f8c78c321ac7bab8e1ce/1029064_668821293206823_.mp4',
-						   'capture'=>array('videos/3a4ad9a63825f8c78c321ac7bab8e1ce/1.jpg',
-						   					'videos/3a4ad9a63825f8c78c321ac7bab8e1ce/2.jpg',
-						   					'videos/3a4ad9a63825f8c78c321ac7bab8e1ce/3.jpg',
-						   					'videos/3a4ad9a63825f8c78c321ac7bab8e1ce/4.jpg')
-					));
+	function test($a=0){
+		echo json_encode(array(
+			'error'=>false,
+			'video'=>'3a4ad9a63825f8c78c321ac7bab8e1ce/1029064_668821293206823_.mp4',
+			'captures'=>array(
+				'3a4ad9a63825f8c78c321ac7bab8e1ce/1.jpg',
+				'3a4ad9a63825f8c78c321ac7bab8e1ce/2.jpg',
+				'3a4ad9a63825f8c78c321ac7bab8e1ce/3.jpg'
+			)
+		));
 	}
 }

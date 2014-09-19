@@ -278,7 +278,7 @@ $(function(){
 		if (this.dataset.container=='#videoLink') $('#txtVideo').focus();
 	});
 
-	var all_supported=/(\.|\/)(jpe?g|gif|png|mp4|flv|3gp|mov|ogg)$/i,
+	var all_supported=/(\.|\/)(jpe?g|gif|png|mp4|m4v|mov|ogg|3gp|flv)$/i,
 		img_supported=/(\.|\/)(jpe?g|gif|png)$/i,
 		only_views={dropZone:null},
 		video={
@@ -308,9 +308,9 @@ $(function(){
 
 		},
 		acceptFileTypes:all_supported,
-		maxFileSize:15000000,//15MB
+		maxFileSize:150000000,//150MB
 		//Uncomment the following to send cross-domain cookies:
-		//xhrFields: {withCredentials: true},
+		xhrFields: {withCredentials: true}
 	}).bind('fileuploadadd',function(e,data){
 		$('.error_message',this).remove();
 		var $this=$(this),
@@ -338,7 +338,6 @@ $(function(){
 			that =$this.data('blueimp-fileupload')||$this.data('fileupload');
 		that.options.filesContainer.empty();
 	});
-
 
 	//lista de imagenes
 	$.ajax({
@@ -372,7 +371,7 @@ $(function(){
 		if($('#fileupload').length>0){
 			$('[data-container="#fileupload"]').click();
 		}else{
-			$(this).off('.fileupload');
+			$(document).off('.fileupload');
 		}
 	});
 
