@@ -83,7 +83,7 @@
 								$msgBox = '<img src="img/star.png" title="'.TAGS_OPTIONUNLIKE.'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
 
 								if ($_GET['isComment']==1){ //si el like es desde un ventana de comentarios
-									$msgBox = '<a href="javascript:void(0);" onfocus="this.blur();" title="'.COMMENTS_FLOATHELPLINKLIKES.'" onclick="viewUserLikedTag(\''.COMMENTS_TITLEWINDOWEXPLORERUSERLIKESTAG.'\',\'views/tags/viewUserLikedTag.view.php?t='.$tag['id'].'\');" style="color:#F58220;font-weight:bold;">'.numRecord("likes", " WHERE id_source = '".$tag['id']."'").'</a>';
+									$msgBox = '<a href="javascript:void(0);" onfocus="this.blur();" title="'.COMMENTS_FLOATHELPLINKLIKES.'" action="UserLikedOrRaffle,l,'.$tag['id'].'" style="color:#F58220;font-weight:bold;">'.numRecord("likes", " WHERE id_source = '".$tag['id']."'").'</a>';
 								}else{
 									$msgBox = '<img src="img/star.png" title="'.TAGS_OPTIONUNLIKE.'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
 								}
@@ -508,7 +508,7 @@
 						$msgBox = '<img src="img/star.png" title="'.TAGS_OPTIONUNLIKE.'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
 
 						if ($_GET['isComment']==1){ //si el like es desde un ventana de comentarios
-							$msgBox = '<a href="javascript:void(0);" onfocus="this.blur();" title="'.COMMENTS_FLOATHELPLINKLIKES.'" onclick="viewUserLikedTag(\''.COMMENTS_TITLEWINDOWEXPLORERUSERLIKESTAG.'\',\'views/tags/viewUserLikedTag.view.php?t='.$tag['id'].'\');" style="color:#F58220;font-weight:bold;">'.numRecord("likes", " WHERE id_source = '".$tag['id']."'").'</a>';
+							$msgBox = '<a href="javascript:void(0);" onfocus="this.blur();" title="'.COMMENTS_FLOATHELPLINKLIKES.'" action="UserLikedOrRaffle,d,'.$tag['id'].'" style="color:#F58220;font-weight:bold;">'.numRecord("likes", " WHERE id_source = '".$tag['id']."'").'</a>';
 						}else{
 							$msgBox = '<img src="img/star.png" title="'.TAGS_OPTIONUNLIKE.'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
 						}
