@@ -23,8 +23,8 @@ if($id_source!=''&&$id_type!=''&&$_SESSION['ws-tags']['ws-user']['id']!=''){
 				$dislikes=CON::count('dislikes','id_source=?',array($id_source));
 	?>
 	<div class="likes">
-		<span id="numLikes" onclick="viewUserLikedTag('<?=COMMENTS_TITLEWINDOWEXPLORERUSERLIKESTAG?>','views/tags/viewUserLikedTag.php?g=true&t=<?=$id_source?>','numLikes');"><?=$likes?></span>
-		<span id="numDislikes" onclick="viewUserLikedTag('<?=COMMENTS_TITLEWINDOWEXPLORERUSERLIKESTAG?>','views/tags/viewUserLikedTag.php?g=false&t=<?=$id_source?>','numDislikes');"><?=$dislikes?></span>
+		<span id="numLikes" action="UserLikedOrRaffle,l,<?=$id_source?>"><?=$likes?></span>
+		<span id="numDislikes" action="UserLikedOrRaffle,d,<?=$id_source?>"><?=$dislikes?></span>
 	</div>
 	<?php
 			}

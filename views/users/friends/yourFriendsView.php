@@ -74,8 +74,11 @@ $(document).ready(function(){
 					$('#tab').html(data['html']);
 					if (opc.find!=0) $('#nf').html('('+data['num']+')');
 				}else{
-					$('#tab').html('');
-					if (opc.find!=0) $('#nf').html('('+0+')');
+					if (opc.find==0){
+						$('#nf').html('('+0+')');
+						if (opc.get!='') $('#tab').html('<div class="messageAdver" style="width: 400px; margin: 70px auto;text-align: center;"><?=$lang["SEARCHALL_NORESULT"]?>: '+opc.get.replace('&search=','')+'</div>');
+						else $('#tab').html('<div class="messageAdver" style="width: 400px; margin: 70px auto;text-align: center;"><?=$lang["FRIENDS_NORESULTS"]?></div>');
+					}else $('#tab').html('');
 				}
 			}
 		});
