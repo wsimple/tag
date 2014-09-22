@@ -30,6 +30,7 @@ function login_json($data){
 					$res['from']='paypal';
 					unset($_SESSION['ws-tags']);
 				}else{
+					$res['logged']=true;
 					CON::update('users','type=1,status=1','id=?',array($_SESSION['ws-tags']['ws-user']['id']));
 					$idPlan=CON::getVal('SELECT id FROM users_plan_purchase WHERE id_user=? LIMIT 1',array($_SESSION['ws-tags']['ws-user']['id']));
 					if($idPlan!=''){
@@ -46,16 +47,18 @@ function login_json($data){
 			case '1':case '5':#Status 5=Cuenta pendiente por revision(solo nonprofit accounts)
 				$access=true;
 				#Control de acceso en cuentas business, verifica fecha limite para conceder acceso
-				if($sesion['type']==1||$sesion['type']==2){
-					$access=CON::getVal('
-						SELECT IF(NOW()>=u.end_date,0,1)
-						FROM users_plan_purchase u
-						JOIN subscription_plans s ON u.id_plan=s.id
-						WHERE u.id_user=?
-						ORDER BY u.end_date DESC
-						LIMIT 1
-					',array($sesion['id']));
-				}
+				if (PAYPAL_PAYMENTS) {
+					if($sesion['type']==1||$sesion['type']==2){
+						$access=CON::getVal('
+							SELECT IF(NOW()>=u.end_date,0,1)
+							FROM users_plan_purchase u
+							JOIN subscription_plans s ON u.id_plan=s.id
+							WHERE u.id_user=?
+							ORDER BY u.end_date DESC
+							LIMIT 1
+						',array($sesion['id']));
+					}
+				}else  $access=1;
 				if($access==0){
 					#Pasamos status a 3
 					CON::update('users','status=3','id=?',array($sesion['id']));

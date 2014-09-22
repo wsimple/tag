@@ -2,14 +2,6 @@
 include('../header.json.php');
 global $debug;
 
-//JSON results
-//-1 = error extension invalida
-// 0 = error general
-// 1 = exito
-
-//$_FILES['document'.($i+1)]['name'];
-
-//_imprimir($_FILES['document']);
 $json=array('result'=>0);
 for($i=0;$i<count($_FILES['document']);$i++){
 	if($_FILES['document']['name'][$i]!=''){
@@ -46,6 +38,11 @@ for($i=0;$i<count($_FILES['document']);$i++){
 		}
 	}
 }
+if ($json['result']==0){
+	$plan=CON::getVal("SELECT id_plan FROM users_plan_purchase WHERE id_user=? AND id_plan=0 ORDER BY id DESC LIMIT 1;",array($_SESSION['business_payment']['ws-user']['id']));
+	if ($plan!==null) $json['result']=1;
+	else $json['result']=-1;
+}
 if($json['result']==1){
 	//Actualiza status de usuario
 	CON::update('users','type=2,status=5','id=?',array($_SESSION['business_payment']['ws-user']['id']));
@@ -54,7 +51,8 @@ if($json['result']==1){
 	$idPlan=CON::getVal('SELECT id FROM users_plan_purchase WHERE id_user=? AND id_plan=0 LIMIT 1',array($_SESSION['business_payment']['ws-user']['id']));
 	if($debug) $json['_sql_'][]=CON::lastSql();
 	if($idPlan!=''){
-		CON::update('users_plan_purchase','init_date=NOW()',"id=$idPlan");
+		$days=CON::getVal('SELECT days FROM subscription_plans WHERE id=0');
+		CON::update('users_plan_purchase','init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL '.$days.' DAY)',"id=$idPlan");
 		if($debug) $json['_sql_'][]=CON::lastSql();
 	}else{
 		CON::insert('users_plan_purchase','id_user=?,id_plan=0,init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL 15 DAY)',
