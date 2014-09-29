@@ -14,7 +14,7 @@ ini_set('display_errors',1);
 require_once('includes/client.php');
 
 if(in_array(strtoupper($_SERVER['REQUEST_METHOD']),array('GET','POST'))&&!count($_REQUEST)) include 'show_video.php';
+require('UploadHandler.php');
 require('VideoConvertion.php');
 $video_convertion = new VideoConvertion();
-require('UploadHandler.php');
 $upload_handler = new UploadHandler();
