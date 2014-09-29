@@ -1,12 +1,13 @@
 <?php
 
-class VideoConvertion
+class VideoConvertion extends UploadHandler
 {
 	private $local_time_delay=5;#retraso en respuesta, para pruebas locales.
 
 	private $pending='pending',$path='videos',$_run;
 
 	function __construct(){
+		parent::__construct(null,false,null);
 		if(!isset($_GET['convert'])) return;
 		$file_name=isset($_REQUEST['file'])?$_REQUEST['file']:'';
 		if(!$file_name) return;
@@ -15,16 +16,6 @@ class VideoConvertion
 		$this->video_convert($data);
 	}
 
-	// Get folder
-	protected function folder() {
-		if(isset($_REQUEST['folder'])) $this->_folder=$_REQUEST['folder'];
-		$folder=$this->_folder?$this->_folder.'/':'';
-		return $this->_path.$folder;
-	}
-	protected function empty_json(){
-		$this->send_content_type_header();
-		die('{}');
-	}
 	private $usr;
 	protected function get_code(){
 		if($this->usr) return $this->usr->code();
@@ -35,18 +26,7 @@ class VideoConvertion
 			$this->usr=$client;
 			return $this->usr->code();
 		}
-		$this->empty_json();
-	}
-	protected function send_content_type_header() {
-		$this->header('Vary: Accept');
-		if (strpos($this->get_server_var('HTTP_ACCEPT'),'application/json') !== false) {
-			$this->header('Content-type: application/json');
-		} else {
-			$this->header('Content-type: text/plain');
-		}
-	}
-	protected function header($str) {
-		header($str);
+		$this->cancel();
 	}
 	protected function get_server_var($id) {
 		return isset($_SERVER[$id]) ? $_SERVER[$id] : '';
@@ -106,23 +86,23 @@ class VideoConvertion
 		if(!$error){
 			$t=$data->type?12:24;
 			$origen="$this->path/$data->video";
-			for($i=0;$capture=isset($data->captures[$i])?$data->captures[$i]:false;$i++){
-				if($error){
-					array_splice($data->captures,$i);
-					if(count($data->captures)) $error='';
-					break;
-				}
+			$captures=is_array($data->captures)?$data->captures:array();
+			$data->captures=array();
+			for($i=0;$capture=$captures[$i];$i++){
 				$capture="$this->path/$capture";
-				$time='00:'.str_pad($i*$t,2,'0',STR_PAD_LEFT).':00';
+				$time='00:00:'.str_pad($i*$t+4,2,'0',STR_PAD_LEFT);
 				$error=$this->ffmpeg_encode($origen,"-ss $time -vframes 1 $capture","-loglevel warning");
+				if(!$error)
+					$data->captures[]=$captures[$i];
+				else
+					break;
 			}
-			if(!count($data->captures)) $error='Can\'t create any capture.';
+			if(!count($data->captures)) $error="Can't create any capture.";
 		}
 		if($error) $data->run=$this->_run;
 		if($error) $data->error=$error;
 
-		// unset($data->code,$data->type);
-		$this->send_content_type_header();
+		$this->head();
 		exit(json_encode($data));
 	}
 }

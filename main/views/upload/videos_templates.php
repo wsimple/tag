@@ -53,6 +53,24 @@
 	.template-download .preview img{
 		width:650px;
 	}
+	.template-upload .video_format{
+		position:absolute;
+		background-image:url(css/tbum/video.png);
+		background-position:center center;
+		background-repeat:no-repeat;
+		width:100%;
+		height:100px;
+		margin:auto;
+		padding:25px 0;
+		z-index:-1;
+	}
+	.template-upload .video_format span{
+		position:relative;
+		font-size:2.5em;
+		color:#000;
+		top:22px;
+		left:-17px;
+	}
 	#loadPreview{	margin-top: 25px; }
 	/*#loadPreview div.onPreview{
 		border: 1px #e8e8e8 solid;
@@ -278,7 +296,7 @@ $(function(){
 		if (this.dataset.container=='#videoLink') $('#txtVideo').focus();
 	});
 
-	var all_supported=/(\.|\/)(jpe?g|gif|png|mp4|m4v|mov|ogg|3gp|flv)$/i,
+	var all_supported=/(\.|\/)(jpe?g|gif|png|mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i,
 		img_supported=/(\.|\/)(jpe?g|gif|png)$/i,
 		only_views={dropZone:null},
 		video={
@@ -319,15 +337,15 @@ $(function(){
 	}).bind('fileuploadsubmit',function(e,data){
 		$('.displayUpload').hide();
 	}).bind('fileuploaddone',function(e,data){
-		var Utype=data.files[0].type.split('/');
-		if (Utype[0]=='video'){
+		return;
+		if (data.files[0].type.match(img_supported)){
+			setTimeout(function(){
+				$('form#fileupload [action]').click();
+			}, 1000);
+		}else{
 			setTimeout(function(){
 				var v=$('form#fileupload table [action]')[0];
 				if (v){ $(v).attr('raction',$(v).attr('action')+',1').removeAttr('action').click(); }
-			}, 1000);
-		}else if (Utype[0]=='image'){
-			setTimeout(function(){
-				$('form#fileupload [action]').click();
 			}, 1000);
 		}
 	}).bind('fileuploadalways',function(e,data){
@@ -448,6 +466,7 @@ $(function(){
 	<tr class="template-upload fade">
 		<td class="upload">
 			<div>
+				<div class="video_format"><span>{%=file.name.split('.').pop()%}</span></div>
 				<span class="preview"></span>
 				<strong class="error text-danger"></strong>
 			</div>
@@ -482,7 +501,9 @@ $(function(){
 }; %}
 {%
 for(var i=0,file;file=o.files[i];i++){
-	file.type=file.name.match(/(\.|\/)(jpe?g|gif|png)$/i)?'img':(file.name.match(/\.mp4$/i)?'video':'');
+	file.type=file.name.match(/(\.|\/)(jpe?g|gif|png)$/i)?'img':(
+		file.name.match(/\.(mp4|m4v|mov|ogg|3gp|flv)$/i)?'video':''
+	);
 	if(file.type!=''){
 %}
 	<tr class="template-download fade">
