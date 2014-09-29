@@ -13,6 +13,8 @@ local/*.*
 quepeo.php
 video_server/jqueryupload/
 
+js/funciones_en.js
+js/funciones_es.js
 
 main/views/templates/tags.php
 video_server/list.php
