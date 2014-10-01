@@ -78,4 +78,4 @@
 		w.disableConsole=w.disableLogs=function(){console.hide();$.cookie('_DEBUG_',null);};
 	}
 })( window, jQuery );
-$.debug().log('Agent: '+navigator.userAgent);
+// $.debug().log('Agent: '+navigator.userAgent);

@@ -71,7 +71,6 @@ var PAGE,wrapper,container,home,footer,INFO=[];
 	//identificar navegador y sistema operativo
 	var agent=window.navigator.userAgent,
 		platform=window.navigator.platform;
-	console.log(agent+'. '+platform);
 	//browser (navegador)
 	if(agent.match(/chrome/i))
 		INFO[0]='chrome';
@@ -123,13 +122,12 @@ var PAGE,wrapper,container,home,footer,INFO=[];
 		loginState(function(logged){
 			if(logged!==_logged) window.location.reload();
 		});
-		$(document).on('click','[action]:not(form)',function(){
+		$(document).on('click','[accion],[action]:not(form)',function(){
 			var action=$(this).attr('action'),s=action.indexOf(','),data='';
-			if(s<0)
-				s=action.length;
-			else
+			if(s>=0){
 				data=action.substr(s+1);
-			action=action.substr(0,s);
+				action=action.substr(0,s);
+			}
 			pageAction.call(this,action,data);
 		});
 		windowChange();
