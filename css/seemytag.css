@@ -324,7 +324,7 @@ display:block;
 width:1024px;
 margin:auto;
 }
-.ui-dialog button,.ui-dialog span.btn-success.fileinput-button,.ui-dialog input[type="submit"],.ui-dialog input[type="reset"],.ui-dialog input[type="button"],
+.ui-dialog button,.btn,span.btn-success.fileinput-button,.ui-dialog input[type="submit"],.ui-dialog input[type="reset"],.ui-dialog input[type="button"],
 page wrapper button,page wrapper input[type="submit"],page wrapper input[type="reset"],page wrapper input[type="button"],.button{
     border:none;
     color:white;
