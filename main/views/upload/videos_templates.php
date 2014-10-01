@@ -3,6 +3,9 @@
 		min-width:500px;
 		margin:auto;
 	}
+	.upload-panel .upload.container > *{
+		min-height:50px;
+	}
 	.upload-menu{
 		min-height: 50px;
 		width: 100%;
@@ -50,10 +53,10 @@
 		overflow: auto;
 		/*overflow-y:auto;*/
 	}
-	.template-download .preview img{
+	.template.download .preview img{
 		width:650px;
 	}
-	.template-upload .video_format{
+	.template.upload .video_format{
 		position:absolute;
 		background-image:url(css/tbum/video.png);
 		background-position:center center;
@@ -64,7 +67,7 @@
 		padding:25px 0;
 		z-index:-1;
 	}
-	.template-upload .video_format span{
+	.template.upload .video_format span{
 		position:relative;
 		font-size:2.5em;
 		color:#000;
@@ -89,50 +92,47 @@
 		z-index: 1002;
 		display: block;
 	}
-*/	.upload-panel.tag .table[role="presentation"] td.download>div,
-	.upload-panel.tag .table[role="presentation"] td.upload>div{
+*/
+	.upload-panel.tag [role="presentation"]>div{
+		display:inline-block;
+	}
+	.upload-panel.tag [role="presentation"]>*>div{
 		position:relative;
-		float:left;
 		margin:5px;
 		text-align:center;
 	}
-	.upload-panel.tag .table[role="presentation"] td.upload>div:first-child{ width:300px; }
-	.upload-panel.tag .table[role="presentation"] td.upload>div:last-child{	width:150px; }
-	.upload-panel.tag .table[role="presentation"] td.upload>div .btn,
-	.upload-panel.tag .table[role="presentation"] td.upload>div .progress{
+	.upload-panel.tag [role="presentation"] .upload>div{
+		float:left;
+	}
+	.upload-panel.tag [role="presentation"] .upload>div:first-child{ width:300px; }
+	.upload-panel.tag [role="presentation"] .upload>div:last-child{	width:150px; }
+	.upload-panel.tag [role="presentation"] .upload>div .btn,
+	.upload-panel.tag [role="presentation"] .upload>div .progress{
 		display:block;
 		margin:5px auto;
 		width:125px;
 	}
-	.upload-panel.tag .table[role="presentation"] td.download>div:first-child{
+	.upload-panel.tag [role="presentation"] .download>div:first-child{
 		width:325px;
 		height:150px;
 		overflow:hidden;
 	}
-	.upload-panel.tag .table[role="presentation"] td.download.img>div:first-child .tag-container{
+	.upload-panel.tag [role="presentation"] .download.img>div:first-child .tag-container{
 		-ms-transform:scale(.5,.5) translate(-50%,-50%);
 		-webkit-transform:scale(.5,.5) translate(-50%,-50%);
 		transform:scale(.5,.5) translate(-50%,-50%);
 	}
-	/*.upload-panel.tag .table[role="presentation"] td.download>div:last-child{ width:100px; }*/
-	.upload-panel.tag td.upload video{
+	/*.upload-panel.tag [role="presentation"] .download>div:last-child{ width:100px; }*/
+	.upload-panel.tag .upload video{
 		max-width:300px;
 	}
-	.btn.btn-success{ background-color:#77c574; }
-	.btn.btn-success:hover{ background-color:#55a352; }
-	.btn.btn-primary{ background-color:#8286c2; }
-	.btn.btn-primary:hover{ background-color:#6064a0; }
-	.btn.btn-warning{ background-color:#f82; }
-	.btn.btn-warning:hover{ background-color:#d60; }
-	.btn.btn-danger{ background-color:#f32; }
-	.btn.btn-danger:hover{ background-color:#d10; }
 	.displayUpload{
 		margin: 50px 0;
 		width: 100%;
 		height: 200px;
 		text-align: center;
 	}
-/*	.upload-panel.tag .table[role="presentation"] td.download>div:first-child .tag-container.video{
+/*	.upload-panel.tag [role="presentation"] .download>div:first-child .tag-container.video{
 		-moz-border-radius: 0.437em;
 		border-radius: 0.437em;
 		-webkit-border-radius: 0.437em;
@@ -145,7 +145,7 @@
 		-webkit-border-radius: 0.437em;
 		width: 10.1562em; height: 4.687em;
 	}
-	.upload-panel.tag .table[role="presentation"] td.download.video .tag-container [tag] div.video .placa{
+	.upload-panel.tag [role="presentation"] .download.video .tag-container [tag] div.video .placa{
 		background-size: 100% auto;
 		background-position: 0 0;
 	}
@@ -168,23 +168,22 @@
 	.displayUpload div[text]{ font-size: 30px; }
 	.actionButton{ display: none; }
 	.tag-container:hover + .actionButton,.actionButton:hover{ display: block; }
-	.actionButton button{
+	.actionButton button,.actionButton span{
 		position: absolute;
 		z-index: 1002;
 	}
-	.download .actionButton button.start{
+	.download .actionButton .start{
 		left: 0;
 		-moz-border-top-left-radius: 0.850em;
 		border-top-left-radius: 0.850em;
 		-webkit-border-top-left-radius: 0.850em;
 	}
-	.download .actionButton button.delete{
+	.download .actionButton .delete{
 		right: 0;
 		-moz-border-top-right-radius: 0.850em;
 		border-top-right-radius: 0.850em;
 		-webkit-border-top-right-radius: 0.850em;
 	}
-	table.table tbody tr{ float: left;}
 	.upload-panel .download .actionButton{
 		position:absolute;
 		top:0;
@@ -251,7 +250,7 @@
 			</span>
 		</div>
 		<!-- The table listing the files available for upload/download -->
-		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+		<div role="presentation" class="files"></div>
 	</form>
 	<div id="videoLink" class="dnone">
 		<label style="font-weight: bold;font-size: 13px;"><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
@@ -261,11 +260,11 @@
 	</div>
 	<form id="imageList" class="dnone"  method="POST" enctype="multipart/form-data">
 		<!-- The table listing the files available for upload/download -->
-		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+		<div role="presentation" class="files"></div>
 	</form>
 	<form id="videoList" class="dnone"  method="POST" enctype="multipart/form-data">
 		<!-- The table listing the files available for upload/download -->
-		<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+		<div role="presentation" class="files"></div>
 	</form>
 	<!-- <form id="pendingVideoList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data"> -->
 		<!-- <h3><?=$lang->get('Pending Videos')?></h3> -->
@@ -278,12 +277,6 @@
 <script>
 /*jslint unparam: true */
 if (!window.players){ window.players=[]; }
-function des(objet){
-	if ($(objet).attr('raction')) $(objet).attr('action',$(objet).attr('raction')).removeAttr('raction');
-	$(objet).removeProp('disabled').removeAttr('onclick').addClass('invisible');
-	$('#videoLink').append(objet+'').find('button.start').click();
-	$(objet).remove();
-}
 /*global window, $ */
 $(function(){
 	'use strict';
@@ -323,7 +316,6 @@ $(function(){
 				options.formData=video.pending;
 			}
 			$('.displayUpload div').hide().parents('.displayUpload').css({ margin: '25px 0',height: 'auto' });
-
 		},
 		acceptFileTypes:all_supported,
 		maxFileSize:150000000,//150MB
@@ -337,17 +329,9 @@ $(function(){
 	}).bind('fileuploadsubmit',function(e,data){
 		$('.displayUpload').hide();
 	}).bind('fileuploaddone',function(e,data){
-		return;
-		if (data.files[0].type.match(img_supported)){
-			setTimeout(function(){
-				$('form#fileupload [action]').click();
-			}, 1000);
-		}else{
-			setTimeout(function(){
-				var v=$('form#fileupload table [action]')[0];
-				if (v){ $(v).attr('raction',$(v).attr('action')+',1').removeAttr('action').click(); }
-			}, 1000);
-		}
+		setTimeout(function(){
+			$('form#fileupload .start').click();
+		},1000);
 	}).bind('fileuploadalways',function(e,data){
 		$('.displayUpload').fadeIn('slow');
 	}).bind('fileuploadprocessfail',function(e,data){
@@ -359,10 +343,10 @@ $(function(){
 
 	//lista de imagenes
 	$.ajax({
-		context:$('#imageList').first().fileupload(only_views),
+		context:$('#imageList').last().fileupload(only_views),
 		url:img.url,
 		//Uncomment the following to send cross-domain cookies:
-		//xhrFields: {withCredentials: true},
+		xhrFields:{withCredentials:true},
 		dataType:'json',
 		data:img.data
 	}).always(function(){
@@ -373,10 +357,10 @@ $(function(){
 	});
 	//lista de videos
 	$.ajax({
-		context:$('#videoList').first().fileupload(only_views),
+		context:$('#videoList').last().fileupload(only_views),
 		url:video.url,
 		//Uncomment the following to send cross-domain cookies:
-		//xhrFields: {withCredentials: true},
+		xhrFields:{withCredentials:true},
 		dataType:'json',
 		data:video.data
 	}).always(function(){
@@ -393,6 +377,60 @@ $(function(){
 		}
 	});
 
+	$('.upload-panel [role="presentation"]').off('.videostart').on('click.videostart','.download.video .start',function(){
+		var video=$('#htxtVideo')[0],uploaded=$(this).parents('#fileupload').length,that=this,data,ajax=false;
+		$(that).prop('disabled',true);
+		setTimeout(function(){
+			$(that).prop('disabled',false);
+		},2000);
+		$.debug().log(uploaded?'uploaded new video':'my videos');
+		if(uploaded){
+			$('#preVideTags').html('<div class="messageNoResultSearch more" style="text-align:center;"><img src="css/smt/loader.gif" width="32" height="32" class="loader"><br/><?=$lang->get("PROCESSINGYOURVIDEO")?></div>');
+			ajax=true;
+			$.ajax({
+				disablebuttons:true,
+				url:"<?=$setting->local?'video/test/1':$setting->video_server_path.'?convert'?>",
+				dataType:'json',
+				type:'post',
+				data:{code:that.dataset.code,file:that.dataset.name},
+				success:function(data){
+					if (!data.error){
+						if(video) video.value=data.video;
+						var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='',tdefault='';
+						for(var i=0,capture;capture=data.captures[i];i++){
+							if(tdefault=='') tdefault=SERVERS.video+'videos/'+capture;
+							captures=captures+'<div class="option-cap" data-src="videos/'+capture+'" style="background-image:url(\''+SERVERS.video+'videos/'+capture+'\')"></div>';
+						}
+						if(captures!=''){
+							captures='<div class="clearfix"></div><div class="select-capture">'+captures+'</div><div class="clearfix"></div>';
+							$('#bckSelected').css('background-image','url('+tdefault+')');
+						}
+						if(html!='') 
+							$('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div>'+captures+'</div>')
+					}else{
+						//mostrar algo para reintentar la conversion del video
+					}
+				},
+				complete:function(){
+					$(that).prop('disabled',false);
+				}
+			});
+		}else{
+			if(video) video.value=that.dataset.code+'/'+that.dataset.name;
+			var html=htmlVideo(that.dataset.url,that.dataset.type,null,true);
+			if (html!='') $('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div></div>');
+			iniallYoutube();
+		}
+		var $dialog=$('.ui-dialog-content');
+		if($dialog.length){
+			$('.upload-panel [role="presentation"]').off('.videostart');
+			$dialog.dialog('close');
+		}else if(!ajax){
+			setTimeout(function(){
+				$(that).prop('disabled',false);
+			},2000);
+		}
+	});
 
 	/*******************************        YOUTUBE AND VIMEO             *******************************/
 	var videos=[];
@@ -420,16 +458,16 @@ $(function(){
 							$('#loadPreview').html('<div tag="'+0+'" style="margin: 20px auto;">'+htmlv+'</div>');
 							videos[0]=data['urlV'];
 							// if (data['type']=='youtube') iniallYoutube();
-							htmlv='<div><button id="uploadNewBackgrond" class="btn btn-success" style="float:left;">'+text1+'</button><button id="selectMyBackgrond" class="btn btn-success" style="float:right;">'+text2+'</button></div>';
-							$('#loadPreview').append(htmlv).find('div[tag] .video button.start').click();
-							$('#videoLink button.delete').show().removeAttr('disabled');
+							htmlv='<div><button id="uploadNewBackgrond" class="btn btn-success fleft">'+text1+'</button><button id="selectMyBackgrond" class="btn btn-success fright">'+text2+'</button></div>';
+							$('#loadPreview').append(htmlv).find('div[tag] .video .start').click();
+							$('#videoLink .delete').show().removeAttr('disabled');
 						}
 					}
 				}
 			});
 		}
 	});
-	$('#videoLink button.delete').click(function(){
+	$('#videoLink .delete').click(function(){
 		var id=$('#loadPreview').find('div[tag]').attr('tag')*1;
 		videos.splice(id,1);
 		$('#loadPreview').empty().html('');
@@ -443,17 +481,17 @@ $(function(){
 		}
 	});
 	$('#loadPreview').on('click','#uploadNewBackgrond',function(){
-		$('div.upload-menu div[data-container="#fileupload"]').click();
+		$('.upload-menu [data-container="#fileupload"]').click();
 	}).on('click','#selectMyBackgrond',function(){
-		$('div.upload-menu div[data-container="#imageList"]').click();
+		$('.upload-menu [data-container="#imageList"]').click();
 	});
 	var existvideo='<?=$video?>',tipovideo='<?=$tipovideo?>';
 	if (existvideo!=''){
 		if (tipovideo!='' && tipovideo!='local'){
-			$('div.upload-menu div[data-container="#videoLink"]').click();
+			$('.upload-menu [data-container="#videoLink"]').click();
 			$('#txtVideo').blur();
 		}else if(tipovideo!='' && tipovideo=='local')
-			$('div.upload-menu div[data-container="#videoList"]').click();
+			$('.upload-menu [data-container="#videoList"]').click();
 	}
 	/*******************************      END YOUTUBE AND VIMEO             *******************************/
 });
@@ -463,103 +501,85 @@ $(function(){
 <script id="template-upload" type="text/x-tmpl">
 {% console.log(o.files); %}
 {% for(var i=0,file;file=o.files[i];i++){ %}
-	<tr class="template-upload fade">
-		<td class="upload">
-			<div>
+	<div class="template upload fade">
+		<div>
+			{% if(!file.type.match(/(\.|\/)(jpe?g|gif|png)$/i)){ %}
 				<div class="video_format"><span>{%=file.name.split('.').pop()%}</span></div>
-				<span class="preview"></span>
-				<strong class="error text-danger"></strong>
-			</div>
-			<div>
-				{% if(!i&&!o.options.autoUpload){ %}
-					<button class="btn btn-primary start" disabled>
-						<i class="glyphicon glyphicon-upload"></i>
-						<span><?=$lang->get('Start')?></span>
-					</button>
-				{% } %}
-				{% if(!i){ %}
-					<button class="btn btn-warning cancel">
-						<i class="glyphicon glyphicon-ban-circle"></i>
-						<span><?=$lang->get('Cancel')?></span>
-					</button>
-				{% } %}
-				<p class="size">Processing...</p>
-				<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
-			</div>
-		</td>
-	</tr>
+			{% } %}
+			<span class="preview"></span>
+			<strong class="error text-danger"></strong>
+		</div>
+		<div>
+			{% if(!i&&o.options&&!o.options.autoUpload){ %}
+				<button class="btn btn-primary start" disabled>
+					<i class="glyphicon glyphicon-upload"></i>
+					<span><?=$lang->get('Start')?></span>
+				</button>
+			{% } %}
+			{% if(!i){ %}
+				<button class="btn btn-warning cancel">
+					<i class="glyphicon glyphicon-ban-circle"></i>
+					<span><?=$lang->get('Cancel')?></span>
+				</button>
+			{% } %}
+			<p class="size">Processing...</p>
+			<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+		</div>
+	</div>
 {% } %}
 </script>
 <!-- The template to display files available for download -->
 <script id="template-download" type="text/x-tmpl">
-{% o.get=function(name){
+{%
+o.get=function(name){
 	if(name.match(/(\.|\/)(jpe?g|gif|png)$/i)){
 		return '&code=<?=$client->code?>&folder=templates';
 	}else{
 		return '&code=<?=$client->code?>';
 	}
-}; %}
-{%
-for(var i=0,file;file=o.files[i];i++){
+};
+
+if(o.files) for(var i=0,file;file=o.files[i];i++){
 	file.type=file.name.match(/(\.|\/)(jpe?g|gif|png)$/i)?'img':(
 		file.name.match(/\.(mp4|m4v|mov|ogg|3gp|flv)$/i)?'video':''
 	);
 	if(file.type!=''){
 %}
-	<tr class="template-download fade">
-		<td class="download {%=file.type%}">
-			<div>
-				<!--span class="preview" data-thumb="{%=file.thumbnailUrl%}"-->
-					{% if(file.type=='img'){ %}
-						<div class="tag-container img noMenu" style="height: auto;">
-							<div class="template" style="background-image:url({%=file.url%})"></div>
-							<div tag action="tag/bgselect" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="{%=file.code%}"></div>
-						</div>
-					{% }else if(file.type=='video'){ %}
-						<div class="tag-container video noMenu" style="width: auto;height: auto;">
-							<div tag>
-								<div class="video" style="z-index: 1001;">
-									<div class="placa"></div>
-									<video controls="controls"><source src="{%=file.url%}" type="video/mp4" /></video>
-								</div>
-							</div>
-						</div>
-					{% } %}
-				<div class="actionButton">
-					{% if(file.type=='video'){ %}
-					<button action="tag/videoSelect,1" class="btn btn-primary start" onclick="des(this);" data-type="local" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="{%=file.code%}"><i class="glyphicon glyphicon-upload"></i></button>
-					{% } if(file.deleteUrl){ %}
-					<button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
-						{% if(file.deleteWithCredentials){ %}data-xhr-fields='{"withCredentials":true}'{% } %}
-						data-url="{%=file.deleteUrl+o.get(file.name)%}">
-						<i class="glyphicon glyphicon-trash"></i>
-						<span><?=''//$lang->get('Delete')?></span>
-					</button>
-					{% } %}
+	<div class="template download {%=file.type%} fade">
+		<div>
+			{% if(file.type=='img'){ %}
+				<div class="tag-container img noMenu" style="height: auto;">
+					<div class="template" style="background-image:url({%=file.url%})"></div>
+					<div tag action="tag/bgselect" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="{%=file.code%}"></div>
 				</div>
-				<strong class="error text-danger"></strong>
-				<!--/span-->
-				{% if(file.error){ %}
-					<div><span class="label label-danger">Error</span> {%=file.error%}</div>
+			{% }else if(file.type=='video'){ %}
+				<div class="tag-container video noMenu" style="width: auto;height: auto;">
+					<div tag>
+						<div class="video" style="z-index: 1001;">
+							<div class="placa"></div>
+							<video controls="controls"><source src="{%=file.url%}" type="video/mp4" /></video>
+						</div>
+					</div>
+				</div>
+			{% } %}
+			<div class="actionButton">
+				{% if(file.type=='video'){ %}
+				<button class="btn btn-primary start" data-type="local" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="{%=file.code%}"><i class="glyphicon glyphicon-upload"></i></button>
+				{% } if(file.deleteUrl){ %}
+				<span class="btn btn-danger delete" data-type="{%=file.deleteType%}"
+					{% if(file.deleteWithCredentials){ %}data-xhr-fields='{"withCredentials":true}'{% } %}
+					data-url="{%=file.deleteUrl+o.get(file.name)%}">
+					<i class="glyphicon glyphicon-trash"></i>
+					<span><?=''//$lang->get('Delete')?></span>
+				</span>
 				{% } %}
 			</div>
-			<div>
-				{% if(file.deleteUrl){ %}
-					<!--button class="btn btn-danger delete" data-type="{%=file.deleteType%}"
-						{% if(file.deleteWithCredentials){ %} data-xhr-fields='{"withCredentials":true}'{% } %}
-						data-url="{%=file.deleteUrl+o.get(file.name)%}"-->
-						<!--i class="glyphicon glyphicon-trash"></i-->
-						<!--span><?=''//$lang->get('Delete')?></span-->
-					<!--/button-->
-				{% }else{ %}
-					<button class="btn btn-warning cancel">
-						<i class="glyphicon glyphicon-ban-circle"></i>
-						<span><?=$lang->get('Cancel')?></span>
-					</button>
-				{% } %}
-			</div>
-		</td>
-	</tr>
+			<strong class="error text-danger"></strong>
+			{% if(file.error){ %}
+				<div><span class="label label-danger">Error</span> {%=file.error%}</div>
+			{% } %}
+		</div>
+	</div>
 {%
 	}
 }
