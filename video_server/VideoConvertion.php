@@ -1,33 +1,21 @@
 <?php
 
-class VideoConvertion extends UploadHandler
+class VideoConvertion extends VideoCaptures
 {
-	private $local_time_delay=5;#retraso en respuesta, para pruebas locales.
+	private $pending='pending',$_run;
 
-	private $pending='pending',$path='videos',$_run;
-
-	function __construct(){
-		parent::__construct(null,false,null);
-		if(!isset($_GET['convert'])) return;
-		$file_name=isset($_REQUEST['file'])?$_REQUEST['file']:'';
-		if(!$file_name) return;
-		//proceso de video
-		$data=$this->get_info($file_name);
-		$this->video_convert($data);
-	}
-
-	private $usr;
-	protected function get_code(){
-		if($this->usr) return $this->usr->code();
-		$client=new Client();
-		$code=isset($_REQUEST['code'])?$_REQUEST['code']:'';
-		$id=isset($_REQUEST['id'])?$_REQUEST['id']:'';
-		if($client->valid_code($code)||$client->valid_id($id)){
-			$this->usr=$client;
-			return $this->usr->code();
+	function __construct($initialize = true){
+		parent::__construct(false);
+		if($initialize){
+			if(!isset($_GET['convert'])) return;
+			$file_name=isset($_REQUEST['file'])?$_REQUEST['file']:'';
+			if(!$file_name) return;
+			//proceso de video
+			$data=$this->get_info($file_name);
+			$this->video_convert($data);
 		}
-		$this->cancel();
 	}
+
 	protected function get_server_var($id) {
 		return isset($_SERVER[$id]) ? $_SERVER[$id] : '';
 	}
@@ -51,7 +39,7 @@ class VideoConvertion extends UploadHandler
 		#primero validamos el usuario y que exista el archivo
 		$code=$this->get_code();
 		$origen="$this->pending/$code/$filename";
-		if(!is_file("$this->path/$origen")) $this->empty_json();
+		if(!is_file("$this->path/$origen")) $this->json();
 
 		$data=new stdClass();
 		$code=$this->usr->code();
@@ -69,7 +57,7 @@ class VideoConvertion extends UploadHandler
 		return $data;
 	}
 	function video_convert($data=false){
-		if(!$data) $this->empty_json();
+		if(!$data) $this->json();
 		$usr_path=$this->path.'/'.$this->usr->code();
 		$data->usr_path=$usr_path;
 		if(!is_dir($usr_path)) {
@@ -103,8 +91,7 @@ class VideoConvertion extends UploadHandler
 		if($error) $data->run=$this->_run;
 		if($error) $data->error=$error;
 
-		$this->head();
-		exit(json_encode($data));
+		$this->json($data);
 	}
 }
 

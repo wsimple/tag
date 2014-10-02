@@ -198,11 +198,15 @@ class UploadHandler
 		}
 	}
 
-	function cancel($data=array()){
+	function json($data=false){
 		$this->head();
+		exit($data?json_encode($data):'{}');
+	}
+
+	function cancel($data=array()){
 		if(!is_array($data)) $data=array('data'=>$data);
 		$data['canceled']=true;
-		die(json_encode($data));
+		$this->json($data);
 	}
 
 	protected function get_full_url() {
