@@ -198,7 +198,7 @@ $(function(){
 	function setType(type){$('#type').val(type||'<?=$idPage?>');}
 	function setBG(img){
 		$('#imgTemplate').val(img);
-		var url=FILESERVER+'img/templates/'+img;
+		var url=(img.match(/[0-9a-f]{8}_\d{14}_\d\.jpe?g$/i)?SERVERS.video+'videos/':SERVERS.img+'img/templates/')+img;
 		$('#bckSelected').css('background-image','url('+url+')');
 	}
 	if ($('#showPublicPrivate').length>0){ //acciones privacidad

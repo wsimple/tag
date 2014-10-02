@@ -389,7 +389,7 @@ $(function(){
 			ajax=true;
 			$.ajax({
 				disablebuttons:true,
-				url:"<?=$setting->local?'video/test/1':$setting->video_server_path.'?convert'?>",
+				url:"<?=$setting->local?'video/test/1':$setting->video_server.'?convert'?>",
 				dataType:'json',
 				type:'post',
 				data:{code:that.dataset.code,file:that.dataset.name},
