@@ -15,20 +15,22 @@ class CON{
 		self::$dbcon=false;
 	}
 	public static function con($host=false,$user=false,$pass=false,$data=false){
-		if(!self::$dbcon){
-			// include(RELPATH.'includes/security/security.php');
+		if(!$data&&self::$dbcon) return self::$dbcon;
+		if($data&&self::$dbcon) self::close();
+		if(!$data&&!self::$dbcon){
 			global $config;
-			$db=array();
-			$host=$host?$host:$config->db->host;
-			$user=$user?$user:$config->db->user;
-			$pass=$pass?$pass:$config->db->pass;
-			$data=$data?$data:$config->db->data;
-			self::$dbcon=mysqli_connect($host,$user,$pass,$data);
-			self::$dbdata=array('host'=>$host,'user'=>$user,'pass'=>$pass,'data'=>$data);
-			if(mysqli_connect_errno()&&$_SESSION['ws-tags']['developer'])
-				echo 'Error en conexion ('.$_SERVER['PHP_SELF'].'): '.mysqli_connect_error();
+			if($config) $data=$config->db;
 		}
-		return self::$dbcon;
+		if(!$data){
+			echo 'No se han suministrado datos para realizar la coneccion. ';
+			return false;
+		}
+		$con=new mysqli($data->host,$data->user,$data->pass,$data->data);
+		if($con->connect_error)
+			echo 'Error #'.$con->connect_errno.' en conexion ('.$_SERVER['PHP_SELF'].'): '.$con->connect_error;
+		if(!$con->set_charset("utf8"))
+			printf("Error cargando el conjunto de caracteres utf8: %s\n",$con->error);
+		return self::$dbcon=$con;
 	}
 	public static function escape_string($sql,$params=false){
 		#crea una cadena sql segura
@@ -228,9 +230,11 @@ class wconecta{
 	}
 	public function con(){
 		if(!mysql_connect($this->dbhost,$this->dbuser,$this->dbpass)&&$_SESSION['ws-tags']['developer'])
-			echo 'Error en conexion ('.$_SERVER['PHP_SELF'].'): '.mysql_error();
+			printf('Error en conexion (%s): %s<br>',$_SERVER['PHP_SELF'],mysql_error());
+		if(!mysql_set_charset("utf8"))
+			printf('Error cargando el conjunto de caracteres utf8: %s<br>',mysql_error());
 		if(!mysql_select_db($this->dbase)&&$_SESSION['ws-tags']['developer'])
-			echo 'Error en seleccion db ('.$_SERVER['PHP_SELF'].'): '.mysql_error();
+			printf('Error en seleccion db (%s): %s',$_SERVER['PHP_SELF'],mysql_error());
 	}
 	public function query($sql,$a=false){
 		$sql=safe_sql($sql,$a);

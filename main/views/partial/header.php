@@ -6,7 +6,7 @@ $minify=!$setting->local&&!$control->is_debug('minify');
 	<head>
 	<base href="<?=$setting->dominio?>" />
 	<title><?=$lang->get('TITLE')?></title>
-	<meta charset="utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=.5,maximum-scale=1.13,user-scalable=1"/>
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />

@@ -1388,6 +1388,3 @@ function positionTour($id){
    return "SELECT position AS valor, position AS descripcion FROM tour_position $where";
 }
 limpiaClassForm();
-
-?>
-
