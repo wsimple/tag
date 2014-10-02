@@ -19,16 +19,18 @@
 		return ['Enabled',type||'Global','Logs'].join(' ');
 	};
 	$.debug.add=function(type){
-		var debuglist=$.cookie('_DEBUG_')?$.cookie('_DEBUG_').split(','):[],
-		i=debuglist.indexOf(type);
+		var debuglist=$.cookie('_DEBUG_')?$.cookie('_DEBUG_').split(','):[];
+		if(!type) type=prompt('Actual values:\n'+debuglist.join(', '),'');
+		var i=debuglist.indexOf(type);
 		if(i<0&&type) debuglist.push(type);
 		$.cookie('_DEBUG_',debuglist.join(','));
 		return ['Added',type||'Global','to Logs'].join(' ');
 	};
 	$.debug.remove=function(type){
-		var debuglist=$.cookie('_DEBUG_')?$.cookie('_DEBUG_').split(','):[],
-			i=debuglist.indexOf(type);
-		if(i>=0) debuglist.splice(i, 1);
+		var debuglist=$.cookie('_DEBUG_')?$.cookie('_DEBUG_').split(','):[];
+		if(!type) type=prompt('Actual values:\n'+debuglist.join(', '),'');
+		var i=debuglist.indexOf(type);
+		if(i>=0) debuglist.splice(i,1);
 		$.cookie('_DEBUG_',debuglist.join(','));
 		return ['Removed',type||'Global','from Logs'].join(' ');
 	};
@@ -37,8 +39,11 @@
 		c.log('Disabled all Logs');
 	};
 	$.debug.list=function(){ return typelist; };
-	$.debug.isEnabled=function(){ return $.cookie('_DEBUG_')===null; };
-	$.c=$.debug;
+	$.debug.isEnabled=function(){ return $.cookie('_DEBUG_')!==null; };
+	$.debug.config=function(){ return $.cookie('_DEBUG_'); };
+	w.debug=$.c=$.debug;
+	w.enableConsole=w.enableLogs=function(type){$.debug.show(type);};
+	w.disableConsole=w.disableLogs=function(){$.debug.hide();};
 
 	var c1,c2={};
 	['log','alert','warn','error'].forEach(function(name){c2[name]=function(){return;};});
@@ -72,10 +77,6 @@
 			c1.log('Logs Already Disabled');
 		};
 		if($.cookie('_DEBUG_')===undefined) w.console=c2;
-	}
-	if('hide' in console){
-		w.enableConsole=w.enableLogs=function(){console.show();$.cookie('_DEBUG_',1);};
-		w.disableConsole=w.disableLogs=function(){console.hide();$.cookie('_DEBUG_',null);};
 	}
 })( window, jQuery );
 // $.debug().log('Agent: '+navigator.userAgent);
