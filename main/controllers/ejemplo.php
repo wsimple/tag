@@ -27,19 +27,19 @@ class Ejemplo extends TAG_controller{
 		$this->set_echo('Example control.<br>');
 		#si el primer parametro es numerico, desactivamos los metodos para que vaya a index
 		if(is_numeric($params[0])) $this->disable_methods();
-		$this->load_lib('ejemplo');
+		$this->load->library('ejemplo');
 		$this->set_echo('<br>Location data:');
 		$this->dump($this->location);
 	}
 	function index($first=false){
-		$this->view('partial/header');
+		$this->load->view('partial/header');
 		$this->flush_echo();
 		echo('Control Index<br>');
 		if($first) echo("First=$first<br>");
-		$this->view('partial/footer');
+		$this->load->view('partial/footer');
 	}
 	function metodo($a=''){
-		$this->view('partial/header');
+		$this->load->view('partial/header');
 		$this->flush_echo();
 		echo 'Control Method.<br>Param 1='.$a;
 		$this->view('partial/footer');
