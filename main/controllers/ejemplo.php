@@ -42,6 +42,6 @@ class Ejemplo extends TAG_controller{
 		$this->load->view('partial/header');
 		$this->flush_echo();
 		echo 'Control Method.<br>Param 1='.$a;
-		$this->view('partial/footer');
+		$this->load->view('partial/footer');
 	}
 }
