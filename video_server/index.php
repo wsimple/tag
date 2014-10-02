@@ -15,6 +15,8 @@ require_once('includes/client.php');
 
 if(in_array(strtoupper($_SERVER['REQUEST_METHOD']),array('GET','POST'))&&!count($_REQUEST)) include 'show_video.php';
 require('UploadHandler.php');
+require('VideoCaptures.php');
 require('VideoConvertion.php');
 $video_convertion = new VideoConvertion();
+$video_captures = new VideoCaptures();
 $upload_handler = new UploadHandler();
