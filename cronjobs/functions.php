@@ -1,5 +1,4 @@
 <?php
-@header('Content-Type: text/html; charset=ISO-8859-1');
 /*
 <!--
     + ------------------------------------------------ +
@@ -11,6 +10,14 @@
     + ------------------------------------------------ +
 -->
 */
+
+function is_debug($name=''){
+	if($name=='') return isset($_COOKIE['_DEBUG_']);
+	foreach(split(',',$name) as $value)
+		if(in_array($value,split(',',$_COOKIE['_DEBUG_'])))
+			return true;
+	return false;
+}
 
 #Limpiar caracteres incompatibles con mysql
 function cls_string($mensaje) {
@@ -1443,7 +1450,7 @@ function createTag($tag,$force=false,$msg=false){
 	global $config;
 	//Informacion basica para crear la imagen de tag
 	$default='tmp'.rand(0,99);
-	if (!class_exists('WideImage')) require('../class/wideImage/WideImage.php');
+	if (!class_exists('WideImage')) require(RELPATH.'class/wideImage/WideImage.php');
 	$path='img/tags';
 	$debug=isset($_GET['debug'])||(is_array($tag)&&$tag['debug']!='');
 	$tid=substr(intToMd5(is_array($tag)?($tag['idTag']==''?$default:$tag['idTag']):$tag),-16);
@@ -1466,7 +1473,6 @@ function createTag($tag,$force=false,$msg=false){
 		if($debug){
 			_imprimir($tag);
 			echo '<br/>fondo='.$config->img_server.'img/templates/'.$tag['fondoTag'];
-			// echo '<br/>fondo='.(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
 			echo '<br/>path='.$_path;
 			echo '<br/>photo='.$tag['photoOwner'];
 			echo '<br/>getUserPicture='.getUserPicture($tag['photoOwner']);
@@ -1484,7 +1490,10 @@ function createTag($tag,$force=false,$msg=false){
 			$blanco=imagecolorallocate($im,255,255,255);
 			$negro=imagecolorallocate($im,0,0,0);
 			//Fondo
-			$imagen=$config->img_server_path.'img/templates/'.$tag['fondoTag'];
+			if(preg_match('/[0-9a-f]{8}_\d+_\d\.jpe?g$/i',$tag['fondoTag']))
+				$imagen=$config->video_server_path.'videos/'.$tag['fondoTag'];
+			else
+				$imagen=$config->img_server_path.'img/templates/'.$tag['fondoTag'];
 			// $imagen=(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
 			$img=imagecreatefromany($imagen);
 			if($img){
@@ -1511,14 +1520,11 @@ function createTag($tag,$force=false,$msg=false){
 			$im1->destroy(); 
 			/**/
 			//Imagen de usuario
-			if($tag['idProduct'])
-				$imagen=$_path.$tag['photoOwner'];
-			else
-				$imagen=$_path.getUserPicture($tag['photoOwner'],'img/users/default.png');
+			if($tag['idProduct']) $imagen=$_path.$tag['photoOwner'];
+			else $imagen=$_path.getUserPicture($tag['photoOwner'],'img/users/default.png');
 			if($debug) echo '<br/>'.$imagen;
 			$img=imagecreatefromany($imagen);
 			if($img){
-				$au=120;
 				$im2=WideImage::loadFromHandle($img);
 				if ($im2->getWidth()!=60 || $im2->getHeight()!=60 ){
 					if ($im2->getWidth()!==$im2->getHeight()){
@@ -1535,7 +1541,7 @@ function createTag($tag,$force=false,$msg=false){
 						$im2 = $im2->crop($x,$y,$t,$t);
 					}
 					$im2=$im2->resize(60,60);
-				} 
+				}
 				$im2=$im2->roundCorners(33,null, 2,255);
 				imagecopy($im,$im2->getHandle(),40,215,0,0,60,60); 
 				$im2->destroy();

@@ -8,29 +8,25 @@ include RELPATH.'cronjobs/functions.php';
 include RELPATH.'class/wconecta.class.php';
 include RELPATH.'includes/languages.config.php';
 	$limit=10;
+	if(isset($_GET['id'])) $where='id="'.$_GET['id'].'"';
+	elseif(isset($_GET['idUser'])) $where='id_user="'.$_GET['idUser'].'" AND img=""';
+	else $where='img=""';
 	if(isset($_GET['clear'])){
-		if (isset($_GET['id'])) $where='id="'.$_GET['id'].'"';
-		elseif(isset($_GET['idUser'])) $where='id_user="'.$_GET['idUser'].'"';
-		else $where='img!=""';
 		$timeLines = CON::update('tags','img=""',$where);
 	}else{
-		if (isset($_GET['id'])) $where='id="'.$_GET['id'].'"';
-		elseif(isset($_GET['idUser'])) $where='id_user="'.$_GET['id'].'" AND img=""';
-		else $where='img=""';
-		$sql="SELECT id FROM tags WHERE $where ORDER BY id DESC LIMIT 0,$limit";
-		$timeLines = CON::query($sql);
+		$timeLines = CON::query("SELECT * FROM tags WHERE $where ORDER BY id DESC LIMIT 0,$limit");
 		$num=CON::numRows($timeLines);
 		$html='';
 		if($num>0){
 			$count=0;
 			$html.='<br/>';
-			while( $tag=CON::fetchAssoc($timeLines) ){
+			while($tag=CON::fetchAssoc($timeLines)){
 				$tag['tag']=createTag($tag['id'],true);
 				CON::update('tags','img="'.$tag['tag'].'"','id="'.$tag['id'].'"');
 				$count++;
 				$html.='ID tag: '.$tag['id'].', img: '.$tag['tag'].'<br/>';
 			}
-			$html.='<hr/>Tags created:'.$count.'<br/>';
+			$html.="<hr/>Tags created:$count<br/>";
 		}
 	}
 	$data=CON::getRow('SELECT (SELECT COUNT(*) FROM tags WHERE img!="") AS done, (SELECT COUNT(*) FROM tags WHERE img="") AS more');
@@ -51,6 +47,7 @@ include RELPATH.'includes/languages.config.php';
 <body>
 <?php
 	echo $html;
+	if(is_debug('createtag')) echo '<br/>debug';
 	echo '<hr/>Tags done:'.$data['done'];
 	echo '<br/>Tags pending:'.$data['more'];
 	if($_GET['id']!='') echo '<br/>Tag:<br/><img src="'.tagURL($_GET['id']).'"/>';
