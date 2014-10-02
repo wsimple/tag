@@ -88,7 +88,8 @@ class VideoConvertion extends UploadHandler
 			$origen="$this->path/$data->video";
 			$captures=is_array($data->captures)?$data->captures:array();
 			$data->captures=array();
-			for($i=0;$capture=$captures[$i];$i++){
+			for($i=0;count($captures)>$i;$i++){
+				$capture=$captures[$i];
 				$capture="$this->path/$capture";
 				$time='00:00:'.str_pad($i*$t+4,2,'0',STR_PAD_LEFT);
 				$error=$this->ffmpeg_encode($origen,"-ss $time -vframes 1 $capture","-loglevel warning");

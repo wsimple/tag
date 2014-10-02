@@ -50,8 +50,8 @@ if($data->tipo){
 		$data->imgserver='http://68.109.244.201/';
 		$data->img_server_path='http://192.168.57.16/';
 		$data->video_server_path='http://192.168.57.11/';
-		$data->img_server='//i.tagbum.com/';
-		$data->video_server='//v.tagbum.com/';
+		$data->img_server='http://i.tagbum.com/';
+		$data->video_server='http://v.tagbum.com/';
 		$data->allow_origin='/^https?:\\/\\/(\\\w+\\\.)?tagbum.com$/i';
 	}elseif($data->tipo=='local'){
 		$data->db['host']='localhost';
