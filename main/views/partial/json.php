@@ -3,7 +3,6 @@ header('Access-Control-Allow-Methods: POST, GET');
 header('Access-Control-Allow-Origin: '.($origin!=''?$origin:'http://localhost'));
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Max-Age: 1000');
-//header('Access-Control-Max-Age: 86400');
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Content-type: application/'.(isset($_GET['callback'])?'javascript':'json'));
