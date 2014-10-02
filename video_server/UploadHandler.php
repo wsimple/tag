@@ -51,7 +51,7 @@ class UploadHandler
 
 	function __construct($options = null, $initialize = true, $error_messages = null) {
 		global $config;
-		$origin=empty($_SERVER['HTTP_REFERER'])?'*':preg_replace('/(https?:\/\/[^\/]+)(\/.*)?/i','$1',$_SERVER['HTTP_REFERER']);
+		$origin=empty($_SERVER['HTTP_REFERER'])?$config->basedom:preg_replace('/(https?:\/\/[^\/]+)(\/.*)?/i','$1',$_SERVER['HTTP_REFERER']);
 		$allow=isset($config->allow_origin)?$config->allow_origin:array();
 		$allow_origin=(is_array($allow)?in_array($origin,$allow):preg_match($allow,$origin))?true:false;
 		$this->options = array(
@@ -66,7 +66,7 @@ class UploadHandler
 			'delete_type' => 'DELETE',
 			// 'access_control_allow_origin' => '*',
 			// 'access_control_allow_credentials' => false,
-			'access_control_allow_origin' => $allow_origin?$origin:'*',
+			'access_control_allow_origin' => $origin,
 			'access_control_allow_credentials' => $allow_origin,
 			'access_control_allow_methods' => array(
 				'OPTIONS',
