@@ -5,7 +5,8 @@ class VideoConvertion extends VideoCaptures
 	private $pending='pending',$_run;
 
 	function __construct($initialize = true){
-		parent::__construct(false);
+		#verifica primero si se estan buscando capturas
+		parent::__construct(true);
 		if($initialize){
 			if(!isset($_GET['convert'])) return;
 			$file_name=isset($_REQUEST['file'])?$_REQUEST['file']:'';

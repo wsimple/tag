@@ -18,5 +18,4 @@ require('UploadHandler.php');
 require('VideoCaptures.php');
 require('VideoConvertion.php');
 $video_convertion = new VideoConvertion();
-$video_captures = new VideoCaptures();
 $upload_handler = new UploadHandler();
