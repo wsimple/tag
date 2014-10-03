@@ -55,22 +55,10 @@ if($_COOKIE['_DEBUG_']=='section') echo "section:$section - params:".implode(','
 	}
 
 	#Configuración de variables principales del sitio
-	define('TITLE','Tagbum.com - It\'s Time');
-	define('HREF_DEFAULT','javascript:void(0);');
 	define('DIRECTORIO','/');
 	define('CARPETA_ADMIN','wpanel/');
-	define('EMAIL_CONTACTO','contact@tagbum.com');
-	define('EMAIL_NO_RESPONDA','no-reply@tagbum.com');
-	define('PERSONA_CONTACTO','The team Tagbum');
 	define('RETARDOLOGINREGISTRO',0);
 	define('SANDBOX','');
-	define('COPYFOOTER','<strong>&copy; 2011 - '.date('Y').' Tagamation</strong>, LLC Patent Pending');
-
-	#Configuración de metas de la pagina principal
-	define('COPYRIGHT','Tagamation, LLc');
-	define('AUTHOR','Websarrollo.com, Maoghost.com');
-	define('DESCRIPTION','Tagbum is the right site to share information, ideas, opinions and thoughts, using short texts, pictures and videos; A multimedia social network, where you can express what you think at the speed of your imagination.');
-	define('KEYWORDS','Winning,place for U,I\'ts time to winning,tag,tags,imagination,oftag,urtag,yourtag,geturtag,play,game,business,personal');
 
 	#configuraciones de servidor
 	$_prod=$_SERVER['SERVER_NAME'];//Nombre del dominio principal
@@ -112,5 +100,4 @@ if($_COOKIE['_DEBUG_']=='section') echo "section:$section - params:".implode(','
 	}
 	$_SESSION['ws-tags']['developer']=true;
 	unset($_pruebas,$_site,$_path,$_sec,$_url,$_prod,$tmp);
-	define('PAYPAL_PAYMENTS', false);
-?>
+	define('PAYPAL_PAYMENTS',false);

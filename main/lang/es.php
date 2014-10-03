@@ -1,10 +1,13 @@
 <?php
 $lang=array(
+	#Basicas
+	'Cancel' => 'Cancelar',
+	'Delete' => 'Borrar',
+	'Help' => 'Ayuda',
 	#Menu superior logeado
 	'About' => 'Acerca de',
 	'Carousel' => 'Carrusel',
 	'Friends' => 'Amigos',
-	'Help' => 'Ayuda',
 	'Me' => 'Yo',
 	'Terms' => 'Términos',
 	#Menu superior deslogeado
@@ -26,9 +29,7 @@ $lang=array(
 	'Select a file from your computer' => 'Seleccione un archivo de tu equipo',
 	'Upload a new background' => 'Subir un nuevo fondo',
 	'Use previous backgrounds' => 'Utilizar fondos anteriores',
-	'Cancel' => 'Cancelar',
 	'Cancel upload' => 'Cancelar subida',
-	'Delete' => 'Borrar',
 	'PENDING_VIDEO_INFO' => 'Los videos en esta lista ya han sido subidos, pero el sistema debe procesarlos y convertirlos a un formato estandar antes de que usted pueda utilizarlos en una tag.',
 	'ERRORFILEINFO' => 'Disculpe, este archivo no puede ser procesado, por favor intente nuevamente con un archivo diferente.',
 	#Otros
