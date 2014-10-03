@@ -2,7 +2,7 @@
 
 class VideoConvertion extends VideoCaptures
 {
-	private $pending='pending',$_run;
+	protected $pending='pending',$_run;
 
 	function __construct($initialize = true){
 		#verifica primero si se estan buscando capturas

@@ -2,7 +2,7 @@
 
 class VideoCaptures extends UploadHandler
 {
-	private $path='videos',$usr;
+	protected $path='videos',$usr;
 
 	function __construct($initialize = true){
 		parent::__construct(null,false,null);
