@@ -257,6 +257,7 @@
 		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://" value="<?=$tipovideo!='local'&&$tipovideo!=''?$video:''?>"/>
 		<button class="btn btn-danger delete" style="display:none;"><i class="glyphicon glyphicon-trash"></i></button>
 		<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
+		<div class="dnone files"><div></div></div>
 	</div>
 	<form id="imageList" class="dnone"  method="POST" enctype="multipart/form-data">
 		<!-- The table listing the files available for upload/download -->
@@ -284,9 +285,12 @@ $(function(){
 	$('.upload-menu>div').click(function(event){
 		$(this).parent().children().removeClass('active');
 		$(this).addClass('active');
-		$('.upload.container').children().addClass('dnone')
-		.filter(this.dataset.container).removeClass('dnone');
-		if (this.dataset.container=='#videoLink') $('#txtVideo').focus();
+		var $containers=$('.upload.container').children(),
+			$container=$containers.filter(this.dataset.container);
+		$('.upload.container').children().addClass('dnone');
+		if($container.find('.files').children().length) $container.removeClass('dnone');
+		else $containers.filter('#fileupload').removeClass('dnone');
+		if(this.dataset.container=='#videoLink') $('#txtVideo').focus();
 	});
 
 	var all_supported=/(\.|\/)(jpe?g|gif|png|mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i,
@@ -327,9 +331,15 @@ $(function(){
 			that =$this.data('blueimp-fileupload')||$this.data('fileupload');
 		that.options.filesContainer.empty();
 	}).bind('fileuploadsubmit',function(e,data){
+		var $content=$(this).parents('.ui-dialog-content');
+		if($content.length){
+			$content.dialog('option','closeOnEscape',false).dialog('option','closeOnClickOutside',false);
+		}
 		$('.displayUpload').hide();
 	}).bind('fileuploaddone',function(e,data){
+		var $content=$(this).parents('.ui-dialog-content');
 		setTimeout(function(){
+			if($content.length) $content.dialog('option','closeOnEscape',true).dialog('option','closeOnClickOutside',true);
 			$('form#fileupload .start').click();
 		},1000);
 	}).bind('fileuploadalways',function(e,data){
