@@ -71,7 +71,7 @@
 					   
 					   if ($_SERVER['SERVER_NAME']=="www.tagbum.com" || $_SERVER['SERVER_NAME']=="tagbum.com" || $_SERVER['SERVER_NAME']=="64.15.140.154"){
 
-                           if ($_SESSION['wpanel_user']['tipo']=='0' && $_SESSION['wpanel_user']['code']==''){
+                           if ($_SESSION['wpanel_user']['tipo']=='0' && $_SESSION['wpanel_user']['code']=='tagbum123'){
 						   
 						       $file = ($_GET['url']) ? $_GET['url'] : "vistas/users/usersRegistered.vista.php";
 							   
