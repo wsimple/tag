@@ -332,10 +332,11 @@ function setAllLocals(opc){
 			}
 		}];
 		var id=opc.id||'#new-dialog',
-			remove=opc.remove||!opc.id,$overlay;
-		return $.div(id).empty()
-		.html('<div id="loading"><img src="css/smt/loader.gif" width="32" height="32" /><br/><strong>'+lan('JS_LOADING')+'</strong></div>')
-		.dialog({
+			remove=opc.remove||!opc.id,$overlay,
+			$dialog=$.div(id).data('opc',opc);
+		if($dialog.data('opc').clear!==false)
+			$dialog.empty().html('<div id="loading"><img src="css/smt/loader.gif" width="32" height="32" /><br/><strong>'+lan('JS_LOADING')+'</strong></div>');
+		return $dialog.dialog({
 			resizable:false,
 			width:opc.width||350,
 			height:opc.height||250,
@@ -343,14 +344,19 @@ function setAllLocals(opc){
 			show:'fade',
 			hide:'fade',
 			title:opc.title,
+			closeOnClickOutside:true,
 			open:function(){
-				var that=this;
 				$overlay=$('.ui-widget-overlay:visible');
 				if($overlay.length>1){
 					$overlay.filter(':not(:last)').fadeOut();
 				}
-				$overlay.last().click(function(){
-					$(that).dialog('close');
+				$overlay.last().mouseup(function(e){//close if you click outside of the dialog
+					var $container=$dialog.parents('.ui-dialog');
+					if($dialog.dialog('option','closeOnClickOutside')!==false //if not disabled click outside
+						&&!$container.is(e.target) // the target of the click isn't the container...
+						&& $container.has(e.target).length===0){ // ... nor a descendant of the container
+						$dialog.dialog('close');
+					}
 				});
 				if(!opc.id) this.id='default-dialog';
 				if(opc.url)
@@ -365,7 +371,7 @@ function setAllLocals(opc){
 				}
 			},
 			beforeClose:function(){
-				$overlay.filter(':not(:last)').fadeIn();
+				$overlay.filter(':not(:last)').last().fadeIn();
 				if(opc.altUrl){
 					var u=opc.altUrl;
 					console.log(u);
