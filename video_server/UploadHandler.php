@@ -13,9 +13,9 @@
 class UploadHandler
 {
 	protected $options;
-	private $local_time_delay=5;#retraso en respuesta, para pruebas locales.
+	protected $local_time_delay=5;#retraso en respuesta, para pruebas locales.
 
-	private $_folder='',$_code='',$_path='/videos/';
+	protected $_folder='',$_code='',$_path='/videos/';
 	// Get folder
 	protected function folder() {
 		if(isset($_REQUEST['folder'])) $this->_folder=$_REQUEST['folder'];
