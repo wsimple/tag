@@ -71,8 +71,8 @@ class VideoConvertion extends VideoCaptures
 		// echo ($error?"error\n":"no error\n").'ruta: '."$this->path/$data->original"."\n";
 		if(!$error) unlink("$this->path/$data->original");
 		else unset($data->video,$data->captures);
-		#creacion de capturas
 		if(!$error){
+			#creacion de capturas
 			$t=$data->type?12:24;
 			$origen="$this->path/$data->video";
 			$captures=is_array($data->captures)?$data->captures:array();
@@ -89,8 +89,8 @@ class VideoConvertion extends VideoCaptures
 			}
 			if(!count($data->captures)) $error="Can't create any capture.";
 		}
-		if($error) $data->run=$this->_run;
-		if($error) $data->error=$error;
+		$data->last_run=array('cmd'=>$this->_run,'error'=>$error);
+		if(empty($data->video)||!count($data->captures)) $data->error=$error;
 
 		$this->json($data);
 	}

@@ -30,8 +30,12 @@ class VideoCaptures extends UploadHandler
 	function get_captures($filename){
 		#primero validamos el usuario y que exista el archivo
 		$code=$this->get_code();
-		$base_file=preg_replace('/[^_]+\.(jpe?g|mp4)$/i','',"$code/$filename");
+		$base_file=$code.'/'.preg_replace('/^([^\/]+\/)*|[^_]+\.(jpe?g|mp4)$/i','',$filename);
 		$data=new stdClass();
+		$data->source=array(
+			'path'=>$this->path,
+			'base_file'=>$base_file,
+		);
 		if(!is_file("$this->path/{$base_file}0.mp4")){
 			$data->error_code=404;
 			$data->error='Video not found.';
