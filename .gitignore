@@ -2,7 +2,6 @@
 img/*/
 language/
 img_server/img/
-video_server/videos/
 
 #security
 includes/security/*.php
@@ -16,6 +15,7 @@ video_server/jqueryupload/
 js/funciones_en.js
 js/funciones_es.js
 
+video_server/videos/pending/*
+video_server/videos/*/*
+
 main/views/templates/tags.php
-video_server/list.php
-video_server/upload.php
