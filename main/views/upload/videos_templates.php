@@ -406,14 +406,15 @@ $(function(){
 				success:function(data){
 					if (!data.error){
 						if(video) video.value=data.video;
-						var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='',tdefault='';
+						var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='',first;
 						for(var i=0,capture;capture=data.captures[i];i++){
-							if(tdefault=='') tdefault=SERVERS.video+'videos/'+capture;
+							if(!first) first=capture;
 							captures=captures+'<div class="option-cap" data-src="videos/'+capture+'" style="background-image:url(\''+SERVERS.video+'videos/'+capture+'\')"></div>';
 						}
 						if(captures!=''){
 							captures='<div class="clearfix"></div><div class="select-capture">'+captures+'</div><div class="clearfix"></div>';
-							$('#bckSelected').css('background-image','url('+tdefault+')');
+							$('#bckSelected').css('background-image','url('+SERVERS.video+'videos/'+first+')');
+							$('#imgTemplate')[0].value=first;
 						}
 						if(html!='')
 							$('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div>'+captures+'</div>')
