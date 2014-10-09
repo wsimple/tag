@@ -30,7 +30,8 @@ class VideoCaptures extends UploadHandler
 	function get_captures($filename){
 		#primero validamos el usuario y que exista el archivo
 		$code=$this->get_code();
-		$base_file=$code.'/'.preg_replace('/^([^\/]+\/)*|[^_]+\.(jpe?g|mp4)$/i','',$filename);
+		if(!strpos($filename,'/')) $filename="$code/$filename";
+		$base_file=preg_replace('/[^_]+\.(jpe?g|mp4)$/i','',$filename);
 		$data=new stdClass();
 		$data->source=array(
 			'path'=>$this->path,
