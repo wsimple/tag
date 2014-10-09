@@ -415,7 +415,7 @@ $(function(){
 							captures='<div class="clearfix"></div><div class="select-capture">'+captures+'</div><div class="clearfix"></div>';
 							$('#bckSelected').css('background-image','url('+tdefault+')');
 						}
-						if(html!='') 
+						if(html!='')
 							$('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div>'+captures+'</div>')
 					}else{
 						//mostrar algo para reintentar la conversion del video
@@ -511,7 +511,7 @@ $(function(){
 <script id="template-upload" type="text/x-tmpl">
 {% console.log(o.files); %}
 {% for(var i=0,file;file=o.files[i];i++){ %}
-	<div class="template upload fade">
+	<div class="template-upload template upload fade">
 		<div>
 			{% if(!file.type.match(/(\.|\/)(jpe?g|gif|png)$/i)){ %}
 				<div class="video_format"><span>{%=file.name.split('.').pop()%}</span></div>
@@ -555,7 +555,7 @@ if(o.files) for(var i=0,file;file=o.files[i];i++){
 	);
 	if(file.type!=''){
 %}
-	<div class="template download {%=file.type%} fade">
+	<div class="template-download template download {%=file.type%} fade">
 		<div>
 			{% if(file.type=='img'){ %}
 				<div class="tag-container img noMenu" style="height: auto;">
