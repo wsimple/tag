@@ -239,16 +239,14 @@ $(function(){
 								success:function(data){
 									if (!data.error){
 										video.value=data.video;
-										var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='',tdefault='';
-										for (var i=0,capture;capture=data.captures[i];i++){
-											if (tdefault=='') tdefault=SERVERS.video+'videos/'+capture;
+										var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='';
+										for(var i=0,capture;capture=data.captures[i];i++){
 											captures=captures+'<div class="option-cap" data-src="videos/'+capture+'" style="background-image:url(\''+SERVERS.video+'videos/'+capture+'\')"></div>';
 										}
-										if (captures!=''){
+										if(captures!=''){
 											captures='<div class="clearfix"></div><div class="select-capture">'+captures+'</div><div class="clearfix"></div>';
-											$('#bckSelected').css('background-image','url('+tdefault+')');
 										}
-										if (html!='') 
+										if(html!='')
 											$('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div>'+captures+'</div>')
 									}
 								}
@@ -264,9 +262,9 @@ $(function(){
 			}
 		});
 	}
-	$('#bgAndVideo').click(function(event) {
+	$('#bgAndVideo').click(function(event){
 		var video=document.getElementById('htxtVideo');
-		if (video.value!='') get='?video='+video.value+'&tipo='+video.dataset.tipo;
+		if(video.value!='') get='?video='+video.value+'&tipo='+video.dataset.tipo;
 		else get='';
 		$.dialog({
 			title:'Preview',
@@ -289,10 +287,10 @@ $(function(){
 		$('#htxtVideo').val('');
 	}).on('click','.tag-container .select-capture .option-cap',function(){
 		var img=$('#imgTemplate')[0];
-		img.value=this.dataset.src.replace('videos/');
+		img.value=this.dataset.src.replace('videos/','');
 		// img.value=this.dataset.url.replace(SERVERS.img+'img/templates/','');
 		$('#bckSelected').css('background-image','url('+SERVERS.video+this.dataset.src+')');
-	});	
+	});
 	setType();//default
 	if (bgd!=''){ setBG(bgd); }
 	function redirTo(){
