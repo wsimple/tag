@@ -28,9 +28,9 @@ include '../header.json.php';
 					u.profile_image_url AS picture,
 					(SELECT name FROM countries WHERE id=u.country) AS country,
 					u.type,
-					u.friends_count AS friends,
-					u.followers_count AS admirers,
-					u.following_count AS admired,
+					(SELECT COUNT(*) FROM users_links ful WHERE u.id=ful.id_user	AND ful.is_friend=1) AS friends,
+					(SELECT COUNT(*) FROM users_links ful WHERE u.id=ful.id_user	) AS admired,
+					(SELECT COUNT(*) FROM users_links ful WHERE u.id=ful.id_friend	) AS admirers,
 					u.friends_count,u.followers_count,u.following_count,
 					(SELECT ul.id_user FROM users_links ul WHERE md5(ul.id_user)=? AND ul.id_friend=u.id) AS follow,
 					(SELECT count(t.id) FROM tags t WHERE t.status=9 AND t.id_user=u.id AND t.id_user=t.id_creator) AS numPersTags
