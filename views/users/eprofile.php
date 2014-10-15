@@ -138,10 +138,9 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 												$strIN.=($strIN==''?"'":"','").$value;
 											}
 											$strIN.="'";
-											$detalle=CON::query("SELECT detail,id FROM preference_details WHERE id IN (".$strIN.");");
+											$detalle=CON::query("SELECT detail,md5(id) AS id FROM preference_details WHERE md5(id) IN (".$strIN.");");
 											echo '<label>'.$titles[$i].' : </label>';
 											if (CON::numRows($detalle)>0){
-
 												while($row=CON::fetchObject($detalle)){
 													$detalles->preference=str_replace($row->id,"",$detalles->preference);
 													$detalles->preference.=($detalles->preference==''?'':',').$row->detail;

@@ -23,17 +23,19 @@
 			},
 			after:function(){
 				$('.list-wrapper').jScroll({hScroll:false});
-				viewFriends('5', '', '#friendsList','find');
+				var opc={layer:'#friendsList',mod:'find',get:"",user:$.local('code')};
+				viewFriends(opc);
 				viewContacsPhone('#contactList', '');
 				
 				var last='';
 				$('#searchFriends').change(function(/*event*/){
 					$(this).keyup();
 				}).keyup(function(/*event*/){
-					var val=this.value;
+					var val=$.trim(this.value);
 					if(val.length<3) val='';
 					if(last!=val){
-						viewFriends(val==''?5:4,val,'#friendsList');
+						opc.get="&search="+val;
+						viewFriends(opc);
 						if (CORDOVA) {
 							viewContacsPhone('#contactList', val);    //Filtra elemntos tambien por agenda de contactos
 						}
@@ -77,8 +79,7 @@
 										}
 									});
 								}
-							},
-							{
+							},{
 								name: 'No',
 								action: 'close'
 							}

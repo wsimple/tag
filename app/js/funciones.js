@@ -94,7 +94,7 @@ function readTxt(url){
 			case 'wish'			:func=function(){redir(PAGE['storeOption']);};break;
 			case 'myPubli'		:func=function(){redir(PAGE['storeMypubli']);};break;
 			case 'notif'		:func=function(){redir(PAGE['notify']);};break;
-			case 'friends'		:func=function(){redir(PAGE['userfriends']+'?type=1&friend=1&id_user='+$.local('code'));};break;
+			case 'friends'		:func=function(){redir(PAGE['userfriends']+'?type=friends&id_user='+$.local('code'));};break;
 			case 'chat'			:func=function(){document.location=LOCAL?PAGE['chat']:'http://tagbum.com/cometchat/';};break;
 			case 'profile'		:func=function(){redir(PAGE['profile']+'?id='+$.local('code'));};break;
 			case 'profilepic'	:func=function(){redir(PAGE['profilepic']);};break;
@@ -740,42 +740,44 @@ function showTags(array){//tag list
 	}
 })(window,jQuery,console);
 
-function viewFriends(type,dato,idLayer,idUser){
+function viewFriends(opc){
 	console.log('viewfriends');
 	myAjax({
-		type:'GET',
-		url:DOMINIO+'controls/users/viewFriends.json.php?type='+type+(dato?'&dato='+dato:'')+(idUser?'&id_user='+idUser:''),
+		type:'POST',
+		url:DOMINIO+'controls/users/people.json.php?action=friendsAndFollow&code&mod='+opc.mod+opc.get,
+		data: {uid: opc.user },
 		error:function(/*resp,status,error*/){
 			myDialog('#singleDialog',lang.conectionFail);
 		},
 		success:function(data){
+			if (data['error']) return;
 			var i,friend,out='',divider;
-			if($.local('code')==idUser){
-				switch(type){
-					case 1:out=lan('friends','ucw');divider=lan('friends','ucw');break;
-					case 2:out=lan('admirers','ucw');divider=lan('admirers','ucw');break;
-					case 3:out=lan('admired','ucw');divider=lan('admired','ucw');break;
+			if($.local('code')==opc.user){
+				switch(opc.mod){
+					case 'friends':divider=lan('friends','ucw');break;
+					case 'follow':divider=lan('admirers','ucw');break;
+					case 'unfollow':divider=lan('admired','ucw');break;
 				}
 			}
-			divider='<li data-role="list-divider">'+(type==5?lang.FINDFRIENDS_LEGENDOFSEARCHBAR:(divider||data['divider'])+' <span class="ui-li-count">'+data['friends'].length+'</span>')+'</li>';
-			for(i=0;i<data['friends'].length;i++){
-				friend=data['friends'][i];
+			divider='<li data-role="list-divider">'+(opc.mod=='find'?lang.FINDFRIENDS_LEGENDOFSEARCHBAR:divider+' <span class="ui-li-count">'+data['num']+'</span>')+'</li>';
+			for(i=0;i<data['datos'].length;i++){
+				friend=data['datos'][i];
 				out+=
 					'<li class="userInList">'+
-						'<a code="'+friend['code']+'" data-theme="e">'+
-							'<img src="'+FILESERVER+friend['photo']+'"'+'class="ui-li-thumb" width="60" height="60"/>'+
-							'<h3 class="ui-li-heading">'+friend['name']+'</h3>'+
+						'<a code="'+friend['code_friend']+'" data-theme="e">'+
+							'<img src="'+friend['photo_friend']+'"'+'class="ui-li-thumb" width="60" height="60"/>'+
+							'<h3 class="ui-li-heading">'+friend['name_user']+'</h3>'+
 							'<p class="ui-li-desc">'+
-								lan('friends','ucw')+' ('+(friend['friends']||0)+'), '+
-								lan('admirers','ucw')+' ('+(friend['admirers']||0)+'), '+
-								lan('admired','ucw')+' ('+(friend['admired']||0)+')'+
+								lan('friends','ucw')+' ('+(friend['friends_count']||0)+'), '+
+								lan('admirers','ucw')+' ('+(friend['followers_count']||0)+'), '+
+								lan('admired','ucw')+' ('+(friend['following_count']||0)+')'+
 							'</p>'+
 						'</a>'+
 						//'<a>test</a>'+
 					'</li>';
 			}
 
-			$(idLayer).html(divider+out).listview('refresh');
+			$(opc.layer).html(divider+out).listview('refresh');
 			$('.list-wrapper').jScroll('refresh');
 		}
 	});
@@ -856,242 +858,58 @@ function insertUserGroup(idGroup){
 	});
 }
 
-function getPreferences(action,type,text){
-	var code=$.local('code');
-	var txt=text.split(',').pop();//get the unique or last item
-	$('#typePre').val(type);
-	myAjax({
-		type	:'GET',
-		url		:DOMINIO+'controls/users/preferences.json.php?action='+action+'&type='+type+'&txt='+$.trim(txt)+'&code='+code,
-		dataType:'json',
-		error	:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
-		},
-		success	:function(data){
-			var i,pref,out='';
-			for(i in data['preferences']){
-				pref=data['preferences'][i];
-//				out +=	'<li onClick="manipulatePreferences(\'concat\', 2, \''+pref['id']+'\', \''+type+'\')">'+
-//							'<a href="#">'+pref['detail']+'</a>'+
-//						'</li>';
-				out+=	'<li data-icon="plus" pref="'+pref['id']+'">'+
-							'<a href="#">'+pref['detail']+'</a>'+
-						'</li>';
-			}
-			$('#group_preferences').html(out).listview('refresh');
-			$('.list-wrapper').jScroll('refresh');
-		}
-	});
-}
-
-function touchPreferences(type,id,layer,text){
-	console.log('touchPreferences');
-	myDialog({
-		id:'#prefDialog',
-		content:lang.PREFERENCES_MSJCONFIRMADDPREFE+' (<strong>'+text+'</strong>)',
-		buttons:[{
-			name:lang.yes,
-			action:function(){
-				var $this=this;
-				myAjax({
-					type:'GET',
-					url:DOMINIO+'controls/users/preferences2.json.php?type='+type+'&code='+$.local('code')+'&p='+id+'&action=3',
-					dataType:'json',
-					error:function(/*resp,status,error*/){
-						myDialog('#singleDialog',lang.conectionFail);
-					},
-					success:function(){
-						$(layer).fadeOut('slow');
-						$this.close();
-					}
-				});
-			}
-		},{
-			name:'No',
-			action:'close'
-		}]
-	});
-}
-
-function savePreferences(type,text){
-	var aPrefe=text.split(',');
-	var i,sPrefe='';
-	//se limpia la cadena text
-	for(i in aPrefe){
-		if(aPrefe[i]!=''){
-			sPrefe+=aPrefe[i]+'|';
-		}
-	}
-	//insert
-	myAjax({
-		type:'GET',
-		url:DOMINIO+'controls/users/preferences2.json.php?type='+type+'&code='+$.local('code')+'&text='+sPrefe+'&action=2',
-		dataType:'json',
-		error:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
-		},
-		success:function(){
-			myDialog({
-				id:'#prefeExitoDialog',
-				content:'<br/>'+lang.PREFERENCES_MSJSUCESSFULLY+'<br/>',
-				buttons:{
-					'Close':function(){
-						redir(PAGE['preferences']+'?typePrefe='+type);
-					}
-				}
-			});
-		}
-	});
-}
-
-function putBoxPreference(type){
-	//alert(type+'-----'+$.local('code'));
-	myAjax({
-		type	:'GET',
-		url		:DOMINIO+'controls/users/preferences2.json.php?type='+type+'&code='+$.local('code')+'&action=1',
-		dataType:'json',
-		error	:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
-		},
-		success	:function(data){
-			var i,pref,out='';
-			for(i in data['preferences']){
-				pref=data['preferences'][i];
-				//alert(pref['detail']);
-				out+=pref['detail'];
-			}
-			$('#txtPrefe').val(out);
-		}
-	});
-}
-
-function manipulatePreferences(op,action,p,type){
-	switch(op){
-		case 'concat':
-			myAjax({
-				type	:'GET',
-				url		:DOMINIO+'controls/users/getFieldsPreferences.json.php?p='+p,
-				dataType:'json',
-				error	:function(/*resp,status,error*/){
-					myDialog('#singleDialog',lang.conectionFail);
-				},
-				success	:function(data){
-					var input=$.trim($('#searchPreferences').val());
-					var arrayPre=$('#hiddenArrayPre').val().split('|');
-					var out=input;
-					$('#hiddenArrayPre').val(input!=''?$('#hiddenArrayPre').val():'');
-					if(!inArray(data['id'],arrayPre)){
-						$('#hiddenArrayPre').val($('#hiddenArrayPre').val()+'|'+data['id']);
-						if(input!=''){
-							if(input.lastIndexOf(',')==-1)
-								out=input+','+$.trim(data['detail'])+',';
-							if(input.lastIndexOf(',')!=-1)
-								out=input+$.trim(data['detail'])+',';
-						}else
-							out=data['detail']+',';
-					}
-					$('#searchPreferences').val(out).focus();
-				}
-			});
-		break;
-		case 'update':
-			var code=$.local('code');
-			var hiddenArrayPre=$.trim($('#hiddenArrayPre').val());
-			var input=$.trim($('#searchPreferences').val());
-			if(hiddenArrayPre!=''||input!=''){
-				myAjax({
-					type	:'GET',
-					url		:DOMINIO+'controls/users/preferences.json.php?code='+code+'&action='+action+'&type='+type+'&input='+input,
-					dataType:'json',
-					error	:function(/*resp,status,error*/){
-						myDialog('#singleDialog',lang.conectionFail);
-					},
-					success	:function(data){
-						if(data['out']=='1'){
-							$('#typePre').val(1);
-							$('#searchPreferences').val('');
-							$('#searchPreferences').focus();
-							myDialog('#singleDialog',lang.PREFERENCES_MSJSUCESSFULLY);
-							goBack();
-						}
-					}
-				});
-			}else{
-				myDialog('#singleDialog',lang.PREFERENCES_ERRORSELECC);
-			}
-		break;
-		case 'touch':
-			myAjax({
-				type	:'GET',
-				url		:DOMINIO+'controls/users/getFieldsPreferences.json.php?p='+p,
-				dataType:'json',
-				error	:function(/*resp,status,error*/){
-					myDialog('#singleDialog',lang.conectionFail);
-				}
-			});
-		break;
-	}//switch
-}
-
-function preferencesUsers(action,usr,setPlace){
+function preferencesUsers(usr){
 	var code=usr||$.local('code');
 	myAjax({
 		type	:'GET',
-		url		:DOMINIO+'controls/users/preferences2.json.php?action='+action+'&code='+code,
+		url		:DOMINIO+'controls/users/preferences.json.php?action=1&code='+code,
 		dataType:'json',
 		error	:function(/*resp,status,error*/){
 			myDialog('#singleDialog',lang.conectionFail);
 		},
 		success	:function(data){
-			var i,pref,out='';
-			for(i in data['preferences']){
-				pref=data['preferences'][i];
-				out+='<li pref="'+pref['id_layer']+'">';
-				if(code==$.local('code')){
-					out+='<img src="img/trash.png" pref="'+pref['detail']+'" type="'+pref['type']+'"/>&nbsp;';
+			var i,pref,out='',text=['',lang.PREFERENCES_WHATILIKE,lang.PREFERENCES_WHATIWANT,lang.PREFERENCES_WHATINEED];
+			for(i in data['dato']){
+				out+='<li style="text-align:center;"><strong>'+text[i]+'</strong></li>';
+				for(j in data['dato'][i]){
+					pref=data['dato'][i][j];
+					out+='<li>';
+					if(code==$.local('code'))
+						out+='<img src="img/trash.png" pref="'+pref['id']+'" type="'+i+'"/>&nbsp;';
+					out+=pref['text']+'</li>';
 				}
-				out+=pref['detail']+'</li>';
 			}
 			myDialog({
 				id:'#preferencesDialog',
 				content:'<ul data-role="listview" id="ulMyPrefe" data-theme="c" style="padding:0 20px 20px;">'+out+'</ul>',
 				scroll:true,
+				style:{'padding-right':5,height:200},
 				after:function(){
 					$('.content ul',this.id).off('click').on('click','li img',function(){
-						console.log($(this).parent()[0]);
-						delPreference($(this).attr('type'),$(this).attr('pref'),$(this).parent()[0]);
+						var obj=this;
+						myAjax({
+							type	:'GET',
+							url		:DOMINIO+'controls/users/preferences.json.php?action=del&type='+$(obj).attr('type')+'&p='+$(obj).attr('pref')+'&code='+$.local('code'),
+							dataType:'json',
+							error	:function(/*resp,status,error*/){
+								myDialog('#singleDialog',lang.conectionFail);
+							},
+							success	:function(data){
+								$(obj).parents('li').fadeOut('slow');
+							}
+						});
 					});
 				},
 				buttons:{
 					'Close':function(){
-						if($.local('code')==code)
-							redir(PAGE['preferences']+'?typePrefe='+setPlace);
-						else
-							this.close();
+						if($.local('code')==code) location.reload();
+						else this.close();
 					}
 				}
 			});
 		}
 	});
 
-}
-
-function delPreference(type,detail,id_layer){
-	var p=$(id_layer).attr('pref').split('_')[1];
-	console.log(type+'++++'+$(id_layer).attr('pref')+'++++'+p+'++++'+detail);
-	console.log('pref='+p);
-	myAjax({
-		type	:'GET',
-		url		:DOMINIO+'controls/users/preferences2.json.php?action=5&type='+type+'&detail='+detail+'&code='+$.local('code')+'&p='+p,
-		dataType:'json',
-		error	:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
-		},
-		success	:function(data){
-			console.log(data);
-			$(id_layer).fadeOut('slow');
-		}
-	});
 }
 
 function inArray(seed,array){

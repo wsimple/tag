@@ -12,7 +12,7 @@
 		CORDOVA=$.session('cordova')||false;
 		if(CORDOVA) $.session('cordova',CORDOVA);
 	}
-	var regex	=/(seemytag|tagbum)\.com/i,
+	var regex	=/(tagbum)\.com/i,
 		pruebas	='wpruebas/'||'',
 		d		=CORDOVA||window.location.host=='localhost'||(($.local('host')||'').match(regex)),
 		dom		=d?'http://tagbum.com/'+pruebas:'../',
@@ -20,7 +20,7 @@
 	LOCAL=dom.match(regex)&&!window.location.host.match(regex);
 	PRODUCCION=prod;
 	DOMINIO=dom;
-	FILESERVER=prod?'http://seemytagdemo.com/':'http://68.109.244.201/';
+	FILESERVER=prod?'http://i.tagbum.com/':'http://68.109.244.201/';
 	PAGE={
 		ini:'.',
 		chat:'chat.html',

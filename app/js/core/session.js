@@ -3,7 +3,7 @@
 	var console=w.console,
 		isLogged=function(val){
 			if(val!==undefined) $.local('logged',val);
-			if(location.host.match(/localhost/))
+			if(!location.host||location.host.match(/localhost/))
 				return !!$.local('logged');
 			else
 				return !!$.cookie('__logged__');
