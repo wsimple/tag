@@ -66,7 +66,8 @@ if($_GET['cate']){
 $(function() {
 		$.on({
             open:function(){
-				$('.store-wrapper .mainMenu a').css('margin-bottom:','0px');$('aside').css('display','block');
+				$('.store-wrapper .mainMenu a').css('margin-bottom:','0px');
+				$('aside').css('display','block');
 				//variables necesarias para hacer todas las validaciones referentes a cada lista
 				var subget='',band='',posi=false,limit=0,sc=false,array=new Array(),rifa=false,title='';
 				var nameCate='<?=$titleCate?>',nameSubCate='<?=$titleSubCate?>',href='<?=$href?>',idcate='<?=$idCate?>';
