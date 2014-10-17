@@ -32,6 +32,8 @@ $lang=array(
 	'Cancel upload' => 'Cancelar subida',
 	'PENDING_VIDEO_INFO' => 'Los videos en esta lista ya han sido subidos, pero el sistema debe procesarlos y convertirlos a un formato estandar antes de que usted pueda utilizarlos en una tag.',
 	'ERRORFILEINFO' => 'Disculpe, este archivo no puede ser procesado, por favor intente nuevamente con un archivo diferente.',
+	#js
+	'JS_CONFIRM_REMOVE_TAG_ITEM' => "Remover el elemento dañará todas las tags que lo esten utilizando.\n ¿Está seguro de que quiere eliminarlo?",
 	#Otros
 	'example' => 'ejemplo',
 );
