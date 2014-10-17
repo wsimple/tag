@@ -1189,7 +1189,7 @@ function fileExistsRemote($path){
 }
 function fileExists($file){
 #detecta si un archivo existe, ya sea local o remoto
-	return is_file($file) || (@fopen($path,'r')==true);
+	return is_file($file) || (@fopen($file,'r')==true);
 }
 
 function notifications($id_friend, $id_source, $id_type, $url_destination="", $action="", $id_user=""){
@@ -1469,7 +1469,7 @@ function createTag($tag,$force=false,$msg=false){
 	$photom=$tid.'.m.jpg';
 	$photopath=$path.'/'.$photo;
 	$photompath=$path.'/'.$photom;
-	$_path=$config->local?RELPATH:FILESERVER;
+	$_path=$config->local?RELPATH:$config->img_server_path;
 	//Se busca la imagen de la tag
 	if(!$force) $im=imagecreatefromany($_path.$photopath);
 	//Si la imagen de la tag no existe,se crea
@@ -1658,7 +1658,7 @@ function createTag($tag,$force=false,$msg=false){
 			}
 		}
 		//subir el archivo al servidor
-		if(!$debug){//si estamos en debug no se guarda
+		// if(!$debug){//si estamos en debug no se guarda
 			$phototmp=RELPATH.$path.'/tmp'.rand().'.png';
 			imagepng($im,$phototmp);
 			if (redimensionar($phototmp,RELPATH.$photopath,650)){
@@ -1666,12 +1666,12 @@ function createTag($tag,$force=false,$msg=false){
 				FTPupload("tags/$photo");
 				if($msg) echo '<br/>guardada imagen '.$photo;
 			}
-		}
+		// }
 	}elseif($msg) echo '<br/>ya existe la imagen '.$photo;
 	//FIN - creacion de la imagen de la tag
 	//creamos la miniatura si no existe
 	if(!fileExists($_path.$photompath)||$force){
-		if(!$debug){//si estamos en debug no se guarda
+		// if(!$debug){//si estamos en debug no se guarda
 			$phototmp=RELPATH.$path.'/'.$tmpFile.'.png';
 			imagepng($im,$phototmp);
 			if (redimensionar($phototmp,RELPATH.$photompath,200)){
@@ -1679,7 +1679,7 @@ function createTag($tag,$force=false,$msg=false){
 				FTPupload("tags/$photom");
 				if($msg) echo '<br/>guardada miniatura '.$photom;
 			}
-		}
+		// }
 	}
 	CON::update('tags',"img=?",'id=?',array($tid,$tag['id']));
 	return $tid;
