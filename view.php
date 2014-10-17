@@ -1,5 +1,6 @@
 <?php
-global $config,$dialog,$notAjax,$bodyPage;
+global $config,$dialog,$notAjax,$bodyPage,$setting;
+$setting=$config;
 if(!$config){
 include('includes/config.php');
 include('includes/session.php');
