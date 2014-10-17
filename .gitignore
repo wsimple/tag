@@ -19,3 +19,6 @@ video_server/videos/pending/*
 video_server/videos/*/*
 
 main/views/templates/tags.php
+
+Tag.xdk
+Tag.xdke

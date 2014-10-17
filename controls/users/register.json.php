@@ -129,7 +129,7 @@ function register_json($data){
 				</tr>
 				'.$fb_mail.'
 				<tr>
-					<td><a href="'.base_url('?keyusr='.$key).'">'.DOMINIO.'?keyusr='.$key.'</a></td>
+					<td><a href="'.DOMINIO.'?keyusr='.$key.'">'.DOMINIO.'?keyusr='.$key.'</a></td>
 				</tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr>
