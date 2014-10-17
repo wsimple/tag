@@ -602,7 +602,7 @@ function htmlVideo(data,type,url,del){
 	}
 	if(video!=''){
 		extras='';
-		if(url) extras='<button action="tag/videoSelect" class="btn btn-primary start invisible" data-set="'+url+'" data-type="'+type+'" data-pre="'+data+'"><i class="glyphicon glyphicon-upload"></i></button>';
+		if(url) extras='<button class="btn btn-primary start invisible" data-set="'+url+'" data-type="'+type+'" data-pre="'+data+'"><i class="glyphicon glyphicon-upload"></i></button>';
 		if(del) extras+='<button class="btn btn-danger delete fright"><i class="glyphicon glyphicon-trash"></i></button>';
 		video='<div class="video"><div class="placa"></div>'+extras+video+'</div>';
 	}
