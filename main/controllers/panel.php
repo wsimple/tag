@@ -59,12 +59,19 @@ PHPLANG;
 			$file="language/$code.php";
 			echo "<br>$file ".(file_put_contents($file,$salida)?'done':'fail');
 
+			$tmp1=$lang;
+			include "main/lang/en.php";
+			$tmp2=$lang;
+			include "main/lang/$code.php";
+			$lang=array_merge($tmp2,$lang);
+			$lang=array_merge($tmp1,$lang);
+
 			#lenguajes en js
 			$array=array();
 			$array['langcode']=$code;
 			foreach($lang as $key => $val){
 				if(substr($key,0,3)=='JS_'){
-					$array[$key]=utf8_encode($val);
+					$array[$key]=$val;
 				}
 			}
 			$json=json_encode($array);//comentar para poner TODAS las traducciones en js

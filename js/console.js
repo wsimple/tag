@@ -3,11 +3,14 @@
 	var c,fake={},typelist=[];
 	['log','alert','warn','error'].forEach(function(name){fake[name]=function(){return;};});
 	if('console' in w) c=w.console; else c=fake;
+	function list(){
+		return $.cookie('_DEBUG_')?$.cookie('_DEBUG_').split(','):[];		
+	}
 	$.debug=function(type){
 		if($.cookie('_DEBUG_')===null) return fake;
 		if(!type) return c;
 		if(!$.cookie('_DEBUG_')) return !type?c:fake;
-		var debuglist=$.cookie('_DEBUG_').split(','),types=type.split(','),len=types.length,show=false;
+		var debuglist=list(),types=type.split(','),len=types.length,show=false;
 		for(var i=0;i<len;i++){
 			if(typelist.indexOf(types[i])<0) typelist.push(types[i]);
 			if(debuglist.indexOf(types[i])>=0) show=true;
@@ -19,7 +22,7 @@
 		return ['Enabled',type||'Global','Logs'].join(' ');
 	};
 	$.debug.add=function(type){
-		var debuglist=$.cookie('_DEBUG_')?$.cookie('_DEBUG_').split(','):[];
+		var debuglist=list();
 		if(!type) type=prompt('Actual values:\n'+debuglist.join(', '),'');
 		var i=debuglist.indexOf(type);
 		if(i<0&&type) debuglist.push(type);
@@ -27,7 +30,7 @@
 		return ['Added',type||'Global','to Logs'].join(' ');
 	};
 	$.debug.remove=function(type){
-		var debuglist=$.cookie('_DEBUG_')?$.cookie('_DEBUG_').split(','):[];
+		var debuglist=list();
 		if(!type) type=prompt('Actual values:\n'+debuglist.join(', '),'');
 		var i=debuglist.indexOf(type);
 		if(i>=0) debuglist.splice(i,1);
@@ -39,7 +42,7 @@
 		c.log('Disabled all Logs');
 	};
 	$.debug.list=function(){ return typelist; };
-	$.debug.isEnabled=function(){ return $.cookie('_DEBUG_')!==null; };
+	$.debug.isEnabled=function(type){ return !type?$.cookie('_DEBUG_')!==null:list().indexOf(type)>=0; };
 	$.debug.config=function(){ return $.cookie('_DEBUG_'); };
 	w.debug=$.c=$.debug;
 	w.enableConsole=w.enableLogs=function(type){$.debug.show(type);};

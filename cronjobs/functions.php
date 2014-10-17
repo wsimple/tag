@@ -1182,9 +1182,14 @@ function readdirFTP(&$_array){
 	}
 
 }
-
 function fileExistsRemote($path){
-    return (@fopen($path,"r")==true);
+	return (@fopen($path,'r')==true);
+	// $res=get_headers($path);
+	// echo $res[0];
+}
+function fileExists($file){
+#detecta si un archivo existe, ya sea local o remoto
+	return is_file($file) || (@fopen($path,'r')==true);
 }
 
 function notifications($id_friend, $id_source, $id_type, $url_destination="", $action="", $id_user=""){
@@ -1444,6 +1449,7 @@ function replaceCharacters($cad){
 }
 function tagURL($tag,$mini=false){
 	$tid=substr(intToMd5($tag),-16);
+	// return $config->img_server_path.'img/templates/'.$tid.($mini?'.m':'').'.jpg';
 	return FILESERVER.'img/tags/'.$tid.($mini?'.m':'').'.jpg';
 }
 function createTag($tag,$force=false,$msg=false){
@@ -1469,10 +1475,18 @@ function createTag($tag,$force=false,$msg=false){
 	//Si la imagen de la tag no existe,se crea
 	if(!$im||$debug){
 		if(!is_array($tag)) $tag=getTagData($tid);
+		$tag['fondoTag']=preg_replace('/ /','%20',$tag['fondoTag']);
 		//Debugger
 		if($debug){
 			_imprimir($tag);
-			echo '<br/>fondo='.$config->img_server.'img/templates/'.$tag['fondoTag'];
+			//Fondo
+			if(preg_match('/[0-9a-f]{8}_\d+_\d\.jpe?g$/i',$tag['fondoTag']))
+				$imagen=$config->video_server_path.'videos/'.$tag['fondoTag'];
+			else
+				$imagen=$config->img_server_path.'img/templates/'.$tag['fondoTag'];
+			echo '<br/>fondo='.$imagen;
+			echo '<br/>externo='.str_replace($config->img_server_path,$config->img_server,
+				str_replace($config->video_server_path,$config->video_server,$imagen));
 			echo '<br/>path='.$_path;
 			echo '<br/>photo='.$tag['photoOwner'];
 			echo '<br/>getUserPicture='.getUserPicture($tag['photoOwner']);
@@ -1495,20 +1509,23 @@ function createTag($tag,$force=false,$msg=false){
 			else
 				$imagen=$config->img_server_path.'img/templates/'.$tag['fondoTag'];
 			// $imagen=(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
-			$img=imagecreatefromany($imagen);
-			if($img){
-				$is=getimagesize($imagen);
+			// $img=imagecreatefromany($imagen);
+			$is=@getimagesize(RELPATH.$imagen);
+			if($is[0]>0){
+				$img=WideImage::load(RELPATH.$imagen);
+				$img->resizeDown(650);
 				$dy=intval((TAGHEIGHT-$is[1])/2);
 				while($dy>0) $dy-=$is[1];
 				do{
 					$dx=$is[0]>TAGWIDTH?intval((TAGWIDTH-$is[0])/2):0;
 					do{
-						imagecopy($im,$img,$dx,$dy,0,0,$is[0],$is[1]);
+						imagecopy($im,$img->getHandle(),$dx,$dy,0,0,$is[0],$is[1]);
 						$dx+=$is[0];
 					}while($dx<TAGWIDTH);
 					$dy+=$is[1];
 				}while($dy<TAGHEIGHT);
-				imagedestroy($img);
+				// imagedestroy($img);
+				$img->destroy();
 			}
 			//Bordes redondeados
 			$cr=25;//radio de la curva
@@ -1651,7 +1668,7 @@ function createTag($tag,$force=false,$msg=false){
 	}elseif($msg) echo '<br/>ya existe la imagen '.$photo;
 	//FIN - creacion de la imagen de la tag
 	//creamos la miniatura si no existe
-	if(!fileExistsRemote($_path.$photompath)||$force){
+	if(!fileExists($_path.$photompath)||$force){
 		if(!$debug){//si estamos en debug no se guarda
 			$phototmp=RELPATH.$path.'/'.$tmpFile.'.png';
 			imagepng($im,$phototmp);
@@ -1710,13 +1727,12 @@ function getTagQuery($extra=''){ //t=tag,p=product,u=user(owner)
 	';
 }
 function imagecreatefromany($imagen){
-	if(!fileExistsRemote($imagen)){
+	if(!fileExists($imagen)){
 		if(isset($_GET['debug'])) echo '<br/>No existe '.$imagen;
 		return false;
 	}
 	$type=getimagesize($imagen);
 	$type=$type[2];
-
 	//$type:1=gif,2=jpg,3=png
 	if($type==1) return imagecreatefromgif ($imagen);
 	if($type==2) return imagecreatefromjpeg($imagen);

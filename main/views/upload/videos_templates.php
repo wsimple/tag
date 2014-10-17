@@ -253,11 +253,11 @@
 		<!-- The table listing the files available for upload/download -->
 		<div role="presentation" class="files"></div>
 	</form>
-	<div id="videoLink" class="dnone">
+	<div id="videoLink" class="dnone" role="presentation">
 		<label style="font-weight: bold;font-size: 13px;"><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
 		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://" value="<?=$tipovideo!='local'&&$tipovideo!=''?$video:''?>"/>
 		<button class="btn btn-danger delete" style="display:none;"><i class="glyphicon glyphicon-trash"></i></button>
-		<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
+		<div id="loadPreview" class="tag-container" style="width: 100%;height: auto;"></div>
 		<div class="dnone files"><div></div></div>
 	</div>
 	<form id="imageList" class="dnone"  method="POST" enctype="multipart/form-data">
@@ -294,9 +294,10 @@ $(function(){
 		if(this.dataset.container=='#videoLink') $('#txtVideo').focus();
 	});
 
-	var all_supported=/(\.|\/)(jpe?g|gif|png|mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i,
-		img_supported=/(\.|\/)(jpe?g|gif|png)$/i,
-		only_views={dropZone:null},
+	window.all_supported=/(\.|\/)(jpe?g|gif|png|mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i;
+	window.vid_supported=/(\.|\/)(mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i;
+	window.img_supported=/(\.|\/)(jpe?g|gif|png)$/i;
+	var only_views={dropZone:null},
 		video={
 			url:'<?=$setting->video_server?>',
 			data:{code:'<?=$client->code?>'},
@@ -304,7 +305,7 @@ $(function(){
 		},
 		img={
 			url:'<?=$setting->img_server?>',
-			data:{code:'<?=$client->code?>',folder:'templates'},
+			data:{code:'<?=$client->code?>',folder:'templates',maxwidth:650},
 		};
 	//File upload form
 	$('#fileupload').fileupload({
@@ -388,8 +389,8 @@ $(function(){
 		}
 	});
 
-	$('.upload-panel [role="presentation"]').off('.videostart').on('click.videostart','.download.video .start',function(){
-		var video=$('#htxtVideo')[0],uploaded=$(this).parents('#fileupload').length,that=this,data,ajax=false;
+	$('.upload-panel [role="presentation"]').off('.videostart').on('click.videostart','.video .start',function(){
+		var video=$('#htxtVideo')[0],uploaded=$(this).parents('#fileupload').length,that=this,data,ajax=false,noactionDialog=false;
 		$(that).prop('disabled',true);
 		setTimeout(function(){
 			$(that).prop('disabled',false);
@@ -428,19 +429,30 @@ $(function(){
 				}
 			});
 		}else{
-			if(video) video.value=that.dataset.code+'/'+that.dataset.name;
-			var html=htmlVideo(that.dataset.url,that.dataset.type,null,true);
+			var pre=''; 
+			if (that.dataset.type=='youtube' || that.dataset.type=='vimeo'){
+				console.log('here');
+				if(video) video.value=that.dataset.set;
+				noactionDialog=true;
+				pre=that.dataset.pre;
+			}else{
+				pre=that.dataset.url;
+				if(video) video.value=that.dataset.code+'/'+that.dataset.name;
+			} 
+			var html=htmlVideo(pre,that.dataset.type,null,true);
 			if (html!='') $('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div></div>');
 			iniallYoutube();
 		}
-		var $dialog=$('.ui-dialog-content');
-		if($dialog.length){
-			$('.upload-panel [role="presentation"]').off('.videostart');
-			$dialog.dialog('close');
-		}else if(!ajax){
-			setTimeout(function(){
-				$(that).prop('disabled',false);
-			},2000);
+		if (!noactionDialog){
+			var $dialog=$('.ui-dialog-content');
+			if($dialog.length){
+				$('.upload-panel [role="presentation"]').off('.videostart');
+				$dialog.dialog('close');
+			}else if(!ajax){
+				setTimeout(function(){
+					$(that).prop('disabled',false);
+				},2000);
+			}
 		}
 	});
 
@@ -515,7 +527,7 @@ $(function(){
 {% for(var i=0,file;file=o.files[i];i++){ %}
 	<div class="template-upload template upload fade">
 		<div>
-			{% if(!file.type.match(/(\.|\/)(jpe?g|gif|png)$/i)){ %}
+			{% if(!file.type.match(window.img_supported)){ %}
 				<div class="video_format"><span>{%=file.name.split('.').pop()%}</span></div>
 			{% } %}
 			<span class="preview"></span>
@@ -544,7 +556,7 @@ $(function(){
 <script id="template-download" type="text/x-tmpl">
 {%
 o.get=function(name){
-	if(name.match(/(\.|\/)(jpe?g|gif|png)$/i)){
+	if(name.match(window.img_supported)){
 		return '&code=<?=$client->code?>&folder=templates';
 	}else{
 		return '&code=<?=$client->code?>';
@@ -552,8 +564,8 @@ o.get=function(name){
 };
 
 if(o.files) for(var i=0,file;file=o.files[i];i++){
-	file.type=file.name.match(/(\.|\/)(jpe?g|gif|png)$/i)?'img':(
-		file.name.match(/\.(mp4|m4v|mov|ogg|3gp|flv)$/i)?'video':''
+	file.type=file.name.match(window.img_supported)?'img':(
+		file.name.match(window.vid_supported)?'video':''
 	);
 	if(file.type!=''){
 %}

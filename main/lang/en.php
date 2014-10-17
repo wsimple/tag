@@ -11,6 +11,8 @@ $lang=array(
 	'EMAIL_CONTACTO'=>'contact@tagbum.com',
 	'EMAIL_NO_RESPONDA'=>'no-reply@tagbum.com',
 	'PERSONA_CONTACTO'=>'The team Tagbum',
+	#js
+	'JS_CONFIRM_REMOVE_TAG_ITEM' => "Remove this item will damage any tag that use it.\n Are you sure you want to remove it?",
 	#otras variables
 	'HREF_DEFAULT' => 'javascript:void(0)',
 	'TITLE' => "Tagbum.com - It's Time",

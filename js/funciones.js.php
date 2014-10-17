@@ -22,7 +22,15 @@ function pageAction(action,data){
 		case 'banner'	:window.open(data,'_blank');break;
 		case 'logout'	:if(isLogged()) logout();break;
 		case 'profile'	:userProfile(opc[1]||'<?=js_string($lang["USERPROFILE_PERSONALINFO"])?>',opc[0]);break;
-		case 'comment'	:commentTag(opc[1],opc[0]);break;
+		case 'tag/comment':case 'comment':
+			if($.debug.isEnabled('video/src')){
+				$(this).parents('[tag]').find('video').each(function(index,el){
+					this.pause();
+					this.src="";
+				});
+			}
+			commentTag(opc[1],opc[0]);
+		break;
 		case 'video'	:openVideo(this);break;
 		case 'videoc'	:closeVideo(this);break;
 		case 'card'		:message('messages','<?=js_string($lang["USERPROFILE_TITLEBUSINESSCARD"])?>','','',450,300,DOMINIO+'views/users/account/business_card/businessCard_dialog.view.php?bc='+data,'');break;
@@ -45,47 +53,6 @@ function pageAction(action,data){
 				$('#bckSelected').css('background-image','url('+this.dataset.url+')');
 				var $dialog=$(this).parents('.ui-dialog-content');
 				if($dialog.length) $dialog.dialog('close');
-			}
-		break;
-		case 'tag/videoSelect':
-			var video=$('#htxtVideo')[0];
-			$.debug().log('videoSelect',video);
-			if(video){
-				if(!opc[1]){
-					video.value=this.dataset.set;
-					var html=htmlVideo(this.dataset.pre,this.dataset.type,null,true);
-					if (html!='') $('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div></div>');
-					iniallYoutube();
-				}else{
-					$('#preVideTags').html('<div class="messageNoResultSearch more" style="text-align:center;"><img src="css/smt/loader.gif" width="32" height="32" class="loader"><br/> <?=$lang["PROCESSINGYOURVIDEO"]?></div>');
-					$.ajax({
-						disablebuttons:true,
-						url:LOCAL?'video/test/1':SERVERS.video+'?convert',
-						dataType:'json',
-						type:'post',
-						data:{code:this.dataset.code,file:this.dataset.name},
-						success:function(data){
-							if (!data.error){
-								video.value=data.video;
-								var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='',first;
-								for(var i=0,capture;capture=data.captures[i];i++){
-									if(!first) first=capture;
-									captures=captures+'<div class="option-cap" data-src="videos/'+capture+'" style="background-image:url(\''+SERVERS.video+'videos/'+capture+'\')"></div>';
-								}
-								if(captures!=''){
-									captures='<div class="clearfix"></div><div class="select-capture">'+captures+'</div><div class="clearfix"></div>';
-									$('#bckSelected').css('background-image','url('+SERVERS.video+'videos/'+first+')');
-									$('#imgTemplate')[0].value=first;
-								}
-								if(html!='') $('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div>'+captures+'</div>');
-							}
-						}
-					});
-				}
-				if(data){
-					var $dialog=$('.ui-dialog-content');
-					if($dialog.length) $dialog.dialog('close');
-				}
 			}
 		break;
 		case 'redeemPoinst':message('messages','<?=$lang["MNUUSER_REDEEMPOINTS"]?>','<div class="font_size5"><div><?=$lang["MAINMENU_POINTS_1"]?></div></div>','',430,190,'');
@@ -607,12 +574,35 @@ function htmlVideo(data,type,url,del){
 		break;
 		case 'vimeo': video='<iframe src="'+data+'" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';break;
 		case 'local':
-			video='<video id="v'+Math.random()+'" controls="controls" ><source src="'+data+'" type="video/mp4" /></video>';
+			video=$.debug.isEnabled('video')&&navigator.userAgent.match(/(chrome|opera|OPR)/i)?(
+			'<object id="f4Player" width="650" height="300" type="application/x-shockwave-flash" data="css/player.swf?v1.3.5">'+
+				'<param name="movie" value="css/player.swf?v1.3.5"/>'+
+				'<param name="quality" value="high"/>'+
+				'<param name="menu" value="false"/>'+
+				'<param name="scale" value="noscale"/>'+
+				'<param name="allowfullscreen" value="true"/>'+
+				'<param name="allowscriptaccess" value="always"/>'+
+				'<param name="cachebusting" value="true"/>'+
+				'<param name="flashvars" value="skin=css/skin.swf&video='+data+'"/>'+
+				// '<a href="http://www.adobe.com/go/flashplayer/">Download it from Adobe.</a>'+
+				// '<a href="http://gokercebeci.com/dev/f4player" title="flv player">flv player</a>'+
+			'</object>'
+			// '<object type="application/x-shockwave-flash" data="css/smp10.1.swf" width="650" height="300">'+
+			// 	'<param name="movie" value="css/smp10.1.swf"/>'+
+			// 	'<param name="allowFullScreen" value="true"/>'+
+			// 	'<param name="allowscriptaccess" value="always"/>'+
+			// 	'<param name="playButtonOverlay" value="true"/>'+
+			// 	'<param name="wmode" value="transparent"/>'+
+			// 	'<param name="flashVars" value="src='+data+
+			// 		'&playButtonOverlay=true&controlBarAutoHide=false"/>'+
+			// 	//'<img alt="Big Buck Bunny" src="http://sandbox.thewikies.com/vfe-generator/images/big-buck-bunny_poster.jpg" width="640" height="360" title="No video playback capabilities, please download the video below" />'+
+			// '</object>'
+			):'<video id="v'+Math.random()+'" controls preload="metadata"><source src="'+data+'" type="video/mp4"/></video>';
 		break;
 	}
 	if(video!=''){
 		extras='';
-		if(url) extras='<button action="tag/videoSelect" class="btn btn-primary start invisible" data-set="'+url+'" data-type="'+type+'" data-pre="'+data+'"><i class="glyphicon glyphicon-upload"></i></button>';
+		if(url) extras='<button class="btn btn-primary start invisible" data-set="'+url+'" data-type="'+type+'" data-pre="'+data+'"><i class="glyphicon glyphicon-upload"></i></button>';
 		if(del) extras+='<button class="btn btn-danger delete fright"><i class="glyphicon glyphicon-trash"></i></button>';
 		video='<div class="video"><div class="placa"></div>'+extras+video+'</div>';
 	}
