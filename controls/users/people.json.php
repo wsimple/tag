@@ -7,11 +7,12 @@ switch ($_GET['action']) {
 		if (!isset($_GET['mod'])) $_GET['mod']='friends';
 		if (!isset($_GET['limit'])) $_GET['limit']=0;
 		$numAction=1;
+		$coi=isset($_GET['code'])?"md5(concat(id,'_', email,'_',id))":"md5(id)";
 		if (!isset($_POST['uid']))	$uid=$myId;
-		else $uid=CON::getVal("SELECT id FROM users WHERE md5(id)=?",array($_POST['uid']));
+		else $uid=CON::getVal("SELECT id FROM users WHERE $coi=?",array($_POST['uid']));
 		if (!$uid) die(jsonp(array('error'=>'noIdValid')));
 		$res['id']=$uid;
-		if (!isset($_GET['nolimit'])) $array['limit']='LIMIT '.$_GET['limit'].',30';
+		// if (!isset($_GET['nolimit'])) $array['limit']='LIMIT '.$_GET['limit'].',30';
 		$array['select']=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend,
 						IF(u.id='.$myId.',1,0) AS iAm,
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
@@ -53,7 +54,7 @@ switch ($_GET['action']) {
 		}
 		if (!isset($res['num'])) $res['num']=CON::numRows(CON::query("SELECT ul.id_user FROM users_links ul WHERE ".$array['where']));
 		$html='';
-		if ($res['num']>0){ $query=peoples($array); $res['ulti']=CON::lastSql(); } 
+		if ($res['num']>0){ $query=peoples($array);  } 
 		elseif(!isset($_GET['nosugg'])){
 			$array['order']='ORDER BY RAND()';
 			$array['join']='';
@@ -66,10 +67,12 @@ switch ($_GET['action']) {
 		}
 		$info=array();
 		while ($row=CON::fetchAssoc($query)){
+			$row['name_user']=formatoCadena($row['name_user']);
+			$row['photo_friend']=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend'],'img/users/default.png');
 			$info[]=$row;
 			if (isset($_GET['withHtml'])) $html.=htmlfriends($row,$numAction);
 		}
-		$res['dato']=$info;
+		$res['datos']=$info;
 		if ($html!='') $res['html']=$html;
 	break;
 	case 'usersLikesTags':
@@ -93,20 +96,21 @@ switch ($_GET['action']) {
 				$array['where']=safe_sql(' md5(lk.id_raffle)=?',array(intToMd5($_GET['s'])));
 			break;
 		}
-		$query=peoples($array); $res['ulti']=CON::lastSql();
+		$query=peoples($array); 
 		$info=array();
 		while ($row=CON::fetchAssoc($query)){
+			$row['photo_friend']=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend'],'img/users/default.png');
 			$info[]=$row;
 			if (isset($_GET['withHtml'])) $html.=htmlfriends($row,$numAction);
 		}
-		$res['dato']=$info;
+		$res['datos']=$info;
 		if ($html!='') $res['html']=$html;
 	break;
 }
 die(jsonp($res));
 
 function htmlfriends($row,$numAction=1){
-	$foto=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend'],'img/users/default.png');
+	$foto=$row['photo_friend'];
 	$width=!isset($_GET['w'])?'width:450px;':'width:'.$_GET['w'].'px;';
 	$body='<div class="divYourFriends thisPeople">
 		<div style="float:left; width:80px; cursor:pointer;">

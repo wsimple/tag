@@ -71,9 +71,7 @@
 		<div><?=LEFTSIDE_NOHAVE_TRENDINGS_TOPINGS ?></div>
 	<?php endif; ?>
 </article>
-<?php if ($section!='news'){ 
-	require('views/news/news.php');
-?>
+<?php if ($section!='news'){  require('views/news/news.php'); ?>
 <article id="adsListPubli" class="side-box news">
 	<header><span><?=MAINMNU_NEWS_TITLE?></span></header>
 	<table width="155" border="0" align="left" cellpadding="0" cellspacing="0" class="tableNews" id="info-container">

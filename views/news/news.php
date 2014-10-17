@@ -1,5 +1,5 @@
 <?php 
-$disble=($section!='news')?'style="display:none;width:0px;height:0px"':''; ?>
+$disble=($section='news')?'style="display:none;width:0px;height:0px"':''; ?>
 <div class="ui-single-box mini" id="pageNews" <?php echo $disble; ?> >
     <div class="ui-single-box-title limitTitle"><?=MAINMNU_NEWS_TITLE?></div>
     <div class="news-wrapper">
@@ -15,12 +15,10 @@ $(function() {
 	$.on({
         open:function(){
 			//news
-			var opc={
-					layer:'#noticeInsertTop',
-					get:''
-				};
+			var opc={ layer:'#noticeInsertTop', get:'' };
 			if (SECTION=='news'){ opc.get='&all=1'; }
-			$('.store-wrapper .mainMenu a').css('margin-bottom:','0px');$('aside').css('display','block');
+			$('.store-wrapper .mainMenu a').css('margin-bottom:','0px');
+			
 			//event handlers
 			var  interval,clearEvents=function(){
 					clearInterval(interval);
@@ -36,7 +34,6 @@ $(function() {
 			}
 			getNews('reload',opc);
 			//fin-news
-
 			// FUNCIONES NECESARIAS
 	        function newsFormat(d){
 	        	if (SECTION!='news')
@@ -105,7 +102,7 @@ $(function() {
 						},
 						success	: function(data){
 	                        eval(data.txtFormat);
-	                        if(data['info'] && data['info'].length>0){
+	                        if(data['info']){
 								var i,out='',info,txt,len,type,clase='';
 								opc.date=data['fecha'];
 								len=data['info'].length;

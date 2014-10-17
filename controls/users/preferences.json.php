@@ -1,228 +1,91 @@
-<?php
+<?php 
 include '../header.json.php';
+if (($myId=='' && !isset($_GET['eprofi'])) || !isset($_GET['action'])) die(jsonp(array()));
+$res=array();
+switch ($_GET['action']) {
+	case 'up':		
+		if (isset($_GET['code'])){
+			$id_user=CON::getVal("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id))=?",array($_GET['code']));
+			if (!$id_user) die(jsonp(array()));
+			for ($i=1;$i<4;$i++){
+				$pre=CON::getArray("SELECT DISTINCT md5(id) AS id, detail FROM preference_details WHERE detail IN ('".str_replace(",","','",str_replace("'","\'",$_POST['preference_'.$i]))."') GROUP BY detail");
+				$datos=array();
+				$dato=explode(',',$_POST['preference_'.$i]);
 
-if (quitar_inyect()){
-	$arrayPrefe=array();
-	$users=$GLOBALS['cn']->query("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id)) = '".$_GET['code']."'");
-	$user=mysql_fetch_assoc($users);
-
-	$id_user=$user[id];
-
-	//todas las preferencias
-	switch($_GET[action]){
-		//listado
-		case '1':
-			//ids preferences user
-			$notIn = '';
-				$arrayIdsPrefe = userPreferencesIds($_GET[type], $id_user);
-
-			if(count($arrayIdsPrefe)>0){
-				foreach ($arrayIdsPrefe as $key){
-					if ($key!='')
-						$notIn .= "'".$key."',";
-				}
-			}
-
-			//query preferences
-			$where = '';
-			if (trim($_GET['txt'])!='' && $notIn!=''){
-				$where = " WHERE b.id_preference = '".$_GET[type]."' AND b.detail LIKE '%".$_GET['txt']."%' AND b.id NOT IN (".rtrim($notIn,',').") ";
-			}elseif(trim($_GET['txt'])!='' && $notIn==''){
-				$where = " WHERE b.id_preference = '".$_GET[type]."' AND b.detail LIKE '%".$_GET['txt']."%' ";
-			}elseif(trim($_GET['txt'])=='' && $notIn!=''){
-				$where = " WHERE b.id_preference = '".$_GET[type]."' AND b.id NOT IN (".rtrim($notIn,',').") ";
-			}elseif(trim($_GET['txt'])=='' && $notIn==''){
-				$where = " WHERE b.id_preference = '".$_GET[type]."' ";
-			}
-
-			$preferences = $GLOBALS['cn']->query("
-				SELECT b.id AS id,
-					a.id AS id_prefe,
-					b.detail AS detail
-				FROM preferences a INNER JOIN preference_details b ON a.id = b.id_preference
-				$where
-				ORDER BY b.detail
-				LIMIT 0 , 50
-			");
-
-			$i=0;
-			while ($prefe = mysql_fetch_assoc($preferences)){
-
-				if (trim($prefe['detail'])!='' && $prefe['id']!=''){
-					$arrayPrefe[$i]['id']=$prefe['id'];
-					$arrayPrefe[$i]['id_prefe']=$prefe['id_prefe'];
-					$arrayPrefe[$i++]['detail']=htmlentities(formatoCadena($prefe['detail']));
-				}//if
-			}//while
-			
-			$out = '';
-		break;
-		//update
-		case '2':
-			//seleccionamos las preferencias introducidas
-			$imput = explode(',', $_GET[imput]);
-
-			foreach ($imput as $value){
-				$value = trim($value);
-
-				if ($value!=''){
-
-					$exists = $GLOBALS['cn']->query("
-						SELECT id
-						FROM preference_details
-						WHERE detail LIKE '%".$value."%'
-					");
-
-					if (mysql_num_rows($exists)==0){
-						$arrayPreferences[] = trim($value);
-					}else{
-						$exist = mysql_fetch_assoc($exists);
-						$arrayPreferences[] = trim($exist[id]);
-					}//existe
-
-				}//value != ''
-			}//foreach
-
-			//seleccionamos las preferencias del usuarios
-			$preferences = $GLOBALS['cn']->query("
-				SELECT id_user, id_preference, preference
-				FROM users_preferences
-				WHERE id_preference = '".$_GET[type]."' AND id_user = '".$id_user."'
-			");
-
-			$prefe = mysql_fetch_assoc($preferences);
-			$str_preferences = '';
-
-			foreach ($arrayPreferences as $i){
-				$i = trim($i);
-				if ($i!=''){
-					$prefe['preference'] = str_replace($i, '', $prefe['preference']);
-					$str_preferences .= $i.',';
-				}
-			}
-
-			//armamos la cadena de preferencias a guardar
-			$str_preferences = $str_preferences.','.$prefe['preference'];
-			$arrayStr = explode(',', $str_preferences);
-			$str_preferences = '';
-			foreach($arrayStr as $i){
-				if (trim($i)!='')
-					$str_preferences .= $i.',';
-			}
-
-			//update
-			$exists = $GLOBALS['cn']->query("
-				SELECT id_preference
-				FROM users_preferences
-				WHERE id_preference = '".$_GET[type]."' AND id_user = '".$id_user."'
-			");
-
-			if(mysql_num_rows($exists)==0){
-				$GLOBALS['cn']->query("
-					INSERT INTO users_preferences SET
-						preference = '".rtrim($str_preferences,',')."',
-						id_preference = '".$_GET[type]."',
-						id_user = '".$id_user."'
-				");
-			}else{
-				$GLOBALS['cn']->query("
-					UPDATE users_preferences SET preference = '".rtrim($str_preferences,',')."'
-					WHERE id_preference = '".$_GET[type]."' AND id_user = '".$id_user."'
-				");
-			}
-
-			$out = 1;
-
-		break;
-		//listar preferencias del usuario
-		case '3':
-			//$arrayPrefe = array();
-			$preferences = $GLOBALS['cn']->query("
-				SELECT id_user, id_preference, preference
-				FROM users_preferences
-				WHERE id_user = '".$id_user."'
-				ORDER BY id_preference
-			");
-			while($prefe=mysql_fetch_assoc($preferences)){
-				$prex=explode(',',$prefe['preference']);
-				for($i=0;$i<count($prex);$i++){
-					if(trim($prex[$i])!=''){
-						$query = $GLOBALS['cn']->query("
-							SELECT id, detail
-							FROM preference_details
-							WHERE id = '".$prex[$i]."'
-						");
-						if (mysql_num_rows($query)>0){
-							$array=mysql_fetch_assoc($query);
-							$arrayPrefe['id_layer']='myPrefe_'.$array['id'];
-							$arrayPrefe['type']=$prefe['id_preference'];
-							$arrayPrefe['detail']=$array['detail'];
-						}elseif(mysql_num_rows($query)==0){
-							$arrayPrefe['id_layer']='myPrefe_'.str_replace(' ', '_',$prex[$i]);
-							$arrayPrefe['type']=$prefe['id_preference'];
-							$arrayPrefe['detail']=$prex[$i];
+				$_POST['preference_'.$i]=array();
+				foreach ($dato as $key => $value) { $band=false;
+					foreach ($pre as $subpre) 
+						if ($subpre['detail']==$value){
+							$_POST['preference_'.$i][]=$subpre['id'];
+							$band=true;
 						}
-					}//if trim($prex[$i])!=''
-				}//for
-			}//while users preferences
-			$out = '';
-		break;
-
-		//delete
-		case '4':
-			//datos de la preferencia a borrar
-			$prefe=$GLOBALS['cn']->queryRow("
-				SELECT id_user, id_preference, preference
-				FROM users_preferences
-				WHERE id_user = '".$id_user."' AND id_preference = '".$_GET[type]."'
-				ORDER BY id_preference
-			");
-
-			//seleccion de criterio a borrar
-			$query = $GLOBALS['cn']->query("
-				SELECT id, detail
-				FROM preference_details
-				WHERE id = '".$_GET[p]."'
-			");
-
-			if (mysql_num_rows($query)>0){
-				$array = mysql_fetch_assoc($query);
-				$str = $array[id];
-			}elseif(mysql_num_rows($query)==0){
-				$str = $_GET[detail];
+					if (!$band) $_POST['preference_'.$i][]=$value;
+				}
 			}
-
-			$prefe[preference] = str_replace($str,'',$prefe[preference]);
-			$prex = explode(',',$prefe[preference]);
-
-			//armando cadena para actualizar la preferencia en cuestion
-			for($i=0;$i<count($prex);$i++){
-				if($prex[$i]!='')
-					$str_preferences.=$prex[$i].',';
-
+		}else	$id_user=$myId;
+		CON::delete('users_preferences','id_user=? AND id_preference IN (1,2,3)',array($id_user));
+		CON::insert('users_preferences','id_user=?,id_preference=1,preference=?',array($id_user,@implode(',',$_POST['preference_1'])));
+		CON::insert('users_preferences','id_user=?,id_preference=2,preference=?',array($id_user,@implode(',',$_POST['preference_2'])));
+		CON::insert('users_preferences','id_user=?,id_preference=3,preference=?',array($id_user,@implode(',',$_POST['preference_3'])));
+		if (CON::exist("users_preferences","id_user=? LIMIT 1",array($myId))) $res['insert']=true;
+		else $res['insert']=false;
+	break;
+	case 'add':
+		if (!isset($_GET['type']) || !isset($_GET['p'])) die(jsonp(array()));
+		if (isset($_GET['code'])){
+			$id_user=CON::getVal("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id))=?",array($_GET['code']));
+			if (!$id_user) die(jsonp(array()));
+		}else	$id_user=$myId;
+		if (!CON::exist('users_preferences','id_user=? AND id_preference=? AND preference LIKE "%??%"',array($id_user,$_GET['type'],$_GET['p']))){
+			CON::update('users_preferences',"preference= CONCAT(preference,',',?)","id_user=? AND id_preference=?",array($_GET['p'],$id_user,$_GET['type']));	
+		}
+		$res['update']=true;
+	break;
+	case 'del':
+		if (!isset($_GET['type']) || !isset($_GET['p'])) die(jsonp(array()));
+		if (isset($_GET['code'])){
+			$id_user=CON::getVal("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id))=?",array($_GET['code']));
+			if (!$id_user) die(jsonp(array()));
+		}else	$id_user=$myId;
+		$prefe=CON::getVal("SELECT preference FROM users_preferences WHERE id_user=? AND id_preference=? AND preference LIKE '%??%'",array($id_user,$_GET['type'],$_GET['p']));
+		if ($prefe){
+			CON::update('users_preferences',"preference=?","id_user=? AND id_preference=?",array(str_replace(",,",",",str_replace($_GET['p'],"",$prefe)),$id_user,$_GET['type']));	
+		}
+		$res['update']=true;
+	break;
+	case 'sr': 
+		if (!isset($_GET['term'])) die(jsonp(array()));
+		$datos=explode(' ',$_GET['term']);$where='';
+		foreach ($datos as $key) 
+			$where.=($where!=''?' AND ':'').safe_sql('detail LIKE "%??%"',array($key));
+		$query=CON::query("SELECT md5(id) AS id, detail FROM preference_details WHERE $where");
+		while($row=CON::fetchAssoc($query))
+			$res[]=(object)array('id'=>$row['id'],'text'=>$row['detail']);
+	break;
+	default:
+		if (isset($_GET['code'])){
+			$id_user=CON::getVal("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id))=?",array($_GET['code']));
+			if (!$id_user) die(jsonp(array()));
+		}else	$id_user=isset($_GET['u'])?$_GET['u']:$myId;
+		$where=isset($_GET['type'])?safe_sql(' AND id_preference=?',array($_GET['type'])):'';
+		$preferences=CON::query("SELECT * FROM users_preferences WHERE md5(id_user)=?".$where,array(intToMd5($id_user)));
+		$res['dato']=array();
+		while ($row=CON::fetchAssoc($preferences)) {
+			$pre=CON::getArray("SELECT md5(id) AS id, detail FROM preference_details WHERE md5(id) IN ('".str_replace(",","','",$row['preference'])."')");
+			$datos=array();
+			$dato=explode(',',$row['preference']);
+			foreach ($dato as $key => $value) { $band=false;
+				foreach ($pre as $subpre) {
+					if ($subpre['id']==$value){
+						$datos[]=(object)array('id'=>$subpre['id'],'text'=>$subpre['detail']);
+						$band=true;
+					}
+				}
+				if (!$band) $datos[]=(object)array('id'=>$value,'text'=>$value);
 			}
-
-			//update
-			$str_preferences = rtrim($str_preferences,',');
-			if (trim($str_preferences)!=''){
-				$GLOBALS['cn']->query("
-					UPDATE users_preferences SET preference='".$str_preferences."'
-					WHERE id_user='".$id_user."' AND id_preference='".$_GET[type]."'
-				");
-			}else{
-				$GLOBALS['cn']->query("
-					DELETE FROM users_preferences
-					WHERE id_user = '".$id_user."' AND id_preference='".$_GET[type]."'
-				");
-			}
-
-			$out=$_GET[type].' | '.$str.' | '.rtrim($str_preferences,',');
-		break;
-	}
-
-	die(jsonp(array(
-		'preferences' => $arrayPrefe,
-		'out'	=> ''//$out
-	)));
+			$res['dato'][$row['id_preference']]=$datos;
+		}
+	break;
 }
+die(jsonp($res));
 ?>
