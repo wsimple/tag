@@ -1508,11 +1508,13 @@ function createTag($tag,$force=false,$msg=false){
 				$imagen=$config->video_server_path.'videos/'.$tag['fondoTag'];
 			else
 				$imagen=$config->img_server_path.'img/templates/'.$tag['fondoTag'];
+			if ($config->local) $imagen=RELPATH.$imagen;
+
 			// $imagen=(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
 			// $img=imagecreatefromany($imagen);
-			$is=@getimagesize(RELPATH.$imagen);
+			$is=@getimagesize($imagen);
 			if($is[0]>0){
-				$img=WideImage::load(RELPATH.$imagen);
+				$img=WideImage::load($imagen);
 				$img->resizeDown(650);
 				$dy=intval((TAGHEIGHT-$is[1])/2);
 				while($dy>0) $dy-=$is[1];
