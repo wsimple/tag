@@ -253,11 +253,11 @@
 		<!-- The table listing the files available for upload/download -->
 		<div role="presentation" class="files"></div>
 	</form>
-	<div id="videoLink" class="dnone">
+	<div id="videoLink" class="dnone" role="presentation">
 		<label style="font-weight: bold;font-size: 13px;"><?=$lang->get('Video Link')?>:</label>&nbsp;&nbsp;
 		<input type="text" style="width: 430px" id="txtVideo" placeholder="http://" value="<?=$tipovideo!='local'&&$tipovideo!=''?$video:''?>"/>
 		<button class="btn btn-danger delete" style="display:none;"><i class="glyphicon glyphicon-trash"></i></button>
-		<div id="loadPreview" class="tag-container" style="width: auto;height: auto;"></div>
+		<div id="loadPreview" class="tag-container" style="width: 100%;height: auto;"></div>
 		<div class="dnone files"><div></div></div>
 	</div>
 	<form id="imageList" class="dnone"  method="POST" enctype="multipart/form-data">
@@ -389,8 +389,8 @@ $(function(){
 		}
 	});
 
-	$('.upload-panel [role="presentation"]').off('.videostart').on('click.videostart','.download.video .start',function(){
-		var video=$('#htxtVideo')[0],uploaded=$(this).parents('#fileupload').length,that=this,data,ajax=false;
+	$('.upload-panel [role="presentation"]').off('.videostart').on('click.videostart','.video .start',function(){
+		var video=$('#htxtVideo')[0],uploaded=$(this).parents('#fileupload').length,that=this,data,ajax=false,noactionDialog=false;
 		$(that).prop('disabled',true);
 		setTimeout(function(){
 			$(that).prop('disabled',false);
@@ -429,19 +429,30 @@ $(function(){
 				}
 			});
 		}else{
-			if(video) video.value=that.dataset.code+'/'+that.dataset.name;
-			var html=htmlVideo(that.dataset.url,that.dataset.type,null,true);
+			var pre=''; 
+			if (that.dataset.type=='youtube' || that.dataset.type=='vimeo'){
+				console.log('here');
+				if(video) video.value=that.dataset.set;
+				noactionDialog=true;
+				pre=that.dataset.pre;
+			}else{
+				pre=that.dataset.url;
+				if(video) video.value=that.dataset.code+'/'+that.dataset.name;
+			} 
+			var html=htmlVideo(pre,that.dataset.type,null,true);
 			if (html!='') $('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div></div>');
 			iniallYoutube();
 		}
-		var $dialog=$('.ui-dialog-content');
-		if($dialog.length){
-			$('.upload-panel [role="presentation"]').off('.videostart');
-			$dialog.dialog('close');
-		}else if(!ajax){
-			setTimeout(function(){
-				$(that).prop('disabled',false);
-			},2000);
+		if (!noactionDialog){
+			var $dialog=$('.ui-dialog-content');
+			if($dialog.length){
+				$('.upload-panel [role="presentation"]').off('.videostart');
+				$dialog.dialog('close');
+			}else if(!ajax){
+				setTimeout(function(){
+					$(that).prop('disabled',false);
+				},2000);
+			}
 		}
 	});
 
