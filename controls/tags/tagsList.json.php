@@ -385,11 +385,11 @@ function tagsList_json($data,$mobile=false){
             }
 			$tag['hashExCurrent']=$exCurrenHash;
 			$tag['video']=trim($tag['video']);
+			$headers=apache_request_headers();
 			$validaVideo=new Video();
 			if ($tag['video']!='') $_GET['thisvideo']=$tag['video'];
 			else unset($_GET['thisvideo']);
-			$validaVideo=$validaVideo->validate(0,0,1,$mobile,$config);
-			// array('success'=>$success,'urlV'=>$url,'type'=>$type,'test'=>$test)
+			$validaVideo=$validaVideo->validate(0,0,1,($_POST['CROSSDOMAIN']||$headers['SOURCEFORMAT']=='mobile'),$config);
 			if ($validaVideo['success']){
 				$tag['typeVideo']=$validaVideo['type'];
 				$tag['video']=$validaVideo['urlV'];

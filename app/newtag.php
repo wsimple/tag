@@ -295,45 +295,47 @@
 				});
 				var img64;
                 if(CORDOVA){
-    				var cam=Camera,
-    					photoData={
-    						targetWidth:650,
-    						quality:60,
-    						destinationType:cam.DestinationType.DATA_URL
-    					},
-    					onPhotoSuccess=function(data){
-    						if(!data.match(/^https?:\/\//i)){//no url = base64
-    							data='data:image/jpg;base64,'+data;
-    							img64=data;
-    						}
-    						$('#backgroundPreview').attr('src',data).fadeIn('slow');
-    					},
-    					onPhotoFail=function(message){
-    						//if(message!='no image selected') myDialog(message);
-    					},
-    					getPhoto=function(type){
-    						var data=$.extend({},photoData);
-    						switch(type){
-    							case 'editcam'://camara (editable)
-    								data.allowEdit=true;
-    							break;
-    							case 'lib':
-    								data.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
-    							break;
-    							case 'album':
-    								data.sourceType=cam.PictureSourceType.SAVEDPHOTOALBUM;
-    							break;
-    							case 'cam':break;//camara - default
-    						}
-    						try{
-    							navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
-    						}catch(e){
-    							myDialog('Error: '+e);
-    						}
-    					};
-    				$('#footerPicture').on('click','a[opc]',function(){
-    					getPhoto($(this).attr('opc'));
-    				});
+            		document.addEventListener('deviceready',function(){
+	    				var cam=Camera,
+	    					photoData={
+	    						targetWidth:650,
+	    						quality:60,
+	    						destinationType:cam.DestinationType.DATA_URL
+	    					},
+	    					onPhotoSuccess=function(data){
+	    						if(!data.match(/^https?:\/\//i)){//no url = base64
+	    							data='data:image/jpg;base64,'+data;
+	    							img64=data;
+	    						}
+	    						$('#backgroundPreview').attr('src',data).fadeIn('slow');
+	    					},
+	    					onPhotoFail=function(message){
+	    						//if(message!='no image selected') myDialog(message);
+	    					},
+	    					getPhoto=function(type){
+	    						var data=$.extend({},photoData);
+	    						switch(type){
+	    							case 'editcam'://camara (editable)
+	    								data.allowEdit=true;
+	    							break;
+	    							case 'lib':
+	    								data.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
+	    							break;
+	    							case 'album':
+	    								data.sourceType=cam.PictureSourceType.SAVEDPHOTOALBUM;
+	    							break;
+	    							case 'cam':break;//camara - default
+	    						}
+	    						try{
+	    							navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
+	    						}catch(e){
+	    							myDialog('Error: '+e);
+	    						}
+	    					};
+	    				$('#footerPicture').on('click','a[opc]',function(){
+	    					getPhoto($(this).attr('opc'));
+	    				});
+					},false);
                 }
 				function publish(){
 					var i,emails=[];

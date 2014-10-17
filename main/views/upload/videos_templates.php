@@ -138,6 +138,7 @@
 		-webkit-border-radius: 0.437em;
 		width: 10.1562em; height: 4.687em;
 	}*/
+	#loadPreview [tag], 
 	.upload-panel .video .tag-container [tag],
 	.upload-panel .tag-container [tag] .video{
 		-moz-border-radius: 0.437em;

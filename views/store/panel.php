@@ -3,10 +3,10 @@
 $numIt=createSessionCar('','','count');
 ?>
 <aside style="display: none;">
-	<div class="shoppingCart" style="display:none;">
+	<div class="shoppingCart" style="display: none;">
 		<div class="bgCart"></div>
 		<!--div class="textCart"><?=STORE_CART?></div-->
-		<div class="numCart" <?=$numIt!='' && $numIt!='0'?'style="display:inline-block;"':'style="display:none;"'?>><span><?=$numIt?></span></div>
+		<div class="numCart" <?=$numIt!='' && $numIt!='0'?'style="display:inline-block;"':'style="display: none;"'?>><span><?=$numIt?></span></div>
 	</div>
 	<div id="divSubMenuAdminPublications"></div>
 	<div id="divSubMenuAdminFilters"></div>
@@ -20,17 +20,6 @@ $numIt=createSessionCar('','','count');
 			<li><a id="allPStore" href=""><?=STORE_ALLPRODUCTS?></a></li>
 		</ul>
 	</article>
-<?php /*
-	<article class="side-box store-category">
-        <header><span><?=STORE_CATEGORIES?></span></header>
-        	<div class="menus">
-                <ul id="menuStore">
-                    <li><a id="allPStore" href=""><?=STORE_ALLPRODUCTS?></a></li>
-                </ul>
-            </div>
-    	</header>
-    </article>
-<?php /* */ ?>
 	<br/>
 	<div id="searchHashProduct"></div>
 </aside>

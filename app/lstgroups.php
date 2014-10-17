@@ -2,7 +2,6 @@
 <div id="page-lstGroups" data-role="page" data-cache="false" class="no-footer">
 	<div data-role="header" data-position="fixed" data-theme="f">
 		<h1 id="titleGroups">&nbsp;</h1>
-		<!--<a id="btnGroupCreated" href="#" onClick="manipulatePreferences('update', 2, 0, $('#typePre').val());" data-icon="check"></a>-->
 	</div><!-- header -->
 
 	<div data-role="content" class="list-content">
