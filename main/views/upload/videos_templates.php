@@ -304,7 +304,7 @@ $(function(){
 		},
 		img={
 			url:'<?=$setting->img_server?>',
-			data:{code:'<?=$client->code?>',folder:'templates'},
+			data:{code:'<?=$client->code?>',folder:'templates',maxwidth:650},
 		};
 	//File upload form
 	$('#fileupload').fileupload({
