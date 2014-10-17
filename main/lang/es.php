@@ -17,6 +17,9 @@ $lang=array(
 	'Login' => 'Iniciar sesión',
 	'Languages' => 'Idiomas',
 	#Upload de videos e imagenes
+	'img_video' => 'Imagen / Video',
+	'show_privacy' => 'Ver Privacidad',
+	'hide_privacy' => 'Ocultar Privacidad',
 	'Upload file' => 'Subir archivos',
 	'Backgrounds' => 'Fondos',
 	'My Backgrounds' => 'Mis Fondos',

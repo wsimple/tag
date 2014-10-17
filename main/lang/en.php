@@ -13,6 +13,10 @@ $lang=array(
 	'PERSONA_CONTACTO'=>'The team Tagbum',
 	#js
 	'JS_CONFIRM_REMOVE_TAG_ITEM' => "Remove this item will damage any tag that use it.\n Are you sure you want to remove it?",
+	#upload
+	'img_video' => 'Image / Video',
+	'show_privacy' => 'Show Privacy',
+	'hide_privacy' => 'Hide Privacy',
 	#otras variables
 	'HREF_DEFAULT' => 'javascript:void(0)',
 	'TITLE' => "Tagbum.com - It's Time",
