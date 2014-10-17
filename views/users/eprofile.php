@@ -37,11 +37,11 @@ $query = CON::query("
 		(SELECT s.label FROM sex s WHERE s.id=sex) AS sex,
 		followers_count,
 		friends_count,
-		(SELECT id_user FROM users_links WHERE id_friend=id AND md5(id_user)='".intToMd5($sid)."' LIMIT 1) as follower,
+		(SELECT id_user FROM users_links WHERE id_friend=id AND id_user=$sid LIMIT 1) as follower,
 		(SELECT count(id) FROM tags WHERE id_creator = ".$sid." AND id_user = id_creator AND status = 1) AS nTags
 	FROM users
 	WHERE $where ");
-
+echo CON::lastSql();
 if(CON::numRows($query)>0){
 	if(is_debug('user')) echo CON::lastSql();
 

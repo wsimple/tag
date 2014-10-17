@@ -34,7 +34,7 @@
 				layer	:layer,
 				idsearch:'1',
 				radiobtn:'.tags-size',
-				get		:'&hash=<?=$hash?>'
+				get		:"&hash=<?=$hash?>"
 			};
 			console.log('hast de tags = '+opc.hash);
 		var sizeTags='<?=$_SESSION['ws-tags']['ws-user']['view_type_timeline']==0?'normal':'mini'?>',interval,

@@ -22,15 +22,15 @@ $(function(){
 		open:function(){
 			$('.store-wrapper .mainMenu a').css('margin-bottom:','0px');
 			//variables necesarias para hacer todas las validaciones referentes a cada lista
-			var band='',posi,limit=0,search = '<?=$srh?>'.split('#'), search1=(location.href.split('h=#')[1]||'')||(location.href.split('h=%23')[1]||''),srh='',array=new Array(),hash=window.location.hash;
+			var band='',posi,limit=0,search = "<?=$srh?>".split('#'), search1=(location.href.split('h=#')[1]||'')||(location.href.split('h=%23')[1]||''),srh='',array=new Array(),hash=window.location.hash;
 		
 
 			//colocar el titulo de la vista anteriormente armado
-			$('#titleProductSearch').html('<span><?=PRODUCTS_RELATEDPRODUCTS.' '.$srh?></span>');
+			$('#titleProductSearch').html("<span><?=PRODUCTS_RELATEDPRODUCTS.' '.$srh?></span>");
 			
 			//gallery
 			//srh = search.split('&');
-			srh =(search[1])?search[1]+',':'<?=$srh?>';
+			srh =(search[1])?search[1]+',':"<?=$srh?>";
 			
 			array['srh']='srh='+srh;
 			
