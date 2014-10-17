@@ -533,6 +533,7 @@
 
 		_deleteHandler: function (e) {
 			e.preventDefault();
+			if(!confirm(lan('JS_CONFIRM_REMOVE_TAG_ITEM'))) return;
 			var button = $(e.currentTarget);
 			this._trigger('destroy', e, $.extend({
 				context: button.closest('.template-download'),
@@ -583,6 +584,7 @@
 			});
 			this._on(fileUploadButtonBar.find('.delete'), {
 				click: function (e) {
+					if(!confirm('test')) return;
 					e.preventDefault();
 					filesList.find('.toggle:checked')
 						.closest('.template-download')
