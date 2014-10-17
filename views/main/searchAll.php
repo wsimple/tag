@@ -137,11 +137,11 @@ $hash=end(explode('#',$srh));
 $(function(){
 	$('#tabs').tabs();
 	//hash
-	hashJson('#hashJson','#loadingwaithash',5,'<?=$srh?>','#clickhash');
+	hashJson('#hashJson','#loadingwaithash',5,"<?=$srh?>",'#clickhash');
 	//friends
-	friendsJson('#friendsJson','#loadingwaitfriends',3,'<?=$srh?>','#clickpeople');
+	friendsJson('#friendsJson','#loadingwaitfriends',3,"<?=$srh?>",'#clickpeople');
 	//groups
-	groupsJson('#groupJson','#loadingwaitgroup',3,'<?=$srh?>','#clickgroup');
+	groupsJson('#groupJson','#loadingwaitgroup',3,"<?=$srh?>",'#clickgroup');
 	// $('#clickhash').click(function(){
 	// 	$('#hash').click();
 	// 	$('html,body').animate({scrollTop:0},'slow');
@@ -181,10 +181,10 @@ $(function(){
 		var opc={
 			data:{
 				more   :1,
-				search :'<?=$srh?>'
+				search :"<?=$srh?>"
 			}
 		};
-		seemoreNew('<?=$_SESSION['ws-tags']['ws-user']['fullversion']==1?'1':'0'?>','controls/search/hashTabs.json.php','#moreHash','#smTabsHash','#loading_groups','15','auto',opc);
+		seemoreNew("<?=$_SESSION['ws-tags']['ws-user']['fullversion']==1?'1':'0'?>",'controls/search/hashTabs.json.php','#moreHash','#smTabsHash','#loading_groups','15','auto',opc);
 	});
 
 
@@ -195,10 +195,10 @@ $(function(){
 		var opc={
 			data:{
 				more:1,
-				srh:'<?=$srh?>'
+				srh:"<?=$srh?>"
 			}
 		};
-		seemoreNew('<?=$_SESSION['ws-tags']['ws-user']['fullversion']==1?'1':'0'?>','controls/search/friendTabs.json.php','#friendsTabs','#smTabsFriends','#loading_friends','15','auto',opc);
+		seemoreNew("<?=$_SESSION['ws-tags']['ws-user']['fullversion']==1?'1':'0'?>",'controls/search/friendTabs.json.php','#friendsTabs','#smTabsFriends','#loading_friends','15','auto',opc);
 	});
 
 	$('#smTabsGroups').click(function(){
@@ -208,10 +208,10 @@ $(function(){
 		var opc={
 			data:{
 				more:1,
-				srh:'<?=$srh?>'
+				srh:"<?=$srh?>"
 			}
 		};
-		seemoreNew('<?=$_SESSION['ws-tags']['ws-user']['fullversion']==1?'1':'0'?>','controls/search/groupTabs.json.php','#groupTabs','#smTabsGroups','#loading_groups_search','15','auto',opc);
+		seemoreNew("<?=$_SESSION['ws-tags']['ws-user']['fullversion']==1?'1':'0'?>",'controls/search/groupTabs.json.php','#groupTabs','#smTabsGroups','#loading_groups_search','15','auto',opc);
 	});
 
 	//TAGS
@@ -224,7 +224,7 @@ $(function(){
 			layer	:layer2,
 			idsearch:'1',
 			radiobtn:'.tags-size',
-			get		:'&hash=<?=$hash?>',
+			get		:"&hash=<?=$hash?>",
 			limit: 3
 		};
 	var sizeTags='mini',interval;
