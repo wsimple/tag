@@ -103,7 +103,7 @@ if ($acceso){  ?>
 			<div id="backgroundsTag">
 				<!-- <label><?=NEWTAG_LBLBACKGROUND?>:</label><br> -->
 				<!-- <div id="bgSelect"></div> -->
-				<input id="bgAndVideo" type="button" value="<?='Imagen/Video'?>" ajax/>
+				<input id="bgAndVideo" type="button" value="<?=lan('img_video')?>" ajax/>
 				<input type="hidden" name="htxtVideo" id="htxtVideo" data-tipo="" value="<?=$tag['video_url']?>" />
 			</div>
 			<?php
@@ -111,7 +111,7 @@ if ($acceso){  ?>
 				if($privateTag){
 			?>
 			<div style="float: right;margin-top: 10px;margin-right: 10px;">
-				<input id="showPrivacy" type="button" act="1" value="<?='Show Privacy'?>"/>
+				<input id="showPrivacy" type="button" data-act="1" value="<?=lan('show_privacy')?>"/>
 			</div>
 			<div id="PublicPrivate" style="display:none;float: right;margin-top: 10px;margin-right: 10px;">
 				<!-- <label style="font-weight: bold">Privacy:</label><br> -->
@@ -204,12 +204,14 @@ $(function(){
 	if ($('#showPublicPrivate').length>0){ //acciones privacidad
 		$('#showPublicPrivate').chosen({disableSearch:true,width:120});
 		$('#showPrivacy').click(function(event) {
-			if($(this).attr('act')==1){
+			if(this.dataset.act==1){
 				$('#PublicPrivate').show();
-				$(this).attr('act',2).val('Hide Privacy');
+				this.dataset.act=2;
+				this.value="<?=lan('hide_privacy')?>";
 			}else{
 				$('#PublicPrivate').hide();
-				$(this).attr('act',1).val('Show Privacy');
+				this.dataset.act=1;
+				this.value="<?=lan('show_privacy')?>";
 			}
 		});
 		$('#showPublicPrivate').change(function(){
