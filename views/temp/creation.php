@@ -269,7 +269,7 @@ $(function(){
 		if(video.value!='') get='?video='+video.value+'&tipo='+video.dataset.tipo;
 		else get='';
 		$.dialog({
-			title:'Preview',
+			title:'<?=lan('img_video')?>',
 			resizable:false,
 			width:750,
 			height:500,
