@@ -23,13 +23,10 @@ function pageAction(action,data){
 		case 'logout'	:if(isLogged()) logout();break;
 		case 'profile'	:userProfile(opc[1]||'<?=js_string($lang["USERPROFILE_PERSONALINFO"])?>',opc[0]);break;
 		case 'tag/comment':case 'comment':
-			if($.debug.isEnabled('video/src')){
-				$(this).parents('[tag]').find('video').each(function(index,el){
-					this.pause();
-					this.src="";
-				});
-			}
-			commentTag(opc[1],opc[0]);
+			if(navigator.userAgent.match(/chrome/i))
+				redir('tag/'+opc[0]);
+			else
+				commentTag(opc[1],opc[0]);
 		break;
 		case 'video'	:openVideo(this);break;
 		case 'videoc'	:closeVideo(this);break;
