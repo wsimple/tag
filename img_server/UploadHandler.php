@@ -23,6 +23,38 @@ class UploadHandler
 		return $this->_path.$folder;
 	}
 
+	protected function resize_image_file($file_path) {
+		if(!is_file($file_path)) return false;#not found
+		if(empty($_REQUEST['maxwidth'])) return 0;#no need resize
+		$data=getimagesize($file_path);
+		$error=0;
+		$maxwidth=$_REQUEST['maxwidth'];
+		$imagen=false;
+		if($data[0]>$maxwidth){
+			switch($data[2]){#type:1=gif,2=jpg,3=png
+				case 1:$imagen=imagecreatefromgif ($file_path);break;
+				case 2:$imagen=imagecreatefromjpeg($file_path);break;
+				case 3:$imagen=imagecreatefrompng ($file_path);break;
+			}
+			if(!$imagen) return false;#error
+			$alto=intval(round(650/$data[0]*$data[1]));
+			$img=imagecreatetruecolor(650,$alto);
+			if(imagecopyresized($img,$imagen,0,0,0,0,650,$alto,$data[0],$data[1])){
+				switch($data[2]){#type:1=gif,2=jpg,3=png
+					case 1:return imagegif($img,$file_path);
+					case 2:return imagejpeg($img,$file_path,90);
+					case 3:return imagepng($img,$file_path,9);
+				}
+			}
+		}
+		return true;
+	}
+	protected function debug($echo=false){
+		$debug=isset($_GET['debug'])||strpos($_SERVER['HTTP_REFERER'],'debug');
+		if($debug&&$echo) echo $echo;
+		return $debug;
+	}
+
 	// PHP File Upload error message codes:
 	// http://php.net/manual/en/features.file-upload.errors.php
 	protected $error_messages = array(
@@ -1098,6 +1130,8 @@ class UploadHandler
 			}
 			$file_size = $this->get_file_size($file_path, $append_file);
 			if ($file_size === $file->size) {
+				$this->debug('upload 1');
+				$this->resize_image_file($file_path);
 				$file->url = $this->get_download_url($file->name);
 				if ($this->is_valid_image_file($file_path)) {
 					$this->handle_image_file($file_path, $file);
@@ -1133,7 +1167,7 @@ class UploadHandler
 	protected function body($str) {
 		echo $str;
 	}
-	
+
 	protected function header($str) {
 		header($str);
 	}
@@ -1318,9 +1352,12 @@ class UploadHandler
 			// param_name is an array identifier like "files[]",
 			// $_FILES is a multi-dimensional array:
 			foreach ($upload['tmp_name'] as $index => $value) {
+				$file_name=$file_name?$file_name:$upload['name'][$index];
+				#nombre personalizado
+				$file_name=hash_file('crc32',$upload['tmp_name'][$index]).'_'.date('YmdHis').'.'.pathinfo($file_name,PATHINFO_EXTENSION);
 				$files[] = $this->handle_file_upload(
 					$upload['tmp_name'][$index],
-					$file_name ? $file_name : $upload['name'][$index],
+					$file_name,
 					$size ? $size : $upload['size'][$index],
 					$upload['type'][$index],
 					$upload['error'][$index],
@@ -1331,10 +1368,13 @@ class UploadHandler
 		} else {
 			// param_name is a single object identifier like "file",
 			// $_FILES is a one-dimensional array:
+			$_file=isset($upload['tmp_name']) ? $upload['tmp_name'] : null;
+			$file_name=$file_name?$file_name:(isset($upload['name'])?$upload['name']:null);
+			#nombre personalizado
+			$file_name=!$_file?null:hash_file('crc32',$_file).'_'.date('YmdHis').'.'.pathinfo($file_name,PATHINFO_EXTENSION);
 			$files[] = $this->handle_file_upload(
-				isset($upload['tmp_name']) ? $upload['tmp_name'] : null,
-				$file_name ? $file_name : (isset($upload['name']) ?
-						$upload['name'] : null),
+				$_file,
+				$file_name,
 				$size ? $size : (isset($upload['size']) ?
 						$upload['size'] : $this->get_server_var('CONTENT_LENGTH')),
 				isset($upload['type']) ?
