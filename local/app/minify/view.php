@@ -30,7 +30,7 @@ if($file!=''){
 	$path_in='http://'.$_SERVER['SERVER_NAME'].'/tag/app/';
 	$file2=preg_replace('/\.php/','.html',$file);
 	#generamos minify para app de cordova (normal)
-	generatefile($path_in.$file.'?minify','../../../../hello/www/'.$file2,$file);
+	generatefile($path_in.$file.'?minify','../'.$file2,$file);
 	#generamos minify para app de steroids
 	generatefile($path_in.$file.'?minify&steroids','../../steroids/www/'.$file2,$file);
 }
