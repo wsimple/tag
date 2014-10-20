@@ -1,7 +1,3 @@
-<?php
-	$dialog=isset($_GET['popup'])||isset($_GET['dialog']);
-?>
-
 <div class="inside-box">
 	<div id="tablaNoti"></div>
 	<div class="clearfix"></div>
