@@ -2378,19 +2378,19 @@ function addNewGroup(titulo,gpr) {
 		resizable: false,
 		width: 640,
 		height: 580,
-		open: function() { $(this).load('view.php?page=users/groups/newGroup.php'+gpr);},
-		buttons: [
-			{
+		open: function() {
+		 	// $(this).load('view.php?page=users/groups/newGroup.php'+gpr);
+		 	$(this).load('dialog?pageid=newGroups'+gpr);
+		 },
+		buttons: [{
 				text: lang.JS_CLOSE,
 				click: function() {$( this ).dialog( "close" );}
-			},
-			{
+			},{
 				text: gpr?lang.JS_CONFIRM:lang.JS_ADD,
 				click: function() {
 					if (valida()) $("#frmAddGroup").submit();
 				}
-			}
-		]
+			}]
 	});
 }
 function confirJOINGroups(opc) {
@@ -2708,17 +2708,9 @@ function dialog_info(data){
         	'<div class="clearfix"></div></div>';
     message('#default','<?=$lang["NOTIFICATIONS_GROUPSTAGMSJUSERLINK"]?>',conten,'',500,400);
 }
-function membersGroups(status,id){
-    status=status?status:'';
-    //$('.tags-list').hide().after('<div id="member-list"><img src="img/loader.gif" width="32" height="32" class="loader" style="display: none;"/><?=GROUPS_NEWMEMBERSFIRNDS?></div>');
-	//var layer=$('#member-list');//container
-	opc={
-		actual:'',
-		total:'',
-		layer: '',
-		grupo: id,
-		status: status
-	};//MAINMNU_HOME
+function membersGroups(id,status){
+    status=status?'&status='+status:'';
+    var	opc={ actual:'',total:'',layer: '',grupo: id,status: status }
     $.dialog({
 		title: '<?=$lang["GROUPS_MEMBERSTITLE"]?>',
 		resizable: false,
@@ -2727,33 +2719,25 @@ function membersGroups(status,id){
 		modal: true,
 		open: function() {
             opc.layer=$(this);
-			var status=opc.status!=''?'&status='+opc.status:'';
-			$$.ajax({
+			$.ajax({
 				type	:	"GET",
-				url		:	"controls/groups/getMembersGroup.json.php?idGroup="+opc.grupo+"&actual="+opc.actual+status,
+				url		:	"controls/users/people.json.php?action=groupMembers&withHtml&idGroup="+opc.grupo+"&actual''"+status,
 				dataType:	"json",
 				success	:	function (data) {
 					if (opc.actual==''){
-						opc.total=data['total'];
-						if (data['body']){
+						opc.total=data['num'];
+						if (data['html']){
 							opc.actual=data['actual'];
-							$(opc.layer).html('<div id="member-list"><div id="membersGroups">'+data['body']+'</div></div>');
-							if(data['totalP']){
-								opc.total=data['total']-data['totalP'];
-								//$('.titlesGroups span').html(opc.total);
-							}
+							$(opc.layer).html('<div id="member-list"><div id="membersGroups">'+data['html']+'</div></div>');
+							if(data['totalP']) opc.total=data['total']-data['totalP'];
+								
                             $('.ui-dialog-title').html('('+opc.total+') <?=$lang["GROUPS_MEMBERSTITLE"]?>')
 						}else{
 							$(opc.layer).html('<div class="messageAdver"><?=$lang["SEARCHALL_NORESULT"]?></div>');
-                                               //+'<div><input name="btnCloseMembers" id="btnCloseMembers" type="button" value="<?=$lang["GROUPS_INVITEFRIENDSBTNBACK"]?>" style="float:right;margin: 1em;"></div></div>');
 						}
-//						$('#btnCloseMembers').click(function(){
-//							$('#member-list').remove();
-//							$('.tags-list').show('fast');
-//						});
 					}else{
 						opc.actual=opc.actual+data['actual'];
-						$('#membersGroups',opc.layer).append(data['body']);
+						$('#membersGroups',opc.layer).append(data['html']);
 					}
 				}
 			});

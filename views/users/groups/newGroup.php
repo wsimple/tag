@@ -185,7 +185,7 @@
                                 $('#info-top-groups').html(det_info(data['list'][0]));
                                 $('#info-top-groups a').unbind('click').click(function(){
                                     if ($(this).parents('article').hasClass('info')){ dialog_info(data['list'][0]); }
-                                    else if ($(this).parents('article').hasClass('member')){ membersGroups('','<?=$_GET['grp']?>');  }
+                                    else if ($(this).parents('article').hasClass('member')){ membersGroups("<?=$_GET['grp']?>");  }
                                     return false;
                                 });
             				}else{
