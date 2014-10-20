@@ -2706,20 +2706,6 @@ a.plus:hover{
 	margin-left:15px;
 	font-size:14px !important;
 }
-.group-details .membersGroupsWindows a{
-	background-image:none;
-	text-decoration:none;
-	float:left;
-	font-size:14px;
-	padding:0;
-	cursor:pointer;
-}
-.membersGroupsWindows div[h="1"],.membersGroupsWindows div[h="2"],.membersGroupsWindows div[h="3"]{
-	float:left;
-	min-height:73px;
-}
-.membersGroupsWindows div[h="1"]{ width:80px; }
-.membersGroupsWindows div[h="2"]{ width:360px }
 .group-details .linkOptionGrouop{
 	background:#fff;
 	cursor:pointer;
@@ -2829,7 +2815,6 @@ a.plus:hover{
 	color:#444
 }
 .group-details a:hover{ height:25px; }
-.membersGroupsWindows a:hover{ height:0; }
 .group-details #btnNewGroup{ margin-right:10px }
 .group-details #btncreateTags{ margin-right:10px }
 .QmessageAdver.QmessageNoTagGroup{

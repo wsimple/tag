@@ -11,23 +11,23 @@ switch ($_GET['action']) {
 		if (!isset($_POST['uid']))	$uid=$myId;
 		else $uid=CON::getVal("SELECT id FROM users WHERE $coi=?",array($_POST['uid']));
 		if (!$uid) die(jsonp(array('error'=>'noIdValid')));
-		$res['id']=$uid;
 		// if (!isset($_GET['nolimit'])) $array['limit']='LIMIT '.$_GET['limit'].',30';
-		$array['select']=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend,
-						IF(u.id='.$myId.',1,0) AS iAm,
+		$array['select']=',IF(u.id='.$myId.',1,0) AS iAm,
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
 		$array['order']='ORDER BY u.name, u.last_name';
 		switch ($_GET['mod']) {
 			case 'friends': 
+				$array['select'].=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend';
 				$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
 				$array['where']=safe_sql('ul.id_user=? AND ul.is_friend=1',array($uid));
 			break;
 			case 'unfollow': //admirados
+				$array['select'].=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend';
 				$array['where']=safe_sql('ul.id_user=?',array($uid));
 				$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
 			break;
 			case 'follow': //admiradores
-				// $array['select']=',md5(ul.id_user) AS id_friend, md5(ul.id_friend) AS id_user';
+				$array['select'].=',md5(ul.id_user) AS id_friend, md5(ul.id_friend) AS id_user';
 				$array['join']=' JOIN users_links ul ON ul.id_user=u.id';
 				$array['where']=safe_sql('ul.id_friend=?',array($uid));
 			break;
@@ -77,7 +77,7 @@ switch ($_GET['action']) {
 	break;
 	case 'usersLikesTags':
 		if (!isset($_GET['t']) || !isset($_GET['s'])) die(jsonp(array()));
-		$numAction=3;
+		$numAction=3;$html='';
 		$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
 						IF(u.id='.$myId.',1,0) AS iAm,
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
@@ -106,6 +106,47 @@ switch ($_GET['action']) {
 		$res['datos']=$info;
 		if ($html!='') $res['html']=$html;
 	break;
+	case 'groupMembers':
+		if (!isset($_GET['idGroup'])) die(jsonp(array()));
+		$array['select']=safe_sql(',md5(u.id) AS id_user,g.is_admin,g.status,IF(u.id='.$myId.',1,0) AS iAm,
+						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user=? AND oul.id_friend=u.id) AS conocido,
+						(SELECT COUNT(t.id) FROM tags t WHERE md5(t.id_group)=? AND t.id_creator=g.id_user) AS numTags',array($myId,$_GET['idGroup']));
+		$array['join']=' JOIN users_groups g ON g.id_user=u.id';
+		$array['order']='ORDER BY g.status,g.date DESC';
+		$array['where']=safe_sql(' md5(g.id_group)=?',array($_GET['idGroup']));
+		if (isset($_GET['status'])) $array['where'].=safe_sql('AND g.status=?',array($_GET['status']));
+		$num=CON::query("SELECT g.id FROM users_groups g WHERE ".$array['where']);
+		$res['num']=CON::numRows($num);
+		$query=peoples($array); 
+		$info=array(); $status=0;$html='';$numAction=3;
+		$creador=CON::getVal("SELECT md5(id_creator) FROM groups WHERE md5(id)=?",array($_GET['idGroup']));
+		while ($row=CON::fetchAssoc($query)){
+			$row['photo_friend']=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend'],'img/users/default.png');
+			$row['creador']=$creador;
+			$info[]=$row;
+			if (isset($_GET['withHtml'])){
+				if($status!=$row['status']){
+					$status=$row['status'];
+					switch($row['status']){
+						case '1':$html.='<div h="active"><div class="title">'.GROUPS_MEMBER_ACTIVE.'</div>'; break;
+						case '2':$html.='</div><div h="standBy"><div class="title">'.GROUPS_MEMBER_STANDBY.'</div>'; break;
+						case '5':
+							if($row['creador']==md5($myId)){
+								$html.=(!isset($_GET['status'])?'</div>':'').'<div h="resque"><div class="title">'.GROUPS_TITLEWINDOWS.'</div>';
+								break;
+							}else{
+								$num=CON::query("SELECT id FROM users_groups WHERE md5(id_group)=? AND status='5'",array($_GET['idGroup']));
+								$res['totalP']=CON::numRows($num);
+								break 2;
+							}//valido de que el usuario sea el creador
+					}
+				}
+				$html.=htmlfriends($row,$numAction);
+			}
+		}
+		$res['datos']=$info;
+		if ($html!='') $res['html']=$html;
+	break;
 }
 die(jsonp($res));
 
@@ -130,15 +171,47 @@ function htmlfriends($row,$numAction=1){
 	if($nameCountryUser!=''){
 		$body.='<span class="titleField">'.USERS_BROWSERFRIENDSLABELCOUNTRY.':&nbsp;</span>'.$nameCountryUser['name'].'<div class="clearfix"></div><br>';
 	}
-	$body.='</div>';
+
+	$body.=infoextra($row).'</div>';
 	if ($row['iAm']=='0'){
-		$body.='<div style="height:70px; width:0px;float: right; text-align: right;">
-	            <input type="button" value="'.USER_BTNLINK.'" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['conocido']?'style="display:none"':'').'/>					
-				<input type="button" value="'.USER_BTNUNLINK.'" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['conocido']?'':'style="display:none"').' />
-	        </div>';
+		switch ($_GET['action']) {
+			case 'groupMembers': 
+				$body.=actionGroupMembers($row);
+			break;
+			default: $body.=linkAndUnlink($row,$numAction); break;
+		}
+		
 	}        
 	$body.='</div><div class="clearfix"></div></div>';
 	return $body;
+}
+function infoextra($row){
+	$body='';
+	switch ($_GET['action']) {
+		case 'groupMembers': 
+			if ($row['id_user']==$row['creador']) $body.='<span class="titleField">'.GROUPS_CREATOR.'</span><br/>'; 
+            elseif ($row['is_admin']=='1') $body.='<span class="titleField">'.GROUPS_ADMIN_IS.'</span><br/>'; 
+            if ($row['numTags']>0) $body.='<span class="titleField">'.TOUR_TAGS_TITLE.' ('.$row['numTags'].')</span>'; 
+		break;
+	}
+	return $body;
+}
+function linkAndUnlink($row,$numAction){
+	return ('<div style="height:70px; width:0px;float: right; text-align: right;">
+	            <input type="button" value="'.USER_BTNLINK.'" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['conocido']?'style="display:none"':'').'/>					
+				<input type="button" value="'.USER_BTNUNLINK.'" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['conocido']?'':'style="display:none"').' />
+	        </div>');
+}
+function actionGroupMembers($row){
+	$body='<div style="height:70px; width:0px;float: right; text-align: right;">';
+	switch($row['status']){
+		case '2':$body.='<div class="messageSuccessGroupo">'.JS_GROUPS_WAITAPPROBATION_USERS.'</div>';break;
+		case '5':$body.='
+			<input type="button" size="20" value="'.GROUPS_ACCEPTUSERS.'" action="acceptUser,'.$_GET['idGroup'].','.$row['id_user'].'"/>
+			&nbsp;<input type="button" size="20" value="'.GROUPS_REJECTTUSERS.'" action="acceptUserN,'.$_GET['idGroup'].','.$row['id_user'].'">';
+		break;
+	}
+	return $body.'</div>';
 }
 
 ?>

@@ -43,7 +43,7 @@
 			idg='<?=$_GET['grp']?$_GET['grp']:''?>';
 		$('#subMenuAdminGroups').jMenu();
 		if (idg!=''){
-			$$.ajax({
+			$.ajax({
 				type	:	"GET",
 				url		:	"controls/groups/listGroups.json.php?gid="+idg+"&profile=1",
 				dataType:	"json",
@@ -63,8 +63,7 @@
 							}
 							tagsListGroups();
 							if ((data['list'][0]['salicitud']) && (data['list'][0]['salicitud']!='no-creador')){
-								//membersGroups(5);
-                                membersGroups(5,'<?=$_GET['grp']?>');
+								membersGroups("<?=$_GET['grp']?>",5);
 							}
 							$('#btnNewGroup').click(function(){
 								addNewGroup('<?=GROUPS_TITLEWINDOWSNEW?>','');
@@ -76,7 +75,7 @@
 							});
 							//Accion del boton ver miembros
 							$('#btnShowMembers').click(function(){
-								membersGroups('','<?=$_GET['grp']?>');
+								membersGroups("<?=$_GET['grp']?>");
 								return false;
 							});
 							$('#btnInviteFriends').click(function(){
@@ -86,7 +85,7 @@
                             $('#info-top-groups').html(det_info(data['list'][0]));
                             $('#info-top-groups a').click(function(){
                                 if ($(this).parents('article').hasClass('info')){ dialog_info(data['list'][0]); }
-                                else if ($(this).parents('article').hasClass('member')){ membersGroups('','<?=$_GET['grp']?>');  }
+                                else if ($(this).parents('article').hasClass('member')){ membersGroups("<?=$_GET['grp']?>");  }
                                 return false;
                             });
 						}else{

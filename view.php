@@ -106,6 +106,7 @@ if($go_switch) switch($idPage){
 	case 'news'				:$bodyPage='news/news.php';break;
 	case 'groups'			:$bodyPage='users/groups/allGroups.php';$rightPanel='users/groups/panel.php';break;
 	case 'groupsDetails'	:$bodyPage='users/groups/profileGroup.php';break;
+	case 'newGroups'		:$bodyPage='users/groups/newGroup.php';break;
 	case 'products'			:$bodyPage='products/products.php';break;
 	case 'publicity'		:$bodyPage='publicity/lstPublicity.view.php';break;
 	case 'setting'			:$bodyPage='users/settings/mailNotifications.php';$numPanels=2;break;
