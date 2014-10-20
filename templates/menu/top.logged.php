@@ -96,7 +96,6 @@ unset($detect);
 			url		: 'controls/tour/tourHelp.json.php?section='+SECTION,
 			dataType: 'json',
 			success	: function (data){
-			    // console.log(data);
 				if (data=='no') {
 					$('#tourHelp').hide();	
 				};
@@ -106,7 +105,8 @@ unset($detect);
 		$('.mainMenu').jMenu();
 		if (location.hash=='#carousel'){ $('#divAllNoti').slideUp(); }
         else{ $('#divAllNoti').slideDown(); }
-		$('#divNoti').load('view.php?page=users/notifications.php&dialog');
+		$('#divNoti').load('dialog?pageid=notifications');
+		// $('#divNoti').load('view.php?page=users/notifications.php&dialog');
 		$('#numNoti').click(function(){
             var o=$(this);
 			$$.ajax({
