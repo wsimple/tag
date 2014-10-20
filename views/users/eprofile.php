@@ -41,7 +41,6 @@ $query = CON::query("
 		(SELECT count(id) FROM tags WHERE id_creator = ".$sid." AND id_user = id_creator AND status = 1) AS nTags
 	FROM users
 	WHERE $where ");
-echo CON::lastSql();
 if(CON::numRows($query)>0){
 	if(is_debug('user')) echo CON::lastSql();
 
