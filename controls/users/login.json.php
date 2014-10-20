@@ -25,7 +25,7 @@ function login_json($data){
 				$res['uid']=md5($sesion['id']);
 				$res['code']=$sesion['code'];
 				$res['msg']=$sesion['code'];
-				if (PAYPAL_PAYMENTS) {
+				if (!PAYPAL_PAYMENTS) {
 					$_SESSION['business_payment']=$_SESSION['ws-tags'];
 					$res['from']='paypal';
 					unset($_SESSION['ws-tags']);
@@ -47,7 +47,7 @@ function login_json($data){
 			case '1':case '5':#Status 5=Cuenta pendiente por revision(solo nonprofit accounts)
 				$access=true;
 				#Control de acceso en cuentas business, verifica fecha limite para conceder acceso
-				if (PAYPAL_PAYMENTS) {
+				if (!PAYPAL_PAYMENTS) {
 					if($sesion['type']==1||$sesion['type']==2){
 						$access=CON::getVal('
 							SELECT IF(NOW()>=u.end_date,0,1)
