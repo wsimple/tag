@@ -11,23 +11,23 @@ switch ($_GET['action']) {
 		if (!isset($_POST['uid']))	$uid=$myId;
 		else $uid=CON::getVal("SELECT id FROM users WHERE $coi=?",array($_POST['uid']));
 		if (!$uid) die(jsonp(array('error'=>'noIdValid')));
-		$res['id']=$uid;
 		// if (!isset($_GET['nolimit'])) $array['limit']='LIMIT '.$_GET['limit'].',30';
-		$array['select']=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend,
-						IF(u.id='.$myId.',1,0) AS iAm,
+		$array['select']=',IF(u.id='.$myId.',1,0) AS iAm,
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
 		$array['order']='ORDER BY u.name, u.last_name';
 		switch ($_GET['mod']) {
 			case 'friends': 
+				$array['select'].=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend';
 				$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
 				$array['where']=safe_sql('ul.id_user=? AND ul.is_friend=1',array($uid));
 			break;
 			case 'unfollow': //admirados
+				$array['select'].=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend';
 				$array['where']=safe_sql('ul.id_user=?',array($uid));
 				$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
 			break;
 			case 'follow': //admiradores
-				// $array['select']=',md5(ul.id_user) AS id_friend, md5(ul.id_friend) AS id_user';
+				$array['select'].=',md5(ul.id_user) AS id_friend, md5(ul.id_friend) AS id_user';
 				$array['join']=' JOIN users_links ul ON ul.id_user=u.id';
 				$array['where']=safe_sql('ul.id_friend=?',array($uid));
 			break;
