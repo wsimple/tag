@@ -81,7 +81,7 @@ class Video extends TAG_controller{
 			'captures'=>array(
 				'test_1.jpg',
 				'test_2.jpg',
-				'test_3.jpg'
+				'test_2.jpg'
 			)
 		));
 	}
