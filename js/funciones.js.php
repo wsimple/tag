@@ -1512,6 +1512,9 @@ function linkUser(id_user,objet,action){
 						$('div.thisPeople input[type="button"][action="linkUser,'+id_user+',1"],div.thisPeople input[type="button"][action="linkUser,'+id_user+',2"]').parents('.thisPeople').remove();
 					break;
 				}
+				if ($('#nf').length>0 && $('#tab .ui-single-box-title').length==0){
+					$('#nf').html('('+$('#tab .divYourFriends').length+')');
+				}
 			}
 		}
 	});
