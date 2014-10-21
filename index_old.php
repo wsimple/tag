@@ -239,7 +239,7 @@ if($detect->isMobile()&&!$_COOKIE['__FV__']){?>
 		GET: <?php _imprimir($_GET); ?>
 		POST: <?php _imprimir($_POST); ?>
 		COOKIES: <?php _imprimir($_COOKIE); ?>
-		SESSION: <?php _imprimir($_SESSION['ws-tags']); ?>
+		SESSION: <?php is_debug('fullsession')?_imprimir($_SESSION):_imprimir($_SESSION['ws-tags']); ?>
 	</div>
 <?php }
 	if(isset($_GET['command'])){
