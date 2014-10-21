@@ -1104,6 +1104,7 @@ loader.s32,.loader.s32{
 	-o-background-size:auto auto;
 	background-size:auto auto;
 	margin:0 auto;
+	cursor: pointer;
 }
 .store-info .googlePlay{ background-image:url('smt/icon_googlePlay.png'); }
 .store-info .appStore{ background-image:url('smt/icon_appStore.png'); }
