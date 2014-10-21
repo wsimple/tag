@@ -13,7 +13,7 @@ for($i=0;$i<count($_FILES['document']);$i++){
 			$ext=strtolower(end($parts));
 			//validacion del formato de la imagen
 			if(in_array($ext,$filesAllowed)){
-				$path=RELPATH.'img/documents/'.$_SESSION['business_payment']['ws-user']['code'].'/';
+				$path='../../img/documents/'.$_SESSION['business_payment']['ws-user']['code'].'/';
 				$doc='document_'.$i.'.jpg';
 				//si la imagen pesa menos de 2,5mb
 				if($_FILES['document']['size'][$i]<2500000){
@@ -28,7 +28,7 @@ for($i=0;$i<count($_FILES['document']);$i++){
 
 					if(redimensionar($_FILES['document']['tmp_name'][$i], $path.$doc, 650)){
 						//uploadFTP($doc,'documents','../../');
-						uploadFTP($doc,'documents',RELPATH,1,$_SESSION['business_payment']['ws-user']['code']);
+						uploadFTP($doc,'documents','../../',1,$_SESSION['business_payment']['ws-user']['code']);
 						$json['result']=1;
 					}
 				}
