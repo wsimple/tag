@@ -1,16 +1,14 @@
 <?php
 	if ($_REQUEST['sumito']=='si')
 	{
-		$insert = mysql_query("	UPDATE dialogs SET	developers = '".$_REQUEST['developers']."',
-                                                    cookies = '".$_REQUEST['cookies']."',
-                                                    about = '".$_REQUEST['about']."',
-													help       = '".$_REQUEST['help']."',
-													terms      = '".$_REQUEST['terms']."',
-													privacity  = '".$_REQUEST['privacity']."',
-                                                    paypal     = '".$_REQUEST['paypal']."'
-								WHERE id = '1' ") or die (mysql_error());
-
-		  mensajes("Processed Sucessfully", "index.php?url=vistas/dialogs.view.php");
+        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['about'])."' WHERE label LIKE 'INDEX_DIALOGABOUT' ");
+        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['terms'])."' WHERE label LIKE 'DIALOG_TERMS' ");
+        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['privacity'])."' WHERE label LIKE 'DIALOG_PRIVACITY' ");
+        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['developers'])."' WHERE label LIKE 'DIALOG_DEVELOPERS' ");
+        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['help'])."' WHERE label LIKE 'DIALOG_HELP' ");
+        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['cookies'])."' WHERE label LIKE 'DIALOG_COOKIES' ");
+        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['paypal'])."' WHERE label LIKE 'INDEX_DIALOGPAYPAL' ");
+		mensajes("Processed Sucessfully", "index.php?url=vistas/dialogs.view.php");
 	}
 	
 	$query = mysql_query("SELECT * FROM dialogs WHERE id = '1'") or die (mysql_error());
@@ -20,20 +18,6 @@
     if(isset( $_GET['sc'] )) $sc = $_GET['sc'];
 ?>
 <fieldset>
-    <form style="display: inline-block;">
-        <div id="option-list">
-            Modify:
-            <select name="pageoption" id="pageoption">
-                <option value="trAbout">About</option>
-                <option value="trCookies">Cookies</option>
-                <option value="trDevelopers">Developers</option>
-                <option value="trHelp">Help</option>
-                <option value="trTerms">Terms</option>
-                <option value="trPrivacity">Privacy</option>
-                <option value="trPaypal">Paypal Message (Business Account)</option>
-            </select>
-        </div>
-    </form><br><br>
     <legend>System Messages</legend>
     <form id="frmGetUrTag" name="frmGetUrTag" method="post" action="">
         <table id="configsDialogs" width="650" border="0" align="center" cellpadding="2" cellspacing="2">
@@ -45,9 +29,9 @@
                         $oFCKeditor->BasePath = 'fckeditor/';
                         $oFCKeditor->Width    = '650';
                         $oFCKeditor->Height   = '300';
-                        $oFCKeditor->Value    = $array['about'];
+                        $oFCKeditor->Value    = campo('translations_template', 'label', $array['about'], 'text');  
                         $oFCKeditor->Create();
-                    ?>  
+                    ?>
                 </td>
             </tr>
             <tr class="dialog" id="trCookies">
@@ -58,10 +42,10 @@
                         $oFCKeditor->BasePath = 'fckeditor/';
                         $oFCKeditor->Width    = '650';
                         $oFCKeditor->Height   = '300';
-                        $oFCKeditor->Value    = $array['cookies'];
+                        $oFCKeditor->Value    = campo('translations_template', 'label', $array['cookies'], 'text');
 
                         $oFCKeditor->Create();
-                    ?>  
+                    ?> 
                 </td>
             </tr>
             <tr class="dialog" id="trDevelopers">
@@ -72,9 +56,9 @@
                         $oFCKeditor->BasePath = 'fckeditor/';
                         $oFCKeditor->Width    = '650';
                         $oFCKeditor->Height   = '300';
-                        $oFCKeditor->Value	  = $array['developers'];
+                        $oFCKeditor->Value	  = campo('translations_template', 'label', $array['developers'], 'text');
                         $oFCKeditor->Create();
-                    ?>	
+                    ?> 	
                 </td>
             </tr>
             <tr class="dialog" id="trHelp">
@@ -85,13 +69,11 @@
                         $oFCKeditor->BasePath = 'fckeditor/';
                         $oFCKeditor->Width    = '650';
                         $oFCKeditor->Height   = '300';
-                        $oFCKeditor->Value	  = $array['help'];
+                        $oFCKeditor->Value	  = campo('translations_template', 'label', $array['help'], 'text'); 
                         $oFCKeditor->Create();
-                    ?>
+                    ?> 
                 </td>
             </tr>
-
-            
             <tr class="dialog" id="trTerms">
                 <td style="height:310px" valign="top">
                     Terms
@@ -100,9 +82,9 @@
                         $oFCKeditor->BasePath = 'fckeditor/';
                         $oFCKeditor->Width    = '650';
                         $oFCKeditor->Height   = '300';
-                        $oFCKeditor->Value	  = $array['terms'];
+                        $oFCKeditor->Value	  = campo('translations_template', 'label', $array['terms'], 'text'); 
                         $oFCKeditor->Create();
-                    ?>	
+                    ?> 	
                 </td>
             </tr>
             <tr class="dialog" id="trPrivacity">
@@ -113,7 +95,7 @@
                         $oFCKeditor->BasePath = 'fckeditor/';
                         $oFCKeditor->Width    = '650';
                         $oFCKeditor->Height   = '300';
-                        $oFCKeditor->Value	  = $array['privacity'];
+                        $oFCKeditor->Value	  = campo('translations_template', 'label', $array['privacity'], 'text'); 
                         $oFCKeditor->Create();
                     ?>	
                 </td>
@@ -126,7 +108,7 @@
                         $oFCKeditor->BasePath = 'fckeditor/';
                         $oFCKeditor->Width    = '650';
                         $oFCKeditor->Height   = '300';
-                        $oFCKeditor->Value    = $array['paypal'];
+                        $oFCKeditor->Value    = campo('translations_template', 'label', $array['paypal'], 'text'); 
                         $oFCKeditor->Create();
                     ?>  
                 </td>
@@ -143,50 +125,3 @@
         </table>
     </form>
 </fieldset>
-<script>
-    // var j = $.noConflict();t
-
-    window.onload=function() {
-        var sc = <?=$sc?>;
-
-        var eles = document.getElementById('configsDialogs').getElementsByTagName('tr');
-        for (var i = 0; i < eles.length-2; i++) {
-            eles[i].style.display = 'none';
-        };
-        
-        var lista = document.getElementById('pageoption');
-        lista.selectedIndex = sc;
-        var sel = lista.options[sc].value;
-        // console.log('Esto es lo que tengo:'+sel);
-
-        document.getElementById(sel).style.display = 'table-row';
-
-        document.getElementById('pageoption').onchange = function(){
-            console.log('ocultare:'+sel);
-            document.getElementById(sel).style.display = 'none';
-
-            sc = this.selectedIndex;
-            sel = this.options[sc].value;
-            document.getElementById(sel).style.display = 'table-row';
-        }
-    };
-
-    // j(document).ready(function($) {
-    //     var sc = <?=$sc?>;
-    //     // j('#configsDialogs .dialog').hide();
-    //     // var sel = j('#pageoption').prop('selectedIndex', sc).val();
-    //     // $('#'+sel).show();
-
-    //     // j('#pageoption').change(function(){
-    //     //     $(this).each(function( i ){
-    //     //         j( '#configsDialogs .dialog' ).hide(); 
-    //     //     });
-
-    //     //     var sel = j(this).val();
-    //     //     $('#'+sel).show('fast');
-    //     // });
-    //     // 
-    //     // 
-        
-    // });
-</script>
