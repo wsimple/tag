@@ -243,49 +243,43 @@ $.on({
 			});
 			if (band){
 				//Mando Formulario en caso de cuenta NoN-Profit
-				console.log('sorry');
 				$('#frmBusiness').ajaxSubmit({
 					dataType: 'json',
 					success: function(data){ // post-submit callback
-						console.log(data);
-						console.log('aqui');
 						var msgTitle = 'Error',msgContent = '',location='';
-						// switch(data.result){
-						// 	case -1: 
-						// 		msgContent = '<?=SIGNUP_ERRORUPLOAD?>'; 
-						// 		location=document.location;
-						// 	break;
-						// 	case 0: msgContent = '<?=SIGNUP_ERRORREGISTER?>'; break;
-						// 	case 1:
-						// 		msgTitle = '<?=JS_ALERT?>';
-						// 		msgContent = '<?=SIGNUP_SUCCESSREGISTERNONPROFIT?>';
-						// 	break;
-						// }
+						switch(data.result){
+							case -1: 
+								msgContent = '<?=SIGNUP_ERRORUPLOAD?>'; 
+								location=document.location;
+							break;
+							case 0: msgContent = '<?=SIGNUP_ERRORREGISTER?>'; break;
+							case 1:
+								msgTitle = '<?=JS_ALERT?>';
+								msgContent = '<?=SIGNUP_SUCCESSREGISTERNONPROFIT?>';
+							break;
+						}
 						if( data.result == 1 || data.result == -1) {
-						console.log('aqui2');
-							// $.dialog({
-							// 	title:msgTitle,
-							// 	resizable:false,
-							// 	width:320,
-							// 	height:300,
-							// 	modal:true,
-							// 	open:function(){ $(this).html(msgContent); },
-							// 	close:function(){ document.location=location; },
-							// 	buttons:{
-							// 		'<?=JS_OK?>':function(){
-							// 			$(this).dialog('close');
-							// 		}
-							// 	}
-							// });
+							$.dialog({
+								title:msgTitle,
+								resizable:false,
+								width:320,
+								height:300,
+								modal:true,
+								open:function(){ $(this).html(msgContent); },
+								close:function(){ document.location=location; },
+								buttons:{
+									'<?=JS_OK?>':function(){
+										$(this).dialog('close');
+									}
+								}
+							});
 						}else{
-						console.log('aqui3');
-							// for (var i=0; i<5; i++) $('#loaderStore'+(i+1)).css('display','block'); 
-							// $('div.bgS'+item).css('background-image','url(css/smt/document.png)'); 
+							for (var i=0; i<5; i++) $('#loaderStore'+(i+1)).css('display','block'); 
+							$('div.bgS'+item).css('background-image','url(css/smt/document.png)'); 
 						}
 					},//success
 					error: function(data){
-						console.log(data);
-						// message('<?=NEWTAG_LBLTEXT?>','Error','<?=JS_ERROR?>','','','','','');
+						message('<?=NEWTAG_LBLTEXT?>','Error','<?=JS_ERROR?>','','','','','');
 					}
 				});
 			}else{ message('<?=NEWTAG_LBLTEXT?>','Error','<?=$lang["NODOCUMENTSNONPROFIT"]!=""?$lang["NODOCUMENTSNONPROFIT"]:"Please enter the required documents to verify your account"?>','','','','',''); }
