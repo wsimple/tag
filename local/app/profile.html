@@ -140,19 +140,17 @@ $('.fs-wrapper').jScroll('refresh');
 $('#globalButtons').on('click','div',function(){
 if($(this).attr('num')>0){
 switch(this.id){
-case 'userFriends': redir(PAGE['userfriends']+'?type=1&id_user='+code); break;
-case 'userFollowers': redir(PAGE['userfriends']+'?type=2&id_user='+code); break;
-case 'userFollowing': redir(PAGE['userfriends']+'?type=3&id_user='+code); break;
+case 'userFriends': redir(PAGE['userfriends']+'?type=friends&id_user='+code); break;
+case 'userFollowers': redir(PAGE['userfriends']+'?type=follow&id_user='+code); break;
+case 'userFollowing': redir(PAGE['userfriends']+'?type=unfollow&id_user='+code); break;
 case 'userTags': redir(PAGE['tagslist']+'?current=tagsUser&id='+md5(data['id'])); break;
 case 'userPersonalTags': redir(PAGE['tagslist']+'?current=personalTags&id='+md5(data['id'])); break;
 }
 }
 });
 $('#userPreferences').click(function(){
-if(me)
-redir(PAGE['preferences']);
-else
-preferencesUsers(4,code);
+if(me) redir(PAGE['preferences']);
+else preferencesUsers(code);
 });
 if(me){
 $('#followButton').remove();

@@ -52,26 +52,27 @@ buttons:{back:true,home:true},
 before:function(){
 $('#seek').html(lang.seek);
 $('#friendsFooter').prepend(
-'<li><a href="#" opc="1">'+lan('friends','ucw')+'</a></li>'+
-'<li><a href="#" opc="2">'+lan('admirers','ucw')+'</a></li>'+
-'<li><a href="#" opc="3">'+lan('admired','ucw')+'</a></li>'
+'<li><a href="#" opc="friends">'+lan('friends','ucw')+'</a></li>'+
+'<li><a href="#" opc="follow">'+lan('admirers','ucw')+'</a></li>'+
+'<li><a href="#" opc="unfollow">'+lan('admired','ucw')+'</a></li>'
 );
 },
 after:function(){
-var el='#friendsList';
-$(el).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
+var opc={layer:'#friendsList',mod:$_GET['type']||'friends',get:"",user:$_GET['id_user']||''};
+$(opc.layer).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
 $('.list-wrapper').jScroll({hScroll:false});
 $('.list-content input').keyup(function() {
 $('.list-wrapper').jScroll('refresh');
 });
-$(el).on('click','a[code]',function(){
+$(opc.layer).on('click','a[code]',function(){
 redir(PAGE['profile']+'?id='+$(this).attr('code'));
 });
 $('#friendsFooter').on('click','a[opc]',function(){
-viewFriends($(this).attr('opc'),'',el, $_GET['id_user']);
+opc.mod=$(this).attr('opc');
+viewFriends(opc);
 $('.list-content input').val('');
 });
-viewFriends($_GET['type']||1,'',el, $_GET['id_user']);
+viewFriends(opc);
 }
 });
 </script>
