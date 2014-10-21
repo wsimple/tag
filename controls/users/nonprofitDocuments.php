@@ -56,7 +56,7 @@ if($json['result']==1){
 		if($debug) $json['_sql_'][]=CON::lastSql();
 	}else{
 		// CON::insert('users_plan_purchase','id_user=?,id_plan=0,init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL 15 DAY)',
-			array($_SESSION['business_payment']['ws-user']['id']));
+			array($_SESSION['business_payment']['ws-user']['id']);
 		if($debug) $json['_sql_'][]=CON::lastSql();
 	}
 	$sesion=CON::getRow('SELECT *,CONCAT(name," ",last_name) AS full_name,MD5(CONCAT(id,"_",email,"_",id)) AS code FROM users WHERE id=? LIMIT 1',array($_SESSION['business_payment']['ws-user']['id']));
