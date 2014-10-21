@@ -79,9 +79,6 @@
 	$custom           = explode('|', trim($_POST['custom']));
 
 
-	$todo= $payment_status.'*/*'.$payment_currency.'*/*'.$txn_id.'*/*'.$txn_type.'*/*'.$receiver_email.'*/*'.$payer_email.'*/*'.implode('*/*',$custom);
-	CON::update('users','description=?','id=1',array($todo));
-
 	// variables generales para log en tabla payPal
 	$id_user = '';
 	$id_publicity = 0;
