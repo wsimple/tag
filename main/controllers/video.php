@@ -77,11 +77,11 @@ class Video extends TAG_controller{
 	function test($a=0){
 		echo json_encode(array(
 			'error'=>false,
-			'video'=>'3a4ad9a63825f8c78c321ac7bab8e1ce/1029064_668821293206823_.mp4',
+			'video'=>'test_0.mp4',
 			'captures'=>array(
-				'3a4ad9a63825f8c78c321ac7bab8e1ce/1.jpg',
-				'3a4ad9a63825f8c78c321ac7bab8e1ce/2.jpg',
-				'3a4ad9a63825f8c78c321ac7bab8e1ce/3.jpg'
+				'test_1.jpg',
+				'test_2.jpg',
+				'test_2.jpg'
 			)
 		));
 	}
