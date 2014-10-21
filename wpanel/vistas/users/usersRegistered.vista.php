@@ -19,6 +19,7 @@
 					date_birth,
 					status,
 					logins_count as logins,
-					friends_count as links
+					friends_count as links,
+					created_at as 'sign up date'
 					FROM users order by id desc ",5);
 ?>
