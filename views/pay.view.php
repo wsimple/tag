@@ -4,6 +4,7 @@ include ("../includes/functions.php");
 include ("../includes/config.php");
 include ("../class/wconecta.class.php");
 include ("../includes/languages.config.php");
+global $config;
 
 //Variables por defecto para paypal
 $business      = 'elijose.c-facilitator@gmail.com'; //Cuenta de paypal de tagbum
@@ -15,8 +16,8 @@ $lc            = "en";
 $cmd           = '_xclick';
 
 //VARIABLE IMPORTANTE NOTIFICACION DE TODOS LOS PAGOS A PAYPAL (IPN)
-$notify_url    = "http://tagbum.com/wpruebas/controls/pay.controls.php";
-// $notify_url    = DOMINIO."controls/pay.controls.php";
+// $notify_url    = "http://tagbum.com/controls/pay.controls.php";
+$notify_url    = $config->dominio."controls/pay.controls.php";
 
 //Producto/s que se pagaran por Paypal
 $paypalProducts = array();
