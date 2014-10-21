@@ -9,6 +9,7 @@ img_server/includes/security/*.php
 video_server/includes/security/*.php
 
 local/*.*
+local/app/
 quepeo.php
 video_server/jqueryupload/
 

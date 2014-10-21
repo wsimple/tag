@@ -328,7 +328,8 @@ windowFix();
 });
 var img64;
 if(CORDOVA){
-var cam=window.Camera,
+document.addEventListener('deviceready',function(){
+var cam=Camera,
 photoData={
 targetWidth:650,
 quality:60,
@@ -367,6 +368,7 @@ myDialog('Error: '+e);
 $('#footerPicture').on('click','a[opc]',function(){
 getPhoto($(this).attr('opc'));
 });
+},false);
 }
 function publish(){
 var i,emails=[];
