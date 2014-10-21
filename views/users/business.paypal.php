@@ -280,7 +280,8 @@ $.on({
 						// }
 					},//success
 					error: function(data){
-						message('<?=NEWTAG_LBLTEXT?>','Error','<?=JS_ERROR?>','','','','','');
+						console.log(data);
+						// message('<?=NEWTAG_LBLTEXT?>','Error','<?=JS_ERROR?>','','','','','');
 					}
 				});
 			}else{ message('<?=NEWTAG_LBLTEXT?>','Error','<?=$lang["NODOCUMENTSNONPROFIT"]!=""?$lang["NODOCUMENTSNONPROFIT"]:"Please enter the required documents to verify your account"?>','','','','',''); }
