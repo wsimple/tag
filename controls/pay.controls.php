@@ -28,7 +28,7 @@
 			$req .= "&$key=$value";
 		}
 	}
-	
+	//description
 	// Nuevas Headers
 	$header = "POST /cgi-bin/webscr HTTP/1.1\r\n";
 	$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
@@ -78,13 +78,14 @@
 	$payer_email      = trim($_POST['payer_email']);
 	$custom           = explode('|', trim($_POST['custom']));
 
+
 	// variables generales para log en tabla payPal
 	$id_user = '';
 	$id_publicity = 0;
 	$description = '';
 	$txn = $txn_id;
 
-  if ($acount == md5($receiver_email)){
+  	if ($acount == md5($receiver_email)){
 		//validamos lo que viene de paypal
 		if (!$fp){
 		 	$db = $GLOBALS['cn']->query("INSERT INTO paypal SET
