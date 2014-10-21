@@ -243,11 +243,13 @@ $.on({
 			});
 			if (band){
 				//Mando Formulario en caso de cuenta NoN-Profit
+				console.log('sorry');
 				$('#frmBusiness').ajaxSubmit({
 					dataType: 'json',
 					success: function(data){ // post-submit callback
 						console.log(data);
-						// var msgTitle = 'Error',msgContent = '',location='';
+						console.log('aqui');
+						var msgTitle = 'Error',msgContent = '',location='';
 						// switch(data.result){
 						// 	case -1: 
 						// 		msgContent = '<?=SIGNUP_ERRORUPLOAD?>'; 
@@ -259,25 +261,27 @@ $.on({
 						// 		msgContent = '<?=SIGNUP_SUCCESSREGISTERNONPROFIT?>';
 						// 	break;
 						// }
-						// if( data.result == 1 || data.result == -1) {
-						// 	$.dialog({
-						// 		title:msgTitle,
-						// 		resizable:false,
-						// 		width:320,
-						// 		height:300,
-						// 		modal:true,
-						// 		open:function(){ $(this).html(msgContent); },
-						// 		close:function(){ document.location=location; },
-						// 		buttons:{
-						// 			'<?=JS_OK?>':function(){
-						// 				$(this).dialog('close');
-						// 			}
-						// 		}
-						// 	});
-						// }else{
-						// 	for (var i=0; i<5; i++) $('#loaderStore'+(i+1)).css('display','block'); 
-						// 	// $('div.bgS'+item).css('background-image','url(css/smt/document.png)'); 
-						// }
+						if( data.result == 1 || data.result == -1) {
+						console.log('aqui2');
+							// $.dialog({
+							// 	title:msgTitle,
+							// 	resizable:false,
+							// 	width:320,
+							// 	height:300,
+							// 	modal:true,
+							// 	open:function(){ $(this).html(msgContent); },
+							// 	close:function(){ document.location=location; },
+							// 	buttons:{
+							// 		'<?=JS_OK?>':function(){
+							// 			$(this).dialog('close');
+							// 		}
+							// 	}
+							// });
+						}else{
+						console.log('aqui3');
+							// for (var i=0; i<5; i++) $('#loaderStore'+(i+1)).css('display','block'); 
+							// $('div.bgS'+item).css('background-image','url(css/smt/document.png)'); 
+						}
 					},//success
 					error: function(data){
 						console.log(data);
