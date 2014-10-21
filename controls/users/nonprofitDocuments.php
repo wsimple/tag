@@ -52,10 +52,10 @@ if($json['result']==1){
 	if($debug) $json['_sql_'][]=CON::lastSql();
 	if($idPlan!=''){
 		$days=CON::getVal('SELECT days FROM subscription_plans WHERE id=0');
-		// CON::update('users_plan_purchase','init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL '.$days.' DAY)',"id=$idPlan");
+		CON::update('users_plan_purchase','init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL '.$days.' DAY)',"id=$idPlan");
 		if($debug) $json['_sql_'][]=CON::lastSql();
 	}else{
-		// CON::insert('users_plan_purchase','id_user=?,id_plan=0,init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL 15 DAY)',
+		CON::insert('users_plan_purchase','id_user=?,id_plan=0,init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL 15 DAY)',
 			array($_SESSION['business_payment']['ws-user']['id']);
 		if($debug) $json['_sql_'][]=CON::lastSql();
 	}
