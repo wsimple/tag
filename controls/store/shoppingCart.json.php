@@ -1176,7 +1176,7 @@ include ('../../class/class.phpmailer.php');
             if (isset($_GET['shopW'])) $_GET['shop']='1';
             $array['tipo']='wish';
             if ($mobile) $array['mobile']=$mobile;
-            $wishList=consulWishList($array);
+            $wishList=consulWishList($array,$lang);
             if (!isset($wishList['body'])) $_GET['shop']='1';
             if (isset($wishList['body']) || isset($_GET['shop'])){
                 $array['tipo']  ='prefe';
@@ -1188,10 +1188,10 @@ include ('../../class/class.phpmailer.php');
                     $array['noId']=''; 
                     $band=true;
                 }
-                $temp=consulWishList($array);
+                $temp=consulWishList($array,$lang);
                 if (!isset($temp['body'])){ 
                     $array['tipo']  ='aso';
-                    $temp=consulWishList($array);
+                    $temp=consulWishList($array,$lang);
                 }
                 if (isset($temp['body'])){
                     if (isset($wishList['body']) && $wishList['body']!='') $wishList['body'].=$temp['body'];
@@ -1220,20 +1220,9 @@ include ('../../class/class.phpmailer.php');
 			die(jsonp($jsonResponse));
 		}
 	}//quitar_inyect
-    function consulWishList($array){
+    function consulWishList($array,$lang){
         #consulta productos de la lista de deseados  (estatus 5 porque en la tabla de status el 5 es pendiente)
-        $select='   p.id,
-                    p.id_user AS seller,
-                    p.id_category,
-                    p.id_sub_category,
-                    (SELECT name FROM store_category WHERE id=p.id_category) AS category,
-                    (SELECT name FROM store_sub_category WHERE id=p.id_sub_category) AS subCategory,
-                    p.name,
-                    p.photo,
-                    p.place,
-                    p.stock,
-                    p.id_status,
-                    p.sale_points,
+        $select=common_data().',
                     u.name AS nameUser,
                     u.last_name AS last_name';
         $from='     store_orders o
@@ -1289,21 +1278,25 @@ include ('../../class/class.phpmailer.php');
         $sql='  SELECT '.$select.'
                 FROM '.$from.'
                 WHERE '.$where;
-        if (isset($_GET['debug'])) echo '<div><pre>'.$sql.'</pre></div>';
-        $idOrder=$GLOBALS['cn']->query($sql);
-        $numIdOrder=mysql_num_rows($idOrder);
+        $idOrder=CON::query($sql);
+        // $idOrder=$GLOBALS['cn']->query($sql);
+        if (isset($_GET['debug'])) echo CON::lastSql();
+        // $numIdOrder=mysql_num_rows($idOrder);
+        $numIdOrder=CON::numRows($idOrder);
         if ($numIdOrder==0){ return ''; }
         else{ 
-            $update='';$disable='';
-            $i=0;$r;$u;$a=0;$idorden='';
-            if ($array['mobile']){ $html='<li data-role="list-divider" class="titleDivider">'.($array['tipo']=='wish'?STORE_WISH_LIST:STORE_WISH_ASO).'</li>'; }
-            else{
+            $update='';$disable='';$i=0;$r;$u;$a=0;$idorden='';
+            if ($array['mobile']){ 
+            	$html='<li data-role="list-divider" class="titleDivider">'.($array['tipo']=='wish'?$lang["STORE_WISH_LIST"]:$lang["STORE_WISH_ASO"]).'</li>'; 
+            }else{
                 if (isset($_GET['lisWishsShow'])){ $html=''; }
                 elseif($array['tipo']=='wish'){ $html='<ul id="ulToCarWish" h="'.$numIdOrder.'">'; }
                 elseif($array['tipo']!='wish'){ $html=''; }                
             }
-            while ($row=  mysql_fetch_assoc($idOrder)){
+            while ($row=CON::fetchAssoc($idOrder)){
+            // while ($row=  mysql_fetch_assoc($idOrder)){
                 $noId.=($noId!=''?',':'').$row['id'];
+	            $idorden=  md5($row['idOrder']);
                 $row['name']=utf8_encode(formatoCadena($row['name']));
                 $row['nameUser']=utf8_encode(formatoCadena($row['nameUser'].' '.$row['last_name']));
                 $row['category']=utf8_encode(formatoCadena(constant($row['category'])));
@@ -1312,104 +1305,60 @@ include ('../../class/class.phpmailer.php');
                 $photo	= FILESERVER.'img/'.$row['photo'];
                 if(fileExistsRemote($photo)){ $row['photo'] = $photo; }
                 else{ $row['photo'] = DOMINIO.'imgs/defaultAvatar.png'; }
-                if($array['tipo']=='wish')
-                if ($row['price']!=$row['sale_points'] || $row['fp']!=$row['formPayment']){
-                    $storeTo=STORE_TO;
-                    $t['nombre']=$row['name'];
-                    $t['id']=$row['id'];
-                    switch ($row['formPayment']){
-                        case '1': $t['actual']='$ <span money="d">'.$row['price'].'</span>'; break;
-                        default : $t['actual']='<span money="p">'.$row['price'].'</span> '.STORE_TITLEPOINTS; 
-                    }
-                    switch ($row['fp']){
-                        case '1': $t['nuevo']='$ '.$row['sale_points'];break;
-                        default : $t['nuevo']=$row['sale_points'].' '.STORE_TITLEPOINTS;
-                    }
-                    $code=md5(md5($row['id']));
-                    $update.='<span h="'.$code.'"><a href="'.base_url('detailprod?prd='.md5($row['id'])).'">'.$row['name'].'</a>';
-                    if ($row['price']>$row['sale_points']){ $update.=' '.utf8_encode(STORE_DECREMENTE).' '; }
-                    else if ($row['price']<$row['sale_points']){ $update.=' '.utf8_encode(STORE_INCREASED).' '; }
-                    else { 
-                        $update.=' '.utf8_encode(STORE_CHANGED).' '; 
-                        $storeTo=$_SESSION['ws-tags']['ws-user']['language']=='en'?$storeTo:'a';
-                    }
-                    $update.=utf8_encode(INVITEUSERS_FROM).' <em>'.$t['actual'].'</em> '.$storeTo.' <em>'.$t['nuevo'].'</em>.<br></span>';
-                    $row['price']=$row['sale_points']; //actualiza el precio
-                    $row['formPayment']=$row['fp'];
-                    $GLOBALS['cn']->query('UPDATE store_orders_detail SET price="'.$row['sale_points'].'",formPayment="'.$row['fp'].'"  WHERE id_order="'.$row['idOrder'].'" AND id_product="'.$row['id'].'";');
-                    $a++;
-                    $u[]=$t;
-                }
-                if($array['tipo']=='wish')
-                if ($row['id_status']==2 || $row['stock']==0){
-                    $t['nombreDisable']=$row['name'];
-                    $t['idDisable']=$row['id'];
-                    $row['stock']=0;
-                    $code=md5(md5($row['id']));
-                    $disable.='<span h="'.$code.'"><a href="'.base_url('detailprod?prd='.md5($row['id'])).'">'.$row['name'].'</a><br></span>';
-                    $u[]=$t;
-                    $idorden=  md5($row['idOrder']);
-                }
+                if($array['tipo']=='wish'){
+                	if ($row['price']!=$row['sale_points'] || $row['fp']!=$row['formPayment']){
+	                    $storeTo=$lang["STORE_TO"];
+	                    $t['nombre']=$row['name'];
+	                    $t['id']=$row['id'];
+	                    switch ($row['formPayment']){
+	                        case '1': $t['actual']='$ <span money="d">'.$row['price'].'</span>'; break;
+	                        default : $t['actual']='<span money="p">'.$row['price'].'</span> '.$lang["STORE_TITLEPOINTS"]; 
+	                    }
+	                    switch ($row['fp']){
+	                        case '1': $t['nuevo']='$ '.$row['sale_points'];break;
+	                        default : $t['nuevo']=$row['sale_points'].' '.$lang["STORE_TITLEPOINTS"];
+	                    }
+	                    $code=md5(md5($row['id']));
+	                    $update.='<span h="'.$code.'"><a href="'.base_url('detailprod?prd='.md5($row['id'])).'">'.$row['name'].'</a>';
+	                    if ($row['price']>$row['sale_points']){ $update.=' '.utf8_encode($lang["STORE_DECREMENTE"]).' '; }
+	                    else if ($row['price']<$row['sale_points']){ $update.=' '.utf8_encode($lang["STORE_INCREASED"]).' '; }
+	                    else { 
+	                        $update.=' '.utf8_encode($lang["STORE_CHANGED"]).' '; 
+	                        $storeTo=$_SESSION['ws-tags']['ws-user']['language']=='en'?$storeTo:'a';
+	                    }
+	                    $update.=utf8_encode($lang["INVITEUSERS_FROM"]).' <em>'.$t['actual'].'</em> '.$storeTo.' <em>'.$t['nuevo'].'</em>.<br></span>';
+	                    $row['price']=$row['sale_points']; //actualiza el precio
+	                    $row['formPayment']=$row['fp'];
+	                    $GLOBALS['cn']->query('UPDATE $lang["store_orders_detail"] SET price="'.$row['sale_points'].'",formPayment="'.$row['fp'].'"  WHERE id_order="'.$row['idOrder'].'" AND id_product="'.$row['id'].'";');
+	                    $a++;
+	                }
+	                if ($row['id_status']==2 || $row['stock']==0){
+	                    $t['nombreDisable']=$row['name'];
+	                    $t['idDisable']=$row['id'];
+	                    $row['stock']=0;
+	                    $code=md5(md5($row['id']));
+	                    $disable.='<span h="'.$code.'"><a href="'.base_url('detailprod?prd='.md5($row['id'])).'">'.$row['name'].'</a><br></span>';
+	                }
+                }	                
                 switch ($row['formPayment']){
                     case '1': $price='$ <span money="d">'.$row['price'].'</span>'; break;
-                    default : $price='<span money="p">'.$row['price'].'</span> '.STORE_TITLEPOINTS;
-                }
-                
-                
-                
+                    default : $price='<span money="p">'.$row['price'].'</span> '.$lang["STORE_TITLEPOINTS"];
+                }                
                 //datos empieza el html
                 if ($array['mobile']){
-                    $html.='<li id='.md5($row['id']).'>
-        						'.//'<a>'+
-        						'<div class="contentItem">
-        							<div class="itemPic">
-        								<img src="'.$row['photo'].'"/>
-        							</div>	
-        							<div class="itemDes">
-        								<div class="name">'.$row['name'].'</div>
-        								<div><strong>'.SELLER.':</strong> '.$row['nameUser'].'</div>
-        								<div>'.$row['category'].' > '.$row['subCategory'].'</div>
-        								<div class="price">'.PRODUCTS_PRICE.': '.$price.'</div>
-                                        <div >'.STORE_STOCK.': '.$row['stock'].'</div>
-                                    </div>
-        						</div><br/>
-                                <div class="buttons">
-                                    <a func="details" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'.STORE_VIEWDETAILS.'</span></span></a>
-                                    '.(($array['tipo']!='prefe' && $array['tipo']!='aso')?'<a func="delete" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'.STORE_REMOVEITEMSCTITLE.'</span></span></a>':'')
-                                    .(($row['stock']>0)?'<a func="sendCart" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'.STORE_ADDCART.'</span></span></a>':'')
-                                .'</div>
-        						'.//</a>+
-        					'</li>';
-                }else{ // si viene de la web
-                    
-                    $html.='<li class="carStore liVoid'.$i.' '.(($row['stock']==0)?'noST':'').'">
-                                <div class="lis_product_store" style="background-image:url(\''.$row['photo'].'\')";></div>
-                            </li>
-                            <li class="carStoreDetails liVoid'.$i.' wish '.(($row['stock']==0)?'noST':'').'">
-                                <div class="lis_product_store_details">
-                                    <span class="nameSP" action="detailProd,'.md5($row['id']).'">'.$row['name'].'</span><br>
-                                    <span class="sellerSP" action="profile,'.md5($row['seller']).'"><strong>'.SELLER.':</strong> '.$row['nameUser'].'</span><br>
-                                    <span class="footer"><strong>'.STORE_CATEGORIES2.':</strong> '.$row['category'];
-                         if ($row['id_category']!='1'){ $html.= '<br><strong>'.STORE_CATEGORIES3.':</strong> '.$row['subCategory']; }
-                        $html.=     '<br><strong>'.PRODUCTS_PRICE.': </strong><span class="color_red_dark">'.$price.'</span>
-                                    <br><strong>'.formatoCadena(STORE_STOCK).': </strong><span '.(($row['stock']<=10)?'class="color_red"':'').' >'.$row['stock'].(($row['stock']<=10 && $row['id_category']!='1')?'&nbsp;&nbsp;'.(($row['stock']==0)?STORE_NOT_STOCK_LIST:STORE_MESSAGE_STOCK_LOW):'').'</span>
-                                    </span><br>'.(($row['stock']==0)?'':'<span class="button addToCar" style="margin: 5px 0;" h="'.md5($row['id']).'">'.STORE_ADDCART.'</span>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;').(($array['tipo']!='prefe' && $array['tipo']!='aso')?'<span class="deleteItemCar" action="deleteItemCar,'.md5($row['id']).',wish'.((isset($_GET['shop']))?',shop':',shop').'">'.NEWTAG_HELPDELETEBACKGROUNDTEMPLATE.'</span>':'').'
-                                </div>
-                            </li>';   
-                }
+                    $html.=mobileWishList($row,$lang,$array);
+                }else $html.=wishList($row,$i,$lang,$array);  
                 $i++;$r[]=$row;
             }
-            
-            
+
             if (isset($_GET['lisWishsShow'])){
                 $htmlEmer=''; 
                 if (isset($_GET['noSTP']) && $array['tipo']=='wish'){
-                    $datosCar['disable']=$disable!=''?'<div class="noST"><div><strong>'.utf8_encode(ITEMS_NOT_AVAILABLE).':</strong></div>'.$disable.'<div id="deleteItemsNot" h="'.$idorden.'">'.utf8_encode(STORE_DELETE_ALL_TO_WISH).'</div></div>':'';
+                    $datosCar['disable']=$disable!=''?'<div class="noST"><div><strong>'.utf8_encode($lang["ITEMS_NOT_AVAILABLE"]).':</strong></div>'.$disable.'<div id="deleteItemsNot" h="'.$idorden.'">'.utf8_encode($lang["STORE_DELETE_ALL_TO_WISH"]).'</div></div>':'';
                 }
             }else{
-               $disable=$disable!=''?'<div class="noST"><div><strong>'.utf8_encode(ITEMS_NOT_AVAILABLE).':</strong></div>'.$disable.(!$array['mobile']?'<div id="deleteItemsNot" h="'.$idorden.'">'.utf8_encode(STORE_DELETE_ALL_TO_WISH).'</div>':'').'</div>':'';
-               $update=$update!=''?'<div class="updateItems"><div><strong><span class="numI">'.$a.'</span> '.utf8_encode(ITEM.($a==1?'':'s')).' '.utf8_encode(STORE_CHANGE_PRICE_WISH).'</div>'.$update.'</div>':'';
+               $disable=$disable!=''?'<div class="noST"><div><strong>'.utf8_encode($lang["ITEMS_NOT_AVAILABLE"]).':</strong></div>'.$disable.(!$array['mobile']?'<div id="deleteItemsNot" h="'.$idorden.'">'.utf8_encode($lang["STORE_DELETE_ALL_TO_WISH"]).'</div>':'').'</div>':'';
+               $update=$update!=''?'<div class="updateItems"><div><strong><span class="numI">'.$a.'</span> '.utf8_encode($lang["ITEM"].($a==1?'':'s')).' '.utf8_encode($lang["STORE_CHANGE_PRICE_WISH"]).'</div>'.$update.'</div>':'';
                $htmlEmer=$update!='' || $disable!=''?'<div class="messageAdver changeOrder">'.$disable.'<br>'.$update.'</div>':'';   
                if (isset($_GET['noSTP']) && $array['tipo']=='wish'){ $datosCar['disable']=$disable; }  
             }
@@ -1426,7 +1375,7 @@ include ('../../class/class.phpmailer.php');
             }
             
             //$datosCar['resultUpdate']=$u; //STORE_WANT_TO_DO
-            if (isset($r2)) $datosCar['result']=array_merge ($r,$r2);
+            if (isset($r2) && is_array($r2)) $datosCar['result']=array_merge ($r,$r2);
             else $datosCar['result']=$r;
             $datosCar['noId']= $noId;
             
@@ -1442,4 +1391,72 @@ include ('../../class/class.phpmailer.php');
             return $datosCar;
         }
     }
+
+
+    /********************************PRE - DATOS ***********************************/
+    function common_data(){
+    	return ('p.id,p.id_user AS seller,p.id_category,p.id_sub_category,
+            (SELECT name FROM store_category WHERE id=p.id_category) AS category,
+            (SELECT name FROM store_sub_category WHERE id=p.id_sub_category) AS subCategory,
+            p.name,p.photo,p.place,p.stock,p.id_status,p.sale_points');
+    }
+    /********************************END - PRE - DATOS ***********************************/
+    /********************************HTML***********************************/
+    function wishList($row,$i,$lang,$array){
+    	$class='';$button='';$msg='';$delete='';$noSt='';
+    	if ($row['stock']<=10 && $row['id_category']!='1'){
+    		$class='class="color_red"';
+    		if ($row['stock']>0){
+    			$button='<span class="button addToCar" style="margin: 5px 0;" h="'.md5($row['id']).'">'.$lang["STORE_ADDCART"].'</span>&nbsp;&nbsp;&nbsp;&nbsp;';
+    			$noSt='noST';
+    		}
+    		$msg='&nbsp;&nbsp;'.(($row['stock']==0)?$lang["STORE_NOT_STOCK_LIST"]:$lang["STORE_MESSAGE_STOCK_LOW"]);
+    	}
+    	if ($array['tipo']!='prefe' && $array['tipo']!='aso')
+    		$delete='<span class="deleteItemCar" action="deleteItemCar,'.md5($row['id']).',wish'.((isset($_GET['shop']))?',shop':',shop').'">'.$lang["NEWTAG_HELPDELETEBACKGROUNDTEMPLATE"].'</span>';
+    	$html='<li class="carStore liVoid'.$i.' '.$noSt.'">
+    				<div class="lis_product_store" style="background-image:url(\''.$row['photo'].'\')";></div>
+				</li>
+				<li class="carStoreDetails liVoid'.$i.' wish '.$noSt.'">
+					<div class="lis_product_store_details">
+						<span class="nameSP" action="detailProd,'.md5($row['id']).'">'.$row['name'].'</span><br>
+						<span class="sellerSP" action="profile,'.md5($row['seller']).'"><strong>'.$lang["SELLER"].':</strong> '.$row['nameUser'].'</span><br>
+						<span class="footer"><strong>'.$lang["STORE_CATEGORIES2"].':</strong> '.$row['category'];
+		if ($row['id_category']!='1') 
+			$html.= 	'<br><strong>'.$lang["STORE_CATEGORIES3"].':</strong> '.$row['subCategory'];
+		$html.=     	'<br><strong>'.$lang["PRODUCTS_PRICE"].': </strong><span class="color_red_dark">'.$price.'</span>
+						<br><strong>'.formatoCadena($lang["STORE_STOCK"]).': </strong><span '.$class.' >'.$row['stock'].$msg.'</span></span><br>'.$button.$delete.'
+					</div>
+				</li>';
+		return $html; 
+    }
+    function mobileWishList($row,$lang,$array){
+		$delete='';$button='';
+    	if ($array['tipo']!='prefe' && $array['tipo']!='aso')
+    		$delete='<a func="delete" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f">
+    					<span class="ui-btn-inner"><span class="ui-btn-text">'.$lang["STORE_REMOVEITEMSCTITLE"].'</span></span>
+    				</a>';
+    	if ($row['stock']>0)
+    		$button='<a func="sendCart" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f">
+    					<span class="ui-btn-inner"><span class="ui-btn-text">'.$lang["STORE_ADDCART"].'</span></span>
+					</a>';
+    	$html='<li id='.md5($row['id']).'>
+    				<div class="contentItem">
+    					<div class="itemPic"><img src="'.$row['photo'].'"/></div>
+						<div class="itemDes">
+							<div class="name">'.$row['name'].'</div>
+							<div><strong>'.$lang["SELLER"].':</strong> '.$row['nameUser'].'</div>
+							<div>'.$row['category'].' > '.$row['subCategory'].'</div>
+							<div class="price">'.$lang["PRODUCTS_PRICE"].': '.$price.'</div>
+							<div >'.$lang["STORE_STOCK"].': '.$row['stock'].'</div>
+        				</div><br/>
+        				<div class="buttons">
+        					<a func="details" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f">
+        						<span class="ui-btn-inner"><span class="ui-btn-text">'.$lang["STORE_VIEWDETAILS"].'</span></span>
+    						</a>'.$delete.$button.'
+    					</div>
+                </li>';
+        return $html;
+    }
+    /********************************END - HTML***********************************/
 ?>
