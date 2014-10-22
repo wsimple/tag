@@ -134,7 +134,7 @@ function newTag_json($data,$mobile=false){
 		$code=$_SESSION['ws-tags']['ws-user']['code'];
 		$path=RELPATH.'img/templates/'.$code.'/';
 		$photo=md5(date('Ymdgisu')).'.jpg';
-		$_photo=$code.'/'.$photo;
+		$_photo="$code/$photo";
 		//if directory doesn't exist
 		if(!is_dir($path)){
 			$old=umask(0);
@@ -155,8 +155,8 @@ function newTag_json($data,$mobile=false){
 			$data['background']=$_photo;
 		}else{
 			$res['uploaded']=false;
-			$res['msg']=utf8_encode(NEWTAG_CTRERRORFILEFORMAT);
-			$res['title']=utf8_encode(NEWTAG_CTRTITLEERROR);
+			$res['msg']=NEWTAG_CTRERRORFILEFORMAT;
+			$res['title']=NEWTAG_CTRTITLEERROR;
 			return $res;
 		}
 	}
@@ -354,8 +354,8 @@ function newTag_json($data,$mobile=false){
 			}
 		}//if group
 		$res['done']=true;
-		$res['msj']=utf8_encode(NEWTAG_CTRMSGDATASAVE);
-		$res['title']=utf8_encode(NEWTAG_CTRTITLEINFO);
+		$res['msj']=NEWTAG_CTRMSGDATASAVE;
+		$res['title']=NEWTAG_CTRTITLEINFO;
 	}else{
 		if($data['bcard']){//asociamos business card
 			$GLOBALS['cn']->query('UPDATE tags SET id_business_card="'.$data['bcard'].'" WHERE id="'.$data['bcard'].'"');
@@ -363,8 +363,8 @@ function newTag_json($data,$mobile=false){
 		//unlink('img/templates/'.$photo);
 		deleteFTP($photo,'templates','../../');
 		$res['done']=false;
-		$res['msj']=utf8_encode(NEWTAG_CTRERRORNEWTAG);
-		$res['title']=utf8_encode(NEWTAG_CTRTITLEERROR);
+		$res['msj']=NEWTAG_CTRERRORNEWTAG;
+		$res['title']=NEWTAG_CTRTITLEERROR;
 	}
 	return $res;
 }
