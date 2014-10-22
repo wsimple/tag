@@ -13,7 +13,7 @@ for($i=0;$i<count($_FILES['document']);$i++){
 			$ext=strtolower(end($parts));
 			//validacion del formato de la imagen
 			if(in_array($ext,$filesAllowed)){
-				$path=RELPATH.'img/documents/'.$_SESSION['business_payment']['ws-user']['code'].'/';
+				$path='../../img/documents/'.$_SESSION['business_payment']['ws-user']['code'].'/';
 				$doc='document_'.$i.'.jpg';
 				//si la imagen pesa menos de 2,5mb
 				if($_FILES['document']['size'][$i]<2500000){
@@ -28,7 +28,7 @@ for($i=0;$i<count($_FILES['document']);$i++){
 
 					if(redimensionar($_FILES['document']['tmp_name'][$i], $path.$doc, 650)){
 						//uploadFTP($doc,'documents','../../');
-						uploadFTP($doc,'documents',RELPATH,1,$_SESSION['business_payment']['ws-user']['code']);
+						uploadFTP($doc,'documents','../../',1,$_SESSION['business_payment']['ws-user']['code']);
 						$json['result']=1;
 					}
 				}
@@ -52,11 +52,10 @@ if($json['result']==1){
 	if($debug) $json['_sql_'][]=CON::lastSql();
 	if($idPlan!=''){
 		$days=CON::getVal('SELECT days FROM subscription_plans WHERE id=0');
-		// CON::update('users_plan_purchase','init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL '.$days.' DAY)',"id=$idPlan");
+		CON::update('users_plan_purchase','init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL '.$days.' DAY)',"id=$idPlan");
 		if($debug) $json['_sql_'][]=CON::lastSql();
 	}else{
-		// CON::insert('users_plan_purchase','id_user=?,id_plan=0,init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL 15 DAY)',
-			array($_SESSION['business_payment']['ws-user']['id']);
+		CON::insert('users_plan_purchase','id_user="'.$_SESSION['business_payment']['ws-user']['id'].'",id_plan=0,init_date=NOW(),end_date=DATE_ADD(NOW(),INTERVAL 15 DAY)');
 		if($debug) $json['_sql_'][]=CON::lastSql();
 	}
 	$sesion=CON::getRow('SELECT *,CONCAT(name," ",last_name) AS full_name,MD5(CONCAT(id,"_",email,"_",id)) AS code FROM users WHERE id=? LIMIT 1',array($_SESSION['business_payment']['ws-user']['id']));
