@@ -145,9 +145,11 @@ function newTag_json($data,$mobile=false){
 		}
 		$fp=fopen($path.$photo,'w');
 		if($fp){
+			$res['uploaded']=true;
 			fwrite($fp,$imgData);
 			fclose($fp);
 			if(redimensionar($path.$photo,$path.$photo,650)){
+				$res['redimensionar']=true;
 				FTPupload("templates/$_photo",RELPATH);
 			}
 			$data['background']=$_photo;
