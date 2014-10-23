@@ -142,7 +142,7 @@ if ($acceso){  ?>
 			<?php } ?>
 			<div id="btnPanel" class="float-right">
 				<input id="cancel" type="button" value="<?=JS_CANCEL?>"/>
-				<input id="preview" type="button" value="<?=NEWTAG_BTNPREVIEW?>"/>
+				<!-- <input id="preview" type="button" value="<?=NEWTAG_BTNPREVIEW?>"/> -->
 				<?php if(!isset($_GET['wpanel'])){ ?>
 				<input id="publi" type="button" value="<?=NEWTAG_BTNPUBLISH?>" ajax/>
 				<?php } ?>
@@ -300,6 +300,8 @@ $(function(){
 		img.value=this.dataset.src.replace('videos/','');
 		// img.value=this.dataset.url.replace(SERVERS.img+'img/templates/','');
 		$('#bckSelected').css('background-image','url('+SERVERS.video+this.dataset.src+')');
+		$(this).parent().find('.option-cap').removeClass('selected');
+		$(this).addClass('selected');
 	});
 	setType();//default
 	if (bgd!=''){ setBG(bgd); }

@@ -2103,13 +2103,15 @@ container .mid-pannel menu#carousel{
 #preVideTags .tag-container .select-capture .option-cap{
 	width:80px;
 	height:37px;
-	/*background-repeat: no-repeat;*/
 	background-size: 100%;
-	margin: 0 5px;
+	margin: 0 2px;
 	cursor: pointer;
-	background-repeat: no-repeat;
 	background-position: center;
 	display: inline-block;
+	border: 2px solid white;
+}
+#preVideTags .tag-container .select-capture .option-cap.selected{
+	border:2px solid blue;
 }
 #divcboPeoples .facebook-auto,
 #divcboPeoples .facebook-auto #cboPeoples_feed,
