@@ -70,11 +70,11 @@
 				$band=false;
 				$num=count($infoa[$row['id_source'].'-'.$row['id_type']]['usrs']);
 				for ($i=0;$i<$num; $i++){
-					if ($infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$i]['name']===utf8_encode($row['nameUser']))
+					if ($infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$i]['name']===$row['nameUser'])
 						$band=true;
 				}
 				if (!$band){
-					$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['name'] = utf8_encode($row['nameUser']);
+					$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['name'] = $row['nameUser'];
 					$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['uid'] = md5($row['id_user']);
 					$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['photo'] = getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],false);
 				if (!$infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['photo']) $infoa[$row['id_source'].'-'.$row['id_type']]['usrs'][$num]['photo']=DOMINIO.'img/users/default.png';
@@ -91,12 +91,12 @@
 				if ($date[0]==date('Y') && $date[1]==date('m') && $date[2]==(date('d')-1))
 					$sent = NOTIFICATIONS_SENTDATE3;
 				$row['fdate']=$sent.', '.$hora;
-				$usr[0]['name'] = utf8_encode($row['nameUser']);
+				$usr[0]['name'] = $row['nameUser'];
 				$usr[0]['uid'] = md5($row['id_user']);
 				$usr[0]['photo'] = getUserPicture('img/users/'.$row['keyUser'].'/'.$row['photoUser'],false);
 				if (!$usr[0]['photo']) $usr[0]['photo']=DOMINIO.'img/users/default.png';
 				else $usr[0]['photo']=FILESERVER.$usr[0]['photo'];
-				$friend['name']=utf8_encode($row['nameFriend']);
+				$friend['name']=$row['nameFriend'];
 				$friend['uid']=md5($row['id_friend']);
 				$friend['photo'] = getUserPicture($row['keyFriend'].'/'.$row['photoFriend'],false);
 				if (!$friend['photo']) $friend['photo']=DOMINIO.'img/users/default.png';
