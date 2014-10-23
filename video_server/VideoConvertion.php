@@ -72,20 +72,36 @@ class VideoConvertion extends VideoCaptures
 		if(!$error) unlink("$this->path/$data->original");
 		else unset($data->video,$data->captures);
 		if(!$error){
-			#creacion de capturas
-			$t=$data->type?12:24;
-			$origen="$this->path/$data->video";
+			#lista de capturas
 			$captures=is_array($data->captures)?$data->captures:array();
+			#calculamos aproximadamente la duracion del video
+			$max=$data->type?31:60;
+			$i=$max;
+			$error='-';
+			$capture=$captures[0];
+			if($capture) do{
+				$i--;
+				$error=$this->ffmpeg_encode($origen,"-ss 00:00:$i -vframes 1 $capture","-loglevel warning");
+			}while($error&&$i>$max/3);
+			#calculando tiempos de las capturas
+			$start=ceil($i/15);
+			$t=ceil($i*2/5);
+			$i=0;
+			#generamos las capturas
 			$data->captures=array();
-			for($i=0;count($captures)>$i;$i++){
+			while(count($captures)>$i){
 				$capture=$captures[$i];
 				$capture="$this->path/$capture";
-				$time='00:00:'.str_pad($i*$t+4,2,'0',STR_PAD_LEFT);
+				$time='00:00:'.str_pad($i*$t+$start,2,'0',STR_PAD_LEFT);
 				$error=$this->ffmpeg_encode($origen,"-ss $time -vframes 1 $capture","-loglevel warning");
 				if(!$error)
 					$data->captures[]=$captures[$i];
-				else
+				elseif($i==0&&$start>0){
+					$start--;
+					continue;
+				}else
 					break;
+				$i++;
 			}
 			if(!count($data->captures)) $error="Can't create any capture.";
 		}
