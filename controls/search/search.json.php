@@ -2,10 +2,12 @@
 //includes
 include '../header.json.php';
 
+
 if (quitar_inyect()){
     $res=array();
     if (isset($_REQUEST['search'])){ $srh = $_REQUEST['search']; }
     else{ $srh =''; }
+    if (!isset($_GET['type'])) $_GET['type']='';
     /*AMIGOS*/
     if($_GET['type']==''||$_GET['type']=='friends'){
         if (isset($_GET['limit'])){
@@ -15,9 +17,8 @@ if (quitar_inyect()){
                 case 'perso':   $array['limit']='LIMIT '.$_REQUEST['f_limitIni'].','.$_REQUEST['f_limitEnd']; break;
             }   
         }
-        $array['where']=    'u.status IN (1,5)';
-        $array['where'].=    colocaAND($array['where']).'u.id!="'.$_SESSION['ws-tags']['ws-user']['id'].'"';
-        if ($srh!=''){ $array['where'].=colocaAND($array['where']).'CONCAT_WS( " ",u.email, u.name, u.last_name) LIKE "%'.$srh.'%"'; }
+        $array['where']= safe_sql('u.status IN (1,5) AND u.id!=?',array($_SESSION['ws-tags']['ws-user']['id']));
+        if ($srh!='') $array['where'].=safe_sql(' AND CONCAT_WS( " ",u.email, u.name, u.last_name) LIKE "%??%"',array($srh)); 
         $array['order']='ORDER BY u.name ASC, u.email ASC';
         $friends = peoples($array);
         $friendsarray=array();
@@ -30,6 +31,7 @@ if (quitar_inyect()){
         $res['friends']=$num>0?$friendsarray:'';
         $res['num_friends']=$num;
     }else $res['friends']='';
+    
     /*GRUPOS*/
     if($_GET['type']==''||$_GET['type']=='groups'){ unset($array);
         if (isset($_GET['limit'])){
@@ -41,11 +43,11 @@ if (quitar_inyect()){
         }
         $array['select']="	,(SELECT ug.status FROM users_groups ug WHERE ug.id_group=g.id and ug.id_user='".$_SESSION['ws-tags']['ws-user']['id']."' LIMIT 1) AS integrant";
         $array['where']=    "(g.id_privacy!='3' OR (g.id_privacy='3' AND g.id=(SELECT ug.id_group FROM users_groups ug WHERE ug.id_group=g.id AND ug.id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' LIMIT 1)))";
-        if ($srh!=''){ $array['where'].=colocaAND($array['where']).'CONCAT_WS( " ",g.description, g.name) LIKE "%'.$srh.'%"'; }
+        if ($srh!='') $array['where'].=safe_sql(' AND CONCAT_WS( " ",g.description, g.name) LIKE "%??%"',array($srh)); 
         $array['order']='ORDER BY g.date DESC';
         $results = groupss($array);
         $groups=array();
-        while($row=  mysql_fetch_assoc($results)){
+        while($row= CON::fetchAssoc($results)){
             $row['name']=  utf8_encode(formatoCadena($row['name']));
     		$row['des']=  utf8_encode(formatoCadena($row['des']));
     		$row['members']=  $row['num_members'];
@@ -60,15 +62,15 @@ if (quitar_inyect()){
                 switch ($row['privacy']) {
     				case 1:
     					$row['privacidad'] = 'groupPublic'; //$classImgPrivacy
-    					$row['etiquetaPrivacidad'] = GROUPS_LABELOPEN;  //$privacyGrp
+    					$row['etiquetaPrivacidad'] = $lang["GROUPS_LABELOPEN"];  //$privacyGrp
     					break;
     				case 2:
     					$row['privacidad'] = 'groupPrivate';
-    					$row['etiquetaPrivacidad'] = GROUPS_LABELCLOSED;
+    					$row['etiquetaPrivacidad'] = $lang["GROUPS_LABELCLOSED"];
     					break;
     				case 3:
     					$row['privacidad'] = 'groupSecret';
-    					$row['etiquetaPrivacidad'] = GROUPS_LABELPRIVATE;
+    					$row['etiquetaPrivacidad'] = $lang["GROUPS_LABELPRIVATE"];
     					break;
     			}
     		}else{
@@ -87,7 +89,7 @@ if (quitar_inyect()){
         $res['groups']=$num>0?$groups:'';
         $res['num_groups']=$num;
     }else $res['groups']='';
-    /*HASH*/
+     /*HASH*/
     if($_GET['type']==''||$_GET['type']=='hash'){ unset($array);
         if (isset($_GET['limit'])){
             switch($_GET['limit']){
@@ -127,19 +129,18 @@ if (quitar_inyect()){
         if (isset($_GET['mobile'])){ $array['where'].=' AND p.formPayment=0 AND p.id_user!="'.$_SESSION['ws-tags']['ws-user']['id'].'"';}
         $array['select']=',p.formPayment AS pago';
         if($srh!=''){ //si viene palabra de busqueda se filtra por bur busqueda
-			$findhash=strpos($srh,',');
-			if($findhash!=''){
-				$hash=explode(',',$srh);
-				$array['where'].=" AND p.description LIKE  '%#".$hash[0]."%'";
+			if(strpos($srh,',')!==false){
+				$hash=explode(',',$srh); 
+                $array['where'].=safe_sql(' AND p.description LIKE "%??%"',array($hash[0]));
                 $_SESSION['store']['temp']=$hash[0];
 			}else{ 
-                $array['where'].=" AND CONCAT_WS( " ",p.name,  p.description) LIKE '%".$srh."%'"; 
+                $array['where'].=safe_sql(' AND CONCAT_WS( " ",p.name,  p.description) LIKE "%??%"',array($srh)); 
                 $_SESSION['store']['temp']=$srh;
             }
 		}
         $products = array();
         $result=product($array);
-        while ($row=  mysql_fetch_assoc($result)){
+        while ($row=  CON::fetchAssoc($result)){
             $row['id']=md5($row['id']);
             $row['seller'] = utf8_encode(formatoCadena($row['seller']));
             if ($row['id_user']==$_SESSION['ws-tags']['ws-user']['id']){ $row['raffle']=true; }
