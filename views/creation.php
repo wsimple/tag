@@ -31,6 +31,8 @@ if ($acceso){  ?>
 		<?php if(isset($_GET['wpanel'])){ ?><input type="hidden" name="wpanel" value="1"/><?php } ?>
 		<input type="hidden" name="product" value="<?=$_GET['product']?>" />
 		<input type="hidden" name="group" value="<?=$group?>" />
+		<input type="hidden" name="imgTemplate" id="imgTemplate" value=""/>
+		<input type="hidden" name="htxtVideo" id="htxtVideo" data-tipo="" value="<?=$tag['video_url']?>" />
 	<div class="ui-single-box-title">
 		<div id="groupTitleStyle"><?php
 			//echo $idTag.'---'.$tag['id'].'---'.$_GET['tag'];
@@ -94,7 +96,6 @@ if ($acceso){  ?>
 		</div>
 		<!-- end mensaje inferior -->
 
-		<input type="hidden" name="imgTemplate" id="imgTemplate" value=""/>
 		<div id="bckSelected" class="tag-container"></div>
 	</div>
 
@@ -104,7 +105,6 @@ if ($acceso){  ?>
 				<!-- <label><?=NEWTAG_LBLBACKGROUND?>:</label><br> -->
 				<!-- <div id="bgSelect"></div> -->
 				<input id="bgAndVideo" type="button" value="<?=lan('img_video')?>" ajax/>
-				<input type="hidden" name="htxtVideo" id="htxtVideo" data-tipo="" value="<?=$tag['video_url']?>" />
 			</div>
 			<?php
 				$privateTag=($group==''&&$_GET['product']==''&&$status!=9&&$idTag=='');
@@ -113,7 +113,7 @@ if ($acceso){  ?>
 			<div style="float: right;margin-top: 10px;margin-right: 10px;">
 				<input id="showPrivacy" type="button" data-act="1" value="<?=lan('show_privacy')?>"/>
 			</div>
-			<div id="PublicPrivate" style="display:none;float: right;margin-top: 10px;margin-right: 10px;">
+			<div id="PublicPrivate" style="display:none;float:right;margin-top:10px;margin-right:10px;">
 				<!-- <label style="font-weight: bold">Privacy:</label><br> -->
 				<select title="<?=NEWTAG_SHARETAGONLY_TITLE?>" name="showPublicPrivate" id="showPublicPrivate">
 					<option value="1"><?=NEWTAG_SELECTPUBLICTAG?></option>
@@ -176,7 +176,8 @@ if ($acceso){  ?>
 <script type="text/javascript">
 $(function(){
 	if (!window.players){ window.players=[]; }
-	var pub=true,bgd="<?=$tag['background']?$tag['background']:''?>",videoE="<?=$tag['video_url']?>";
+	var pub=true,bgd="<?=$tag['background']?$tag['background']:''?>";
+
 	$("#hiddenColorDiv").hover(function() {
 		var value = $("#hiddenColor").val();
 		 $("#txtMsg").css('color',value);
@@ -220,39 +221,46 @@ $(function(){
 			else $('#divcboPeoples').fadeIn(600).css({'display':'inline-block','margin-top':'15px'});
 		});
 	}
-	if (videoE!=''){
+	//cambio de video
+	var video=$('#htxtVideo')[0];
+	$(video).change(function(){
+		if(this.value.match(/^https?:\/\//i)) return;
+		$.ajax({
+			disablebuttons:true,
+			url:LOCAL?'video/test/1':SERVERS.video+'?captures',
+			dataType:'json',
+			type:'post',
+			data:{code:"<?=$_SESSION['ws-tags']['ws-user']['code']?>",file:video.value},
+			success:function(data){
+				if (!data.error){
+					video.value=data.video;
+					var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='';
+					for(var i=0,capture;capture=data.captures[i];i++){
+						captures=captures+'<div class="option-cap" data-src="videos/'+capture+'" style="background-image:url(\''+SERVERS.video+'videos/'+capture+'\')"></div>';
+					}
+					if(captures!=''){
+						captures='<div class="clearfix"></div><div class="select-capture">'+captures+'</div><div class="clearfix"></div>';
+					}
+					if(html!='')
+						$('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div>'+captures+'</div>')
+				}
+			}
+		});
+	});
+	if(video.value!=''){
+		$.debug().log('video change: ',video.value);
+		if(video.value=='') return;
 		$.ajax({
 			url:'video/validate/1',
 			type:'POST',
 			dataType:'json',
-			data:{thisvideo:videoE,nolocal:'1'},
+			data:{thisvideo:video.value,nolocal:'1'},
 			success:function(data){
-				var video=document.getElementById('htxtVideo');
 				if (data['success']){
 					var band=true;
 					if (band){
 						if (data['type']=='local'){
-							$.ajax({
-								disablebuttons:true,
-								url:LOCAL?'video/test/1':SERVERS.video+'?captures',
-								dataType:'json',
-								type:'post',
-								data:{code:"<?=$_SESSION['ws-tags']['ws-user']['code']?>",file:videoE},
-								success:function(data){
-									if (!data.error){
-										video.value=data.video;
-										var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='';
-										for(var i=0,capture;capture=data.captures[i];i++){
-											captures=captures+'<div class="option-cap" data-src="videos/'+capture+'" style="background-image:url(\''+SERVERS.video+'videos/'+capture+'\')"></div>';
-										}
-										if(captures!=''){
-											captures='<div class="clearfix"></div><div class="select-capture">'+captures+'</div><div class="clearfix"></div>';
-										}
-										if(html!='')
-											$('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div>'+captures+'</div>')
-									}
-								}
-							});
+							$(video).change();
 						}else{
 							htmlv=htmlVideo(data['urlV'],data['type'],null,true);
 							video.dataset.tipo=data['type'];
