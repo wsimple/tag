@@ -35,7 +35,7 @@ for ($x = 0; $x < $numrowsinit; $x++) {
         "people"=> array(
             "category" => SEARCHALL_PEOPLES,
             "id"	   => md5($friend["id_friend"]),
-            "name"	   => utf8_encode( $friend["name_user"] ),
+            "name"	   => $friend["name_user"],
             "photo"    => FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['photo_friend'],'img/users/default.png'),
             "email"    => $friend['email']
         )
@@ -50,7 +50,7 @@ for ($x = $numrowsinit; $group = mysql_fetch_assoc($groups); $x++) {
         "group"=> array(
             "category"	  => SEARCHALL_GROUPS,
             "id"		  => md5($group["id"]),
-            "name"		  => utf8_encode( $group["name"]),
+            "name"		  => $group["name"],
             "description" => $group['des']
         )
     );
@@ -96,7 +96,7 @@ for ($x = $pro; $product = mysql_fetch_assoc($productSe); $x++) {
         "product"=> array(
             "category" => SEARCH_PRODUCT,
             "id"	   => md5($product["id"]),
-            "name"	   => utf8_encode( $product["name"]),
+            "name"	   => $product["name"],
             "cate"     => $product['category'],
 			"photo"    => fileExistsRemote(FILESERVER.'img/'.$product['photo'])? FILESERVER.'img/'.$product['photo']:DOMINIO.'imgs/defaultAvatar.png'
         )
