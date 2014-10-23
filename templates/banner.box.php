@@ -2,7 +2,7 @@
 	$banners=$GLOBALS['cn']->queryArray('
 		SELECT b.id,b.link,b.title
 		FROM banners b
-		WHERE b.id_type=3 AND b.status=1
+		WHERE b.id_type=1 AND b.status=1
 		ORDER BY RAND()
 	');
 	if(count($banners)>0){
