@@ -8,10 +8,21 @@
 //	}else{
 //		define (_PATH_, "../img/publicity/banners/");
 //	}
-	
+//	
+//	
+	if ($_REQUEST['del']=='1'){
+		//_imprimir($_REQUEST);
+		$query = mysql_query("SELECT * FROM banners_picture WHERE id = '".$_REQUEST['id']."' AND id_banner = '".$_REQUEST['ba']."' ");
+		$array = mysql_fetch_assoc($query);
+		//_imprimir($array);
+		//echo '../img/publicity/banners/'.$array['picture'];
+		mysql_query("DELETE FROM banners_picture WHERE id = '".$_REQUEST['id']."' AND id_banner = '".$_REQUEST['ba']."' ");
+		unlink('../img/publicity/banners/'.$array['picture']);
+		mensajes("Sucessfully Process", "?url=".$_REQUEST[url]."&id_consulta=".$_REQUEST['ba'], "info");
+	}
 	
 	if ($_REQUEST['action']!=''){
-		print_r($_REQUEST);die();
+		//print_r($_REQUEST);die();
 		$imagesAllowed = array('jpg','jpeg','png','PNG');
 		
 		switch ($_REQUEST['action']){
@@ -220,13 +231,13 @@
 				// )) );
 
 				//Texto del banner
-				$frm->insertColspan();
-				$frm->insertTitle('Text control(Only Top Side Banners)');
-				$frm->insertColspan();
+				// $frm->insertColspan();
+				// $frm->insertTitle('Text control(Only Top Side Banners)');
+				// $frm->insertColspan();
 				// $frm->insertFCKEditor('text');
-				$frm->inputs("SELECT text,class AS CSS_Class FROM banners_picture 
-							  WHERE id_banner = '".$_REQUEST['id_consulta']."' AND id = '".$i."';"
-							);
+				// $frm->inputs("SELECT text,class AS CSS_Class FROM banners_picture 
+				// 			  WHERE id_banner = '".$_REQUEST['id_consulta']."' "
+				// 			);
 
 				//Imagenes del baner
 				$frm->insertColspan();
@@ -252,6 +263,7 @@
 						$td_photo .= '
 							<br>
 							<img src="'._PATH_.$photo['picture'].'" width="400" style="margin:2px 0 2px 3px; border:1px solid #ccc" />
+							<a href="?url='.$_REQUEST[url].'&del=1&id='.$i.'&ba='.$_REQUEST['id_consulta'].'">Delete</a>
 						';
 					}
 					$frm->insertHtml('Photo ('.$i.')', $td_photo);
