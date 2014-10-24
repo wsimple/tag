@@ -1,7 +1,8 @@
-etiqueta video normal (mismo video varias veces consecutivas)
+video ogg
 <video controls width="650" height="300" preload="metadata">
-	<source src="<?=$setting->video_server?>videos/6a14efaf2015d80ee386d5ce40331bad/9db44ab8_20141003150747_0.mp4" type="video/mp4" />
+	<source src="<?=$setting->video_server?>videos/test.ogg" type="video/ogg" />
 </video>
+etiqueta video normal (mismo video varias veces consecutivas)
 <video controls width="650" height="300" preload="metadata">
 	<source src="<?=$setting->video_server?>videos/6a14efaf2015d80ee386d5ce40331bad/9db44ab8_20141003150747_0.mp4" type="video/mp4" />
 </video>
