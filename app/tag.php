@@ -28,6 +28,7 @@
 		<a id="delete"	style="display:none;"></a>
 		<a id="youtube"	style="display:none;" class="video" data-ajax="false"></a>
 		<a id="vimeo"	style="display:none;" class="video" data-ajax="false"></a>
+		<a id="local"	style="display:none;" class="video" data-ajax="false"></a>
 		<a id="comment"	style="display:none;" class="is-logged"></a>
 		<a id="qrcode"	style="display:none;"></a>
 	</div>
