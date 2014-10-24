@@ -50,6 +50,7 @@ if($data->tipo){
 		$data->imgserver='http://68.109.244.201/';
 		$data->img_server_path='http://192.168.57.16/';
 		$data->video_server_path='http://192.168.57.11/';
+		$data->main_server='http://tagbum.com/';
 		$data->img_server='http://i.tagbum.com/';
 		$data->video_server='http://v.tagbum.com/';
 		$data->allow_origin='/^https?:\\/\\/(\\\w+\\\.)?tagbum.com$/i';
@@ -61,6 +62,7 @@ if($data->tipo){
 		$data->imgserver=$data->dominio;
 		$data->img_server_path='img_server/';
 		$data->video_server_path='video_server/';
+		$data->main_server=$data->dominio;
 		$data->img_server=$data->dominio.$data->img_server_path;
 		$data->video_server=$data->dominio.$data->video_server_path;
 		$data->allow_origin='/^https?:\\/\\/(localhost|192\\\.168\\\.)/i';
