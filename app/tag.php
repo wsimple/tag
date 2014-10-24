@@ -164,7 +164,25 @@
 								var $video=$('.tag-buttons #'+tag['typeVideo']).fadeIn('slow');
 								if(openVideo){
 									$video.click(function(){
-										openVideo(tag['video'],'#popupVideo');
+										if (tag['typeVideo']=='local'){
+											myDialog({
+												id:'#singleVideoDialog',
+												content:'<div class="tag-container"><div tag><div class="video"><div class="placa"></div>'+
+															'<video id="v'+Math.random()+'" style="width:100%;" controls preload="metadata"><source src="'+tag['video']+'" type="video/mp4"/></video>'+
+															'</div></div></div><div class="clearfix"></div>',
+												buttons:[{
+													name:'Ok',
+													action:function(){
+														var di=this;
+														$('#singleVideoDialog video').each(function(index, el) {
+															this.pause();
+															this.src="";
+														});
+														di.close();
+													}
+												}]
+											});
+										}else openVideo(tag['video'],'#popupVideo');
 									});
 								}else
 									$video.attr({'href':tag['video'],'target':'_blank'});
