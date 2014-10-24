@@ -329,23 +329,22 @@
 .tag-container,.tag-container [tag],.tag-container [tag] img.bg,
 .tag-container [tag] div.bg,.tag-container [tag] .tagLink,
 .tag-container [tag] .minitag,.tag-container [tag] .tag,
-.tag-container [tag] menu, 
-#singleVideoDialog [tag] div.video{
+.tag-container [tag] menu{
 	width:20.3125em;/*650px;*/
 }
 .tag-container.clean [tag],
 .tag-container .tagLink,.tag-container [tag] img.bg,.tag-container [tag] div.bg,
-.tag-container [tag] .minitag,.tag-container [tag] .tag, #singleVideoDialog [tag] div.video{
+.tag-container [tag] .minitag,.tag-container [tag] .tag{
 	height:9.375em; /*300px;*/
 }
-.tag-container,.tag-container [tag],.tag-container [tag] img.bg,.tag-container [tag] div.bg, #singleVideoDialog [tag] div.video{
+.tag-container,.tag-container [tag],.tag-container [tag] img.bg,.tag-container [tag] div.bg{
 	position:relative;
 }
-.tag-container [tag] .minitag,.tag-container [tag] .tag,.tag-container [tag] .tagLink, #singleVideoDialog [tag] div.video{
+.tag-container [tag] .minitag,.tag-container [tag] .tag,.tag-container [tag] .tagLink{
 	position:absolute;
 	top:0;
 }
-.tag-container [tag] .minitag,.tag-container [tag], #singleVideoDialog [tag] div.video{
+.tag-container [tag] .minitag,.tag-container [tag] .tag{
 	-webkit-border-radius:0.875em; /*28px;*/
 	-moz-border-radius:0.875em; /*28px;*/
 	border-radius:0.875em; /*28px;*/
@@ -353,7 +352,7 @@
 	-o-background-size:100% auto;
 	background-size:100% auto;
 }
-.tag-container [tag].bg,.tag-container [tag] img.bg,.tag-container [tag] div.bg, #singleVideoDialog [tag] div.video{
+.tag-container [tag].bg,.tag-container [tag] img.bg,.tag-container [tag] div.bg{
 	border-radius:0.875em; /*28px;*/
 	-moz-border-radius:0.875em; /*28px;*/
 	-webkit-border-radius:0.875em; /*28px;*/
@@ -384,15 +383,6 @@
 	text-align:center;
 	font-family:Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
 	text-shadow:none;
-}
-#singleVideoDialog [tag] div.video {
-	position: relative;
-	z-index: 1;
-	float: left;
-	height: 9.375em;
-	overflow: hidden;
-	width: 100%;
-	background-color: black;
 }
 .tag-container [tag] .redist div{
 	font-size:0.438em;
