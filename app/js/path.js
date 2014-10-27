@@ -13,7 +13,7 @@
 		if(CORDOVA) $.session('cordova',CORDOVA);
 	}
 	var regex	=/(tagbum)\.com/i,
-		pruebas	='wpruebas/'||'',
+		pruebas	='',
 		d		=CORDOVA||window.location.host=='localhost'||(($.local('host')||'').match(regex)),
 		dom		=d?'http://tagbum.com/'+pruebas:'../',
 		prod	=!!(dom.match(regex)||window.location.host.match(regex));
