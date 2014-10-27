@@ -85,15 +85,19 @@
 			sendMessage: function(id) {
 				var message = $('#chatmessage').val();
 				$('#chatmessage').val('');
-				$.cometchat.sendMessage(id,message);
-				$('#chatmessage').focus();
+				if (message.length > 0) {
+					$.cometchat.sendMessage(id,message);
+					$('#chatmessage').focus();
+				}
 				fromname = 'Me';
 				selfstyle = 'selfmessage';
 				var ts = Math.round(new Date().getTime() / 1000)+''+Math.floor(Math.random()*1000000);
 				var temp = (('<li><div class="cometchat_chatboxmessage '+selfstyle+'" id="cometchat_message_'+ts+'"><span class="cometchat_chatboxmessagefrom"><strong>'+fromname+'</strong>:  </span><span class="cometchat_chatboxmessagecontent">'+message+'</span>'+'</div></li>'));
 				if (currentChatboxId == id) {
-					$('#cwlist').append(temp);
-					setTimeout(function () {var o = document.getElementById("cwwrapper");o.scrollTop = o.scrollHeight;}, 200);
+					if (message.length > 0) {
+						$('#cwlist').append(temp);
+						setTimeout(function () {var o = document.getElementById("cwwrapper");o.scrollTop = o.scrollHeight;}, 200);
+					}
 				}
 				return false;
 			},
