@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html><head>
+<link rel="apple-touch-startup-image" href="css/smt/bg.png"/>
+<link rel="apple-touch-icon" href="css/smt/screen-icon.png"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<title>Tagbum Mobile</title>
+<link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
+<link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
+<link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
+<link rel="stylesheet" href="css/jquery.Jcrop.css"/>
+<link rel="stylesheet" href="css/iScroll.css"/>
+<link rel="stylesheet" href="css/ptrScroll.css"/>
+<link rel="stylesheet" href="css/farbtastic.css"/>
+<link rel="stylesheet" href="css/seemytag.css"/>
+<link rel="stylesheet" href="css/colorPicker.css"/>
+<script src="cordova.js"></script>
+<!--<script src="http://debug.build.phonegap.com/target/target-script-min.js#82ad4bcc-195f-11e3-af04-22000a98b3d6"></script><!-- -->
+<script src="js/core/const.js"></script>
+<script src="js/core/md5.js"></script>
+<script src="js/core/jquery-1.10.2.min.js"></script>
+<script src="js/core/jquery.cookie.js"></script>
+<script src="js/core/jquery.local.js"></script>
+<script src="js/core/session.js"></script>
+<script src="js/core/jquery.mobile-1.3.2.js"></script>
+<script src="js/core/jquery.form.js"></script>
+<script src="js/core/jquery.textCounter.js"></script>
+<script src="js/core/jquery.Jcrop.js"></script>
+<script src="js/core/iScroll.js"></script>
+<script src="js/core/jScroll.js"></script>
+<script src="js/core/farbtastic.js"></script>
+<script src="js/core/colorPicker.js"></script>
+<script src="js/app.js"></script>
+<script src="js/min.js"></script>
+</head><body><div id="page-topTags" data-role="page" data-cache="false">
+<div data-role="header" data-theme="f" data-position="fixed"><h1><span class="loader"></span></h1></div>
+<div data-role="content" style="background-color:#fff;">
+<div id="pd-wrapper">
+<div id="scroller">
+<div id="pullDown"><div class="smt-tag-content"><span class="pullDownIcon"></span><span class="pullDownLabel"></span></div></div>
+<div id="tagsList" class="cursor tags-list" style="min-height:300px;background:#fff;"></div>
+<div id="pullUp"><div class="smt-tag-content"><span class="pullUpIcon"></span><span class="pullUpLabel"></span></div></div>
+</div>
+</div>
+</div>
+<div data-role="footer" data-position="fixed" data-theme="f">
+<div data-role="navbar"><ul id="footer-icons"></ul></div>
+</div>
+<script>
+//if(navigator.app) navigator.app.clearHistory();
+pageShow({
+id:'page-topTags',
+title:lang.TOPTAGS_TITLE,
+backButton:true,
+before:function(){
+$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
+$('.pullUpLabel').html(lang.SCROLL_PULLUP);
+$('#footer-icons').html(//llenado de footer
+'<li><a opc="0" class="ui-btn-active">'+lang.TOPTAGS_ALWAYS+'</a></li>'+
+'<li><a opc="1">'+lang.TOPTAGS_DAILY+'</a></li>'+
+'<li><a opc="2">'+lang.TOPTAGS_WEEKLY+'</a></li>'+
+'<li><a opc="3">'+lang.TOPTAGS_MONTHLY+'</a></li>'+
+'<li><a opc="4">'+lang.TOPTAGS_YEARLY+'</a></li>'
+);
+},
+after:function(){
+//myAjax({url:DOMINIO+'controls/users/test.json.php',dataType:'json',data:{test:true}});
+//if($.session('debug')) alert('cordova='+CORDOVA+', app='+$.session('app')+', debug='+$.session('debug'));
+function noTagsTxt(val){
+var txt;
+switch(parseInt(val)){
+case 1: txt=lang.TOPTAGS_DAILY;break;
+case 2: txt=lang.TOPTAGS_WEEKLY;break;
+case 3: txt=lang.TOPTAGS_MONTHLY;break;
+case 4: txt=lang.TOPTAGS_YEARLY;break;
+default:txt=lang.TOPTAGS_ALWAYS;
+}
+return lang.TOPTAGS_NOTAGS+txt.toLowerCase()+'.';
+}
+var opc={
+current:'hits',
+layer: $('#tagsList')[0],
+notag:noTagsTxt($_GET['range']||0),
+get:$_GET['range']?'&range='+$_GET['range']:''
+},
+$wrapper=$('#pd-wrapper',this.id);
+$(opc.layer).on('click','[tag]',function(){
+redir(PAGE['tag']+'?id='+$(this).attr('tag'));
+});
+$wrapper.ptrScroll({
+onPullDown:function(){
+updateTags('reload',opc);
+},
+onPullUp:function(){
+updateTags('more',opc);
+},
+onReload:function(data){
+if(data){
+opc.notag=noTagsTxt(data);
+opc.get='&range='+data;
+}
+updateTags('reload',opc,true);
+}
+});
+
+$('#footer-icons').on('click','a',function(){
+$wrapper.ptrScroll('reload',$(this).attr('opc'));
+});
+$('#userPoints').click(function(){
+myDialog({
+id:'msg-points',
+open:true,
+content:
+'<p>'+lang.MAINMENU_POINTS_2+'</p>'+
+'<p>'+lang.MAINMENU_POINTS_1+'</p>',
+style:{
+'margin':10,
+'font-size':14
+}
+});
+});
+}
+});
+</script>
+</div>
+</body></html>
