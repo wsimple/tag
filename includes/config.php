@@ -62,7 +62,7 @@ if($_COOKIE['_DEBUG_']=='section') echo "section:$section - params:".implode(','
 
 	#configuraciones de servidor
 	$_prod=$_SERVER['SERVER_NAME'];//Nombre del dominio principal
-	$_pruebas='/wpruebas/';//Carpeta de pruebas
+	$_pruebas='';//Carpeta de pruebas
 	//lista de carpetas de sistema
 	$_folders=array(
 		'app',
