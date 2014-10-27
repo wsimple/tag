@@ -328,23 +328,23 @@
 }
 .tag-container,.tag-container [tag],.tag-container [tag] img.bg,
 .tag-container [tag] div.bg,.tag-container [tag] .tagLink,
-.tag-container [tag] .minitag,.tag-container [tag] .tag,
+.tag-container [tag] .minitag,.tag-container [tag] .tag,.tag-container [tag] .video,.tag-container [tag] video,
 .tag-container [tag] menu{
 	width:20.3125em;/*650px;*/
 }
 .tag-container.clean [tag],
-.tag-container .tagLink,.tag-container [tag] img.bg,.tag-container [tag] div.bg,
-.tag-container [tag] .minitag,.tag-container [tag] .tag{
+.tag-container .tagLink,.tag-container [tag] img.bg,.tag-container [tag] div.bg,.tag-container [tag] .video,
+.tag-container [tag] .minitag,.tag-container [tag] .tag,.tag-container [tag] video{
 	height:9.375em; /*300px;*/
 }
-.tag-container,.tag-container [tag],.tag-container [tag] img.bg,.tag-container [tag] div.bg{
+.tag-container,.tag-container [tag],.tag-container [tag] img.bg,.tag-container [tag] div.bg,.tag-container [tag] .video,.tag-container [tag] video{
 	position:relative;
 }
 .tag-container [tag] .minitag,.tag-container [tag] .tag,.tag-container [tag] .tagLink{
 	position:absolute;
 	top:0;
 }
-.tag-container [tag] .minitag,.tag-container [tag] .tag{
+.tag-container [tag] .minitag,.tag-container [tag] .tag,.tag-container [tag] .video,.tag-container [tag] video{
 	-webkit-border-radius:0.875em; /*28px;*/
 	-moz-border-radius:0.875em; /*28px;*/
 	border-radius:0.875em; /*28px;*/
@@ -352,7 +352,7 @@
 	-o-background-size:100% auto;
 	background-size:100% auto;
 }
-.tag-container [tag].bg,.tag-container [tag] img.bg,.tag-container [tag] div.bg{
+.tag-container [tag].bg,.tag-container [tag] img.bg,.tag-container [tag] div.bg,.tag-container [tag] .video,.tag-container [tag] video{
 	border-radius:0.875em; /*28px;*/
 	-moz-border-radius:0.875em; /*28px;*/
 	-webkit-border-radius:0.875em; /*28px;*/
@@ -430,7 +430,14 @@
 }
 .tag-container [tag] .extras .youtube{ background-image:url(smt/youtube.png); }
 .tag-container [tag] .extras .vimeo{ background-image:url(smt/vimeo.png); }
-
+.tag-container [tag] .extras .local{ background-image:url(smt/Video.png); }
+.tag-container [tag] div.video{
+	position: relative;
+	z-index: 1;
+	float: left;
+	overflow: hidden;
+	background-color: black;
+}
 .tag-comments-window{
 	font-size:11px;
 	background-color:#CCC;
