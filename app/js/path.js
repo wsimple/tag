@@ -13,7 +13,7 @@
 		if(CORDOVA) $.session('cordova',CORDOVA);
 	}
 	var regex	=/(tagbum)\.com/i,
-		pruebas	='wpruebas/'||'',
+		pruebas	='',
 		d		=CORDOVA||window.location.host=='localhost'||(($.local('host')||'').match(regex)),
 		dom		=d?'http://tagbum.com/'+pruebas:'../',
 		prod	=!!(dom.match(regex)||window.location.host.match(regex));
@@ -21,6 +21,10 @@
 	PRODUCCION=prod;
 	DOMINIO=dom;
 	FILESERVER=prod?'http://i.tagbum.com/':'http://68.109.244.201/';
+	SERVERS={
+			img:'http://i.tagbum.com',
+			video:'http://v.tagbum.com'
+		};
 	PAGE={
 		ini:'.',
 		chat:'chat.html',

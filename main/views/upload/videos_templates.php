@@ -438,7 +438,8 @@ $(function(){
 			}else{
 				pre=that.dataset.url;
 				if(video) video.value=that.dataset.code+'/'+that.dataset.name;
-			} 
+				$(video).change();
+			}
 			var html=htmlVideo(pre,that.dataset.type,null,true);
 			if (html!='') $('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div></div>');
 			iniallYoutube();

@@ -1406,12 +1406,12 @@ include ('../../class/class.phpmailer.php');
     	$class='';$button='';$msg='';$delete='';$noSt='';
     	if ($row['stock']<=10 && $row['id_category']!='1'){
     		$class='class="color_red"';
-    		if ($row['stock']>0){
-    			$button='<span class="button addToCar" style="margin: 5px 0;" h="'.md5($row['id']).'">'.$lang["STORE_ADDCART"].'</span>&nbsp;&nbsp;&nbsp;&nbsp;';
-    			$noSt='noST';
-    		}
     		$msg='&nbsp;&nbsp;'.(($row['stock']==0)?$lang["STORE_NOT_STOCK_LIST"]:$lang["STORE_MESSAGE_STOCK_LOW"]);
     	}
+		if ($row['stock']>0){
+			$button='<span class="button addToCar" style="margin: 5px 0;" h="'.md5($row['id']).'">'.$lang["STORE_ADDCART"].'</span>&nbsp;&nbsp;&nbsp;&nbsp;';
+			$noSt='noST';
+		}
     	if ($array['tipo']!='prefe' && $array['tipo']!='aso')
     		$delete='<span class="deleteItemCar" action="deleteItemCar,'.md5($row['id']).',wish'.((isset($_GET['shop']))?',shop':',shop').'">'.$lang["NEWTAG_HELPDELETEBACKGROUNDTEMPLATE"].'</span>';
     	$html='<li class="carStore liVoid'.$i.' '.$noSt.'">
