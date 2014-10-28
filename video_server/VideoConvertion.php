@@ -66,6 +66,7 @@ class VideoConvertion extends VideoCaptures
 		}
 		$origen="$this->path/$data->original -t ".($data->type?'00:00:31':'00:01:01');
 		#creacion de video
+		$warning='';
 		$error=$this->ffmpeg_encode($origen,"$this->path/$data->video",'-loglevel error');
 		#si no hubo error eliminamos el original
 		// echo ($error?"error\n":"no error\n").'ruta: '."$this->path/$data->original"."\n";
