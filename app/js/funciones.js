@@ -1732,37 +1732,6 @@ function getProducts(layer,category,subcategory){
 		}
 	});
 }
-function getMypublication(layer){
-	//console.log(layer+'----'+id);
-	myAjax({
-		type	:'GET',
-		url		:DOMINIO+'controls/store/listProd.json.php?source=mobile&module=store&limit=0&scc',
-		dataType:'json',
-		error	:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
-		},
-		success	:function(data){
-			console.log(data);
-			var out='',num=0,prod=data['prod'],category,idcategory;
-			for(var i=0;i<prod.length;i++){
-				out+=
-					(num++<1?' <li data-role="list-divider" style="padding: 12px 0"></li>':'')+
-					'<li date="'+prod[i]['join_date']+'" idPro="'+prod[i]['id']+'">'+
-						'<a><img src="'+prod[i]['photo']+'" style="width:100px;height:60px;margin:20px 0 0 8px;border-radius:10px">'+
-							'<p id="nameProduct">'+prod[i]['name']+'</p>'+
-							'<p id="descripProduct">'+prod[i]['description']+'</p>'+
-							'<p class="date"><strong>Published:</strong> '+prod[i]['join_date']+'</p>'+
-						'</a>'+
-					'</li>';
-				category=prod[i]['category'];
-				idcategory=prod[i]['mid_category'];
-			}
-			$(layer).html(out).listview('refresh');
-			//$('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+category+'</span></span>').attr('code',idcategory);
-			$('.list-wrapper').jScroll('refresh');
-		}
-	});
-}
 function addProductShoppingCart(id,wish){
 	wish=wish?wish:'';
 	myAjax({

@@ -1198,12 +1198,13 @@ include ('../../class/class.phpmailer.php');
                     else $wishList['body']=$temp['body'];
                      @$wishList['result']=array_merge($wishList['result'],$temp['result']);
                 }
-                if (!isset($_GET['lisWishsShow']) && isset($wishList['body']) && $wishList['body']!= '' && $band==false){ $wishList['body'].='</ul>'; }
-                elseif ($band==true) { 
-                	$wishList['body']='<ul id="ulToCarWish" h="0">'.(isset($wishList['body']) && $wishList['body']!=''?$wishList['body']:'
-							<div class="messageAdver">'.STORE_NO_WL.'</div>
-                		').'</ul>'; 
-                }
+                if (!$array['mobile'])
+	                if (!isset($_GET['lisWishsShow']) && isset($wishList['body']) && $wishList['body']!= '' && $band==false){ $wishList['body'].='</ul>'; }
+	                elseif ($band==true) { 
+	                	$wishList['body']='<ul id="ulToCarWish" h="0">'.(isset($wishList['body']) && $wishList['body']!=''?$wishList['body']:'
+								<div class="messageAdver">'.STORE_NO_WL.'</div>
+	                		').'</ul>'; 
+	                }
                 if (isset($wishList['noId'])) unset($wishList['noId']);
             }
         }
@@ -1289,7 +1290,7 @@ include ('../../class/class.phpmailer.php');
             if ($array['mobile']){ 
             	$html='<li data-role="list-divider" class="titleDivider">'.($array['tipo']=='wish'?$lang["STORE_WISH_LIST"]:$lang["STORE_WISH_ASO"]).'</li>'; 
             }else{
-                if (isset($_GET['lisWishsShow'])){ $html=''; }
+            	if (isset($_GET['lisWishsShow'])){ $html=''; }
                 elseif($array['tipo']=='wish'){ $html='<ul id="ulToCarWish" h="'.$numIdOrder.'">'; }
                 elseif($array['tipo']!='wish'){ $html=''; }                
             }
@@ -1367,7 +1368,7 @@ include ('../../class/class.phpmailer.php');
                 $array['max']=$array['max']-$numIdOrder;
                 $array['tipo']='aso';
                 $array['noId']=$array['noId'].','.$noId;
-                $temp=consulWishList($array);
+                $temp=consulWishList($array,$lang);
                 if ($temp!='no-deseo'){
                     $html.=$temp['body'];
                     $r2=$temp['result'];
