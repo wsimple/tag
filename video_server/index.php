@@ -14,8 +14,16 @@ ini_set('display_errors',1);
 require_once('includes/client.php');
 
 if(in_array(strtoupper($_SERVER['REQUEST_METHOD']),array('GET','POST'))&&!count($_REQUEST)) include 'show_video.php';
-require('UploadHandler.php');
-require('VideoCaptures.php');
-require('VideoConvertion.php');
-$video_convertion = new VideoConvertion();
+
+function __autoload($classname){
+	#carga automatica de clases permitidas
+	$file="$classname.php";
+	if(is_file($file)) require_once $file;
+	else die('Class not found.');
+}
+
+if(isset($_REQUEST['convert2']))
+	$video_convertion = new VideoConvertion2();
+else
+	$video_convertion = new VideoConvertion();
 $upload_handler = new UploadHandler();
