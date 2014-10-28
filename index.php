@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
 #validamos la existencia del archivo de seguridad
 if(!is_file('.security/security.php')){ include 'security.php'; }
 include('.security/security.php');
