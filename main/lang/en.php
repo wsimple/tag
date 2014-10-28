@@ -11,6 +11,7 @@ $lang=array(
 	'EMAIL_CONTACTO'=>'contact@tagbum.com',
 	'EMAIL_NO_RESPONDA'=>'no-reply@tagbum.com',
 	'PERSONA_CONTACTO'=>'The team Tagbum',
+	'ERRORPROCESSINGYOURVIDEO'=>'Error processing your video, check your connection or wait a moment before you try again.',
 	#js
 	'JS_CONFIRM_REMOVE_TAG_ITEM' => "Remove this item will damage any tag that use it.\n Are you sure you want to remove it?",
 	#upload
