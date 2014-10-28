@@ -4,6 +4,7 @@ if(substr($_SERVER['SERVER_NAME'],0,4)=='www.'){
 	header('Location: http://'.substr($_SERVER['SERVER_NAME'],4).$_SERVER['REQUEST_URI']);
 	die();
 }
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
 #validamos la existencia del archivo de seguridad
 if(!is_file('.security/security.php')){ include 'security.php'; }
 include('.security/security.php');
