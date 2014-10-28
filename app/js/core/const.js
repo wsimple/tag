@@ -14,7 +14,7 @@ var is={
 	App,
 	offline,
 	lang,
-	DOMINIO,PRODUCCION,LOCAL,FILESERVER,PAGE;
+	DOMINIO,PRODUCCION,LOCAL,FILESERVER,PAGE,SERVERS;
 if(version) version=version[1];
 is['limited']= !is['webkit']||is['android'];
 

@@ -83,7 +83,8 @@ class UploadHandler
 
 	function __construct($options = null, $initialize = true, $error_messages = null) {
 		global $config;
-		$origin=empty($_SERVER['HTTP_REFERER'])?$config->basedom:preg_replace('/(https?:\/\/[^\/]+)(\/.*)?/i','$1',$_SERVER['HTTP_REFERER']);
+		$origin=!empty($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:$config->main_server;
+		$origin=preg_replace('/(https?:\/\/[^\/]+)(\/.*)?/i','$1',$origin);
 		$allow=isset($config->allow_origin)?$config->allow_origin:array();
 		$allow_origin=(is_array($allow)?in_array($origin,$allow):preg_match($allow,$origin))?true:false;
 		$this->options = array(
@@ -1290,7 +1291,11 @@ class UploadHandler
 	}
 
 	protected function send_access_control_headers() {
-		$this->header('Access-Control-Allow-Origin: '.$this->options['access_control_allow_origin']);
+		$origin=$this->options['access_control_allow_origin'];
+		if(is_array($origin)) foreach($origin as $value)
+			$this->header('Access-Control-Allow-Origin: '.$value);
+		else
+			$this->header('Access-Control-Allow-Origin: '.$origin);
 		$this->header('Access-Control-Allow-Credentials: '
 			.($this->options['access_control_allow_credentials'] ? 'true' : 'false'));
 		$this->header('Access-Control-Allow-Methods: '

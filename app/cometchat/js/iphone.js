@@ -125,8 +125,10 @@
 			sendMessage: function(id) {
 				var message = $('#chatmessage').val();
 				$('#chatmessage').val('');
-				$.cometchat.sendMessage(id,message);
-				$('#chatmessage').focus();
+				if (message.length > 0) {
+					$.cometchat.sendMessage(id,message);
+					$('#chatmessage').focus();
+				}
 
 				fromname = 'Me';
 				selfstyle = 'selfmessage';
@@ -134,12 +136,15 @@
 				var ts = Math.round(new Date().getTime() / 1000)+''+Math.floor(Math.random()*1000000);
 				var temp = (('<li><div class="cometchat_chatboxmessage '+selfstyle+'" id="cometchat_message_'+ts+'"><span class="cometchat_chatboxmessagefrom"><strong>'+fromname+'</strong>:  </span><span class="cometchat_chatboxmessagecontent">'+message+'</span>'+'</div></li>'));
 				if (currentChatboxId == id) {
-					$('#cwlist').append(temp);
-					if ($("#cwlist li").size() > closedList) {
-						setTimeout(function () {chatScroll.scrollToElement('#cwendoftext')}, 200);
-					} else {
-						setTimeout(function () {chatScroll.scrollToElement('#cwendoftext','0ms')}, 200);
+					if (message.length > 0) {
+						$('#cwlist').append(temp);
+						if ($("#cwlist li").size() > closedList) {
+							setTimeout(function () {chatScroll.scrollToElement('#cwendoftext')}, 200);
+						} else {
+							setTimeout(function () {chatScroll.scrollToElement('#cwendoftext','0ms')}, 200);
+						}
 					}
+					
 				}
 				return false;
 			},
@@ -250,6 +255,12 @@
 							'<input type="text" name="chatmessage" placeholder="Type your message" id="chatmessage" />'+
 					'</div>'
 				);
+				$('#messageform').submit(function(e) {
+					e.preventDefault();
+					var chars = $('#chatmessage').val().length;
+					if (chars > 0) return jqcc.iphone.sendMessage("'"+id+"'");
+					return false;
+				});
 				$('#whosonline').css('display','none');
 				$('#chatwindow').css('display','block');
 				setTimeout(function(){}, 1000);

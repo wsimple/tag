@@ -28,6 +28,7 @@
 		<a id="delete"	style="display:none;"></a>
 		<a id="youtube"	style="display:none;" class="video" data-ajax="false"></a>
 		<a id="vimeo"	style="display:none;" class="video" data-ajax="false"></a>
+		<a id="local"	style="display:none;" class="video" data-ajax="false"></a>
 		<a id="comment"	style="display:none;" class="is-logged"></a>
 		<a id="qrcode"	style="display:none;"></a>
 	</div>
@@ -163,10 +164,28 @@
 								var $video=$('.tag-buttons #'+tag['typeVideo']).fadeIn('slow');
 								if(openVideo){
 									$video.click(function(){
-										openVideo(tag['video'],'#popupVideo');
+										console.log(tag['video']);
+										if (tag['typeVideo']=='local'){
+											myDialog({
+												id:'#singleVideoDialog',
+												content:'<div class="tag-container"><div tag><div class="video"><div class="placa"></div>'+
+															'<video id="v'+Math.random()+'" style="width:100%;" controls autoplay preload="metadata"><source src="'+tag['video']+'" type="video/mp4"/></video>'+
+															'</div></div></div><div class="clearfix"></div>',
+												buttons:[{
+													name:'Ok',
+													action:function(){
+														var di=this;
+														$('#singleVideoDialog video').each(function(index, el) {
+															this.pause();
+															this.src="";
+														});
+														di.close();
+													}
+												}]
+											});
+										}else openVideo(tag['video'],'#popupVideo');
 									});
-								}else
-									$video.attr({'href':tag['video'],'target':'_blank'});
+								}else $video.attr({'href':tag['video'],'target':'_blank'});
 							}
 							myAjax({
 								type:'GET',
