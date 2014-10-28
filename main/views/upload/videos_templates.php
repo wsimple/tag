@@ -389,40 +389,67 @@ $(function(){
 		}
 	});
 
+	var cv_running=false,convert_tmpl=tmpl('template-conversion');
+	var convert_video=function(obj){
+		$.debug().log('convert_video:',obj);
+		if(cv_running||!obj.content) return;
+		$(obj.content).html(convert_tmpl({state:'waiting'}));
+		cv_running=true;
+		$.ajax({
+			disablebuttons:true,
+<?php if($control->is_debug('convert2')){ ?>
+			url:"<?=$setting->local?'video/test/1':$setting->video_server.'?convert2'?>",
+<?php }else{ ?>
+			url:"<?=$setting->local?'video/test/1':$setting->video_server.'?convert'?>",
+<?php } ?>
+			dataType:'json',
+			type:'post',
+			data:{code:obj.code,file:obj.file},
+			success:function(data){
+				$.debug().log('convertion data:',data);
+				if(!data.error){
+					var video=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true);
+					if(video){
+						$(obj.content).html(convert_tmpl({
+							state:'done',
+							path:'<?=$setting->video_server?>videos/',
+							captures:data.captures
+						})).find('[tag]').html(video);
+						if(obj.capture&&data.captures.length>0)
+							obj.capture.call(this,data.captures[0]);
+					}
+				}else
+					$(obj.content).html(convert_tmpl({state:'error'})).find('.retry').one('click',function(){
+						convert_video(obj);
+					});
+			},
+			error:function(){
+				$(obj.content).html(convert_tmpl({state:'error'})).find('.retry').one('click',function(){
+					convert_video(obj);
+				});
+			},
+			complete:function(a,b){
+				cv_running=false;
+				if(obj.complete) obj.complete.call(this,a,b);
+			}
+		});
+	}
 	$('.upload-panel [role="presentation"]').off('.videostart').on('click.videostart','.video .start',function(){
-		var video=$('#htxtVideo')[0],uploaded=$(this).parents('#fileupload').length,that=this,data,ajax=false,noactionDialog=false;
+		var video=$('#htxtVideo')[0],is_upload=$(this).parents('#fileupload').length,that=this,data,ajax=false,actionDialog=true;
 		$(that).prop('disabled',true);
 		setTimeout(function(){
 			$(that).prop('disabled',false);
 		},2000);
-		$.debug().log(uploaded?'uploaded new video':'my videos');
-		if(uploaded){
-			$('#preVideTags').html('<div class="messageNoResultSearch more" style="text-align:center;"><img src="css/smt/loader.gif" width="32" height="32" class="loader"><br/><?=$lang->get("PROCESSINGYOURVIDEO")?></div>');
+		$.debug().log(is_upload?'new video':'my videos');
+		if(is_upload){
 			ajax=true;
-			$.ajax({
-				disablebuttons:true,
-				url:"<?=$setting->local?'video/test/1':$setting->video_server.'?convert'?>",
-				dataType:'json',
-				type:'post',
-				data:{code:that.dataset.code,file:that.dataset.name},
-				success:function(data){
-					if (!data.error){
-						if(video) video.value=data.video;
-						var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='',first;
-						for(var i=0,capture;capture=data.captures[i];i++){
-							if(!first) first=capture;
-							captures=captures+'<div class="option-cap" data-src="videos/'+capture+'" style="background-image:url(\''+SERVERS.video+'videos/'+capture+'\')"></div>';
-						}
-						if(captures!=''){
-							captures='<div class="clearfix"></div><div class="select-capture">'+captures+'</div><div class="clearfix"></div>';
-							$('#bckSelected').css('background-image','url('+SERVERS.video+'videos/'+first+')');
-							$('#imgTemplate')[0].value=first;
-						}
-						if(html!='')
-							$('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div>'+captures+'</div>')
-					}else{
-						//mostrar algo para reintentar la conversion del video
-					}
+			convert_video({
+				content:$('#preVideTags')[0],
+				code:that.dataset.code,
+				file:that.dataset.name,
+				capture:function(data){
+					$('#bckSelected').css('background-image','url('+SERVERS.video+'videos/'+data+')');
+					$('#imgTemplate')[0].value=data;
 				},
 				complete:function(){
 					$(that).prop('disabled',false);
@@ -433,7 +460,7 @@ $(function(){
 			if (that.dataset.type=='youtube' || that.dataset.type=='vimeo'){
 				console.log('here');
 				if(video) video.value=that.dataset.set;
-				noactionDialog=true;
+				actionDialog=false;
 				pre=that.dataset.pre;
 			}else{
 				pre=that.dataset.url;
@@ -444,7 +471,7 @@ $(function(){
 			if (html!='') $('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div></div>');
 			iniallYoutube();
 		}
-		if (!noactionDialog){
+		if (actionDialog){
 			var $dialog=$('.ui-dialog-content');
 			if($dialog.length){
 				$('.upload-panel [role="presentation"]').off('.videostart');
@@ -522,6 +549,32 @@ $(function(){
 });
 </script>
 <!-- Teplates -->
+<script id="template-conversion" type="text/x-tmpl">
+{% if(o.state=='waiting'){ %}
+	<div class="messageNoResultSearch more" style="text-align:center;">
+		<img src="css/smt/loader.gif" width="32" height="32" class="loader"><br/>
+		<?=$lang->get("PROCESSINGYOURVIDEO")?>
+	</div>
+{% }else if(o.state=='error'){ %}
+	<div class="messageNoResultSearch more" style="text-align:center;">
+		<?=$lang->get("ERRORPROCESSINGYOURVIDEO")?>
+		<br/><br/>
+		<input type="button" class="retry" value="<?=$lang->get('Retry')?>"/>
+	</div>
+{% }else if(o.state=='done'){ %}
+	<div class="tag-container" style="width:auto;font-size:100%;">
+		<div tag="pre"></div>
+		{% if(o.captures&&o.captures.length>0){ %}
+		<div class="select-capture clearfix">
+		{% for(var i=0,capture;capture=o.captures[i];i++){ %}
+			<div class="option-cap" data-src="{%=o.path+capture%}"
+				style="background-image:url('{%=o.path+capture%}')"></div>
+		{% } %}
+		</div>
+		{% } %}
+	</div>
+{% } %}
+</script>
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
 {% console.log(o.files); %}
