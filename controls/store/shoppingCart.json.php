@@ -1175,7 +1175,7 @@ include ('../../class/class.phpmailer.php');
         if (isset($_GET['lisWihs']) || isset($_GET['lisWishsShow'])){
             if (isset($_GET['shopW'])) $_GET['shop']='1';
             $array['tipo']='wish';
-            if ($mobile || isset($_GET['__is_app__'])) $array['mobile']=$mobile;
+            if ($mobile) $array['mobile']=true;
             $wishList=consulWishList($array,$lang);
             if (!isset($wishList['body'])) $_GET['shop']='1';
             if (isset($wishList['body']) || isset($_GET['shop'])){
@@ -1202,7 +1202,7 @@ include ('../../class/class.phpmailer.php');
 	                if (!isset($_GET['lisWishsShow']) && isset($wishList['body']) && $wishList['body']!= '' && $band==false){ $wishList['body'].='</ul>'; }
 	                elseif ($band==true) { 
 	                	$wishList['body']='<ul id="ulToCarWish" h="0">'.(isset($wishList['body']) && $wishList['body']!=''?$wishList['body']:'
-								<div class="messageAdver">'.STORE_NO_WL.'</div>
+								<div class="messageAdver">'.$lang["STORE_NO_WL"].'</div>
 	                		').'</ul>'; 
 	                }
                 if (isset($wishList['noId'])) unset($wishList['noId']);
