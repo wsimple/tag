@@ -118,14 +118,15 @@ $('#sharetag_div').fadeIn('slow');
 $('#fs-wrapper,.list-wrapper').jScroll({hScroll:false});
 function shareTag() {
 var device = (is['android'] ? 'Android' : (is['iOS'] ? (is['tablet'] ? 'iPad' : 'iPhone') : false));
-var emailsText = $('#emails_shareTag').val()!=''?','+$('#emails_shareTag').val():'';
+var emailsText = $('#emails_shareTag').val()!=''? $('#emails_shareTag').val():'';
 var friends = [];
 $('#pictures_shareTag input').each(function(){
 friends.push($(this).val());
 });
 myAjax({
-type :'GET',
-url :DOMINIO+'controls/tags/actionsTags.controls.php?action=5&tag='+idTag+'&mails='+friends.join()+emailsText+'&msj='+$('#message').val()+(device ? '&device='+device : ''),
+type :'POST',
+url :DOMINIO+'controls/tags/actionsTags.controls.php?action=5&tag='+idTag+(device ? '&device='+device : ''),
+data:{mails:friends.join()+emailsText,msj:$('#message').val()},
 dataType:'text',
 success :function(data){
 myDialog({
