@@ -175,7 +175,7 @@
                     makeListWish();
                     function makeListWish(){
                     	myAjax({
-                    		type: 'GET',
+                    		type: 'POST',
                     		url: DOMINIO+'controls/store/shoppingCart.json.php?lisWihs=1',
                     		dataType: 'json',
                             error	:function(/*resp,status,error*/){
