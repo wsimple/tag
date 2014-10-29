@@ -1,9 +1,10 @@
 <?php 
 	include '../header.json.php';
-
+	$res=array();
 	//variables necesarias para armar el select
 	$where='';$from='';$limit='LIMIT '.$_GET['limit'].',9';$select='';$order='';$array['tipo']='prod';
 	if(isset($_GET['scc'])){//si viene este get es porque son mis productos 
+		if ($_SESSION['ws-tags']['ws-user']['type']!='1') die(jsonp(array('noB'=>true)));
 		$where="p.id_user=".$_SESSION['ws-tags']['ws-user']['id']." ";
         if (isset($_GET['allProducts'])) $where.=" AND p.id_status=1 AND p.stock>0";
 	}elseif(isset($_GET['srh']) && (strpos($_GET['srh'],',')!='')){ //busqueda general del sitio
@@ -224,22 +225,24 @@
 			}
 		}
 	}
-	if(isset($_GET['idp'])){
-		if(isset($res['prod'][0]['description']) && $res['prod'][0]['description']!=''){
-			$textTop=get_hashtags($res['prod'][0]['description']);
-			$result=count($textTop);
-			if($result>0){
+	if($_GET['source']!='mobile'){
+		if(isset($_GET['idp'])){
+			if(isset($res['prod'][0]['description']) && $res['prod'][0]['description']!=''){
+				$textTop=get_hashtags($res['prod'][0]['description']);
+				$result=count($textTop);
+				if($result>0){
+					$textTop=explode(' ',implode(' ',$textTop));
+					$res['hash']=$textTop;
+				}   
+			}
+		}else{
+			$textTop=vectorPhash($_GET['srh'],10);
+			if($textTop!=''){
 				$textTop=explode(' ',implode(' ',$textTop));
 				$res['hash']=$textTop;
-			}   
-		}
-	}else{
-		$textTop=vectorPhash($_GET['srh'],10);
-		if($textTop!=''){
-			$textTop=explode(' ',implode(' ',$textTop));
-			$res['hash']=$textTop;
+			} 
 		} 
-	} 
+	}
 	if (!is_array($res)) $res=array();
 	$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
 	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');

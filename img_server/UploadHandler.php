@@ -1132,6 +1132,10 @@ class UploadHandler
 			$file_size = $this->get_file_size($file_path, $append_file);
 			if ($file_size === $file->size) {
 				$this->debug('upload 1');
+				// if(!empty($_REQUEST['maxwidth'])){
+				// 	$img=new ImgResize(array('max_width'=>$_REQUEST['maxwidth']));
+				// 	$img->resize($file_path);
+				// }
 				$this->resize_image_file($file_path);
 				$file->url = $this->get_download_url($file->name);
 				if ($this->is_valid_image_file($file_path)) {

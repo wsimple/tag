@@ -98,6 +98,7 @@ class UploadHandler
 			// Defines which files (based on their names) are accepted for upload:
 			// 'accept_file_types' => '/.+$/i',
 			'accept_file_types' => '/\.(mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i',
+			'display_file_types' => '/\.(mp4)$/i',
 			// The php.ini settings upload_max_filesize and post_max_size
 			// take precedence over the following max_file_size setting:
 			'max_file_size' => 150000000,
@@ -324,7 +325,7 @@ class UploadHandler
 		$file_path = $this->get_upload_path($file_name);
 		if (is_file($file_path) && $file_name[0] !== '.') {
 			// return true;
-			return !!preg_match($this->options['accept_file_types'],$file_name);
+			return !!preg_match($this->options['display_file_types'],$file_name);
 		}
 		return false;
 	}
