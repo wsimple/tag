@@ -59,11 +59,13 @@
 				$(window).bind('orientationchange resize',function(){//define box size
 					var woffset=20,
 						hoffset=30+$('.ui-page .ui-header').outerHeight()+$('.ui-page .ui-footer').outerHeight(),
-						width=document.width-woffset,
-						height=document.height-hoffset,
+						width=(document.width||$('body').width())-woffset,
+						height=(document.height||$('body').height())-hoffset,
 						size=(width<height)?width:height,
-						scale=size/DATA['bsize'];
+						scale;
+					// console.log(document.width, document.height,$('body').width(),$('body').height());
 					DATA['bsize']=size;
+					scale=size/DATA['bsize'];
 					$('#picture-box').width(size).height(size);
 					if(DATA['swidth']||DATA['sheight']){
 						DATA['swidth']*=scale;
@@ -188,10 +190,22 @@
 							data:pdata,
 							success:function(data){
 								delete pdata.img64;
+								alert(data);
 								if(data['upload']==='done'||data['resize']==='done'){
 									actual=img64;
 									img64=null;
-									myDialog(lan('profile picture updated.','ucf'));
+									myDialog({
+										// id:'#singleRedirDialog',
+										content:lan('Profile picture updated.','ucf'),
+										buttons:
+										[{
+											name: 'ok',
+											action: function(){
+												this.close();
+												setTimeout(function(){redir(PAGE['profile']);},200);
+											}
+										}]
+									});
 								}
 							},
 							complete:function(){
