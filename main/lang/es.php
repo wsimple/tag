@@ -5,6 +5,7 @@ $lang=array(
 	'Delete' => 'Borrar',
 	'Help' => 'Ayuda',
 	'Retry' => 'Reintentar',
+	'Category' => 'Categoría',
 	#Menu superior logeado
 	'About' => 'Acerca de',
 	'Carousel' => 'Carrusel',
