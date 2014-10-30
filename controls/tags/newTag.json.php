@@ -150,8 +150,12 @@ function newTag_json($data,$mobile=false){
 			fclose($fp);
 			if(redimensionar($path.$photo,$path.$photo,650)){
 				$res['redimensionar']=true;
+
+				$res['ftp_conec'] = FTPupload("templates/$_photo",RELPATH);
+
 				$upload=FTPupload("templates/$_photo");
 				// $res['upload']=$upload;
+
 			}
 			$data['background']=$_photo;
 		}else{

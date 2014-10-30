@@ -113,7 +113,7 @@
 				}
 				var test='';
 				myAjax({
-					type	:'GET',
+					type	:'POST',
 					dataType:'json',
 					url		:DOMINIO+'controls/tags/tagsList.json.php?id='+$_GET['id']+(is['iOS']?'&embed':''),
 					error	:function(/*resp,status,error*/){
@@ -164,13 +164,20 @@
 								var $video=$('.tag-buttons #'+tag['typeVideo']).fadeIn('slow');
 								if(openVideo){
 									$video.click(function(){
-										console.log(tag['video']);
 										if (tag['typeVideo']=='local'){
+											var wi=$('#page-tag .tag-solo').css('font-size');
+											if (wi.indexOf('px')!=-1){
+												wi=(wi.replace('px','')*1)-1;
+												wi=wi+'px';
+											}else{
+												wi=(wi.replace('em','')*1)-0.20;
+												wi=wi+'em';
+											}
 											myDialog({
 												id:'#singleVideoDialog',
-												content:'<div class="tag-container"><div tag><div class="video"><div class="placa"></div>'+
-															'<video id="v'+Math.random()+'" style="width:100%;" controls autoplay preload="metadata"><source src="'+tag['video']+'" type="video/mp4"/></video>'+
-															'</div></div></div><div class="clearfix"></div>',
+												content:'<div class"tag-solo" style="font-size:'+wi+'"><div class="tag-container" style="margin:0 auto;"><div tag><div class="video"><div class="placa"></div>'+
+															'<video id="v'+Math.random()+'" controls autoplay preload="metadata"><source src="'+tag['video']+'" type="video/mp4"/></video>'+
+															'</div></div></div><div class="clearfix"></div></div>',
 												buttons:[{
 													name:'Ok',
 													action:function(){

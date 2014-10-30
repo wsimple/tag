@@ -139,11 +139,15 @@
 
                     $msj=$_POST['msj'];
 					$mails=explode(',',$_POST['mails']);
+					
 					if(count($mails)>0){
-
+						// $con = 0;
 						$correos='';$numE=0;$numA=0;
+						//echo $mails[0].'--'.$mails[1];
 						foreach($mails as $per){
-							if($per!=''){ 
+
+							if($per!=''){
+								//$co.= $per; 
 								//verificar si es un correo valido
 								if (isValidEmail($per)){ if ($numE++>20) continue;
 								}else{
@@ -254,8 +258,7 @@
 													<center><table>
 														<tr>
 															<td align="center" style="padding-left:5px; text-align:center; width:100%;">
-																'.(isset($device) ? 'This tag have been sent using my '.$device : '').'<br>'.
-																$lang['MENUTAG_CTRSHAREMAILTITLE3'].':&nbsp;<a href="'.$linkTag.'">Tagbum.com</a>
+																'.(isset($_GET['device']) ? '<span style="font-size:18px">'.$lang['MENUTAG_CTRSHAREMAILTITLEDEVICE'].' '.$_GET['device'].'</span>' : '').'<br><br><br>'.$lang['MENUTAG_CTRSHAREMAILTITLE3'].': &nbsp;<a href="'.$linkTag.'">Tagbum.com</a>
 															</td>
 														</tr>
 													</table></center>
@@ -271,19 +274,27 @@
 									</tr>
 								*/
 								//envio del correo
-								if (sendMail(formatMail($body, "790"), EMAIL_NO_RESPONDA, formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.$lang['MENUTAG_CTRSHAREMAILTITLE1'], $per, "../../")){
+									//echo 'antes send '.$per;
+									$resp = sendMail(formatMail($body, "790"), EMAIL_NO_RESPONDA, formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.$lang['MENUTAG_CTRSHAREMAILTITLE1'], $per, "../../");
+									//echo 'respuesta '.$resp;
+
+								if ($resp){
+									//echo '. enviado '.$per.'<br>';
 									$correos .= "-&nbsp;".$per."<br/>";
 									//insert tabla verificacion
 									if(!CON::exist("tags_share_mails","id_tag=? AND referee_number=? AND email_destiny =?",array($tag['idTag'],$_SESSION['ws-tags']['ws-user']['code'],$per)))
 										CON::insert("tags_share_mails","id_tag = ?,referee_number =?,email_destiny =?,view = '0'",
 											array($tag['id'],$_SESSION['ws-tags']['ws-user']['code'],$per));
 								} //end if envio de correo
+								//$con++;
 							}//if per
 						}//foreach
 					}//if (count($mails)>0)
 					$msgBox='<div class="div_exito"><strong>'.$lang['MENUTAG_CTRSHAREMAILEXITO'].":</strong></div><br><br> ".$correos;
 
-					if ($correos==="") $msgBox=$device? '<div class="div_error">'.$device.'<br>'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>':'<div class="div_error">'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>';
+
+
+					if ($correos==="") $msgBox=$_GET['device']? '<div class="div_error">'.$_GET['device'].'<br>'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>':'<div class="div_error">'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>';
 				break; //share
 				//delete
 				case 6:
