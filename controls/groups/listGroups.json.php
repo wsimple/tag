@@ -139,9 +139,10 @@
                     $photo=FILESERVER.'img/groups/'.$row['photo'];
                     $photo=fileExistsRemote($photo)?$photo:'';
                     $row['photo']= $photo!=''? 'style="background-image:url(\''.$photo.'\');"':'';
-                    $row['cname']=formatoCadena(@constant($row['cname']));
+                    $row['cname']=formatoCadena(lan($row['cname']));
                     $row['photoi']= $photo!=''? 'src="'.$photo.'" ':'src="'.DOMINIO.'css/smt/groups_default.png"';
-                    if ($mobile){ $row['cate_name']=STORE_CATEGORIES2.': '.$row['cname']; }
+                    $cate_name = ($row['cname'] == '' || strpos($row['cname'], 'GROUPS_CATEGORY_')>= 0 )?'General':$row['cname'];
+                    if ($mobile){ $row['cate_name']=__('Category').': '.$cate_name; }
                     $row['name']=  formatoCadena($row['name']);
                     $row['des']=  formatoCadena($row['des']);
                     $row['members']=  $row['num_members'];

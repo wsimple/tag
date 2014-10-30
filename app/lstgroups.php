@@ -42,7 +42,7 @@
 					// onPullDown:function(){},
 					onPullUp:function(){
 					   var cant=$('li',el);
-                       if (cant.length>0 && cant.length%12==0) cargarList(action,cant.length);
+                       if (cant.length>0 && cant.length%2==0) cargarList(action,cant.length);
                        else $wrapper.jScroll('refresh');
 					},
 					onReload:function(){ cargarList(action,''); }
@@ -50,7 +50,7 @@
                 function cargarList(action,limit){
                     var limit2='&'+(limit!=''?'limit='+limit:'limit=0');
                     myAjax({
-    					type	: 'GET',
+    					type	: 'POST',
     					//url		: DOMINIO+'controls/groups/menuGroupUser.json.php?action='+action+'&code='+$.local('code'),
     					url		: DOMINIO+'controls/groups/listGroups.json.php?list='+action+limit2,
                         dataType: 'json',
