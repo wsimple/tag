@@ -3,7 +3,7 @@ class Video extends TAG_controller{
 	// function __onload(){
 	// 	$this->disable_methods();
 	// }
-	function validate($is_ajax=0,$url=0,$nolocal=0,$mobile=false,$config=false){
+	function validate($is_ajax=0,$url=0,$nolocal=0,$mobile=false,$config=false,$embed=false){
 		if (!$config) global $config;
 		$success=false;$type=false;$test='';
 		if ($url==0){
@@ -28,7 +28,7 @@ class Video extends TAG_controller{
 					// $url='http://player.vimeo.com/video/'.$code.'?byline=0&badge=0&portrait=0&title=0';
 				}
 			}elseif($this->isVideo('youtube',$url)){
-				if($data['embed'])
+				if($embed)
 					$url=preg_replace($this->regex('youtube'), 'http://youtube.com/embed/$7$9', $url);
 				$type='youtube';
 				if(preg_match('/(youtube\\S*[\\/\\?\\&]v[\\/=]|youtu.be\\/)([^\\?\\&]+)/i',$url,$matches)){
