@@ -141,7 +141,7 @@
                     $row['photo']= $photo!=''? 'style="background-image:url(\''.$photo.'\');"':'';
                     $row['cname']=formatoCadena(lan($row['cname']));
                     $row['photoi']= $photo!=''? 'src="'.$photo.'" ':'src="'.DOMINIO.'css/smt/groups_default.png"';
-                    if ($mobile){ $row['cate_name']=lan('STORE_CATEGORIES2').': '.$row['cname']; }
+                    if ($mobile){ $row['cate_name']=lan('Category').': '.$row['cname']; }
                     $row['name']=  formatoCadena($row['name']);
                     $row['des']=  formatoCadena($row['des']);
                     $row['members']=  $row['num_members'];
