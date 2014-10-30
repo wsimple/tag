@@ -51,8 +51,10 @@
 <a id="btn-fullVersion" data-role="button" data-inline="true" data-theme="c" style="display:none" onclick="redir(PAGE['fullversion']);">Full Version</a>
 <div class="store-info" style="margin-top: 15px; margin-bottom: 20px">
 <p id="app_download_msg"></p>
-<a href="https://play.google.com/store/apps/details?id=org.app.seemytag"><div class="googlePlay"></div></a>
-<a href="https://itunes.apple.com/us/app/semytag/id658430038?ls=1&mt=8"><div class="appStore"></div></a>
+<div class="googlePlay"></div>
+<!-- <a href="https://play.google.com/store/apps/details?id=org.app.seemytag"></a> -->
+<div class="appStore"></div>
+<!-- <a href="https://itunes.apple.com/us/app/semytag/id658430038?ls=1&mt=8"></a> -->
 </div>
 </div></div></div>
 <div id="noconection" style="display:none;"><div class="_tt"><div class="_tc">
@@ -166,6 +168,12 @@ redir(PAGE.home);
 }
 },{scope:'email'});
 }
+$('.googlePlay,.appStore').click(function(event) {
+myDialog({//Information lang.INVITE_GROUP_TRUE
+id:'#singleDialog',
+content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
+});
+});
 </script>
 </div>
 </body></html>
