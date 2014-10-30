@@ -31,10 +31,9 @@ class Video extends TAG_controller{
 				if($embed)
 					$url=preg_replace($this->regex('youtube'), 'http://youtube.com/embed/$7$9', $url);
 				$type='youtube';
+				$success=true;
 				if(preg_match('/(youtube\\S*[\\/\\?\\&]v[\\/=]|youtu.be\\/)([^\\?\\&]+)/i',$url,$matches)){
-					$type='youtube';
 					$code=$matches[2];
-					$success=true;
 					if (!$mobile) $url=$code;
 					// if (!$mobile) $url='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
 					// $url='http://www.youtube.com/embed/'.$code.'?rel=0&showinfo=0&cc_load_policy=0&controls=2';
