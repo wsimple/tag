@@ -1175,7 +1175,8 @@ include ('../../class/class.phpmailer.php');
         if (isset($_GET['lisWihs']) || isset($_GET['lisWishsShow'])){
             if (isset($_GET['shopW'])) $_GET['shop']='1';
             $array['tipo']='wish';
-            if ($mobile) $array['mobile']=true;
+            $array['mobile']=$mobile;
+            if (!$mobile && isset($_GET['appMobile'])) $array['mobile']=true;
             $wishList=consulWishList($array,$lang);
             if (!isset($wishList['body'])) $_GET['shop']='1';
             if (isset($wishList['body']) || isset($_GET['shop'])){
