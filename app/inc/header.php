@@ -49,4 +49,4 @@
 	<script src="js/base.js"></script>
 	<script src="js/funciones.js"></script>
 <?php } ?>
-</head><body>
+</head><body><?php if(!isset($_GET['minify']))include_once("analyticstracking.php"); ?>

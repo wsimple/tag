@@ -230,6 +230,7 @@ if($detect->isMobile()&&!$_COOKIE['__FV__']){?>
 </script>
 </head>
 <body lang="<?=$_SESSION['ws-tags']['language']?>" <?= ($_SESSION['ws-tags']['ws-user']['user_background']==''?'' : ($_SESSION['ws-tags']['ws-user']['user_background'][0]!='#' ? 'style="background-image:url('.FILESERVER.'img/users_backgrounds/'.$_SESSION['ws-tags']['ws-user']['user_background'].')"':''))?>>
+<?php include_once("analyticstracking.php") ?>
 <?php if(is_debug()){//Debugger: imprime variables para verificarlas ?>
 	<div id="debug" style="position:absolute;z-index:1000000;top:0;background:#fff;display:none;">
 		DOMINIO: <?=DOMINIO?><br/>
