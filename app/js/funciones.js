@@ -1523,9 +1523,7 @@ function viewCategories(action,idLayer,id){
 					id:'#idDontStore',
 					content:'<center><strong>'+lang.STORE_NOSTORE_MESSAGE+'</strong></center>',
 					scroll:true,
-					buttons:{
-						ok:function(){goBack();}
-					}
+					buttons:{ ok:'close' }
 				});
 			}
 			if(data['sCart']) $('#cart-footer').fadeIn();
