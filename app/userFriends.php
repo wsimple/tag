@@ -25,7 +25,9 @@
 				);
 			},
 			after:function(){
+				console.log($_GET['type'])
 				var opc={layer:'#friendsList',mod:$_GET['type']||'friends',get:"",user:$_GET['id_user']||''};
+				$('#friendsFooter li a[opc='+$_GET['type']+']').addClass('ui-btn-active'); //Estilo de li activo
 				$(opc.layer).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
 				$('.list-wrapper').jScroll({hScroll:false});
 				$('.list-content input').keyup(function() {
