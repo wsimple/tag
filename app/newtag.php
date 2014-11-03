@@ -417,7 +417,10 @@
 								id:'#tagUploadDialog',
 								content:data,
 								buttons:{
-									Ok:function(){redir(PAGE['timeline']);}
+									Ok:function(){
+										localStorage.removeItem('timeLine');
+										redir(PAGE['timeline']);
+									}
 								}
 							});
 						}
