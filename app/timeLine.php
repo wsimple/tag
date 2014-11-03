@@ -78,9 +78,22 @@
                 $(opc.layer).on('click','.smt-tag',function(){
 					redir(PAGE['tag']+'?id='+$(this).attr('tag'));
 				});
-				$(opc.layer).on('click','[tag]',function(){
-					redir(PAGE['tag']+'?id='+$(this).attr('tag'));
+				// $(opc.layer).on('click','[tag]',function(){
+				// 	redir(PAGE['tag']+'?id='+$(this).attr('tag'));
+				// });
+
+				$(opc.layer).on('dblclick','[tag]',function(){
+					var object = this;
+					myAjax({
+						type:'GET',
+						url:DOMINIO+'controls/tags/actionsTags.controls.php?action=4&tag='+$(object).attr('tag'),
+						dataType:'html',
+						success:function( data ){
+							$('.tag-icons #likeIcon',object).fadeIn(); 									// 
+						}
+					});
 				});
+
 				$wrapper.ptrScroll({
 					onPullDown:function(){
 						updateTags('reload',opc);
