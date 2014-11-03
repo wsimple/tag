@@ -2,7 +2,7 @@
 <script> var opc={type:1,dato:[]}; </script>
 <div id="page-preferences" data-role="page" data-cache="false">
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<a id="buttonBack_preferences" href="#" data-icon="arrow-l" onclick="redir(PAGE['profile']+'?id='+$.local('code'));"></a>
+		<a id="buttonBack_preferences" href="#" data-icon="arrow-l" onclick="goBack();"></a>
 		<h1>&nbsp;</h1>
 		<a id="btnPreferences_update" style="display:none" href="#" onClick="savePreferences(opc);" data-icon="check"></a>
 	</div>

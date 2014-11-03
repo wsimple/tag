@@ -20,6 +20,15 @@ switch ($_GET['action']) {
 				$array['select'].=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend';
 				$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
 				$array['where']=safe_sql('ul.id_user=? AND ul.is_friend=1',array($uid));
+				if (isset($_GET['idGroup']))
+					$array['where'].=safe_sql(" AND ul.id_friend NOT IN ((SELECT id_user FROM users_groups WHERE id_group=?))",array($_GET['idGroup']));
+				if (isset($_GET['like'])){
+					$searches = explode(' ',$_GET['like']);$where='';
+					foreach ($searches as $word) {
+						$array['where'].=safe_sql(' AND  CONCAT_WS(" ",u.username,u.last_name,u.screen_name,u.name,u.email) LIKE "%??%"',array($word));
+					}
+					$res['num']=1;
+				}
 			break;
 			case 'unfollow': //admirados
 				$array['select'].=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend';
@@ -38,7 +47,7 @@ switch ($_GET['action']) {
 						IF(u.id='.$myId.',1,0) AS iAm,
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
 				if (isset($_GET['search'])){
-					$searches = explode(' ',$_GET['search']);$where='';$res['where']='';
+					$searches = explode(' ',$_GET['search']);$where='';
 					foreach ($searches as $word) {
 						// AND g.name LIKE ?",array('%'.$hash[0].'%'));
 						$where.=safe_sql('AND  CONCAT_WS(" ",u.username,u.last_name,u.screen_name,u.name,u.email) LIKE "%??%"',array($word));
@@ -75,7 +84,7 @@ switch ($_GET['action']) {
 		$res['datos']=$info;
 		if ($html!='') $res['html']=$html;
 	break;
-	case 'usersLikesTags':
+	case 'usersLikesTags': //likes dislikes and Raffle participants
 		if (!isset($_GET['t']) || !isset($_GET['s'])) die(jsonp(array()));
 		$numAction=3;$html='';
 		$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
@@ -106,7 +115,7 @@ switch ($_GET['action']) {
 		$res['datos']=$info;
 		if ($html!='') $res['html']=$html;
 	break;
-	case 'groupMembers':
+	case 'groupMembers': //group members
 		if (!isset($_GET['idGroup'])) die(jsonp(array()));
 		$array['select']=safe_sql(',md5(u.id) AS id_user,g.is_admin,g.status,IF(u.id='.$myId.',1,0) AS iAm,
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user=? AND oul.id_friend=u.id) AS conocido,
