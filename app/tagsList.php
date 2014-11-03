@@ -159,20 +159,22 @@
 						myAjax({
 							loader	: true,
 							type	: 'POST',
-							url		: DOMINIO+'controls/groups/getMembersGroup.json.php?id='+$.local('code')+'&idGroup='+id,
+							url		: DOMINIO+'controls/users/people.json.php?action=groupMembers&code&idGroup='+id,
+							data 	:{uid:$.local('code')},
 							dataType: 'json',
 							success	: function(data) {
 								var i,friend,ret = '';
-								for(i in data){
-									friend=data[i];
+								for(i in data['datos']){
+									friend=data['datos'][i];
 									ret	+=
 										'<div code="'+friend['code']+'" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
-											'<img src="'+friend['photo']+'" style="float:left; width:60px; height:60px;" class="userBR"/>'+
+											'<img src="'+friend['photo_friend']+'" style="float:left; width:60px; height:60px;" class="userBR"/>'+
 											'<div style="float: left; margin-left:5px; font-size:10px; text-align: left;">'+
-												'<spam style="color:#E78F08; font-weight:bold; ">' + friend['name'] + '</spam><br/>'+
+												'<spam style="color:#E78F08; font-weight:bold; ">' + friend['name_user'] + '</spam><br/>'+
 												(friend['country'] ? ''+lang.country+': '+friend['country']+'<br/>' : '')+
 												''+lan('friends','ucw')+'('+friend['friends_count']+')<br/>'+
-												''+lan('admirers','ucw')+'('+friend['followers_count']+')'+
+												''+lan('admirers','ucw')+'('+friend['followers_count']+')<br/>'+
+												((friend['status'])?'<strong style="color:green">'+lan('active','ucw')+'</strong>':'<strong style="color:red">'+lan('inactive','ucw')+'</strong>')+
 											'</div>'+
 										'</div>';
 								}
