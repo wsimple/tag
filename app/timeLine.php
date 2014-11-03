@@ -35,6 +35,9 @@
 		<div data-role="navbar"><ul></ul></div>
 	</div>
 	<script>
+		var page = $.local('timeLine');
+		var active_tab = 'timeLine';
+		if (page) active_tab = page.last_tab;
 		//if(navigator.app) navigator.app.clearHistory();
 		pageShow({
 			id:'page-timeLine',
@@ -55,8 +58,19 @@
 				);
 			},
 			after:function(){
+				if (active_tab != 'timeLine') {
+					$('#tl-footer ul li a').removeClass('ui-btn-active');
+					$('#tl-footer ul li a[opc='+active_tab+']').addClass('ui-btn-active');
+					if(active_tab=='privateTags'){
+						$('#private-select').show();
+						$('#userPoints').hide();
+					}else{
+						$('#private-select').hide();
+						$('#userPoints').show();
+					}
+				}
 				var opc={ 
-						current:'timeLine',
+						current: active_tab,
 						layer:$('#tagsList')[0]
 					},
 					$wrapper=$('#pd-wrapper',this.id);
@@ -72,7 +86,10 @@
 						updateTags('reload',opc);
 					},
 					onPullUp:function(){
-						updateTags('more',opc);
+						var response = updateTags('more',opc);
+						if (!response) {
+							$wrapper.jScroll('refresh');
+						};
 					},
 					onReload:function(){
 						updateTags('reload',opc,true);
@@ -89,6 +106,7 @@
 				});
 				$('#tl-footer ul').on('click','a',function(){
 					var c=$(this).attr('opc');
+					$.local('timeLine', {'last_tab':c});
 					if(opc.current!=c){
 						opc.current=c;
 						if(opc.current=='privateTags'){

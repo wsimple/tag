@@ -210,6 +210,8 @@
 						}else{
 							$('#tag').html('<div id="tagNoExits" class="tagNoExits">'+lang.TAGS_WHENTAGNOEXIST+'.</div>'
 								+'<div class="smt-tag" style="max-height: 300px; height: 300px;"><img src="../img/templates/defaults/346f3ee097c010b4ed71ce0fb08bbaf2.jpg" class="tag-img"></div>');
+							$('.tag-buttons #like, .tag-buttons #dislike, .tag-buttons #comment, #goProfile').hide();
+
 
 						}
 						getComments('reload',opc);
