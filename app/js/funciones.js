@@ -752,13 +752,14 @@ function viewFriends(opc){
 		success:function(data){
 			if (data['error']) return;
 			var i,friend,out='',divider;
-			if($.local('code')==opc.user){
+			console.log(opc.user)
+			// if($.local('code')==opc.user){
 				switch(opc.mod){
 					case 'friends':divider=lan('friends','ucw');break;
 					case 'follow':divider=lan('admirers','ucw');break;
 					case 'unfollow':divider=lan('admired','ucw');break;
 				}
-			}
+			// }
 			divider='<li data-role="list-divider">'+(opc.mod=='find'?lang.FINDFRIENDS_LEGENDOFSEARCHBAR:divider+' <span class="ui-li-count">'+data['num']+'</span>')+'</li>';
 			for(i=0;i<data['datos'].length;i++){
 				friend=data['datos'][i];
