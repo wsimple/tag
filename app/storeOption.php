@@ -175,8 +175,7 @@
                     makeListWish();
                     function makeListWish(){
                     	myAjax({
-                    		type: 'POST',
-                    		url: DOMINIO+'controls/store/shoppingCart.json.php?lisWihs=1',
+                    		url: DOMINIO+'controls/store/shoppingCart.json.php?lisWihs=1&appMobile',
                     		dataType: 'json',
                             error	:function(/*resp,status,error*/){
                     			myDialog('#singleDialog',lang.conectionFail);
