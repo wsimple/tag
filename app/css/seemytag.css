@@ -576,7 +576,10 @@
 		margin-left:-35px;
 	}
 	.userInList p{ margin-left:-35px; }
+	.userBR{
+		border-radius: 50% !important;
 
+	}
 /* END - friends user*/
 
 #ulMyPrefe{
