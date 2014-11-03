@@ -55,8 +55,15 @@
 				);
 			},
 			after:function(){
+				var page = $.local('timeLine');
+				var tab = page.last_tab || 'timeLine';
+
+				if (tab) {
+					$('#tl-footer ul li a').removeClass('ui-btn-active');
+					$('#tl-footer ul li a[opc='+page.last_tab+']').addClass('ui-btn-active');
+				}
 				var opc={ 
-						current:'timeLine',
+						current: tab,
 						layer:$('#tagsList')[0]
 					},
 					$wrapper=$('#pd-wrapper',this.id);
@@ -92,6 +99,8 @@
 				});
 				$('#tl-footer ul').on('click','a',function(){
 					var c=$(this).attr('opc');
+					console.log(c);
+					$.local('timeLine', {'last_tab':c});
 					if(opc.current!=c){
 						opc.current=c;
 						if(opc.current=='privateTags'){
