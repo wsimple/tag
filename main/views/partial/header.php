@@ -80,6 +80,7 @@ $minify=!$setting->local&&!$control->is_debug('minify');
 	<!--[---if lt IE 9]><script src="http://ie7-js.googlecode.com/svn/trunk/lib/IE9.js"></script><![endif]-->
 </head>
 <body lang="<?=$language?>" <?=$bg?>>
+<?php include_once("analyticstracking.php") ?>
 <div style="display:none;"><?=var_dump($client)?></div>
 <page id="smt" class="<?=$client->is_logged?'logged':'unlogged'?>" data-logged="<?=$client->is_logged?1:0?>">
 

@@ -158,7 +158,7 @@
 						console.log('getMembersGroup');
 						myAjax({
 							loader	: true,
-							type	: 'GET',
+							type	: 'POST',
 							url		: DOMINIO+'controls/groups/getMembersGroup.json.php?id='+$.local('code')+'&idGroup='+id,
 							dataType: 'json',
 							success	: function(data) {
@@ -192,7 +192,7 @@
 						like=like?'&like='+like:'';
 						myAjax({
 							loader	:true,
-							type	:'GET',
+							type	:'POST',
 							url		:DOMINIO+'controls/users/getFriends.json.php?id='+$.local('code')+like+'&idGroup='+id,
 							dataType:'json',
 							success	:function(data){
@@ -238,7 +238,7 @@
 						like = like ? '&like='+like : '';
 						myAjax({
 							loader	: true,
-							type	: 'GET',
+							type	: 'POST',
 							url		: DOMINIO+'controls/groups/adminMemberGroup.json.php?id='+$.local('code')+like+'&idGroup='+id,
 							dataType: 'json',
 							success	: function(data) {
@@ -326,7 +326,7 @@
 										var that=this;
 										console.log('button yes');
 										myAjax({
-											type	: 'GET',
+											type	: 'POST',
 											url		: DOMINIO+'controls/groups/isAdminGroup.json.php?code='+$.local('code')+'&idGroup='+id,
 											dataType: 'json',
 											error	: function(resp, status, error) {
@@ -369,7 +369,7 @@
 																		$('#selectAdmin').fadeOut(300,function(){
 																			console.log(lang.GROUPS_LEAVEABANDONAR);
 																			myAjax({
-																				type	: 'GET',
+																				type	: 'POST',
 																				url		: DOMINIO+'controls/groups/isAdminGroup.json.php?code='+$.local('code')+'&idGroup='+id+'&act=leave',
 																				dataType: 'json',
 																				error	: function(/*resp, status, error*/) {
