@@ -46,7 +46,7 @@
 					'<li type="'+d.type+'" date="'+d.date+'" source="'+d.source+'" class="ui-li-has-thumb'+(d.rev>1?' notiRevi':' notiNoRevi')+'" '+(d.rev>1?'':'t="'+d.tipo+'" f="'+d.allsource+'"')+'>'+
 						'<a>'+
 //							'<img src="'+d.photo+'"/>'+
-							'<div class="ui-li-thumb'+(d.pic?' '+d.pic:'')+'"'+(d.photo?' style="background-image:url('+FILESERVER+d.photo+');"':'')+'/>'+
+							'<div class="ui-li-thumb'+(d.pic?' '+d.pic:'')+''+(d.bord?' userBR':'')+'"'+(d.photo?' style="background-image:url('+FILESERVER+d.photo+');"':'')+'/>'+
 							'<p class="title">'+d.txt+'</p>'+
 							'<p class="date"><span class="'+d.icon+'"></span> '+d.date+'</p>'+
 						'</a>'+
@@ -110,6 +110,7 @@
 												for(j=0;j<info['friends'].length;j++){
 													d.source = info['friends'][j]['code'];
 													d.photo = info['friends'][j]['photo'];
+													d.bord=true;
 													d.txt=txtFormat({
 														type:info['id_type'],
 														people:peopleFormat([info['friends'][j]]),
@@ -133,6 +134,7 @@
 											case 'group':
 												if(info['group']){
 													d.pic='usr-pic';
+													d.bord=true;
 													d.source = info['group']['id'];
 													d.txt=txtFormat({
 														type:info['id_type'],
