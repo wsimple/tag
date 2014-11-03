@@ -7,7 +7,7 @@
 			<div id="scroller">
 				<div>
 					<div style="height:60px;margin:19px;">
-						<img id="userPicture" style="float:left;height:60px;width:60px;" />
+						<img id="userPicture" style="float:left;height:60px;width:60px;" class="userBR" />
 						<div id="userInfo" style="float:left;margin-left:13px;"></div>
 					</div>
 					<a id="pictureButton" style="display:none;" data-role="button" data-theme="c">&nbsp;</a>
@@ -121,11 +121,13 @@
 					});
 					if(me){
 						$('#followButton').remove();
-						if(data['thumb']){
-							$('#pictureButton').fadeIn('slow').click(function(){
-								redir(PAGE['profilepic']);
-							});
-						}
+						if (CORDOVA)
+							if(data['thumb']){
+								$('#pictureButton').fadeIn('slow').click(function(){
+									redir(PAGE['profilepic']);
+								});
+							}
+						else $('#pictureButton').remove();
 					}else{
 						$('#pictureButton').remove();
 						var $follow=$('#followButton');
