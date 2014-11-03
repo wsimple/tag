@@ -6,7 +6,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "",
       "projectGuid": "cf82b8ab-f059-4139-a54a-54e1222ef1c2",
-      "lastModifiedDate": 1413926027430,
+      "lastModifiedDate": 1414612199458,
       "creationDate": 1413838791757
     },
     "sourceDirectory": "",
@@ -61,6 +61,13 @@
       },
       {
         "id": "org.apache.cordova.media",
+        "version": "0.2.8",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
+        "id": "org.apache.cordova.contacts",
         "version": "0.2.8",
         "selectedState": "Included",
         "data": {},
