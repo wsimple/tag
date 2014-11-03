@@ -72,7 +72,10 @@
 						updateTags('reload',opc);
 					},
 					onPullUp:function(){
-						updateTags('more',opc);
+						var response = updateTags('more',opc);
+						if (!response) {
+							$wrapper.jScroll('refresh');
+						};
 					},
 					onReload:function(){
 						updateTags('reload',opc,true);
