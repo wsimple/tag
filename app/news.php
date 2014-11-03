@@ -99,7 +99,7 @@
 											break;
 											case 'usr':
 												d.source=info['keyUser'];
-												d.photo =info['usrs'][0]['photo']+'" style="height:90%;';
+												d.photo =info['usrs'][0]['photo']+'" class="userBR" style="height:90%;';
 												d.txt=txtFormat({
 													type:info['id_type'],
 													people:people,
