@@ -225,6 +225,10 @@ $(function(){
 	var video=$('#htxtVideo')[0];
 	$(video).change(function(){
 		if(this.value.match(/^https?:\/\//i)) return;
+		if(!window.video_convert_tmpl) window.video_convert_tmpl=tmpl('template-conversion');
+		var obj={
+			content:$('#preVideTags')[0]
+		};
 		$.ajax({
 			disablebuttons:true,
 			url:LOCAL?'video/test/1':SERVERS.video+'?captures',
@@ -232,18 +236,33 @@ $(function(){
 			type:'post',
 			data:{code:"<?=$_SESSION['ws-tags']['ws-user']['code']?>",file:video.value},
 			success:function(data){
-				if (!data.error){
-					video.value=data.video;
-					var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='';
-					for(var i=0,capture;capture=data.captures[i];i++){
-						captures=captures+'<div class="option-cap" data-src="videos/'+capture+'" style="background-image:url(\''+SERVERS.video+'videos/'+capture+'\')"></div>';
+				if(!data.error){
+					var video=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true);
+					if(video){
+						$(obj.content).html(video_convert_tmpl({
+							state:'done',
+							path:'<?=$setting->video_server?>videos/',
+							captures:data.captures
+						})).find('[tag]').html(video);
+						if(obj.capture&&data.captures.length>0)
+							obj.capture.call(this,data.captures[0]);
 					}
-					if(captures!=''){
-						captures='<div class="clearfix"></div><div class="select-capture">'+captures+'</div><div class="clearfix"></div>';
-					}
-					if(html!='')
-						$('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div>'+captures+'</div>')
-				}
+				}else
+					$(obj.content).html(video_convert_tmpl({state:'error'})).find('.retry').one('click',function(){
+						convert_video(obj);
+					});
+				// if (!data.error){
+				// 	video.value=data.video;
+				// 	var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='';
+				// 	for(var i=0,capture;capture=data.captures[i];i++){
+				// 		captures=captures+'<div class="option-cap" data-src="videos/'+capture+'" style="background-image:url(\''+SERVERS.video+'videos/'+capture+'\');"></div>';
+				// 	}
+				// 	if(captures!=''){
+				// 		captures='<div class="clearfix"></div><div class="select-capture">'+captures+'</div><div class="clearfix"></div>';
+				// 	}
+				// 	if(html!='')
+				// 		$('#preVideTags').html('<div class="tag-container" style="width:auto;font-size: 100%;"><div tag="pre">'+html+'</div>'+captures+'</div>')
+				// }
 			}
 		});
 	});
@@ -296,10 +315,9 @@ $(function(){
 		$(this).parents('div[tag]').hide().parent('.tag-container').remove();
 		$('#htxtVideo').val('');
 	}).on('click','.tag-container .select-capture .option-cap',function(){
-		var img=$('#imgTemplate')[0];
-		img.value=this.dataset.src.replace('videos/','');
-		// img.value=this.dataset.url.replace(SERVERS.img+'img/templates/','');
-		$('#bckSelected').css('background-image','url('+SERVERS.video+this.dataset.src+')');
+		var data=this.dataset.src.replace(/^videos\//,'');
+		$('#bckSelected').css('background-image','url('+SERVERS.video+'videos/'+data+')');
+		$('#imgTemplate')[0].value=data;
 		$(this).parent().find('.option-cap').removeClass('selected');
 		$(this).addClass('selected');
 	});
@@ -493,6 +511,37 @@ $(function(){
 	//tour
 	tour(SECTION);
 });
+</script>
+<!-- Teplates -->
+<script id="template-conversion" type="text/x-tmpl">
+{% if(o.state=='waiting'){ %}
+	<div class="messageNoResultSearch more" style="text-align:center;">
+		<img src="css/smt/loader.gif" width="32" height="32" class="loader"><br/>
+		<?=lan("PROCESSINGYOURVIDEO")?>
+	</div>
+{% }else if(o.state=='error'){ %}
+	<div class="messageNoResultSearch more" style="text-align:center;">
+		<?=lan("ERRORPROCESSINGYOURVIDEO")?>
+		{% if(o.isupload){ %}
+		<br/>
+		<?=lan("RETRYVIDEOUPLOAD")?>
+		{% } %}
+		<br/><br/>
+		<input type="button" class="retry" value="<?=lan('Retry')?>"/>
+	</div>
+{% }else if(o.state=='done'){ %}
+	<div class="tag-container" style="width:auto;font-size:100%;">
+		<div tag="pre"></div>
+		{% if(o.captures&&o.captures.length>0){ %}
+		<div class="select-capture clearfix">
+		{% for(var i=0,capture;capture=o.captures[i];i++){ %}
+			<div class="option-cap" data-src="{%=capture%}"
+				style="background-image:url('{%=o.path+capture%}');"></div>
+		{% } %}
+		</div>
+		{% } %}
+	</div>
+{% } %}
 </script>
 <?php }else{ ?>
 <div id="editTag-box" class="ui-single-box">
