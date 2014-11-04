@@ -563,15 +563,20 @@ function actionyoutubevideo(action,iframe){
 	}
 }
 function htmlVideo(data,type,url,del){
-	if (!data || !type) return '';
-	var video='';
-	switch(type){
+	if(!(data instanceof Object))
+		data={video:data};
+	data.type=type||data.type;
+	if(!data.video || !data.type) return;
+	data.url=url||data.url;
+	data.del=del||data.del;
+	var html='';
+	switch(data.type){
 		case 'youtube':
-			video='<div id="v'+Math.random()+'" data-src="'+data+'" class="ytplayer"></div>';
+			html='<div id="v'+Math.random()+'" data-src="'+data.video+'" class="ytplayer"></div>';
 		break;
-		case 'vimeo': video='<iframe src="'+data+'" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';break;
+		case 'vimeo': html='<iframe src="'+data.video+'" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';break;
 		case 'local':
-			video=$.debug.isEnabled('video')&&navigator.userAgent.match(/(chrome|opera|OPR)/i)?(
+			html=$.debug.isEnabled('video')&&navigator.userAgent.match(/(chrome|opera|OPR)/i)?(
 			'<object id="f4Player" width="650" height="300" type="application/x-shockwave-flash" data="css/player.swf?v1.3.5">'+
 				'<param name="movie" value="css/player.swf?v1.3.5"/>'+
 				'<param name="quality" value="high"/>'+
@@ -580,7 +585,7 @@ function htmlVideo(data,type,url,del){
 				'<param name="allowfullscreen" value="true"/>'+
 				'<param name="allowscriptaccess" value="always"/>'+
 				'<param name="cachebusting" value="true"/>'+
-				'<param name="flashvars" value="skin=css/skin.swf&video='+data+'"/>'+
+				'<param name="flashvars" value="skin=css/skin.swf&video='+data.video+'"/>'+
 				// '<a href="http://www.adobe.com/go/flashplayer/">Download it from Adobe.</a>'+
 				// '<a href="http://gokercebeci.com/dev/f4player" title="flv player">flv player</a>'+
 			'</object>'
@@ -590,20 +595,23 @@ function htmlVideo(data,type,url,del){
 			// 	'<param name="allowscriptaccess" value="always"/>'+
 			// 	'<param name="playButtonOverlay" value="true"/>'+
 			// 	'<param name="wmode" value="transparent"/>'+
-			// 	'<param name="flashVars" value="src='+data+
+			// 	'<param name="flashVars" value="src='+data.video+
 			// 		'&playButtonOverlay=true&controlBarAutoHide=false"/>'+
 			// 	//'<img alt="Big Buck Bunny" src="http://sandbox.thewikies.com/vfe-generator/images/big-buck-bunny_poster.jpg" width="640" height="360" title="No video playback capabilities, please download the video below" />'+
 			// '</object>'
-			):'<video id="v'+Math.random()+'" controls preload="metadata"><source src="'+data+'" type="video/mp4"/></video>';
+			):('<video id="v'+Math.random()+'" controls preload="metadata">'+
+				'<source src="'+data.video+'" type="video/mp4"/>'+
+				(data.video2?'<source src="'+data.video2+'" type="video/ogg"/>':'')+
+			'</video>');
 		break;
 	}
-	if(video!=''){
+	if(html!=''){
 		extras='';
-		if(url) extras='<button class="btn btn-primary start invisible" data-set="'+url+'" data-type="'+type+'" data-pre="'+data+'"><i class="glyphicon glyphicon-upload"></i></button>';
-		if(del) extras+='<button class="btn btn-danger delete fright"><i class="glyphicon glyphicon-trash"></i></button>';
-		video='<div class="video"><div class="placa"></div>'+extras+video+'</div>';
+		if(data.url) extras='<button class="btn btn-primary start invisible" data-set="'+data.url+'" data-type="'+data.type+'" data-pre="'+data.video+'"><i class="glyphicon glyphicon-upload"></i></button>';
+		if(data.del) extras+='<button class="btn btn-danger delete fright"><i class="glyphicon glyphicon-trash"></i></button>';
+		html='<div class="video"><div class="placa"></div>'+extras+html+'</div>';
 	}
-	return video;
+	return html;
 }
 function validaImputPictureFile(id){
 	var img=$(id).val();
