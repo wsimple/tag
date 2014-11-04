@@ -6,9 +6,8 @@ class VideoConvertion extends VideoCaptures
 
 	function __construct($initialize = true){
 		#verifica primero si se estan buscando capturas
-		parent::__construct(true);
-		if($initialize){
-			if(!isset($_GET['convert'])) return;
+		parent::__construct($initialize&&!isset($_GET['convert']));
+		if($initialize&&isset($_GET['convert'])){
 			$file_name=isset($_REQUEST['file'])?$_REQUEST['file']:'';
 			if(!$file_name) return;
 			//proceso de video
@@ -24,10 +23,15 @@ class VideoConvertion extends VideoCaptures
 	function run($command,$show=true){
 		return preg_replace('/\r?\n/', '<br/>',shell_exec($command.($show?' 2>&1':'')));
 	}
+
 	function ffmpeg_encode($origen,$destino,$mas=''){
 		if(is_file($destino)) unlink($destino);
-		if(preg_match('/\.(mp4|m4[av])$/i',$destino)) $destino="-strict -2 $destino";
-		if(preg_match('/\.(mp4|m4v)$/i',$destino)) $origen.=" -s 650*300";
+		#video mp4
+		if(preg_match('/\.(mp4|m4v)$/i',$destino)) $destino="-strict -2 $destino";
+		#video ogg
+		if(preg_match('/\.(og[gv])$/i',$destino)) $destino="-acodec vorbis -ac 2 -strict -2 -q:v 8 $destino";
+		#tamaño de video
+		if(preg_match('/\.(mp4|m4v|og[gv])$/i',$destino)) $origen.=" -s 650*300";
 		$run="ffmpeg -i $origen $destino $mas";
 		// echo "$run\n";
 		$this->_run=array(
@@ -36,6 +40,7 @@ class VideoConvertion extends VideoCaptures
 		);
 		return $this->_run['result'];
 	}
+
 	function get_info($filename){
 		#primero validamos el usuario y que exista el archivo
 		$code=$this->get_code();
@@ -50,6 +55,7 @@ class VideoConvertion extends VideoCaptures
 		$ext=pathinfo($filename,PATHINFO_EXTENSION);
 		$base_file="$code/".hash_file('crc32',"$this->path/$origen").'_'.date('YmdHis').'_';
 		$data->video=$base_file.'0.mp4';
+		$data->video2=$base_file.'0.ogg';
 		$data->captures=array(
 			$base_file.'1.jpg',
 			$base_file.'2.jpg',
@@ -57,6 +63,7 @@ class VideoConvertion extends VideoCaptures
 		);
 		return $data;
 	}
+
 	function video_convert($data=false){
 		if(!$data) $this->json();
 		$usr_path=$this->path.'/'.$this->usr->code();
@@ -68,23 +75,44 @@ class VideoConvertion extends VideoCaptures
 		#creacion de video
 		$warning='';
 		$error=$this->ffmpeg_encode($origen,"$this->path/$data->video",'-loglevel error');
-		#si no hubo error eliminamos el original
-		// echo ($error?"error\n":"no error\n").'ruta: '."$this->path/$data->original"."\n";
-		if(!$error) unlink("$this->path/$data->original");
-		else unset($data->video,$data->captures);
-		if(!$error){
+		if(!$error)
+			$error=$this->ffmpeg_encode($origen,"$this->path/$data->video2",'-loglevel error');
+		if($error){#si hubo error creando videos, eliminamos las variables y los residuos (si hay)
+			@unlink("$this->path/$data->video");
+			@unlink("$this->path/$data->video2");
+			unset($data->video,$data->video2,$data->captures);
+		}else{#si no hubo error, eliminamos el original y continuamos
+			@unlink("$this->path/$data->original");
 			#creacion de capturas
-			$t=$data->type?12:24;
-			$origen="$this->path/$data->video";
 			$captures=is_array($data->captures)?$data->captures:array();
+			$max=$data->type?30:60;#duracion maxima de video segun el tipo de usuario
+			$i=$max;
+			#(a prueba) calculamos aproximadamente la duracion del video
+			// $error='-';
+			// $capture=$captures[0];
+			// if($capture) do{
+			// 	$i--;
+			// 	$error=$this->ffmpeg_encode($origen,"-ss 00:00:$i -vframes 1 $capture","-loglevel warning");
+			// }while($error&&$i>$max/3);
+			#calculando tiempos de las capturas
+			$start=ceil($i/15);
+			$t=ceil($i*2/5);
+			$i=0;
+			$num_captures=count($captures);
+			#generamos las capturas
 			$data->captures=array();
-			for($i=0;count($captures)>$i;$i++){
+			// $img=new ImgResize(array('max_width'=>650));
+			while($i<$num_captures){
 				$capture=$captures[$i];
 				$capture="$this->path/$capture";
-				$time='00:00:'.str_pad($i*$t+4,2,'0',STR_PAD_LEFT);
-				$error=$this->ffmpeg_encode($origen,"-ss $time -vframes 1 $capture","-loglevel warning");
-				if(!$error)
+				$time='00:00:'.str_pad($i*$t+$start,2,'0',STR_PAD_LEFT);
+				$error=$this->ffmpeg_encode("$this->path/$data->video","-ss $time -vframes 1 $capture","-loglevel warning");
+				if(!$error){
 					$data->captures[]=$captures[$i];
+					// $img->resize($captures[$i]);
+					$i++;
+				}elseif($i==0&&$start>0)
+					$start--;
 				else
 					break;
 			}
