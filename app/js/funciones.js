@@ -744,7 +744,7 @@ function viewFriends(opc){
 	console.log('viewfriends');
 	myAjax({
 		type:'POST',
-		url:DOMINIO+'controls/users/people.json.php?action=friendsAndFollow&code&mod='+opc.mod+opc.get,
+		url:DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&code&mod='+opc.mod+opc.get,
 		data: {uid: opc.user },
 		error:function(/*resp,status,error*/){
 			myDialog('#singleDialog',lang.conectionFail);
