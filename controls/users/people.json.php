@@ -116,7 +116,11 @@ switch ($_GET['action']) {
 		if ($html!='') $res['html']=$html;
 	break;
 	case 'groupMembers': //group members
-		if (!isset($_GET['idGroup'])) die(jsonp(array()));
+		if (!isset($_GET['idGroup'])) die(jsonp(array()));	
+		// $coi=isset($_GET['code'])?"md5(concat(id,'_', email,'_',id))":"md5(id)";
+		// if (!isset($_POST['uid']))	$uid=$myId;
+		// else $uid=CON::getVal("SELECT id FROM users WHERE $coi=?",array($_POST['uid']));
+		// if (!$uid) die(jsonp(array('error'=>'noIdValid')));
 		$array['select']=safe_sql(',md5(u.id) AS id_user,g.is_admin,g.status,IF(u.id='.$myId.',1,0) AS iAm,
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user=? AND oul.id_friend=u.id) AS conocido,
 						(SELECT COUNT(t.id) FROM tags t WHERE md5(t.id_group)=? AND t.id_creator=g.id_user) AS numTags',array($myId,$_GET['idGroup']));
