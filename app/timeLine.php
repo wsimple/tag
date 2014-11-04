@@ -82,9 +82,29 @@
 
 				$(opc.layer).doubletap('[tag]', function(e){
 					var tagId = $(e.currentTarget).attr('tag')
-					alert(tagId);
-					return false;
+					myAjax({
+						type:'GET',
+						url:DOMINIO+'controls/tags/actionsTags.controls.php?action=4&tag='+tagId,
+						dataType:'html',
+						success:function( data ){
+
+							$(e.currentTarget).find('#likeIcon').fadeIn();							
+						}
+					});
 				});
+
+				// $(opc.layer).on('dblclick','[tag]',function(){
+				// 	var object = this;
+				// 	myAjax({
+				// 		type:'GET',
+				// 		url:DOMINIO+'controls/tags/actionsTags.controls.php?action=4&tag='+$(object).attr('tag'),
+				// 		dataType:'html',
+				// 		success:function( data ){
+				// 			$('.tag-icons #likeIcon',object).fadeIn(); 									
+				// 		}
+				// 	});
+				// });
+
 				// $(opc.layer).on('click','[tag]',function(){
 				// 	redir(PAGE['tag']+'?id='+$(this).attr('tag'));
 				// });
