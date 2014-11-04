@@ -87,7 +87,6 @@
 						url:DOMINIO+'controls/tags/actionsTags.controls.php?action=4&tag='+tagId,
 						dataType:'html',
 						success:function( data ){
-
 							$(e.currentTarget).find('#likeIcon').fadeIn();							
 						}
 					});
