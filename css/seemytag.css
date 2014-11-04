@@ -2108,9 +2108,12 @@ container .mid-pannel menu#carousel{
 	background-position: center;
 	display: inline-block;
 	border: 2px solid white;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
 }
 #preVideTags .tag-container .select-capture .option-cap.selected{
-	border:2px solid blue;
+	border:2px solid #e60;
 }
 #divcboPeoples .facebook-auto,
 #divcboPeoples .facebook-auto #cboPeoples_feed,
