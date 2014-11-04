@@ -208,6 +208,8 @@ class UploadHandler
 	function cancel($data=array()){
 		if(!is_array($data)) $data=array('data'=>$data);
 		$data['canceled']=true;
+		// $data['cookies']=$_COOKIE;
+		// $data['request']=$_REQUEST;
 		$this->json($data);
 	}
 
@@ -222,18 +224,25 @@ class UploadHandler
 			substr($_SERVER['SCRIPT_NAME'],0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
 	}
 
+	protected $usr;
+	protected function get_code(){
+		if($this->usr) return $this->usr->code();
+		$client=new Client();
+		$code=!empty($_COOKIE['__code__'])?$_COOKIE['__code__']:
+			(!empty($_REQUEST['code'])?$_REQUEST['code']:'');
+		$id=!empty($_COOKIE['__uid__'])?$_COOKIE['__uid__']:
+			(!empty($_REQUEST['id'])?$_REQUEST['id']:'');
+		if($client->valid_code($code)||$client->valid_id($id)){
+			$this->usr=$client;
+			return $this->usr->code();
+		}
+		$this->cancel();
+	}
+
 	protected function get_user_id(){
 		// @session_start();
 		// return session_id();
-		$code=isset($_COOKIE['__code__'])?$_COOKIE['__code__']:
-			(isset($_REQUEST['code'])?$_REQUEST['code']:'');
-		$this->_code=$code;
-		if(isset($_REQUEST['testmode'])) return $code;
-		$id=isset($_REQUEST['id'])?$_REQUEST['id']:'';
-		$client=new Client();
-		if($client->valid_code($code)||$client->valid_id($id))
-			return $client->code();
-		$this->cancel();
+		return $this->get_code();
 	}
 
 	protected function get_user_path() {
@@ -1362,7 +1371,20 @@ class UploadHandler
 	public function delete($print_response = true){
 		$file_names = $this->get_file_names_params();
 		if (empty($file_names)) {
-			$file_names = array($this->get_file_name_param());
+			// if(!isset($_GET['convert2'])){
+				// $file_names = array($this->get_file_name_param());
+			// }else{
+				$prefix=preg_replace('/_\d\.[^\.]+$/i','_',$this->get_file_name_param());
+				$list = array(
+					'0.mp4',
+					'0.ogg',
+					'1.jpg',
+					'2.jpg',
+					'3.jpg'
+				);
+				$file_names=array();
+				foreach ($list as $name) if(is_file($this->get_upload_path($prefix.$name))) $file_names[]=$prefix.$name;
+			// }
 		}
 		$response = array();
 		foreach($file_names as $file_name) {

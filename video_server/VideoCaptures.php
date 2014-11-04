@@ -2,29 +2,16 @@
 
 class VideoCaptures extends UploadHandler
 {
-	protected $path='videos',$usr;
+	protected $path='videos';
 
 	function __construct($initialize = true){
-		parent::__construct(null,false,null);
-		if($initialize){
-			if(!isset($_GET['captures'])) return;
+		parent::__construct(null,$initialize&&!isset($_GET['captures']),null);
+		if($initialize&&isset($_GET['captures'])){
 			$file_name=isset($_REQUEST['file'])?$_REQUEST['file']:'';
 			if(!$file_name) return;
 			//buscando capturas del video
 			$this->get_captures($file_name);
 		}
-	}
-
-	protected function get_code(){
-		if($this->usr) return $this->usr->code();
-		$client=new Client();
-		$code=isset($_REQUEST['code'])?$_REQUEST['code']:'';
-		$id=isset($_REQUEST['id'])?$_REQUEST['id']:'';
-		if($client->valid_code($code)||$client->valid_id($id)){
-			$this->usr=$client;
-			return $this->usr->code();
-		}
-		$this->cancel();
 	}
 
 	function get_captures($filename){
