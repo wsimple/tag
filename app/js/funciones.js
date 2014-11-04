@@ -766,7 +766,7 @@ function viewFriends(opc){
 				out+=
 					'<li class="userInList">'+
 						'<a code="'+friend['code_friend']+'" data-theme="e">'+
-							'<img src="'+friend['photo_friend']+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
+							'<img src="'+friend['photo_friend']+'"'+'class="ui-li-thumb" width="60" height="60"/>'+
 							'<h3 class="ui-li-heading">'+friend['name_user']+'</h3>'+
 							'<p class="ui-li-desc">'+
 								lan('friends','ucw')+' ('+(friend['friends_count']||0)+'), '+
@@ -1160,27 +1160,27 @@ function getFriends(id,like){
 	myAjax({
 		loader	:true,
 		type	:'GET',
-		url		:DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&mod=friends&code='+id+like,
+		url		:DOMINIO+'controls/users/getFriends.json.php?id='+id+like,
 		dataType:'json',
 		success	:function(data){
 			var ret='';
-			for(var i in data['datos']){
+			for(var i in data){
 				//alert(data[i]['id']);
-				if(emails.join().indexOf(data['datos'][i]['email'])<0)
+				if(emails.join().indexOf(data[i]['email'])<0)
 				ret+=
-					'<div onclick="$(\'input\',this).is(\':checked\')?$(\'input\',this).removeProp(\'checked\'):$(\'input\',this).attr(\'checked\',true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
+					'<div id="'+data[i]['id']+'" onclick="$(\'#friend_'+data[i]['id']+'\').attr(\'checked\',($(\'#friend_'+data[i]['id']+'\').is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
 						'<div style="float:right;padding-top:20px;margin-right:15px;">'+
 							'<fieldset data-role="controlgroup">'+
-								'<input name="friend_'+data['datos'][i]['id_friend']+'" '+
-										'value="'+data['datos'][i]['email']+'|'+data['datos'][i]['photo_friend']+'" type="checkbox" />'+
+								'<input id="friend_'+data[i]['id']+'" name="friend_'+data[i]['id']+'" '+
+										'value="'+data[i]['email']+'|'+data[i]['photo']+'" type="checkbox" />'+
 							'</fieldset>'+
 						'</div>'+
-						'<img src="'+data['datos'][i]['photo_friend']+'" style="float:left;width:60px;height:60px;" class="userBR"/>'+
+						'<img src="'+FILESERVER+data[i]['photo']+'" style="float:left;width:60px;height:60px;"/>'+
 						'<div style="float:left;margin-left:5px;font-size:10px;text-align:left;">'+
-							'<spam style="color:#E78F08;font-weight:bold;">'+data['datos'][i]['name_user']+'</spam><br/>'+
-							(data['datos'][i]['country']?lang.country+':'+data['datos'][i]['country']+'<br/>':'')+
-							''+lan('friends','ucw')+'('+data['datos'][i]['friends_count']+')<br/>'+
-							''+lan('admirers','ucw')+'('+data['datos'][i]['followers_count']+')'+
+							'<spam style="color:#E78F08;font-weight:bold;">'+data[i]['name']+'</spam><br/>'+
+							(data[i]['country']?lang.country+':'+data[i]['country']+'<br/>':'')+
+							''+lan('friends','ucw')+'('+data[i]['friends_count']+')<br/>'+
+							''+lan('admirers','ucw')+'('+data[i]['followers_count']+')'+
 						'</div>'+
 					'</div>';
 			}
@@ -1201,19 +1201,19 @@ function selectFriendsDialog(idDialog,id){
 			style:{'min-height':200},
 			buttons:{},
 			after:function(options,dialog){
-				// var timer;
-				// $('#like_friend',dialog).unbind('keyup').bind('keyup',function(event){
-				// 	if(event.which==8||event.which>40){
-				// 		if(timer) clearTimeout(timer);
-				// 		timer=setTimeout(function(){
-				// 			getFriends(id,$('#like_friend',dialog).val());
-				// 		},2000);
-				// 	}
-				// });
-				getFriends(id);
+				var timer;
+				$('#like_friend',dialog).unbind('keyup').bind('keyup',function(event){
+					if(event.which==8||event.which>40){
+						if(timer) clearTimeout(timer);
+						timer=setTimeout(function(){
+							getFriends(id,$('#like_friend',dialog).val());
+						},2000);
+					}
+				});
 			}
 		});
 	});
+	getFriends(id);
 }
 
 // removes a picture and check if there's no more pictures hide the title
@@ -1239,7 +1239,7 @@ function getDialogCheckedUsers(idDialog){
 			$('#pictures_shareTag').append(
 				'<span id="'+md5(userInfo[0])+'" onclick="removePicture(this)">'+
 					'<input type="hidden" name="x" value="'+userInfo[0]+'" type="text"/>'+
-					'<img src="'+userInfo[1]+'" width="40"'+
+					'<img src="'+FILESERVER+userInfo[1]+'" width="40"'+
 						'style="margin-left: 5px; border-radius: 5px;"/>'+
 				'</span>'
 			);
@@ -1858,7 +1858,7 @@ function checkOutShoppingCart(get){
 	}
 	function showComment(comment){return(
 		'<li comment="'+comment['id']+'"'+(comment['short']?' class="more"':'')+'>'
-			+'<img src="'+(comment['photoUser']||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="60" height="60" />'
+			+'<img src="'+(comment['photoUser']||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'
 			+(comment['delete']?''/*'<img src="css/smt/delete.png" class="del"/>'/**/:'')
 			+'<em class="ui-li-asid">'+comment['commentDate']+'</em>'
 			+'<div class="text">'

@@ -389,11 +389,12 @@ $(function(){
 		}
 	});
 
-	var cv_running=false,convert_tmpl=tmpl('template-conversion');
+	var cv_running=false;
 	var convert_video=function(obj){
 		$.debug().log('convert_video:',obj);
+		if(!window.video_convert_tmpl) window.video_convert_tmpl=tmpl('template-conversion');
 		if(cv_running||!obj.content) return;
-		$(obj.content).html(convert_tmpl({state:'waiting'}));
+		$(obj.content).html(video_convert_tmpl({state:'waiting'}));
 		cv_running=true;
 		$.ajax({
 			disablebuttons:true,
@@ -410,7 +411,7 @@ $(function(){
 				if(!data.error){
 					var video=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true);
 					if(video){
-						$(obj.content).html(convert_tmpl({
+						$(obj.content).html(video_convert_tmpl({
 							state:'done',
 							path:'<?=$setting->video_server?>videos/',
 							captures:data.captures
@@ -419,12 +420,12 @@ $(function(){
 							obj.capture.call(this,data.captures[0]);
 					}
 				}else
-					$(obj.content).html(convert_tmpl({state:'error'})).find('.retry').one('click',function(){
+					$(obj.content).html(video_convert_tmpl({state:'error',isupload:true})).find('.retry').one('click',function(){
 						convert_video(obj);
 					});
 			},
 			error:function(){
-				$(obj.content).html(convert_tmpl({state:'error'})).find('.retry').one('click',function(){
+				$(obj.content).html(video_convert_tmpl({state:'error',isupload:true})).find('.retry').one('click',function(){
 					convert_video(obj);
 				});
 			},
@@ -547,33 +548,6 @@ $(function(){
 	}
 	/*******************************      END YOUTUBE AND VIMEO             *******************************/
 });
-</script>
-<!-- Teplates -->
-<script id="template-conversion" type="text/x-tmpl">
-{% if(o.state=='waiting'){ %}
-	<div class="messageNoResultSearch more" style="text-align:center;">
-		<img src="css/smt/loader.gif" width="32" height="32" class="loader"><br/>
-		<?=$lang->get("PROCESSINGYOURVIDEO")?>
-	</div>
-{% }else if(o.state=='error'){ %}
-	<div class="messageNoResultSearch more" style="text-align:center;">
-		<?=$lang->get("ERRORPROCESSINGYOURVIDEO")?>
-		<br/><br/>
-		<input type="button" class="retry" value="<?=$lang->get('Retry')?>"/>
-	</div>
-{% }else if(o.state=='done'){ %}
-	<div class="tag-container" style="width:auto;font-size:100%;">
-		<div tag="pre"></div>
-		{% if(o.captures&&o.captures.length>0){ %}
-		<div class="select-capture clearfix">
-		{% for(var i=0,capture;capture=o.captures[i];i++){ %}
-			<div class="option-cap" data-src="{%=o.path+capture%}"
-				style="background-image:url('{%=o.path+capture%}')"></div>
-		{% } %}
-		</div>
-		{% } %}
-	</div>
-{% } %}
 </script>
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
