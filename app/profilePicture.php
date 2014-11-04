@@ -33,7 +33,7 @@
 				try{
 					cam=Camera;
 				}catch(e){
-					cam=!CORDOVA;
+					cam=CORDOVA;
 				}
 				if(cam){
 					$('#footerPicture').html(

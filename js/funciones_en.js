@@ -1,12 +1,3 @@
-<?php
-if(!isset($lang)){
-	include('../includes/config.php');include('../includes/languages.config.php');include('../includes/functions.php');
-	header('Cache-Control: no-cache, must-revalidate');
-	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-	header('Content-Type: text/javascript');
-	echo str_repeat("\n",9);
-} if(false){ ?><script><?php }
-?>
 function pageAction(action,data){
 	$.debug().log({action:action,data:data,opc:opc});
 	data=''+(data||'');
@@ -21,7 +12,7 @@ function pageAction(action,data){
 		break;
 		case 'banner'	:window.open(data,'_blank');break;
 		case 'logout'	:if(isLogged()) logout();break;
-		case 'profile'	:userProfile(opc[1]||'<?=js_string($lang["USERPROFILE_PERSONALINFO"])?>',opc[0]);break;
+		case 'profile'	:userProfile(opc[1]||'Personal info',opc[0]);break;
 		case 'tag/comment':case 'comment':
 			if(navigator.userAgent.match(/chrome/i))
 				redir('tag/'+opc[0]);
@@ -30,11 +21,11 @@ function pageAction(action,data){
 		break;
 		case 'video'	:openVideo(this);break;
 		case 'videoc'	:closeVideo(this);break;
-		case 'card'		:message('messages','<?=js_string($lang["USERPROFILE_TITLEBUSINESSCARD"])?>','','',450,300,DOMINIO+'views/users/account/business_card/businessCard_dialog.view.php?bc='+data,'');break;
-		case 'share'	:shareTag('<?=js_string($lang["MNUTAG_TITLESHARE"])?>','tag='+opc[0]);break;
-		case 'group'	:shareTag('<?=js_string($lang["MNUTAG_TITLESHARE"])?>','tag='+opc[0]);break;
-		case 'sponsor'	:sponsorTag('views/tags/sponsor.php?type=4&tag='+opc[0],'<?=js_string($lang["MNUTAG_TITLESPONSOR"])?>',opc[0]);break;
-		case 'report'	:bryTag('views/tags/report.php',8,opc[0],'<?=js_string($lang["MNUTAG_TITLEABUSE"])?>','timeLine');break;
+		case 'card'		:message('messages','My Business Card','','',450,300,DOMINIO+'views/users/account/business_card/businessCard_dialog.view.php?bc='+data,'');break;
+		case 'share'	:shareTag('Share Tag','tag='+opc[0]);break;
+		case 'group'	:shareTag('Share Tag','tag='+opc[0]);break;
+		case 'sponsor'	:sponsorTag('views/tags/sponsor.php?type=4&tag='+opc[0],'Sponsor Tag',opc[0]);break;
+		case 'report'	:bryTag('views/tags/report.php',8,opc[0],'Hide or report a tag','timeLine');break;
 		case 'tag/edit':case 'editTag':redir('update?tag='+data);break;
 		case 'tag/create':case 'createTag':
 			if (opc[1]){
@@ -52,9 +43,9 @@ function pageAction(action,data){
 				if($dialog.length) $dialog.dialog('close');
 			}
 		break;
-		case 'redeemPoinst':message('messages','<?=$lang["MNUUSER_REDEEMPOINTS"]?>','<div class="font_size5"><div><?=$lang["MAINMENU_POINTS_1"]?></div></div>','',430,190,'');
+		case 'redeemPoinst':message('messages','Redeem my points','<div class="font_size5"><div>You will be able change your points by services and products at Tagbum, the more points you earn, the more things you can get.</div></div>','',430,190,'');
 		break;
-		case 'increasePoints':message('messages','<?=$lang["MNUUSER_INCREASEOINTS"]?>','<div class="font_size5"><div><?=$lang["MAINMENU_POINTS_2"]?></div></div>','',430,280,'');
+		case 'increasePoints':message('messages','How to increase my points','<div class="font_size5"><div><strong>You can get more points:</strong> sharing tags by publishing, redistributing or sending email. <br><br> <strong>Accumulate at least 5000 points before December 31</strong> and you can participate in the draw for gift cards of $ 500.</div></div>','',430,280,'');
 		break;
 		case 'comments/seemore': case 'commentsSeeMore':
 			$(this).prev('p').show().prev('p').remove();
@@ -84,7 +75,7 @@ function pageAction(action,data){
 			}else{ var get='&accept=1';/*$('.btn input').button('disable');*/ }
 			actionGroup(opc[0],7,get,obj);
 		break;
-		case 'groupSuggest'	:suggestGroup('<?=$lang["GROUPS_SUGGESTGROUPTITLE"]?>',data);break;
+		case 'groupSuggest'	:suggestGroup('Suggest a group',data);break;
 		case 'groupsDetails':redir('groupsDetails?grp='+data+'&'+Math.random());break;
 		case 'groupsAction'	:opc[2]=$(this);confirJOINGroups(opc);break;
 		case 'acceptUser'	:case 'acceptUserN':var acept=action=='acceptUserN'?'0':'1';
@@ -297,7 +288,7 @@ function message(id,titulo,contenido,id_control,width,height,url,reload){
 			}
 		},
 		buttons:{
-			'<?=$lang["JS_OK"]?>':function(){
+			'Ok':function(){
 				if(reload) redir(reload);
 				$(this).dialog('close');
 			}
@@ -336,7 +327,7 @@ function valida(form){//requerido=" label", opcional(tamanio="tamanio")
 	var i,msj,tamanio,paso;
 	var inputs=$('[requerido]',form);
 	for (i=0;i<inputs.length;i++){
-		msj='<b>'+inputs[i].getAttribute('requerido')+'</b>&nbsp;<?=$lang["REQUIREDPROFILE"]?>!\n';
+		msj='<b>'+inputs[i].getAttribute('requerido')+'</b>&nbsp;is needed. Complete the field!\n';
 		if(inputs[i].getAttribute('tamanio')){
 			tamanio=inputs[i].getAttribute('tamanio');
 			msj+='<br>And must contain at least \''+tamanio+'\' characters';
@@ -384,8 +375,8 @@ function validateForm(Input,value){
 		case 'md5': 		regex=/^[0-9a-fA-F]{32}$/; break;
 		case 'Alphanumeric':regex=/^[a-zA-Z0-9]+/;break;
 		case 'video':		if(Input.value=='http://') return true;
-							//regex=<?=regex('youtubelong')?>;	if(Input.value.match(regex))Input.value=Input.value.replace(regex,'http://youtu.be/$7');
-							regex=<?=regex('video')?>;	//if(Input.value.match(regex))Input.value=Input.value.replace(regex,'http://$1');
+							//regex=/\bhttps?:\/\/((m\.|www\.)?(youtube\.com\/)(embed\/|watch\?(.*&)*(v=))(.{11}).*)\b/i;	if(Input.value.match(regex))Input.value=Input.value.replace(regex,'http://youtu.be/$7');
+							regex=/\bhttps?:\/\/(vimeo\.com\/.{8,}|youtu\.be\/.{11}.*|(m\.|www\.)?youtube\.com\/(.+)(v=.{11}).*)?\b/i;	//if(Input.value.match(regex))Input.value=Input.value.replace(regex,'http://$1');
 		break;
 	}
 	return value.match(regex);
@@ -533,7 +524,7 @@ function iniyoutubevideo(iframe){
 			});
 			window.players[id]=player;
 		}else{
-			$(iframe).parents('div.video').append('<div class="msgError"><?=$lang["NOCONECTYOUTUBE"]!=""?$lang["NOCONECTYOUTUBE"]:"Excuse me, we have had difficulty connecting to server YouTube"?></div>');
+			$(iframe).parents('div.video').append('<div class="msgError">Excuse me, we have had difficulty connecting to server YouTube</div>');
 		}
 	// }
 }
@@ -626,9 +617,9 @@ function showTag(tag){
 		return '<div id="hashTashMenu"><span>'+list.join(' ')+'</span></div>';
 	}
 	var btn=tag['btn']||{};
-	var btnSponsor='',paypal='<?=$lang["PAYPAL_PAYMENTS"]?$lang["PAYPAL_PAYMENTS"]:''?>';
+	var btnSponsor='',paypal='';
 	if(paypal!='')
-		btnSponsor= (btn['sponsor']?'<li id="sponsors" action="sponsor,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLESPONSOR"]?>"><span><?=$lang["MNUTAG_TITLESPONSOR"]?></span></li>':'');
+		btnSponsor= (btn['sponsor']?'<li id="sponsors" action="sponsor,'+tag['id']+'" title="Sponsor Tag"><span>Sponsor Tag</span></li>':'');
 	var video='',videomini='';
 	if(tag['typeVideo']){
 		if (!window.players){ window.players=[]; }
@@ -648,9 +639,9 @@ function showTag(tag){
 		// '<div class="bg"></div>'+
 		video+'<div class="bg"></div>'+
 		(tag['rid']?
-			'<div class="redist"><span action="profile,'+tag['rid']+'" title="<?=js_string($lang["USERPROFILE_PERSONALINFO"])?>"><?=$lang["TIMELINE_REDISTRIBUTED"]?> '+tag['name_redist']+'</span></div>'
+			'<div class="redist"><span action="profile,'+tag['rid']+'" title="Personal info">redistributed by '+tag['name_redist']+'</span></div>'
 		:'')+
-		'<div class="tagLink" action="comment,'+tag['id']+',<?=$lang["MNUTAG_TITLEMSGCOMMENTS"]?>"></div>'+
+		'<div class="tagLink" action="comment,'+tag['id']+',Share your opinion on this tag"></div>'+
 		'<div class="tag-icons">'+
 			'<span id="sponsor" '+(tag['sponsor']?'':'style="display:none;"')+'></span>'+
 			'<span id="redist" '+(tag['redist']?'':'style="display:none;"')+'></span>'+
@@ -658,18 +649,18 @@ function showTag(tag){
 			'<span id="dislikeIcon" '+(tag['likeIt']<0?'':'style="display:none;"')+'></span>'+
 			videomini+
 		'</div>'+
-		'<div class="profilepic" action="profile,'+tag['uid']+'" title="<?=js_string($lang["USERPROFILE_PERSONALINFO"])?>"></div>'+
-		'<div class="profile" action="profile,'+tag['uid']+'" title="<?=js_string($lang["USERPROFILE_PERSONALINFO"])?>"></div>'+
+		'<div class="profilepic" action="profile,'+tag['uid']+'" title="Personal info"></div>'+
+		'<div class="profile" action="profile,'+tag['uid']+'" title="Personal info"></div>'+
 		((tag['product']||tag['typeVideo'])?
 			'<div class="extras"><div>'+
 				(tag['product']?
 					'<a href="'+BASEURL+'detailprod?prd='+tag['product']['id']+'"><img class="product" src="'+tag['product']['qr']+'"/></a>'
 				:'')+
 				// (tag['typeVideo']?
-				// 	'<span class="'+tag['typeVideo']+'" action="video,'+tag['video']+'" title="<?=$lang["WATCH_VIDEO"]?>"></span>'
+				// 	'<span class="'+tag['typeVideo']+'" action="video,'+tag['video']+'" title="Watch Video"></span>'
 				// :'')+
 				(tag['typeVideo']?
-					'<span class="'+tag['typeVideo']+'" action="video" title="<?=$lang["WATCH_VIDEO"]?>"></span>'
+					'<span class="'+tag['typeVideo']+'" action="video" title="Watch Video"></span>'
 				:'')+
 			'</div></div>'
 		:'')+
@@ -685,17 +676,17 @@ function showTag(tag){
 				(!tag['popup']?
 					'<li id="comment" action="comment,'+tag['id']+'" title="Comment"><span>Comment</span></li>'
 				:'')+(btn['redist']?
-					'<li id="redistr" action="redist,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLEREDISTRIBUTION"]?>"><span><?=$lang["MNUTAG_TITLEREDISTRIBUTION"]?></span></li>'
+					'<li id="redistr" action="redist,'+tag['id']+'" title="Re Distribution"><span>Re Distribution</span></li>'
 				:'')+(btn['share']?
-					'<li id="share" action="share,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLESHARE"]?>"><span><?=$lang["MNUTAG_TITLESHARE"]?></span></li>'
+					'<li id="share" action="share,'+tag['id']+'" title="Share Tag"><span>Share Tag</span></li>'
 				:'')+btnSponsor+(btn['trash']?
-					'<li id="trash" action="trash,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLEREMOVE"]?>"><span><?=$lang["MNUTAG_TITLEREMOVE"]?></span></li>'
+					'<li id="trash" action="trash,'+tag['id']+'" title="Remove Tag"><span>Remove Tag</span></li>'
 				:'')+((tag['product'])?(btn['edit']?
-					'<li id="edit" action="editProductTag,'+tag['id']+','+tag['product']['id']+'" title="<?=$lang["MNUTAG_TITLEEDIT"]?>"><span><?=$lang["MNUTAG_TITLEEDIT"]?></span></li>'
+					'<li id="edit" action="editProductTag,'+tag['id']+','+tag['product']['id']+'" title="Edit Tag"><span>Edit Tag</span></li>'
 				:''):(btn['edit']?
-					'<li id="edit" action="editTag,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLEEDIT"]?>"><span><?=$lang["MNUTAG_TITLEEDIT"]?></span></li>'
+					'<li id="edit" action="editTag,'+tag['id']+'" title="Edit Tag"><span>Edit Tag</span></li>'
 				:''))+(btn['report']?
-					'<li id="report" action="report,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLEABUSE"]?>"><span><?=$lang["MNUTAG_TITLEABUSE"]?></span></li>'
+					'<li id="report" action="report,'+tag['id']+'" title="Hide or report a tag"><span>Hide or report a tag</span></li>'
 				:'')+
 			'</ul>'+
 		'<div class="clearfix"></div></menu>'
@@ -806,17 +797,17 @@ function showCarousel(array,layer){
 					act.more=false;
 					if(current=='group'){
 						$(btncretagG).hide();
-						$(layer).html('<div class="messageAdver"><?=$lang["GROUPS_MESSAGE_TAGS"]?>&nbsp;<?=$lang["GROUPS_MESSAGE_NEWTAG"]?><a href="'+BASEURL+'creation?group='+opc['grupo']+'"><?=$lang["GROUPS_MENUADDTAG"]?></a></div>');
+						$(layer).html('<div class="messageAdver">There is no tags created.&nbsp;To create a tag, click here<a href="'+BASEURL+'creation?group='+opc['grupo']+'">Add Tag</a></div>');
 					}else{
 						if(idsearch=='1'){
 							$(radiobtn).hide();
-							$(layer).html('<div class="clearfix"></div><div class="messageNoResultSearch"><?=$lang["SEARCHALL_NORESULT"]?><span style="font-weight:bold"> '+search+'</span> <br><span style="font-size:12px"><?=$lang["SEARCHALL_NORESULT_COMPLE"]?></span></div>');
+							$(layer).html('<div class="clearfix"></div><div class="messageNoResultSearch">Sorry, no results for <span style="font-weight:bold"> '+search+'</span> <br><span style="font-size:12px">Check your search term and try again</span></div>');
 						}else{
-							$(layer).html('<div class="clearfix"></div><div class="messageNoResultSearch more"><?=$lang["NORESULT_TIMELINE"]?></div>');
+							$(layer).html('<div class="clearfix"></div><div class="messageNoResultSearch more">Sorry, have no tags to show</div>');
 						}
 					}
 				}else if(action=='more'){
-					$(layer).append('<div class="clearfix"></div><div class="messageNoResultSearch more"><?=$lang["NORESULT_MORETIMELINE"]?></div>');
+					$(layer).append('<div class="clearfix"></div><div class="messageNoResultSearch more">Sorry, no more tag to show</div>');
 				}
 			},
 			complete:function(){
@@ -861,9 +852,9 @@ function trash(tag){
 	$.dialog({
 		title:'Deleting Tag',
 		resizable:false,width:400,height:200,modal:true,
-		content:'<?=$lang["JS_DELETETAG"]?>',
+		content:'Are you sure that you want to delete this tag?',
 		buttons:{
-			'<?=$lang["JS_YES"]?>':function(){
+			'Yes':function(){
 				var $this=$(this);
 				$.ajax({
 					type:'GET',
@@ -885,12 +876,12 @@ function trash(tag){
 					}
 				});
 			},
-			'<?=$lang["JS_NO"]?>':function(){
+			'No':function(){
 				$(this).dialog('close');
 			}
 		}
 	});
-	//actionsTags(6,opc+'|0',,'<?=js_string($lang["MNUTAG_TITLEREMOVESSSS"])?>|timeLine');
+	//actionsTags(6,opc+'|0',,'|timeLine');
 }
 
 var tourHash,dataHash;
@@ -1014,7 +1005,7 @@ function actionsTags(op,dato,uri,more){
 				resizable:false,width:400,height:200,modal:true,show:'fade',hide:'fade',
 				content:lang.JS_DELETETAG,
 				buttons:{
-					'<?=$lang["JS_YES"]?>':function(){
+					'Yes':function(){
 						var delprivate=(valores[1]=="privateTags")?"&delprivate=1":"",
 						$this=$(this);
 						$.ajax	({
@@ -1035,7 +1026,7 @@ function actionsTags(op,dato,uri,more){
 							}
 						});
 					},
-					'<?=$lang["JS_NO"]?>':function(){
+					'No':function(){
 						$(this).dialog('close').remove();
 					}
 				}
@@ -1213,7 +1204,7 @@ function shareTag(titulo,get){
 							},1500);
 						}
 					});
-				}else message('nouserprivate', '<?=$lang["PUBLICITY_LBLMESAGGE"]?>', '<?=$lang["NEWTAG_MSGERRORPRIVATETAG"]?>');
+				}else message('nouserprivate', 'Message', 'You can choose one of your friends or give us a email address to send this tag');
 			}
 		}]
 	});
@@ -1475,7 +1466,7 @@ function addSuggestFriends(id_capa,content){
 							'</a>'+
 						'</div>'+
 						'<div class="right">'+
-							'<input user="'+dato['id_friend']+'" class="ui-button ui-widget ui-state-default ui-corner-all" style="font-size: 9px; padding: 2px 5px; margin-left: 3px;" type="button" value="<?=$lang["USER_BTNLINK"]?>"  action="linkUser,'+id_capa+','+dato['id_friend']+',,.contentSuggestFriends">'+
+							'<input user="'+dato['id_friend']+'" class="ui-button ui-widget ui-state-default ui-corner-all" style="font-size: 9px; padding: 2px 5px; margin-left: 3px;" type="button" value="Link"  action="linkUser,'+id_capa+','+dato['id_friend']+',,.contentSuggestFriends">'+
 					'</div>'+
 					'<div class="clearfix"></div>';
 					$(id_capa).html(out).show().css('border-bottom','1px solid #f8f8f8');
@@ -1484,7 +1475,7 @@ function addSuggestFriends(id_capa,content){
 					$(id_capa).css('height','0').css('border-bottom','0').css('display','none');
 				}else{
 					$('#seeMoreSuggest').fadeOut('400',function(){ $('#inviteSuggest').show(); });
-					$(id_capa).html('<div class="messageInviteSuggest"><?=$lang["INVITED_SUGGETSFRIENDS"]?></div>');
+					$(id_capa).html('<div class="messageInviteSuggest">Invite your friends to enjoy with you in tagbum.com</div>');
 				}
 			}
 		}
@@ -1566,7 +1557,7 @@ function friendsUser(titulo,uid,mod){
 				height:315,
 				modal:true,
 				open:function(){
-					if (!data['html']) data['html']='<div class="messageAdver" style="width: 400px; margin: 70px auto;text-align: center;"><?=$lang["SEARCHALL_NORESULT"]?>: '+titulo.split(':')[1]+'</div>';
+					if (!data['html']) data['html']='<div class="messageAdver" style="width: 400px; margin: 70px auto;text-align: center;">Sorry, no results for : '+titulo.split(':')[1]+'</div>';
 					$(this).html(data['html']);
 				},
 				buttons:[{
@@ -1593,7 +1584,7 @@ function tagsUser(titulo,get){
 			$(this).load('view.php?page=tags/tagsList.php&popup'+get);
 		},
 		buttons:{
-			'<?=$lang["JS_CLOSE"]?>':function(){
+			'Close':function(){
 				$(this).dialog('close');
 			}
 		}
@@ -1628,15 +1619,15 @@ function previewTag(titulo,get,wedit,update){
 			}
 		},//close
 		buttons:{
-			'<?=$lang["JS_CANCEL"]?>':function(){
+			'Cancel':function(){
 				$(this).dialog('close');
 				redir('timeline?current=timeLine');
 			},
-			'<?=$lang["JS_CHANGE"]?>':function(){
+			'Change':function(){
 				PUBLISH=true;
 				redir('update'+get);
 			},
-			'<?=$lang["JS_PUBLISH"]?>':function(){
+			'Publish':function(){
 				//wedit es uno cuando se esta modificanto un tag
 				if(wedit==1){
 					//delete old tag
@@ -1996,11 +1987,11 @@ function actionComments(post,func){
 			+'<div class="text">'
 				+(comment['delete']?'<img src="css/smt/delete.png" class="del"/>':'')
 				+'<em class="date">'+comment['fdate']+'</em>'
-				+'<span class="name" title="<?=$lang["COMMENTS_FLOATHELPVIEWPROFILEUSER"]?>" >'+comment['nameUser']+'</span>'
+				+'<span class="name" title="View profile" >'+comment['nameUser']+'</span>'
 				+(!comment['subComment']?'<p>'+comment['comment']+'</p>':
 					'<p>'+comment['subComment']+'</p>'
 					+'<p style="display:none;">'+comment['comment']+'</p>'
-					+'<span class="more"><?=$lang["USER_BTNSEEMORE"]?></span>'
+					+'<span class="more">See more</span>'
 				)
 			+'</div>'
 		+'</li>'
@@ -2111,9 +2102,9 @@ function UserLikedOrRaffle(obj,act,sou){
 	if ($(obj).html()*1>0 || act=='r'){
 		if (act!='l' && act!='r' && act!='d') return;
 		var titulo=new Array();
-		titulo['l']='<?=$lang["EXTERNALPROFILE_LIKES"]?>';
-		titulo['d']='<?=$lang["TOUR_DISLIKE_TITLE"]?>';
-		titulo['r']='<?=$lang["PRODUCTS_USER_CANT"]?>';
+		titulo['l']='Likes';
+		titulo['d']='Dislike';
+		titulo['r']='Number of participants';
 		$.ajax({
 			url: 'controls/users/people.json.php?action=usersLikesTags&withHtml&w=380&t='+act+'&s='+sou.trim(),
 			type: 'POST',
@@ -2126,7 +2117,7 @@ function UserLikedOrRaffle(obj,act,sou){
 					height:315,
 					modal:true,
 					open:function(){
-						if (!data['html']) data['html']='<div class="messageAdver" style="width: 400px; margin: 70px auto;text-align: center;"><?=$lang["FRIENDS_NORESULTS"]?></div>';
+						if (!data['html']) data['html']='<div class="messageAdver" style="width: 400px; margin: 70px auto;text-align: center;">No results</div>';
 						$(this).html(data['html']);
 					},
 					buttons:[{
@@ -2372,7 +2363,7 @@ function listGroups(layer,action,get,layerloader){
 				if (data['msg']){
 					$(layer).html(data['msg']);
 					$('.messageAdver #ltNewGroup').click(function(){
-						addNewGroup('<?=$lang["GROUPS_TITLEWINDOWSNEW"]?>','');
+						addNewGroup('Create New Group','');
 						return false;
 					});
 				}
@@ -2403,8 +2394,8 @@ function addNewGroup(titulo,gpr) {
 }
 function confirJOINGroups(opc) {
 	$.dialog({
-		title	: '<?=$lang["SIGNUP_CTRTITLEMSGNOEXITO"]?>',
-		content	: '<?=$lang["CONFI_JOIN_TO_GROUPS"]?>',
+		title	: 'Information',
+		content	: 'Want to join this group?',
 		height	: 200,
 		close	: function(){
 			$(this).dialog('close');
@@ -2413,7 +2404,7 @@ function confirJOINGroups(opc) {
 			text: lang.JS_NO,
 			click:function() { $(this).dialog('close'); }
 			},{
-				text: '<?=$lang["JS_YES"]?>',
+				text: 'Yes',
 				click:function() {
 					$(this).dialog('close');
 					console.log(opc);
@@ -2488,8 +2479,8 @@ function actionGroup(id,action,get,obje){
 						$(obje.actionDiv).removeAttr('action');
 					}else if (data['join']=='existe'){
 						$.dialog({
-							title	: '<?=$lang["SIGNUP_CTRTITLEMSGNOEXITO"]?>',
-							content	: '<?=$lang["JOIN_DUPLICATE_GROUPS"]?>',
+							title	: 'Information',
+							content	: 'There is already an application for membership of this group',
 							height	: 200,
 							close	: function(){
 								location.reload();
@@ -2499,7 +2490,7 @@ function actionGroup(id,action,get,obje){
 				break;
 				case 4:
 					if (data['leave']=='leave'){
-						asigAdmin('<?=$lang["GROUPS_MENULEAVEGROUPLEGEND"]?>',id);
+						asigAdmin('Legend - Remove as member',id);
 					}else if (data['leave']=='true'){
 						redir('groups');
 					}
@@ -2509,8 +2500,8 @@ function actionGroup(id,action,get,obje){
 						if(data['accept']=='true'){
 							if (data['invite']=='no-invite'){
 								$.dialog({
-									title	: '<?=$lang["SIGNUP_CTRTITLEMSGNOEXITO"]?>',
-									content	: '<?=$lang["GROUPS_ACEP_INVIT_NOT_INVIT"]?>',
+									title	: 'Information',
+									content	: 'Sorry, your invitation was canceled by an administrator.',
 									height	: 200,
 									close	: function(){
 										location.reload();
@@ -2569,20 +2560,20 @@ function asigAdmin(titulo,idGroup){
 						+'			<div style=" margin: 0 auto; height: 110px">'
 						+'				<div  style=" height: 30px;">'
 						+'					<div class="title">'
-						+'						<?=$lang["GROUPS_ASIGADMINMEMBERS"]?>'
+						+'						Assign Administrator(s)'
 						+'					</div>'
 						+'					<div class="text">'
-						+'							<?=$lang["GROUPS_SELECTADMINMEMBERS"]?>'
+						+'							Select the group administrator(s)'
 						+'					</div>'
 						+'				</div>'
 						+'					<div class="clearfix"></div>'
 						+'				<div style=" width: 500px; border-bottom: 1px solid #e5e3e3; margin-left: 10px;"></div>'
 						+'				<div  style=" height: 40px; ">'
 						+'					<div class="title">'
-						+'						<?=$lang["GROUPS_LEAVEGROUPADMINMEMBERS"]?>'
+						+'						Leave Group'
 						+'					</div>'
 						+'					<div class="text">'
-						+'						<?=$lang["GROUPS_CONFIRMLEAVE"]?>'
+						+'						You are one administrator in this group. If the group stay without administrators, this will be removed. Are you sure you want to leave the group?'
 						+'					</div>'
 						+'				</div>'
 						+'					<div class="clearfix"></div>'
@@ -2675,25 +2666,25 @@ function asigAllAdmin(titulo,idGroup){
 }
 function det_info(data){
     return ('<article class="info side-box imagenSug">'+
-            '<header><span><?=$lang["SIGNUP_CTRTITLEALERT"]?></span></header>'+
+            '<header><span>Information</span></header>'+
             '<div>'+
                 '<ul>'+
-                    '<li><label><?=$lang["PRIVACY"]?>: </label>'+data['etiquetaPrivacidad']+'</li>'+
-                    '<li><label><?=$lang["GROUPS_NEWORIENTED"]?>: </label>'+data['des_o']+'</li>'+
-                    '<li><label><?=$lang["MAINMNU_CATEGORY"]?>: </label>'+data['cname']+'</li>'+
-                    '<li><a><?=$lang["STORE_VIEWDETAILS"]?></a></li>'+
+                    '<li><label>Privacy: </label>'+data['etiquetaPrivacidad']+'</li>'+
+                    '<li><label>Oriented: </label>'+data['des_o']+'</li>'+
+                    '<li><label>Category: </label>'+data['cname']+'</li>'+
+                    '<li><a>View Detail &raquo;</a></li>'+
                 '</ul>'+
             '</div>'+
         	'<strong></strong>'+
         	'<div class="clearfix"></div></article>'+
             '<article class="member side-box imagenSug">'+
-            '<header><span><?=$lang["GROUPS_MEMBERSTITLE"]?></span></header>'+
+            '<header><span>Members</span></header>'+
             '<div>'+
                 '<ul>'+
-                    '<li><label><?=$lang["GROUPS_CREATOR"]?>: </label>'+data['name_create']+'</li>'+
-                    '<li><label><?=$lang["GROUPS_NEWADMINISTRATOR"]?>: </label>'+data['num_admin']+'</li>'+
-                    '<li><label><?=$lang["GROUPS_MEMBERSTITLE"]?>: </label>'+data['num_members']+'</li>'+
-                    '<li><a><?=$lang["STORE_VIEWDETAILS"]?></a></li>'+
+                    '<li><label>Creator: </label>'+data['name_create']+'</li>'+
+                    '<li><label>Administrators: </label>'+data['num_admin']+'</li>'+
+                    '<li><label>Members: </label>'+data['num_members']+'</li>'+
+                    '<li><a>View Detail &raquo;</a></li>'+
                 '</ul>'+
             '</div>'+
         	'<strong></strong>'+
@@ -2705,22 +2696,22 @@ function dialog_info(data){
             '<div><img '+data['photoi']+' alt="Group Icons" /></div>'+
             '<div class="side-box">'+
                 '<ul>'+
-                    '<li><label><?=$lang["PRIVACY"]?>: </label><div class="'+data['privacidad']+'"></div>'+data['etiquetaPrivacidad']+'</li>'+
-                    '<li><label><?=$lang["GROUPS_NEWORIENTED"]?>: </label>'+data['des_o']+'</li>'+
-                    '<li><label><?=$lang["MAINMNU_CATEGORY"]?>: </label><img src="'+data['cphoto']+'" alt="Group Icons" title="'+data['ctitle']+'" width="30" height="30"/>'+data['cname']+'</li>'+
-                    '<li><label><?=$lang["SIGNUP_LBLBUSINESSSINCE_FIELD"]?>: </label>'+data['date']+'</li>'+
-                    '<li><label><?=$lang["GROUPS_DATE_JOIN"]?>: </label>'+data['date_join']+'</li>'+
-                    '<li><label><?=$lang["GRP_DESCRIPTION"]?>: </label><p>'+data['des']+'</p></li>'+
+                    '<li><label>Privacy: </label><div class="'+data['privacidad']+'"></div>'+data['etiquetaPrivacidad']+'</li>'+
+                    '<li><label>Oriented: </label>'+data['des_o']+'</li>'+
+                    '<li><label>Category: </label><img src="'+data['cphoto']+'" alt="Group Icons" title="'+data['ctitle']+'" width="30" height="30"/>'+data['cname']+'</li>'+
+                    '<li><label>The date was established: </label>'+data['date']+'</li>'+
+                    '<li><label>Date joined: </label>'+data['date_join']+'</li>'+
+                    '<li><label>Description: </label><p>'+data['des']+'</p></li>'+
                 '</ul>'+
             '</div>'+
         	'<div class="clearfix"></div></div>';
-    message('#default','<?=$lang["NOTIFICATIONS_GROUPSTAGMSJUSERLINK"]?>',conten,'',500,400);
+    message('#default','Group',conten,'',500,400);
 }
 function membersGroups(id,status){
     status=status?'&status='+status:'';
     var	opc={ actual:'',total:'',layer: '',grupo: id,status: status }
     $.dialog({
-		title: '<?=$lang["GROUPS_MEMBERSTITLE"]?>',
+		title: 'Members',
 		resizable: false,
 		width: 680,
 		height: 580,
@@ -2739,9 +2730,9 @@ function membersGroups(id,status){
 							$(opc.layer).html('<div id="member-list"><div id="membersGroups">'+data['html']+'</div></div>');
 							if(data['totalP']) opc.total=data['total']-data['totalP'];
 								
-                            $('.ui-dialog-title').html('('+opc.total+') <?=$lang["GROUPS_MEMBERSTITLE"]?>')
+                            $('.ui-dialog-title').html('('+opc.total+') Members')
 						}else{
-							$(opc.layer).html('<div class="messageAdver"><?=$lang["SEARCHALL_NORESULT"]?></div>');
+							$(opc.layer).html('<div class="messageAdver">Sorry, no results for </div>');
 						}
 					}else{
 						opc.actual=opc.actual+data['actual'];
@@ -2818,9 +2809,9 @@ function bodyListProd(prod,obje,i){
 	//variables requeridas
 	var lst='',actionLi='',footerDiv='',inputCreate='',miniCar='',clasesLi='',attrR='',actionDiv='action="detailProd,'+prod['id']+'"';
 	if (prod['type_user']=='1'){
-		if (prod['p_adtb']){ footerDiv='<span class="footer color_orange"><?=$lang["STORE_TYPE_S"]?></span>'; }
-		else {footerDiv='<span class="footer color_blue"><?=$lang["STORE_TYPE_1"]?></span>'; }
-	}else if(prod['type_user']=='0'){ footerDiv='<span class="color_green footer"><?=$lang["STORE_TYPE_0"]?></span>'; }
+		if (prod['p_adtb']){ footerDiv='<span class="footer color_orange">Tagbum products</span>'; }
+		else {footerDiv='<span class="footer color_blue">Enterprise products</span>'; }
+	}else if(prod['type_user']=='0'){ footerDiv='<span class="color_green footer">Customized product</span>'; }
 	if (obje.layer=='#selectProducts .product-list' && !obje.noBorde){
 		actionLi='action="newRaffle,'+prod['id']+',,dialog"';
 		actionDiv='';
@@ -2839,10 +2830,10 @@ function bodyListProd(prod,obje,i){
 		clasesLi+=(clasesLi!=''?' ':'')+'transparencia_hover';
 		attrR='r="1"';
 		var inputFooter='';
-		if (prod['stock']=='0'){ inputFooter='<span class="nameSP" stock="0"><?=formatoCadena($lang["STORE_STOCK"])?>: 0</span>'; }
+		if (prod['stock']=='0'){ inputFooter='<span class="nameSP" stock="0">Stock: 0</span>'; }
 		else{
-			if(obje.idUsr!=''){ inputFooter+='<span class="nameSP" action="newRaffle,'+prod['id']+'"><?=$lang["PRODUCTS_NEW_RAFFLE"]?></span>'; }
-			inputFooter='<br><span class="nameSP" action="createTag,?product='+prod['id']+'"><?=$lang["MAINMNU_CREATETAG"]?></span>';
+			if(obje.idUsr!=''){ inputFooter+='<span class="nameSP" action="newRaffle,'+prod['id']+'">Create free product</span>'; }
+			inputFooter='<br><span class="nameSP" action="createTag,?product='+prod['id']+'">Create Tag</span>';
 		}
 		inputCreate='<div class="inputCreateRaffle">'
 						+'<div>'
@@ -2853,20 +2844,20 @@ function bodyListProd(prod,obje,i){
 					+'<div class="limitComent">'+prod['description']+'</div>'
 					+'<div class="clearfix"></div>'
 					+inputFooter
-					+'<br><span class="nameSP" action="detailProd,'+prod['id']+'"><?=$lang["STORE_VIEWDETAILS"]?></span>'
+					+'<br><span class="nameSP" action="detailProd,'+prod['id']+'">View Detail &raquo;</span>'
 				+'</div>'
 	}else if (!obje.noBorde){
 		attrR='r="2"';
 		miniCar='<div class="miniCarStore">'
-					+'<div title="<?=$lang["STORE_DETPRDDBTNADD"]?>" class="bg-add" h="'+prod['id']+'"></div>'
+					+'<div title="Add to Cart" class="bg-add" h="'+prod['id']+'"></div>'
 				+'</div>';
 	}
 	lst =	'<li p="1" '+actionLi+' class="'+clasesLi+'" '+attrR+'>'
 				+'<div '+actionDiv+' class="lis_product_store" style="background-image:url(\''+prod['photo']+'\');"></div>'
 				+'<div '+actionDiv+' class="detail_store_product">'
 					+'<span class="nameSP">'+prod['name']+'</span><br>'
-					+'<span class="priceSP"><?=$lang["PRODUCTS_PRICE"]?>:</span><span> '+(prod['pago']==1?' $'+cost:cost+' <?=$lang["STORE_TITLEPOINTS"]?>')+'</span><br>'
-					+'<span class="footer"><?=$lang["STORE_CATEGORIES2"]?>: '+prod['category']+((prod['subCategory'])?'<br> <?=$lang["STORE_CATEGORIES3"]?>: '+prod['subCategory']+'</span>':'')+'<br>'
+					+'<span class="priceSP">Price:</span><span> '+(prod['pago']==1?' $'+cost:cost+' Points')+'</span><br>'
+					+'<span class="footer">Category: '+prod['category']+((prod['subCategory'])?'<br> subCategory: '+prod['subCategory']+'</span>':'')+'<br>'
 					+footerDiv
 				+'</div>'
 				+inputCreate+''+miniCar
@@ -2882,7 +2873,7 @@ function storeListProd(layer,get,search){
 		$('div.product-list.produc,div.product-list.sugest').empty().html('');
 		$('#loaderStore').css('display','block');
 	}else{ $('#loaderStoreDialog').css('display','block'); }
-	//$(layer).html('<span class="store-span-loader"><?=$lang["JS_LOADING"].' '.$lang["RODUCTS_LIST"]?></span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" />');
+	//$(layer).html('<span class="store-span-loader">Loading </span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" />');
 	//console.log(' busqueda pro: '+search+'--'+get);
 	$$.ajax({
 		type:'POST',
@@ -2913,7 +2904,7 @@ function storeListProd(layer,get,search){
 				if(data['hash']){
 					var out='', res='',sp = '';
 					out +='<article id="storeTagsRealted" class="side-box">'
-							+'<header><span><?=$lang["STORE_RELATEDTAGS"]?></span></header>';
+							+'<header><span>Related tags</span></header>';
 							for(var i=0;i<data['hash'].length;i++){
 								if(data['hash'][i].length>15){
 									res = data['hash'][i].substr(0,15);
@@ -2933,14 +2924,14 @@ function storeListProd(layer,get,search){
 				if(search!=''){
 					var cad=search.split(',');
 					search=(cad[1])?'#'+cad[0]:search;
-					lst='<div class="messageNoResultSearch"><?=$lang["SEARCHALL_NORESULT"]?><span id="valSearch"> '+search+'</span> <span style="font-size:12px"><?=$lang["SEARCHALL_NORESULT_COMPLE"]?></span></div>'
-					+'<div class="ui-single-box-title"><?=$lang["EDITFRIEND_VIEWTITLESUGGES"]?></div>';
-					option = '<div class="messageNoResultSearch"><?=$lang["SEARCHALL_NORESULT"]?><span style="font-weight:bold"> '+search+'</span> <span style="font-size:12px"><?=$lang["SEARCHALL_NORESULT_COMPLE"]?></span></div>';
+					lst='<div class="messageNoResultSearch">Sorry, no results for <span id="valSearch"> '+search+'</span> <span style="font-size:12px">Check your search term and try again</span></div>'
+					+'<div class="ui-single-box-title">Suggestions</div>';
+					option = '<div class="messageNoResultSearch">Sorry, no results for <span style="font-weight:bold"> '+search+'</span> <span style="font-size:12px">Check your search term and try again</span></div>';
 					storeListProd('.product-list.sugest','?rand=1&');
 				}else{
 					if (layer!='.product-list.sugest'){
-						lst='<div class="noStoreProductsList messageAdver"><span><?=$lang["NOSTORE_MESSAGE"]?></span>'+(data['empre']?', <?=$lang["STORE_NOSTOREMESSAGE"]?>':'')+'</div>'
-							+'<div class="ui-single-box-title"><?=$lang["EDITFRIEND_VIEWTITLESUGGES"]?></div>';
+						lst='<div class="noStoreProductsList messageAdver"><span>There are not products available</span>'+(data['empre']?', If you want to add one product <span id=\"clickNewProduct\">click here</span>':'')+'</div>'
+							+'<div class="ui-single-box-title">Suggestions</div>';
 						storeListProd('.product-list.sugest','?rand=1&');
 					}else{ $('.product-list.produc div.ui-single-box-title').remove(); }
 				}
@@ -2959,7 +2950,7 @@ function storeListProd(layer,get,search){
 					lst+=bodyListProd(prod[i],obje,i);
 				}
 				lst += '</ul>';
-				$('div.product-list.produc_sugg').html('<div class="ui-single-box-title" ><?=$lang["STORE_WISH_ASO"]?></div>'
+				$('div.product-list.produc_sugg').html('<div class="ui-single-box-title" >Products that may interest you</div>'
 														+'<div>'+lst+'</div>'
 														+'<div class="clearfix"></div>');
 			}
@@ -2971,7 +2962,7 @@ function storeListProd(layer,get,search){
 					lst+=bodyListProd(prod[i],obje,i);
 				}
 				lst += '</ul>';
-				$('div.product-list.produc_suggSrh').html('<div class="ui-single-box-title" ><?=$lang["STORE_SRH_ASO"]?></div>'
+				$('div.product-list.produc_suggSrh').html('<div class="ui-single-box-title" >Inspired by Your search History</div>'
 														+'<div>'+lst+'</div>'
 														+'<div class="clearfix"></div>');
 			}
@@ -2981,7 +2972,7 @@ function storeListProd(layer,get,search){
 
 function storeRaffle(layer,get){
 	$('#loaderStore').css('display','block');
-	//$(layer).html('<span class="store-span-loader"><?=$lang["JS_LOADING"].' '.$lang["PRODUCTS_LIST"]?></span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" />');
+	//$(layer).html('<span class="store-span-loader">Loading Products List</span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" />');
 	get=get?get:'';
 	$.ajax({
 		type: 'POST',
@@ -3004,16 +2995,16 @@ function storeRaffle(layer,get){
 								+'<div class="lis_product_store" style="background-image:url(\''+prod[i]['photo']+'\')";></div>'
 								+'<div class="detail_store_product">'
 									+'<span class="nameSP">'+prod[i]['name']+'</span><br>'
-									+'<span><?=$lang["PUBLICITY_TITLETABLE_COST"]?>: '+cost+' <?=$lang["STORE_TITLEPOINTS"]?></span><br>'
-									+'<span class="footer"><?=$lang["PRODUCTS_FECHA_INI"]?>: '+prod[i]['start_date']+'</span><br>'
-									+((prod[i]['end_date'])?'<span class="footer"><?=$lang["PRODUCTS_FECHA_END"]?>: '+prod[i]['end_date']+'</span>':'<span class="footer"><?=$lang["PRODUCTS_USER_CANT"]?>: '+prod[i]['cant_users']+'</span>')
+									+'<span>Cost: '+cost+' Points</span><br>'
+									+'<span class="footer">Start date: '+prod[i]['start_date']+'</span><br>'
+									+((prod[i]['end_date'])?'<span class="footer">End Date: '+prod[i]['end_date']+'</span>':'<span class="footer">Number of participants: '+prod[i]['cant_users']+'</span>')
 								+'</div>'
 							+'</li>';
 				}
 				lst += '</ul>';
 			}else{
 				if (layer!='.product-list .product-list'){
-					lst='<div class="noStoreProductsList messageAdver"><span><?=$lang["NOSTORERAFFLE_MESSAGE"]?></span>'+(data['empre']?', <?=$lang["STORE_NOSTOREMESSAGERAFFLE"]?>':'')+'<div class="product-list"></div>';
+					lst='<div class="noStoreProductsList messageAdver"><span>There are no free products available</span>'+(data['empre']?', If you want to add <span id=\"clickNewRaffle\">click here</span>':'')+'<div class="product-list"></div>';
 				}
 			}
 			$(layer).html(lst);
@@ -3047,9 +3038,9 @@ function seeMoreStore(layer,get,limit,module,loader){
 									+'<div class="lis_product_store" style="background-image:url(\''+prod[i]['photo']+'\')";></div>'
 									+'<div>'
 										+'<span class="nameSP">'+prod[i]['name']+'</span><br>'
-										+'<span><?=$lang["PUBLICITY_TITLETABLE_COST"]?>: '+prod[i]['points']+' <?=$lang["STORE_TITLEPOINTS"]?></span><br>'
-										+'<span class="footer"><?=$lang["PRODUCTS_FECHA_INI"]?>: '+prod[i]['start_date']+'</span><br>'
-										+'<span class="footer"><?=$lang["PRODUCTS_USER_CANT"]?>: '+prod[i]['cant_users']+'</span>'
+										+'<span>Cost: '+prod[i]['points']+' Points</span><br>'
+										+'<span class="footer">Start date: '+prod[i]['start_date']+'</span><br>'
+										+'<span class="footer">Number of participants: '+prod[i]['cant_users']+'</span>'
 									+'</div>'
 								+'</li>';
 					}
@@ -3071,7 +3062,7 @@ function deleteItemCar(id,get,obj){
 			if (data['del']!='1'){
 				if (data['del']=='all'){
 					if (obj.mod!='wish'){
-						$('#list_orderProduct').html('<div class="messageAdver"><?=$lang["STORE_NO_SC"]?></div>');
+						$('#list_orderProduct').html('<div class="messageAdver">Sorry, there are no items in your shopping cart.</div>');
 						$('div.ui-single-box').removeAttr('style');
 						$('#headerStoreCar').css('display','none');
 						$('.menu-l-shoppingCart').css('display','none');
@@ -3085,7 +3076,7 @@ function deleteItemCar(id,get,obj){
 								$('#list_orderProduct_wish').empty().html('').css('display','none');
 							}
 						}else{
-							$('#list_orderProduct_wish').html('<div class="messageAdver"><?=$lang["STORE_NO_WL"]?></div>');
+							$('#list_orderProduct_wish').html('<div class="messageAdver">Sorry, there are no items available in your wishlist.</div>');
 							$('div.ui-single-box').removeAttr('style');
 						}
 					}
@@ -3165,18 +3156,18 @@ function deleteItemCar(id,get,obj){
 }
 function deleteOrderC(get,obj){
 	$.dialog({
-		title:'<?=$lang["STORE_DELETESHOPPINGTITLE"]?>',
+		title:'Delete Order',
 		width:270,
 		height:200,
 		resizable:false,
 		open:function(){
-			$(this).html('<?=js_string($lang["STORE_DELETESHOPPING"])?>');
+			$(this).html('Are you sure to delete this order?');
 		},
 		buttons:[{
-			text:'<?=$lang["JS_NO"]?>',
+			text:'No',
 			click:function(){$(this).dialog('close');}
 		},{
-			text:'<?=$lang["JS_YES"]?>',
+			text:'Yes',
 			click:function(){
 				deleteItemCar('1',get,obj);
 				$('#default-dialog').dialog('close');
@@ -3205,20 +3196,20 @@ function bodyShopingCar(data,i){
 			+'<li class="carStoreDetails liVoid'+i+' '+((data['stock']==0)?'noST':'')+'">'
 			+'	<div class="lis_product_store_details">'
 			+'		<span class="nameSP" action="detailProd,'+data['mId']+'">'+data['name']+'</span><br>'
-			+'		<div title="<?=$lang["SELLER"]?>" '+((data['place']=='1')?'':'action="profile,'+data['idUser']+','+data['nameUser']+'"')+'>'
+			+'		<div title="Seller" '+((data['place']=='1')?'':'action="profile,'+data['idUser']+','+data['nameUser']+'"')+'>'
 			+'			<div class="thumb" style="background-image: url(\''+data['imagenUser']+'\')"></div>'
 			+'			<h5>'+data['nameUser']+'</h5>'
-			+'			<div class="anytext"><?=$lang["USER_LBLFOLLOWERS"]?> ('+data['admirers']+')</div>'
-			+'			<div class="anytext"><?=$lang["USER_LBLFRIENDS"]?> ('+data['admired']+')</div>'
+			+'			<div class="anytext">Admirers ('+data['admirers']+')</div>'
+			+'			<div class="anytext">Admired ('+data['admired']+')</div>'
 			+'		</div>'
 			+'		<div class="clearfix"></div>'
 			+'		<span class="footer">'+data['nameC']+((data['nameSC'])?((data['place'])?' | '+data['nameSC']+'</span>':'</span>'):'</span>')
-			+'		<br><span class="deleteItemCar" action="deleteItemCar,'+data['mId']+',car,'+(data['sale_points']*data['cant'])+'"><?=$lang["NEWTAG_HELPDELETEBACKGROUNDTEMPLATE"]?></span>'
-			+'		<span class="addToWish" h="'+data['mId']+'"><?=utf8_encode($lang["STORE_WISH_LIST_MOVE"])?></span>'
+			+'		<br><span class="deleteItemCar" action="deleteItemCar,'+data['mId']+',car,'+(data['sale_points']*data['cant'])+'">Delete</span>'
+			+'		<span class="addToWish" h="'+data['mId']+'">Move to wish list</span>'
 			+'	</div>'
 			+'</li>'
 			+'<li class="carStorePrice liVoid'+i+' '+((data['stock']==0)?'noST':'')+'">'
-			+'	<div class="info-top-p">'+((data['formPayment']=='1')?'$ '+cost:cost+' <?=$lang["STORE_TITLEPOINTS"]?>')+'</div>'
+			+'	<div class="info-top-p">'+((data['formPayment']=='1')?'$ '+cost:cost+' Points')+'</div>'
 			+'</li>'
 			+'<li class="carStoreQuantity liVoid'+i+' '+((data['stock']==0)?'noST':'')+'">'
 			+'	'+((data['place']=='1')?
@@ -3228,7 +3219,7 @@ function bodyShopingCar(data,i){
 								+option
 							+'</select>'
 						+'</div>'
-						:'<em class="info-top-p"><?=$lang["TAGS_WHENTAGNOEXIST"]?></em><input type="hidden" class="cant-product" linia="'+data['mId']+'" value="'+data['cant']+'">')
+						:'<em class="info-top-p">This content is no longer available</em><input type="hidden" class="cant-product" linia="'+data['mId']+'" value="'+data['cant']+'">')
 					:'')
 			//+'	'+((data['place']=='1')?'<div class="info-top-p"><span class="cant-product" cantAct="1" precio="'+data['sale_points']+'" linia="'+data['mId']+'" '+((data['formPayment']=='1')?'fr="1"':'fr="0"')+' >1</span></div>':'')
 			+'</li>';
@@ -3260,7 +3251,7 @@ function sumaryShopingCar(data){
 		$('#headerStoreCar .totalPointsSC #spanTotalPriceMoney').html('');
 		$('#headerStoreCar .totalPointsSC #moveTotal').val(0);
 		$('#headerStoreCar .totalPointsSC #spanTotalPrice').html('');
-		$('#headerStoreCar .totalPointsSC #totalPrice').html('<?=$lang["NOSTORE_MESSAGE"]?>');
+		$('#headerStoreCar .totalPointsSC #totalPrice').html('There are not products available');
 //		$('#buyOrder').button('disable');
 	}
 	$('#headerStoreCar').css('display','block');
@@ -3281,8 +3272,8 @@ function processOrderSC(paso,array){
 						redir('shippingaddress');
 					}else{
 						$.dialog({
-							title	: '<?=$lang["SIGNUP_CTRTITLEMSGNOEXITO"]?>',
-							content	: '<?=$lang["STORE_ORDER_EDIT_STOCK"]?>',
+							title	: 'Information',
+							content	: 'Some products are no longer available, your order was modified.',
 							close	:function(){ location.reload(); }
 						});
 						//message('information','','','',300,200,'','');
@@ -3299,12 +3290,12 @@ function processOrderSC(paso,array){
 			success:function(data){
 					if (data['datosCar']=='checked'){
 						$.dialog({
-							title:'<?=$lang["STORE_ORDERSENT"]?>',
+							title:'Order Sent',
 							resizable:false,
 							width:270,
 							height:190,
 							open:function(){
-								$(this).html('<?=js_string($lang["STORE_MSG_CHECKOUT"])?>');
+								$(this).html('Check it out in your mailbox to get more information about it. thanks.');
 							},
 							close:function(){
 								mskPointsReload('#mskPoints');
@@ -3318,12 +3309,12 @@ function processOrderSC(paso,array){
 							}]
 						});
 					}else if (data['datosCar']=='noCredit'){
-						message('<?=$lang["BUY"]?>','<?=$lang["RESET_TITLEALERTEMAILPASSWORD"]?>','<?=$lang["STOREMESSAGENOPOINTSFORBUY"]?>','',300,200);
+						message('Buy','Important Message','You do not have enough points to submit this order','',300,200);
 //						$('#buyOrder').button("enable");
 					}else if(data['datosCar']=='noCart'){
 						$.dialog({
 							title	: 'Alert',
-							content	: '<?=$lang["STORE_PAY_DOUBLE"]?>'
+							content	: 'Excuse me. This order has been processed or eliminated.'
 						});
 //						$('#buyOrder').button("enable");
 						redir('store');
@@ -3339,17 +3330,17 @@ function processOrderSC(paso,array){
 function addNewRaffleStore(getidProduct,getidRaffle) {
 	getidRaffle=getidRaffle?getidRaffle:'';
 	var buttonss={
-		'<?=$lang["JS_CLOSE"]?>':function(){
+		'Close':function(){
 			$(this).dialog("close");
 		}
 	};
 	if(getidRaffle==''){
-		buttonss['<?=$lang["JS_CONTINUE"]?>']=function(){
+		buttonss['Continue']=function(){
 				if (valida('frmProducts')) $('#frmProducts').submit();
 			};
 	}
 	$.dialog({
-		title:'<?=$lang["PRODUCTS_NEW_RAFFLE"]?>',
+		title:'Create free product',
 		resizable:false,
 		width:500,
 		height:420,
@@ -3390,29 +3381,29 @@ function detailsSalesProcessed(get){
 							+'<li class="carStoreDetails border-botton-store '+(i==0?'':'border-t-store')+'">'
 							+'	<div class="lis_product_store_details">'
 							+'		<div class="clearfix"></div>'
-							+'			<strong><?=$lang["STORE_SALES_DETAILS_PRODUCTS"]?></strong><br/>'
-							+'			<span class="footer"><span  class="nameSP"><?=$lang["STORE_TITLENAME"]?>: </span><strong><span action="detailProd,'+data['datosCar'][i]['product_id']+',dialog-order">'+data['datosCar'][i]['product_name']+'</span></strong><br>'
-							+'			<span class="footer"><span class="nameSP"><?=$lang["STORE_CATEGORIES2"]?></span>: '+data['datosCar'][i]['product_category']+((data['datosCar'][i]['product_subCategory'])?((data['datosCar'][i]['product_place'])?'<br><span class="nameSP"><?=$lang["STORE_CATEGORIES3"]?></span>: '+data['datosCar'][i]['product_subCategory']+'</span>':'</span>'):'</span>')+'<br>'
-							+'			<strong><?=$lang["STORE_SALES_DETAILS_PUBLICATIONS"]?></strong><br/>'
-							+'			<span class="footer"><span class="nameSP"><?=formatoCadena($lang["STORE_FROM"])?>: </span>'+data['datosCar'][i]['inicio']+'</span><br>'
-							+'			<span class="footer"><span class="nameSP"><?=formatoCadena($lang["STORE_TO"])?>: </span>'+data['datosCar'][i]['fin']+'</span>'
+							+'			<strong>Product details</strong><br/>'
+							+'			<span class="footer"><span  class="nameSP">Name: </span><strong><span action="detailProd,'+data['datosCar'][i]['product_id']+',dialog-order">'+data['datosCar'][i]['product_name']+'</span></strong><br>'
+							+'			<span class="footer"><span class="nameSP">Category</span>: '+data['datosCar'][i]['product_category']+((data['datosCar'][i]['product_subCategory'])?((data['datosCar'][i]['product_place'])?'<br><span class="nameSP">subCategory</span>: '+data['datosCar'][i]['product_subCategory']+'</span>':'</span>'):'</span>')+'<br>'
+							+'			<strong>Publication details</strong><br/>'
+							+'			<span class="footer"><span class="nameSP">From: </span>'+data['datosCar'][i]['inicio']+'</span><br>'
+							+'			<span class="footer"><span class="nameSP">To: </span>'+data['datosCar'][i]['fin']+'</span>'
 							+'	</div>'
 							+'</li>'
 							+'<li class="carStorePrice border-botton-store '+(i==0?'':'border-t-store')+'">'
-							+'	<div class="info-top-p"><strong><?=$lang["PRODUCTS_PRICE"]?></strong>:<br>'
-							+	((data['datosCar'][i]['product_formPayment']=='1')?'$ '+cost:cost+' <?=$lang["STORE_TITLEPOINTS"]?>')+'</div>'
-							+'	'+((data['datosCar'][i]['pago']=='12')?'<br><br><input type="button" action="revendProduct,'+data['datosCar'][i]['product_id']+'" value="<?=formatoCadena($lang["STORE_RESELL"])?>">':'')
+							+'	<div class="info-top-p"><strong>Price</strong>:<br>'
+							+	((data['datosCar'][i]['product_formPayment']=='1')?'$ '+cost:cost+' Points')+'</div>'
+							+'	'+((data['datosCar'][i]['pago']=='12')?'<br><br><input type="button" action="revendProduct,'+data['datosCar'][i]['product_id']+'" value="Republish">':'')
 							+'</li>'
 							+'<li class="carStoreQuantity border-botton-store '+(i==0?'':'border-t-store')+'">'
-							+'	<div class="info-top-p"><strong><?=$lang["QUANTITYSTORE"]?>:</strong></br>'+data['datosCar'][i]['product_cant']+'</div>'
+							+'	<div class="info-top-p"><strong>Quantity:</strong></br>'+data['datosCar'][i]['product_cant']+'</div>'
 							+'</li>';
 				}
 				lst+='</ul></div>';
 			}else{
-				lst='<div class="product-list"><div class="noStoreProductsList messageAdver"><span><?=$lang["NOORDERS_MESSAGE"]?></span></div></div>';
+				lst='<div class="product-list"><div class="noStoreProductsList messageAdver"><span>No orders available, if you want to make a purchase visit our list of products in the store.</span></div></div>';
 			}
 			$.dialog({
-				title:'<?=$lang["STORE_SALES_DETAILS_SALES"]?>',
+				title:'Details of my sales',
 				resizable:false,
 				width:700,
 				height:520,
@@ -3477,7 +3468,7 @@ function getCitys(layer,id){
 function chooseProducts(tag){
 	var get='?scc=2&allProducts=1&';
 	$.dialog({
-		title: '<?=formatoCadena($lang["STORE_SELECT_A_PRODUCT"])?>',
+		title: 'Select A Product',
 		resizable: false,
 		width: 700,
 		height: 520,
@@ -3486,13 +3477,13 @@ function chooseProducts(tag){
 			if(tag){
 				$(this).html('<div id="selectProductsTags">'
 								+'<div class="product-list"></div>'
-								+'<div id="loaderStoreDialog" style="display:none;width: 555px;float: left;"><span class="store-span-loader"><?=$lang["JS_LOADING"].' '.$lang["PRODUCTS_LIST"]?></span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" /></div>'
+								+'<div id="loaderStoreDialog" style="display:none;width: 555px;float: left;"><span class="store-span-loader">Loading Products List</span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" /></div>'
 							+'</div>');
 				storeListProd('#selectProductsTags .product-list',get);
 			}else{
 				$(this).html('<div id="selectProducts">'
 								+'<div class="product-list"></div>'
-								+'<div id="loaderStoreDialog" style="display:none;width: 555px;float: left;"><span class="store-span-loader"><?=$lang["JS_LOADING"].' '.$lang["PRODUCTS_LIST"]?></span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" /></div>'
+								+'<div id="loaderStoreDialog" style="display:none;width: 555px;float: left;"><span class="store-span-loader">Loading Products List</span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" /></div>'
 							+'</div>');
 				storeListProd('#selectProducts .product-list',get);
 			}
@@ -3506,7 +3497,7 @@ function chooseProducts(tag){
 
 function buyPoints(){
 	$.dialog({
-		title:'<?=$lang["STORE_SALE_POINTS"]?>',
+		title:'Buy Points',
 		resizable:false,
 		width:500,
 		height:350,
@@ -3552,11 +3543,11 @@ function bodyfriends(friends,Link,unLink){
 	//console.log(friends);
 	var username='',country='';
 	if(friends['username']){
-		username='<span class="titleField"><?=$lang["USERS_BROWSERFRIENDSLABELEXTERNALPROFILE"]?>:</span>&nbsp;<a style="color:#ccc; font-size:12px;" href="'+BASEURL+'eprofile?usr='+friends['username']+'" onFocus="this.blur();" target="_blank">'+BASEURL+friends['username']+'</a>'
+		username='<span class="titleField">External Profile:</span>&nbsp;<a style="color:#ccc; font-size:12px;" href="'+BASEURL+'eprofile?usr='+friends['username']+'" onFocus="this.blur();" target="_blank">'+BASEURL+friends['username']+'</a>'
 				+ '<div class="clearfix"></div>';
 	}
 	if(friends['country']!=''){
-		country='<span class="titleField"><?=$lang["USERS_BROWSERFRIENDSLABELCOUNTRY"]?>:&nbsp;</span>'+friends['country']
+		country='<span class="titleField">Country:&nbsp;</span>'+friends['country']
 				+ '<div class="clearfix"></div>';
 	}
 
@@ -3571,15 +3562,15 @@ function bodyfriends(friends,Link,unLink){
 		+				friends['name_user']
 		+			'</a><br>'
 		+			username
-		+			'<span class="titleField"><?=$lang["SIGNUP_LBLEMAIL"]?>: </span>'+friends['email']
+		+			'<span class="titleField">Your Email: </span>'+friends['email']
 		+			'<div class="clearfix"></div>'
-		+			'<span class="titleField"><?=$lang["USER_LBLFOLLOWERS"]?> ('+friends['followers_count']+')</span>'
-		+			'<span class="titleField"><?=$lang["USER_LBLFRIENDS"]?> ('+friends['friends_count']+')</span><div class="clearfix"></div>'
+		+			'<span class="titleField">Admirers ('+friends['followers_count']+')</span>'
+		+			'<span class="titleField">Admired ('+friends['friends_count']+')</span><div class="clearfix"></div>'
 		+			country
 		+		'</div>'
 		+		'<div style="height:70px; width:0px; float: right; text-align: right;">'
-		+			'<input style="margin-top: 20px;font-size:10px;'+Link+'" type="button" value="<?=$lang["USER_BTNLINK"]?>" action="linkUser,'+md5(friends['id_friend'])+',2" />'
-		+			'<input style="margin-top: 20px;font-size:10px;'+unLink+'" type="button" value="<?=$lang["USER_BTNUNLINK"]?>" action="linkUser,'+md5(friends['id_friend'])+',2" />'
+		+			'<input style="margin-top: 20px;font-size:10px;'+Link+'" type="button" value="Link" action="linkUser,'+md5(friends['id_friend'])+',2" />'
+		+			'<input style="margin-top: 20px;font-size:10px;'+unLink+'" type="button" value="Unlink" action="linkUser,'+md5(friends['id_friend'])+',2" />'
 		+		'</div>'
 		+	'</div>'
 		+	'<div class="clearfix"></div>'
@@ -3591,8 +3582,8 @@ function bodygroups(groups){
 	if(groups['privacy']==3){
 		if(groups['myPrivateGroup']==1){
 		btn=	'<div>'
-				+		'<input action="groupSuggest,'+groups['id']+'" type="button" value="<?=$lang["GROUPS_SUGGESTGROUP"]?>" name="suggestGroup'+groups['id']+'" id="suggestGroup'+groups['id']+'">'
-				+		'<a href="'+BASEURL+'groupsDetails?grp='+groups['id']+'" class="viewGroup button"><?=$lang["GROUPS_VIEWTHEGROUP"]?></a>'
+				+		'<input action="groupSuggest,'+groups['id']+'" type="button" value="Suggest group" name="suggestGroup'+groups['id']+'" id="suggestGroup'+groups['id']+'">'
+				+		'<a href="'+BASEURL+'groupsDetails?grp='+groups['id']+'" class="viewGroup button">View Group</a>'
 				+	'</div>'
 				+ '<div class="clearfix"></div>';
 		atc=	'action="groupsDetails,'+groups['id']+'"';
@@ -3600,31 +3591,31 @@ function bodygroups(groups){
 	}else{
 		if(groups['userInGroup']==0){
 			if(groups['buttonGroup']==0){
-				btn   = '<input type="button" value="<?=$lang["GROUPS_JOINTOTHEGROUP"]?>" name="joinGroup'+groups['id']+'" id="joinGroup'+groups['id']+'" action="groupsAction,'+groups['id']+'">'
-				+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none"><?=$lang["JS_GROUPS_WAITAPPROBATION"]?></div>'
+				btn   = '<input type="button" value="Join" name="joinGroup'+groups['id']+'" id="joinGroup'+groups['id']+'" action="groupsAction,'+groups['id']+'">'
+				+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none">Wait approbation</div>'
 				atc	=	'action="groupsAction,'+groups['id']+'"';
 			}else if(groups['buttonGroup']==1){
 				btn   =		'<div id="btnJoinViewroup'+groups['id']+'">'
-					+		'<input action="groupSuggest,'+groups['id']+'" type="button" class="viewGroup suggestGroup'+groups['id']+'" value="<?=$lang["GROUPS_SUGGESTGROUP"]?>">'
-					+		'<input action="groupsDetails,'+groups['id']+'" type="button" class="viewGroup" value="<?=$lang["GROUPS_VIEWTHEGROUP"]?>"></div>';
+					+		'<input action="groupSuggest,'+groups['id']+'" type="button" class="viewGroup suggestGroup'+groups['id']+'" value="Suggest group">'
+					+		'<input action="groupsDetails,'+groups['id']+'" type="button" class="viewGroup" value="View Group"></div>';
 				atc	='action="groupsDetails,'+groups['id']+'"';
 			}else if(groups['buttonGroup']==2){
 				btn   =		'<div id="btnJoinViewroup'+groups['id']+'">'
 					+		'<input type="button" size="20" id="acep'+groups['id']+'"'
-					+	'	value="<?=utf8_encode($lang["GROUPS_ACCEPTUSERS"])?>"'
+					+	'	value="Accept"'
 					+	'	action="acceptInv,'+groups['id']+',list">'
 					+	' <input type="button" size="20" id="acepNo'+groups['id']+'"'
-					+	'	value="<?=utf8_encode($lang["GROUPS_REJECTTUSERS"])?>"'
+					+	'	value="Reject"'
 					+	'	action="acceptInv,'+groups['id']+',list,none">'
-					+	'<span class="msg" id="msg'+groups['id']+'"><?=$lang["INVITE_GROUP_TRUE"]?></span>'
-					+	'<input type="button" value="<?=$lang["GROUPS_JOINTOTHEGROUP"]?>" name="joinGroup'+groups['id']+'" id="joinGroup'+groups['id']+'" action="groupsAction,'+groups['id']+'" style="display: none">'
-					+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none"><?=$lang["JS_GROUPS_WAITAPPROBATION"]?></div>'
+					+	'<span class="msg" id="msg'+groups['id']+'">You have an invitation to this group</span>'
+					+	'<input type="button" value="Join" name="joinGroup'+groups['id']+'" id="joinGroup'+groups['id']+'" action="groupsAction,'+groups['id']+'" style="display: none">'
+					+	'<div id="autoriGr'+groups['id']+'" class="messageSuccessGroupo" style="display: none">Wait approbation</div>'
 					+	'</div>';
 				atc	='action="acceptInv,'+groups['id']+',list"';
 			}
 			btn   +=  '<div class="clearfix"></div>';
 		}else{
-			btn = '<div class="messageSuccessGroupo"><?=$lang["JS_GROUPS_WAITAPPROBATION"]?></div>'
+			btn = '<div class="messageSuccessGroupo">Wait approbation</div>'
 			+ '<div class="clearfix"></div>';
 		}
 	}
@@ -3642,7 +3633,7 @@ function bodygroups(groups){
 		+		'</div>'
 		+		'<div class="GroupMembers">'
 		+				'<div class="iconMember"><span>'+groups['members']+'</span></div>'
-		+				'<div class="cantMember"><?=$lang["GROUPS_MEMBERSTITLE"]?></div>'
+		+				'<div class="cantMember">Members</div>'
 		+		'</div>'
 		+	'</div>'
 		+	btn
