@@ -55,6 +55,9 @@ is['limited']= !is['webkit']||is['android'];
         'store'     :'tienda',
         'Video'     :'Video',
         'wish list' :'lista de deseos',
+        'active'	:'activo',
+        'inactive'	:'inactivo',
+
 		//'':'mover a',
         
 
