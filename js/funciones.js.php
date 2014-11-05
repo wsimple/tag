@@ -632,8 +632,12 @@ function showTag(tag){
 	var video='',videomini='';
 	if(tag['typeVideo']){
 		if (!window.players){ window.players=[]; }
-		video=htmlVideo(tag['video'],tag['typeVideo']);
-		if (video!=''){
+		video=htmlVideo({
+			video:tag['video'],
+			video2:tag['video'].replace(/\.mp4$/i,'.ogg'),
+			type:tag['typeVideo']
+		});
+		if(video){
 			if (tag['imgmini'])
 				videomini='<div class="videominitag '+tag['typeVideo']+'"  action="videoc" style="background-image:url('+tag['imgmini']+')"></div>';
 			else videomini='<div class="videominitag '+tag['typeVideo']+'" action="videoc" style="background-image:url('+tag['img']+')"></div>';

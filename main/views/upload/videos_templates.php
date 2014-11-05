@@ -405,6 +405,7 @@ $(function(){
 <?php } ?>
 			dataType:'json',
 			type:'post',
+			xhrFields:{withCredentials:true},
 			data:{code:obj.code,file:obj.file},
 			success:function(data){
 				$.debug().log('convertion data:',data);
@@ -416,8 +417,10 @@ $(function(){
 							path:'<?=$setting->video_server?>videos/',
 							captures:data.captures
 						})).find('[tag]').html(video);
-						if(obj.capture&&data.captures.length>0)
+						if(obj.capture&&data.captures&&data.captures.length>0)
 							obj.capture.call(this,data.captures[0]);
+						if(obj.success)
+							obj.success.call(this,{video:data.video||'',captures:data.captures});
 					}
 				}else
 					$(obj.content).html(video_convert_tmpl({state:'error',isupload:true})).find('.retry').one('click',function(){
@@ -451,6 +454,9 @@ $(function(){
 				capture:function(data){
 					$('#bckSelected').css('background-image','url('+SERVERS.video+'videos/'+data+')');
 					$('#imgTemplate')[0].value=data;
+				},
+				success:function(data){
+					video.value=data.video;
 				},
 				complete:function(){
 					$(that).prop('disabled',false);
@@ -602,21 +608,24 @@ if(o.files) for(var i=0,file;file=o.files[i];i++){
 			{% if(file.type=='img'){ %}
 				<div class="tag-container img noMenu" style="height: auto;">
 					<div class="template" style="background-image:url({%=file.url%})"></div>
-					<div tag action="tag/bgselect" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="{%=file.code%}"></div>
+					<div tag action="tag/bgselect" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="<?=$client->code?>"></div>
 				</div>
 			{% }else if(file.type=='video'){ %}
 				<div class="tag-container video noMenu" style="width: auto;height: auto;">
 					<div tag>
 						<div class="video" style="z-index: 1001;">
 							<div class="placa"></div>
-							<video controls="controls"><source src="{%=file.url%}" type="video/mp4" /></video>
+							<video controls="controls">
+								<source src="{%=file.url%}" type="video/mp4" />
+								<source src="{%=file.url.replace(/\.mp4$/i,'.ogg')%}" type="video/ogg" />
+							</video>
 						</div>
 					</div>
 				</div>
 			{% } %}
 			<div class="actionButton">
 				{% if(file.type=='video'){ %}
-				<button class="btn btn-primary start" data-type="local" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="{%=file.code%}"><i class="glyphicon glyphicon-upload"></i></button>
+				<button class="btn btn-primary start" data-type="local" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="<?=$client->code?>"><i class="glyphicon glyphicon-upload"></i></button>
 				{% } if(file.deleteUrl){ %}
 				<span class="btn btn-danger delete" data-type="{%=file.deleteType%}"
 					{% if(file.deleteWithCredentials){ %}data-xhr-fields='{"withCredentials":true}'{% } %}
