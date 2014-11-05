@@ -22,8 +22,4 @@ function __autoload($classname){
 	else die('Class not found.');
 }
 
-if(isset($_REQUEST['convert2']))
-	$video_convertion = new VideoConvertion2();
-else
-	$video_convertion = new VideoConvertion();
-$upload_handler = new UploadHandler();
+$handler = new VideoConvertion();

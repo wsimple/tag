@@ -82,12 +82,19 @@
 
 				$(opc.layer).doubletap('[tag]', function(e){
 					var tagId = $(e.currentTarget).attr('tag')
-					alert(tagId);
-					return false;
+					myAjax({
+						type:'GET',
+						url:DOMINIO+'controls/tags/actionsTags.controls.php?action=4&tag='+tagId,
+						dataType:'html',
+						success:function( data ){
+							$(e.currentTarget).find('#likeIcon').fadeIn();
+							$(e.currentTarget).find('#like').fadeIn();
+						}
+					});
 				},function(e){
 					var tagId = $(e.currentTarget).attr('tag')
-					// $(e.currentTarget).find('.tag-panel').toggle();
 				});
+
 				// $(opc.layer).on('click','[tag]',function(){
 				// 	redir(PAGE['tag']+'?id='+$(this).attr('tag'));
 				// });
@@ -207,6 +214,7 @@
 						break;
 					}
 				});
+
 				$wrapper.ptrScroll({
 					onPullDown:function(){
 						updateTags('reload',opc);

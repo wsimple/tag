@@ -397,6 +397,7 @@
 									}else if($_GET['product'] && $_GET['product'] !== ''){
 										redir(PAGE['storeMypubli']);
 									}else{
+										localStorage.removeItem('timeLine');
 										redir(PAGE['timeline']);
 									}
 								}
