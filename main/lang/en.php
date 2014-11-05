@@ -11,6 +11,7 @@ $lang=array(
 	'EMAIL_CONTACTO'=>'contact@tagbum.com',
 	'EMAIL_NO_RESPONDA'=>'no-reply@tagbum.com',
 	'PERSONA_CONTACTO'=>'The team Tagbum',
+	'VIDEONOTFOUND'=>'Video not found.',
 	'ERRORPROCESSINGYOURVIDEO'=>'Error processing your video, maybe for a connection failure.',
 	'RETRYVIDEOUPLOAD'=>'Check your connection or wait a moment before you try again.',
 	#js
