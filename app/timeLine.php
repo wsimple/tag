@@ -87,12 +87,12 @@
 						url:DOMINIO+'controls/tags/actionsTags.controls.php?action=4&tag='+tagId,
 						dataType:'html',
 						success:function( data ){
-							$(e.currentTarget).find('#likeIcon').fadeIn();
-							$(e.currentTarget).find('#like').fadeIn();
+                            console.log(e.currentTarget)
+                            $(e.currentTarget).find('#dislikeIcon').fadeOut('slow',function(){
+                                $(e.currentTarget).find('#likeIcon').fadeIn('slow');
+                            });
 						}
 					});
-				},function(e){
-					var tagId = $(e.currentTarget).attr('tag')
 				});
 
 				// $(opc.layer).on('click','[tag]',function(){
@@ -160,7 +160,6 @@
 								url:DOMINIO+'controls/tags/actionsTags.controls.php?action='+(that=='likeIcon'?4:11)+'&tag='+tagtId,
 								dataType:'html',
 								success:function( data ){
-									console.log('Se le dio like/dislike correectamente')
 									afterAjax(data,tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
 									myAjax({
 										type:'POST',
