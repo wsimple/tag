@@ -375,6 +375,7 @@
 						},
 						success:function(data) {
 							if(data['done']){
+								localStorage.removeItem('timeLine');
 								if(false&&$.local('enableLogs')){
 									myDialog({
 										id:'#tagUploadDialog',
@@ -419,7 +420,6 @@
 								content:data,
 								buttons:{
 									Ok:function(){
-										localStorage.removeItem('timeLine');
 										redir(PAGE['timeline']);
 									}
 								}

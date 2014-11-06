@@ -65,7 +65,7 @@
 					});
 				});
 				myAjax({
-					type	: 'GET',
+					type	: 'POST',
 					url		: DOMINIO+'controls/tags/getTag.json.php?getReportCombo=A',
 					dataType: 'json',
 					success	: function( data ) {
@@ -78,7 +78,7 @@
 				});
 
 			myAjax({
-					type	: 'GET',
+					type	: 'POST',
 					dataType: 'json',
 					url		: DOMINIO+'controls/tags/tagsList.json.php?id='+$_GET['id'],
 					error	: function(/*resp, status, error*/) {
@@ -94,7 +94,7 @@
 					},
 					success	: function( data ){
 						var tag=data['tags'][0];
-						$('#tagReport').html(showTag(tag));
+						//$('#tagReport').html(showTag(tag));
 						windowFix();
 						setTimeout(function(){$('#fs-wrapper').jScroll('refresh'),300});
 					}

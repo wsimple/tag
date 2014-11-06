@@ -133,7 +133,7 @@
 					},
 					success	: function( data ){
 						var tag=data['tags'][0];
-						$('#tag_shareTag').html(showTag(tag));
+						//$('#tag_shareTag').html(showTag(tag));
 						windowFix();
 						setTimeout(function(){$('#fs-wrapper').jScroll('refresh'),300});
 					}

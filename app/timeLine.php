@@ -87,26 +87,132 @@
 						url:DOMINIO+'controls/tags/actionsTags.controls.php?action=4&tag='+tagId,
 						dataType:'html',
 						success:function( data ){
-							$(e.currentTarget).find('#likeIcon').fadeIn();							
+                            console.log(e.currentTarget)
+                            $(e.currentTarget).find('#dislikeIcon').fadeOut('slow',function(){
+                                $(e.currentTarget).find('#likeIcon').fadeIn('slow');
+                            });
 						}
 					});
 				});
 
-				// $(opc.layer).on('dblclick','[tag]',function(){
-				// 	var object = this;
-				// 	myAjax({
-				// 		type:'GET',
-				// 		url:DOMINIO+'controls/tags/actionsTags.controls.php?action=4&tag='+$(object).attr('tag'),
-				// 		dataType:'html',
-				// 		success:function( data ){
-				// 			$('.tag-icons #likeIcon',object).fadeIn(); 									
-				// 		}
-				// 	});
-				// });
-
 				// $(opc.layer).on('click','[tag]',function(){
 				// 	redir(PAGE['tag']+'?id='+$(this).attr('tag'));
 				// });
+				function dialogComment(id){
+					var opc={//comment data
+						layer:'#comments',
+						scroller:'.fs-wrapper',
+						data:{
+							type:4,
+							source:id,
+							limit:10,
+							mobile:1
+						},
+						likes:0,
+						dislikes:0
+					};
+					console.log('dialogComment. id='+id);
+					myDialog({
+						id:'#commentDialog',
+						style:{'margin-right':10},
+						content:
+							'<div style="padding:10px;"><textarea name="txtComment" id="txtComment" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset"'+
+								'style="resize:none;width:100%" rows="5" placeholder="'+lang.COMMENTS_LBLHELPIMPUTNEWCOMMENT+'"></textarea></div>',
+						buttons:[{
+							name:lang.send,
+							action:function(){
+								var comment=$.trim($('#txtComment').val());
+								if(comment!=''&&comment!=lang.COMMENTS_LBLHELPIMPUTNEWCOMMENT){
+									//comment = limpiaTextComentarios(comment);
+									var $this=$(this);
+									opc.complete=function(){$this.close();};
+									insertComment(comment,opc);
+								}
+								$('#commentDialog .closedialog').click();
+								$('.fs-wrapper').jScroll('refresh');
+							}
+						},{
+							name:lang.close,
+							action:'close'
+						}]
+					});
+				}
+				function afterAjax(data, tagId, toHide,toShow){
+					console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
+					if(data.indexOf('ERROR')<0){
+						$('[tag='+tagId+']').find(toHide).fadeOut('slow',function(){
+							$('[tag='+tagId+']').find(toShow).fadeIn('slow');
+						});
+					}
+				}
+				$(opc.layer).on('click', 'menu li', function(e){
+					var tagtId = $(e.target).parents('[tag]').attr('tag');
+					var btnPresed = e.target.id;
+					switch(e.target.id){
+						case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
+						case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
+						case 'comment':dialogComment(tagtId);break;
+						case 'like':case 'dislike':
+							var that=e.target.id+'Icon',
+								show=e.target.id!='like'?'likeIcon':'dislikeIcon';
+							myAjax({
+								type:'POST',
+								url:DOMINIO+'controls/tags/actionsTags.controls.php?action='+(that=='likeIcon'?4:11)+'&tag='+tagtId,
+								dataType:'html',
+								success:function( data ){
+									afterAjax(data,tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
+									myAjax({
+										type:'POST',
+										url:DOMINIO+'controls/tags/actionsTags.controls.php?action=12&tag='+tagtId,
+										dataType:'html',
+										success:function( data ){
+											data= data.split('|');
+											// opc.likes=data[0];
+											// opc.dislikes=data[1];
+											if(data[2]>0){afterAjax(data, tagtId, 'menu #like', 'menu #dislike');};
+											if(data[2]<0){afterAjax(data, tagtId,'menu #dislike', 'menu #like');};
+											// $('#numLikes').html(opc.likes);
+											// $('#numDislikes').html(opc.dislikes);
+										}
+									});
+								}
+							});
+						break;
+						case 'redistr':
+							myAjax({
+								type:'POST',
+								url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagtId,
+								dataType:'html',
+								success:function( data ){
+									afterAjax(data, tagtId,'menu #redistr', '.tag-icons #redist');
+								}
+							});
+						break;
+						case 'delete':
+							//var url=$_GET['idGroup']?(PAGE['tagslist']+'?current=group&id='+$_GET['idGroup']):PAGE['timeline'];
+							myDialog({
+								id:'#singleRedirDialog',
+								content:lang.JS_DELETETAG,
+								buttons:[{
+									name:lang.yes,
+									action:function(){
+										myAjax({
+											type: 'POST',
+											url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagtId,
+											dataType: 'html',
+											success: function( data ) {
+												//redir(url);
+											}
+										});
+									}
+								},{
+									name:'No',
+									action:'close'
+								}]
+							});
+						break;
+					}
+				});
 
 				$wrapper.ptrScroll({
 					onPullDown:function(){
