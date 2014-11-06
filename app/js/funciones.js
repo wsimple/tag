@@ -766,7 +766,7 @@ function viewFriends(opc){
 				out+=
 					'<li class="userInList">'+
 						'<a code="'+friend['code_friend']+'" data-theme="e">'+
-							'<img src="'+friend['photo_friend']+'"'+'class="ui-li-thumb" width="60" height="60"/>'+
+							'<img src="'+friend['photo_friend']+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
 							'<h3 class="ui-li-heading">'+friend['name_user']+'</h3>'+
 							'<p class="ui-li-desc">'+
 								lan('friends','ucw')+' ('+(friend['friends_count']||0)+'), '+

@@ -47,7 +47,6 @@
 				$('#pictureButton').html(lan(CORDOVA?'change picture':'edit thumbnail','ucw'));
 			},
 			after:function(){
-				console.log('test');
 				var code=$_GET['id']||$.local('code'),
 					me=(code==$.local('code'));//me=true si es el perfil del usuario loggeado
 				$('.fs-wrapper').jScroll({hScroll:false});
@@ -86,17 +85,17 @@
 						$('.ui-btn-text b',button).html(num||0);
 					}
 					function setFriendsButtons(data){data=data||{};
-						fillButton('#userFriends',	data['friends']);
-						fillButton('#userFollowers',data['admirers']);
-						fillButton('#userFollowing',data['admired']);
+						fillButton('#userFriends',	data['friends_count']);
+						fillButton('#userFollowers',data['following_count']);
+						fillButton('#userFollowing',data['followers_count']);
 					}
 					setFriendsButtons(data);
 					fillButton('#userTags',			data['numTags']);
 					fillButton('#userPersonalTags',	data['numPersTags']);
-					if(data['thumb']) $('#userPicture').attr('src',data['thumb']);
+					if(data['photo_friend']) $('#userPicture').attr('src',data['photo_friend']);
 
 					var birth=lan(data['birthday'],'ucw'),
-						txt='<div><strong>'+(data['userName']||'')+'</strong></div>';
+						txt='<div><strong>'+(data['username']||'')+'</strong></div>';
 					if(data['type']=='0')
 						txt+=(birth!='none'?'<div><strong>'+lang.PROFILE_BIRTHDATE+':</strong> '+birth+'</div>':'');
 					else
@@ -122,7 +121,7 @@
 					if(me){
 						$('#followButton').remove();
 						if (CORDOVA)
-							if(data['thumb']){
+							if(data['photo_friend']){
 								$('#pictureButton').fadeIn('slow').click(function(){
 									redir(PAGE['profilepic']);
 								});
@@ -154,10 +153,11 @@
 					}
 				}
 				myAjax({
-					url:DOMINIO+'controls/users/getProfile.json.php?code='+code,
+					url:DOMINIO+'controls/users/people.json.php?action=specific&code',
+					data:{uid:code},
 					success:function(data){
-						console.log('success '+data['userName']);
-						loadProfile(data);
+						console.log('success '+data['datos'][0]['username']);
+						loadProfile(data['datos'][0]);
 					},
 					error:function(){
 						console.log('error');
