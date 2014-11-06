@@ -60,15 +60,39 @@
     					success	: function(data) {
     						var i,out='',pref='';
                             console.log(data);
+                            console.log('lenguaje '+lang.actual);
+
                             for(i in data['list']){
 								pref = data['list'][i];
 								pref['cname'] = (pref['cname']) ? pref['cname'] : 'General';
+
+								// if (lang.actual=='es') {
+									switch (pref['idPri']) {
+				        				case 1:
+				        					pref['privacidad'] = lang.GROUPS_OPEN;
+				        				break;
+				        				case 2:
+				        					pref['privacidad'] = lang.GROUPS_CLOSED;
+				        				break;
+				        				case 3:
+				        					pref['privacidad'] = lang.GROUPS_PRIVATE;
+				        				break;
+				    //     			}
+								// }else{
+								// 	switch (pref['idPri']) {
+				    //     				case 1:
+
+				    //     				break;
+				    //     			}
+								};
+
+								
+								
 								out +=
 									'<li group="'+pref['id']+'">'+
 										'<img '+pref['photoi']+' class="ui-li-icon-group" width="30" height="30" />'+
 										'<a class="linkGroup">'+pref['name']+'<br>'+
-											'<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal">'+pref['privacidad']+' '+lang.MAINMNU_GROUP+
-											', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+
+											'<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal">'+pref['privacidad']+', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+
                                             '<img src="'+pref['cphoto']+'" class="ui-li-icon-group" width="20" height="20" style="float: none; margin: 0px 5px;"/> '+lan('Category')+':'+pref['cname']+
                                             '</div>'+
 										'</a>'+
