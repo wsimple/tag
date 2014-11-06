@@ -275,7 +275,7 @@ var hasTouch = /android|iphone|ipad/i.test(navigator.userAgent.toLowerCase()),
  * @param {function} doubleTapHandler
  * @param {number} [delay=300]
  */
-$.fn.doubletap = function(container, doubleTapHandler, delay){
+$.fn.doubletap = function(container, doubleTapHandler, singleTapHandler, delay){
     delay = (delay == null) ? 300 : delay;
  
     this.on(eventName, container, function(event){
@@ -293,6 +293,9 @@ $.fn.doubletap = function(container, doubleTapHandler, delay){
             }
         }else{
             $(this).data('lastTouch', now);
+            if(singleTapHandler !== null && typeof singleTapHandler === 'function'){
+                singleTapHandler(event);
+            }
         }
     });
 };

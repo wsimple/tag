@@ -1509,7 +1509,6 @@ function createTag($tag,$force=false,$msg=false){
 			else
 				$imagen=$config->img_server_path.'img/templates/'.$tag['fondoTag'];
 			if ($config->local) $imagen=RELPATH.$imagen;
-
 			// $imagen=(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
 			// $img=imagecreatefromany($imagen);
 			$is=@getimagesize($imagen);
@@ -1540,7 +1539,7 @@ function createTag($tag,$force=false,$msg=false){
 			/**/
 			//Imagen de usuario
 			if($tag['idProduct']) $imagen=$_path.$tag['photoOwner'];
-			else $imagen=$_path.getUserPicture($tag['photoOwner'],'img/users/default.png');
+			else $imagen=$_path.getUserPicture($tag['photoOwner']);
 			if($debug) echo '<br/>'.$imagen;
 			$img=imagecreatefromany($imagen);
 			if($img){
@@ -1690,7 +1689,7 @@ function intToMd5($id){
 	return $id;
 }
 function getTagData($tid=''){
-	$noTag=array('idTag'=>$tid,'code_number'=>'notag','color_code2'=>'#333','photoOwner'=>'img/users/default.jpg','fondoTag'=>$tag[fondoTag]);
+	$noTag=array('idTag'=>$tid,'code_number'=>'notag','color_code2'=>'#333','photoOwner'=>'img/users/default.png','fondoTag'=>$tag[fondoTag]);
 	if($tid=='') return $noTag;
 	$tid=intToMd5($tid);
 	$where=safe_sql('substring(md5(t.id),-16)=?',array(substr($tid,-16)));
@@ -1710,7 +1709,7 @@ function getTagQuery($extra=''){ //t=tag,p=product,u=user(owner)
 			if(p.id is null,u.screen_name,p.name) as nameOwner,
 			(SELECT screen_name FROM users WHERE id=t.id_user) as nameUsr,
 			if(p.id is null,
-				if(u.profile_image_url="","img/users/default.jpg",concat("img/users/",md5(CONCAT(u.id,"_",u.email,"_",u.id)),"/",u.profile_image_url)),
+				if(u.profile_image_url="","img/users/default.png",concat("img/users/",md5(CONCAT(u.id,"_",u.email,"_",u.id)),"/",u.profile_image_url)),
 				concat("img/",p.photo)
 			) as photoOwner,
 			p.id			as idProduct,
