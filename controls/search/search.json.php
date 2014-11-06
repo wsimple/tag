@@ -42,7 +42,7 @@ if (quitar_inyect()){
             }   
         }
         $array['select']="	,(SELECT ug.status FROM users_groups ug WHERE ug.id_group=g.id and ug.id_user='".$_SESSION['ws-tags']['ws-user']['id']."' LIMIT 1) AS integrant";
-        $array['where']=    "(g.id_privacy!='3' OR (g.id_privacy='3' AND g.id=(SELECT ug.id_group FROM users_groups ug WHERE ug.id_group=g.id AND ug.id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' LIMIT 1)))";
+        $array['where']=    "(g.id_privacy!='3' AND g.id=(SELECT ug.id_group FROM users_groups ug WHERE ug.id_group=g.id AND ug.id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' LIMIT 1))";
         if ($srh!='') $array['where'].=safe_sql(' AND CONCAT_WS( " ",g.description, g.name) LIKE "%??%"',array($srh)); 
         $array['order']='ORDER BY g.date DESC';
         $results = groupss($array);
@@ -61,23 +61,23 @@ if (quitar_inyect()){
                 }
                 switch ($row['privacy']) {
     				case 1:
-    					$row['privacidad'] = 'groupPublic'; //$classImgPrivacy
+    					$row['privacidad'] = GROUPS_LABELOPEN; //$classImgPrivacy
     					$row['etiquetaPrivacidad'] = $lang["GROUPS_LABELOPEN"];  //$privacyGrp
     					break;
     				case 2:
-    					$row['privacidad'] = 'groupPrivate';
+    					$row['privacidad'] = GROUPS_LABELCLOSED;
     					$row['etiquetaPrivacidad'] = $lang["GROUPS_LABELCLOSED"];
     					break;
     				case 3:
-    					$row['privacidad'] = 'groupSecret';
+    					$row['privacidad'] = GROUPS_LABELPRIVATE;
     					$row['etiquetaPrivacidad'] = $lang["GROUPS_LABELPRIVATE"];
     					break;
     			}
     		}else{
                 switch ($row['privacy']) {
-    				case 1: $row['privacidad'] = 'Public'; break;
-    				case 2: $row['privacidad'] = 'Close'; break;
-    				case 3: $row['privacidad'] = 'Private'; break;
+    				case 1: $row['privacidad'] = 'Public'; $row['idPri'] = 1; break;
+    				case 2: $row['privacidad'] = 'Close'; $row['idPri'] = 2;break;
+    				case 3: $row['privacidad'] = 'Private'; $row['idPri'] = 3; break;
     			}
                 if (file_exists(DOMINIO.'img/groups/icons/'.$grpname['icon'])||($grpname['icon']!='')){
     				$row['icon'] = DOMINIO.'img/groups/icons/'.$grpname['icon'];
@@ -145,8 +145,8 @@ if (quitar_inyect()){
             $row['seller'] = utf8_encode(formatoCadena($row['seller']));
             if ($row['id_user']==$_SESSION['ws-tags']['ws-user']['id']){ $row['raffle']=true; }
             if ($array['storeList']) $row['listStore']=true; 
-            $row['category'] = utf8_encode(formatoCadena(constant($row['category'])));
-            $row['subCategory'] = utf8_encode(formatoCadena(constant($row['subCategory'])));			
+            $row['category'] = utf8_encode(formatoCadena(@constant($row['category'])));
+            $row['subCategory'] = utf8_encode(formatoCadena(@constant($row['subCategory'])));			
             $row['name'] = utf8_encode(formatoCadena($row['name']));
             $photo = FILESERVER.'img/'.$row['photo'];
             if(fileExistsRemote($photo)){ $row['photo'] = $photo; }

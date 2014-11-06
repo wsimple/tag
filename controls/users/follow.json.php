@@ -6,7 +6,7 @@ if ($myId=='') die(jsonp(array()));
 	if(quitar_inyect()) {
 		$uid=$_SESSION['ws-tags']['ws-user']['id'];
 		if( $uid!='' && $_GET['uid']!='' && md5($uid)!=$_GET['uid']) {
-			$users=CON::getRow("SELECT id,email FROM users WHERE md5(id)=?",array($_GET['uid']));
+			$users=CON::getRow("SELECT id,email,username FROM users WHERE md5(id)=?",array($_GET['uid']));
 			if (count($users)>0){
 				$link=CON::getVal("SELECT id_friend FROM users_links WHERE id_user=? AND md5(id_friend)=?",array($uid,$_GET['uid']));
 				$hislink=CON::getVal("SELECT id_user FROM users_links WHERE md5(id_user)=? AND id_friend=?",array($_GET['uid'],$uid));
@@ -17,13 +17,30 @@ if ($myId=='') die(jsonp(array()));
 					notifications($users['id'],$users['id'],$hislink?5:11);
 					$res['my']=updateUsersCounters(md5($uid));
 					$res['friend']=updateUsersCounters($_GET['uid']);
-					$photo = FILESERVER.'img/users/'.getUserPicture($_SESSION['ws-tags']['ws-user']['photo']);
+					// $foto_remitente	=FILESERVER.generateThumbPath("img/users/".$_SESSION['ws-tags']['ws-user']['code']."/".$_SESSION['ws-tags']['ws-user']['photo']);
+
+					$uLink=CON::getRow("SELECT id,username FROM users WHERE id=?",array($uid));
+
+					if (trim($uLink['username'])!=''){
+						$nameExternal="<a style='color:#999999; text-decoration: none' href='".DOMINIO.$uLink['username']."' onFocus='this.blur();' target='_blank'>".formatoCadena($_SESSION['ws-tags']['ws-user']['full_name'])." (".$_SESSION['ws-tags']['ws-user']['screen_name'].")</a>";
+						$ip = DOMINIO.$uLink['username'];
+					}else{
+						$nameExternal="<a style='color:#999999; text-decoration: none' href='".DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."' onFocus='this.blur();' target='_blank'>".formatoCadena($_SESSION['ws-tags']['ws-user']['full_name'])." (".$_SESSION['ws-tags']['ws-user']['screen_name'].")</a>";
+						$ip = DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id']);
+					}
+
+
+					// $photo = FILESERVER.generateThumbPath("img/users/".$_SESSION['ws-tags']['ws-user']['code']."/".$_SESSION['ws-tags']['ws-user']['photo']);
+
+					$imgPhoto = '<a href="'.$ip.'" onFocus="this.blur();" target="_blank"><img src="'.FILESERVER.generateThumbPath("img/users/".$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']).'" width="60" height="60" style="float:right; border:1px solid #999999" /></a>';
+
+
 					$body = '<table width="500" border="0" align="center" cellpadding="2" cellspacing="0" style="font-family:Verdana, Geneva, sans-serif; font-size:12px; text-align:left">
-						<tr><td colspan="4" style="text-align:left; font-size:18px; padding:0"><strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' ('.$_SESSION['ws-tags']['ws-user']['screen_name'].')</strong> '.MAILFALLOWFRIENDS_INOWADMIRE.' Tagbum</td></tr>
+						<tr><td colspan="4" style="text-align:left; font-size:18px; padding:0"><strong>'.$nameExternal.'</strong> '.MAILFALLOWFRIENDS_INOWADMIRE.' Tagbum</td></tr>
 						<tr><td colspan="4">&nbsp;</td></tr>
 						<tr><td width="62">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 						<tr style="text-align:center; font-weight:bold; background-color:#F4F4F4">
-							<td rowspan="2" valign="middle" style="border:1px solid #CCC;"><img src="'.$photo.'" width="60" height="60" style="float:right; border:1px solid #999999" /></td>
+							<td rowspan="2" valign="middle" style="border:1px solid #CCC;">'.$imgPhoto.'</td>
 							<td style="border-bottom:1px solid #CCC; border-right:1px solid #CCC; border-top:1px solid #CCC">Tags</td>
 							<td style="border-bottom:1px solid #CCC; border-right:1px solid #CCC; border-top:1px solid #CCC">'.MAILFALLOWFRIENDS_ADMIRERS.'</td>
 							<td style="border-bottom:1px solid #CCC; border-right:1px solid #CCC; border-top:1px solid #CCC">'.MAILFALLOWFRIENDS_ADMIRED.'</td>
@@ -34,7 +51,7 @@ if ($myId=='') die(jsonp(array()));
 							<td width="147" style="border-bottom:1px solid #CCC; border-right:1px solid #CCC">'.mskPoints($res['my']['admired']).'</td>
 						</tr>
 						<tr><td colspan="4">&nbsp;</td></tr>
-						<tr><td colspan="4" style="text-align:center">'.MAILFALLOWFRIENDS_GOTO.' <a href="'.base_url().'">Tagbum</a></td></tr>
+						<tr><td colspan="4" style="text-align:center;">'.MAILFALLOWFRIENDS_GOTO.' <a style="text-decoration: none;color:#999999" href="'.DOMINIO.'">Tagbum</a></td></tr>
 						<tr><td colspan="4">&nbsp;</td></tr>
 						<tr><td colspan="4">&nbsp;</td></tr>
 						<tr><td colspan="4" style="border-top:1px solid #999">&nbsp;</td></tr>
