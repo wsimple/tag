@@ -111,6 +111,7 @@
                                                     pref['privacidad'] = lang.GROUPS_PRIVATE;
                                                 break;
                                             }
+                                            console.log(pref['privacidad']);
             								outG +=
             									'<li group="'+pref['id']+'">'+
             										'<img src="'+pref['icon']+'" class="ui-li-icon-group" width="16" height="16" />'+

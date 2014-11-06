@@ -15,7 +15,7 @@ var DOMINIO,PRODUCCION,LOCAL,FILESERVER,PAGE;
 		home:'timeLine.html',
 		findfriends:'findFriends.html',
 		forGot:'resendPass.html',
-		fullversion:'index.html',
+		fullversion:'../?fullVersion',
 		groupslist:'lstgroups.html',
 		login:'login.html',
 		news:'news.html',
@@ -28,15 +28,19 @@ var DOMINIO,PRODUCCION,LOCAL,FILESERVER,PAGE;
 		reporttag:'reportTag.html',
 		seekpreferences:'seekPreferences.html',
 		sharetag:'shareTag.html',
-		shoppingCart:'shoppingCart.html',
+		shoppingCart:'storeCartList.html',
 		signup:'signUp.html',
 		storePorduct:'store.html',
 		storeCat:'storeCategory.html',
+		storeOption:'storeOption.html',
 		storeSubCate:'storeSubCategory.html',
+		storeMypubli:'storeMypublication.html',
 		tag:'tag.html',
 		tagslist:'tagsList.html',
 		timeline:'timeLine.html',
 		toptags:'topTags.html',
-		userfriends:'userFriends.html'
+		userfriends:'userFriends.html',
+		landding:'landding.html',
+		search:'search.html'
 	};
 })(window);
