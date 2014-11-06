@@ -175,7 +175,7 @@ switch ($_GET['action']) {
 			$array['select']=safe_sql(',u.show_my_birthday,
 									u.date_birth,
 									u.type,
-									(SELECT count(t.id) FROM tags t WHERE t.id_user="2" AND t.status = 1) AS numTags,
+									(SELECT count(t.id) FROM tags t WHERE t.id_user=u.id AND t.status = 1) AS numTags,
 									(SELECT count(t.id) FROM tags t WHERE t.status=9 AND t.id_user=u.id AND t.id_user=t.id_creator) AS numPersTags,
 									(SELECT oul.id_user FROM users_links oul WHERE oul.id_user=? AND oul.id_friend=u.id) AS follow',
 									array($myId));
@@ -194,7 +194,7 @@ switch ($_GET['action']) {
 					if($row['show_my_birthday']==3) $row['birthday']='private';
 					else $row['birthday']=maskBirthdayApp($row['date_birth'],$row['show_my_birthday']);
 				}else{ $row['birthday']=$row['date_birth']; }
-				unset($row['date_birth']);unset($row['id']);
+				unset($row['date_birth']);
 			}
 			$info[]=$row;
 		}
