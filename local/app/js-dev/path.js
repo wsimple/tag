@@ -9,7 +9,7 @@ var DOMINIO,PRODUCCION,LOCAL,FILESERVER,PAGE;
 	DOMINIO=$.local('host')||'http://tagbum.com/';
 	FILESERVER='http://i.tagbum.com/';
 	PAGE={
-		ini:'.',
+		ini:'index.html',
 		chat:'chat.html',
 		detailsproduct:'detailsProduct.html',
 		home:'timeLine.html',

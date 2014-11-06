@@ -160,6 +160,46 @@ switch ($_GET['action']) {
 		$res['datos']=$info;
 		if ($html!='') $res['html']=$html;
 	break;
+	case 'specific': //info specific user
+		if(isset($_GET['picture'])){
+			$array['newSelect']='u.id,
+								md5(u.id) AS uid,
+								concat(u.name, " ", u.last_name) AS userName,
+								u.profile_image_url AS picture';
+			$code=$_SESSION['ws-tags']['ws-user']['code'];$uid=$myId;
+		}else{
+			$coi=isset($_GET['code'])?"md5(concat(id,'_', email,'_',id))":"md5(id)";
+			if (!isset($_POST['uid']))	$uid=$myId;
+			else $uid=CON::getVal("SELECT id FROM users WHERE $coi=?",array($_POST['uid']));
+			if (!$uid) die(jsonp(array('error'=>'noIdValid')));
+			$array['select']=safe_sql(',u.show_my_birthday,
+									u.date_birth,
+									u.type,
+									(SELECT count(t.id) FROM tags t WHERE t.id_user=u.id AND t.status = 1) AS numTags,
+									(SELECT count(t.id) FROM tags t WHERE t.status=9 AND t.id_user=u.id AND t.id_user=t.id_creator) AS numPersTags,
+									(SELECT oul.id_user FROM users_links oul WHERE oul.id_user=? AND oul.id_friend=u.id) AS follow',
+									array($myId));
+		}
+		$array['where']=safe_sql('u.id=?',array($uid));
+		$query=peoples($array); 
+		$info=array(); 
+		$res['datos']=1;
+		while ($row=CON::fetchAssoc($query)){
+			$row['photo_friend']=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend'],false);
+			if(isset($_GET['picture'])){
+				$row['code']=$code;
+				$row['picture']=FILESERVER."img/users/$code/".$row['picture'];
+			}else{
+				if($row['type']=='0'){
+					if($row['show_my_birthday']==3) $row['birthday']='private';
+					else $row['birthday']=maskBirthdayApp($row['date_birth'],$row['show_my_birthday']);
+				}else{ $row['birthday']=$row['date_birth']; }
+				unset($row['date_birth']);
+			}
+			$info[]=$row;
+		}
+		$res['datos']=$info;
+	break;
 }
 die(jsonp($res));
 

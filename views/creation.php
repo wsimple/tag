@@ -248,9 +248,7 @@ $(function(){
 							obj.capture.call(this,data.captures[0]);
 					}
 				}else
-					$(obj.content).html(video_convert_tmpl({state:'error'})).find('.retry').one('click',function(){
-						convert_video(obj);
-					});
+					$(obj.content).html(video_convert_tmpl({state:'notfound'}));
 				// if (!data.error){
 				// 	video.value=data.video;
 				// 	var html=htmlVideo(SERVERS.video+'videos/'+data.video,'local',null,true),captures='';
@@ -518,6 +516,10 @@ $(function(){
 	<div class="messageNoResultSearch more" style="text-align:center;">
 		<img src="css/smt/loader.gif" width="32" height="32" class="loader"><br/>
 		<?=lan("PROCESSINGYOURVIDEO")?>
+	</div>
+{% }else if(o.state=='notfound'){ %}
+	<div class="messageNoResultSearch more" style="text-align:center;">
+		<?=lan("VIDEONOTFOUND")?>
 	</div>
 {% }else if(o.state=='error'){ %}
 	<div class="messageNoResultSearch more" style="text-align:center;">

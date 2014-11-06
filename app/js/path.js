@@ -26,7 +26,7 @@
 			video:'http://v.tagbum.com'
 		};
 	PAGE={
-		ini:'.',
+		ini:'index.php',
 		chat:'chat.html',
 		detailsproduct:'detailsProduct.php',
 		home:'timeLine.php',
