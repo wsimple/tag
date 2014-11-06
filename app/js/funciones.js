@@ -536,11 +536,39 @@ function colorSelector(picker,inputField){
 }
 
 function showTag(tag){//individual tag
+	var btn=tag['btn']||{};
+	var btnSponsor='',paypal='prueba';
 	return(
 	'<div tag="'+tag['id']+'" udate="'+tag['udate']+'">'+
 		'<div class="minitag" style="background-image:url('+tag['imgmini']+')"></div>'+
 		'<div class="tag" style="background-image:url('+tag['img']+')"></div>'+
 		'<div class="bg"></div>'+
+			(isLogged()?
+		'<menu>'+
+			'<ul>'+
+				(tag['business']?
+					'<li id="bcard" action="card,'+tag['business']+'" title="Bussines Card"><span>Bussines Card</span></li>'
+				:'')+
+				'<li id="like" action="like,'+tag['id']+'"'+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
+				'<li id="dislike" action="dislike,'+tag['id']+'"'+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
+				(!tag['popup']?
+					'<li id="comment" title="Comment"><span>Comment</span></li>'
+				:'')+(btn['redist']?
+					'<li id="redistr" title="Redist"><span>Redist</span></li>'
+				:'')+(btn['share']?
+					'<li id="share" title="Share"><span>Share</span></li>'
+				:'')+btnSponsor+(btn['trash']?
+					'<li id="trash" title="Trash"><span>Trash</span></li>'
+				:'')+((tag['product'])?(btn['edit']?
+					'<li id="edit" action="editProductTag,'+tag['id']+','+tag['product']['id']+'" title="Edit"><span><?=$lang["MNUTAG_TITLEEDIT"]?></span></li>'
+				:''):(btn['edit']?
+					'<li id="edit" title="Edit2"><span>Edit2</span></li>'
+				:''))+(btn['report']?
+					'<li id="report" title="Report"><span>Report</span></li>'
+				:'')+
+			'</ul>'+
+		'<div class="clearfix"></div></menu>'
+		:'<div id="menuTagnoLogged"></div>')+
 		'<div class="tag-icons">'+
 			'<div id="sponsor" '+(tag['sponsor']?'':'style="display:none;"')+'></div>'+
 			'<div id="redist" '+(tag['redist']?'':'style="display:none;"')+'></div>'+
@@ -603,6 +631,7 @@ function showTags(array){//tag list
 					if(cancel()){
 						console.log('Cancelada carga de '+current+'.'); return;
 					}else{
+						console.log(data)
 						if(action=='more'&&(!data['tags']||data['tags'].length<1)) act.more=false;
 						if(data['tags'] && data['tags'].length>0){
 							opc.date=data['date'];
