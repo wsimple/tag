@@ -65,29 +65,19 @@
                             for(i in data['list']){
 								pref = data['list'][i];
 								pref['cname'] = (pref['cname']) ? pref['cname'] : 'General';
-
-								// if (lang.actual=='es') {
-									switch (pref['idPri']) {
-				        				case 1:
-				        					pref['privacidad'] = lang.GROUPS_OPEN;
-				        				break;
-				        				case 2:
-				        					pref['privacidad'] = lang.GROUPS_CLOSED;
-				        				break;
-				        				case 3:
-				        					pref['privacidad'] = lang.GROUPS_PRIVATE;
-				        				break;
-				    //     			}
-								// }else{
-								// 	switch (pref['idPri']) {
-				    //     				case 1:
-
-				    //     				break;
-				    //     			}
+								
+								switch (pref['idPri']) {
+			        				case 1:
+			        					pref['privacidad'] = lang.GROUPS_OPEN;
+			        				break;
+			        				case 2:
+			        					pref['privacidad'] = lang.GROUPS_CLOSED;
+			        				break;
+			        				case 3:
+			        					pref['privacidad'] = lang.GROUPS_PRIVATE;
+			        				break;
 								};
-
-								
-								
+								console.log(pref['privacidad']);
 								out +=
 									'<li group="'+pref['id']+'">'+
 										'<img '+pref['photoi']+' class="ui-li-icon-group" width="30" height="30" />'+

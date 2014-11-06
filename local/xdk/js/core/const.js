@@ -14,7 +14,7 @@ var is={
 	App,
 	offline,
 	lang,
-	DOMINIO,PRODUCCION,LOCAL,FILESERVER,PAGE;
+	DOMINIO,PRODUCCION,LOCAL,FILESERVER,PAGE,SERVERS;
 if(version) version=version[1];
 is['limited']= !is['webkit']||is['android'];
 
@@ -55,6 +55,9 @@ is['limited']= !is['webkit']||is['android'];
         'store'     :'tienda',
         'Video'     :'Video',
         'wish list' :'lista de deseos',
+        'active'	:'activo',
+        'inactive'	:'inactivo',
+
 		//'':'mover a',
         
 
@@ -107,6 +110,11 @@ is['limited']= !is['webkit']||is['android'];
 		GROUPS_MYGROUPS					:'Mis Grupos',
 		GROUPS_SENDINVITATION 			:'Enviar Invitaci&oacute;n',
 		GROUPS_TITLEWINDOWSNEW			:'Nuevo Grupo',
+
+		GROUPS_OPEN						:'Grupo Abierto',
+		GROUPS_CLOSED					:'Grupo Cerrado',
+		GROUPS_PRIVATE					:'Grupo Privado',
+
 		home							:'Inicio',
 		INDEX_LBL_PRIVATE				:'Privado',
 		inputPlaceHolder				:'Buscar',
@@ -277,6 +285,7 @@ is['limited']= !is['webkit']||is['android'];
         STORE_NOT_CHET_DOLLAR           :'Disculpe, nuestra versi&oacute;n m&oacute;vil por ahora solo acepta puntos para pagar. Puede finalizar la compra usando nuestra versi&oacute;n web si no cuenta con puntos suficientes.',
         STORE_NO_SC                     :'Disculpe, no hay art&iacute;culos disponibles en su carrito de compras.',
         STORE_NO_WL                     :'Disculpe, no hay art&iacute;culos disponibles en su lista de deseos.',
+        STORE_NO_AB                     :'Lo sentimos, esta opción sólo está disponible para las empresas asociadas a nuestro sistema.',
         STORE_SHIPPING                  :'Direcci&oacute;n de env&iacute;o',
         STORE_SHIPPING_CHANGE           :'&iquest;desea cambiar la direcci&oacute;n de env&iacute;o?',
         STORE_COUNTRY                   :'Pa&iacute;s',
@@ -620,6 +629,10 @@ is['limited']= !is['webkit']||is['android'];
 		TAGS_WHENTAGNOEXIST				:'This content is no longer available',
 		GROUPS_ASSIGNADMIN				:'Assign Admin',
 
+		GROUPS_OPEN						:'Public Group',
+		GROUPS_CLOSED					:'Closed Group',
+		GROUPS_PRIVATE					:'Private Group',
+
 		STORE							:'Store App',
 		STORE_DETAILS					:'Product Detail',
 		STORE_CATEGORY					:'Category',
@@ -651,19 +664,13 @@ is['limited']= !is['webkit']||is['android'];
         STORE_NOT_CHET_DOLLAR           :'Sorry, our current mobile version currently only accepts points to pay. You can checkout using our web version if you do not have enough points.',
         STORE_NO_SC                     :'Sorry, there are no items in your shopping cart.',
         STORE_NO_WL                     :'Sorry, there are no items available in your wishlist.',
+        STORE_NO_AB                     :'Sorry, this option is only available to companies associated with our system.',
         STORE_SHIPPING                  :'Shipping address',
         STORE_SHIPPING_CHANGE           :'Would you like to change the shipping address?',
         STORE_COUNTRY                   :'Country',
         STORE_NO_COMPLETE               :'The following fields:',
         STORE_NO_COMPLETE_2             :'Are required.',
         STORE_NOT_NUM_PHONE             :'A phone number',
-        BUSINESSCARD_LBLCITY            :'City',
-        SIGNUP_ZIPCODE                  :'Zip code',
-        USERPROFILE_LBLHOMEPHONE        :'Home Phone',
-        USERPROFILE_LBLWORKPHONE        :'Work Phone',
-        USERPROFILE_LBLMOBILEPHONE      :'Mobile Phone',
-        BUSINESSCARD_LBLADDRESS         :'Address',
-        USERPROFILE_LBLCBOAREASCODE     :'Country Code',  
         STORE_SHOPPING_ORDER			:'Purchase Order',
 		STORE_SHOPPING_DETAILS			:'Details',
 		STORE_SHOPPING_NUMORDER			:'Order',
@@ -674,12 +681,19 @@ is['limited']= !is['webkit']||is['android'];
 		STORE_SHOPPING_DELETE			:'Delete Cart',
 		STORE_SHOPPING_DELETEALL		:'Delete The Shopping Cart?',
 		STORE_PRODUCT_TAG				:'Create Product Tag',
+		STORE_SHOPPING_ITEM				:'Delete Item',
+        STORE_WISH_LIST_MOVE            :'Move to wish list',
+        BUSINESSCARD_LBLCITY            :'City',
+        SIGNUP_ZIPCODE                  :'Zip code',
+        USERPROFILE_LBLHOMEPHONE        :'Home Phone',
+        USERPROFILE_LBLWORKPHONE        :'Work Phone',
+        USERPROFILE_LBLMOBILEPHONE      :'Mobile Phone',
+        BUSINESSCARD_LBLADDRESS         :'Address',
+        USERPROFILE_LBLCBOAREASCODE     :'Country Code',  
 
 		MESSAGE_WELCOME					:'Welcome',
 		EMPTY_TAGS_LIST					:'Empty Tags List',
 		SHARETAG_TOUCHPICTURE			:'Touch the picture to delete it',
-		STORE_SHOPPING_ITEM				:'Delete Item',
-        STORE_WISH_LIST_MOVE            :'Move to wish list',
 
 		PUBLICITY_MSGSUCCESSFULLY		:'Request successfully processed',
 
