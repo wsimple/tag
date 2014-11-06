@@ -27,14 +27,6 @@
 			before:function(){
 				//language constants
 				$('#send').html(lan('save','ucw'));
-				//setting footers buttons
-				//setting footers buttons
-				// var cam;
-				// try{
-				// 	cam=Camera;
-				// }catch(e){
-				// 	cam=CORDOVA;
-				// }
 				if(CORDOVA){
 					$('#footerPicture').html(
 						'<li><a opc="editcam">'+lan('camera','ucw')+'</a></li>'+
@@ -117,12 +109,7 @@
 						}
 					});
 				})();
-				// var cam,photoData={},onPhotoSuccess=function(){},onPhotoFail=function(){},getPhoto=function(){};
-				// try{
-				// 	cam=Camera;
-				// }catch(e){
-					
-				// }
+
 				if(CORDOVA){
 					document.addEventListener('deviceready',function(){
 	    				var cam=Camera,
