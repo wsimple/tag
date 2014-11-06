@@ -29,13 +29,13 @@
 				$('#send').html(lan('save','ucw'));
 				//setting footers buttons
 				//setting footers buttons
-				var cam;
-				try{
-					cam=Camera;
-				}catch(e){
-					cam=CORDOVA;
-				}
-				if(cam){
+				// var cam;
+				// try{
+				// 	cam=Camera;
+				// }catch(e){
+				// 	cam=CORDOVA;
+				// }
+				if(CORDOVA){
 					$('#footerPicture').html(
 						'<li><a opc="editcam">'+lan('camera','ucw')+'</a></li>'+
 						(is['android']&&version.match(/^2\./)?'':'<li><a opc="lib">'+lan('gallery','ucw')+'</a></li>')
@@ -107,60 +107,66 @@
 				});
 				(function(){//get profile picture
 					myAjax({
-						url:DOMINIO+'controls/users/getProfile.json.php?picture',
+						url:DOMINIO+'controls/users/people.json.php?action=specific&picture',
 						success:function(data){
-							if(data['thumb']){
-								actual=FILESERVER+data['picture'];
+							if(data['datos'][0]['photo_friend']){
+								actual=data['datos'][0]['picture'];
 								$pic.attr('src',actual);
 								img64=null;
 							}
 						}
 					});
 				})();
-				var cam,photoData={},onPhotoSuccess=function(){},onPhotoFail=function(){},getPhoto=function(){};
-				try{
-					cam=Camera;
-				}catch(e){
+				// var cam,photoData={},onPhotoSuccess=function(){},onPhotoFail=function(){},getPhoto=function(){};
+				// try{
+				// 	cam=Camera;
+				// }catch(e){
 					
-				}
-				if(cam){
-					photoData={
-						targetWidth:600,
-						quality:60,
-						destinationType:cam.DestinationType.DATA_URL
-					};
-					onPhotoSuccess=function(data){
-						if(!data.match(/^https?:\/\//i)){//no url = base64
-							data='data:image/jpg;base64,'+data;
-							img64=data;
-						}
-						$pic.attr('src',data);
-						enableResize();
-					};
-					onPhotoFail=function(message){
-						console.log(message);
-						//if(message!='no image selected') myDialog(message);
-					};
-					getPhoto=function(type){
-						var data=$.extend({},photoData);
-						switch(type){
-							case 'editcam'://camara (editable)
-								data.allowEdit=true;
-							break;
-							case 'lib':
-								data.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
-							break;
-							case 'album':
-								data.sourceType=cam.PictureSourceType.SAVEDPHOTOALBUM;
-							break;
-							case 'cam':break;//camara - default
-						}
-						try{
-							navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
-						}catch(e){
-							myDialog('Error: '+e);
-						}
-					};
+				// }
+				if(CORDOVA){
+					document.addEventListener('deviceready',function(){
+	    				var cam=Camera,
+	    					photoData={
+	    						targetWidth:650,
+	    						quality:60,
+	    						destinationType:cam.DestinationType.DATA_URL
+	    					},
+							onPhotoSuccess=function(data){
+								if(!data.match(/^https?:\/\//i)){//no url = base64
+									data='data:image/jpg;base64,'+data;
+									img64=data;
+								}
+								$pic.attr('src',data);
+								enableResize();
+							},
+			    			onPhotoFail=function(message){
+								console.log(message);
+								//if(message!='no image selected') myDialog(message);
+							},
+	    					getPhoto=function(type){
+								var data=$.extend({},photoData);
+								switch(type){
+									case 'editcam'://camara (editable)
+										data.allowEdit=true;
+									break;
+									case 'lib':
+										data.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
+									break;
+									case 'album':
+										data.sourceType=cam.PictureSourceType.SAVEDPHOTOALBUM;
+									break;
+									case 'cam':break;//camara - default
+								}
+								try{
+									navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
+								}catch(e){
+									myDialog('Error: '+e);
+								}
+							};
+	    				$('#footerPicture').on('click','a[opc]',function(){
+	    					getPhoto($(this).attr('opc'));
+	    				});
+					},false);
 				}
 				$('#footerPicture a[opc]').click(function(){
 					getPhoto($(this).attr('opc'));
@@ -190,7 +196,7 @@
 							data:pdata,
 							success:function(data){
 								delete pdata.img64;
-								alert(data);
+								// alert(data);
 								if(data['upload']==='done'||data['resize']==='done'){
 									actual=img64;
 									img64=null;
