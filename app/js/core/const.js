@@ -110,6 +110,11 @@ is['limited']= !is['webkit']||is['android'];
 		GROUPS_MYGROUPS					:'Mis Grupos',
 		GROUPS_SENDINVITATION 			:'Enviar Invitaci&oacute;n',
 		GROUPS_TITLEWINDOWSNEW			:'Nuevo Grupo',
+
+		GROUPS_OPEN						:'Grupo Abierto',
+		GROUPS_CLOSED					:'Grupo Cerrado',
+		GROUPS_PRIVATE					:'Grupo Privado',
+
 		home							:'Inicio',
 		INDEX_LBL_PRIVATE				:'Privado',
 		inputPlaceHolder				:'Buscar',
@@ -623,6 +628,10 @@ is['limited']= !is['webkit']||is['android'];
 		GROUPS_LEAVECCOMPLETE			:'User(s) assigned as administrator',
 		TAGS_WHENTAGNOEXIST				:'This content is no longer available',
 		GROUPS_ASSIGNADMIN				:'Assign Admin',
+
+		GROUPS_OPEN						:'Public Group',
+		GROUPS_CLOSED					:'Closed Group',
+		GROUPS_PRIVATE					:'Private Group',
 
 		STORE							:'Store App',
 		STORE_DETAILS					:'Product Detail',
