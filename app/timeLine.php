@@ -89,7 +89,6 @@
 						dataType:'html',
 						loader: false,
 						success:function( data ){
-                            console.log(e.currentTarget)
                             $(e.currentTarget).find('#dislikeIcon').fadeOut('slow',function(){
                                 $(e.currentTarget).find('#likeIcon').fadeIn('slow');
                             });
@@ -115,11 +114,13 @@
 						case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
 						case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
 						case 'comment':
+							$('#comments').remove();
 							$('[tag='+tagtId+']').append(
 								'<div class="is-logged tag-comments-window smt-tag-content">'+
-									'<ul id="comments" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'+
+									'<ul id="comments" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'+
 								'</div>'
 							);
+							$('#comments').listview();
 							getComments('reload',{
 								layer:'#comments',
 								scroller:'.fs-wrapper',
