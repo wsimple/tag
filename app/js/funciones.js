@@ -594,7 +594,97 @@ function showTags(array){//tag list
 //		tags+='<div class="tag-loading smt-container"><div class="smt-content" style="z-index:4;">Loading...</div></div>'+showTag(array[i]);
 	return '<div class="tag-container">'+tags+'</div>';
 }
-
+function actionsTags(layer){
+	$(layer).doubletap('[tag]', function(e){
+		var tagId = $(e.currentTarget).attr('tag')
+		$('[tag="'+tagId+'"] menu li#like',layer).click();
+	});
+	$(layer).on('click', 'menu li', function(e){
+		var tagtId = $(e.target).parents('[tag]').attr('tag');
+		var btnPresed = e.target.id;
+		switch(e.target.id){
+			case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
+			case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
+			case 'comment':
+				alert('en construcción');
+			break;
+			case 'like':case 'dislike':
+				var that=e.target.id+'Icon',
+					show=e.target.id!='like'?'likeIcon':'dislikeIcon';
+				myAjax({
+					type:'POST',
+					url:DOMINIO+'controls/tags/actionsTags.controls.php?action='+(that=='likeIcon'?4:11)+'&tag='+tagtId,
+					dataType:'html',
+					loader: false,
+					success:function( data ){
+						afterAjaxTags(data,tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
+						myAjax({
+							type:'POST',
+							url:DOMINIO+'controls/tags/actionsTags.controls.php?action=12&tag='+tagtId,
+							dataType:'html',
+							loader: false,
+							success:function( data ){
+								data= data.split('|');
+								// opc.likes=data[0];
+								// opc.dislikes=data[1];
+								if(data[2]>0){afterAjaxTags(data, tagtId, 'menu #like', 'menu #dislike');};
+								if(data[2]<0){afterAjaxTags(data, tagtId,'menu #dislike', 'menu #like');};
+								// $('#numLikes').html(opc.likes);
+								// $('#numDislikes').html(opc.dislikes);
+							}
+						});
+					}
+				});
+			break;
+			case 'redistr':
+				myAjax({
+					type:'POST',
+					url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagtId,
+					dataType:'html',
+					loader: false,
+					success:function( data ){
+						afterAjaxTags(data, tagtId,'menu #redistr', '.tag-icons #redist');
+					}
+				});
+			break;
+			case 'trash':
+				myDialog({
+					id:'#singleRedirDialog',
+					content:lang.JS_DELETETAG,
+					loader: false,
+					buttons:[{
+						name:lang.yes,
+						action:function(){
+							var dialog = this;
+							myAjax({
+								type: 'POST',
+								url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagtId,
+								dataType: 'html',
+								success: function( data ) {
+									$('[tag='+tagtId+']').fadeOut('fast',function(){
+										$(this).remove();
+										dialog.close();
+									});
+								}
+							});
+						}
+					},{
+						name:'No',
+						action:'close'
+					}]
+				});
+			break;
+		}
+	});
+}
+function afterAjaxTags(data, tagId, toHide,toShow){
+	console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
+	if(data.indexOf('ERROR')<0){
+		$('[tag='+tagId+']').find(toHide).fadeOut('slow',function(){
+			$('[tag='+tagId+']').find(toShow).fadeIn('slow');
+		});
+	}
+}
 (function(window,$,console){
 	window.updateTags=function(action,opc,loader){
 		if(!opc.on) opc.on={};
@@ -1176,7 +1266,6 @@ function checkAllCheckboxs(value,container){
 }
 
 function getFriends(id,like){
-	console.log('getFriend. id='+id);
 	like=like?'&like='+like:'';
 	var emails=[];
 	$('#pictures_shareTag input').each(function(){
@@ -1184,28 +1273,27 @@ function getFriends(id,like){
 	});
 	myAjax({
 		loader	:true,
-		type	:'GET',
-		url		:DOMINIO+'controls/users/getFriends.json.php?id='+id+like,
+		type	:'POST',
+		url		:DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&code'+like,
+		data:{uid:id},
 		dataType:'json',
 		success	:function(data){
 			var ret='';
-			for(var i in data){
-				//alert(data[i].id);
-				if(emails.join().indexOf(data[i].email)<0)
+			for(var i in data['datos']){
+				if(emails.join().indexOf(data['datos'][i]['email'])<0)
 				ret+=
-					'<div id="'+data[i].id+'" onclick="$(\'#friend_'+data[i].id+'\').attr(\'checked\',($(\'#friend_'+data[i].id+'\').is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
+					'<div onclick="$(\'input\',this).attr(\'checked\',($(\'input\',this).is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
 						'<div style="float:right;padding-top:20px;margin-right:15px;">'+
 							'<fieldset data-role="controlgroup">'+
-								'<input id="friend_'+data[i].id+'" name="friend_'+data[i].id+'" '+
-										'value="'+data[i].email+'|'+data[i].photo+'" type="checkbox" />'+
+								'<input value="'+data['datos'][i]['email']+'|'+data['datos'][i]['photo_friend']+'" type="checkbox" />'+
 							'</fieldset>'+
 						'</div>'+
-						'<img src="'+FILESERVER+data[i].photo+'" style="float:left;width:60px;height:60px;"/>'+
+						'<img src="'+data['datos'][i]['photo_friend']+'" style="float:left;width:60px;height:60px;" class="userBR"/>'+
 						'<div style="float:left;margin-left:5px;font-size:10px;text-align:left;">'+
-							'<spam style="color:#E78F08;font-weight:bold;">'+data[i].name+'</spam><br/>'+
-							(data[i].country?lang.country+':'+data[i].country+'<br/>':'')+
-							''+lan('friends','ucw')+'('+data[i].friends_count+')<br/>'+
-							''+lan('admirers','ucw')+'('+data[i].followers_count+')'+
+							'<spam style="color:#E78F08;font-weight:bold;">'+data['datos'][i]['name_user']+'</spam><br/>'+
+							(data['datos'][i]['country']?lang.country+':'+data['datos'][i]['country']+'<br/>':'')+
+							''+lan('friends','ucw')+'('+data['datos'][i]['friends_count']+')<br/>'+
+							''+lan('admirers','ucw')+'('+data['datos'][i]['followers_count']+')'+
 						'</div>'+
 					'</div>';
 			}
@@ -1218,27 +1306,27 @@ function getFriends(id,like){
 	});
 }
 
-function selectFriendsDialog(idDialog,id){
+function selectFriendsDialog(id){
 	console.log('selectfriendsdialog');
 	$('html,body').animate({scrollTop:0},'fast',function(){
 		myDialog({
-			id:idDialog,
+			id:'shareTagDialog',
 			style:{'min-height':200},
 			buttons:{},
 			after:function(options,dialog){
+				getFriends(id);
 				var timer;
 				$('#like_friend',dialog).unbind('keyup').bind('keyup',function(event){
 					if(event.which==8||event.which>40){
 						if(timer) clearTimeout(timer);
 						timer=setTimeout(function(){
 							getFriends(id,$('#like_friend',dialog).val());
-						},2000);
+						},1000);
 					}
 				});
 			}
 		});
 	});
-	getFriends(id);
 }
 
 // removes a picture and check if there's no more pictures hide the title
@@ -1264,8 +1352,7 @@ function getDialogCheckedUsers(idDialog){
 			$('#pictures_shareTag').append(
 				'<span id="'+md5(userInfo[0])+'" onclick="removePicture(this)">'+
 					'<input type="hidden" name="x" value="'+userInfo[0]+'" type="text"/>'+
-					'<img src="'+FILESERVER+userInfo[1]+'" width="40"'+
-						'style="margin-left: 5px; border-radius: 5px;"/>'+
+					'<img src="'+userInfo[1]+'" width="40" style="margin-left: 5px; border-radius: 5px;" class="userBR"/>'+
 				'</span>'
 			);
 			paso=true;
