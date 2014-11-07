@@ -327,7 +327,11 @@ is['limited']= !is['webkit']||is['android'];
 		USERPROFILE_PREFERENCES_TITLE	:'Preferencias',
 		FIENDFRIENDS_INVITED			:'Invitado',
 		FIENDFRIENDS_PHONECONTACT		:'Contacto de telefono',
-		yes								:'S&iacute;'
+		yes								:'S&iacute;',
+
+		EMPTY_INFO_NOTIFICATION			:'Disculpe, no hay notificaciones que mostrar porque no tienes amigos. Haz clic abajo y encuentra a tus amigos.',
+		EMPTY_INFO_NEWS					:'Disculpe, no hay noticias que mostrar porque no tienes amigos. Haz clic abajo y encuentra a tus amigos.',
+		FIND_FRIENDS_NOTIFICATION		:'Encontrar Amigos'
 	};//es
 	lang={//ingles por defecto
 		pass							:'Password',
@@ -706,7 +710,13 @@ is['limited']= !is['webkit']||is['android'];
 		TOPTAGS_NOTAGS		:'Top Tags depend on what the people likes.<br/>Right now have no tags to show in ',
 
 		TXT_REDIST	:' (redistribution)',
-		TXT_REDISTBY:'Redistributed by '
+		TXT_REDISTBY:'Redistributed by ',
+
+		EMPTY_INFO_NOTIFICATION			:'Sorry, no news to show because you have no friends. Click below to find your friends.',
+		EMPTY_INFO_NEWS					:'Sorry, no notifications to show because you have no friends. Click below to find your friends.',
+		FIND_FRIENDS_NOTIFICATION		:'Find Friends'
+
+
 	};//lang
 	if(!more[actual]) actual='en';//si no existe el idioma, usamos el ingles por default.
 	lang.actual=actual;
