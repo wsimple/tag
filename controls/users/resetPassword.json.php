@@ -39,7 +39,10 @@ switch($_POST['action']){
         }else{ $res['error']='emailInvalid'; }
     break;
     case '1': 
-        $test=isset($_POST['id'])?($mobile?'md5(CONCAT(id, '+', id, '+', id)) = ?':'id = ?'):'';
+        $test=isset($_POST['id'])?($mobile?'md5(CONCAT(id, "+", id, "+", id)) = ?':'id = ?'):'';
+
+        // $post = isset($_POST['id'])?'post id activo':'post id activo';
+        // $mo = isset($mobile)?"md5(CONCAT(id, '+', id, '+', id)) = ?":"id = ?";
         if ($test!=''){
             if((trim($_POST['clave1']) && trim($_POST['clave2'])) && ($_POST['clave1'] == $_POST['clave2'])) {
                 $query = CON::getRow("SELECT id,password_user as password FROM users WHERE ".$test,array($_POST['id']));
@@ -60,5 +63,6 @@ switch($_POST['action']){
     break;
 }
 
+// $res['mensaje'] = '<br>exit: '.$res['exit']'<br>action: '.$res['action'].'<br> id: '.$_POST['id'].'<br> mobile: '.$mobile.'<br> post: '.$post.'<br> mo: '.$mo;
 die(jsonp($res));
 ?>
