@@ -158,9 +158,7 @@
 							if(data['msg']=='1'){
 								myDialog(single?lang.SIGNUP_CTRERRORNAME:lang.SIGNUP_CTRERRORNAMENTER);
 							}else if(data['msg']=='2'){
-								if(data['comp']=='0'){
-									myDialog(lang.SIGNUP_CTRERRORLASTNAME);
-								}
+								myDialog(lang.SIGNUP_CTRERRORLASTNAME);
 							}else if(data['msg']=='3'){
 								myDialog(lang.SIGNUP_CTRERROREMAIL);
 							}else if(data['msg']=='4'){
@@ -175,6 +173,8 @@
 								myDialog(lang.SIGNUP_CONFIRMPASSWORD);
 							}else if(data['msg']=='9'){
 								myDialog(lang.SMT_SIGNUP_PASSWORDNOTMATCH);
+							}else if(data['msg']=='10'){
+								myDialog(lang.SIGNUP_CTRERRORBIRTHDATE);
 							}else{
 								myDialog({
 									id:'#singleRedirDialog',
