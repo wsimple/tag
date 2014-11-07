@@ -14,7 +14,7 @@ var hideGroups=false;
 		$.loader=function(mode){if(m!==mode){loader(mode);m=mode;}};
 	});
 	$.mobile.defaultPageTransition='slide';//transicion por defecto
-	$.mobile.ajaxEnabled=false;//is['android'];
+	$.mobile.ajaxEnabled=false;//is.android;
 	$.fn.jScroll.defaultOptions.forceIscroll=true;//ignora scroll nativo, obligando a utilizar iScroll
 	//se eliminan algunas cookies cuando no viene de una transicion
 	$.session('get',null);
@@ -34,12 +34,12 @@ function redir(url,trans){
 			if($.mobile.ajaxEnabled){
 				//si estan activas las transiciones, se almacena el get en una cookie para poder utilizarla antes de que cargue la pagina (ver pageshow)
 				var get=url.split('#')[0].split('?')[1];
-				if(get&&get!='') $.session('get',get);
+				if(get) $.session('get',get);
 				$.mobile.changePage(url,{transition:(trans||'slide'),reloadPage:true});
 			}else{
 				window.location=url;
 			}
-		}
+		};
 		if(menuVisible()){
 			menuRun(goToURL);
 		}else{
@@ -73,7 +73,7 @@ function readTxt(url){
 		if(req.readyState!=4) return;
 		if(req.status!=200) return;
 		txt=req.responseText;
-	}
+	};
 	req.send();
 	return txt;
 }
@@ -88,21 +88,21 @@ function readTxt(url){
 			case 'home':case 'timeline':case 'news':
 				func=function(){redir(PAGE[data.opc]);};
 			break;
-			case 'toptags'		:func=function(){redir(PAGE['toptags']);};break;
-			case 'store'		:func=function(){redir(PAGE['storeCat']);};break;
-			case 'cart'			:func=function(){redir(PAGE['shoppingCart']);};break;
-			case 'wish'			:func=function(){redir(PAGE['storeOption']);};break;
-			case 'myPubli'		:func=function(){redir(PAGE['storeMypubli']);};break;
-			case 'notif'		:func=function(){redir(PAGE['notify']);};break;
-			case 'friends'		:func=function(){redir(PAGE['userfriends']+'?type=friends&id_user='+$.local('code'));};break;
-			case 'chat'			:func=function(){document.location=LOCAL?PAGE['chat']:'http://tagbum.com/cometchat/';};break;
-			case 'profile'		:func=function(){redir(PAGE['profile']+'?id='+$.local('code'));};break;
-			case 'profilepic'	:func=function(){redir(PAGE['profilepic']);};break;
-			case 'myGroup'		:func=function(){redir(PAGE['tagslist']+'?current=group&id='+(data.group||$this.attr('group')));};break;
+			case 'toptags'		:func=function(){redir(PAGE.toptags);};break;
+			case 'store'		:func=function(){redir(PAGE.storeCat);};break;
+			case 'cart'			:func=function(){redir(PAGE.shoppingCart);};break;
+			case 'wish'			:func=function(){redir(PAGE.storeOption);};break;
+			case 'myPubli'		:func=function(){redir(PAGE.storeMypubli);};break;
+			case 'notif'		:func=function(){redir(PAGE.notify);};break;
+			case 'friends'		:func=function(){redir(PAGE.userfriends+'?type=friends&id_user='+$.local('code'));};break;
+			case 'chat'			:func=function(){document.location=LOCAL?PAGE.chat:'http://tagbum.com/cometchat/';};break;
+			case 'profile'		:func=function(){redir(PAGE.profile+'?id='+$.local('code'));};break;
+			case 'profilepic'	:func=function(){redir(PAGE.profilepic);};break;
+			case 'myGroup'		:func=function(){redir(PAGE.tagslist+'?current=group&id='+(data.group||$this.attr('group')));};break;
 			case 'closedGroup'	:myDialog('#singleDialog','<sp>'+lang.GROUPS_CLOSE+'</sp><br><sp>'+lang.MSGGROUPS_CLOSE+'</sp>');break;
-			case 'openGroup'	:func=function(){redir(PAGE['tagslist']+'?current=group&id='+idGroup)};break;
+			case 'openGroup'	:func=function(){redir(PAGE.tagslist+'?current=group&id='+idGroup);};break;
 			case 'otherGroup'	:menuGroupsClose(data.group||$this.attr('group'));break;
-			case 'moreGroups'	:func=function(){redir(PAGE['groupslist']+'?action='+(data.action||$this.attr('action')));};break;
+			case 'moreGroups'	:func=function(){redir(PAGE.groupslist+'?action='+(data.action||$this.attr('action')));};break;
 			case 'logout'		:func=function(){logout();};break;
 		}
 		menuRun(func);
@@ -114,7 +114,7 @@ function readTxt(url){
 			'<ul id="main">'+
 				'<li>'+
 					'<div id="headerSearch" class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c">'+
-						'<form role="search" action="'+PAGE['search']+'">'+
+						'<form role="search" action="'+PAGE.search+'">'+
 							'<input name="srh" type="search" class="ui-input-text ui-body-c" value="" onkeypress="return enterSubmit(event,this)" placeholder="'+lang.inputPlaceHolder+'"/>'+
 						'</form>'+
 					'</div>'+
@@ -241,7 +241,7 @@ function readTxt(url){
 					$b=$('#menu .container #'+$(this).attr('goto'));
 				$b.css('left','166px').show();
 				$a.animate(
-					{left:'-166px'},menuTime,function(){$(this).hide()}
+					{left:'-166px'},menuTime,function(){$(this).hide();}
 				);
 				$b.animate(
 					{left:'0px'},menuTime
@@ -251,7 +251,7 @@ function readTxt(url){
 					$b=$('#menu .container #'+$(this).attr('goback'));
 				$b.css('left','-166px').show();
 				$a.animate(
-					{left:'166px'},menuTime,function(){$(this).hide()}
+					{left:'166px'},menuTime,function(){$(this).hide();}
 				);
 				$b.animate(
 					{left:'0px'},menuTime
@@ -276,28 +276,28 @@ function readTxt(url){
 				if(data){
 					$('#menu #main [goto=groups]').fadeIn();
 					var i,group,out='<li goback="main"><div>'+lang.GROUPS_BACKMAIN+'</div><arrow/></li>';
-					if(data['myGroups']){
+					if(data.myGroups){
 						out+='<li class="title"><div>'+lang.GROUPS_MYGROUPS+'</div><span class="icon"></span></li>';
-						for(i in data['myGroups']){
-							group=data['myGroups'][i];
+						for(i in data.myGroups){
+							group=data.myGroups[i];
 							out+=
-								'<li opc="otherGroup" group="'+md5(group['id'])+'">'+
-									'<div style="font-size:12px;padding-left:10px">'+group['name']+'</div><span class="icon"></span>'+
+								'<li opc="otherGroup" group="'+md5(group.id)+'">'+
+									'<div style="font-size:12px;padding-left:10px">'+group.name+'</div><span class="icon"></span>'+
 								'</li>';
 //							out+=
-//								'<li opc="myGroup" group="'+md5(group['id'])+'" >'+
-//									'<div style="font-size:12px;padding-left:10px">'+group['name']+'</div><span class="icon"></span>'+
+//								'<li opc="myGroup" group="'+md5(group.id)+'" >'+
+//									'<div style="font-size:12px;padding-left:10px">'+group.name+'</div><span class="icon"></span>'+
 //								'</li>';
 						}
 						out+='<li opc="moreGroups" action="3"><div style="font-size: 10px; padding-left: 65px">'+lang.GROUPS_MORE+'</div></li>';
 					}
-					if(data['allGroups']){
+					if(data.allGroups){
 						out+='<li class="title"><div>'+lang.GROUPS_ALLGROUPS+'</div><span class="icon"></span></li>';
-						for(i in data['allGroups']){
-							group=data['allGroups'][i];
+						for(i in data.allGroups){
+							group=data.allGroups[i];
 							out+=
-								'<li opc="otherGroup" group="'+md5(group['id'])+'">'+
-									'<div style="font-size: 12px; padding-left: 10px">'+group['name']+'</div><span class="icon"></span>'+
+								'<li opc="otherGroup" group="'+md5(group.id)+'">'+
+									'<div style="font-size: 12px; padding-left: 10px">'+group.name+'</div><span class="icon"></span>'+
 								'</li>';
 						}
 						out+='<li opc="moreGroups" action="2"><div style="font-size: 10px; padding-left: 65px">'+lang.GROUPS_MORE+'</div></li>';
@@ -324,10 +324,10 @@ function readTxt(url){
 			url:DOMINIO+'controls/groups/menuGroupUser.json.php?action=5&idGroup='+id+'&code='+code,
 			dataType:'json',
 			success:function(data){
-				if(data['out']=='no'){
+				if(data.out=='no'){
 					menuActions({opc:'myGroup',group:id});
 				}else{
-					switch(data['out']){
+					switch(data.out){
 						case 'si':myDialog('#singleDialog','<sp>'+lang.GROUPS_CLOSE+'</sp><br><sp>'+lang.MSGGROUPS_CLOSE+'</sp>');break;
 						case 'invit':myDialog({
 											id:'#singleDialog',
@@ -362,9 +362,9 @@ function readTxt(url){
 				myDialog('#singleDialog',lang.conectionFail);
 			},
 			success:function(data){
-				if(data['accept']=='true'){
+				if(data.accept=='true'){
 					menuActions({opc:'myGroup',group:id});
-				}else if(data['accept']=='false'){
+				}else if(data.accept=='false'){
 
 				}
 				obje.close();
@@ -377,7 +377,7 @@ function readTxt(url){
 	});
 	window.showMenu=showMenu;
 	window.hideMenu=hideMenu;
-	window.menuVisible=function(){return menuStatus;}
+	window.menuVisible=function(){return menuStatus;};
 	window.putMenuOptions=putMenuOptions;
 	window.nameMenuGroups=nameMenuGroups;
 	window.menuGroupsClose=menuGroupsClose;
@@ -406,7 +406,7 @@ function readTxt(url){
 			var twidth=$(this).width();//ancho menos el margen lateral
 			if(twidth>650) twidth=650;
 //			alert((twidth/650)+'em');
-			$(this).css({'font-size':(twidth/650)+'em'})
+			$(this).css({'font-size':(twidth/650)+'em'});
 		});
 		$('.smt-tag,.smt-tag-bg,.tag-loading').each(function(){//escala de la tag
 			var width=$(this).width(),rel=width/650,height=width*300/650;
@@ -418,8 +418,8 @@ function readTxt(url){
 	};
 	setSize();
 	$(function(){
-//		var actions=['pageshow'];
-		if(is['device']){
+//		var actions=[ 'pageshow' ];
+		if(is.device){
 			$(window).bind('orientationchange',function(){
 				setSize();
 				windowFix();
@@ -470,7 +470,7 @@ function $ifnot(id,type,container){//si el elemento no existe lo crea, del tipo 
 }
 
 function includePage(){
-	var thisPage=$.session('page')||arrayGet()['page'];
+	var thisPage=$.session('page')||arrayGet().page;
 	$.cookie('page',null);
 	var that=pages[thisPage];
 	if(that){
@@ -500,7 +500,7 @@ function includePage(){
 			myDialog('#errorDialog',lang.noConnection);
 			return null;
 		}
-		if(more!=undefined){
+		if(more!==undefined){
 			more.url=opc;
 			opc=more;
 		}
@@ -536,50 +536,50 @@ function colorSelector(picker,inputField){
 }
 
 function showTag(tag){//individual tag
-	var btn=tag['btn']||{};
+	var btn=tag.btn||{};
 	var btnSponsor='',paypal='prueba';
 	return(
-	'<div tag="'+tag['id']+'" udate="'+tag['udate']+'">'+
-		'<div class="minitag" style="background-image:url('+tag['imgmini']+')"></div>'+
-		'<div class="tag" style="background-image:url('+tag['img']+')"></div>'+
+	'<div tag="'+tag.id+'" udate="'+tag.udate+'">'+
+		'<div class="minitag" style="background-image:url('+tag.imgmini+')"></div>'+
+		'<div class="tag" style="background-image:url('+tag.img+')"></div>'+
 		'<div class="bg"></div>'+
 			(isLogged()?
 		'<menu>'+
 			'<ul>'+
-				(tag['business']?
-					'<li id="bcard" action="card,'+tag['business']+'" title="Bussines Card"><span>Bussines Card</span></li>'
+				(tag.business?
+					'<li id="bcard" action="card,'+tag.business+'" title="Bussines Card"><span>Bussines Card</span></li>'
 				:'')+
-				'<li id="like" action="like,'+tag['id']+'"'+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
-				'<li id="dislike" action="dislike,'+tag['id']+'"'+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
-				(!tag['popup']?
+				'<li id="like" action="like,'+tag.id+'"'+(tag.likeIt>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
+				'<li id="dislike" action="dislike,'+tag.id+'"'+(tag.likeIt<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
+				(!tag.popup?
 					'<li id="comment" title="Comment"><span>Comment</span></li>'
-				:'')+(btn['redist']?
+				:'')+(btn.redist?
 					'<li id="redistr" title="Redist"><span>Redist</span></li>'
-				:'')+(btn['share']?
+				:'')+(btn.share?
 					'<li id="share" title="Share"><span>Share</span></li>'
-				:'')+btnSponsor+(btn['trash']?
+				:'')+btnSponsor+(btn.trash?
 					'<li id="trash" title="Trash"><span>Trash</span></li>'
-				:'')+((tag['product'])?(btn['edit']?
-					'<li id="edit" action="editProductTag,'+tag['id']+','+tag['product']['id']+'" title="Edit"><span><?=$lang["MNUTAG_TITLEEDIT"]?></span></li>'
-				:''):(btn['edit']?
+				:'')+((tag.product)?(btn.edit?
+					'<li id="edit" action="editProductTag,'+tag.id+','+tag.product.id+'" title="Edit"><span><?=$lang["MNUTAG_TITLEEDIT"]?></span></li>'
+				:''):(btn.edit?
 					'<li id="edit" title="Edit2"><span>Edit2</span></li>'
-				:''))+(btn['report']?
+				:''))+(btn.report?
 					'<li id="report" title="Report"><span>Report</span></li>'
 				:'')+
 			'</ul>'+
 		'<div class="clearfix"></div></menu>'
 		:'<div id="menuTagnoLogged"></div>')+
 		'<div class="tag-icons">'+
-			'<div id="sponsor" '+(tag['sponsor']?'':'style="display:none;"')+'></div>'+
-			'<div id="redist" '+(tag['redist']?'':'style="display:none;"')+'></div>'+
-			'<div id="likeIcon" '+(tag['likeIt']>0?'':'style="display:none;"')+'></div>'+
-			'<div id="dislikeIcon" '+(tag['likeIt']<0?'':'style="display:none;"')+'></div>'+
+			'<div id="sponsor" '+(tag.sponsor?'':'style="display:none;"')+'></div>'+
+			'<div id="redist" '+(tag.redist?'':'style="display:none;"')+'></div>'+
+			'<div id="likeIcon" '+(tag.likeIt>0?'':'style="display:none;"')+'></div>'+
+			'<div id="dislikeIcon" '+(tag.likeIt<0?'':'style="display:none;"')+'></div>'+
 		'</div>'+
-		(tag['rid']?'<div class="redist"><div>'+lan('TXT_REDISTBY')+tag['name_redist']+'</div></div>':'')+
-		((tag['product']||tag['typeVideo'])?
+		(tag.rid?'<div class="redist"><div>'+lan('TXT_REDISTBY')+tag.name_redist+'</div></div>':'')+
+		((tag.product||tag.typeVideo)?
 			'<div class="extras"><div>'+
-				(tag['typeVideo']?
-					'<span class="'+tag['typeVideo']+'"></span>'
+				(tag.typeVideo?
+					'<span class="'+tag.typeVideo+'"></span>'
 				:'')+
 			'</div></div>'
 		:'')+
@@ -606,7 +606,7 @@ function showTags(array){//tag list
 			limit=opc.limit||'15',
 			notag=opc.notag||lang.EMPTY_TAGS_LIST,
 			//se cancela la action si no hay current o si se esta ejecutando reload
-			cancel=function(){return current==''||opc.current!=current||(action!='reload'&&on['reload']);},
+			cancel=function(){return !current||opc.current!=current||(action!='reload'&&on.reload);},
 			//se asigna y/o devuelve el estatus de la accion actual
 			onca=function(val){if(val!==undefined)on[action]=val;return on[action];};
 		if(!cancel()&&!onca()){
@@ -631,23 +631,23 @@ function showTags(array){//tag list
 					if(cancel()){
 						console.log('Cancelada carga de '+current+'.'); return;
 					}else{
-						console.log(data)
-						if(action=='more'&&(!data['tags']||data['tags'].length<1)) act.more=false;
-						if(data['tags'] && data['tags'].length>0){
-							opc.date=data['date'];
-							if(data['sp']) act.sp=data['sp'];
-							var tags='',i,len=data['tags'].length,$tag,$remove,sp;
-							if(data['sponsors']) sp=data['sponsors'].length;
+						console.log(data);
+						if(action=='more'&&(!data.tags||data.tags.length<1)) act.more=false;
+						if(data.tags && data.tags.length>0){
+							opc.date=data.date;
+							if(data.sp) act.sp=data.sp;
+							var tags='',i,len=data.tags.length,$tag,$remove,sp;
+							if(data.sponsors) sp=data.sponsors.length;
 							else sp=0;
-							act.start=(act.start||0)+data['tags'].length-sp;
+							act.start=(act.start||0)+data.tags.length-sp;
 							act.startsp=(act.startsp||0)+sp;
-							act.idsponsor=data['idsponsor'];
+							act.idsponsor=data.idsponsor;
 							for(i=0;i<len;i++){
-								$tag=$(layer).find('[tag="'+data['tags'][i]['id']+'"]');
+								$tag=$(layer).find('[tag="'+data.tags[i].id+'"]');
 								if($tag.length>0)
 									if($remove) $remove.add($tag); else $remove=$tag;
 							}
-							tags+=showTags(data['tags']);
+							tags+=showTags(data.tags);
 							if($remove) $remove.remove();
 							if(action=='more')
 								$(layer).append(tags);
@@ -660,7 +660,7 @@ function showTags(array){//tag list
 							if(current=='group'){
 								verifyGroupMembership(opc.id,opc.code,function(data){
 //									alert(opc.code);
-									if(data['isMember']){
+									if(data.isMember){
 										$('#noTags').html(lang.GROUPS_MESSAGE_TAGS);
 									}else{
 										$('#noTags').html(lang.GROUPS_MESSAGE_TAGS+' '+lang.GROUPS_MESSAGE_JOIN);
@@ -680,7 +680,7 @@ function showTags(array){//tag list
 			return true;
 		}
 		return false;
-	}
+	};
 	var on={};
 	window.updateTagsOld=function(action,opc){
 		var act,
@@ -688,7 +688,7 @@ function showTags(array){//tag list
 			layer=opc.layer,
 			get=opc.get||'',
 			limit=opc.limit||'15',
-			cancel=function(){return current==''||(action!='reload'&&on['reload']);},//cancel action
+			cancel=function(){return !current||(action!='reload'&&on.reload);},//cancel action
 			onca=function(val){if(val!==undefined)on[action]=val;return on[action];};//on current action
 		if(!cancel()&&!onca()){
 //			console.log('runing updateTags');
@@ -709,24 +709,24 @@ function showTags(array){//tag list
 				data:act||{},
 				url:DOMINIO+'controls/tags/tagsList.json.php?current='+current+'&limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 				success:function(data){
-					if(action=='more'&&(!data['tags']||data['tags'].length<1)) act.more=false;
+					if(action=='more'&&(!data.tags||data.tags.length<1)) act.more=false;
 					if(!cancel()){
-						if(data['tags']&&data['tags'].length>0){
-							opc.date=data['date'];
-							if(data['sp']) act.sp=data['sp'];
-							var tags='',i,len=data['tags'].length,$tag,sp,$remove;
-							if(data['sponsors']) sp=data['sponsors'].length;
+						if(data.tags&&data.tags.length>0){
+							opc.date=data.date;
+							if(data.sp) act.sp=data.sp;
+							var tags='',i,len=data.tags.length,$tag,sp,$remove;
+							if(data.sponsors) sp=data.sponsors.length;
 							else sp=0;
 							act.startsp=(act.startsp||0)+sp;
-							act.start=(act.start||0)+data['tags'].length-sp;
-							act.idsponsor=data['idsponsor'];
+							act.start=(act.start||0)+data.tags.length-sp;
+							act.idsponsor=data.idsponsor;
 							for(i=0;i<len;i++){
-								$tag=$(layer).find('[tag="'+data['tags'][i]['id']+'"]');
+								$tag=$(layer).find('[tag="'+data.tags[i].id+'"]');
 								if($tag.length>0)
 									if($remove) $remove.add($tag); else $remove=$tag;
 							}
-							console.log(data['tags']);
-							tags+=showTags(data['tags']);
+							console.log(data.tags);
+							tags+=showTags(data.tags);
 							if($remove) $remove.remove();
 							if(action=='more'){
 								console.log(current+"=more");
@@ -742,7 +742,7 @@ function showTags(array){//tag list
 							if(current=='group'){
 								verifyGroupMembership(opc.id,opc.code,function(data){
 //									alert(opc.code);
-									if(data['isMember'])
+									if(data.isMember)
 										$('#noTags').html(lang.GROUPS_MESSAGE_TAGS);
 									else
 										$('#noTags').html(lang.GROUPS_MESSAGE_TAGS+' '+lang.GROUPS_MESSAGE_JOIN);
@@ -766,7 +766,7 @@ function showTags(array){//tag list
 			return true;
 		}
 		return false;
-	}
+	};
 })(window,jQuery,console);
 
 function viewFriends(opc){
@@ -779,9 +779,9 @@ function viewFriends(opc){
 			myDialog('#singleDialog',lang.conectionFail);
 		},
 		success:function(data){
-			if (data['error']) return;
+			if (data.error) return;
 			var i,friend,out='',divider;
-			console.log(opc.user)
+			console.log(opc.user);
 			// if($.local('code')==opc.user){
 				switch(opc.mod){
 					case 'friends':divider=lan('friends','ucw');break;
@@ -789,18 +789,18 @@ function viewFriends(opc){
 					case 'unfollow':divider=lan('admired','ucw');break;
 				}
 			// }
-			divider='<li data-role="list-divider">'+(opc.mod=='find'?lang.FINDFRIENDS_LEGENDOFSEARCHBAR:divider+' <span class="ui-li-count">'+data['num']+'</span>')+'</li>';
-			for(i=0;i<data['datos'].length;i++){
-				friend=data['datos'][i];
+			divider='<li data-role="list-divider">'+(opc.mod=='find'?lang.FINDFRIENDS_LEGENDOFSEARCHBAR:divider+' <span class="ui-li-count">'+data.num+'</span>')+'</li>';
+			for(i=0;i<data.datos.length;i++){
+				friend=data.datos[i];
 				out+=
 					'<li class="userInList">'+
-						'<a code="'+friend['code_friend']+'" data-theme="e">'+
-							'<img src="'+friend['photo_friend']+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
-							'<h3 class="ui-li-heading">'+friend['name_user']+'</h3>'+
+						'<a code="'+friend.code_friend+'" data-theme="e">'+
+							'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
+							'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
 							'<p class="ui-li-desc">'+
-								lan('friends','ucw')+' ('+(friend['friends_count']||0)+'), '+
-								lan('admirers','ucw')+' ('+(friend['followers_count']||0)+'), '+
-								lan('admired','ucw')+' ('+(friend['following_count']||0)+')'+
+								lan('friends','ucw')+' ('+(friend.friends_count||0)+'), '+
+								lan('admirers','ucw')+' ('+(friend.followers_count||0)+'), '+
+								lan('admired','ucw')+' ('+(friend.following_count||0)+')'+
 							'</p>'+
 						'</a>'+
 						//'<a>test</a>'+
@@ -822,35 +822,30 @@ function viewFriends(opc){
 function viewContacsPhone(idLayer,filter){
 	if(CORDOVA){
 		filter=(filter||'');
-		var out='';
-
-		function onSuccess(contacts){
-			var emailSent=$.local('emails_sent')||[];
-			for(var i=0;i<contacts.length;i++){
-				if(contacts[i].emails){
-					var photo=(contacts[i].photos)?contacts[i].photos[0].value:'css/tbum/usr.png';
-					out+=
-					'<li class="userInList">'+
-						'<a email="'+contacts[i].emails[0].value+'" data-theme="e">'+
-							'<img src="'+photo+'"'+'class="ui-li-thumb" width="60" height="60"/>'+
-							'<h3 class="ui-li-heading">'+contacts[i].name.formatted+'</h3>'+
-							'<p class="ui-li-desc">'+
-								'<img src="img/phone.png" alt="'+lang.FIENDFRIENDS_PHONECONTACT+'" widt="16" height="16" />'+
-								lang.FIENDFRIENDS_PHONECONTACT+
-								'<span class="status-invitation">&nbsp;'+($.inArray(contacts[i].emails[0].value,emailSent)>-1?lang.FIENDFRIENDS_INVITED:'')+'</span>'+
-							'</p>'+
-						'</a>'+
-					'</li>';
-				};
-			}
-
-			$(idLayer).html(out).listview('refresh');
-			$('.list-wrapper').jScroll('refresh');
-		};
-
-		function onError(contactError){
-			return false;
-		};
+		var out='',
+			onSuccess=function(contacts){
+				var emailSent=$.local('emails_sent')||[];
+				for(var i=0;i<contacts.length;i++){
+					if(contacts[i].emails){
+						var photo=(contacts[i].photos)?contacts[i].photos[0].value:'css/tbum/usr.png';
+						out+=
+						'<li class="userInList">'+
+							'<a email="'+contacts[i].emails[0].value+'" data-theme="e">'+
+								'<img src="'+photo+'"'+'class="ui-li-thumb" width="60" height="60"/>'+
+								'<h3 class="ui-li-heading">'+contacts[i].name.formatted+'</h3>'+
+								'<p class="ui-li-desc">'+
+									'<img src="img/phone.png" alt="'+lang.FIENDFRIENDS_PHONECONTACT+'" widt="16" height="16" />'+
+									lang.FIENDFRIENDS_PHONECONTACT+
+									'<span class="status-invitation">&nbsp;'+($.inArray(contacts[i].emails[0].value,emailSent)>-1?lang.FIENDFRIENDS_INVITED:'')+'</span>'+
+								'</p>'+
+							'</a>'+
+						'</li>';
+					}
+				}
+				$(idLayer).html(out).listview('refresh');
+				$('.list-wrapper').jScroll('refresh');
+			},
+			onError=function(contactError){ return false; };
 
 		var options=new ContactFindOptions();
 		options.filter=filter;
@@ -883,7 +878,7 @@ function insertUserGroup(idGroup){
 		},
 		success	:function(data){
 			if(data=='1')
-				redir(PAGE['tagslist']+'?current=group&id='+idGroup);
+				redir(PAGE.tagslist+'?current=group&id='+idGroup);
 		}
 	});
 }
@@ -898,15 +893,15 @@ function preferencesUsers(usr){
 			myDialog('#singleDialog',lang.conectionFail);
 		},
 		success	:function(data){
-			var i,pref,out='',text=['',lang.PREFERENCES_WHATILIKE,lang.PREFERENCES_WHATIWANT,lang.PREFERENCES_WHATINEED];
-			for(i in data['dato']){
+			var i,j,pref,out='',text=['',lang.PREFERENCES_WHATILIKE,lang.PREFERENCES_WHATIWANT,lang.PREFERENCES_WHATINEED];
+			for(i in data.dato){
 				out+='<li style="text-align:center;"><strong>'+text[i]+'</strong></li>';
-				for(j in data['dato'][i]){
-					pref=data['dato'][i][j];
+				for(j in data.dato[i]){
+					pref=data.dato[i][j];
 					out+='<li>';
 					if(code==$.local('code'))
-						out+='<img src="img/trash.png" pref="'+pref['id']+'" type="'+i+'"/>&nbsp;';
-					out+=pref['text']+'</li>';
+						out+='<img src="img/trash.png" pref="'+pref.id+'" type="'+i+'"/>&nbsp;';
+					out+=pref.text+'</li>';
 				}
 			}
 			myDialog({
@@ -968,7 +963,7 @@ function setAllCookies(opc){
 	$.cookie.clear();
 	if(!opc||opc===null) opc={};
 	for(var i in opc) $.cookie(i,opc[i]);
-	$.cookie('last',opc['last']||$.cookie('last'),{expires:navigator.app?365:15});
+	$.cookie('last',opc.last||$.cookie('last'),{expires:navigator.app?365:15});
 }
 function delAllLocals(){
 	$.session.clear();
@@ -978,9 +973,9 @@ function delAllLocals(){
 function setAllLocals(opc){
 	opc=opc||{};
 	$.session.clear();
-	//$.cookie.clear().set(opc['cookies']||{});
-	$.local.clear().set(opc['locals']||{});
-	//$.cookie('last',opc['cookies']['last']||$.cookie('last'),{expires:CORDOVA?365:15});
+	//$.cookie.clear().set(opc.cookies||{});
+	$.local.clear().set(opc.locals||{});
+	//$.cookie('last',opc.cookies.last||$.cookie('last'),{expires:CORDOVA?365:15});
 }
 
 function login(opc){
@@ -1000,10 +995,10 @@ function login(opc){
 						redir(opc.error);
 					}
 				}else
-					myDialog('#log-msg',lang['CON_ERROR']);
+					myDialog('#log-msg',lang.CON_ERROR);
 			},
 			success:function(data){
-				if(data&&data['logged']){
+				if(data&&data.logged){
 					isLogged(true);
 					setAllLocals(data);
 					if(opc.success)
@@ -1019,7 +1014,7 @@ function login(opc){
 						else
 							redir(opc.fail);
 					}else
-						myDialog('#log-msg',data['msg']);
+						myDialog('#log-msg',data.msg);
 				}
 			}
 		});
@@ -1033,14 +1028,14 @@ function logout(move){
 			myDialog('#log-msg',lang.conectionFail);
 		},
 		success:function(data){
-			if(data['logout']){
+			if(data.logout){
 				isLogged(false);
 				$.session.clear();
 				$.local.clear();
 				$.cookie.clear();
-				if(move!==false) redir(PAGE['ini']);
+				if(move!==false) redir(PAGE.ini);
 			}else{
-				myDialog('#log-msg',data['msg']);
+				myDialog('#log-msg',data.msg);
 			}
 		}
 	});
@@ -1057,7 +1052,7 @@ function isMail(valor){
 
 function enterSubmit(e,obj){
 	tecla=document.all?e.keyCode:e.which;
-	if(!is['android']&&(tecla==10||tecla==13)){
+	if(!is.android&&(tecla==10||tecla==13)){
 		$(obj).parents('form').submit();
 	}
 	return true;
@@ -1065,7 +1060,7 @@ function enterSubmit(e,obj){
 
 function enterTab(e,obj){
 	tecla=document.all?e.keyCode:e.which;
-	if(!is['android']&&(tecla==10||tecla==13)){
+	if(!is.android&&(tecla==10||tecla==13)){
 		$(obj).focusNextInputField();
 		return false;
 	}
@@ -1118,7 +1113,7 @@ function myDialog(){
 			'</div>'
 		);
 	}
-	var $d=$(o.id);//dialog pointer
+	var i,$d=$(o.id);//dialog pointer
 	if($('.buttons',$d).length<1){
 		$('.window',$d).append('<div class="buttons"></div>');
 	}
@@ -1140,7 +1135,7 @@ function myDialog(){
 		o.buttons={Ok:o.close};
 	}
 	if(!(o.buttons instanceof Array)){
-		var i,button=[];
+		var button=[];
 		for(i in o.buttons){
 			button.push({
 				text:i,
@@ -1194,22 +1189,22 @@ function getFriends(id,like){
 		success	:function(data){
 			var ret='';
 			for(var i in data){
-				//alert(data[i]['id']);
-				if(emails.join().indexOf(data[i]['email'])<0)
+				//alert(data[i].id);
+				if(emails.join().indexOf(data[i].email)<0)
 				ret+=
-					'<div id="'+data[i]['id']+'" onclick="$(\'#friend_'+data[i]['id']+'\').attr(\'checked\',($(\'#friend_'+data[i]['id']+'\').is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
+					'<div id="'+data[i].id+'" onclick="$(\'#friend_'+data[i].id+'\').attr(\'checked\',($(\'#friend_'+data[i].id+'\').is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
 						'<div style="float:right;padding-top:20px;margin-right:15px;">'+
 							'<fieldset data-role="controlgroup">'+
-								'<input id="friend_'+data[i]['id']+'" name="friend_'+data[i]['id']+'" '+
-										'value="'+data[i]['email']+'|'+data[i]['photo']+'" type="checkbox" />'+
+								'<input id="friend_'+data[i].id+'" name="friend_'+data[i].id+'" '+
+										'value="'+data[i].email+'|'+data[i].photo+'" type="checkbox" />'+
 							'</fieldset>'+
 						'</div>'+
-						'<img src="'+FILESERVER+data[i]['photo']+'" style="float:left;width:60px;height:60px;"/>'+
+						'<img src="'+FILESERVER+data[i].photo+'" style="float:left;width:60px;height:60px;"/>'+
 						'<div style="float:left;margin-left:5px;font-size:10px;text-align:left;">'+
-							'<spam style="color:#E78F08;font-weight:bold;">'+data[i]['name']+'</spam><br/>'+
-							(data[i]['country']?lang.country+':'+data[i]['country']+'<br/>':'')+
-							''+lan('friends','ucw')+'('+data[i]['friends_count']+')<br/>'+
-							''+lan('admirers','ucw')+'('+data[i]['followers_count']+')'+
+							'<spam style="color:#E78F08;font-weight:bold;">'+data[i].name+'</spam><br/>'+
+							(data[i].country?lang.country+':'+data[i].country+'<br/>':'')+
+							''+lan('friends','ucw')+'('+data[i].friends_count+')<br/>'+
+							''+lan('admirers','ucw')+'('+data[i].followers_count+')'+
 						'</div>'+
 					'</div>';
 			}
@@ -1263,7 +1258,7 @@ function getDialogCheckedUsers(idDialog){
 	console.log('getCheckedUsers');
 	var paso=false;
 	$('input:checkbox[checked]',idDialog).each(function(i,field){
-		var userInfo=field['value'].split('|');
+		var userInfo=field.value.split('|');
 		if(userInfo[1]){
 			$('#pictures_shareTag').append(
 				'<span id="'+md5(userInfo[0])+'" onclick="removePicture(this)">'+
@@ -1284,7 +1279,7 @@ function sendInvitationMemberGrp(idDialog){
 	console.log('sendInvitationMemberGrp');
 	var friends=$('input:checkbox[checked]',idDialog).length;
 	$('input:checkbox[checked]',idDialog).each(function(i,field){
-		var userInfo=field['value'].split('|');
+		var userInfo=field.value.split('|');
 		myAjax({
 			url		:DOMINIO+'controls/groups/sendInvitacionGroup.json.php?idGroup='+userInfo[2]+'&idUser='+md5(userInfo[1]),
 			dataType:'JSON',
@@ -1308,8 +1303,8 @@ function sendadminGroup(idDialog){
 	var friends=$('input:checkbox[checked]',idDialog);
 	console.log('num friends='+friends.length);
 	$.each(friends,function(i,field){
-		//alert (field['value']);
-		var userInfo=field['value'].split('|');
+		//alert (field.value);
+		var userInfo=field.value.split('|');
 		myAjax({
 			url		:DOMINIO+'controls/groups/sendAdminMemberGroup.json.php?idGroup='+userInfo[2]+'&idUser='+md5(userInfo[1])+'&code='+$.local('code'),
 			dataType:'JSON',
@@ -1322,7 +1317,7 @@ function sendadminGroup(idDialog){
 							content:lang.GROUPS_LEAVECCOMPLETE,
 							buttons:{
 								ok:function(){
-									window.location=PAGE['groupslist']+'?action=2';
+									window.location=PAGE.groupslist+'?action=2';
 								}
 							}
 						});
@@ -1339,7 +1334,7 @@ function sendadminGroup(idDialog){
 
 function checkboxPublicPrivateTag(){
 	if($('#div_publicTag').length>0)
-		$('#div_publicTag_checkbox').attr('checked',$('#pictures_shareTag').html()=='').checkboxradio('refresh');
+		$('#div_publicTag_checkbox').attr('checked',$('#pictures_shareTag').html()==='').checkboxradio('refresh');
 }
 // END - friends
 
@@ -1512,7 +1507,7 @@ function disableInputs(exceptions){
 				return true;
 			}
 			return false;
-		}
+		};
 	}else{
 		return function(){return false;};
 	}
@@ -1536,15 +1531,15 @@ function viewCategories(action,idLayer,id){
 		success:function(data){
 			console.log(data);
 			var out='',cate;
-			if (data['data'].length>0){
-				for(var i in data['data']){
-					cate=data['data'][i];
+			if (data.data.length>0){
+				for(var i in data.data){
+					cate=data.data[i];
 					out+=
 						'<li class="categorylist">'+
-							'<a code='+cate['id']+' data-theme="e">'+
-								(cate['photo']?'<img src="'+cate['photo']+'" style="width:80px;height:50px;margin:20px 0 0 8px;border-radius:10px">':'')+
-								'<p><h3 class="ui-li-heading">'+cate['name']+'</h3>'+
-								(cate['cant']?'<span class="ui-li-count">'+cate['cant']+'</span>':'')+
+							'<a code='+cate.id+' data-theme="e">'+
+								(cate.photo?'<img src="'+cate.photo+'" style="width:80px;height:50px;margin:20px 0 0 8px;border-radius:10px">':'')+
+								'<p><h3 class="ui-li-heading">'+cate.name+'</h3>'+
+								(cate.cant?'<span class="ui-li-count">'+cate.cant+'</span>':'')+
 							'</p></a>'+
 						'</li>';
 				}
@@ -1556,40 +1551,40 @@ function viewCategories(action,idLayer,id){
 					buttons:{ ok:'close' }
 				});
 			}
-			if(data['sCart']) $('#cart-footer').fadeIn();
+			if(data.sCart) $('#cart-footer').fadeIn();
 			$(idLayer).html(out).listview('refresh');
 			$('.list-wrapper').jScroll('refresh');
 		}
 	});
 }
 function bodyCart(data){
-	var i,out='',num=0,outDivider='<li data-role="list-divider" class="titleDivider">'+lang.STORE_SHOPPING_TOTAL+' ('+data['nproduct']+')';
-	for(i=0;i<data['datosCar'].length;i++){
+	var i,out='',num=0,outDivider='<li data-role="list-divider" class="titleDivider">'+lang.STORE_SHOPPING_TOTAL+' ('+data.nproduct+')';
+	for(i=0;i<data.datosCar.length;i++){
 		var select='';
-		if(data['datosCar'][i]['place']=='1' && parseInt(data['datosCar'][i]['stock'])>0){
+		if(data.datosCar[i].place=='1' && parseInt(data.datosCar[i].stock)>0){
 			$('#productApp').val('si');
 			var option='';
 			select='<select class="cant-product" name="select-choice-mini" id="select-choice-mini" data-mini="true" data-inline="true"'+
-						' cantAct="'+(data['datosCar'][i]['sale_points']*data['datosCar'][i]['cant'])+'" precio="'+data['datosCar'][i]['sale_points']+'" '+((data['datosCar'][i]['formPayment']=='1')?'fr="1"':'fr="0"')+'>';
-			for(var j=1;j<=(parseInt(data['datosCar'][i]['stock']));j++){
-				option+='<option value="'+j+'" '+(data['datosCar'][i]['cant']==j?'selected':'')+'>'+j+'</option>';
+						' cantAct="'+(data.datosCar[i].sale_points*data.datosCar[i].cant)+'" precio="'+data.datosCar[i].sale_points+'" '+((data.datosCar[i].formPayment=='1')?'fr="1"':'fr="0"')+'>';
+			for(var j=1;j<=(parseInt(data.datosCar[i].stock));j++){
+				option+='<option value="'+j+'" '+(data.datosCar[i].cant==j?'selected':'')+'>'+j+'</option>';
 			}
 			select=select+option+'</select>';
-		}else if(data['datosCar'][i]['place']=='1' && data['datosCar'][i]['stock']<=0){
+		}else if(data.datosCar[i].place=='1' && data.datosCar[i].stock<=0){
 			$('#productApp').val('si');
-			select='<em class="info-top-p">'+lang.TAGS_WHENTAGNOEXIST+'</em><input type="hidden" class="cant-product"  value="'+data['datosCar'][i]['cant']+'">'
+			select='<em class="info-top-p">'+lang.TAGS_WHENTAGNOEXIST+'</em><input type="hidden" class="cant-product"  value="'+data.datosCar[i].cant+'">';
 		}
-		if(data['datosCar'][i]['formPayment']=='1'){ $('#dollarApp').val('si'); }
-		out+='<li id="'+data['datosCar'][i]['mId']+'" >'+
+		if(data.datosCar[i].formPayment=='1'){ $('#dollarApp').val('si'); }
+		out+='<li id="'+data.datosCar[i].mId+'" >'+
 				'<div class="contentItem">'+
 					'<div class="itemPic">'+
-						'<img src="'+data['datosCar'][i]['photo']+'"/>'+
+						'<img src="'+data.datosCar[i].photo+'"/>'+
 					'</div>'+
 					'<div class="itemDes">'+
-						'<div class="name">'+data['datosCar'][i]['name']+'</div>'+
-						'<div><strong>'+lang.STORE_SHOPPING_SELLER+':</strong> '+data['datosCar'][i]['nameUser']+'</div>'+
-						'<div>'+data['datosCar'][i]['nameC']+' > '+data['datosCar'][i]['nameSC']+'</div>'+
-						'<div class="price">'+lang.STORE_SHOPPING_VALUE+': '+data['datosCar'][i]['sale_points']+' '+(data['datosCar'][i]['formPayment']=='1'?lang.STORE_SHOPPING_DOLLARS:lang.STORE_SHOPPING_POINTSMA)+'</div>'+
+						'<div class="name">'+data.datosCar[i].name+'</div>'+
+						'<div><strong>'+lang.STORE_SHOPPING_SELLER+':</strong> '+data.datosCar[i].nameUser+'</div>'+
+						'<div>'+data.datosCar[i].nameC+' > '+data.datosCar[i].nameSC+'</div>'+
+						'<div class="price">'+lang.STORE_SHOPPING_VALUE+': '+data.datosCar[i].sale_points+' '+(data.datosCar[i].formPayment=='1'?lang.STORE_SHOPPING_DOLLARS:lang.STORE_SHOPPING_POINTSMA)+'</div>'+
 						select+
 					'</div>'+
 				'</div><br/>'+
@@ -1600,18 +1595,18 @@ function bodyCart(data){
 				'</div>'+
 			'</li>';
 	}
-	if(data['totalpoints']>0){
+	if(data.totalpoints>0){
 		outDivider+='<div class="point">'+
 						lang.STORE_SHOPPING_TOTAL_PRODUCTS+
-						'<span>'+data['totalpoints']+'</span>'+
-						'<input type="hidden" value="'+data['totalpoints']+'">'+
+						'<span>'+data.totalpoints+'</span>'+
+						'<input type="hidden" value="'+data.totalpoints+'">'+
 					'</div>';
 	}
-	if(data['totalmoney']>0){
+	if(data.totalmoney>0){
 		outDivider+='<div class="money">'+
 						lang.STORE_SHOPPING_TOTAL_PRODUCTSD+
-						'<span>'+data['totalmoney']+'</span>'+
-						'<input type="hidden" value="'+data['totalmoney']+'">'+
+						'<span>'+data.totalmoney+'</span>'+
+						'<input type="hidden" value="'+data.totalmoney+'">'+
 					'</div>';
 	}
 	outDivider+='</li>';
@@ -1620,7 +1615,7 @@ function bodyCart(data){
 function actionButtonsStore(){
 	$('#lstStoreOption .buttons a,#cartList .buttons a').click(function(){
 			switch($(this).attr('func')){
-				case 'details':redir(PAGE['detailsproduct']+'?id='+$(this).parents('li').attr('id'));break;
+				case 'details':redir(PAGE.detailsproduct+'?id='+$(this).parents('li').attr('id'));break;
 				case 'delete':
 					var get='',obj={};
 					switch($(this).parents('ul').attr('id')){
@@ -1660,17 +1655,17 @@ function deleteItemCar(id,get,obj){
 		},
 		success:function(data){
 			console.log(data);
-			if(data['del']!='1'){
-				if(data['del']=='all'){
-					if(obj.mod=='car'){redir(PAGE['storeCat']);}
-				}else if(data['del']=='no-all'){
+			if(data.del!='1'){
+				if(data.del=='all'){
+					if(obj.mod=='car'){redir(PAGE.storeCat);}
+				}else if(data.del=='no-all'){
 
 				}
 			}else{
-				var num=data['numR'];
-				if(num!=0){
+				var num=data.numR;
+				if(num){
 					if(obj.mod!='wish'){
-						if(data['datosCar'][0]['name']){
+						if(data.datosCar[0].name){
 							out=bodyCart(data);
 							$('#cartList').html(out).listview('refresh');
 							var myselect=$('select.cant-product');
@@ -1683,7 +1678,7 @@ function deleteItemCar(id,get,obj){
 							if($('.money').length<1){$('#dollarApp').val('no');}
 						}
 					}else{
-						$('#lstStoreOption').html(data['wish']['body']).listview('refresh');
+						$('#lstStoreOption').html(data.wish.body).listview('refresh');
 						actionButtonsStore();
 						$('.list-wrapper').jScroll('refresh');
 					}
@@ -1703,20 +1698,19 @@ function updateCantP(myselect){
 			dataType:'json',
 			success:function(data){
 				console.log([diferencia,totalAct,totalAnt]);
-				if(data['datosCar']=='update'){
+				if(data.datosCar=='update'){
 					objeto.attr('cantAct',diferencia);
+					totalAct=$('#cartList .titleDivider .money input').val();
 					if(tipo==1){
-						var	totalAct=$('#cartList .titleDivider .money input').val();
 						$('#cartList .titleDivider .money imput').val((totalAct-(totalAnt))+(diferencia));
 						$('#cartList .titleDivider .money span').html((totalAct-(totalAnt))+(diferencia));
 						//$('#totalPriceMoney').html((totalAct-(totalAnt))+(diferencia)).formatCurrency({symbol:''});
 					}else{
-						var	totalAct=$('#cartList .titleDivider .point input').val();
 						$('#cartList .titleDivider .point imput').val((totalAct-(totalAnt))+(diferencia));
 						$('#cartList .titleDivider .point span').html((totalAct-(totalAnt))+(diferencia));
 						//$('#totalPrice').html((totalAct-(totalAnt))+(diferencia)).formatCurrency({symbol:''});
 						//var auxi=$('#totalPrice').html().split('.');
-	//														$('#totalPrice').html(auxi[0]);
+						//$('#totalPrice').html(auxi[0]);
 					}
 				}else{
 					myDialog({
@@ -1740,19 +1734,19 @@ function getProducts(layer,category,subcategory){
 			myDialog('#singleDialog',lang.conectionFail);
 		},
 		success	:function(data){
-			var out='',num=0,prod=data['prod'],category,idcategory;
+			var out='',num=0,prod=data.prod,category,idcategory;
 			for(var i=0;i<prod.length;i++){
 				out+=
-					(num++<1?' <li data-role="list-divider">'+prod[i]['titleList']+'</li>':'')+
-					'<li date="'+prod[i]['join_date']+'" idPro="'+prod[i]['id']+'">'+
-						'<a><img src="'+prod[i]['photo']+'" style="width:100px;height:60px;margin:20px 0 0 8px;border-radius:10px">'+
-							'<p id="nameProduct">'+prod[i]['name']+'</p>'+
-							'<p id="descripProduct">'+prod[i]['description']+'</p>'+
-							'<p class="date"><strong>Published:</strong> '+prod[i]['join_date']+'</p>'+
+					(num++<1?' <li data-role="list-divider">'+prod[i].titleList+'</li>':'')+
+					'<li date="'+prod[i].join_date+'" idPro="'+prod[i].id+'">'+
+						'<a><img src="'+prod[i].photo+'" style="width:100px;height:60px;margin:20px 0 0 8px;border-radius:10px">'+
+							'<p id="nameProduct">'+prod[i].name+'</p>'+
+							'<p id="descripProduct">'+prod[i].description+'</p>'+
+							'<p class="date"><strong>Published:</strong> '+prod[i].join_date+'</p>'+
 						'</a>'+
 					'</li>';
-				category=prod[i]['category'];
-				idcategory=prod[i]['mid_category'];
+				category=prod[i].category;
+				idcategory=prod[i].mid_category;
 			}
 			$(layer).html(out).listview('refresh');
 			$('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+category+'</span></span>').attr('code',idcategory);
@@ -1768,17 +1762,17 @@ function addProductShoppingCart(id,wish){
 		dataType:'json',
 		error:function(/*resp,status,error*/){myDialog('#singleDialog',lang.conectionFail);},
 		success:function(data){
-			if(data['datosCar2']['add']=='si'){
-				if(data['datosCar2']['order']){
+			if(data.datosCar2.add=='si'){
+				if(data.datosCar2.order){
 					myDialog({
-						content:data['datosCar2']['order'],
+						content:data.datosCar2.order,
 						scroll:true,
-						buttons:{ok:function(){redir(PAGE['shoppingCart']);}}
+						buttons:{ok:function(){redir(PAGE.shoppingCart);}}
 					});
-				}else{redir(PAGE['shoppingCart']);}
-			}else if(data['datosCar2']['add']=='no'){
+				}else{redir(PAGE.shoppingCart);}
+			}else if(data.datosCar2.add=='no'){
 				if(wish){$.each(wish,function(){$(this).attr('func',$(this).attr('func2')).removeAttr('func2');});}
-				switch(data['datosCar2']['msg']){
+				switch(data.datosCar2.msg){
 					case 'no-disponible':
 						myDialog({
 							content	:lang.TAGS_WHENTAGNOEXIST,
@@ -1801,10 +1795,10 @@ function moveToWish(id,get){
 			url:DOMINIO+'controls/store/shoppingCart.json.php?action=14&id='+id+get,
 			dataType:'json',
 			success:function(data){
-				var dato=data['listWish'];
-				if(data['numRow']>0){
-					if(data['datosCar']){
-						if(data['datosCar'][0]['name']){
+				var dato=data.listWish;
+				if(data.numRow>0){
+					if(data.datosCar){
+						if(data.datosCar[0].name){
 							out=bodyCart(data);
 							$('#cartList').html(out).listview('refresh');
 							var myselect=$('select.cant-product');
@@ -1816,15 +1810,15 @@ function moveToWish(id,get){
 							actionButtonsStore();
 						}
 					}
-					if(data['wish']&&data['wish']['body']){
-						//$('#list_orderProduct_wish ul').html(data['wish']['body']);
+					if(data.wish&&data.wish.body){
+						//$('#list_orderProduct_wish ul').html(data.wish.body);
 						//$('.button').button();
 					}else{
 						//$('#list_orderProduct_wish').empty().html('').css('display','none');
 					}
 				}else{
-					if(data['wish']&&data['wish']['body']){
-						//$('#list_orderProduct_wish ul').html(data['wish']['body']);
+					if(data.wish&&data.wish.body){
+						//$('#list_orderProduct_wish ul').html(data.wish.body);
 						//$('.button').button();
 					}else{
 						myDialog('#singleDialog','<div><strong>'+lang.STORE_NO_SC+'</strong></div>');
@@ -1845,12 +1839,12 @@ function checkOutShoppingCart(get){
 			myDialog('#singleDialog',lang.conectionFail);
 		},
 		success	:function(data){
-			if(data['productMobile']){$.loader('show');redir(PAGE['storeOption']+'?option=1');}
-			else if(data['formPaymentD']){
+			if(data.productMobile){$.loader('show');redir(PAGE.storeOption+'?option=1');}
+			else if(data.formPaymentD){
 				myDialog('#singleDialog',lang.STORE_NOT_CHET_DOLLAR);
 			}else{
-				//alert(data['nOrden']+'+++'+data['nproduct'])
-				if(data['datosCar']=='noCredit'){
+				//alert(data.nOrden+'+++'+data.nproduct)
+				if(data.datosCar=='noCredit'){
 					myDialog({
 						id:'#idCheckOutAppNo',
 						style:{'min-height':80},
@@ -1867,9 +1861,9 @@ function checkOutShoppingCart(get){
 						style:{'min-height':80},
 						content:lang.PUBLICITY_MSGSUCCESSFULLY+'. '+lang.RESET_PLEASECHECKEMAIL,
 						scroll:true,
-						buttons:{ok:function(){redir(PAGE['storeCat']);}}
+						buttons:{ok:function(){redir(PAGE.storeCat);}}
 					});
-					//redir(PAGE['orderdetails']+'?nOrden='+data['nOrden']);
+					//redir(PAGE.orderdetails+'?nOrden='+data.nOrden);
 				}
 			}
 		}
@@ -1886,18 +1880,18 @@ function checkOutShoppingCart(get){
 		return html;
 	}
 	function showComment(comment){return(
-		'<li comment="'+comment['id']+'"'+(comment['short']?' class="more"':'')+'>'
-			+'<img src="'+(comment['photoUser']||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'
-			+(comment['delete']?''/*'<img src="css/smt/delete.png" class="del"/>'/**/:'')
-			+'<em class="ui-li-asid">'+comment['commentDate']+'</em>'
-			+'<div class="text">'
-				+'<h4>'+comment['nameUser']+'</h4>'
-				+'<p>'+comment['comment']+'</p>'
-				+(comment['short']?'<p class="short">'+comment['short']+'</p>':'')
-			+'</div>'
-			+(comment['short']?'<div class="seemore">'+lan('see more','ucf')+'</div>':'')
-			+'<div class="clearfix"></div>'
-		+'</li>'
+		'<li comment="'+comment.id+'"'+(comment.short?' class="more"':'')+'>'+
+			'<img src="'+(comment.photoUser||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'+
+			(comment.delete?''/*'<img src="css/smt/delete.png" class="del"/>'/**/:'')+
+			'<em class="ui-li-asid">'+comment.commentDate+'</em>'+
+			'<div class="text">'+
+				'<h4>'+comment.nameUser+'</h4>'+
+				'<p>'+comment.comment+'</p>'+
+				(comment.short?'<p class="short">'+comment.short+'</p>':'')+
+			'</div>'+
+			(comment.short?'<div class="seemore">'+lan('see more','ucf')+'</div>':'')+
+			'<div class="clearfix"></div>'+
+		'</li>'
 	);}
 	var on={},count=0;
 	function _getComments(action,obj,protected){
@@ -1908,7 +1902,7 @@ function checkOutShoppingCart(get){
 		if(!layer.length) return;
 		var $header=$('.header',layer),
 			$list=layer,
-			cancel=function(){return (action!='reload'&&on['reload']);},//cancel action
+			cancel=function(){return (action!='reload'&&on.reload);},//cancel action
 			onca=function(val){if(val!==undefined)on[action]=val;return on[action];};//on current action
 		if(action=='all'){action='more';opc.all=true;}
 		if(action!='refresh') $('.loader',layer).show();
@@ -1924,7 +1918,7 @@ function checkOutShoppingCart(get){
 			loader:action!='refresh',
 			success:function(data){
 				if(!data) return;
-				if(data['deleted']){//si fue una eliminacion
+				if(data.deleted){//si fue una eliminacion
 					opc.start--;
 					var $ul=protected.parent();
 					protected.fadeOut(600,function(){
@@ -1934,25 +1928,25 @@ function checkOutShoppingCart(get){
 					});
 					return;
 				}
-				var head='<li data-role="list-divider">'+lan('Comments')
-							+'<div id="numDislikes">'+(data['dislikes']||0)+'</div>'
-							+'<div id="numLikes">'+(data['likes']||0)+'</div>'
-						+'</li>'
-						+'<li data-role="list-divider" data-theme="c" class="header">'
-							+lan('see more','ucf')+' <span class="loader"/><div class="seemore">(<span class="count"></span>)</div>'
-						+'</li>';
+				var head='<li data-role="list-divider">'+lan('Comments')+
+							'<div id="numDislikes">'+(data.dislikes||0)+'</div>'+
+							'<div id="numLikes">'+(data.likes||0)+'</div>'+
+						'</li>'+
+						'<li data-role="list-divider" data-theme="c" class="header">'+
+							lan('see more','ucf')+' <span class="loader"/><div class="seemore">(<span class="count"></span>)</div>'+
+						'</li>';
 				if(cancel()){console.log('Cancelados comentarios: '+action);return;}
 //				console.log(data);
-				if(!data||!data['list']||!data['list'].length) return;
-				var list='',len=data['list'].length,rep=0,i;
+				if(!data||!data.list||!data.list.length) return;
+				var list='',len=data.list.length,rep=0,i;
 				for(i=len-1;i>=0;i--){//eliminar repeticiones
-					if($list.find('[comment='+data['list'][i]['id']+']').length>0){
+					if($list.find('[comment='+data.list[i].id+']').length>0){
 						rep++;
-						data['list'].splice(i,1);
+						data.list.splice(i,1);
 					}
 				}
-				list=showComments(data['list']);
-				opc.date=data['date'];
+				list=showComments(data.list);
+				opc.date=data.date;
 				opc.start+=len-rep;
 //				console.log(list);
 				$list.find('.ui-li-divider').remove();
@@ -1966,7 +1960,7 @@ function checkOutShoppingCart(get){
 				$list.prepend(head).listview('refresh');
 				$header=$('.header',layer);
 				if(action!='refresh'&&action!='insert'){
-					opc.total=data['total']*1;
+					opc.total=data.total*1;
 					var more=opc.total-opc.start;
 					if(more>0){
 						$header.addClass('more');
@@ -1998,7 +1992,7 @@ function checkOutShoppingCart(get){
 	};
 	window.insertComment=function(txt,opc){
 		opc.data.txt=txt.replace(/^\s+|\s+$/gm,'');
-		if(opc.data.txt=='') return;
+		if(!opc.data.txt) return;
 		return _getComments('insert',opc,true);
 	};
 	window.delComment=function(el,opc){

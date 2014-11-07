@@ -38,7 +38,7 @@
 		pageShow({
 			id:'#page-tag',
 			before:function(){
-				$('#buttonBack').html(isLogged()?lan('Back'):lang.home).click(function(){ if(isLogged()) goBack(); else redir(PAGE['ini']); });
+				$('#buttonBack').html(isLogged()?lan('Back'):lang.home).click(function(){ if(isLogged()) goBack(); else redir(PAGE.ini); });
 				$('#goProfile').html(lang.profile);
 				$('#tagNoExits').html(lang.TAGS_WHENTAGNOEXIST);
 			},
