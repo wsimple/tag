@@ -13,45 +13,48 @@ function register_json($data){
 	$res['email']=0;
 	$existEmail=CON::exist('users','email=?',array($data['email']));
 	$fb_mail='';#se le envia por correo la clave de usuario
-	if($data['company']!=1){
-		$res['comp']=0;
-		if(!$data['fbid']){
-			if(!validaMobile($data['first_name'],'text')){
-				$res['msg'][]='1';
-				$res['error']='Nombre MALO';
-			}elseif(!validaMobile($data['last_name'],'text')){
-				$res['msg'][]='2';
-				$res['error']='Apellido MALO';
-			}elseif(($data['email']=='')||!validaMobile($data['email'],'email')){
-				$res['msg'][]='3';
-				$res['error']='email MALO';
-			}elseif($data['password']==''){
-				$res['msg'][]='4';
-				$res['error']='pass vacio';
-			}elseif($existEmail){
-				$res['msg'][]='5';
-				$res['error']='email duplicado';
-			}elseif(validaMobile($data['birthday'],'fecha')){
-				$res['msg'][]='6';
-				$res['error']='fecha vacio';
-			}elseif(strlen($data['password'])<6){
-				$res['msg'][]='7';
-				$res['error']='pass vacio';
-			}elseif($data['repassword']==''){
-				$res['msg'][]='8';
-				$res['error']='confi pass vacio';
-			}elseif($data['password']!=$data['repassword']){
-				$res['msg'][]='9';
-				$res['error']='no coincidencias de password';
-			}else{
-				$paso=1;
-				$lang=$_SESSION['ws-tags']['language']!=''?$_SESSION['ws-tags']['language']:'en';
-			}
-		}else{
-			if($existEmail){
-				$res['msg'][]='5';
-				$res['error']='email duplicado';
-			}else{
+	//validaciones generales
+	if(($data['email']=='')||!validaMobile($data['email'],'email')){
+		$res['msg'][]='3';
+		$res['error']='email MALO';
+	}elseif($data['password']==''){
+		$res['msg'][]='4';
+		$res['error']='pass vacio';
+	}elseif($existEmail){
+		$res['msg'][]='5';
+		$res['error']='email duplicado';
+	}elseif(validaMobile($data['birthday'],'fecha')){
+		$res['msg'][]='6';
+		$res['error']='fecha vacio';
+	}elseif(strlen($data['password'])<6){
+		$res['msg'][]='7';
+		$res['error']='pass vacio';
+	}elseif($data['repassword']==''){
+		$res['msg'][]='8';
+		$res['error']='confi pass vacio';
+	}elseif($data['password']!=$data['repassword']){
+		$res['msg'][]='9';
+		$res['error']='no coincidencias de password';
+	}elseif(validaMobile($data['birthday'],'fecha-valida')){
+		$res['msg'][]='10';
+		$res['error']='fecha invalida';
+	}
+	$res['fecha']=$data['birthday'];
+	if (!isset($res['error'])){
+		if($data['company']!=1){
+			$res['comp']=0;
+			if(!$data['fbid']){
+				if(!validaMobile($data['first_name'],'text')){
+					$res['msg'][]='1';
+					$res['error']='Nombre MALO';
+				}elseif(!validaMobile($data['last_name'],'text')){
+					$res['msg'][]='2';
+					$res['error']='Apellido MALO';
+				}else{
+					$paso=1;
+					$lang=$_SESSION['ws-tags']['language']!=''?$_SESSION['ws-tags']['language']:'en';
+				}
+			}else{			
 				$paso=1;
 				$lang=substr($data['location'],0,2);
 				if($lang!='en'&&$lang!='es') $lang='en';
@@ -59,35 +62,12 @@ function register_json($data){
 				$data['password']=substr(md5(time()),rand(0,20),10);
 				$fb_mail='<tr style="color:#666;"><td>'.LBL_PASS.': '.$data['password'].'</td></tr>';
 			}
-		}
-	}else{
-		$res['comp']=1;
-		if($data['first_name']==''){
-			$res['msg'][]='1';
-			$res['error']='Nombre empresa MALO';
-		}elseif($data['email']==''||!validaMobile($data['email'],'email')){
-			$res['msg'][]='3';
-			$res['error']='email MALO';
-		}elseif($data['password']==''){
-			$res['msg'][]='4';
-			$res['error']='pass vacio';
-		}elseif($existEmail){
-			$res['msg'][]='5';
-			$res['error']='duplicate email';
-		}elseif(validaMobile($data['birthday'],'fecha')){
-			$res['msg'][]='6';
-			$res['error']='fecha vacio';
-		}elseif(strlen($data['password'])<6){
-			$res['msg'][]='7';
-			$res['error']='pass vacio';
-		}elseif($data['repassword']==''){
-			$res['msg'][]='8';
-			$res['error']='confi pass vacio';
-		}elseif($data['password']!=$data['repassword']){
-			$res['msg'][]='9';
-			$res['error']='no coincide el password';
 		}else{
-			$paso=1;
+			$res['comp']=1;
+			if($data['first_name']==''){
+				$res['msg'][]='1';
+				$res['error']='Nombre empresa MALO';
+			}else $paso=1;
 		}
 	}
 	#Executes SQLS
@@ -111,7 +91,6 @@ function register_json($data){
 			$_SERVER['REMOTE_ADDR'],$data['zipCode'],$lang,
 			$referee_number,$referee_user
 		));
-		$res['sql']=CON::lastSql();
 		$key=md5(md5($id.'+'.$data['email'].'+'.$id));
 		$idTag=CON::insert('tags','id_user=?,id_creator=?,background=?,code_number="",text="&nbsp",text2="&nbsp",status=1',array($id,$id,$defaultTag));
 		if($idTag) createTag($idTag);
@@ -151,6 +130,31 @@ function register_json($data){
 		$res['done']=false;
 	}
 	return $res;
+}
+function validaMobile($campo,$tipo){
+	switch ($tipo){
+		case 'text':
+			return preg_match('/^[a-zA-Z\s\.]+$/i',$campo);
+		break;
+		case 'email':
+			return preg_match('/^[a-zA-Z0-9]+([][\.a-zA-Z0-9_-])*@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+/',$campo);
+		break;
+		case 'existe':
+			return CON::exist('users','email=?',array($campo));
+		break;
+		case 'fecha':
+			$dateBirht=explode('/',$campo);
+			return (($dateBirht[0]==0)||($dateBirht[1]==0)||($dateBirht[2]==0));
+		break;
+		case 'fecha-valida':
+			$dateBirht=explode('/',$campo);
+			if(checkdate($dateBirht[0],$dateBirht[1],$dateBirht[2])){
+			   $result=CON::getVal('SELECT now() FROM users WHERE DATE(NOW())>"'.$dateBirht[2].'-'.$dateBirht[0].'-'.$dateBirht[1].'" LIMIT 1;');  
+		       if (!$result) return true;
+			}else return true;
+			return false;
+		break;
+	}
 }
 if(!$notAjax){
 	$data=array();
