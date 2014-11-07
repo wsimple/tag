@@ -12,12 +12,12 @@ include RELPATH.'includes/languages.config.php';
 	if(isset($_GET['id'])) $where='id="'.$_GET['id'].'"';
 	elseif(isset($_GET['idUser'])) $where='id_user="'.$_GET['idUser'].'" AND img=""';
 	else $where='img=""';
-	if(isset($_GET['clear'])){
-		$timeLines = CON::update('tags','img=""',$where);
+	$html='';
+	if(isset($_GET['clear'])||isset($_GET['clean'])){
+		$timeLines = CON::update('tags','img=""','img!=""');
 	}else{
 		$timeLines = CON::query("SELECT * FROM tags WHERE $where ORDER BY id DESC LIMIT 0,$limit");
 		$num=CON::numRows($timeLines);
-		$html='';
 		if($num>0){
 			$count=0;
 			$html.='<br/>';
