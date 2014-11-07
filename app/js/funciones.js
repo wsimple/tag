@@ -625,6 +625,7 @@ function showTags(array){//tag list
 			myAjax({
 				type:'GET',
 				dataType:'json',
+				loader:false,
 				data:act||{},
 				url:DOMINIO+'controls/tags/tagsList.json.php?limit='+limit+'&current='+current+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 				success:function(data){
