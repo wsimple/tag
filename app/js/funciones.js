@@ -547,10 +547,10 @@ function showTag(tag){//individual tag
 		'<menu>'+
 			'<ul>'+
 				(tag['business']?
-					'<li id="bcard" action="card,'+tag['business']+'" title="Bussines Card"><span>Bussines Card</span></li>'
+					'<li id="bcard" title="Bussines Card"><span>Bussines Card</span></li>'
 				:'')+
-				'<li id="like" action="like,'+tag['id']+'"'+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
-				'<li id="dislike" action="dislike,'+tag['id']+'"'+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
+				'<li id="like"'+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
+				'<li id="dislike"'+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
 				(!tag['popup']?
 					'<li id="comment" title="Comment"><span>Comment</span></li>'
 				:'')+(btn['redist']?
@@ -559,11 +559,7 @@ function showTag(tag){//individual tag
 					'<li id="share" title="Share"><span>Share</span></li>'
 				:'')+btnSponsor+(btn['trash']?
 					'<li id="trash" title="Trash"><span>Trash</span></li>'
-				:'')+((tag['product'])?(btn['edit']?
-					'<li id="edit" action="editProductTag,'+tag['id']+','+tag['product']['id']+'" title="Edit"><span><?=$lang["MNUTAG_TITLEEDIT"]?></span></li>'
-				:''):(btn['edit']?
-					'<li id="edit" title="Edit2"><span>Edit2</span></li>'
-				:''))+(btn['report']?
+				:'')+(btn['report']?
 					'<li id="report" title="Report"><span>Report</span></li>'
 				:'')+
 			'</ul>'+
@@ -1957,7 +1953,14 @@ function checkOutShoppingCart(get){
 //				console.log(list);
 				$list.find('.ui-li-divider').remove();
 				if(action=='reload'){
-					$list.html(list);
+					$list.html(list+
+						'<li>'+
+						'<form action="#" method="POST" accept-charset="utf-8">'+
+							'<img src="'+(comment['photoUser']||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'+
+							'<textarea rows="3" cols="73" placeholder="Comentar..." name="comment"></textarea>'+
+						'</form>'+
+						'</li>'
+					).slideDown();
 				}else if(action=='refresh'||action=='insert'){
 					$list.append(list);
 				}else{
