@@ -222,6 +222,9 @@
 						}else if(data['msg']=="9"){
 							console.log("contrasena no cioncide"+data['msg']+data['email']);
 							message('respuesta','<?=MNU_REGISTER?>','<?=SMT_SIGNUP_PASSWORDNOTMATCH?>','','','','','');
+						}else if(data['msg']=="10"){
+							console.log("fecha invalida"+data['msg']+data['email']);
+							message('respuesta','<?=MNU_REGISTER?>','<?=SIGNUP_CTRERRORBIRTHDATE?>','','','','','');
 						}else{
 							// post-submit callback   alert(data);
 							console.log("paso"+data['msg']+data['email']);
