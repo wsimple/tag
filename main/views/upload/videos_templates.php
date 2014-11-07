@@ -190,6 +190,17 @@
 		top:0;
 		width:100%;
 	}
+	div[aria-valuenow]:before{
+		font-family:'Lucida Grande',Tahoma,Verdana,Arial,Sans-Serif;
+		content:attr(aria-valuenow) '%';
+		position:absolute;
+		text-align:center;
+		font-weight:bold;
+		font-size:12px;
+		padding:2px;
+		width:100%;
+		left:0;
+	}
 </style>
 <?php
 	if (isset($_GET['video'])){
@@ -339,10 +350,10 @@ $(function(){
 		}
 		$('.displayUpload').hide();
 	}).bind('fileuploaddone',function(e,data){
-		var $content=$(this).parents('.ui-dialog-content');
+		var that=this,$content=$(this).parents('.ui-dialog-content');
 		setTimeout(function(){
 			if($content.length) $content.dialog('option','closeOnEscape',true).dialog('option','closeOnClickOutside',true);
-			$('form#fileupload .start').click();
+			$('.video .start,.img [tag]',that).click();
 		},1000);
 	}).bind('fileuploadalways',function(e,data){
 		$('.displayUpload').fadeIn('slow');
@@ -417,10 +428,10 @@ $(function(){
 							path:'<?=$setting->video_server?>videos/',
 							captures:data.captures
 						})).find('[tag]').html(video);
-						if(obj.capture&&data.captures&&data.captures.length>0)
-							obj.capture.call(this,data.captures[0]);
+						if($('#bckSelected')[0].style.backgroundImage=='')
+							$('.option-cap',obj.content).first().click();
 						if(obj.success)
-							obj.success.call(this,{video:data.video||'',captures:data.captures});
+							obj.success.call(obj.content,{video:data.video||'',captures:data.captures});
 					}
 				}else
 					$(obj.content).html(video_convert_tmpl({state:'error',isupload:true})).find('.retry').one('click',function(){
@@ -452,8 +463,8 @@ $(function(){
 				code:that.dataset.code,
 				file:that.dataset.name,
 				capture:function(data){
-					$('#bckSelected').css('background-image','url('+SERVERS.video+'videos/'+data+')');
-					$('#imgTemplate')[0].value=data;
+					if($('#bckSelected').css('background-image')=='')
+						$('.option-cap',this).first().click();
 				},
 				success:function(data){
 					video.value=data.video;
@@ -557,7 +568,6 @@ $(function(){
 </script>
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
-{% console.log(o.files); %}
 {% for(var i=0,file;file=o.files[i];i++){ %}
 	<div class="template-upload template upload fade">
 		<div>

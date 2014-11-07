@@ -250,16 +250,19 @@
         			//privacidad del grupo
         			switch ($row['privacy']) {
         				case 1:
-        					$row['privacidad'] = 'groupPublic'; //$classImgPrivacy
+        					$row['privacidad'] = GROUPS_LABELOPEN; //$classImgPrivacy
         					$row['etiquetaPrivacidad'] = GROUPS_LABELOPEN;  //$privacyGrp
+                            $row['idPri'] = 1;
         					break;
         				case 2:
-        					$row['privacidad'] = 'groupPrivate';
+        					$row['privacidad'] = GROUPS_LABELCLOSED;
         					$row['etiquetaPrivacidad'] = GROUPS_LABELCLOSED;
+                            $row['idPri'] = 2;
         					break;
         				case 3:
-        					$row['privacidad'] = 'groupSecret';
+        					$row['privacidad'] = GROUPS_LABELPRIVATE;
         					$row['etiquetaPrivacidad'] = GROUPS_LABELPRIVATE;
+                            $row['idPri'] = 3;
         					break;
         			}	
         			$rows[]=$row;
