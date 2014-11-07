@@ -6,6 +6,7 @@
 		window.location.reload();
 	}
 </script>
+<div id="singleRedirDialog" class="myDialog" style="display: none;"><div class="table"><div class="cell"><div class="window" style="max-height: 272px; display: block;"><div class="container" style="max-height: 272px;"><div id="scroller" class="content">Está seguro que quiere eliminar esta tag?</div></div><div class="buttons"><a action="0" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Sí</span></span></a><a action="1" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">No</span></span></a></div></div></div></div><div class="closedialog" style="display:none"></div></div>
 <div id="page-timeLine" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
 		<div style="position:absolute;top:0px;left:0;padding:0 5px;">
@@ -188,20 +189,23 @@
 								}
 							});
 						break;
-						case 'delete':
-							//var url=$_GET['idGroup']?(PAGE['tagslist']+'?current=group&id='+$_GET['idGroup']):PAGE['timeline'];
+						case 'trash':
 							myDialog({
 								id:'#singleRedirDialog',
 								content:lang.JS_DELETETAG,
 								buttons:[{
 									name:lang.yes,
 									action:function(){
+										var dialog = this;
 										myAjax({
 											type: 'POST',
 											url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagtId,
 											dataType: 'html',
 											success: function( data ) {
-												//redir(url);
+												$('[tag='+tagtId+']').fadeOut('fast',function(){
+													$(this).remove();
+													dialog.close();
+												});
 											}
 										});
 									}
