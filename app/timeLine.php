@@ -87,6 +87,7 @@
 						type:'GET',
 						url:DOMINIO+'controls/tags/actionsTags.controls.php?action=4&tag='+tagId,
 						dataType:'html',
+						loader: false,
 						success:function( data ){
                             console.log(e.currentTarget)
                             $(e.currentTarget).find('#dislikeIcon').fadeOut('slow',function(){
@@ -99,45 +100,6 @@
 				// $(opc.layer).on('click','[tag]',function(){
 				// 	redir(PAGE['tag']+'?id='+$(this).attr('tag'));
 				// });
-				function dialogComment(id){
-					var opc={//comment data
-						layer:'#comments',
-						scroller:'.fs-wrapper',
-						data:{
-							type:4,
-							source:id,
-							limit:10,
-							mobile:1
-						},
-						likes:0,
-						dislikes:0
-					};
-					console.log('dialogComment. id='+id);
-					myDialog({
-						id:'#commentDialog',
-						style:{'margin-right':10},
-						content:
-							'<div style="padding:10px;"><textarea name="txtComment" id="txtComment" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset"'+
-								'style="resize:none;width:100%" rows="5" placeholder="'+lang.COMMENTS_LBLHELPIMPUTNEWCOMMENT+'"></textarea></div>',
-						buttons:[{
-							name:lang.send,
-							action:function(){
-								var comment=$.trim($('#txtComment').val());
-								if(comment!=''&&comment!=lang.COMMENTS_LBLHELPIMPUTNEWCOMMENT){
-									//comment = limpiaTextComentarios(comment);
-									var $this=$(this);
-									opc.complete=function(){$this.close();};
-									insertComment(comment,opc);
-								}
-								$('#commentDialog .closedialog').click();
-								$('.fs-wrapper').jScroll('refresh');
-							}
-						},{
-							name:lang.close,
-							action:'close'
-						}]
-					});
-				}
 				function afterAjax(data, tagId, toHide,toShow){
 					console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
 					if(data.indexOf('ERROR')<0){
@@ -152,7 +114,28 @@
 					switch(e.target.id){
 						case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
 						case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
-						case 'comment':dialogComment(tagtId);break;
+						case 'comment':
+							$('[tag='+tagtId+']').append(
+								'<div class="is-logged tag-comments-window smt-tag-content">'+
+									'<ul id="comments" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'+
+								'</div>'
+							);
+							getComments('reload',{
+								layer:'#comments',
+								scroller:'.fs-wrapper',
+								data:{
+									type:4,
+									source:tagtId,
+									limit:10,
+									mobile:1
+								},
+								likes:0,
+								dislikes:0
+							});
+							// var interval=setInterval(function(){
+							// 	getComments('refresh',opc);
+							// },7000);
+						break;
 						case 'like':case 'dislike':
 							var that=e.target.id+'Icon',
 								show=e.target.id!='like'?'likeIcon':'dislikeIcon';
@@ -160,12 +143,14 @@
 								type:'POST',
 								url:DOMINIO+'controls/tags/actionsTags.controls.php?action='+(that=='likeIcon'?4:11)+'&tag='+tagtId,
 								dataType:'html',
+								loader: false,
 								success:function( data ){
 									afterAjax(data,tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
 									myAjax({
 										type:'POST',
 										url:DOMINIO+'controls/tags/actionsTags.controls.php?action=12&tag='+tagtId,
 										dataType:'html',
+										loader: false,
 										success:function( data ){
 											data= data.split('|');
 											// opc.likes=data[0];
@@ -184,6 +169,7 @@
 								type:'POST',
 								url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagtId,
 								dataType:'html',
+								loader: false,
 								success:function( data ){
 									afterAjax(data, tagtId,'menu #redistr', '.tag-icons #redist');
 								}
@@ -193,6 +179,7 @@
 							myDialog({
 								id:'#singleRedirDialog',
 								content:lang.JS_DELETETAG,
+								loader: false,
 								buttons:[{
 									name:lang.yes,
 									action:function(){
