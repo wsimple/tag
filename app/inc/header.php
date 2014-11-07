@@ -40,8 +40,7 @@
 	<script src="js/core/farbtastic.js"></script>
 	<script src="js/core/colorPicker.js"></script>
 <?php if(isset($_GET['minify'])){
-?>	<script src="js/app.js"></script>
-	<script src="js/min.js"></script>
+?>	<script src="js/min.js"></script>
 <?php }else{
 ?>	<script src="js/path.js"></script>
 	<script src="js/console.js"></script>

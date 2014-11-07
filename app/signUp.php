@@ -181,7 +181,7 @@
 									content:lang.SMT_SIGNUP_EXITOREGISTER,
 									buttons:{
 										Ok:function(){
-											redir(PAGE['ini']);
+											redir(PAGE.ini);
 										}
 									}
 								});

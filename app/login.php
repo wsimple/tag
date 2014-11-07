@@ -16,7 +16,7 @@
 							<input data-theme="b" name="pwd" id="txtPass" value="" type="password" placeholder="password" class="password-field" onkeypress="return enterSubmit(event,this)" onfocus="inputFocus(this)" />
 						</p>
 						<a id="forGot" onclick="redir(PAGE['forGot']);"></a><br/><br/>
-						<a id="btn-back" data-role="button" data-icon="arrow-l" data-inline="true" data-theme="f" onClick="redir(PAGE['ini'])"></a>
+						<a id="btn-back" data-role="button" data-icon="arrow-l" data-inline="true" data-theme="f" onClick="redir(PAGE.ini)"></a>
 						<a id="btn-login" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" href="#" onClick="$('#frmLogin').submit()">&nbsp;</a>
 					</div>
 					<div id="loadingTL" style="display:none;color:#fff;padding-top:15px;"></div>
@@ -52,7 +52,7 @@
                 $('#btn-login span.ui-btn-text').css('padding-left','10px');
                 //Submit login. Return false to prevent normal browser submit and page navigation
 				var wait=false,send=false,$form=$('#frmLogin');
-				$form.attr('action',PAGE['ini']);
+				$form.attr('action',PAGE.ini);
 				$form.submit(function(){
 					if(!send&&!wait){
 						wait=true;
