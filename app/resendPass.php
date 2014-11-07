@@ -54,7 +54,7 @@
 		after:function(){
 			$('#bntBack').click(function(){
 				if($_GET['usr'])
-					redir(PAGE['ini']);
+					redir(PAGE.ini);
 				else
 					goBack();
 			});
@@ -89,7 +89,7 @@
     												style:{'max-height':30,'height':30,'padding':'10px 10px'},
     												buttons:{
     													'Ok':function(){
-    														redir(PAGE['ini']);
+    														redir(PAGE.ini);
     													}
     												}
     											});
