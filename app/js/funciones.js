@@ -594,7 +594,97 @@ function showTags(array){//tag list
 //		tags+='<div class="tag-loading smt-container"><div class="smt-content" style="z-index:4;">Loading...</div></div>'+showTag(array[i]);
 	return '<div class="tag-container">'+tags+'</div>';
 }
-
+function actionsTags(layer){
+	$(layer).doubletap('[tag]', function(e){
+		var tagId = $(e.currentTarget).attr('tag')
+		$('[tag="'+tagId+'"] menu li#like',layer).click();
+	});
+	$(layer).on('click', 'menu li', function(e){
+		var tagtId = $(e.target).parents('[tag]').attr('tag');
+		var btnPresed = e.target.id;
+		switch(e.target.id){
+			case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
+			case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
+			case 'comment':
+				alert('en construcción');
+			break;
+			case 'like':case 'dislike':
+				var that=e.target.id+'Icon',
+					show=e.target.id!='like'?'likeIcon':'dislikeIcon';
+				myAjax({
+					type:'POST',
+					url:DOMINIO+'controls/tags/actionsTags.controls.php?action='+(that=='likeIcon'?4:11)+'&tag='+tagtId,
+					dataType:'html',
+					loader: false,
+					success:function( data ){
+						afterAjaxTags(data,tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
+						myAjax({
+							type:'POST',
+							url:DOMINIO+'controls/tags/actionsTags.controls.php?action=12&tag='+tagtId,
+							dataType:'html',
+							loader: false,
+							success:function( data ){
+								data= data.split('|');
+								// opc.likes=data[0];
+								// opc.dislikes=data[1];
+								if(data[2]>0){afterAjaxTags(data, tagtId, 'menu #like', 'menu #dislike');};
+								if(data[2]<0){afterAjaxTags(data, tagtId,'menu #dislike', 'menu #like');};
+								// $('#numLikes').html(opc.likes);
+								// $('#numDislikes').html(opc.dislikes);
+							}
+						});
+					}
+				});
+			break;
+			case 'redistr':
+				myAjax({
+					type:'POST',
+					url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagtId,
+					dataType:'html',
+					loader: false,
+					success:function( data ){
+						afterAjaxTags(data, tagtId,'menu #redistr', '.tag-icons #redist');
+					}
+				});
+			break;
+			case 'trash':
+				myDialog({
+					id:'#singleRedirDialog',
+					content:lang.JS_DELETETAG,
+					loader: false,
+					buttons:[{
+						name:lang.yes,
+						action:function(){
+							var dialog = this;
+							myAjax({
+								type: 'POST',
+								url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagtId,
+								dataType: 'html',
+								success: function( data ) {
+									$('[tag='+tagtId+']').fadeOut('fast',function(){
+										$(this).remove();
+										dialog.close();
+									});
+								}
+							});
+						}
+					},{
+						name:'No',
+						action:'close'
+					}]
+				});
+			break;
+		}
+	});
+}
+function afterAjaxTags(data, tagId, toHide,toShow){
+	console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
+	if(data.indexOf('ERROR')<0){
+		$('[tag='+tagId+']').find(toHide).fadeOut('slow',function(){
+			$('[tag='+tagId+']').find(toShow).fadeIn('slow');
+		});
+	}
+}
 (function(window,$,console){
 	window.updateTags=function(action,opc,loader){
 		if(!opc.on) opc.on={};

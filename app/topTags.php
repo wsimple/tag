@@ -51,9 +51,9 @@
 						get:$_GET['range']?'&range='+$_GET['range']:''
 					},
 					$wrapper=$('#pd-wrapper',this.id);
-				$(opc.layer).on('click','[tag]',function(){
-					redir(PAGE['tag']+'?id='+$(this).attr('tag'));
-				});
+				// $(opc.layer).on('click','[tag]',function(){
+				// 	redir(PAGE['tag']+'?id='+$(this).attr('tag'));
+				// });
 				$wrapper.ptrScroll({
 					onPullDown:function(){
 						updateTags('reload',opc);
@@ -69,7 +69,9 @@
 						updateTags('reload',opc,true);
 					}
 				});
-				
+				/*action menu tag*/
+				actionsTags(opc.layer);
+				/*and action menu tag*/
 				$('#footer-icons').on('click','a',function(){
 					$wrapper.ptrScroll('reload',$(this).attr('opc'));
 				});
