@@ -244,8 +244,8 @@ $(function(){
 							path:'<?=$setting->video_server?>videos/',
 							captures:data.captures
 						})).find('[tag]').html(video);
-						if(obj.capture&&data.captures.length>0)
-							obj.capture.call(this,data.captures[0]);
+						if($('#bckSelected')[0].style.backgroundImage=='')
+							$('.option-cap',obj.content).first().click();
 					}
 				}else
 					$(obj.content).html(video_convert_tmpl({state:'notfound'}));
