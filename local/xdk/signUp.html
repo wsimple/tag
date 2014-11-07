@@ -30,7 +30,6 @@
 <script src="js/core/jScroll.js"></script>
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
-<script src="js/app.js"></script>
 <script src="js/min.js"></script>
 </head><body><div id="page-signUp" data-role="page" data-cache="false">
 <div data-role="header" data-position="fixed" data-theme="f">
@@ -214,7 +213,7 @@ id:'#singleRedirDialog',
 content:lang.SMT_SIGNUP_EXITOREGISTER,
 buttons:{
 Ok:function(){
-redir(PAGE['ini']);
+redir(PAGE.ini);
 }
 }
 });
