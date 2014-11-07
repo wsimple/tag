@@ -38,7 +38,7 @@
 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul>
-				<li><a id="friends" onclick="selectFriendsDialog('shareTagDialog',$.local('code'))"></a></li>
+				<li><a id="friends" onclick="selectFriendsDialog($.local('code'))"></a></li>
 			</ul>
 		</div>
 	</div>
