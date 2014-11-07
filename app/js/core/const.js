@@ -16,12 +16,12 @@ var is={
 	lang,
 	DOMINIO,PRODUCCION,LOCAL,FILESERVER,PAGE,SERVERS;
 if(version) version=version[1];
-is['limited']= !is['webkit']||is['android'];
+is.limited= !is.webkit||is.android;
 
 (function(window){
 	//lenguaje actual del navegador
 	var actual=(window.navigator.userLanguage||window.navigator.language).substring(0,2),more={};
-	if(actual=='es') more['es']={//español
+	if(actual=='es') more.es={//español
 		//Nueva forma de traduccion (para textos cortos o de un unico uso).
 		//Se llama la funcion: lan(texto).
 		//En este modo el texto se escribe tal cual como debe verse en ingles, y agregamos solo la
@@ -720,13 +720,13 @@ is['limited']= !is['webkit']||is['android'];
 		}else{
 			info=info.replace(/{{([^}]*)}}/g, '' ).replace(/{([^}]*)}/g,'$1');
 		}
-		for(i in infos['replace'][0]){
-			rep=infos['replace'][0][i];
+		for(i in infos.replace[0]){
+			rep=infos.replace[0][i];
 			info=info.replace(rep[0],rep[n]||rep[1]);
 		}
 		info=info.replace('[_FRIENDS_]', opc.people||opc.friends||'').replace('[_USR_]', opc.usr||'').replace('[_GROUP_]', opc.group||'');
-		for(i in infos['replace'][1]){
-			rep=infos['replace'][1][i];
+		for(i in infos.replace[1]){
+			rep=infos.replace[1][i];
 			info=info.replace(rep[0],rep[n]||rep[1]);
 		}
 		return info;
@@ -738,7 +738,7 @@ is['limited']= !is['webkit']||is['android'];
 function lan(value,opc){
 	var txt=(lang[value]||value);
 	//cambio de caracteres especiales por unicode (español)
-	if(lang['actual']=='es') txt=txt
+	if(lang.actual=='es') txt=txt
 	.replace(/Á|&Aacute;/,'\u00C1').replace(/á|&aacute;/,'\u00E1')
 	.replace(/É|&Eacute;/,'\u00C9').replace(/é|&eacute;/,'\u00E9')
 	.replace(/Í|&Iacute;/,'\u00CD').replace(/í|&iacute;/,'\u00ED')

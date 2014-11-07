@@ -37,7 +37,7 @@ function arrayGet(get){
 	$_GET={};
 	for(b in a){
 		c=a[b];
-		if(c!=''){
+		if(c){
 			d=c.indexOf('=');
 			e=c.substr(0,d<0?c.length:d);
 			f=d<0?null:c.substr(d+1);
@@ -102,7 +102,7 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 (function(document,window,$,console){
 	var comeFromAjax= false;
 	var Login=function(logged){
-		if(!logged) redir(PAGE['ini']);
+		if(!logged) redir(PAGE.ini);
 	};
 	//if(match) console.log('no necesita login. Url coincide con: '+match);
 	//smt: contenedor para funciones de tagbum
@@ -157,7 +157,7 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 			$(runAfter);
 		comeFromAjax=true;
 		return opc;
-	}
+	};
 	window.pageShow=$.smt=window.smt;
 })( document, window, jQuery, console );
 
@@ -220,7 +220,7 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 	});
 });})(jQuery);
 function textFormat(opc){
-	var i,num=opc.num||1,info=opc.txt[opc.type],rep=opc.txt["replace"],find,el;
+	var i,num=opc.num||1,info=opc.txt[opc.type],rep=opc.txt.replace,find,el;
 	if(num>1)
 		info=info.replace(/{{([^}]*)}}/g,"$1").replace(/{([^}]*)}/g, "" );
 	else
@@ -276,7 +276,7 @@ var hasTouch = /android|iphone|ipad/i.test(navigator.userAgent.toLowerCase()),
  * @param {number} [delay=300]
  */
 $.fn.doubletap = function(container, doubleTapHandler, singleTapHandler, delay){
-    delay = (delay == null) ? 300 : delay;
+    delay = (!delay && delay!==0) ? 300 : delay;
  
     this.on(eventName, container, function(event){
         var now = new Date().getTime();
