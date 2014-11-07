@@ -110,7 +110,7 @@ friend=data['friends'][i];
 outP+=
 '<li class="userInList">'+
 '<a code="'+friend['code_friend']+'" data-theme="e">'+
-'<img src="'+friend['img']+'" class="ui-li-thumb" width="60" height="60"/>'+
+'<img src="'+friend['img']+'" class="ui-li-thumb userBR" width="60" height="60"/>'+
 '<h3 class="ui-li-heading">'+friend['name_user']+'</h3>'+
 '<p class="ui-li-desc">'+
 lan('friends','ucw')+' ('+(friend['friends_count']||0)+'), '+
@@ -132,12 +132,24 @@ out+= '<div data-role="collapsible" class="despliegue">'
 +'<ul id="resultSG" data-role="listview" data-filter="true" data-divider-theme="e">';
 for(i=0;i<data['groups'].length;i++){
 pref = data['groups'][i];
+
+switch (pref['idPri']) {
+case 1:
+pref['privacidad'] = lang.GROUPS_OPEN;
+break;
+case 2:
+pref['privacidad'] = lang.GROUPS_CLOSED;
+break;
+case 3:
+pref['privacidad'] = lang.GROUPS_PRIVATE;
+break;
+}
+console.log(pref['privacidad']);
 outG +=
 '<li group="'+pref['id']+'">'+
 '<img src="'+pref['icon']+'" class="ui-li-icon-group" width="16" height="16" />'+
 '<a class="linkGroup">'+pref['name']+'<br>'+
-'<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal">'+pref['privacidad']+' '+lang.MAINMNU_GROUP+
-', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+'</div>'+
+'<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal">'+pref['privacidad']+', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+'</div>'+
 '</a>'+
 '</li>';
 more+=armarSeemore(data['limit'],'groups',(i+1),data['g_maxR']);

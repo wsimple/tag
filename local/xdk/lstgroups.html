@@ -93,15 +93,30 @@ myDialog('#singleDialog', lang.conectionFail);
 success : function(data) {
 var i,out='',pref='';
 console.log(data);
+console.log('lenguaje '+lang.actual);
+
 for(i in data['list']){
 pref = data['list'][i];
+pref['cname'] = (pref['cname']) ? pref['cname'] : 'General';
+
+switch (pref['idPri']) {
+case 1:
+pref['privacidad'] = lang.GROUPS_OPEN;
+break;
+case 2:
+pref['privacidad'] = lang.GROUPS_CLOSED;
+break;
+case 3:
+pref['privacidad'] = lang.GROUPS_PRIVATE;
+break;
+};
+console.log(pref['privacidad']);
 out +=
 '<li group="'+pref['id']+'">'+
 '<img '+pref['photoi']+' class="ui-li-icon-group" width="30" height="30" />'+
 '<a class="linkGroup">'+pref['name']+'<br>'+
-'<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal">'+pref['privacidad']+' '+lang.MAINMNU_GROUP+
-', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+
-'<img src="'+pref['cphoto']+'" class="ui-li-icon-group" width="20" height="20" style="float: none; margin: 0px 5px;"/> '+pref['cate_name']+
+'<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal">'+pref['privacidad']+', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+
+'<img src="'+pref['cphoto']+'" class="ui-li-icon-group" width="20" height="20" style="float: none; margin: 0px 5px;"/> '+lan('Category')+':'+pref['cname']+
 '</div>'+
 '</a>'+
 '</li>';
