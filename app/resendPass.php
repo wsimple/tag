@@ -16,6 +16,7 @@
 			</form>
 			<form id="frmReset" name="frmReset" method="post">
 				<div>
+				<div id="respuesta"></div>
 					<strong><label id="passwordLabel" class="needed"></label></strong>
 					<input id="password" name="password" type="password" class="password-field" onkeypress="return enterTab(event,this)" onfocus="inputFocus(this)"/>
 					<strong><label id="repasswordLabel" class="needed"></label></strong>
@@ -65,7 +66,9 @@
 					if($('#repassword').val()=='') strin=(strin==''?strin:strin+' and ')+lang.SIGNUP_CONFIRMPASSWORD;
 					if (strin==''){
 						if($('#password').val().length>=6){
+							// alert($('#password').val()+'---'+$('#repassword').val());
 							if ($('#password').val()==$('#repassword').val()){
+								// alert($('#password').val()+'---'+$('#repassword').val()+'---'+$_GET['usr']);
 								myAjax({
 									url: DOMINIO+'controls/users/resetPassword.json.php',
 									type	: 'POST',
@@ -78,6 +81,7 @@
                                         out     :'out'
 									},
 									success	:function(data){
+										// $('#respuesta').html('<div>error: '+data['error']+'</div><div>mensaje: '+data['mensaje']+'</div>');
     										if (data['exit']){
                                                 myDialog({
     												id:'confi-resetPass',
