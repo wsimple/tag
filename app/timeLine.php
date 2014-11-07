@@ -114,13 +114,7 @@
 						case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
 						case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
 						case 'comment':
-
-							$('#comments').remove();
-							$('[tag='+tagtId+']').append(
-									'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
-							);
-							$('#comments').listview();
-							getComments('reload',{
+							var opc = {
 								layer:'#comments',
 								scroller:'.fs-wrapper',
 								data:{
@@ -128,6 +122,22 @@
 									source:tagtId,
 									limit:10,
 									mobile:1
+								}
+							};
+							$('#comments').remove();
+							$('[tag='+tagtId+']').append(
+									'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
+							);
+							$('#comments').listview();
+							getComments('reload',opc);
+
+							$('#pd-wrapper').on('keydown', '#commenting', function(e) {
+								if (e.which == 13) {
+									var comment=$.trim($(this).val());
+									if(comment!=''){
+										insertComment(comment,opc);
+									}
+									return false;
 								}
 							});
 							// var interval=setInterval(function(){
