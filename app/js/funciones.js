@@ -1953,14 +1953,12 @@ function checkOutShoppingCart(get){
 				if(action=='reload'){
 					$list.html(list+
 						'<li>'+
-						'<form action="#" method="POST" accept-charset="utf-8">'+
 							'<img src="'+(comment['photoUser']||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'+
-							'<textarea rows="3" cols="73" placeholder="Comentar..." name="comment"></textarea>'+
-						'</form>'+
+							'<textarea id="commenting" rows="3" cols="73" placeholder="Comentar..." name="comment"></textarea>'+
 						'</li>'
 					).slideDown();
 				}else if(action=='refresh'||action=='insert'){
-					$list.append(list);
+					$list.find('li:nth-last-child(2)').append(list);
 				}else{
 					$list.prepend(list);
 				}
@@ -1998,6 +1996,7 @@ function checkOutShoppingCart(get){
 		return _getComments(action,opc);
 	};
 	window.insertComment=function(txt,opc){
+		console.log('si voy a insertar')
 		opc.data.txt=txt.replace(/^\s+|\s+$/gm,'');
 		if(!opc.data.txt) return;
 		return _getComments('insert',opc,true);
