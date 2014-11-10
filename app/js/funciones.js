@@ -781,7 +781,7 @@ function viewFriends(opc){
 		success:function(data){
 			if (data.error) return;
 			var i,friend,out='',divider;
-			console.log(opc.user);
+			// console.log('cant '+data.datos.length+' user '+opc.user);
 			// if($.local('code')==opc.user){
 				switch(opc.mod){
 					case 'friends':divider=lan('friends','ucw');break;
@@ -790,10 +790,11 @@ function viewFriends(opc){
 				}
 			// }
 			divider='<li data-role="list-divider">'+(opc.mod=='find'?lang.FINDFRIENDS_LEGENDOFSEARCHBAR:divider+' <span class="ui-li-count">'+data.num+'</span>')+'</li>';
-			for(i=0;i<data.datos.length;i++){
-				friend=data.datos[i];
-				out+=
-					'<li class="userInList">'+
+
+			if (data.datos.length>0){
+				for(i=0;i<data.datos.length;i++){
+					friend=data.datos[i];
+					out+='<li class="userInList">'+
 						'<a code="'+friend.code_friend+'" data-theme="e">'+
 							'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
 							'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
@@ -803,11 +804,30 @@ function viewFriends(opc){
 								lan('admired','ucw')+' ('+(friend.following_count||0)+')'+
 							'</p>'+
 						'</a>'+
-						//'<a>test</a>'+
 					'</li>';
-			}
+				}
+			}else{
+				var mens='';
+				switch(opc.mod){
+					case 'friends':
+						mens = lang.EMPTY_INFO_FRIENDS;
+					break;
+					case 'follow':
+						mens = lang.EMPTY_INFO_ADMIRERS;
+					break;
+					case 'unfollow':
+						mens = lang.EMPTY_INFO_ADMIRED;
+					break;
+				}
+				out+='<div class="emptyInfo">'+mens+'<br><br>';
+				if(opc.mod!='follow')
+					out+='<div id="findFriends" style="font-weight:bold">'+lang.FIND_FRIENDS_NOTIFICATION+'</div></div>';
+			};
 
 			$(opc.layer).html(divider+out).listview('refresh');
+			$('#findFriends').click(function(event) {
+				redir(PAGE['findfriends']);
+			});
 			$('.list-wrapper').jScroll('refresh');
 		}
 	});
