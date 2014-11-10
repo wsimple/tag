@@ -546,8 +546,8 @@ function showTag(tag){//individual tag
 			(isLogged()?
 		'<menu>'+
 			'<ul>'+
-				(tag['business']?
-					'<li id="bcard" title="Bussines Card"><span>Bussines Card</span></li>'
+				(tag['uid']?
+					'<li id="users" users="'+tag['uid']+'"><span>profile</span></li>'
 				:'')+
 				'<li id="like" '+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
 				'<li id="dislike" '+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
@@ -708,6 +708,7 @@ function actionsTags(layer){
 					}]
 				});
 			break;
+			case 'users': redir(PAGE['profile']+'?id='+$(e.target).attr('users')); break;
 		}
 	});
 }
@@ -832,7 +833,7 @@ function afterAjaxTags(data, tagId, toHide,toShow){
 			}
 			myAjax({
 				data:act||{},
-				url:DOMINIO+'controls/tags/tagsList.json.php?current='+current+'&limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
+				url:DOMINIO+'controls/tags/tagsList.json.php?this_is_app&current='+current+'&limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 				success:function(data){
 					if(action=='more'&&(!data.tags||data.tags.length<1)) act.more=false;
 					if(!cancel()){

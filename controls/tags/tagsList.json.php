@@ -32,11 +32,12 @@ function tagsList_json($data,$mobile=false){
 	$numeroSponsor=ceil($limit/$denominador);
 	$id_sponsors=array();
 	if($data['idsponsor']!='') $id_sponsors=explode(',',$data['idsponsor']);
+	$sqlUid=isset($_GET['this_is_app'])?'md5(concat(u.id,"_",u.email,"_",u.id))':'md5(t.id_creator)';
 	$select='
 		t.id,
 		t.source,
 		t.id_creator,
-		md5(t.id_creator) as uid,
+		'.$sqlUid.' as uid,
 		t.id_user,
 		t.text,
 		t.text2,
