@@ -1958,7 +1958,7 @@ function checkOutShoppingCart(get){
 						'</li>'
 					).slideDown();
 				}else if(action=='refresh'||action=='insert'){
-					$list.find('li:nth-last-child(2)').append(list);
+					$list.append(list);
 				}else{
 					$list.prepend(list);
 				}
@@ -1996,7 +1996,6 @@ function checkOutShoppingCart(get){
 		return _getComments(action,opc);
 	};
 	window.insertComment=function(txt,opc){
-		console.log('si voy a insertar')
 		opc.data.txt=txt.replace(/^\s+|\s+$/gm,'');
 		if(!opc.data.txt) return;
 		return _getComments('insert',opc,true);
