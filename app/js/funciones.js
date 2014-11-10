@@ -536,50 +536,48 @@ function colorSelector(picker,inputField){
 }
 
 function showTag(tag){//individual tag
-	var btn=tag.btn||{};
+	var btn=tag['btn']||{};
 	var btnSponsor='',paypal='prueba';
 	return(
-	'<div tag="'+tag.id+'" udate="'+tag.udate+'">'+
-		'<div class="minitag" style="background-image:url('+tag.imgmini+')"></div>'+
-		'<div class="tag" style="background-image:url('+tag.img+')"></div>'+
+	'<div tag="'+tag['id']+'" udate="'+tag['udate']+'">'+
+		'<div class="minitag" style="background-image:url('+tag['imgmini']+')"></div>'+
+		'<div class="tag" style="background-image:url('+tag['img']+')"></div>'+
 		'<div class="bg"></div>'+
 			(isLogged()?
 		'<menu>'+
 			'<ul>'+
-				(tag.business?
-					'<li id="bcard" action="card,'+tag.business+'" title="Bussines Card"><span>Bussines Card</span></li>'
+				(tag['business']?
+					'<li id="bcard" title="Bussines Card"><span>Bussines Card</span></li>'
 				:'')+
-				'<li id="like" action="like,'+tag.id+'"'+(tag.likeIt>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
-				'<li id="dislike" action="dislike,'+tag.id+'"'+(tag.likeIt<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
-				(!tag.popup?
+				'<li id="like" '+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
+				'<li id="dislike" '+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
+				(!tag['popup']?
 					'<li id="comment" title="Comment"><span>Comment</span></li>'
-				:'')+(btn.redist?
+				:'')+(btn['redist']?
 					'<li id="redistr" title="Redist"><span>Redist</span></li>'
-				:'')+(btn.share?
+				:'')+(btn['share']?
 					'<li id="share" title="Share"><span>Share</span></li>'
-				:'')+btnSponsor+(btn.trash?
+				:'')+btnSponsor+(btn['trash']?
 					'<li id="trash" title="Trash"><span>Trash</span></li>'
-				:'')+((tag.product)?(btn.edit?
-					'<li id="edit" action="editProductTag,'+tag.id+','+tag.product.id+'" title="Edit"><span><?=$lang["MNUTAG_TITLEEDIT"]?></span></li>'
-				:''):(btn.edit?
-					'<li id="edit" title="Edit2"><span>Edit2</span></li>'
-				:''))+(btn.report?
+				:'')+(tag['typeVideo']?
+					'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>'
+				:'')+(btn['report']?
 					'<li id="report" title="Report"><span>Report</span></li>'
 				:'')+
 			'</ul>'+
 		'<div class="clearfix"></div></menu>'
 		:'<div id="menuTagnoLogged"></div>')+
 		'<div class="tag-icons">'+
-			'<div id="sponsor" '+(tag.sponsor?'':'style="display:none;"')+'></div>'+
-			'<div id="redist" '+(tag.redist?'':'style="display:none;"')+'></div>'+
-			'<div id="likeIcon" '+(tag.likeIt>0?'':'style="display:none;"')+'></div>'+
-			'<div id="dislikeIcon" '+(tag.likeIt<0?'':'style="display:none;"')+'></div>'+
+			'<div id="sponsor" '+(tag['sponsor']?'':'style="display:none;"')+'></div>'+
+			'<div id="redist" '+(tag['redist']?'':'style="display:none;"')+'></div>'+
+			'<div id="likeIcon" '+(tag['likeIt']>0?'':'style="display:none;"')+'></div>'+
+			'<div id="dislikeIcon" '+(tag['likeIt']<0?'':'style="display:none;"')+'></div>'+
 		'</div>'+
-		(tag.rid?'<div class="redist"><div>'+lan('TXT_REDISTBY')+tag.name_redist+'</div></div>':'')+
-		((tag.product||tag.typeVideo)?
+		(tag['rid']?'<div class="redist"><div>'+lan('TXT_REDISTBY')+tag['name_redist']+'</div></div>':'')+
+		((tag['product']||tag['typeVideo'])?
 			'<div class="extras"><div>'+
-				(tag.typeVideo?
-					'<span class="'+tag.typeVideo+'"></span>'
+				(tag['typeVideo']?
+					'<span class="'+tag['typeVideo']+'"></span>'
 				:'')+
 			'</div></div>'
 		:'')+
@@ -594,7 +592,133 @@ function showTags(array){//tag list
 //		tags+='<div class="tag-loading smt-container"><div class="smt-content" style="z-index:4;">Loading...</div></div>'+showTag(array[i]);
 	return '<div class="tag-container">'+tags+'</div>';
 }
-
+function actionsTags(layer){
+	$(layer).doubletap('[tag]', function(e){
+		var tagId = $(e.currentTarget).attr('tag')
+		$('[tag="'+tagId+'"] menu li#like',layer).click();
+	});
+	$(layer).on('click', 'menu li', function(e){
+		var tagtId = $(e.target).parents('[tag]').attr('tag');
+		var btnPresed = e.target.id;
+		switch(e.target.id){
+			case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
+			case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
+			case 'comment':
+				alert('en construcción');
+			break;
+			case 'like':case 'dislike':
+				var that=e.target.id+'Icon',
+					show=e.target.id!='like'?'likeIcon':'dislikeIcon';
+				myAjax({
+					type:'POST',
+					url:DOMINIO+'controls/tags/actionsTags.controls.php?action='+(that=='likeIcon'?4:11)+'&tag='+tagtId,
+					dataType:'html',
+					loader: false,
+					success:function( data ){
+						afterAjaxTags(data,tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
+						myAjax({
+							type:'POST',
+							url:DOMINIO+'controls/tags/actionsTags.controls.php?action=12&tag='+tagtId,
+							dataType:'html',
+							loader: false,
+							success:function( data ){
+								data= data.split('|');
+								// opc.likes=data[0];
+								// opc.dislikes=data[1];
+								if(data[2]>0){afterAjaxTags(data, tagtId, 'menu #like', 'menu #dislike');};
+								if(data[2]<0){afterAjaxTags(data, tagtId,'menu #dislike', 'menu #like');};
+								// $('#numLikes').html(opc.likes);
+								// $('#numDislikes').html(opc.dislikes);
+							}
+						});
+					}
+				});
+			break;
+			case 'redistr':
+				myAjax({
+					type:'POST',
+					url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagtId,
+					dataType:'html',
+					loader: false,
+					success:function( data ){
+						afterAjaxTags(data, tagtId,'menu #redistr', '.tag-icons #redist');
+					}
+				});
+			break;
+			case 'trash':
+				myDialog({
+					id:'#singleRedirDialog',
+					content:lang.JS_DELETETAG,
+					loader: false,
+					buttons:[{
+						name:lang.yes,
+						action:function(){
+							var dialog = this;
+							myAjax({
+								type: 'POST',
+								url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagtId,
+								dataType: 'html',
+								success: function( data ) {
+									$('[tag='+tagtId+']').fadeOut('fast',function(){
+										$(this).remove();
+										dialog.close();
+									});
+								}
+							});
+						}
+					},{
+						name:'No',
+						action:'close'
+					}]
+				});
+			break;
+			case 'youtube': case 'vimeo': 
+					var video=$(e.target).attr('vUrl');
+				if(openVideo){
+					openVideo(video,'#popupVideo');
+				}else{ 
+					window.open(video,"_blank"); 
+					// $(e.target).find('a').click(); 
+				}
+			break;
+			case 'local': 
+				var wi=$(e.target).parents('.tag-container').css('font-size'),video=$(e.target).attr('vUrl');
+				if (wi.indexOf('px')!=-1){
+					wi=(wi.replace('px','')*1)/2;
+					wi=wi+'px';
+				}else{
+					wi=(wi.replace('em','')*1)-0.20;
+					wi=wi+'em';
+				}
+				myDialog({
+					id:'#singleVideoDialog',
+					content:'<div class"tag-solo" style="font-size:'+wi+'"><div class="tag-container" style="margin:0 auto;"><div tag><div class="video"><div class="placa"></div>'+
+								'<video id="v'+Math.random()+'" controls autoplay preload="metadata"><source src="'+video+'" type="video/mp4"/></video>'+
+								'</div></div></div><div class="clearfix"></div></div>',
+					buttons:[{
+						name:'Ok',
+						action:function(){
+							var di=this;
+							$('#singleVideoDialog video').each(function(index, el) {
+								this.pause();
+								this.src="";
+							});
+							di.close();
+						}
+					}]
+				});
+			break;
+		}
+	});
+}
+function afterAjaxTags(data, tagId, toHide,toShow){
+	console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
+	if(data.indexOf('ERROR')<0){
+		$('[tag='+tagId+']').find(toHide).fadeOut('slow',function(){
+			$('[tag='+tagId+']').find(toShow).fadeIn('slow');
+		});
+	}
+}
 (function(window,$,console){
 	window.updateTags=function(action,opc,loader){
 		if(!opc.on) opc.on={};
@@ -625,8 +749,9 @@ function showTags(array){//tag list
 			myAjax({
 				type:'GET',
 				dataType:'json',
+				loader:false,
 				data:act||{},
-				url:DOMINIO+'controls/tags/tagsList.json.php?limit='+limit+'&current='+current+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
+				url:DOMINIO+'controls/tags/tagsList.json.php?this_is_app&limit='+limit+'&current='+current+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 				success:function(data){
 					if(cancel()){
 						console.log('Cancelada carga de '+current+'.'); return;
@@ -1195,7 +1320,6 @@ function checkAllCheckboxs(value,container){
 }
 
 function getFriends(id,like){
-	console.log('getFriend. id='+id);
 	like=like?'&like='+like:'';
 	var emails=[];
 	$('#pictures_shareTag input').each(function(){
@@ -1203,28 +1327,27 @@ function getFriends(id,like){
 	});
 	myAjax({
 		loader	:true,
-		type	:'GET',
-		url		:DOMINIO+'controls/users/getFriends.json.php?id='+id+like,
+		type	:'POST',
+		url		:DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&code'+like,
+		data:{uid:id},
 		dataType:'json',
 		success	:function(data){
 			var ret='';
-			for(var i in data){
-				//alert(data[i].id);
-				if(emails.join().indexOf(data[i].email)<0)
+			for(var i in data['datos']){
+				if(emails.join().indexOf(data['datos'][i]['email'])<0)
 				ret+=
-					'<div id="'+data[i].id+'" onclick="$(\'#friend_'+data[i].id+'\').attr(\'checked\',($(\'#friend_'+data[i].id+'\').is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
+					'<div onclick="$(\'input\',this).attr(\'checked\',($(\'input\',this).is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
 						'<div style="float:right;padding-top:20px;margin-right:15px;">'+
 							'<fieldset data-role="controlgroup">'+
-								'<input id="friend_'+data[i].id+'" name="friend_'+data[i].id+'" '+
-										'value="'+data[i].email+'|'+data[i].photo+'" type="checkbox" />'+
+								'<input value="'+data['datos'][i]['email']+'|'+data['datos'][i]['photo_friend']+'" type="checkbox" />'+
 							'</fieldset>'+
 						'</div>'+
-						'<img src="'+FILESERVER+data[i].photo+'" style="float:left;width:60px;height:60px;"/>'+
+						'<img src="'+data['datos'][i]['photo_friend']+'" style="float:left;width:60px;height:60px;" class="userBR"/>'+
 						'<div style="float:left;margin-left:5px;font-size:10px;text-align:left;">'+
-							'<spam style="color:#E78F08;font-weight:bold;">'+data[i].name+'</spam><br/>'+
-							(data[i].country?lang.country+':'+data[i].country+'<br/>':'')+
-							''+lan('friends','ucw')+'('+data[i].friends_count+')<br/>'+
-							''+lan('admirers','ucw')+'('+data[i].followers_count+')'+
+							'<spam style="color:#E78F08;font-weight:bold;">'+data['datos'][i]['name_user']+'</spam><br/>'+
+							(data['datos'][i]['country']?lang.country+':'+data['datos'][i]['country']+'<br/>':'')+
+							''+lan('friends','ucw')+'('+data['datos'][i]['friends_count']+')<br/>'+
+							''+lan('admirers','ucw')+'('+data['datos'][i]['followers_count']+')'+
 						'</div>'+
 					'</div>';
 			}
@@ -1237,27 +1360,27 @@ function getFriends(id,like){
 	});
 }
 
-function selectFriendsDialog(idDialog,id){
+function selectFriendsDialog(id){
 	console.log('selectfriendsdialog');
 	$('html,body').animate({scrollTop:0},'fast',function(){
 		myDialog({
-			id:idDialog,
+			id:'shareTagDialog',
 			style:{'min-height':200},
 			buttons:{},
 			after:function(options,dialog){
+				getFriends(id);
 				var timer;
 				$('#like_friend',dialog).unbind('keyup').bind('keyup',function(event){
 					if(event.which==8||event.which>40){
 						if(timer) clearTimeout(timer);
 						timer=setTimeout(function(){
 							getFriends(id,$('#like_friend',dialog).val());
-						},2000);
+						},1000);
 					}
 				});
 			}
 		});
 	});
-	getFriends(id);
 }
 
 // removes a picture and check if there's no more pictures hide the title
@@ -1283,8 +1406,7 @@ function getDialogCheckedUsers(idDialog){
 			$('#pictures_shareTag').append(
 				'<span id="'+md5(userInfo[0])+'" onclick="removePicture(this)">'+
 					'<input type="hidden" name="x" value="'+userInfo[0]+'" type="text"/>'+
-					'<img src="'+FILESERVER+userInfo[1]+'" width="40"'+
-						'style="margin-left: 5px; border-radius: 5px;"/>'+
+					'<img src="'+userInfo[1]+'" width="40" style="margin-left: 5px; border-radius: 5px;" class="userBR"/>'+
 				'</span>'
 			);
 			paso=true;
@@ -1971,7 +2093,12 @@ function checkOutShoppingCart(get){
 //				console.log(list);
 				$list.find('.ui-li-divider').remove();
 				if(action=='reload'){
-					$list.html(list);
+					$list.html(list+
+						'<li>'+
+							'<img src="'+(comment['photoUser']||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'+
+							'<textarea id="commenting" rows="3" cols="73" placeholder="Comentar..." name="comment"></textarea>'+
+						'</li>'
+					).slideDown();
 				}else if(action=='refresh'||action=='insert'){
 					$list.append(list);
 				}else{
