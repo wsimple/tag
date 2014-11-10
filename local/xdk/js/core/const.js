@@ -16,12 +16,12 @@ var is={
 	lang,
 	DOMINIO,PRODUCCION,LOCAL,FILESERVER,PAGE,SERVERS;
 if(version) version=version[1];
-is['limited']= !is['webkit']||is['android'];
+is.limited= !is.webkit||is.android;
 
 (function(window){
 	//lenguaje actual del navegador
 	var actual=(window.navigator.userLanguage||window.navigator.language).substring(0,2),more={};
-	if(actual=='es') more['es']={//español
+	if(actual=='es') more.es={//español
 		//Nueva forma de traduccion (para textos cortos o de un unico uso).
 		//Se llama la funcion: lan(texto).
 		//En este modo el texto se escribe tal cual como debe verse en ingles, y agregamos solo la
@@ -327,7 +327,14 @@ is['limited']= !is['webkit']||is['android'];
 		USERPROFILE_PREFERENCES_TITLE	:'Preferencias',
 		FIENDFRIENDS_INVITED			:'Invitado',
 		FIENDFRIENDS_PHONECONTACT		:'Contacto de telefono',
-		yes								:'S&iacute;'
+		yes								:'S&iacute;',
+
+		EMPTY_INFO_NOTIFICATION			:'Disculpe, no hay notificaciones que mostrar porque no tienes amigos. Haz clic abajo y encuentra a tus amigos.',
+		EMPTY_INFO_NEWS					:'Disculpe, no hay noticias que mostrar porque no tienes amigos. Haz clic abajo y encuentra a tus amigos.',
+		EMPTY_INFO_FRIENDS				:'Disculpe, no tienes amigos. Haz clic abajo y encuentra a tus amigos.',
+		EMPTY_INFO_ADMIRERS				:'Disculpe, no tienes admiradores. Espera a que alguien te siga y lo veras en este lista.',
+		EMPTY_INFO_ADMIRED				:'Disculpe, no tienes admirados. Haz clic abajo y encuentra a tus amigos.',
+		FIND_FRIENDS_NOTIFICATION		:'Encontrar Amigos'
 	};//es
 	lang={//ingles por defecto
 		pass							:'Password',
@@ -706,7 +713,16 @@ is['limited']= !is['webkit']||is['android'];
 		TOPTAGS_NOTAGS		:'Top Tags depend on what the people likes.<br/>Right now have no tags to show in ',
 
 		TXT_REDIST	:' (redistribution)',
-		TXT_REDISTBY:'Redistributed by '
+		TXT_REDISTBY:'Redistributed by ',
+
+		EMPTY_INFO_NOTIFICATION			:'Sorry, no news to show because you have no friends. Click below to find your friends.',
+		EMPTY_INFO_NEWS					:'Sorry, no notifications to show because you have no friends. Click below to find your friends.',
+		EMPTY_INFO_FRIENDS				:'Sorry you have no friends. Click below to find your friends',
+		EMPTY_INFO_ADMIRERS				:'Sorry, no tienes admiradores. Waiting for someone to follow you and see in this list.',
+		EMPTY_INFO_ADMIRED				:'Sorry you have no admired. Click below to find your friends.',
+		FIND_FRIENDS_NOTIFICATION		:'Find Friends'
+
+
 	};//lang
 	if(!more[actual]) actual='en';//si no existe el idioma, usamos el ingles por default.
 	lang.actual=actual;
@@ -720,13 +736,13 @@ is['limited']= !is['webkit']||is['android'];
 		}else{
 			info=info.replace(/{{([^}]*)}}/g, '' ).replace(/{([^}]*)}/g,'$1');
 		}
-		for(i in infos['replace'][0]){
-			rep=infos['replace'][0][i];
+		for(i in infos.replace[0]){
+			rep=infos.replace[0][i];
 			info=info.replace(rep[0],rep[n]||rep[1]);
 		}
 		info=info.replace('[_FRIENDS_]', opc.people||opc.friends||'').replace('[_USR_]', opc.usr||'').replace('[_GROUP_]', opc.group||'');
-		for(i in infos['replace'][1]){
-			rep=infos['replace'][1][i];
+		for(i in infos.replace[1]){
+			rep=infos.replace[1][i];
 			info=info.replace(rep[0],rep[n]||rep[1]);
 		}
 		return info;
@@ -738,7 +754,7 @@ is['limited']= !is['webkit']||is['android'];
 function lan(value,opc){
 	var txt=(lang[value]||value);
 	//cambio de caracteres especiales por unicode (español)
-	if(lang['actual']=='es') txt=txt
+	if(lang.actual=='es') txt=txt
 	.replace(/Á|&Aacute;/,'\u00C1').replace(/á|&aacute;/,'\u00E1')
 	.replace(/É|&Eacute;/,'\u00C9').replace(/é|&eacute;/,'\u00E9')
 	.replace(/Í|&Iacute;/,'\u00CD').replace(/í|&iacute;/,'\u00ED')

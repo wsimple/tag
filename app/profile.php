@@ -86,8 +86,8 @@
 					}
 					function setFriendsButtons(data){data=data||{};
 						fillButton('#userFriends',	data['friends_count']?data['friends_count']:data['friends']);
-						fillButton('#userFollowers',data['following_count']?data['following_count']:data['admirers']);
-						fillButton('#userFollowing',data['followers_count']?data['followers_count']:data['admired']);
+						fillButton('#userFollowers',data['followers_count']?data['followers_count']:data['admirers']);
+						fillButton('#userFollowing',data['following_count']?data['following_count']:data['admired']);
 					}
 					setFriendsButtons(data);
 					fillButton('#userTags',			data['numTags']);
