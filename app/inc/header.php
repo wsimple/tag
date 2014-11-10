@@ -5,6 +5,7 @@
 if(!( #validamos si el usuario tiene permitido ingresar a la app
 	preg_match('/ipad|android|ipod|iphone/i',$_SERVER['HTTP_USER_AGENT'])||
 	$_SERVER['SERVER_NAME']=='localhost'||
+	isset($_GET['minify'])||
 	is_debug()
 )){
 	header('Location: ..');
