@@ -389,7 +389,7 @@ function tagsList_json($data,$mobile=false){
 			$validaVideo=new Video();
 			if ($tag['video']!='') $_GET['thisvideo']=$tag['video'];
 			else unset($_GET['thisvideo']);
-			$validaVideo=$validaVideo->validate(0,0,1,($_POST['CROSSDOMAIN']||$headers['SOURCEFORMAT']=='mobile'),$config,$data['embed']?true:false);
+			$validaVideo=$validaVideo->validate(0,0,1,(isset($_GET['this_is_app'])?true:false),$config,$data['embed']?true:false);
 			if ($validaVideo['success']){
 				$tag['typeVideo']=$validaVideo['type'];
 				$tag['video']=$validaVideo['urlV'];
@@ -428,7 +428,7 @@ function tagsList_json($data,$mobile=false){
 				$validaVideo=new Video();
 				if ($tag['video']!='') $_GET['thisvideo']=$sponsor['video'];
 				else unset($_GET['thisvideo']);
-				$validaVideo=$validaVideo->validate(0,0,1,$mobile,$config);
+				$validaVideo=$validaVideo->validate(0,0,1,(isset($_GET['this_is_app'])?true:false),$config);
 				// array('success'=>$success,'urlV'=>$url,'type'=>$type,'test'=>$test)
 				if ($validaVideo['success']){
 					$sponsor['typeVideo']=$validaVideo['type'];

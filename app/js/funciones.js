@@ -547,10 +547,10 @@ function showTag(tag){//individual tag
 		'<menu>'+
 			'<ul>'+
 				(tag['business']?
-					'<li id="bcard" action="card,'+tag['business']+'" title="Bussines Card"><span>Bussines Card</span></li>'
+					'<li id="bcard" title="Bussines Card"><span>Bussines Card</span></li>'
 				:'')+
-				'<li id="like" action="like,'+tag['id']+'"'+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
-				'<li id="dislike" action="dislike,'+tag['id']+'"'+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
+				'<li id="like" '+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
+				'<li id="dislike" '+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
 				(!tag['popup']?
 					'<li id="comment" title="Comment"><span>Comment</span></li>'
 				:'')+(btn['redist']?
@@ -559,11 +559,9 @@ function showTag(tag){//individual tag
 					'<li id="share" title="Share"><span>Share</span></li>'
 				:'')+btnSponsor+(btn['trash']?
 					'<li id="trash" title="Trash"><span>Trash</span></li>'
-				:'')+((tag['product'])?(btn['edit']?
-					'<li id="edit" action="editProductTag,'+tag['id']+','+tag['product']['id']+'" title="Edit"><span><?=$lang["MNUTAG_TITLEEDIT"]?></span></li>'
-				:''):(btn['edit']?
-					'<li id="edit" title="Edit2"><span>Edit2</span></li>'
-				:''))+(btn['report']?
+				:'')+(tag['typeVideo']?
+					'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>'
+				:'')+(btn['report']?
 					'<li id="report" title="Report"><span>Report</span></li>'
 				:'')+
 			'</ul>'+
@@ -674,6 +672,42 @@ function actionsTags(layer){
 					}]
 				});
 			break;
+			case 'youtube': case 'vimeo': 
+					var video=$(e.target).attr('vUrl');
+				if(openVideo){
+					openVideo(video,'#popupVideo');
+				}else{ 
+					window.open(video,"_blank"); 
+					// $(e.target).find('a').click(); 
+				}
+			break;
+			case 'local': 
+				var wi=$(e.target).parents('.tag-container').css('font-size'),video=$(e.target).attr('vUrl');
+				if (wi.indexOf('px')!=-1){
+					wi=(wi.replace('px','')*1)/2;
+					wi=wi+'px';
+				}else{
+					wi=(wi.replace('em','')*1)-0.20;
+					wi=wi+'em';
+				}
+				myDialog({
+					id:'#singleVideoDialog',
+					content:'<div class"tag-solo" style="font-size:'+wi+'"><div class="tag-container" style="margin:0 auto;"><div tag><div class="video"><div class="placa"></div>'+
+								'<video id="v'+Math.random()+'" controls autoplay preload="metadata"><source src="'+video+'" type="video/mp4"/></video>'+
+								'</div></div></div><div class="clearfix"></div></div>',
+					buttons:[{
+						name:'Ok',
+						action:function(){
+							var di=this;
+							$('#singleVideoDialog video').each(function(index, el) {
+								this.pause();
+								this.src="";
+							});
+							di.close();
+						}
+					}]
+				});
+			break;
 		}
 	});
 }
@@ -716,7 +750,7 @@ function afterAjaxTags(data, tagId, toHide,toShow){
 				type:'GET',
 				dataType:'json',
 				data:act||{},
-				url:DOMINIO+'controls/tags/tagsList.json.php?limit='+limit+'&current='+current+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
+				url:DOMINIO+'controls/tags/tagsList.json.php?this_is_app&limit='+limit+'&current='+current+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 				success:function(data){
 					if(cancel()){
 						console.log('Cancelada carga de '+current+'.'); return;

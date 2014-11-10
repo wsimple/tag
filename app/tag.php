@@ -115,7 +115,7 @@
 				myAjax({
 					type	:'POST',
 					dataType:'json',
-					url		:DOMINIO+'controls/tags/tagsList.json.php?id='+$_GET['id']+(is['iOS']?'&embed':''),
+					url		:DOMINIO+'controls/tags/tagsList.json.php?this_is_app&id='+$_GET['id']+(is['iOS']?'&embed':''),
 					error	:function(/*resp,status,error*/){
 						myDialog({
 							id:'#singleRedirDialog',
