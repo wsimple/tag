@@ -80,7 +80,7 @@
 			myAjax({
 					type	: 'POST',
 					dataType: 'json',
-					url		: DOMINIO+'controls/tags/tagsList.json.php?id='+$_GET['id'],
+					url		: DOMINIO+'controls/tags/tagsList.json.php?this_is_app&id='+$_GET['id'],
 					error	: function(/*resp, status, error*/) {
 						myDialog({
 							id:'#singleRedirDialog',

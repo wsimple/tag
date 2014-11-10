@@ -1603,16 +1603,27 @@ input.password-field {
 .mobile .tag-container [tag] menu li.expand#report{
 	background-image:url('../img/tag/menu/report_over.png?1');
 }
+
 .emptyInfo{
 	text-align: center;
 	border: 1px solid #f7c942 ;
 	padding: .4em;
 	background: #fadb4e;
-
 	background-image: linear-gradient( #fceda7 , #fbef7e );
-
 	color: #333;
 	font-size: 14px;
 	margin: 10px 0;
 	text-shadow: 0 1px 0 #fff ;
+}
+.tag-container [tag] menu li#youtube,.tag-container [tag] menu li#vimeo,
+.tag-container [tag] menu li#local{ background-size: 100%; }
+
+.tag-container [tag] menu li#youtube{
+	background-image:url('smt/youtube.png');
+}
+.tag-container [tag] menu li#vimeo{
+	background-image:url('smt/vimeo.png');
+}
+.tag-container [tag] menu li#local{
+	background-image:url('smt/Video.png');
 }

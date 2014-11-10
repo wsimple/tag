@@ -91,10 +91,7 @@
 			},//end before
 			after:function(){
 				var current=$_GET['current']||'tagsUser',layer='#tagsList',id=$_GET['id'];
-				var opc={
-					current:current,
-					layer: layer
-				};
+				var opc={current:current,layer: layer };
 				if((current=='tagsUser')||(current=='personalTags')){
 					opc.get='&uid='+$_GET['id'];
 				}
@@ -103,20 +100,22 @@
 					opc.id=$_GET['id'];
 					opc.code=$.local('code');
 				}
-                if(current=='hash'){
-					opc.get='&hash='+$_GET['hash'];
-				}
+                if(current=='hash') opc.get='&hash='+$_GET['hash'];
 				$('#buttonBack').click(function(){
 					($_GET['delete'])?((redir(PAGE['tagslist']+'?current=group&id='+id))):goBack();
 				});
 				$('#friendsListDialog .wrapper,#adminLeaveDialog .wrapper').jScroll({hScroll:false});
-				$(layer).on('click','[tag]',function(){
-					if($(this).attr('tag')!=''){
-						var get=['id='+$(this).attr('tag')];
-						if(current=='group') get.push('idGroup='+id);
-						redir(PAGE['tag']+'?'+get.join('&'));
-					}
-				});
+				// $(layer).on('click','[tag]',function(){
+				// 	if($(this).attr('tag')!=''){
+				// 		var get=['id='+$(this).attr('tag')];
+				// 		if(current=='group') get.push('idGroup='+id);
+				// 		redir(PAGE['tag']+'?'+get.join('&'));
+				// 	}
+				// });
+				/*action menu tag*/
+				actionsTags(opc.layer);
+				/*and action menu tag*/
+
 				$('#pd-wrapper',this.id).ptrScroll({
 					onPullDown:function(){
 						updateTagsOld('refresh',opc);
@@ -135,7 +134,6 @@
 				}else if(current=='group'){
 					$('#pageTitle').html(lan('group','ucw'));
 					nameMenuGroups(id,0,function(data){
-						console.log(data);
 						$('#pageTitle').html(lan('group','ucw')+': '+data['name']);
 						verifyGroupMembership(id,$.local('code'),function(data){
 							if(data['isMember']){
@@ -440,6 +438,7 @@
 				}
 			}//end after
 		});
+
 	</script>
 </div>
 <?php include 'inc/footer.php'; ?>
