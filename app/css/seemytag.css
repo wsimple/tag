@@ -1608,7 +1608,7 @@ input.password-field {
 	text-align: center;
 	border: 1px solid #f7c942 ;
 	padding: .4em;
-	background: #fadb4e;
+	background: #fadb4e; 
 	background-image: linear-gradient( #fceda7 , #fbef7e );
 	color: #333;
 	font-size: 14px;

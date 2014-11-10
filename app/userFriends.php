@@ -21,7 +21,7 @@
 				$('#friendsFooter').prepend(
 					'<li><a href="#" opc="friends">'+lan('friends','ucw')+'</a></li>'+
 					'<li><a href="#" opc="follow">'+lan('admirers','ucw')+'</a></li>'+
-					'<li><a href="#" opc="unfollow">'+lan('admired','ucw')+'</a></li>' 
+					'<li><a href="#" opc="unfollow">'+lan('admired','ucw')+'</a></li>'
 				);
 			},
 			after:function(){
