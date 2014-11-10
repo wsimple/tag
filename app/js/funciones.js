@@ -549,8 +549,8 @@ function showTag(tag){//individual tag
 				(tag['business']?
 					'<li id="bcard" title="Bussines Card"><span>Bussines Card</span></li>'
 				:'')+
-				'<li id="like" '+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like">'+(tag['num_likes']>0?'<div>'+tag['num_likes']+'</div>':'')+'<span>Like</span></li>'+
-				'<li id="dislike" '+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike">'+(tag['num_dislikes']>0?'<div>'+tag['num_dislikes']+'</div>':'')+'<span>Dislike</span></li>'+
+				'<li id="like" '+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
+				'<li id="dislike" '+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
 				(!tag['popup']?
 					'<li id="comment" title="Comment"><span>Comment</span></li>'
 				:'')+(btn['redist']?
@@ -2075,7 +2075,7 @@ function checkOutShoppingCart(get){
 				if(action=='reload'){
 					$list.html(list+
 						'<li id="comment-line">'+
-							'<img src="'+(comment['photoUser']||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'+
+							'<img src="'+(comment['userPic']||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'+
 							'<textarea id="commenting" rows="3" cols="73" placeholder="Comentar..." name="comment"></textarea>'+
 						'</li>'
 					).slideDown();
