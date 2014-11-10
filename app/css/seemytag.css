@@ -1627,3 +1627,30 @@ input.password-field {
 .tag-container [tag] menu li#local{
 	background-image:url('smt/Video.png');
 }
+
+.ui-btn-inner{
+	border-top:none;
+}
+
+.btn-facebook{
+	background:#3b5998;
+}
+.btn-facebook .ui-btn-inner{
+	background-image:url('tbum/fb.png');
+	background-repeat:no-repeat;
+	background-position:left center;
+	padding-left:28px;
+}
+
+#btn-signup .ui-btn-inner,#btn-login .ui-btn-inner{
+	background-image:url('tbum/white_arrow_left.png');
+	background-repeat:no-repeat;
+	background-position:left;
+	-webkit-background-size:24px 20px;
+	background-size:24px 20px;
+	padding-left:30px;
+}
+
+#btn-signup,#btn-login,.btn-facebook{
+	padding:0px 10px;
+}
