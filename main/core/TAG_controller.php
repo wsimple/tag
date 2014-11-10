@@ -10,6 +10,7 @@ class TAG_controller extends TAG_functions{
 		$this->lib=new stdClass();
 		$this->model=new stdClass();
 		$this->load=new MAIN_load($this);
+		session_start();
 		$this->db=new TAG_db($config->db);
 		$this->db->showErrors($this->is_debug());
 		$this->lang=new Lang_lib($this);#libreria para manejo de lenguaje
