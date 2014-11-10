@@ -1534,74 +1534,74 @@ input.password-field {
 /*	width:150px;*/
 }
 .tag-container [tag] menu li#users{
-	background-image:url('../img/tag/menu/bcard.png');
+	background-image:url('menu/bcard.png');
 }
 .tag-container [tag] menu li#users:hover,
 .mobile .tag-container [tag] menu li.expand#users{
-	background-image:url('../img/tag/menu/bcard_over.png');
+	background-image:url('menu/bcard_over.png');
 }
 .tag-container [tag] menu li#like{
-	background-image:url('../img/tag/menu/like.png?1');
+	background-image:url('menu/like.png?1');
 }
 .tag-container [tag] menu li#like:hover,
 .mobile .tag-container [tag] menu li.expand#like{
-	background-image:url('../img/tag/menu/like_over.png?1');
+	background-image:url('menu/like_over.png?1');
 }
 .tag-container [tag] menu li#dislike{
-	background-image:url('../img/tag/menu/dislike.png?1');
+	background-image:url('menu/dislike.png?1');
 }
 .tag-container [tag] menu li#dislike:hover,
 .mobile .tag-container [tag] menu li.expand#dislike{
-	background-image:url('../img/tag/menu/dislike_over.png?1');
+	background-image:url('menu/dislike_over.png?1');
 }
 .tag-container [tag] menu li#comment{
-	background-image:url('../img/tag/menu/comment.png?1');
+	background-image:url('menu/comment.png?1');
 }
 .tag-container [tag] menu li#comment:hover,
 .mobile .tag-container [tag] menu li.expand#comment{
-	background-image:url('../img/tag/menu/comment_over.png?1');
+	background-image:url('menu/comment_over.png?1');
 }
 .tag-container [tag] menu li#share{
-	background-image:url('../img/tag/menu/share.png?1');
+	background-image:url('menu/share.png?1');
 }
 .tag-container [tag] menu li#share:hover,
 .mobile .tag-container [tag] menu li.expand#share{
-	background-image:url('../img/tag/menu/share_over.png?1');
+	background-image:url('menu/share_over.png?1');
 }
 .tag-container [tag] menu li#redistr{
-	background-image:url('../img/tag/menu/redist.png?1');
+	background-image:url('menu/redist.png?1');
 }
 .tag-container [tag] menu li#redistr:hover,
 .mobile .tag-container [tag] menu li.expand#redistr{
-	background-image:url('../img/tag/menu/redist_over.png?1');
+	background-image:url('menu/redist_over.png?1');
 }
 .tag-container [tag] menu li#sponsors{
-	background-image:url('../img/tag/menu/sponsor.png?1');
+	background-image:url('menu/sponsor.png?1');
 }
 .tag-container [tag] menu li#sponsors:hover,
 .mobile .tag-container [tag] menu li.expand#sponsor{
-	background-image:url('../img/tag/menu/sponsor_over.png?1');
+	background-image:url('menu/sponsor_over.png?1');
 }
 .tag-container [tag] menu li#trash{
-	background-image:url('../img/tag/menu/trash.png?1');
+	background-image:url('menu/trash.png?1');
 }
 .tag-container [tag] menu li#trash:hover,
 .mobile .tag-container [tag] menu li.expand#trash{
-	background-image:url('../img/tag/menu/trash_over.png?1');
+	background-image:url('menu/trash_over.png?1');
 }
 .tag-container [tag] menu li#edit{
-	background-image:url('../img/tag/menu/edit.png?1');
+	background-image:url('menu/edit.png?1');
 }
 .tag-container [tag] menu li#edit:hover,
 .mobile .tag-container [tag] menu li.expand#edit{
-	background-image:url('../img/tag/menu/edit_over.png?1');
+	background-image:url('menu/edit_over.png?1');
 }
 .tag-container [tag] menu li#report{
-	background-image:url('../img/tag/menu/report.png?1');
+	background-image:url('menu/report.png?1');
 }
 .tag-container [tag] menu li#report:hover,
 .mobile .tag-container [tag] menu li.expand#report{
-	background-image:url('../img/tag/menu/report_over.png?1');
+	background-image:url('menu/report_over.png?1');
 }
 
 .emptyInfo{
