@@ -938,48 +938,6 @@ function viewFriends(opc){
 	});
 }
 
-/**
- * Muestra contactos agregados en la agenda del telefono
- * @param  {string} idLayer [selector de elemnto donde se cargaran los contactos]
- * @param  {[string]} filter  [filter cadena para filtrar contactos a buscar por: email, numero telefonio o nombre]
- * @return {[boolean or none]}	[none]
- */
-function viewContacsPhone(idLayer,filter){
-	if(CORDOVA){
-		filter=(filter||'');
-		var out='',
-			onSuccess=function(contacts){
-				var emailSent=$.local('emails_sent')||[];
-				for(var i=0;i<contacts.length;i++){
-					if(contacts[i].emails){
-						var photo=(contacts[i].photos)?contacts[i].photos[0].value:'css/tbum/usr.png';
-						out+=
-						'<li class="userInList">'+
-							'<a email="'+contacts[i].emails[0].value+'" data-theme="e">'+
-								'<img src="'+photo+'"'+'class="ui-li-thumb" width="60" height="60"/>'+
-								'<h3 class="ui-li-heading">'+contacts[i].name.formatted+'</h3>'+
-								'<p class="ui-li-desc">'+
-									'<img src="img/phone.png" alt="'+lang.FIENDFRIENDS_PHONECONTACT+'" widt="16" height="16" />'+
-									lang.FIENDFRIENDS_PHONECONTACT+
-									'<span class="status-invitation">&nbsp;'+($.inArray(contacts[i].emails[0].value,emailSent)>-1?lang.FIENDFRIENDS_INVITED:'')+'</span>'+
-								'</p>'+
-							'</a>'+
-						'</li>';
-					}
-				}
-				$(idLayer).html(out).listview('refresh');
-				$('.list-wrapper').jScroll('refresh');
-			},
-			onError=function(contactError){ return false; };
-
-		var options=new ContactFindOptions();
-		options.filter=filter;
-		options.multiple=true;
-		var fields=["displayName","name","phoneNumbers","emails","photos"];
-		navigator.contacts.find(fields,onSuccess,onError,options);
-	}
-}
-
 function verifyGroupMembership(idGroup,code,func){
 	myAjax({
 		type:'GET',
