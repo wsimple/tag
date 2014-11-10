@@ -135,6 +135,7 @@
 								if (e.which == 13) {
 									var comment=$.trim($(this).val());
 									if(comment!=''){
+										// console.log('Insertare en: '+tagtId)
 										insertComment(comment,opc);
 									}
 									return false;
