@@ -749,6 +749,7 @@ function afterAjaxTags(data, tagId, toHide,toShow){
 			myAjax({
 				type:'GET',
 				dataType:'json',
+				loader:false,
 				data:act||{},
 				url:DOMINIO+'controls/tags/tagsList.json.php?this_is_app&limit='+limit+'&current='+current+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 				success:function(data){
