@@ -6,6 +6,26 @@
 		window.location.reload();
 	}
 </script>
+<style>
+	#like > div,#dislike > div{
+		display: inline-block;
+		position: relative;
+		width: 15px;
+		height: 15px;
+		font-size: 13px;
+		bottom: 22px;
+		right: 22px;
+		text-align: center;
+		color: white;
+	}
+
+	#like > div{
+		background-color: #B80A0A;
+	}
+	#dislike > div{
+		background-color: #0EB80A;
+	}
+</style>
 <div id="singleRedirDialog" class="myDialog" style="display: none;"><div class="table"><div class="cell"><div class="window" style="max-height: 272px; display: block;"><div class="container" style="max-height: 272px;"><div id="scroller" class="content">Está seguro que quiere eliminar esta tag?</div></div><div class="buttons"><a action="0" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Sí</span></span></a><a action="1" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">No</span></span></a></div></div></div></div><div class="closedialog" style="display:none"></div></div>
 <div id="page-timeLine" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
@@ -124,23 +144,29 @@
 									mobile:1
 								}
 							};
-							$('#comments').remove();
-							$('[tag='+tagtId+']').append(
-									'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
-							);
-							$('#comments').listview();
-							getComments('reload',opc);
+							if ($('[tag='+tagtId+']').find('#comments').length > 0) {
+								$('#comments').fadeOut('fast', function() {
+									$(this).remove();
+								});
+							}else{
+								$('#comments').remove();
+								$('[tag='+tagtId+']').append(
+										'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
+								);
+								$('#comments').listview();
+								getComments('reload',opc);
 
-							$('#pd-wrapper').on('keydown', '#commenting', function(e) {
-								if (e.which == 13) {
-									var comment=$.trim($(this).val());
-									if(comment!=''){
-										// console.log('Insertare en: '+tagtId)
-										insertComment(comment,opc);
+								$('#pd-wrapper').on('keydown', '#commenting', function(e) {
+									if (e.which == 13) {
+										var comment=$.trim($(this).val());
+										if(comment!=''){
+											$(this).val('');
+											insertComment(comment,opc);
+										}
+										return false;
 									}
-									return false;
-								}
-							});
+								});
+							}
 							// var interval=setInterval(function(){
 							// 	getComments('refresh',opc);
 							// },20000);
