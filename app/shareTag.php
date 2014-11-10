@@ -119,7 +119,7 @@
 				myAjax({
 					type	:'GET',
 					dataType:'json',
-					url		:DOMINIO+'controls/tags/tagsList.json.php?id='+$_GET['id_tag'],
+					url		:DOMINIO+'controls/tags/tagsList.json.php?this_is_app&id='+$_GET['id_tag'],
 					error	:function(/*resp,status,error*/) {
 						myDialog({
 							id:'#singleRedirDialog',
