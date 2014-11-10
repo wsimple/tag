@@ -243,14 +243,8 @@
 }
 
 .btn-orange{
-	background: #ee6323 url('tbum/white_arrow_left.png') no-repeat;
-	-webkit-background-size: 24px 20px;
-	background-size: 24px 20px;
-	background-position: 3px 10px;
+	background-color: #ee6323;
 }
 .btn-blue{
-	background: #3db8e1 url('tbum/white_arrow_left.png') no-repeat;
-	-webkit-background-size: 24px 20px;
-	background-size: 24px 20px;
-	background-position: 3px 10px;
+	background-color:#3db8e1;
 }
