@@ -3,9 +3,9 @@
 class Lang_lib extends TAG_librarie{
 	private $lang,$_code;
 	function __construct($control=false){
-		parent::__construct($control);
 		#lenguajes permitidos
 		$languages=array('en','es');
+		parent::__construct($control);
 		#deteccion de lenguaje
 		$actual='';
 		if($_GET['lang']!=''){

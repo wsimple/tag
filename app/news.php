@@ -141,6 +141,15 @@
 //									else
 //										$info.append(out).listview('refresh');
 									$info[opc.refresh?'prepend':'append'](out).listview('refresh');
+								}else{
+									// $info.html('');
+									if($info.html()==''){
+										$info.append('<div class="emptyInfo">'+lang.EMPTY_INFO_NEWS+'<br><br><div id="findFriends" style="font-weight:bold">'+lang.FIND_FRIENDS_NOTIFICATION+'</div></div>');
+										$('#pullUp').hide();
+										$('#findFriends').click(function(event) {
+											redir(PAGE['findfriends']);
+										});
+									}
 								}
 								on[action]=false;
 								$('#pd-wrapper').jScroll('refresh');

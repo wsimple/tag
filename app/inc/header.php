@@ -2,6 +2,14 @@
 	include '../includes/config.php';
 	include RELPATH.'includes/session.php';
 	include RELPATH.'includes/functions.php';
+if(!( #validamos si el usuario tiene permitido ingresar a la app
+	preg_match('/ipad|android|ipod|iphone/i',$_SERVER['HTTP_USER_AGENT'])||
+	$_SERVER['SERVER_NAME']=='localhost'||
+	is_debug()
+)){
+	header('Location: ..');
+	die();
+}
 	include RELPATH.'class/wconecta.class.php';
 	include RELPATH.'includes/languages.config.php';
 	//<meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width,height=device-height,target-densitydpi=device-dpi" />
