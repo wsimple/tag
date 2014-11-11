@@ -28,7 +28,6 @@ if(false){ ?><script><?php } ?>
 		CORDOVA=true;
 	}else{
 		var $=jQuery;
-		if(!is['support']&&!($.local('enableLogs')||$.cookie('_DEBUG_'))&&!window.location.host.match(/localhost|\d+(\.\d+)+/i)) window.location='..';
 		CORDOVA=$.session('cordova')||false;
 		if(CORDOVA) $.session('cordova',CORDOVA);
 	}
