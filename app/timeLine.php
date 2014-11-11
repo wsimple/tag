@@ -6,6 +6,16 @@
 		window.location.reload();
 	}
 </script>
+<style>
+	#yok{
+		display: inline-block;
+		width: 300px;
+		height: 300px;
+		position: relative;
+		bottom: 367px;
+		left: 191px;
+	}
+</style>
 <div id="singleRedirDialog" class="myDialog" style="display: none;"><div class="table"><div class="cell"><div class="window" style="max-height: 272px; display: block;"><div class="container" style="max-height: 272px;"><div id="scroller" class="content">Está seguro que quiere eliminar esta tag?</div></div><div class="buttons"><a action="0" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Sí</span></span></a><a action="1" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">No</span></span></a></div></div></div></div><div class="closedialog" style="display:none"></div></div>
 <div id="page-timeLine" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
@@ -89,6 +99,15 @@
 						dataType:'html',
 						loader: false,
 						success:function( data ){
+							$(e.currentTarget).append('<img id="yok" src="http://vectorise.net/logo/wp-content/uploads/2012/08/Facebook-Like.png">');
+							$('#yok').animate({
+								height: '25%',
+								width: '25%',
+								opacity: 0.2,
+								position:'absolute'},
+								2000, function() {
+								$('#yok').remove();
+							});
                             $(e.currentTarget).find('#dislikeIcon').fadeOut('slow',function(){
                                 $(e.currentTarget).find('#likeIcon').fadeIn('slow');
                             });
@@ -109,11 +128,11 @@
 				}
 				$(opc.layer).on('click', 'menu li', function(e){
 					var tagtId = $(e.target).parents('[tag]').attr('tag');
-					var btnPresed = e.target.id;
 					switch(e.target.id){
 						case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
 						case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
 						case 'comment':
+							tagtId = $(e.target).parents('[tag]').attr('tag');
 							var opc = {
 								layer:'#comments',
 								scroller:'.fs-wrapper',
@@ -125,6 +144,7 @@
 								}
 							};
 							if ($('[tag='+tagtId+']').find('#comments').length > 0) {
+								$('#tagsList').off('keydown', '#commenting');
 								$('#comments').fadeOut('fast', function() {
 									$(this).remove();
 								});
@@ -135,18 +155,20 @@
 								);
 								$('#comments').listview();
 								getComments('reload',opc);
-
-								$('#pd-wrapper').on('keydown', '#commenting', function(e) {
-									if (e.which == 13) {
-										var comment=$.trim($(this).val());
-										if(comment!=''){
-											$(this).val('');
-											insertComment(comment,opc);
-										}
-										return false;
-									}
-								});
 							}
+
+							$('#tagsList').on('keydown', '#commenting', function(e) {
+								opc.data.source = $(e.target).parents('[tag]').attr('tag');
+								if (e.which == 13) {
+									//alert(opc.data.source)
+									var comment=$.trim($(this).val());
+									if(comment!=''){
+										$(this).val('');
+										insertComment(comment,opc);
+									}
+									return false;
+								}
+							});
 							// var interval=setInterval(function(){
 							// 	getComments('refresh',opc);
 							// },20000);
