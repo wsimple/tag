@@ -91,7 +91,5 @@ include_once('../header.json.php');
 		$comment['comment']=strToLink($comment['comment']);
 		$res['list'][]=$comment;
 	}
-	$comment['userPic']=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['code']."/".$_SESSION['ws-tags']['ws-user']['photo']);
-	if($comment['userPic']==FILESERVER) unset($comment['photoUser']);
 	die(jsonp($res));
 ?>
