@@ -563,6 +563,8 @@ function showTag(tag){//individual tag
 					'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>'
 				:'')+(btn['report']?
 					'<li id="report" title="Report"><span>Report</span></li>'
+				:'')+(tag['product']?
+					'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
 				:'')+
 			'</ul>'+
 		'<div class="clearfix"></div></menu>'
@@ -709,6 +711,7 @@ function actionsTags(layer){
 				});
 			break;
 			case 'users': redir(PAGE['profile']+'?id='+$(e.target).attr('users')); break;
+			case 'qrcode': redir(PAGE['detailsproduct']+'?id='+$(e.target).attr('p')); break;
 		}
 	});
 }
