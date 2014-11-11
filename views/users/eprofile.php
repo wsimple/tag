@@ -137,15 +137,20 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 												$strIN.=($strIN==''?"'":"','").$value;
 											}
 											$strIN.="'";
-											$detalle=CON::query("SELECT detail,md5(id) AS id FROM preference_details WHERE md5(id) IN (".$strIN.");");
+											$detalle=CON::query("SELECT detail, id as id2, md5(id) AS id FROM preference_details WHERE id IN (".$strIN.");");
 											echo '<label>'.$titles[$i].' : </label>';
 											if (CON::numRows($detalle)>0){
 												while($row=CON::fetchObject($detalle)){
-													$detalles->preference=str_replace($row->id,"",$detalles->preference);
+//_imprimir($row);//echo '('.$row->id2.')';
+													$detalles->preference=str_replace($row->id2,"",$detalles->preference);
+													//echo ',<br>';
+
+//echo '['.$row->detail.']';
 													$detalles->preference.=($detalles->preference==''?'':',').$row->detail;
 												}
-											}
+											} //echo '('.$detalles->preference.')';
 											$detalles->preference=explode(',',$detalles->preference);
+											//_imprimir($detalles->preference);
 											for ($e=0;$e<count($detalles->preference);$e++)
 												if($detalles->preference[$e]!='') $links.=($links==''?'':' , ').''.($logged?'<a class="externalPre" href="'.base_url('searchall?srh='.preg_replace('/ +/','%20',$detalles->preference[$e])).'">'.$detalles->preference[$e].'</a>':'<a class="externalPre">'.$detalles->preference[$e].'</a>');
 											echo $links;
