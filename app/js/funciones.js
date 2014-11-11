@@ -2021,7 +2021,7 @@ function checkOutShoppingCart(get){
 			dataType:'json',
 			loader:action!='refresh',
 			success:function(data){
-				if(!data) return;
+				//if(!data) return;
 				if(data.deleted){//si fue una eliminacion
 					opc.start--;
 					var $ul=protected.parent();
@@ -2041,7 +2041,7 @@ function checkOutShoppingCart(get){
 						'</li>';
 				if(cancel()){console.log('Cancelados comentarios: '+action);return;}
 //				console.log(data);
-				if(!data||!data.list||!data.list.length) return;
+				//if(!data||!data.list||!data.list.length) return;
 				var list='',len=data.list.length,rep=0,i;
 				for(i=len-1;i>=0;i--){//eliminar repeticiones
 					if($list.find('[comment='+data.list[i].id+']').length>0){
@@ -2056,13 +2056,14 @@ function checkOutShoppingCart(get){
 				$list.find('.ui-li-divider').remove();
 				if(action=='reload'){
 					$list.html(list+
-						'<li>'+
-							'<img src="'+(comment['photoUser']||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'+
+						'<li id="comment-line">'+
+							'<img src="'+(comment['userPic']||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'+
 							'<textarea id="commenting" rows="3" cols="73" placeholder="Comentar..." name="comment"></textarea>'+
 						'</li>'
 					).slideDown();
 				}else if(action=='refresh'||action=='insert'){
-					$list.append(list);
+					// $list.append(list);
+					$('#comment-line').before(list);
 				}else{
 					$list.prepend(list);
 				}
