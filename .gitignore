@@ -21,8 +21,8 @@ video_server/videos/*/*
 
 main/views/templates/tags.php
 
-Tag.xdk
-Tag.xdke
+local/xdk/*.xdk
+local/xdk/*.xdke
 
 language/en.php
 language/es.php

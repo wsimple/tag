@@ -115,8 +115,6 @@ $('div#noconection').show();
 },
 after:function(){
 $('#btn-login-change .ui-btn-text').css('padding','0 10px');
-$('.ui-box-home div a').css('padding','0 10px');
-$('#btn-login').css('padding','0 18px');
 }
 });
 // function updateAndroidMarketLinks(){
@@ -129,7 +127,7 @@ $('#btn-login').css('padding','0 18px');
 // });
 // }
 // }
-// 
+
 //Login facebook
 window.fbAsyncInit = function() {
 FB.init({
@@ -152,8 +150,6 @@ function accountFb(){
 FB.login(function(response){
 if(response.authResponse){
 FB.api('/me',function(response){
-//console.log('Entraste: ' + response.name + '.');
-//redir('controls/actionfb.php');
 $.ajax({
 url:DOMINIO+'controls/facebook/fbuser.json.php',
 dataType:'json',
@@ -162,8 +158,8 @@ redir(PAGE.home);
 }
 });
 });
-}else{
-//console.log('No has logueado correcatmente con fbb.');
+// }else{
+// console.log('No has logueado correctamente con fbb.');
 }
 },{scope:'email'});
 }

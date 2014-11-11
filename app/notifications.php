@@ -80,6 +80,7 @@
 						if(loader) $.loader('show');
 						//si no hay mas tag, se cancela la consulta
 						if(act.more===false){ return onca(false); }
+
 						myAjax({
 							url		:DOMINIO+'controls/notifications/notifications.json.php?checked&action='+action+(opc.date?'&date='+opc.date:'')+get,
 							data	:$.extend({},act,defaultNotificationTypes),
@@ -165,7 +166,18 @@
 									else
 										$(layer).prepend(out);
 									$(layer).listview('refresh');
+								}else{
+									if($(layer).html()==''){
+										$(layer).append('<div class="emptyInfo">'+lang.EMPTY_INFO_NOTIFICATION+'<br><br><div id="findFriends" style="font-weight:bold">'+lang.FIND_FRIENDS_NOTIFICATION+'</div></div>');
+										$('#pullUp').hide();
+										$('#findFriends').click(function(event) {
+											redir(PAGE['findfriends']);
+										});
+									}
 								}
+
+								// verif++;
+								// alert(verif);
 								$wrapper.jScroll('refresh');
 							},
 							complete:function(){
@@ -201,6 +213,7 @@
 					}
                     
 				});
+
 				$wrapper.ptrScroll({
 					onPullDown:function(){
 						console.log('refresh');
@@ -215,6 +228,13 @@
 						updateNews('reload',opc);
 					}
 				});
+				// $('#findF').click(function(event) {
+				// 	redir(PAGE['findfriends']);
+				// });
+				// $('.emptyInfo').on('click', '#findF', function(event) {
+				// 	redir(PAGE['findfriends']);
+				// 	/* Act on the event */
+				// });
 			}
 		});
 	</script>

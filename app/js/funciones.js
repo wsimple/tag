@@ -546,8 +546,8 @@ function showTag(tag){//individual tag
 			(isLogged()?
 		'<menu>'+
 			'<ul>'+
-				(tag['business']?
-					'<li id="bcard" title="Bussines Card"><span>Bussines Card</span></li>'
+				(tag['uid']?
+					'<li id="users" users="'+tag['uid']+'"><span>profile</span></li>'
 				:'')+
 				'<li id="like" '+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
 				'<li id="dislike" '+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
@@ -563,6 +563,8 @@ function showTag(tag){//individual tag
 					'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>'
 				:'')+(btn['report']?
 					'<li id="report" title="Report"><span>Report</span></li>'
+				:'')+(tag['product']?
+					'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
 				:'')+
 			'</ul>'+
 		'<div class="clearfix"></div></menu>'
@@ -708,6 +710,8 @@ function actionsTags(layer){
 					}]
 				});
 			break;
+			case 'users': redir(PAGE['profile']+'?id='+$(e.target).attr('users')); break;
+			case 'qrcode': redir(PAGE['detailsproduct']+'?id='+$(e.target).attr('p')); break;
 		}
 	});
 }
@@ -832,7 +836,7 @@ function afterAjaxTags(data, tagId, toHide,toShow){
 			}
 			myAjax({
 				data:act||{},
-				url:DOMINIO+'controls/tags/tagsList.json.php?current='+current+'&limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
+				url:DOMINIO+'controls/tags/tagsList.json.php?this_is_app&current='+current+'&limit='+limit+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 				success:function(data){
 					if(action=='more'&&(!data.tags||data.tags.length<1)) act.more=false;
 					if(!cancel()){
@@ -906,7 +910,7 @@ function viewFriends(opc){
 		success:function(data){
 			if (data.error) return;
 			var i,friend,out='',divider;
-			console.log(opc.user);
+			// console.log('cant '+data.datos.length+' user '+opc.user);
 			// if($.local('code')==opc.user){
 				switch(opc.mod){
 					case 'friends':divider=lan('friends','ucw');break;
@@ -915,10 +919,11 @@ function viewFriends(opc){
 				}
 			// }
 			divider='<li data-role="list-divider">'+(opc.mod=='find'?lang.FINDFRIENDS_LEGENDOFSEARCHBAR:divider+' <span class="ui-li-count">'+data.num+'</span>')+'</li>';
-			for(i=0;i<data.datos.length;i++){
-				friend=data.datos[i];
-				out+=
-					'<li class="userInList">'+
+
+			if (data.datos.length>0){
+				for(i=0;i<data.datos.length;i++){
+					friend=data.datos[i];
+					out+='<li class="userInList">'+
 						'<a code="'+friend.code_friend+'" data-theme="e">'+
 							'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
 							'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
@@ -928,56 +933,33 @@ function viewFriends(opc){
 								lan('admired','ucw')+' ('+(friend.following_count||0)+')'+
 							'</p>'+
 						'</a>'+
-						//'<a>test</a>'+
 					'</li>';
-			}
+				}
+			}else{
+				var mens='';
+				switch(opc.mod){
+					case 'friends':
+						mens = lang.EMPTY_INFO_FRIENDS;
+					break;
+					case 'follow':
+						mens = lang.EMPTY_INFO_ADMIRERS;
+					break;
+					case 'unfollow':
+						mens = lang.EMPTY_INFO_ADMIRED;
+					break;
+				}
+				out+='<div class="emptyInfo">'+mens+'<br><br>';
+				if(opc.mod!='follow')
+					out+='<div id="findFriends" style="font-weight:bold">'+lang.FIND_FRIENDS_NOTIFICATION+'</div></div>';
+			};
 
 			$(opc.layer).html(divider+out).listview('refresh');
+			$('#findFriends').click(function(event) {
+				redir(PAGE['findfriends']);
+			});
 			$('.list-wrapper').jScroll('refresh');
 		}
 	});
-}
-
-/**
- * Muestra contactos agregados en la agenda del telefono
- * @param  {string} idLayer [selector de elemnto donde se cargaran los contactos]
- * @param  {[string]} filter  [filter cadena para filtrar contactos a buscar por: email, numero telefonio o nombre]
- * @return {[boolean or none]}	[none]
- */
-function viewContacsPhone(idLayer,filter){
-	if(CORDOVA){
-		filter=(filter||'');
-		var out='',
-			onSuccess=function(contacts){
-				var emailSent=$.local('emails_sent')||[];
-				for(var i=0;i<contacts.length;i++){
-					if(contacts[i].emails){
-						var photo=(contacts[i].photos)?contacts[i].photos[0].value:'css/tbum/usr.png';
-						out+=
-						'<li class="userInList">'+
-							'<a email="'+contacts[i].emails[0].value+'" data-theme="e">'+
-								'<img src="'+photo+'"'+'class="ui-li-thumb" width="60" height="60"/>'+
-								'<h3 class="ui-li-heading">'+contacts[i].name.formatted+'</h3>'+
-								'<p class="ui-li-desc">'+
-									'<img src="img/phone.png" alt="'+lang.FIENDFRIENDS_PHONECONTACT+'" widt="16" height="16" />'+
-									lang.FIENDFRIENDS_PHONECONTACT+
-									'<span class="status-invitation">&nbsp;'+($.inArray(contacts[i].emails[0].value,emailSent)>-1?lang.FIENDFRIENDS_INVITED:'')+'</span>'+
-								'</p>'+
-							'</a>'+
-						'</li>';
-					}
-				}
-				$(idLayer).html(out).listview('refresh');
-				$('.list-wrapper').jScroll('refresh');
-			},
-			onError=function(contactError){ return false; };
-
-		var options=new ContactFindOptions();
-		options.filter=filter;
-		options.multiple=true;
-		var fields=["displayName","name","phoneNumbers","emails","photos"];
-		navigator.contacts.find(fields,onSuccess,onError,options);
-	}
 }
 
 function verifyGroupMembership(idGroup,code,func){
