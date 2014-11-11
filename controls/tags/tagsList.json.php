@@ -32,7 +32,8 @@ function tagsList_json($data,$mobile=false){
 	$numeroSponsor=ceil($limit/$denominador);
 	$id_sponsors=array();
 	if($data['idsponsor']!='') $id_sponsors=explode(',',$data['idsponsor']);
-	$sqlUid=isset($_GET['this_is_app'])?'md5(concat(u.id,"_",u.email,"_",u.id))':'md5(t.id_creator)';
+	$sqlUid=isset($_GET['this_is_app'])?'md5(concat(t.id_creator,"_",(SELECT tu.email FROM users tu WHERE tu.id=t.id_creator),"_",t.id_creator))':'md5(t.id_creator)';
+	$sqlUid2=isset($_GET['this_is_app'])?'md5(concat(t.id_user,"_",u.email,"_",t.id_user))':'md5(t.id_user)';
 	$select='
 		t.id,
 		t.source,
@@ -42,7 +43,7 @@ function tagsList_json($data,$mobile=false){
 		t.text,
 		t.text2,
 		t.code_number,
-		md5(t.id_user) as rid,
+		'.$sqlUid2.' as rid,
 		u.screen_name as uname,
 		(t.id=(SELECT DISTINCT source FROM tags WHERE id!=t.id AND (source=t.id OR source=t.source) AND id_user="'.$myId.'")) as redist,
 		SUM(th.hits) AS hits,
