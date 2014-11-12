@@ -1617,16 +1617,10 @@ input.password-field {
 }
 .tag-container [tag] menu li#youtube,.tag-container [tag] menu li#vimeo,
 .tag-container [tag] menu li#local{ background-size: 100%; }
-
-.tag-container [tag] menu li#youtube{
-	background-image:url('smt/youtube.png');
-}
-.tag-container [tag] menu li#vimeo{
-	background-image:url('smt/vimeo.png');
-}
-.tag-container [tag] menu li#local{
-	background-image:url('smt/Video.png');
-}
+.tag-container [tag] menu li#youtube{ background-image:url('smt/youtube.png'); }
+.tag-container [tag] menu li#vimeo{ background-image:url('smt/vimeo.png'); }
+.tag-container [tag] menu li#local{ background-image:url('smt/Video.png'); }
+.tag-container [tag] menu li#qrcode{ background-image:url('smt/tag/qrcode.png'); }
 
 .ui-btn-inner{
 	border-top:none;

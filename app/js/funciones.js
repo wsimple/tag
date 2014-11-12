@@ -563,6 +563,8 @@ function showTag(tag){//individual tag
 					'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>'
 				:'')+(btn['report']?
 					'<li id="report" title="Report"><span>Report</span></li>'
+				:'')+(tag['product']?
+					'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
 				:'')+
 			'</ul>'+
 		'<div class="clearfix"></div></menu>'
@@ -604,9 +606,57 @@ function actionsTags(layer){
 			case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
 			case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
 			case 'comment':
-				alert('en construcción');
+				tagtId = $(e.target).parents('[tag]').attr('tag');
+					var opc = {
+						layer:'#comments',
+						scroller:'.fs-wrapper',
+						data:{
+							type:4,
+							source:tagtId,
+							limit:10,
+							mobile:1
+						}
+					};
+					if ($('[tag='+tagtId+']').find('#comments').length > 0) {
+						$('#tagsList').off('keydown', '#commenting');
+						$('#comments').fadeOut('fast', function() {
+							$(this).remove();
+						});
+					}else{
+						$('#comments').remove();
+						$('[tag='+tagtId+']').append(
+								'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
+						);
+						$('#comments').listview();
+						getComments('reload',opc);
+					}
+
+					$('#tagsList').on('keydown', '#commenting', function(e) {
+						opc.data.source = $(e.target).parents('[tag]').attr('tag');
+						if (e.which == 13) {
+							//alert(opc.data.source)
+							var comment=$.trim($(this).val());
+							if(comment!=''){
+								$(this).val('');
+								insertComment(comment,opc);
+							}
+							return false;
+						}
+					});
+					// var interval=setInterval(function(){
+					// 	getComments('refresh',opc);
+					// },20000);
 			break;
 			case 'like':case 'dislike':
+				// $(e.currentTarget).append('<img id="yok" src="http://vectorise.net/logo/wp-content/uploads/2012/08/Facebook-Like.png">');
+				// $('#yok').animate({
+				// 	height: '25%',
+				// 	width: '25%',
+				// 	opacity: 0.2,
+				// 	position:'absolute'},
+				// 	2000, function() {
+				// 	$('#yok').remove();
+				// });
 				var that=e.target.id+'Icon',
 					show=e.target.id!='like'?'likeIcon':'dislikeIcon';
 				myAjax({
@@ -709,6 +759,7 @@ function actionsTags(layer){
 				});
 			break;
 			case 'users': redir(PAGE['profile']+'?id='+$(e.target).attr('users')); break;
+			case 'qrcode': redir(PAGE['detailsproduct']+'?id='+$(e.target).attr('p')); break;
 		}
 	});
 }
@@ -1982,7 +2033,7 @@ function checkOutShoppingCart(get){
 	}
 	function showComment(comment){return(
 		'<li comment="'+comment.id+'"'+(comment.short?' class="more"':'')+'>'+
-			'<img src="'+(comment.photoUser||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'+
+			'<img src="'+(comment.photoUser||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="60" height="60" />'+
 			(comment.delete?''/*'<img src="css/smt/delete.png" class="del"/>'/**/:'')+
 			'<em class="ui-li-asid">'+comment.commentDate+'</em>'+
 			'<div class="text">'+
@@ -2018,7 +2069,7 @@ function checkOutShoppingCart(get){
 			dataType:'json',
 			loader:action!='refresh',
 			success:function(data){
-				if(!data) return;
+				//if(!data) return;
 				if(data.deleted){//si fue una eliminacion
 					opc.start--;
 					var $ul=protected.parent();
@@ -2038,7 +2089,7 @@ function checkOutShoppingCart(get){
 						'</li>';
 				if(cancel()){console.log('Cancelados comentarios: '+action);return;}
 //				console.log(data);
-				if(!data||!data.list||!data.list.length) return;
+				//if(!data||!data.list||!data.list.length) return;
 				var list='',len=data.list.length,rep=0,i;
 				for(i=len-1;i>=0;i--){//eliminar repeticiones
 					if($list.find('[comment='+data.list[i].id+']').length>0){
@@ -2053,13 +2104,14 @@ function checkOutShoppingCart(get){
 				$list.find('.ui-li-divider').remove();
 				if(action=='reload'){
 					$list.html(list+
-						'<li>'+
-							'<img src="'+(comment['photoUser']||'css/tbum/usr.png')+'" class="ui-li-thumb" width="60" height="60" />'+
+						'<li id="comment-line">'+
+							'<img src="'+(comment['userPic']||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="60" height="60" />'+
 							'<textarea id="commenting" rows="3" cols="73" placeholder="Comentar..." name="comment"></textarea>'+
 						'</li>'
 					).slideDown();
 				}else if(action=='refresh'||action=='insert'){
-					$list.append(list);
+					// $list.append(list);
+					$('#comment-line').before(list);
 				}else{
 					$list.prepend(list);
 				}
