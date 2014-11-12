@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="css/colorPicker.css"/>
 <script src="cordova.js"></script>
 <!--<script src="http://debug.build.phonegap.com/target/target-script-min.js#82ad4bcc-195f-11e3-af04-22000a98b3d6"></script><!-- -->
+<script src="intelxdk.js"></script>
 <script src="js/core/const.js"></script>
 <script src="js/core/md5.js"></script>
 <script src="js/core/jquery-1.10.2.min.js"></script>
@@ -38,6 +39,16 @@ $.session('_post_',null);
 window.location.reload();
 }
 </script>
+<style>
+#yok{
+display: inline-block;
+width: 300px;
+height: 300px;
+position: relative;
+bottom: 367px;
+left: 191px;
+}
+</style>
 <div id="singleRedirDialog" class="myDialog" style="display: none;"><div class="table"><div class="cell"><div class="window" style="max-height: 272px; display: block;"><div class="container" style="max-height: 272px;"><div id="scroller" class="content">Está seguro que quiere eliminar esta tag?</div></div><div class="buttons"><a action="0" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Sí</span></span></a><a action="1" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">No</span></span></a></div></div></div></div><div class="closedialog" style="display:none"></div></div>
 <div id="page-timeLine" data-role="page" data-cache="false">
 <div data-role="header" data-theme="f" data-position="fixed">
@@ -109,145 +120,8 @@ layer:$('#tagsList')[0]
 },
 $wrapper=$('#pd-wrapper',this.id);
 $('.ui-page-active .ui-title').html(lang.TIMELINE_TITLE);
-$(opc.layer).on('click','.smt-tag',function(){
-redir(PAGE['tag']+'?id='+$(this).attr('tag'));
-});
 
-$(opc.layer).doubletap('[tag]', function(e){
-var tagId = $(e.currentTarget).attr('tag')
-myAjax({
-type:'GET',
-url:DOMINIO+'controls/tags/actionsTags.controls.php?action=4&tag='+tagId,
-dataType:'html',
-loader: false,
-success:function( data ){
-$(e.currentTarget).find('#dislikeIcon').fadeOut('slow',function(){
-$(e.currentTarget).find('#likeIcon').fadeIn('slow');
-});
-}
-});
-});
-
-// $(opc.layer).on('click','[tag]',function(){
-// redir(PAGE['tag']+'?id='+$(this).attr('tag'));
-// });
-function afterAjax(data, tagId, toHide,toShow){
-console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
-if(data.indexOf('ERROR')<0){
-$('[tag='+tagId+']').find(toHide).fadeOut('slow',function(){
-$('[tag='+tagId+']').find(toShow).fadeIn('slow');
-});
-}
-}
-$(opc.layer).on('click', 'menu li', function(e){
-var tagtId = $(e.target).parents('[tag]').attr('tag');
-var btnPresed = e.target.id;
-switch(e.target.id){
-case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
-case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
-case 'comment':
-var opc = {
-layer:'#comments',
-scroller:'.fs-wrapper',
-data:{
-type:4,
-source:tagtId,
-limit:10,
-mobile:1
-}
-};
-$('#comments').remove();
-$('[tag='+tagtId+']').append(
-'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
-);
-$('#comments').listview();
-getComments('reload',opc);
-
-$('#pd-wrapper').on('keydown', '#commenting', function(e) {
-if (e.which == 13) {
-var comment=$.trim($(this).val());
-if(comment!=''){
-// console.log('Insertare en: '+tagtId)
-insertComment(comment,opc);
-}
-return false;
-}
-});
-// var interval=setInterval(function(){
-// getComments('refresh',opc);
-// },20000);
-break;
-case 'like':case 'dislike':
-var that=e.target.id+'Icon',
-show=e.target.id!='like'?'likeIcon':'dislikeIcon';
-myAjax({
-type:'POST',
-url:DOMINIO+'controls/tags/actionsTags.controls.php?action='+(that=='likeIcon'?4:11)+'&tag='+tagtId,
-dataType:'html',
-loader: false,
-success:function( data ){
-afterAjax(data,tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
-myAjax({
-type:'POST',
-url:DOMINIO+'controls/tags/actionsTags.controls.php?action=12&tag='+tagtId,
-dataType:'html',
-loader: false,
-success:function( data ){
-data= data.split('|');
-// opc.likes=data[0];
-// opc.dislikes=data[1];
-if(data[2]>0){afterAjax(data, tagtId, 'menu #like', 'menu #dislike');};
-if(data[2]<0){afterAjax(data, tagtId,'menu #dislike', 'menu #like');};
-if (e.target.id=='like') {
-$('#numLikes').html(parseInt($('#numLikes').text())+1);
-}else{
-$('#numDislikes').html(parseInt($('#numDislikes').text())+1);
-}
-}
-});
-}
-});
-break;
-case 'redistr':
-myAjax({
-type:'POST',
-url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagtId,
-dataType:'html',
-loader: false,
-success:function( data ){
-afterAjax(data, tagtId,'menu #redistr', '.tag-icons #redist');
-}
-});
-break;
-case 'trash':
-myDialog({
-id:'#singleRedirDialog',
-content:lang.JS_DELETETAG,
-loader: false,
-buttons:[{
-name:lang.yes,
-action:function(){
-var dialog = this;
-myAjax({
-type: 'POST',
-url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagtId,
-dataType: 'html',
-success: function( data ) {
-$('[tag='+tagtId+']').fadeOut('fast',function(){
-$(this).remove();
-dialog.close();
-});
-}
-});
-}
-},{
-name:'No',
-action:'close'
-}]
-});
-break;
-}
-});
+actionsTags(opc.layer);
 
 $wrapper.ptrScroll({
 onPullDown:function(){
