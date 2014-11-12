@@ -26,3 +26,6 @@ local/xdk/*.xdke
 
 language/en.php
 language/es.php
+Tag.xdke
+Tag.xdk
+js/funciones_es.js
