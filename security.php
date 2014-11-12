@@ -48,22 +48,34 @@ if($data->tipo){
 		$data->ftp['host']='192.168.57.16';
 		$data->ftp['user']='userimg';
 		$data->ftp['pass']='-t@gvzlA_ftp';
+		$data->facebook['appId']='824519617598722';
+		$data->facebook['secret']='9c8ec5500c2426a289e58f5bb61b7b3b';
+		$data->paypal['user']='elijose.c-facilitator_api1.gmail.com';
+		$data->paypal['pass']='1370289012';
+		$data->paypal['signature']='AFcWxV21C7fd0v3bYYYRCpSSRl31AnHjJMUATq-eeXv1ffnS7Is.Qqg6';
+		$data->paypal['endpoint']='https://api-3t.sandbox.paypal.com/nvp';
+
 		$data->imgserver='http://68.109.244.201/';
-		$data->img_server_path='http://192.168.57.16/';
-		$data->video_server_path='http://192.168.57.11/';
+		$data->main_server='http://tagbum.com/';
 		$data->img_server='http://i.tagbum.com/';
 		$data->video_server='http://v.tagbum.com/';
+		$data->img_server_path='http://192.168.57.16/';
+		$data->video_server_path='http://192.168.57.11/';
 		$data->allow_origin='/^https?:\\/\\/(\\\w+\\\.)?tagbum.com$/i';
 	}elseif($data->tipo=='local'){
 		$data->db['host']='localhost';
 		$data->db['user']='root';
 		$data->db['pass']='root';
 		$data->db['data']='tagbum';
+		$data->facebook['appId']='824519617598722';
+		$data->facebook['secret']='9c8ec5500c2426a289e58f5bb61b7b3b';
+
 		$data->imgserver=$data->dominio;
-		$data->img_server_path='img_server/';
-		$data->video_server_path='video_server/';
-		$data->img_server=$data->img_server_path;
-		$data->video_server=$data->video_server_path;
+		$data->main_server=$data->dominio;
+		$data->img_server='img_server/';
+		$data->video_server='video_server/';
+		$data->img_server_path=$data->img_server;
+		$data->video_server_path=$data->video_server;
 		$data->allow_origin='/^https?:\\/\\/(localhost|192\\\.168\\\.)/i';
 	}
 	if($data->db){
