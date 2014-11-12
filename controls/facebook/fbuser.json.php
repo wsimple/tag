@@ -2,6 +2,8 @@
 include '../header.json.php';
 require_once 'facebook.php';
 
+if(!isset($facebook)) die(jsonp(array('error'=>"Missing FB configuration data")));
+
 $res=array();
 $res['success']=0;
 $user=$facebook->getUser();
@@ -94,4 +96,3 @@ if($user){
 	}catch(FacebookApiException $e){}
 }
 die(jsonp($res));
-?>

@@ -162,8 +162,9 @@ class Facebook extends BaseFacebook
 $token = 'CAACAmsBIhkMBAGFDVa0RHONRl9vGLpTne1gnwx1ZCBmqrX16Ja2KVYZCDKjNZAeV9GQVLnRPmb5nBYWyWgiD5zXsFGQnVoSsqw4TL8twc34io4ZCCAzGLKxxFewrfctPiLvFIYf2Q3fC2g1hkyW8FhD6ma4xF67UrmtUGucfTUTHMZBKbPQqebQyGwD8Mk7lbCbzlB5SzvgZDZD';
 
 //Datos de la app
+if(isset($config->facebook))
 $facebook = new Facebook(array(
-  'appId'  => '141402139297347',
-  'secret' => '3ced186e377ae626f11fa28409c998f0',
+  'appId'  => $config->facebook->appId,
+  'secret' => $config->facebook->secret,
 ));
 

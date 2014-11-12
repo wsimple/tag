@@ -544,7 +544,7 @@ function showTag(tag){//individual tag
 		'<div class="tag" style="background-image:url('+tag['img']+')"></div>'+
 		'<div class="bg"></div>'+
 			(isLogged()?
-		'<menu>'+
+		'<div id="panel"><menu>'+
 			'<ul>'+
 				(tag['uid']?
 					'<li id="users" users="'+tag['uid']+'"><span>profile</span></li>'
@@ -567,7 +567,7 @@ function showTag(tag){//individual tag
 					'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
 				:'')+
 			'</ul>'+
-		'<div class="clearfix"></div></menu>'
+		'<div class="clearfix"></div></menu></div>'
 		:'<div id="menuTagnoLogged"></div>')+
 		'<div class="tag-icons">'+
 			'<div id="sponsor" '+(tag['sponsor']?'':'style="display:none;"')+'></div>'+
@@ -597,7 +597,7 @@ function showTags(array){//tag list
 function actionsTags(layer){
 	$(layer).doubletap('[tag]', function(e){
 		var tagId = $(e.currentTarget).attr('tag')
-		$('[tag="'+tagId+'"] menu li#like',layer).click();
+		playLike(tagId,'likeIcon','dislikeIcon',true);
 	});
 	$(layer).on('click', 'menu li', function(e){
 		var tagtId = $(e.target).parents('[tag]').attr('tag');
@@ -624,7 +624,7 @@ function actionsTags(layer){
 						});
 					}else{
 						$('#comments').remove();
-						$('[tag='+tagtId+']').append(
+						$('[tag='+tagtId+'] menu').before(
 								'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
 						);
 						$('#comments').listview();
@@ -659,30 +659,7 @@ function actionsTags(layer){
 				// });
 				var that=e.target.id+'Icon',
 					show=e.target.id!='like'?'likeIcon':'dislikeIcon';
-				myAjax({
-					type:'POST',
-					url:DOMINIO+'controls/tags/actionsTags.controls.php?action='+(that=='likeIcon'?4:11)+'&tag='+tagtId,
-					dataType:'html',
-					loader: false,
-					success:function( data ){
-						afterAjaxTags(data,tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
-						myAjax({
-							type:'POST',
-							url:DOMINIO+'controls/tags/actionsTags.controls.php?action=12&tag='+tagtId,
-							dataType:'html',
-							loader: false,
-							success:function( data ){
-								data= data.split('|');
-								// opc.likes=data[0];
-								// opc.dislikes=data[1];
-								if(data[2]>0){afterAjaxTags(data, tagtId, 'menu #like', 'menu #dislike');};
-								if(data[2]<0){afterAjaxTags(data, tagtId,'menu #dislike', 'menu #like');};
-								// $('#numLikes').html(opc.likes);
-								// $('#numDislikes').html(opc.dislikes);
-							}
-						});
-					}
-				});
+					playLike(tagtId,that,show);
 			break;
 			case 'redistr':
 				myAjax({
@@ -770,6 +747,59 @@ function afterAjaxTags(data, tagId, toHide,toShow){
 			$('[tag='+tagId+']').find(toShow).fadeIn('slow');
 		});
 	}
+}
+function playLike(tagtId,that,show,comment){
+	myAjax({
+		type:'POST',
+		url:DOMINIO+'controls/tags/actionsTags.controls.php?this_is_app&action='+(that=='likeIcon'?4:11)+'&tag='+tagtId,
+		dataType:'json',
+		loader: false,
+		success:function(data){
+			afterAjaxTags(data['success'],tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
+			if (data['success']=='likes') afterAjaxTags(data['success'], tagtId, 'menu #like', 'menu #dislike');
+			else afterAjaxTags(data['success'], tagtId,'menu #dislike', 'menu #like');
+			$('#numDislikes').html(data['dislikes']); $('#numLikes').html(data['likes']);
+			if (comment) playComment(tagtId);
+		}
+	});
+}
+function playComment(tagtId){
+	var opc = {
+		layer:'#comments',
+		scroller:'.fs-wrapper',
+		data:{
+			type:4,
+			source:tagtId,
+			limit:10,
+			mobile:1
+		}
+	};
+	if ($('[tag='+tagtId+']').find('#comments').length > 0) {
+		$('#tagsList').off('keydown', '#commenting');
+		$('#comments').fadeOut('fast', function() {
+			$(this).remove();
+		});
+	}else{
+		$('#comments').remove();
+		$('[tag='+tagtId+']').append(
+				'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
+		);
+		$('#comments').listview();
+		getComments('reload',opc);
+	}
+
+	$('#tagsList').on('keydown', '#commenting', function(e) {
+		opc.data.source = $(e.target).parents('[tag]').attr('tag');
+		if (e.which == 13) {
+			//alert(opc.data.source)
+			var comment=$.trim($(this).val());
+			if(comment!=''){
+				$(this).val('');
+				insertComment(comment,opc);
+			}
+			return false;
+		}
+	});
 }
 (function(window,$,console){
 	window.updateTags=function(action,opc,loader){
