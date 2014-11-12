@@ -67,61 +67,47 @@
 			break;
 			// END - redistribute (3)
 			// likes  (4)
-				case 4:
-							//add favorite
-							if (!existe("likes", "id_source", " WHERE  id_source = '".$tag['id']."' AND id_user = '".$_SESSION['ws-tags']['ws-user']['id']."'")){
-
-								$insert = $GLOBALS['cn']->query("INSERT INTO likes (id_user,id_source, date)
-																					 SELECT '".$_SESSION['ws-tags']['ws-user']['id']."' as  id_user_like,	id, NOW()
-																					 FROM tags
-																					 WHERE id = '".$tag['id']."'
-																");
-								$idFav = mysql_insert_id();
-								incPoints(2,$tag['id'],$tag['id_user'],$_SESSION['ws-tags']['ws-user']['id']);
-                                incHitsTag($tag['id']);
-								//se valida el tipo de salida
-								$msgBox = '<img src="img/star.png" title="'.TAGS_OPTIONUNLIKE.'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
-
-								if ($_GET['isComment']==1){ //si el like es desde un ventana de comentarios
-									$msgBox = '<a href="javascript:void(0);" onfocus="this.blur();" title="'.COMMENTS_FLOATHELPLINKLIKES.'" action="UserLikedOrRaffle,l,'.$tag['id'].'" style="color:#F58220;font-weight:bold;">'.numRecord("likes", " WHERE id_source = '".$tag['id']."'").'</a>';
-								}else{
-									$msgBox = '<img src="img/star.png" title="'.TAGS_OPTIONUNLIKE.'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
-								}
-
-								$validateUserTag = $GLOBALS['cn']->query("SELECT id_user FROM tags WHERE id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND id  = '".$tag['id']."' ");
-
-								if (mysql_num_rows($validateUserTag)==0){
-									if ($_SESSION['ws-tags']['ws-user']['like']!=null){
-										$bandera=false;
-										for ($i=0;$i<count($_SESSION['ws-tags']['ws-user']['like']);$i++){
-											if ($tag['id']==$_SESSION['ws-tags']['ws-user']['like'][$i]){
-												$bandera=true;
-											}
-										}
-										if ($bandera==false){
-											$i=count($_SESSION['ws-tags']['ws-user']['like']);
-											$select_id = $GLOBALS['cn']->query("SELECT id_creator, id_user FROM tags WHERE id = '".$tag['id']."'");
-											$selectUser = mysql_fetch_assoc($select_id);
-											//notoficacion si le gusta la tag - envio de correo
-											notifications(campo("tags", "id", $tag['id'], "id_user"), $tag['id'], 2);
-											$_SESSION['ws-tags']['ws-user']['like'][$i]=$tag['id'];
-										}
-									}else{
-										$select_id = $GLOBALS['cn']->query("SELECT id_creator, id_user FROM tags WHERE id = '".$tag['id']."'");
-										$selectUser = mysql_fetch_assoc($select_id);
-										//notoficacion si le gusta la tag - envio de correo
-										notifications(campo("tags", "id", $tag['id'], "id_user"), $tag['id'], 2);
-										$_SESSION['ws-tags']['ws-user']['like'][0]=$tag['id'];
-									}
-								}//if validateUserTag
-								$delete = $GLOBALS['cn']->query("DELETE FROM dislikes WHERE id_source = '".$tag['id']."' AND id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' ");
+			case 4: //add favorite
+				$myId=$myId?$myId:$_SESSION['ws-tags']['ws-user']['id'];
+				if (!CON::getVal("SELECT id FROM likes WHERE id_source=? AND id_user=?",array($tag['id'],$myId))){
+						CON::insert("likes","id_user=?,id_source=?,date=NOW()",array($myId,$tag['id']));
+						CON::delete("dislikes","id_user=? AND id_source=?",array($myId,$tag['id']));
+						incPoints(2,$tag['id'],$tag['id_user'],$myId);
+                        incHitsTag($tag['id']);
+						
+						if ($myId!=$tag['id_user']){
+							$bandera=false;
+							if ($_SESSION['ws-tags']['ws-user']['like']!=null){
+								for ($i=0;$i<count($_SESSION['ws-tags']['ws-user']['like']);$i++)
+									if ($tag['id']==$_SESSION['ws-tags']['ws-user']['like'][$i]) $bandera=true;
+							}else $_SESSION['ws-tags']['ws-user']['like']=array();
+							if ($bandera==false){
+								$i=count($_SESSION['ws-tags']['ws-user']['like']);
+								$select_id = $GLOBALS['cn']->query("SELECT id_creator, id_user FROM tags WHERE id = '".$tag['id']."'");
+								$selectUser = mysql_fetch_assoc($select_id);
+								//notoficacion si le gusta la tag - envio de correo
+								notifications($tag['id_user'], $tag['id'], 2);
+								$_SESSION['ws-tags']['ws-user']['like'][$i]=$tag['id'];
 							}
-					////salida alterna para News
-						if($_GET['news']==1){
-							$msgBox = numRecord("dislikes", " WHERE id_source = '".$tag['id']."'").'|'.numRecord("likes", " WHERE id_source = '".$tag['id']."'");
-
 						}
-				break;
+				}
+				//salidas WEB o APP
+				$likes=CON::count('likes','id_source=?',array($tag['id'])); 
+				$dislikes=CON::count('dislikes','id_source=?',array($tag['id']));
+
+				if (isset($_GET['this_is_app'])){ //app
+					die(jsonp(array('success'=>'likes','likes'=>$likes,'dislikes'=>$dislikes)));
+				}else{ //la web
+					//se valida el tipo de salida
+					$msgBox='<img src="img/star.png" title="'.$lang["TAGS_OPTIONUNLIKE"].'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
+					if ($_GET['isComment']==1) //si el like es desde un ventana de comentarios
+						$msgBox = '<a href="javascript:void(0);" onfocus="this.blur();" title="'.$lang["COMMENTS_FLOATHELPLINKLIKES"].'" action="UserLikedOrRaffle,l,'.$tag['id'].'" style="color:#F58220;font-weight:bold;">'.$likes.'</a>';
+					else
+						$msgBox = '<img src="img/star.png" title="'.$lang["TAGS_OPTIONUNLIKE"].'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
+					////salida alterna para News
+					if($_GET['news']==1) $msgBox = $dislikes.'|'.$likes;	
+				}
+			break;
 			// END - favorite (4)
 				// share (by mail)
 				case 5:
@@ -506,36 +492,27 @@
 					//echo PUBLICITY_MSGSUCCESSFULLY;
 			   break;//case 10
 			   case 11://add dislikes
-					if (!existe('dislikes','id_source'," WHERE id_source='".$tag['id']."' AND id_user = '".$_SESSION['ws-tags']['ws-user']['id']."'")){
-						$insert = $GLOBALS['cn']->query("INSERT INTO dislikes (id_user,id_source, date)
-															SELECT '".$_SESSION['ws-tags']['ws-user']['id']."' as  id_user_like,	id, NOW()
-															FROM tags
-															WHERE id = '".$tag['id']."'
-														");
-						$idFav = mysql_insert_id();
-						incPoints(20,$tag['id'],$tag['id_user'],$_SESSION['ws-tags']['ws-user']['id']); //incremento de hits a la tag que se recibe
-						incHitsTag($tag['id']);
-                        //se valida el tipo de salida
-						$msgBox = '<img src="img/star.png" title="'.TAGS_OPTIONUNLIKE.'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
-
-						if ($_GET['isComment']==1){ //si el like es desde un ventana de comentarios
-							$msgBox = '<a href="javascript:void(0);" onfocus="this.blur();" title="'.COMMENTS_FLOATHELPLINKLIKES.'" action="UserLikedOrRaffle,d,'.$tag['id'].'" style="color:#F58220;font-weight:bold;">'.numRecord("likes", " WHERE id_source = '".$tag['id']."'").'</a>';
-						}else{
-							$msgBox = '<img src="img/star.png" title="'.TAGS_OPTIONUNLIKE.'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
-						}
-						$validateUserTag = $GLOBALS['cn']->query("SELECT id_user FROM tags WHERE id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND id  = '".$tag['id']."' ");
-						if (mysql_num_rows($validateUserTag)==0){
-							$select_id = $GLOBALS['cn']->query("SELECT id_creator, id_user FROM tags WHERE id = '".$tag['id']."'");
-							$selectUser = mysql_fetch_assoc($select_id);
-							//notoficacion si le gusta la tag - envio de correo
-							//notifications(campo("tags", "id", $tag['id'], "id_user"), $tag['id'], 2);
-						}//if validateUserTag
-						$delete = $GLOBALS['cn']->query("DELETE FROM likes WHERE  id_source = '".$tag['id']."' AND id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' ");
+					$myId=$myId?$myId:$_SESSION['ws-tags']['ws-user']['id'];
+					if (!CON::getVal("SELECT id FROM dislikes WHERE id_source=? AND id_user=?",array($tag['id'],$myId))){
+							CON::insert("dislikes","id_user=?,id_source=?,date=NOW()",array($myId,$tag['id']));
+							CON::delete("likes","id_user=? AND id_source=?",array($myId,$tag['id']));
+							incPoints(20,$tag['id'],$tag['id_user'],$myId); //incremento de hits a la tag que se recibe
+							incHitsTag($tag['id']);
 					}
-					////salida alterna para News
-					if($_GET[news]==1){
-						$msgBox = numRecord("dislikes", " WHERE id_source = '".$tag['id']."'").'|'.numRecord("likes", " WHERE id_source = '".$tag['id']."'");
+					//salidas WEB o APP
+					$likes=CON::count('likes','id_source=?',array($tag['id'])); $dislikes=CON::count('dislikes','id_source=?',array($tag['id']));
 
+					if (isset($_GET['this_is_app'])){ //app
+						die(jsonp(array('success'=>'dislikes','likes'=>$likes,'dislikes'=>$dislikes)));
+					}else{ //la web
+						//se valida el tipo de salida
+						$msgBox='<img src="img/star.png" title="'.$lang["TAGS_OPTIONUNLIKE"].'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');" />';
+						if ($_GET['isComment']==1) //si el like es desde un ventana de comentarios
+							$msgBox = '<a href="javascript:void(0);" onfocus="this.blur();" title="'.$lang["COMMENTS_FLOATHELPLINKLIKES"].'" action="UserLikedOrRaffle,d,'.$tag['id'].'" style="color:#F58220;font-weight:bold;">'.$likes.'</a>';
+						else
+							$msgBox = '<img src="img/star.png" title="'.$lang["TAGS_OPTIONUNLIKE"].'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
+						////salida alterna para News
+						if($_GET['news']==1) $msgBox = $dislikes.'|'.$likes;	
 					}
 				break;
 			// END - dislikes (10)
