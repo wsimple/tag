@@ -1067,10 +1067,10 @@ loader.s32,.loader.s32{
 	display:block;
 }
 .logoBackEmail{
-	background:url('smt/logo.png') no-repeat;
-	-webkit-background-size:200px 80px;
-	-o-background-size:200px 80px;
-	background-size:200px 80px;
+	background:url('tbum/logo-orange.png') no-repeat;
+	-webkit-background-size:200px 70px;
+	-o-background-size:200px 70px;
+	background-size:200px 70px;
 	width:200px;
 	margin:0 auto;
 	height:75px;
