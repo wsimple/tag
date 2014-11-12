@@ -642,6 +642,8 @@ function actionsTags(layer){
 							}
 							return false;
 						}
+					}).on('click','.seemore',function(){
+						getComments('more',opc);
 					});
 					// var interval=setInterval(function(){
 					// 	getComments('refresh',opc);
