@@ -1458,15 +1458,44 @@ input.password-field {
 }
 
 /*TAGLIST*/
+#panel{
+	margin: 0 auto;
+	border: 1px solid #EEE;
+	border-top: none;
+	border-radius: 0 0 10px 10px;
+	width: 600px;
+	padding: 8px 0 0 0;
+}
+
+#comments{
+	width: 90%;
+	margin: 0 auto;
+}
+
+#commenting{
+	width: 98%;
+}
+
+#comments .ui-btn-up-c, #comments .ui-bar-e{
+	border: none
+}
+
+#comments .ui-bar-e{
+	background-image: none;
+	background-color: #EEE;
+	border-bottom: 1px solid #CCC
+}
+
+#comments .ui-btn-up-c{
+	background: #fff;
+}
 .tag-container [tag] menu{
-	/*position:relative;*/
-	display:block;
-	margin:0.2em 0;
+	margin:0;
 	padding:0;
 }
 .tag-container [tag] menu ul{
 	float:right;
-	margin:0;
+	margin: 0 28px 0 0;
 	padding:0;
 	cursor:pointer;
 }
