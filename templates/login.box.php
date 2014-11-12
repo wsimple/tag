@@ -1,7 +1,3 @@
-<?php
-require 'controls/facebook/facebook.php';
-$user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
-?>
 <div id="login-box">
 	<form method="post" action="login.php" accept-charset="UTF-8">
 		<p class="login-error" style="display:none;">
@@ -11,8 +7,8 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 			<strong><?=LOGIN_TITLEBUTTONCREATEACCOUNT?></strong>
 			<input type="button" class="fb-buttom" value="<?=LOGIN_TEXTBUTTONCREATEACCOUNT?> <?=JS_OR.' '.BTN_LOGIN?>"/>
 			<input type="button" id="lnkRegistro" value="<?=LOGIN_TEXTBUTTONCREATEACCOUNT?>" onclick="redir('signup')"/>
-			<div id="fb-root"></div>
 		</p>
+		<div id="fb-root"></div>
 		<p>
 			<label for="txtLogin"><?=LBL_LOGIN?>:</label>
 			<input type="email" name="txtLogin" id="txtLogin" class="text_box" placeholder="<?=LBL_LOGIN?>" value="<?=$_COOKIE['last']?>" requerido="<?=LBL_LOGIN?>" />
@@ -42,111 +38,85 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 	</div> -->
 </div>
 <script>
-(function(){
+(function($){
 	var wait=false,send=false,box=$('#login-box form')[0],$keep=$('#keepLogin',box);
-	$(function(){
-		//$.on({
-		//	open:function(){
-				var _login=function(){
-					$('#hash',box).val(document.location.hash);
-					if(!send&&!wait&&valida(this)){
-						wait=true;
-						var data={
-							login:$('#txtLogin',box).val(),
-							pwd:$('#txtPass',box).val()
-						};
-						if($keep.is(':checked')) data.keep=true;
-						login({
-							data:data,
-							success:function(){
-								send=true;
-								var exceptions=/^#(page|signup|home|$)/i,
-									hash=document.location.hash;
-								if(hash.match(exceptions)) hash='';
-								var url=document.location.search+hash;
-								if(url) $.session('login_url',url);
-								$(box).submit();
+	var _login=function(){
+		$('#hash',box).val(document.location.hash);
+		if(!send&&!wait&&valida(this)){
+			wait=true;
+			var data={
+				login:$('#txtLogin',box).val(),
+				pwd:$('#txtPass',box).val()
+			};
+			if($keep.is(':checked')) data.keep=true;
+			login({
+				data:data,
+				success:function(){
+					send=true;
+					var exceptions=/^#(page|signup|home|$)/i,
+						hash=document.location.hash;
+					if(hash.match(exceptions)) hash='';
+					var url=document.location.search+hash;
+					if(url) $.session('login_url',url);
+					$(box).submit();
+				},
+				fail:function(data){
+					console.log('fail');
+					if(data&&data['from']==='renewaccount'){//si renovar cuenta
+						$.dialog({//Avisar sobre renovacion
+							title:'<?=SIGNUP_CTRTITLEALERT?>',
+							resizable:false,
+							width:320,
+							height:300,
+							modal:true,
+							show:'fade',
+							hide:'fade',
+							open:function(){
+								$(this).html("<span><?=EXPIREDACCOUNT_TITLEWINDOWSWARNING?></span>");
 							},
-							fail:function(data){
-								console.log('fail');
-								if(data&&data['from']==='renewaccount'){//si renovar cuenta
-									$.dialog({//Avisar sobre renovacion
-										title:'<?=SIGNUP_CTRTITLEALERT?>',
-										resizable:false,
-										width:320,
-										height:300,
-										modal:true,
-										show:'fade',
-										hide:'fade',
-										open:function(){
-											$(this).html("<span><?=EXPIREDACCOUNT_TITLEWINDOWSWARNING?></span>");
-										},
-										buttons:{
-											'<?=JS_OK?>':function(){
-												data['from']='paypal';
-												go_paypal(data);//Va a paypal para renovar cuenta
-												$(this).dialog('close');
-											},
-											'<?=JS_CANCEL?>':function(){
-												$(this).dialog('close');
-											}
-										}
-									});
-								}else if(data&&data['from']!='paypal'){
-									$.dialog({
-										title:'<?=SIGNUP_CTRTITLEALERT?>',
-										resizable:false,
-										width:300,
-										modal:true,
-										show:'fade',
-										hide:'fade',
-										open:function(){
-											$(this).html(data['msg']);
-										},
-										buttons:{
-											'<?=JS_OK?>':function(){
-												$(this).dialog('close');
-											}
-										}
-									});
-								};
-								go_paypal(data);//Va a paypal para cuenta nueva
-								wait=false;
-								$(box).one('submit',_login);
+							buttons:{
+								'<?=JS_OK?>':function(){
+									data['from']='paypal';
+									go_paypal(data);//Va a paypal para renovar cuenta
+									$(this).dialog('close');
+								},
+								'<?=JS_CANCEL?>':function(){
+									$(this).dialog('close');
+								}
 							}
 						});
-					}
-					return send;
-				};
-				$(box).one('submit',_login);
-//			},
-//			close:function(){
-//				//$(box).off();
-//			}
-//		});
-		function go_paypal(d){
-			if(d&&d['from']==='paypal'){
-				redir('paybusiness?uid='+d['msg']+'&'+Math.random());
-			}
+					}else if(data&&data['from']!='paypal'){
+						$.dialog({
+							title:'<?=SIGNUP_CTRTITLEALERT?>',
+							resizable:false,
+							width:300,
+							modal:true,
+							show:'fade',
+							hide:'fade',
+							open:function(){
+								$(this).html(data['msg']);
+							},
+							buttons:{
+								'<?=JS_OK?>':function(){
+									$(this).dialog('close');
+								}
+							}
+						});
+					};
+					go_paypal(data);//Va a paypal para cuenta nueva
+					wait=false;
+					$(box).one('submit',_login);
+				}
+			});
 		}
-	});
-	//Para login con facebook
-	window.fbAsyncInit=function(){
-		FB.init({
-			appId:'<?=$facebook->getAppID()?>',
-			cookie:true,
-			xfbml:true,
-			oauth:true,
-			status:true
-		});
+		return send;
 	};
-	(function(d,s,id){
-		var js, fjs=d.getElementsByTagName(s)[0];
-		if(d.getElementById(id)) return;
-		js=d.createElement(s); js.id=id;
-		js.src="//connect.facebook.net/en_Us/all.js";
-		fjs.parentNode.insertBefore(js,fjs);
-	}(document,'script','facebook-jssdk'));
+	$(box).one('submit',_login);
+	function go_paypal(d){
+		if(d&&d['from']==='paypal'){
+			redir('paybusiness?uid='+d['msg']+'&'+Math.random());
+		}
+	}
 	function accountFb(){
 		FB.login(function(response){
 			if(response.authResponse){
@@ -172,6 +142,38 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 			}
 		},{scope:'email'});
 	}
-	$('.fb-buttom').click(accountFb);
-})();
+	$('.fb-buttom').off().on('click',accountFb);
+	//Para login con facebook
+	window.fbAsyncInit=function(){
+		FB.init({
+			appId:'<?=isset($config->facebook->appId)?$config->facebook->appId:''?>',
+			cookie:true,
+			xfbml:true,
+			oauth:true,
+			status:true
+		});
+	};
+	(function(d,s,id){
+		var js, fjs=d.getElementsByTagName(s)[0];
+		if(d.getElementById(id)) return;
+		js=d.createElement(s); js.id=id;
+		js.src="//connect.facebook.net/en_Us/all.js";
+		fjs.parentNode.insertBefore(js,fjs);
+	}(document,'script','facebook-jssdk'));
+	// window.fbAsyncInit=function(){
+	// 	FB.init({
+	// 		appId:'<?=isset($config->facebook->appId)?$config->facebook->appId:''?>',
+	// 		xfbml:true,
+	// 		version:'v2.2'
+	// 	});
+	// };
+	// (function(d, s, id){
+	// 	var js, fjs = d.getElementsByTagName(s)[0];
+	// 	if (d.getElementById(id)) {return;}
+	// 	js = d.createElement(s); js.id = id;
+	// 	js.src = "//connect.facebook.net/en_US/sdk.js";
+	// 	fjs.parentNode.insertBefore(js, fjs);
+	// }(document, 'script', 'facebook-jssdk'));
+
+})(jQuery);
 </script>
