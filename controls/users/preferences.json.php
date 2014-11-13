@@ -3,32 +3,28 @@ include '../header.json.php';
 if (($myId=='' && !isset($_GET['eprofi'])) || !isset($_GET['action'])) die(jsonp(array()));
 $res=array();
 switch ($_GET['action']) {
-	case 'up':		
+	case 'up': 
 		if (isset($_GET['code'])){
 			$id_user=CON::getVal("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id))=?",array($_GET['code']));
 			if (!$id_user) die(jsonp(array()));
-			for ($i=1;$i<4;$i++){
-				$pre=CON::getArray("SELECT DISTINCT md5(id) AS id, detail FROM preference_details WHERE detail IN ('".str_replace(",","','",str_replace("'","\'",$_POST['preference_'.$i]))."') GROUP BY detail");
-				$datos=array();
-				$dato=explode(',',$_POST['preference_'.$i]);
-
-				$_POST['preference_'.$i]=array();
-				foreach ($dato as $key => $value) { $band=false;
-					foreach ($pre as $subpre) 
-						if ($subpre['detail']==$value){
-							$_POST['preference_'.$i][]=$subpre['id'];
-							$band=true;
-						}
-					if (!$band) $_POST['preference_'.$i][]=$value;
-				}
-			}
 		}else	$id_user=$myId;
+		$preference[1]='';$preference[2]='';$preference[3]='';
+		for($i=1;$i<4;$i++){	
+			if (!is_array($_POST['preference_'.$i])) $post_prefe=explode(",",$_POST['preference_'.$i]);
+			else $post_prefe=$_POST['preference_'.$i];
+			foreach ($post_prefe as $key) {
+				if (trim($key)=="") continue;
+				$id=CON::getVal("SELECT id FROM preference_details WHERE detail=?",array($key));
+				if (!$id) $id=CON::insert('preference_details','detail=?',array($key));
+				if ($id) $preference[$i].=($preference[$i]!=''?',':'').$id;
+			}
+		}
 		CON::delete('users_preferences','id_user=? AND id_preference IN (1,2,3)',array($id_user));
-		CON::insert('users_preferences','id_user=?,id_preference=1,preference=?',array($id_user,@implode(',',$_POST['preference_1'])));
-		CON::insert('users_preferences','id_user=?,id_preference=2,preference=?',array($id_user,@implode(',',$_POST['preference_2'])));
-		CON::insert('users_preferences','id_user=?,id_preference=3,preference=?',array($id_user,@implode(',',$_POST['preference_3'])));
+		CON::insert('users_preferences','id_user=?,id_preference=1,preference=?',array($id_user,$preference[1]));
+		CON::insert('users_preferences','id_user=?,id_preference=2,preference=?',array($id_user,$preference[2]));
+		CON::insert('users_preferences','id_user=?,id_preference=3,preference=?',array($id_user,$preference[3]));
 		if (CON::exist("users_preferences","id_user=? LIMIT 1",array($myId))) $res['insert']=true;
-		else $res['insert']=false;
+		else $res['insert']=false;		
 	break;
 	case 'add':
 		if (!isset($_GET['type']) || !isset($_GET['p'])) die(jsonp(array()));
@@ -58,33 +54,17 @@ switch ($_GET['action']) {
 		$datos=explode(' ',$_GET['term']);$where='';
 		foreach ($datos as $key) 
 			$where.=($where!=''?' AND ':'').safe_sql('detail LIKE "%??%"',array($key));
-		$query=CON::query("SELECT md5(id) AS id, detail FROM preference_details WHERE $where");
+		$query=CON::query("SELECT md5(id) AS id, detail FROM preference_details WHERE $where LIMIT 20");
 		while($row=CON::fetchAssoc($query))
-			$res[]=(object)array('id'=>$row['id'],'text'=>$row['detail']);
+			$res[]=(object)array('id'=>$row['detail'],'text'=>$row['detail']);
 	break;
 	default:
 		if (isset($_GET['code'])){
 			$id_user=CON::getVal("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id))=?",array($_GET['code']));
 			if (!$id_user) die(jsonp(array()));
 		}else	$id_user=isset($_GET['u'])?$_GET['u']:$myId;
-		$where=isset($_GET['type'])?safe_sql(' AND id_preference=?',array($_GET['type'])):'';
-		$preferences=CON::query("SELECT * FROM users_preferences WHERE md5(id_user)=?".$where,array(intToMd5($id_user)));
-		$res['dato']=array();
-		while ($row=CON::fetchAssoc($preferences)) {
-			$pre=CON::getArray("SELECT md5(id) AS id, detail FROM preference_details WHERE md5(id) IN ('".str_replace(",","','",$row['preference'])."')");
-			$datos=array();
-			$dato=explode(',',$row['preference']);
-			foreach ($dato as $key => $value) { $band=false;
-				foreach ($pre as $subpre) {
-					if ($subpre['id']==$value){
-						$datos[]=(object)array('id'=>$subpre['id'],'text'=>$subpre['detail']);
-						$band=true;
-					}
-				}
-				if (!$band) $datos[]=(object)array('id'=>$value,'text'=>$value);
-			}
-			$res['dato'][$row['id_preference']]=$datos;
-		}
+		$_GET['type']=isset($_GET['type'])?$_GET['type']:false;
+		$res['dato']=users_preferences($id_user,$_GET['type']);
 	break;
 }
 die(jsonp($res));
