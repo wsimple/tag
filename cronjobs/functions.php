@@ -710,41 +710,6 @@ function priceList($type_publicity='4', $status='1'){
 		ORDER BY a.click_from ASC
 	");
 }
-
-function queryTagsUserPublicity($limit=50){
-
-        //selección de preferencias del usuario en session
- 	    $preferences = explode('|', usersPreferences());
-	    foreach ($preferences as $value){
-			     $like .= " _datox_ LIKE '%".replaceCharacters($value)."%' OR ";
-	    }
-
-         return $GLOBALS['cn']->query("SELECT (SELECT screen_name FROM users u WHERE u.id=t.id_creator) AS nameUsr,
-											  (SELECT screen_name FROM users u WHERE u.id=t.id_user) AS nameUsr2,
-											  (SELECT md5(CONCAT(u.id, '_', u.email, '_', u.id)) FROM users u WHERE u.id=t.id_creator) AS code,
-											  (SELECT u.profile_image_url FROM users u WHERE u.id=t.id_creator) AS photoUser,
-											  t.id AS idTag,
-											  t.id_user AS idUser,
-											  t.id_creator AS idCreator,
-											  t.code_number AS code_number,
-											  t.color_code AS color_code,
-											  t.color_code2 AS color_code2,
-											  t.color_code3 AS color_code3,
-											  t.`text` AS texto,
-											  t.`text2` AS texto2,
-											  t.date AS fechaTag,
-											  t.background AS fondoTag,
-											  a.link AS enlace,
-											  md5(a.id) AS id_publicidad,
-											  t.video_url AS video_url
-
-		                               FROM users_publicity a INNER JOIN tags t ON a.id_tag = t.id
-									   WHERE (a.status = '1' AND a.click_max >= a.click_current AND a.id_type_publicity = '4') OR (".str_replace("_datox_", "t.`text`", rtrim($like, ' OR '))." OR ".str_replace("_datox_", "t.`text2`", rtrim($like, ' OR '))." OR ".str_replace("_datox_", "t.code_number", rtrim($like, ' OR ')).")
-									   ORDER BY rand()
-									   LIMIT 0, ".$limit."
-									  ");
-}
-
 function maskBirthday($birthday, $type=1, $format=1){
 
 		 $date = explode('-', $birthday);
@@ -776,30 +741,6 @@ function isProductTag($idTag){
 	return mysql_fetch_assoc($product);
 
 }
-
-function adPreference($preference){
-
-	$exist= $GLOBALS['cn']->query("SELECT id
-										FROM `preference_details`
-										WHERE detail like '$preference' and id_preference in (2,3) ");
-	if(mysql_num_rows($exist)==0){
-
-		$GLOBALS['cn']->query("INSERT INTO `preference_details` (`id` ,`id_preference` ,`detail`)
-								VALUES (
-								NULL , '2', '$preference'
-								);");
-
-		$GLOBALS['cn']->query("INSERT INTO `preference_details` (`id` ,`id_preference` ,`detail`)
-								VALUES (
-								NULL , '3', '$preference'
-								);");
-
-
-	 }
-
-
-}
-
 function isYoutubeVideo($value) {
 	$isValid = false;
         //validate the url, see: http://snipplr.com/view/50618/
