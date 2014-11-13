@@ -2,9 +2,9 @@ var hideGroups=false;
 
 //-- Constantes para mobile --//
 (function(w,$){
-	$.local.ce=/^(logged|host|firebug.*)$/i;//excepciones al borrar todos los locales
-	$.cookie.ce=/^(kl|last|enableLogs|PHPSESSID)$/;//excepciones al borrar todas las cookies
-	$.cookie.defaults={expires:(CORDOVA?365:15),path:'/'};//configuracion por defecto para cookies
+	$.local.clear.exceptions=/^(logged|host|firebug.*)$/i;//excepciones al borrar todos los locales
+	$.cookie.clear.exceptions=/^(kl|last|enableLogs|PHPSESSID|_DEBUG_)$/;//excepciones al borrar todas las cookies
+	$.cookie.options({expires:(CORDOVA?365:15),path:'/'});//opciones de cookies
 	//loader
 	var m,loader=function(mode){$.mobile.loading(mode);};
 	$.loader=function(mode){
