@@ -1463,13 +1463,13 @@ input.password-field {
 	border: 1px solid #EEE;
 	border-top: none;
 	border-radius: 0 0 10px 10px;
-	width: 600px;
-	padding: 8px 0 0 0;
+	width: 92%;
+	padding: 8px 0 8px 0;
 }
 
 #comments{
 	width: 90%;
-	margin: 0 auto 10px auto;
+	margin: 0 auto;
 }
 
 #commenting{
