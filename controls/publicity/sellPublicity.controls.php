@@ -201,7 +201,7 @@
 											$picture_bd
 										WHERE	md5(id) = '".$_POST[id_p]."'");
 
-									adPreference($_POST[publi_title]);
+									// adPreference($_POST[publi_title]);
 									echo "update";
 
 									}
@@ -400,7 +400,7 @@
 
 											$id_publicity = md5( mysql_insert_id() );
 
-											adPreference($_POST[publi_title]);
+											// adPreference($_POST[publi_title]);
 
 											// include ('../../views/pay.view.php');
 											@header('Location: ../../views/pay.view.php?payAcc=publicity&uid='.$id_publicity);

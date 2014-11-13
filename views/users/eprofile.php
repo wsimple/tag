@@ -64,7 +64,7 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 				$photoT=FILESERVER.getUserPicture("$obj->code/$obj->profile_image_url",'img/users/default.png');
 				$photoF=FILESERVER."img/users/$obj->code/$obj->profile_image_url";
 				if($photoF!=$photoT && $logged){ 
-					$imgDetails='class="imgWithMouseOverEfect" title="'.EXTERNALPROFILE_VIEWPICTUREALBUM.'"';
+					$imgDetails='class="imgWithMouseOverEfect" title="'.$lang["EXTERNALPROFILE_VIEWPICTUREALBUM"].'"';
 				?>
 				<a href="views/photos/picture.view.php?src=<?=$photoF?>&default&id_user=<?=$obj->id?>" class="grouped_PP" rel="PP_1"/>
 				<?php } ?>
@@ -74,12 +74,12 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 			<?php if(numRecord('images',"WHERE id_user=$obj->id AND id_images_type=2")>0 && $logged){
 					echo generateAlbumView($obj->id,$edit,'PP_1','profile');
 			} ?>
-			<h3 style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena("$obj->nameUser's ".USERPROFILE_PERSONALINFO)?></h3>
-			<a href="javascript:void(0)" id="seeBusiness" style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena(SEE_BUSINESS_CARD)?></a>
+			<h3 style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena("$obj->nameUser's ".$lang["USERPROFILE_PERSONALINFO"])?></h3>
+			<a href="javascript:void(0)" id="seeBusiness" style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena($lang["SEE_BUSINESS_CARD"])?></a>
 			<?php if (!$edit && $logged){ ?>
 			<div id="userProfileDialog" style="float:right; margin-top: 43px">
-				<input type="button" <?=$obj->follower?'style="display:none;"':''?> action="linkUser,<?=md5($obj->id)?>" value="<?=USER_BTNLINK?>"/>
-				<input type="button" <?=$obj->follower?'':'style="display:none;"'?>  action="linkUser,<?=md5($obj->id)?>" value="<?=USER_BTNUNLINK?>"/>
+				<input type="button" <?=$obj->follower?'style="display:none;"':''?> action="linkUser,<?=md5($obj->id)?>" value="<?=$lang["USER_BTNLINK"]?>"/>
+				<input type="button" <?=$obj->follower?'':'style="display:none;"'?>  action="linkUser,<?=md5($obj->id)?>" value="<?=$lang["USER_BTNUNLINK"]?>"/>
 			</div>
 			<?php } ?>
 			<div id="coverExternalProfile">
@@ -96,7 +96,7 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 	<div id="eProfileInfo">
 		<div style="float: left;width: 380px;">
 			<article id="externalProfileInfo" class="side-box imagenSug">
-				<header><span><?=INFO_PER?></span><?=$edit?$edit:''?></header>
+				<header><span><?=$lang["INFO_PER"]?></span><?=$edit?$edit:''?></header>
 				<div>	
 					<ul>
 						<li class="tituloName"><?=$obj->screen_name?></li>
@@ -109,53 +109,41 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 
 							echo ($obj->url!='')?'<li class="peddingEx"><a target="_blank" href="'.$obj->url.'">'.$obj->url.'</a></li>':'';
 						?>
-						<li><label><?=USER_LBLFOLLOWERS." (</label>$obj->followers_count<label>) - ".USER_LBLFRIENDS." (</label>$obj->friends_count<label>)"?></label></li>
+						<li><label><?=$lang["USER_LBLFOLLOWERS"]." (</label>$obj->followers_count<label>) - ".$lang["USER_LBLFRIENDS"]." (</label>$obj->friends_count<label>)"?></label></li>
 						<?php if($obj->type=='0'){ 
-							echo ($obj->home_phone!=''&&$obj->home_phone!='-')?'<li><label>'.USERPROFILE_LBLHOMEPHONE.': </label>'.$obj->home_phone.'</li>':'';
+							echo ($obj->home_phone!=''&&$obj->home_phone!='-')?'<li><label>'.$lang["USERPROFILE_LBLHOMEPHONE"].': </label>'.$obj->home_phone.'</li>':'';
 							} 
-							echo ($obj->work_phone!=''&&$obj->work_phone!='-')?'<li><label>'.USERPROFILE_LBLWORKPHONE.': </label>'.$obj->work_phone.'</li>':'';
+							echo ($obj->work_phone!=''&&$obj->work_phone!='-')?'<li><label>'.$lang["USERPROFILE_LBLWORKPHONE"].': </label>'.$obj->work_phone.'</li>':'';
 
-							echo ($obj->mobile_phone!=''&&$obj->mobile_phone!='-')?'<li><label>'.USERPROFILE_LBLMOBILEPHONE.': </label>'.$obj->mobile_phone.'</li>':'';
+							echo ($obj->mobile_phone!=''&&$obj->mobile_phone!='-')?'<li><label>'.$lang["USERPROFILE_LBLMOBILEPHONE"].': </label>'.$obj->mobile_phone.'</li>':'';
 						?>
 					</ul>
 				</div>
 				<div class="clearfix"></div>
 			</article>
 			<article id="externalProfilePrefe" class="side-box imagenSug">
-				<header><span style="background-image: url('css/tbum/box-title/preferences.png')"><?=USERPROFILE_PREFERENCES?></span><?=$edit?$edit:''?></header>
+				<header><span style="background-image: url('css/tbum/box-title/preferences.png')"><?=$lang["USERPROFILE_PREFERENCES"]?></span><?=$edit?$edit:''?></header>
 				<div>
 					<ul>
 				   		<?php 
-							$titles=array(EXTERNALPROFILE_LIKES,EXTERNALPROFILE_NEEDS,EXTERNALPROFILE_WANTS);
-							$i=0; 
-							$query=CON::query("SELECT preference FROM users_preferences WHERE id_user='$obj->id'");
-							if(CON::numRows($query)>0){
-								while($detalles=CON::fetchObject($query)){  ?> 
-									  <li>
-							<?php	   if($detalles->preference!=''){ $links='';$strIN='';
-											foreach(explode(',',$detalles->preference) as $value){
-												$strIN.=($strIN==''?"'":"','").$value;
-											}
-											$strIN.="'";
-											$detalle=CON::query("SELECT detail, id as id2, md5(id) AS id FROM preference_details WHERE id IN (".$strIN.");");
-											echo '<label>'.$titles[$i].' : </label>';
-											if (CON::numRows($detalle)>0){
-												while($row=CON::fetchObject($detalle)){
-													$detalles->preference=str_replace($row->id2,"",$detalles->preference);
-													$detalles->preference.=($detalles->preference==''?'':',').$row->detail;
-												}
-											}
-											$detalles->preference=explode(',',$detalles->preference);
-											for ($e=0;$e<count($detalles->preference);$e++)
-												if($detalles->preference[$e]!='') $links.=($links==''?'':' , ').''.($logged?'<a class="externalPre" href="'.base_url('searchall?srh='.preg_replace('/ +/','%20',$detalles->preference[$e])).'">'.$detalles->preference[$e].'</a>':'<a class="externalPre">'.$detalles->preference[$e].'</a>');
-											echo $links;
-									}else{ echo ""; } ?>
-									</li><br>
-							<?php  if(++$i>2) break;
-							   }  
-						    }else{ //for($i=0;$i<=2;$i++) echo '<li><label>'.$titles[$i].'</label>: ---</li><br>'; 
-						    	echo SOONEXTERPREFERENCES.' '.formatoCadena("$obj->nameUser").' '.SOONEXTERPREFERENCES2;
-							}
+							$titles=array(null,$lang["EXTERNALPROFILE_LIKES"],$lang["EXTERNALPROFILE_WANTS"],$lang["EXTERNALPROFILE_NEEDS"]); 
+							$prefe=users_preferences($obj->id);
+							if (count($prefe)){
+								for ($i=1;$i<4;$i++){
+									if (!isset($prefe[$i])) continue;
+								?>
+								<li style="margin-bottom:5px;"><label><?=$titles[$i].':'?></label>	
+								<?php 
+									foreach ($prefe[$i] as $key => $value) {
+									if ($logged): ?>
+										<a class="externalPre" href="<?=base_url('searchall?srh='.preg_replace('/ +/','%20',$value->text))?>"><?=$value->text?></a>
+									<?php else: ?>
+										<a class="externalPre">'.$value->text.'</a>
+									<?php endif; 
+										} ?>
+								</li>	
+						<?php	}
+							}else echo $lang["SOONEXTERPREFERENCES"].' '.formatoCadena("$obj->nameUser").' '.$lang["SOONEXTERPREFERENCES2"];
 						?>
 					</ul>
 				</div>
@@ -163,7 +151,7 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 			</article>
 		</div>
 		<div id="taglist-box" class="tags mini side-box imagenSug" >
-			<header><span style="background-image: url('css/tbum/box-title/tags.png')"><?=MAINMNU_HOME?></span></header>
+			<header><span style="background-image: url('css/tbum/box-title/tags.png')"><?=$lang["MAINMNU_HOME"]?></span></header>
 			<?php //echo $edit?$edit:'';?>
 			<div class="tags-list">
 				<div class="tag-container" ></div>
@@ -173,9 +161,9 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 			<!-- include 'templates/tags/carousel.php';  -->
 			<?php if($logged){ ?>
 			<div style="text-align: center">
-				<a href="<?=HREF_DEFAULT?>" class="color-pro" action="tagsUser,1,'',<?=md5($obj->id)?>"><?=ALL_TAGS?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="<?=HREF_DEFAULT?>" class="color-pro" action="personalTags,5,<?=md5($obj->id)?>">
-				<?=MAINMNU_PERSONALTAGS?>
+				<a href="<?=$lang['HREF_DEFAULT']?>" class="color-pro" action="tagsUser,1,'',<?=md5($obj->id)?>"><?=$lang["ALL_TAGS"]?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="<?=$lang['HREF_DEFAULT']?>" class="color-pro" action="personalTags,5,<?=md5($obj->id)?>">
+				<?=$lang["MAINMNU_PERSONALTAGS"]?>
 				</a>
 			</div>
 			<div class="clearfix"></div>

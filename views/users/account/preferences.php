@@ -43,28 +43,20 @@
 							<div class="clearfix"></div>
 							<div id="div_preference_1">
 								<strong style="padding: 0px;"><?=$lang['PREFERENCES_WHATILIKE']?>:</strong>
-								<input id="preference_1" name="preference_1[]">
-								<!--<select id="preference_1" name="preference_1[]"></select> -->
+								<input id="preference_1" name="preference_1">
 							</div>
 							<div id="div_preference_2">
 								<strong style="padding: 0px;"><?=$lang['PREFERENCES_WHATIWANT']?>:</strong>
-								<input id="preference_2" name="preference_2[]">
-								<!--<select id="preference_2" name="preference_2[]"></select> -->
+								<input id="preference_2" name="preference_2">
 							</div>
 							<div id="div_preference_3">
 								<strong style="padding: 0px;"><?=$lang['PREFERENCES_WHATINEED']?>:</strong>
-								<input id="preference_3" name="preference_3[]">
-								<!--<select id="preference_3" name="preference_3[]"></select> -->
+								<input id="preference_3" name="preference_3">
 							</div>
 						</div>
 					</div>
 				<div id="botonPreferences" style="padding-top: 10px;">
-					<!--input name="frmPreferences_btnHome" type="button" id="frmPreferences_btnHome" value="<?=SIGNUP_BTNBACK?>" /-->
 					<input name="frmPreferences_btnSend" type="button" id="frmPreferences_btnSend" value="<?=USERPROFILE_SAVE?>" />
-					<br><br>
-					<!--a href="<?=HREF_DEFAULT?>" name="frmPreferences_btnSend" id="frmPreferences_btnSend">
-						<strong><?=USERPROFILE_SAVE?></strong>
-					</a-->
 					<br><br>
 				</div>
 			</div>

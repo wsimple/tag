@@ -776,30 +776,6 @@ function isProductTag($idTag){
 	return mysql_fetch_assoc($product);
 
 }
-
-function adPreference($preference){
-
-	$exist= $GLOBALS['cn']->query("SELECT id
-										FROM `preference_details`
-										WHERE detail like '$preference' and id_preference in (2,3) ");
-	if(mysql_num_rows($exist)==0){
-
-		$GLOBALS['cn']->query("INSERT INTO `preference_details` (`id` ,`id_preference` ,`detail`)
-								VALUES (
-								NULL , '2', '$preference'
-								);");
-
-		$GLOBALS['cn']->query("INSERT INTO `preference_details` (`id` ,`id_preference` ,`detail`)
-								VALUES (
-								NULL , '3', '$preference'
-								);");
-
-
-	 }
-
-
-}
-
 function isYoutubeVideo($value) {
 	$isValid = false;
         //validate the url, see: http://snipplr.com/view/50618/
