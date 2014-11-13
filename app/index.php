@@ -1,9 +1,6 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-start" data-role="page" class="no-header no-footer">
 	<div data-role="content" class="smt-bg smt-center"><div class="_tt">
-	<?php if(isset($_GET['xdk'])){?>
-		<div id="xdk-test" style="position:absolute;top:0;left:0;">XDK</div>
-	<?php } ?>
 		<div class="ui-box-home _tc">
 			<div class="logo-smt"></div>
 			<div id="buttons" style="display:none;"><div class="_tt"><div class="_tc">
@@ -34,9 +31,6 @@
 		</div>
 	</div></div>
 	<script>
-		window.accountFb=function(){
-			alert('Wait a moment, application not ready yet.');
-		};
 		//$.session('countpage',0);
 		pageShow({
 			id:'page-start',
@@ -101,31 +95,8 @@
 //				});
 //			}
 //		}
-		$('.googlePlay,.appStore').click(function(event) {
-			myDialog({//Information lang.INVITE_GROUP_TRUE
-				id:'#singleDialog',
-				content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
-			});
-		});
 
 		//Login facebook
-<?php if(isset($_GET['xdk'])){ ?>
-		document.addEventListener("intel.xdk.device.ready",function(e){
-			document.addEventListener("intel.xdk.facebook.login",function(e){
-				if(e.success==true){
-					$('#xdk-test').html("Facebook Log in Successful");
-				}else{
-					$('#xdk-test').html("Unsuccessful Login");
-				}
-				$('#xdk-test').append('. Event:<pre>'+JSON.stringify(e)+'</pre>');
-			},false);
-			window.accountFb=intel.xdk.facebook&&intel.xdk.facebook.login?function(){
-				intel.xdk.facebook.login("publish_stream,publish_actions,offline_access");
-			}:function(){
-				alert("Sorry, you can't login with facebook right now, try again later.");
-			};
-		},false);
-<?php }else{ ?>
 		// window.fbAsyncInit=function(){
 		// 	FB.init({
 		// 		appId:'<?=isset($config->facebook->appId)?$config->facebook->appId:''?>',
@@ -159,7 +130,7 @@
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 
-		window.accountFb=function(){
+		function accountFb(){
 			FB.login(function(response){
 				if(response.authResponse){
 					FB.api('/me',function(response){
@@ -175,8 +146,13 @@
 				// 	console.log('No has logueado correctamente con fbb.');
 				}
 			},{scope:'email'});
-		};
-<?php } ?>
+		}
+		$('.googlePlay,.appStore').click(function(event) {
+			myDialog({//Information lang.INVITE_GROUP_TRUE
+				id:'#singleDialog',
+				content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
+			});
+		});
 	</script>
 </div>
 <?php include 'inc/footer.php'; ?>
