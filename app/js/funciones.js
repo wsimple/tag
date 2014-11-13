@@ -595,112 +595,114 @@ function showTags(array){//tag list
 	return '<div class="tag-container">'+tags+'</div>';
 }
 function actionsTags(layer){
-	$(layer).doubletap('[tag]', function(e){
-		var tagId = $(e.currentTarget).attr('tag')
-		playLike(tagId,'likeIcon','dislikeIcon',true);
-	});
-	$(layer).on('click', 'menu li', function(e){
-		var tagId = $(e.target).parents('[tag]').attr('tag');
-		var btnPresed = e.target.id;
-		switch(e.target.id){
-			case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
-			case 'share':redir(PAGE['sharetag']+'?id_tag='+tagId);break;
-			case 'comment':
-				tagId = $(e.target).parents('[tag]').attr('tag');
-				playComment(tagId);
-			break;
-			case 'like':case 'dislike':
-				// $(e.currentTarget).append('<img id="yok" src="http://vectorise.net/logo/wp-content/uploads/2012/08/Facebook-Like.png">');
-				// $('#yok').animate({
-				// 	height: '25%',
-				// 	width: '25%',
-				// 	opacity: 0.2,
-				// 	position:'absolute'},
-				// 	2000, function() {
-				// 	$('#yok').remove();
-				// });
-				var that=e.target.id+'Icon',
-					show=e.target.id!='like'?'likeIcon':'dislikeIcon';
-					playLike(tagId,that,show);
-			break;
-			case 'redistr':
-				myAjax({
-					type:'POST',
-					url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagId,
-					dataType:'html',
-					loader: false,
-					success:function( data ){
-						afterAjaxTags(data, tagId,'menu #redistr', '.tag-icons #redist');
+	if(isLogged()){
+		$(layer).doubletap('[tag]', function(e){
+			var tagId = $(e.currentTarget).attr('tag')
+			playLike(tagId,'likeIcon','dislikeIcon',true);
+		});
+		$(layer).on('click', 'menu li', function(e){
+			var tagId = $(e.target).parents('[tag]').attr('tag');
+			var btnPresed = e.target.id;
+			switch(e.target.id){
+				case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
+				case 'share':redir(PAGE['sharetag']+'?id_tag='+tagId);break;
+				case 'comment':
+					tagId = $(e.target).parents('[tag]').attr('tag');
+					playComment(tagId);
+				break;
+				case 'like':case 'dislike':
+					// $(e.currentTarget).append('<img id="yok" src="http://vectorise.net/logo/wp-content/uploads/2012/08/Facebook-Like.png">');
+					// $('#yok').animate({
+					// 	height: '25%',
+					// 	width: '25%',
+					// 	opacity: 0.2,
+					// 	position:'absolute'},
+					// 	2000, function() {
+					// 	$('#yok').remove();
+					// });
+					var that=e.target.id+'Icon',
+						show=e.target.id!='like'?'likeIcon':'dislikeIcon';
+						playLike(tagId,that,show);
+				break;
+				case 'redistr':
+					myAjax({
+						type:'POST',
+						url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagId,
+						dataType:'html',
+						loader: false,
+						success:function( data ){
+							afterAjaxTags(data, tagId,'menu #redistr', '.tag-icons #redist');
+						}
+					});
+				break;
+				case 'trash':
+					myDialog({
+						id:'#singleRedirDialog',
+						content:lang.JS_DELETETAG,
+						loader: false,
+						buttons:[{
+							name:lang.yes,
+							action:function(){
+								var dialog = this;
+								myAjax({
+									type: 'POST',
+									url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagId,
+									dataType: 'html',
+									success: function( data ) {
+										$('[tag='+tagId+']').fadeOut('fast',function(){
+											$(this).remove();
+											dialog.close();
+										});
+									}
+								});
+							}
+						},{
+							name:'No',
+							action:'close'
+						}]
+					});
+				break;
+				case 'youtube': case 'vimeo': 
+						var video=$(e.target).attr('vUrl');
+					if(openVideo){
+						openVideo(video,'#popupVideo');
+					}else{ 
+						window.open(video,"_blank"); 
+						// $(e.target).find('a').click(); 
 					}
-				});
-			break;
-			case 'trash':
-				myDialog({
-					id:'#singleRedirDialog',
-					content:lang.JS_DELETETAG,
-					loader: false,
-					buttons:[{
-						name:lang.yes,
-						action:function(){
-							var dialog = this;
-							myAjax({
-								type: 'POST',
-								url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagId,
-								dataType: 'html',
-								success: function( data ) {
-									$('[tag='+tagId+']').fadeOut('fast',function(){
-										$(this).remove();
-										dialog.close();
-									});
-								}
-							});
-						}
-					},{
-						name:'No',
-						action:'close'
-					}]
-				});
-			break;
-			case 'youtube': case 'vimeo': 
-					var video=$(e.target).attr('vUrl');
-				if(openVideo){
-					openVideo(video,'#popupVideo');
-				}else{ 
-					window.open(video,"_blank"); 
-					// $(e.target).find('a').click(); 
-				}
-			break;
-			case 'local': 
-				var wi=$(e.target).parents('.tag-container').css('font-size'),video=$(e.target).attr('vUrl');
-				if (wi.indexOf('px')!=-1){
-					wi=(wi.replace('px','')*1)/2;
-					wi=wi+'px';
-				}else{
-					wi=(wi.replace('em','')*1)-0.20;
-					wi=wi+'em';
-				}
-				myDialog({
-					id:'#singleVideoDialog',
-					content:'<div class"tag-solo" style="font-size:'+wi+'"><div class="tag-container" style="margin:0 auto;"><div tag><div class="video"><div class="placa"></div>'+
-								'<video id="v'+Math.random()+'" controls autoplay preload="metadata"><source src="'+video+'" type="video/mp4"/></video>'+
-								'</div></div></div><div class="clearfix"></div></div>',
-					buttons:[{
-						name:'Ok',
-						action:function(){
-							var di=this;
-							$('#singleVideoDialog video').each(function(index, el) {
-								this.pause();
-								this.src="";
-							});
-							di.close();
-						}
-					}]
-				});
-			break;
-			case 'users': redir(PAGE['profile']+'?id='+$(e.target).attr('users')); break;
-			case 'qrcode': redir(PAGE['detailsproduct']+'?id='+$(e.target).attr('p')); break;
-		}
-	});
+				break;
+				case 'local': 
+					var wi=$(e.target).parents('.tag-container').css('font-size'),video=$(e.target).attr('vUrl');
+					if (wi.indexOf('px')!=-1){
+						wi=(wi.replace('px','')*1)/2;
+						wi=wi+'px';
+					}else{
+						wi=(wi.replace('em','')*1)-0.20;
+						wi=wi+'em';
+					}
+					myDialog({
+						id:'#singleVideoDialog',
+						content:'<div class"tag-solo" style="font-size:'+wi+'"><div class="tag-container" style="margin:0 auto;"><div tag><div class="video"><div class="placa"></div>'+
+									'<video id="v'+Math.random()+'" controls autoplay preload="metadata"><source src="'+video+'" type="video/mp4"/></video>'+
+									'</div></div></div><div class="clearfix"></div></div>',
+						buttons:[{
+							name:'Ok',
+							action:function(){
+								var di=this;
+								$('#singleVideoDialog video').each(function(index, el) {
+									this.pause();
+									this.src="";
+								});
+								di.close();
+							}
+						}]
+					});
+				break;
+				case 'users': redir(PAGE['profile']+'?id='+$(e.target).attr('users')); break;
+				case 'qrcode': redir(PAGE['detailsproduct']+'?id='+$(e.target).attr('p')); break;
+			}
+		});
+	}
 }
 function afterAjaxTags(data, tagId, toHide,toShow){
 	console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
