@@ -31,14 +31,10 @@ if(!( #validamos si el usuario tiene permitido ingresar a la app
 	<link rel="stylesheet" href="css/seemytag.css"/>
 	<link rel="stylesheet" href="css/colorPicker.css"/>
 <?php if(isset($_GET['minify'])){
-	$__path=isset($_GET['steroids'])?'http://localhost/':'';
-?>	<script src="<?=$__path?>cordova.js"></script>
+?>	<script src="<?=isset($_GET['steroids'])?'http://localhost/cordova.js':'cordova.js'?>"></script>
 	<!--<script src="http://debug.build.phonegap.com/target/target-script-min.js#82ad4bcc-195f-11e3-af04-22000a98b3d6"></script><!-- -->
-<?php unset($__path); }
-if(isset($_GET['xdk'])){
-?>	<script src="intelxdk.js"></script>
-<?php }
-?>	<script src="js/core/const.js"></script>
+<?php } ?>
+	<script src="js/core/const.js"></script>
 	<script src="js/core/md5.js"></script>
 	<script src="js/core/jquery-1.10.2.min.js"></script>
 	<script src="js/core/jquery.cookie.js"></script>

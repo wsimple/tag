@@ -36,9 +36,6 @@
 		</div>
 	</div></div>
 	<script>
-		window.accountFb=function(){
-			alert('Wait a moment, application not ready yet.');
-		};
 		//$.session('countpage',0);
 		pageShow({
 			id:'page-start',
@@ -103,12 +100,6 @@
 //				});
 //			}
 //		}
-		$('.googlePlay,.appStore').click(function(event) {
-			myDialog({//Information lang.INVITE_GROUP_TRUE
-				id:'#singleDialog',
-				content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
-			});
-		});
 
 		//Login facebook
 <?php if(isset($_GET['xdk'])){ ?>
@@ -161,7 +152,7 @@
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 
-		window.accountFb=function(){
+		function accountFb(){
 			FB.login(function(response){
 				if(response.authResponse){
 					FB.api('/me',function(response){
@@ -177,8 +168,13 @@
 				// 	console.log('No has logueado correctamente con fbb.');
 				}
 			},{scope:'email'});
-		};
-<?php } ?>
+		}
+		$('.googlePlay,.appStore').click(function(event) {
+			myDialog({//Information lang.INVITE_GROUP_TRUE
+				id:'#singleDialog',
+				content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
+			});
+		});
 	</script>
 </div>
 <?php include 'inc/footer.php'; ?>
