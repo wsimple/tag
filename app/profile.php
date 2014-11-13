@@ -2,7 +2,7 @@
 <div id="page-profile" data-role="page" data-cache="false">
 	<div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
 	<div data-role="content" data-theme="d" class="no-footer">
-		<img class="bg" src="img/bg.png" />
+		<img class="bg" src="css/smt/bg.png" />
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
 				<div>
