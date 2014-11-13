@@ -6,7 +6,7 @@
 		<a id="publish_newTag"></a>
 	</div>
 	<div data-role="content" data-theme="d">
-		<img class="bg" src="img/bg.png" />
+		<img class="bg" src="css/smt/bg.png" />
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
 				<input id="id_tag" type="hidden"/>

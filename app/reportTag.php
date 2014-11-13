@@ -5,7 +5,7 @@
 		<a id="btnReport" data-icon="check"></a>
 	</div>
 	<div data-role="content" class="no-footer">
-		<img class="bg" src="img/bg.png" />
+		<img class="bg" src="css/smt/bg.png" />
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
 				<form id="frmReport" name="frmReport" method="post">

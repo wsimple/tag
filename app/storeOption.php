@@ -59,7 +59,7 @@
 				                              '</div>'+
 				                              '<div id="error"></div>'+
 			                               '</div>';
-                                $('#storeOption').before('<img class="bg" src="img/bg.png" />').html(formulario).addClass('fs-wrapper');
+                                $('#storeOption').before('<img class="bg" src="css/smt/bg.png" />').html(formulario).addClass('fs-wrapper');
                                 $('#lstStoreOption').remove();
                         break;
                     }   
