@@ -55,11 +55,11 @@ body {
 
 .title div.home {
 	left:0;
-	background-image: url(img/home.png);
+	background-image: url(css/smt/home_.png);
 }
 .title div.back {
 	left:0;
-	background-image: url(img/back.png);
+	background-image: url(css/smt/back.png);
 }
 .title div.usr {
 	right:0;
