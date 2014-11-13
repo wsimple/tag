@@ -1087,7 +1087,7 @@ function preferencesUsers(usr){
 					pref=data.dato[i][j];
 					out+='<li>';
 					if(code==$.local('code'))
-						out+='<img src="smt/trash.png" pref="'+pref.id+'" type="'+i+'"/>&nbsp;';
+						out+='<img src="css/smt/trash.png" pref="'+pref.id+'" type="'+i+'"/>&nbsp;';
 					out+=pref.text+'</li>';
 				}
 			}
