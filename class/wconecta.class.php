@@ -43,8 +43,8 @@ class CON{
 			$sql=str_replace('?','"%s"',$sql);
 			# vsprintf - replacing all %s to parameters
 			$sql=vsprintf($sql,$params);
-			$sql=str_replace('"%s"','?',$sql);
-			$sql=str_replace('%s','??',$sql);
+			// $sql=str_replace('"%s"','?',$sql);
+			// $sql=str_replace('%s','??',$sql);
 		}
 		return ($sql);
 	}
