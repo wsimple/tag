@@ -65,7 +65,7 @@
 					</div>
 					<div class="smt-tag-content ui-shadow-inset">
 						<div id="divbackgroundPreview" class="smt-tag-bg">
-							<img id="backgroundPreview" style="width:100%;" src="img/bg_pop.png"/>
+							<img id="backgroundPreview" style="width:100%;" src="css/smt/bg_pop.png"/>
 						</div>
 					</div>
 				</div>
