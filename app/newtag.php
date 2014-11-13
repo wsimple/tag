@@ -5,6 +5,7 @@
 		<a id="publish_newTag" data-icon="check" data-theme="f"></a>
 	</div>
 	<div data-role="content">
+		<img class="bg" src="css/smt/bg.png" />
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
 				<input id="imgBase64" value="" type="hidden" />
@@ -64,7 +65,7 @@
 					</div>
 					<div class="smt-tag-content ui-shadow-inset">
 						<div id="divbackgroundPreview" class="smt-tag-bg">
-							<img id="backgroundPreview" style="width:100%;" src="img/bg_pop.png"/>
+							<img id="backgroundPreview" style="width:100%;" src="css/smt/bg_pop.png"/>
 						</div>
 					</div>
 				</div>

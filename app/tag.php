@@ -5,10 +5,10 @@
 		<h1 class="tag-title is-logged"></h1>
 	</div><!-- /header -->
 	<div data-role="content">
-		<img class="bg" src="img/bg.png"/>
+		<img class="bg" src="css/smt/bg.png"/>
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
-				<div id="noLoggedEmail" class="logoBackEmail" style="display:;"></div>
+				<div id="noLoggedEmail" class="logoBackEmail" style="display:none;"></div>
 				<div class="tag-solo"><div id="tag" class="tag-container"></div></div>
 				<div class="tag-solo-hash smt-tag-content"></div>
 				<div class="is-logged tag-comments-window smt-tag-content dnone">

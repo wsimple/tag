@@ -119,22 +119,22 @@ function readTxt(url){
 						'</form>'+
 					'</div>'+
 			   '</li>'+
-				'<li opc="timeline" onlyif="!window.location.href.match(/[\\/=]timeline/i)"><img src="img/home.png"/><div>'+lang.TIMELINE_TITLE+'</div><arrow/></li>'+
-				'<li opc="toptags" onlyif="!window.location.href.match(/[\\/=]toptags/i)"><img src="img/topTags.png"/><div>'+lang.TOPTAGS_TITLE+'</div><arrow/></li>'+
-				'<li opc="news" onlyif="!window.location.href.match(/[\\/=]news/i)"><img src="img/news.png"/><div>'+lang.NEWS+'</div><arrow/></li>'+
-				'<li opc="notif" onlyif="!window.location.href.match(/[\\/=]notif/i)"><img src="img/notifications.png"/><div>'+lang.NOTIFICATIONS+'</div><span class="push-notifications"></span><arrow/></li>'+
+				'<li opc="timeline" onlyif="!window.location.href.match(/[\\/=]timeline/i)"><img src="css/smt/home_.png"/><div>'+lang.TIMELINE_TITLE+'</div><arrow/></li>'+
+				'<li opc="toptags" onlyif="!window.location.href.match(/[\\/=]toptags/i)"><img src="css/smt/topTags.png"/><div>'+lang.TOPTAGS_TITLE+'</div><arrow/></li>'+
+				'<li opc="news" onlyif="!window.location.href.match(/[\\/=]news/i)"><img src="css/smt/news.png"/><div>'+lang.NEWS+'</div><arrow/></li>'+
+				'<li opc="notif" onlyif="!window.location.href.match(/[\\/=]notif/i)"><img src="css/smt/notifications.png"/><div>'+lang.NOTIFICATIONS+'</div><span class="push-notifications"></span><arrow/></li>'+
 				//'<li class="separator"></li>'+
-				'<li opc="friends"><img src="img/friends.png"/><div>'+lan('friends','ucw')+'</div><arrow/></li>'+
+				'<li opc="friends"><img src="css/smt/friends.png"/><div>'+lan('friends','ucw')+'</div><arrow/></li>'+
 				(PRODUCCION?
-					'<li opc="chat"><img src="img/chat.png"/><div>'+lang.chat+'</div><arrow/></li>'
+					'<li opc="chat"><img src="css/smt/chat.png"/><div>'+lang.chat+'</div><arrow/></li>'
 				:'')+
 				//'<li opc="profilepic"><img src="img/profile.png"/><div>'+lan('Profile Picture')+'</div><arrow/></li>'+
-				'<li opc="profile"><img src="img/profile.png"/><div>'+lang.profile+'</div><arrow/></li>'+
-				'<li goto="store"><img src="img/store.png"/><div>'+lang.store+'</div><span class="icon"></span></li>'+
-				'<li style="display:none;" goto="groups"><img src="img/group.png"/><div>'+lang.MAINMNU_GROUPS+'</div><span class="icon"></span></li>'+
+				'<li opc="profile"><img src="css/smt/profile.png"/><div>'+lang.profile+'</div><arrow/></li>'+
+				'<li goto="store"><img src="css/smt/store.png"/><div>'+lang.store+'</div><span class="icon"></span></li>'+
+				'<li style="display:none;" goto="groups"><img src="css/smt/group.png"/><div>'+lang.MAINMNU_GROUPS+'</div><span class="icon"></span></li>'+
 				//'<li class="title"><img src="img/profile.png"/><div>Groups</div><span class="icon"/></li>'+
 				//'<li goto="test"><div>test change menu</div><span class="icon"/></li>'+
-				'<li opc="logout"><img src="img/logout.png"/><div>'+lang.logout+'</div><span class="icon"/></li>'+
+				'<li opc="logout"><img src="css/smt/logout.png"/><div>'+lang.logout+'</div><span class="icon"/></li>'+
 			'</ul>'+
 			'<ul id="store">'+
 				'<li goback="main"><div>back to main</div><arrow/></li>'+
@@ -595,150 +595,114 @@ function showTags(array){//tag list
 	return '<div class="tag-container">'+tags+'</div>';
 }
 function actionsTags(layer){
-	$(layer).doubletap('[tag]', function(e){
-		var tagId = $(e.currentTarget).attr('tag')
-		playLike(tagId,'likeIcon','dislikeIcon',true);
-	});
-	$(layer).on('click', 'menu li', function(e){
-		var tagtId = $(e.target).parents('[tag]').attr('tag');
-		var btnPresed = e.target.id;
-		switch(e.target.id){
-			case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
-			case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
-			case 'comment':
-				tagtId = $(e.target).parents('[tag]').attr('tag');
-					var opc = {
-						layer:'#comments',
-						scroller:'.fs-wrapper',
-						data:{
-							type:4,
-							source:tagtId,
-							limit:10,
-							mobile:1
-						}
-					};
-					if ($('[tag='+tagtId+']').find('#comments').length > 0) {
-						$('#tagsList').off('keydown', '#commenting');
-						$('#comments').fadeOut('fast', function() {
-							$(this).remove();
-						});
-					}else{
-						$('#comments').remove();
-						$('[tag='+tagtId+'] menu').before(
-								'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
-						);
-						$('#comments').listview();
-						getComments('reload',opc);
-					}
-
-					$('#tagsList').on('keydown', '#commenting', function(e) {
-						opc.data.source = $(e.target).parents('[tag]').attr('tag');
-						if (e.which == 13) {
-							//alert(opc.data.source)
-							var comment=$.trim($(this).val());
-							if(comment!=''){
-								$(this).val('');
-								insertComment(comment,opc);
-							}
-							return false;
+	if(isLogged()){
+		$(layer).doubletap('[tag]', function(e){
+			var tagId = $(e.currentTarget).attr('tag')
+			playLike(tagId,'likeIcon','dislikeIcon',true);
+		});
+		$(layer).on('click', 'menu li', function(e){
+			var tagId = $(e.target).parents('[tag]').attr('tag');
+			var btnPresed = e.target.id;
+			switch(e.target.id){
+				case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
+				case 'share':redir(PAGE['sharetag']+'?id_tag='+tagId);break;
+				case 'comment':
+					tagId = $(e.target).parents('[tag]').attr('tag');
+					playComment(tagId);
+				break;
+				case 'like':case 'dislike':
+					// $(e.currentTarget).append('<img id="yok" src="http://vectorise.net/logo/wp-content/uploads/2012/08/Facebook-Like.png">');
+					// $('#yok').animate({
+					// 	height: '25%',
+					// 	width: '25%',
+					// 	opacity: 0.2,
+					// 	position:'absolute'},
+					// 	2000, function() {
+					// 	$('#yok').remove();
+					// });
+					var that=e.target.id+'Icon',
+						show=e.target.id!='like'?'likeIcon':'dislikeIcon';
+						playLike(tagId,that,show);
+				break;
+				case 'redistr':
+					myAjax({
+						type:'POST',
+						url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagId,
+						dataType:'html',
+						loader: false,
+						success:function( data ){
+							afterAjaxTags(data, tagId,'menu #redistr', '.tag-icons #redist');
 						}
 					});
-					// var interval=setInterval(function(){
-					// 	getComments('refresh',opc);
-					// },20000);
-			break;
-			case 'like':case 'dislike':
-				// $(e.currentTarget).append('<img id="yok" src="http://vectorise.net/logo/wp-content/uploads/2012/08/Facebook-Like.png">');
-				// $('#yok').animate({
-				// 	height: '25%',
-				// 	width: '25%',
-				// 	opacity: 0.2,
-				// 	position:'absolute'},
-				// 	2000, function() {
-				// 	$('#yok').remove();
-				// });
-				var that=e.target.id+'Icon',
-					show=e.target.id!='like'?'likeIcon':'dislikeIcon';
-					playLike(tagtId,that,show);
-			break;
-			case 'redistr':
-				myAjax({
-					type:'POST',
-					url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagtId,
-					dataType:'html',
-					loader: false,
-					success:function( data ){
-						afterAjaxTags(data, tagtId,'menu #redistr', '.tag-icons #redist');
+				break;
+				case 'trash':
+					myDialog({
+						id:'#singleRedirDialog',
+						content:lang.JS_DELETETAG,
+						loader: false,
+						buttons:[{
+							name:lang.yes,
+							action:function(){
+								var dialog = this;
+								myAjax({
+									type: 'POST',
+									url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagId,
+									dataType: 'html',
+									success: function( data ) {
+										$('[tag='+tagId+']').fadeOut('fast',function(){
+											$(this).remove();
+											dialog.close();
+										});
+									}
+								});
+							}
+						},{
+							name:'No',
+							action:'close'
+						}]
+					});
+				break;
+				case 'youtube': case 'vimeo': 
+						var video=$(e.target).attr('vUrl');
+					if(openVideo){
+						openVideo(video,'#popupVideo');
+					}else{ 
+						window.open(video,"_blank"); 
+						// $(e.target).find('a').click(); 
 					}
-				});
-			break;
-			case 'trash':
-				myDialog({
-					id:'#singleRedirDialog',
-					content:lang.JS_DELETETAG,
-					loader: false,
-					buttons:[{
-						name:lang.yes,
-						action:function(){
-							var dialog = this;
-							myAjax({
-								type: 'POST',
-								url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagtId,
-								dataType: 'html',
-								success: function( data ) {
-									$('[tag='+tagtId+']').fadeOut('fast',function(){
-										$(this).remove();
-										dialog.close();
-									});
-								}
-							});
-						}
-					},{
-						name:'No',
-						action:'close'
-					}]
-				});
-			break;
-			case 'youtube': case 'vimeo': 
-					var video=$(e.target).attr('vUrl');
-				if(openVideo){
-					openVideo(video,'#popupVideo');
-				}else{ 
-					window.open(video,"_blank"); 
-					// $(e.target).find('a').click(); 
-				}
-			break;
-			case 'local': 
-				var wi=$(e.target).parents('.tag-container').css('font-size'),video=$(e.target).attr('vUrl');
-				if (wi.indexOf('px')!=-1){
-					wi=(wi.replace('px','')*1)/2;
-					wi=wi+'px';
-				}else{
-					wi=(wi.replace('em','')*1)-0.20;
-					wi=wi+'em';
-				}
-				myDialog({
-					id:'#singleVideoDialog',
-					content:'<div class"tag-solo" style="font-size:'+wi+'"><div class="tag-container" style="margin:0 auto;"><div tag><div class="video"><div class="placa"></div>'+
-								'<video id="v'+Math.random()+'" controls autoplay preload="metadata"><source src="'+video+'" type="video/mp4"/></video>'+
-								'</div></div></div><div class="clearfix"></div></div>',
-					buttons:[{
-						name:'Ok',
-						action:function(){
-							var di=this;
-							$('#singleVideoDialog video').each(function(index, el) {
-								this.pause();
-								this.src="";
-							});
-							di.close();
-						}
-					}]
-				});
-			break;
-			case 'users': redir(PAGE['profile']+'?id='+$(e.target).attr('users')); break;
-			case 'qrcode': redir(PAGE['detailsproduct']+'?id='+$(e.target).attr('p')); break;
-		}
-	});
+				break;
+				case 'local': 
+					var wi=$(e.target).parents('.tag-container').css('font-size'),video=$(e.target).attr('vUrl');
+					if (wi.indexOf('px')!=-1){
+						wi=(wi.replace('px','')*1)/2;
+						wi=wi+'px';
+					}else{
+						wi=(wi.replace('em','')*1)-0.20;
+						wi=wi+'em';
+					}
+					myDialog({
+						id:'#singleVideoDialog',
+						content:'<div class"tag-solo" style="font-size:'+wi+'"><div class="tag-container" style="margin:0 auto;"><div tag><div class="video"><div class="placa"></div>'+
+									'<video id="v'+Math.random()+'" controls autoplay preload="metadata"><source src="'+video+'" type="video/mp4"/></video>'+
+									'</div></div></div><div class="clearfix"></div></div>',
+						buttons:[{
+							name:'Ok',
+							action:function(){
+								var di=this;
+								$('#singleVideoDialog video').each(function(index, el) {
+									this.pause();
+									this.src="";
+								});
+								di.close();
+							}
+						}]
+					});
+				break;
+				case 'users': redir(PAGE['profile']+'?id='+$(e.target).attr('users')); break;
+				case 'qrcode': redir(PAGE['detailsproduct']+'?id='+$(e.target).attr('p')); break;
+			}
+		});
+	}
 }
 function afterAjaxTags(data, tagId, toHide,toShow){
 	console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
@@ -763,42 +727,49 @@ function playLike(tagtId,that,show,comment){
 		}
 	});
 }
-function playComment(tagtId){
-	var opc = {
+function playComment(tagtId, opc){
+	var defaults = {
 		layer:'#comments',
 		scroller:'.fs-wrapper',
 		data:{
 			type:4,
 			source:tagtId,
-			limit:10,
+			limit:4,
 			mobile:1
 		}
 	};
-	if ($('[tag='+tagtId+']').find('#comments').length > 0) {
+	var options = opc || defaults;
+	if ($('[tag='+tagtId+']').find(options.layer).length > 0) {
 		$('#tagsList').off('keydown', '#commenting');
-		$('#comments').fadeOut('fast', function() {
+		window.clearInterval(interval);
+		$(options.layer).fadeOut('400', function() {
 			$(this).remove();
 		});
 	}else{
-		$('#comments').remove();
-		$('[tag='+tagtId+']').append(
+		$(options.layer).remove();
+		$('[tag='+tagtId+']').find('#panel').append(
 				'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
 		);
-		$('#comments').listview();
-		getComments('reload',opc);
+		$(options.layer).listview();
+		getComments('reload',options);
+		var interval=setInterval(function(){
+			if ( $(options.layer).length>0 ) getComments('refresh',options);
+		},20000);
 	}
 
 	$('#tagsList').on('keydown', '#commenting', function(e) {
-		opc.data.source = $(e.target).parents('[tag]').attr('tag');
+		options.data.source = $(e.target).parents('[tag]').attr('tag');
 		if (e.which == 13) {
-			//alert(opc.data.source)
+			//alert(options.data.source)
 			var comment=$.trim($(this).val());
 			if(comment!=''){
 				$(this).val('');
-				insertComment(comment,opc);
+				insertComment(comment,options);
 			}
 			return false;
 		}
+	}).on('click',options.layer+' div.seemore',function(){
+		getComments('more',options);
 	});
 }
 (function(window,$,console){
@@ -1085,7 +1056,7 @@ function preferencesUsers(usr){
 					pref=data.dato[i][j];
 					out+='<li>';
 					if(code==$.local('code'))
-						out+='<img src="img/trash.png" pref="'+pref.id+'" type="'+i+'"/>&nbsp;';
+						out+='<img src="css/smt/trash.png" pref="'+pref.id+'" type="'+i+'"/>&nbsp;';
 					out+=pref.text+'</li>';
 				}
 			}
@@ -2136,7 +2107,7 @@ function checkOutShoppingCart(get){
 					$list.html(list+
 						'<li id="comment-line">'+
 							'<img src="'+(comment['userPic']||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="60" height="60" />'+
-							'<textarea id="commenting" rows="3" cols="73" placeholder="Comentar..." name="comment"></textarea>'+
+							'<textarea id="commenting" rows="3" placeholder="Comentar..." name="comment"></textarea>'+
 						'</li>'
 					).slideDown();
 				}else if(action=='refresh'||action=='insert'){
