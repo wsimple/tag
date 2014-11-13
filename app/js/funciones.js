@@ -613,7 +613,7 @@ function actionsTags(layer){
 						data:{
 							type:4,
 							source:tagtId,
-							limit:10,
+							limit:4,
 							mobile:1
 						}
 					};
