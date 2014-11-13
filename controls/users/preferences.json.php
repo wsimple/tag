@@ -54,7 +54,6 @@ switch ($_GET['action']) {
 		$datos=explode(' ',$_GET['term']);$where='';
 		foreach ($datos as $key) 
 			$where.=($where!=''?' AND ':'').safe_sql('detail LIKE "%??%"',array($key));
-		$res['a']=$where;
 		$query=CON::query("SELECT md5(id) AS id, detail FROM preference_details WHERE $where LIMIT 20");
 		while($row=CON::fetchAssoc($query))
 			$res[]=(object)array('id'=>$row['detail'],'text'=>$row['detail']);
