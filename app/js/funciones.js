@@ -742,15 +742,15 @@ function playComment(tagtId, opc){
 	if ($('[tag='+tagtId+']').find(options.layer).length > 0) {
 		$('#tagsList').off('keydown', '#commenting');
 		window.clearInterval(interval);
-		$(options.layer).fadeOut('fast', function() {
+		$(options.layer).fadeOut('400', function() {
 			$(this).remove();
 		});
 	}else{
 		$(options.layer).remove();
-		$('[tag='+tagtId+']').append(
+		$('[tag='+tagtId+']').find('#panel').append(
 				'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
 		);
-		 $(options.layer).listview ();
+		$(options.layer).listview();
 		getComments('reload',options);
 		var interval=setInterval(function(){
 			if ( $(options.layer).length>0 ) getComments('refresh',options);
