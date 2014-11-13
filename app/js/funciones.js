@@ -642,7 +642,7 @@ function actionsTags(layer){
 							}
 							return false;
 						}
-					}).on('click','.seemore',function(){
+					}).on('click','#comments div.seemore',function(){
 						getComments('more',opc);
 					});
 					// var interval=setInterval(function(){
