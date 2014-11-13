@@ -613,7 +613,7 @@ function actionsTags(layer){
 						data:{
 							type:4,
 							source:tagtId,
-							limit:4,
+							limit:10,
 							mobile:1
 						}
 					};
@@ -624,7 +624,7 @@ function actionsTags(layer){
 						});
 					}else{
 						$('#comments').remove();
-						$('[tag='+tagtId+']').append(
+						$('[tag='+tagtId+'] menu').before(
 								'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
 						);
 						$('#comments').listview();
@@ -642,8 +642,11 @@ function actionsTags(layer){
 							}
 							return false;
 						}
+<<<<<<< HEAD
 					}).on('click','#comments div.seemore',function(){
 						getComments('more',opc);
+=======
+>>>>>>> 7bafeeb5e7636932a5e26f734bdd4b89a06a4716
 					});
 					// var interval=setInterval(function(){
 					// 	getComments('refresh',opc);
@@ -2132,12 +2135,13 @@ function checkOutShoppingCart(get){
 				list=showComments(data.list);
 				opc.date=data.date;
 				opc.start+=len-rep;
+//				console.log(list);
 				$list.find('.ui-li-divider').remove();
 				if(action=='reload'){
 					$list.html(list+
 						'<li id="comment-line">'+
 							'<img src="'+(comment['userPic']||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="60" height="60" />'+
-							'<textarea id="commenting" rows="3" placeholder="Comentar..." name="comment"></textarea>'+
+							'<textarea id="commenting" rows="3" cols="73" placeholder="Comentar..." name="comment"></textarea>'+
 						'</li>'
 					).slideDown();
 				}else if(action=='refresh'||action=='insert'){
