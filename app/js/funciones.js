@@ -642,6 +642,11 @@ function actionsTags(layer){
 							}
 							return false;
 						}
+<<<<<<< HEAD
+					}).on('click','#comments div.seemore',function(){
+						getComments('more',opc);
+=======
+>>>>>>> 7bafeeb5e7636932a5e26f734bdd4b89a06a4716
 					});
 					// var interval=setInterval(function(){
 					// 	getComments('refresh',opc);
