@@ -110,7 +110,7 @@ function viewContacsPhone(idLayer,filter){
 								'<img src="'+photo+'"'+'class="ui-li-thumb" width="60" height="60"/>'+
 								'<h3 class="ui-li-heading">'+contacts[i].name.formatted+'</h3>'+
 								'<p class="ui-li-desc">'+
-									'<img src="img/phone.png" alt="'+lang.FIENDFRIENDS_PHONECONTACT+'" widt="16" height="16" />'+
+									'<img src="css/smt/phone.png" alt="'+lang.FIENDFRIENDS_PHONECONTACT+'" widt="16" height="16" />'+
 									lang.FIENDFRIENDS_PHONECONTACT+
 									'<span class="status-invitation">&nbsp;'+($.inArray(contacts[i].emails[0].value,emailSent)>-1?lang.FIENDFRIENDS_INVITED:'')+'</span>'+
 								'</p>'+
