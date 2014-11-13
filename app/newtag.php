@@ -5,6 +5,7 @@
 		<a id="publish_newTag" data-icon="check" data-theme="f"></a>
 	</div>
 	<div data-role="content">
+		<img class="bg" src="css/smt/bg.png" />
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
 				<input id="imgBase64" value="" type="hidden" />
