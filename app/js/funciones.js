@@ -600,54 +600,14 @@ function actionsTags(layer){
 		playLike(tagId,'likeIcon','dislikeIcon',true);
 	});
 	$(layer).on('click', 'menu li', function(e){
-		var tagtId = $(e.target).parents('[tag]').attr('tag');
+		var tagId = $(e.target).parents('[tag]').attr('tag');
 		var btnPresed = e.target.id;
 		switch(e.target.id){
-			case 'report':redir(PAGE['reporttag']+'?id='+tagtId);break;
-			case 'share':redir(PAGE['sharetag']+'?id_tag='+tagtId);break;
+			case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
+			case 'share':redir(PAGE['sharetag']+'?id_tag='+tagId);break;
 			case 'comment':
-				tagtId = $(e.target).parents('[tag]').attr('tag');
-					var opc = {
-						layer:'#comments',
-						scroller:'.fs-wrapper',
-						data:{
-							type:4,
-							source:tagtId,
-							limit:4,
-							mobile:1
-						}
-					};
-					if ($('[tag='+tagtId+']').find('#comments').length > 0) {
-						$('#tagsList').off('keydown', '#commenting');
-						$('#comments').fadeOut('fast', function() {
-							$(this).remove();
-						});
-					}else{
-						$('#comments').remove();
-						$('[tag='+tagtId+']').append(
-								'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
-						);
-						$('#comments').listview();
-						getComments('reload',opc);
-					}
-
-					$('#tagsList').on('keydown', '#commenting', function(e) {
-						opc.data.source = $(e.target).parents('[tag]').attr('tag');
-						if (e.which == 13) {
-							//alert(opc.data.source)
-							var comment=$.trim($(this).val());
-							if(comment!=''){
-								$(this).val('');
-								insertComment(comment,opc);
-							}
-							return false;
-						}
-					}).on('click','#comments div.seemore',function(){
-						getComments('more',opc);
-					});
-					// var interval=setInterval(function(){
-					// 	getComments('refresh',opc);
-					// },20000);
+				tagId = $(e.target).parents('[tag]').attr('tag');
+				playComment(tagId);
 			break;
 			case 'like':case 'dislike':
 				// $(e.currentTarget).append('<img id="yok" src="http://vectorise.net/logo/wp-content/uploads/2012/08/Facebook-Like.png">');
@@ -661,16 +621,16 @@ function actionsTags(layer){
 				// });
 				var that=e.target.id+'Icon',
 					show=e.target.id!='like'?'likeIcon':'dislikeIcon';
-					playLike(tagtId,that,show);
+					playLike(tagId,that,show);
 			break;
 			case 'redistr':
 				myAjax({
 					type:'POST',
-					url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagtId,
+					url:DOMINIO+'controls/tags/actionsTags.controls.php?action=3&tag='+tagId,
 					dataType:'html',
 					loader: false,
 					success:function( data ){
-						afterAjaxTags(data, tagtId,'menu #redistr', '.tag-icons #redist');
+						afterAjaxTags(data, tagId,'menu #redistr', '.tag-icons #redist');
 					}
 				});
 			break;
@@ -685,10 +645,10 @@ function actionsTags(layer){
 							var dialog = this;
 							myAjax({
 								type: 'POST',
-								url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagtId,
+								url: DOMINIO+'controls/tags/actionsTags.controls.php?action=6&tag='+tagId,
 								dataType: 'html',
 								success: function( data ) {
-									$('[tag='+tagtId+']').fadeOut('fast',function(){
+									$('[tag='+tagId+']').fadeOut('fast',function(){
 										$(this).remove();
 										dialog.close();
 									});
@@ -765,42 +725,49 @@ function playLike(tagtId,that,show,comment){
 		}
 	});
 }
-function playComment(tagtId){
-	var opc = {
+function playComment(tagtId, opc){
+	var defaults = {
 		layer:'#comments',
 		scroller:'.fs-wrapper',
 		data:{
 			type:4,
 			source:tagtId,
-			limit:10,
+			limit:4,
 			mobile:1
 		}
 	};
-	if ($('[tag='+tagtId+']').find('#comments').length > 0) {
+	var options = opc || defaults;
+	if ($('[tag='+tagtId+']').find(options.layer).length > 0) {
 		$('#tagsList').off('keydown', '#commenting');
-		$('#comments').fadeOut('fast', function() {
+		window.clearInterval(interval);
+		$(options.layer).fadeOut('fast', function() {
 			$(this).remove();
 		});
 	}else{
-		$('#comments').remove();
+		$(options.layer).remove();
 		$('[tag='+tagtId+']').append(
 				'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
 		);
-		$('#comments').listview();
-		getComments('reload',opc);
+		 $(options.layer).listview ();
+		getComments('reload',options);
+		var interval=setInterval(function(){
+			if ( $(options.layer).length>0 ) getComments('refresh',options);
+		},20000);
 	}
 
 	$('#tagsList').on('keydown', '#commenting', function(e) {
-		opc.data.source = $(e.target).parents('[tag]').attr('tag');
+		options.data.source = $(e.target).parents('[tag]').attr('tag');
 		if (e.which == 13) {
-			//alert(opc.data.source)
+			//alert(options.data.source)
 			var comment=$.trim($(this).val());
 			if(comment!=''){
 				$(this).val('');
-				insertComment(comment,opc);
+				insertComment(comment,options);
 			}
 			return false;
 		}
+	}).on('click',options.layer+' div.seemore',function(){
+		getComments('more',options);
 	});
 }
 (function(window,$,console){
