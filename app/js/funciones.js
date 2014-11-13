@@ -624,7 +624,7 @@ function actionsTags(layer){
 						});
 					}else{
 						$('#comments').remove();
-						$('[tag='+tagtId+'] menu').before(
+						$('[tag='+tagtId+']').append(
 								'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
 						);
 						$('#comments').listview();
@@ -2138,7 +2138,7 @@ function checkOutShoppingCart(get){
 					$list.html(list+
 						'<li id="comment-line">'+
 							'<img src="'+(comment['userPic']||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="60" height="60" />'+
-							'<textarea id="commenting" rows="3" cols="73" placeholder="Comentar..." name="comment"></textarea>'+
+							'<textarea id="commenting" rows="3" placeholder="Comentar..." name="comment"></textarea>'+
 						'</li>'
 					).slideDown();
 				}else if(action=='refresh'||action=='insert'){
