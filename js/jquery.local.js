@@ -1,27 +1,9 @@
 /*
  * Manejo de variables de uso local y de sesion
- * NOTA: Campo ce (ej: $.local.ce) debe ser una expresion regular que indique las excepciones de borrado.
+ * NOTA: Campo ce (ej: $.local.clear.exceptions) debe ser una expresion regular que indique las excepciones de borrado.
  *		 Si no se indican excepciones, seran borrados todos los elementos.
  */
 (function($,window,document,JSON){
-	//agregamos opciones de cookies: ingresar varias y limpiar todas las cookies
-	if($.cookie){
-		$.cookie.set=function(values,options){
-			for(var key in values) $.cookie(key,values[key],options||{});
-			return $.cookie;
-		};
-		$.cookie.clear=function(){
-			var i,cookies = document.cookie.split(';'),len=cookies.length;
-			for (i = 0; i < len; i++) {
-				var cookie = cookies[i],
-					eqPos = cookie.indexOf('='),
-					name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-				name = name.replace(/%20|\s/g,'');
-				if( !$.cookie.ce || !name.match($.cookie.ce) ) $.cookie(name, null);
-			}
-			return $.cookie;
-		};
-	}
 	//localStorage
 	if('localStorage' in window && window['localStorage'] !== null) {
 		var ls=window['localStorage'];
@@ -50,7 +32,7 @@
 			var i,key;
 			for(i=ls.length;i>0;i--){
 				key=ls.key(i-1);
-				if( !$.local.ce || !key.match($.local.ce) ) ls.removeItem(key);
+				if( !$.local.clear.exceptions || !key.match($.local.clear.exceptions) ) ls.removeItem(key);
 			}
 			return $.local;
 		};
@@ -82,7 +64,7 @@
 			var i,key;
 			for(i=ss.length;i>0;i--){
 				key=ss.key(i-1);
-				if( !$.session.ce || !key.match($.session.ce) ) ss.removeItem(key);
+				if( !$.session.clear.exceptions || !key.match($.session.clear.exceptions) ) ss.removeItem(key);
 			}
 			return $.session;
 		};
