@@ -1,4 +1,3 @@
 (function($){
-	var ext=!window.location.href.match(/tagbum(\.com)?\/app\//)?'html':'php';
-	$.cometchat.homePage='../timeLine.'+ext;
+	$.cometchat.homePage='../timeLine.html';
 })(jqcc);
