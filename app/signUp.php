@@ -6,7 +6,7 @@
 		<br>
 	</div>
 	<div data-role="content">
-		<img class="bg" src="img/bg.png"/>
+		<img class="bg" src="css/smt/bg.png"/>
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
 				<form id="frmRegister" name="frmRegister" method="post" style="display:block;">
