@@ -10,7 +10,7 @@
 			<a href="<?=$key['link']?>" target="_blank" onclick="showPublicityWb('<?=$key['id']?>')" onfocus="this.blur()">
 				<div id="imgPublicity">
 				<img src="<?='.?resizeimg&ancho=70&tipo=3&img='.$key['picture']?>"/>
-				</div>
+				</div> 
 			</a>
 			<div id="namePublicity">
 				  <strong><div style="text-align: left"><a href="<?=$key['link']?>" target="_blank" onclick="showPublicityWb('<?=$key['id']?>')" onfocus="this.blur()"><?=$key['title']?></a></div></strong>
