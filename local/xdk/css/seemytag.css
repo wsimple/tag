@@ -370,10 +370,10 @@
 	-o-background-size:100% auto;
 	background-size:100% auto;
 }
-.tag-container [tag] .tag-icons div#likeIcon{ background-image:url(smt/tag/like_icon.png); }
-.tag-container [tag] .tag-icons div#dislikeIcon{ background-image:url(smt/tag/dislike_icon.png); }
-.tag-container [tag] .tag-icons div#redist{ background-image:url(smt/tag/redist_icon.png); }
-.tag-container [tag] .tag-icons div#sponsor{ background-image:url(smt/tag/sponsor_icon.png); }
+.tag-container [tag] .tag-icons div#likeIcon{ background-image:url(smt/tag/like.png); }
+.tag-container [tag] .tag-icons div#dislikeIcon{ background-image:url(smt/tag/dislike.png); }
+.tag-container [tag] .tag-icons div#redist{ background-image:url(smt/tag/redist.png); }
+.tag-container [tag] .tag-icons div#sponsor{ background-image:url(smt/tag/sponsor.png); }
 .tag-container [tag] .redist{
 	position:absolute;
 	top:0.2em;
@@ -541,21 +541,21 @@
 	-webkit-border-radius:1em;
 	border-radius:1em;
 }
-.tag-buttons #redist		{ background-image:url('smt/tag/btn_redist.png'); }
+.tag-buttons #redist		{ background-image:url('menu/redist_over.png'); }
 .tag-buttons #youtube,
 #productVideo #youtube		{ background-image:url('smt/tag/btn_youtube.png'); }
 .tag-buttons #vimeo,
 #productVideo #vimeo		{ background-image:url('smt/tag/btn_vimeo.png'); }
 .tag-buttons #local,
 #productVideo #local		{ background-image:url('smt/tag/Video.png'); }
-.tag-buttons #sponsor		{ background-image:url('smt/tag/btn_sponsor.png'); }
-.tag-buttons #report		{ background-image:url('smt/tag/btn_report.png'); }
-.tag-buttons #share			{ background-image:url('smt/tag/btn_share.png'); }
-.tag-buttons #delete		{ background-image:url('smt/tag/btn_trash.png'); }
-.tag-buttons #comment		{ background-image:url('smt/tag/btn_comment.png'); }
-.tag-buttons #like			{ background-image:url('smt/tag/btn_like.png'); }
-.tag-buttons #dislike		{ background-image:url('smt/tag/btn_dislike.png'); }
-.tag-buttons #qrcode		{ background-image:url('smt/tag/qrcode.png'); }
+.tag-buttons #sponsor		{ background-image:url('menu/sponsor_over.png'); }
+.tag-buttons #report		{ background-image:url('menu/report_over.png'); }
+.tag-buttons #share			{ background-image:url('menu/share_over.png'); }
+.tag-buttons #delete		{ background-image:url('menu/trash_over.png'); }
+.tag-buttons #comment		{ background-image:url('menu/comment_over.png'); }
+.tag-buttons #like			{ background-image:url('menu/like_over.png'); }
+.tag-buttons #dislike		{ background-image:url('menu/dislike_over.png'); }
+.tag-buttons #qrcode		{ background-image:url('menu/qrcode.png'); }
 .tag-buttons #dislike,.tag-buttons #like,
 .tag-buttons #comment,.tag-buttons #delete,
 .tag-buttons #share,.tag-buttons #report,
@@ -1067,10 +1067,10 @@ loader.s32,.loader.s32{
 	display:block;
 }
 .logoBackEmail{
-	background:url('smt/logo.png') no-repeat;
-	-webkit-background-size:200px 80px;
-	-o-background-size:200px 80px;
-	background-size:200px 80px;
+	background:url('tbum/logo-orange.png') no-repeat;
+	-webkit-background-size:200px 70px;
+	-o-background-size:200px 70px;
+	background-size:200px 70px;
 	width:200px;
 	margin:0 auto;
 	height:75px;
@@ -1458,15 +1458,44 @@ input.password-field {
 }
 
 /*TAGLIST*/
+#panel{
+	margin: 0 auto;
+	border: 1px solid #EEE;
+	border-top: none;
+	border-radius: 0 0 10px 10px;
+	width: 92%;
+	padding: 8px 0 8px 0;
+}
+
+#comments{
+	width: 90%;
+	margin: 0 auto;
+}
+
+#commenting{
+	width: 98%;
+}
+
+#comments .ui-btn-up-c, #comments .ui-bar-e{
+	border: none
+}
+
+#comments .ui-bar-e{
+	background-image: none;
+	background-color: #EEE;
+	border-bottom: 1px solid #CCC
+}
+
+#comments .ui-btn-up-c{
+	background: #fff;
+}
 .tag-container [tag] menu{
-	position:relative;
-	display:block;
-	margin:0.2em 0;
+	margin:0 0;
 	padding:0;
 }
 .tag-container [tag] menu ul{
 	float:right;
-	margin:0;
+	margin: 0 44px 0 0;
 	padding:0;
 	cursor:pointer;
 }
@@ -1617,16 +1646,10 @@ input.password-field {
 }
 .tag-container [tag] menu li#youtube,.tag-container [tag] menu li#vimeo,
 .tag-container [tag] menu li#local{ background-size: 100%; }
-
-.tag-container [tag] menu li#youtube{
-	background-image:url('smt/youtube.png');
-}
-.tag-container [tag] menu li#vimeo{
-	background-image:url('smt/vimeo.png');
-}
-.tag-container [tag] menu li#local{
-	background-image:url('smt/Video.png');
-}
+.tag-container [tag] menu li#youtube{ background-image:url('smt/youtube.png'); }
+.tag-container [tag] menu li#vimeo{ background-image:url('smt/vimeo.png'); }
+.tag-container [tag] menu li#local{ background-image:url('smt/Video.png'); }
+.tag-container [tag] menu li#qrcode{ background-image:url('smt/tag/qrcode.png'); }
 
 .ui-btn-inner{
 	border-top:none;
