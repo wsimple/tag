@@ -757,17 +757,17 @@ function playComment(tagtId, opc){
 		},20000);
 	}
 
-	$('#tagsList').on('keydown', '#commenting', function(e) {
+	$('#tagsList').on('click', '#send-comment', function(e) {
 		options.data.source = $(e.target).parents('[tag]').attr('tag');
-		if (e.which == 13) {
-			//alert(options.data.source)
-			var comment=$.trim($(this).val());
-			if(comment!=''){
-				$(this).val('');
-				insertComment(comment,options);
-			}
-			return false;
+		console.log(e.currentTarget)
+		console.log(e.target)
+		//alert(options.data.source)
+		var comment=$.trim($('#commenting').val());
+		if(comment!=''){
+			$('#commenting').val('');
+			insertComment(comment,options);
 		}
+		return false;
 	}).on('click',options.layer+' div.seemore',function(){
 		getComments('more',options);
 	});
@@ -2107,9 +2107,13 @@ function checkOutShoppingCart(get){
 					$list.html(list+
 						'<li id="comment-line">'+
 							'<img src="'+(comment['userPic']||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="60" height="60" />'+
-							'<textarea id="commenting" rows="3" placeholder="Comentar..." name="comment"></textarea>'+
+							//'<textarea id="commenting" rows="3" placeholder="Comentar..." name="comment"></textarea>'+
+							'<input type="text" name="comment" id="commenting" />'+
+							//'<a id="send-comment">Enviar</a>'+
+							'<input id="send-comment" type="submit" value="Enviar"/>'+
 						'</li>'
 					).slideDown();
+					//$('#send-comment').button();
 				}else if(action=='refresh'||action=='insert'){
 					// $list.append(list);
 					$('#comment-line').before(list);
