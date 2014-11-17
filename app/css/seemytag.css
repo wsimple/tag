@@ -1495,7 +1495,7 @@ input.password-field {
 }
 .tag-container [tag] menu ul{
 	float:right;
-	margin: 0 44px 0 0;
+	margin: 0 26px 0 0;
 	padding:0;
 	cursor:pointer;
 }
@@ -1505,8 +1505,8 @@ input.password-field {
 	background-repeat:no-repeat;
 	border:#eee 1px solid;
 	background-size:0.633em;
-	padding:0.507em 0.507em;
-	margin:0 12px;
+	padding:0.747em;
+	margin:0 5px;
 /*	-webkit-border-radius:0.1585em;
 	-moz-border-radius:0.1585em;
 	border-radius:0.1585em;*/
