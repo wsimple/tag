@@ -1203,9 +1203,17 @@ loader.s32,.loader.s32{
 	background:#4e89c5;
 	color:#fff;
 }*/
+#lstStoreOption .contentItem:after{
+	visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
 #lstStoreOption .titleDivider,
 #cartList .titleDivider{ text-align:right; }
-#lstStoreOption .contentItem{ height:90px; }
+#lstStoreOption .contentItem{ min-height:90px; }
 #cartList .contentItem{ height:110px; }
 #lstStoreOption .contentItem .itemPic,
 #cartList .contentItem .itemPic{
@@ -1242,6 +1250,9 @@ loader.s32,.loader.s32{
 	font-weight:bold;
 	font-size:12px;
 	margin:2px 0;
+}
+#lstStoreOption .buttons{
+	float:left;
 }
 #lstStoreOption .buttons a,
 #cartList .buttons a{
