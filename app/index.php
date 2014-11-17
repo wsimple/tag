@@ -1,6 +1,9 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-start" data-role="page" class="no-header no-footer">
 	<div data-role="content" class="smt-bg smt-center"><div class="_tt">
+<?php if(isset($_GET['xdk'])){ ?>
+		<div id="xdk-test" style="position:absolute;top:0;left:0;">XDK</div>
+<?php } ?>
 		<div class="ui-box-home _tc">
 			<div class="logo-smt"></div>
 			<div id="buttons" style="display:none;"><div class="_tt"><div class="_tc">
@@ -11,9 +14,11 @@
 					<li>
 						<a id="btn-signup" class="btn-orange" data-role="button" data-inline="true" data-theme="f" onclick="redir(PAGE['signup']);">Sign Up</a>
 					</li>
+<?php if(isset($_GET['xdk'])||!isset($_GET['minify'])){ ?>
 					<li>
 						<a class="btn-facebook" id="btn-facebook" onclick="accountFb();" data-role="button" data-inline="true" data-theme="f"><?=LOGIN_TEXTBUTTONCREATEACCOUNT?> <?=JS_OR.' '.BTN_LOGIN?></a>
 					</li>
+<?php } ?>
 				</ul>
 				<a id="btn-fullVersion" data-role="button" data-inline="true" data-theme="c" style="display:none" onclick="redir(PAGE['fullversion']);">Full Version</a>
 				<div class="store-info" style="margin-top: 15px; margin-bottom: 20px">
@@ -97,6 +102,23 @@
 //		}
 
 		//Login facebook
+<?php if(isset($_GET['xdk'])){ ?>
+		document.addEventListener("intel.xdk.device.ready",function(e){
+			document.addEventListener("intel.xdk.facebook.login",function(e){
+				if(e.success==true){
+					$('#xdk-test').html("Facebook Log in Successful");
+				}else{
+					$('#xdk-test').html("Unsuccessful Login");
+				}
+				$('#xdk-test').append('. Event:<pre>'+JSON.stringify(e)+'</pre>');
+			},false);
+			window.accountFb=intel.xdk.facebook&&intel.xdk.facebook.login?function(){
+				intel.xdk.facebook.login("publish_stream,publish_actions,offline_access");
+			}:function(){
+				alert("Sorry, you can't login with facebook right now, try again later.");
+			};
+		},false);
+<?php }elseif(!isset($_GET['minify'])){ ?>
 		// window.fbAsyncInit=function(){
 		// 	FB.init({
 		// 		appId:'<?=isset($config->facebook->appId)?$config->facebook->appId:''?>',
