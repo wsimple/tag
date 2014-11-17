@@ -169,6 +169,7 @@
 				}
 			},{scope:'email'});
 		}
+<?php } ?>
 		$('.googlePlay,.appStore').click(function(event) {
 			myDialog({//Information lang.INVITE_GROUP_TRUE
 				id:'#singleDialog',
