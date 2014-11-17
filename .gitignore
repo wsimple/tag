@@ -21,8 +21,10 @@ video_server/videos/*/*
 
 main/views/templates/tags.php
 
+local/xdk/*.html
 local/xdk/*.xdk
 local/xdk/*.xdke
+local/xdk/js/min.js
 
 language/en.php
 language/es.php

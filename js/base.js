@@ -136,8 +136,8 @@ var PAGE,wrapper,container,home,footer,INFO=[];
 		//$('header loader.page',PAGE).ajaxStart(function(){ $(this).show(); }).ajaxStop(function(){ $(this).hide(); });
 		delete window.pageInit;
 	};
-	$.local.ce=/firebug/i;//excepciones al borrar todos los locales
-	$.cookie.ce=/^(kl|last|enableLogs|PHPSESSID)$/;//excepciones al borrar todas las cookies
+	$.local.clear.exceptions=/firebug/i;//excepciones al borrar todos los locales
+	$.cookie.clear.exceptions=/^(kl|last|enableLogs|PHPSESSID|_DEBUG_)$/;//excepciones al borrar todas las cookies
 })( window, jQuery );
 
 //-- funciones de scroll --//

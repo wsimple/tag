@@ -58,8 +58,28 @@
 
 		return null;
 	};
-
 	$.cookie.defaults = {};
+	$.cookie.options=function(options,clear){
+		if(clear) $.cookie.defaults={};
+		$.cookie.defaults=$.extend($.cookie.defaults, options);
+		return $.cookie;
+	}
+	$.cookie.set=function(values,options){
+		for(var key in values) $.cookie(key,values[key],options||{});
+		return $.cookie;
+	};
+	$.cookie.clear=function(){
+		var i,cookies = document.cookie.split(';'),len=cookies.length;
+		for (i = 0; i < len; i++) {
+			var cookie = cookies[i],
+				eqPos = cookie.indexOf('='),
+				name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+			name = name.replace(/%20|\s/g,'');
+			if( !$.cookie.clear.exceptions || !name.match($.cookie.clear.exceptions) ) $.cookie(name, null);
+		}
+		return $.cookie;
+	};
+
 
 	$.removeCookie = function (key, options) {
 		if ($.cookie(key, options) !== null) {
