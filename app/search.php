@@ -114,7 +114,7 @@
                                             console.log(pref['privacidad']);
             								outG +=
             									'<li group="'+pref['id']+'">'+
-            										'<img src="'+pref['icon']+'" class="ui-li-icon-group" width="16" height="16" />'+
+            										'<img src="'+pref['icon']+'" class="ui-li-icon-group" width="19" height="19" />'+
             										'<a class="linkGroup">'+pref['name']+'<br>'+
             											'<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal">'+pref['privacidad']+', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+'</div>'+
             										'</a>'+
