@@ -32,7 +32,7 @@
 		<div data-role="navbar">
 			<ul>
 				<li><a id="labelChoosePre" class="ui-btn-active" onclick="redir(PAGE['preferences']);" >&nbsp;</a></li>
-				<li><a id="labelSeekPre" onclick="redir(PAGE['seekpreferences']);">&nbsp;</a></li>
+				<li><a id="labelSeekPre" onclick="redir(PAGE['seekpreferences']+'?type='+$('#typePre').val());">&nbsp;</a></li>
 				<li><a id="labelMyPrefe" onclick="preferencesUsers();"></a></li>
 			</ul>
 		</div>

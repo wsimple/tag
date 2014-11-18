@@ -30,13 +30,14 @@
 			before:function(){
 				//languaje
 				$('#labelTypePrefe1').html(lang.PREFERENCES_WHATILIKE);
-				$('#labelTypePrefe2').html(lang.PREFERENCES_WHATINEED);
-				$('#labelTypePrefe3').html(lang.PREFERENCES_WHATIWANT);
+				$('#labelTypePrefe2').html(lang.PREFERENCES_WHATIWANT);
+				$('#labelTypePrefe3').html(lang.PREFERENCES_WHATINEED);
 				$("#searchPreferences").attr('placeholder',lang.seek);
 				$('.list-wrapper').jScroll({hScroll:false});
 			},
 			after:function(){
-				getPreferences(1,'');//call
+				if ($_GET['type']) $('#labelTypePrefe'+$_GET['type']).click();
+				getPreferences(1);//call
 				$('#group_preferences').on('click','li',function(){
 					touchPreferences(this);
 				});
