@@ -135,7 +135,8 @@
 							if($per!=''){
 								//$co.= $per; 
 								//verificar si es un correo valido
-								if (isValidEmail($per)){ if ($numE++>20) continue;
+								if (isValidEmail($per)){ 
+									if ($numE++>20) continue;
 								}else{
 									$query=CON::getRow("SELECT u.id,u.email FROM users u WHERE md5(u.id)=?",array($per));
 									if (count($query)>0){

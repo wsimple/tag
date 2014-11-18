@@ -1496,7 +1496,7 @@ input.password-field {
 }
 .tag-container [tag] menu ul{
 	float:right;
-	margin: 0 26px 0 0;
+	margin: 0 8% 0 0;
 	padding:0;
 	cursor:pointer;
 }
