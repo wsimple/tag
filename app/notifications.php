@@ -43,7 +43,7 @@
 					return usrs;
 				}
 				function newsFormat(d){return(
-					'<li type="'+d.type+'" date="'+d.date+'" source="'+d.source+'" class="ui-li-has-thumb'+(d.rev>1?' notiRevi':' notiNoRevi')+'" '+(d.rev>1?'':'t="'+d.tipo+'" f="'+d.allsource+'"')+'>'+
+					'<li data-type="'+d.type+'" date="'+d.date+'" data-source="'+d.source+'" class="ui-li-has-thumb'+(d.rev>1?' notiRevi':' notiNoRevi')+'" '+(d.rev>1?'':'data-t="'+d.tipo+'" data-f="'+d.allsource+'"')+'>'+
 						'<a>'+
 //							'<img src="'+d.photo+'"/>'+
 							'<div class="ui-li-thumb'+(d.pic?' '+d.pic:'')+''+(d.bord?' userBR':'')+'"'+(d.photo?' style="background-image:url('+FILESERVER+d.photo+');"':'')+'/>'+
@@ -197,21 +197,26 @@
 					autodividersSelector: function ( $li ) {
 						return $li.attr('date').match(/\w+(\s+\d+)?|\d+-\d+-\d+/)[0];
 					}
-				}).on('click','li[type]',function(){
-					var type=$(this).attr('type'),source=$(this).attr('source');
-					if ($(this).attr('t')){
-					   $.session('notif',{type:$(this).attr('t'),source:$(this).attr('f')});
-                       console.log($.session('notif'));
+				}).on('click','li[data-type]',function(){
+					var type=this.dataset.type,
+						source=this.dataset.source,
+						url='';
+					if(this.dataset.t){
+						$.session('notif',{type:this.dataset.t,source:this.dataset.f});
+						console.log($.session('notif'));
 					}
                     switch(type){
-						case 'usr': redir(PAGE['profile']+'?id='+source); break;
-						case 'tag': redir(PAGE['tag']+'?id='+source); break;
+						case 'usr':url=PAGE['profile']+'?id='+source; break;
+						case 'tag':url=PAGE['tag']+'?id='+source; break;
 						case 'group':
 						case 'order':
 						case 'product':
 						default: alert(type);
 					}
-                    
+					if(url){
+						$(this).removeClass('notiNoRevi').addClass('notiRevi');
+						redir(url);
+					}
 				});
 
 				$wrapper.ptrScroll({
