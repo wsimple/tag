@@ -370,10 +370,10 @@
 	-o-background-size:100% auto;
 	background-size:100% auto;
 }
-.tag-container [tag] .tag-icons div#likeIcon{ background-image:url(smt/tag/like.png); }
-.tag-container [tag] .tag-icons div#dislikeIcon{ background-image:url(smt/tag/dislike.png); }
-.tag-container [tag] .tag-icons div#redist{ background-image:url(smt/tag/redist.png); }
-.tag-container [tag] .tag-icons div#sponsor{ background-image:url(smt/tag/sponsor.png); }
+.tag-container [tag] .tag-icons div#likeIcon{ background-image:url(smt/tag/like_icon.png); }
+.tag-container [tag] .tag-icons div#dislikeIcon{ background-image:url(smt/tag/dislike_icon.png); }
+.tag-container [tag] .tag-icons div#redist{ background-image:url(smt/tag/redist_icon.png); }
+.tag-container [tag] .tag-icons div#sponsor{ background-image:url(smt/tag/sponsor_icon.png); }
 .tag-container [tag] .redist{
 	position:absolute;
 	top:0.2em;
@@ -742,6 +742,7 @@
 	left:140px;
 	width:20px;
 	background:transparent url('smt/menuIconsSprite.png') 0 0 no-repeat;
+	background-size: 19px 58px;
 }
 #menu ul>li[goto]>.icon,#myMenu ul>li[goto]>.icon,#menu ul>li[goback]>.icon,#myMenu ul>li[goback]>.icon,#menu ul>li[goto]>arrow,#myMenu ul>li[goto]>arrow,#menu ul>li[goback]>arrow,#myMenu ul>li[goback]>arrow{
 	background-position:0 -39px;
@@ -1519,7 +1520,7 @@ input.password-field {
 }
 .tag-container [tag] menu ul{
 	float:right;
-	margin: 0 26px 0 0;
+	margin: 0 8% 0 0;
 	padding:0;
 	cursor:pointer;
 }
