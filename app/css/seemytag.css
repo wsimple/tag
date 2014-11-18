@@ -456,8 +456,8 @@
 	padding:0 5px 0 20px;
 	background:none 0 50% no-repeat;
 }
-.tag-comments .ui-li-divider #numLikes{ background-image:url(smt/tag/likes.png); }
-.tag-comments .ui-li-divider #numDislikes{ background-image:url(smt/tag/dislikes.png); }
+.tag-comments .ui-li-divider #numLikes{ background-image:url(smt/tag/likes.png); background-size: 20px 20px; }
+.tag-comments .ui-li-divider #numDislikes{ background-image:url(smt/tag/dislikes.png); background-size: 20px 20px;}
 .tag-comments li:not(.ui-li-divider){
 	min-height:60px;
 	padding:3px 5px 3px 75px;
