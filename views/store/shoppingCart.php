@@ -331,7 +331,7 @@
                                         }
                                     }else{
                                         $('#list_orderProduct').html('<div class="messageAdver"><?=STORE_NO_SC?></div>');
-                                        $('div.ui-single-box').removeAttr('style');
+                                        $('div#shoppingCId.ui-single-box').removeAttr('style');
                                         $('#headerStoreCar').css('display','none');
                                         $('.menu-l-shoppingCart').css('display','none');
                                         if (data['wish'] && data['wish']['body']){
@@ -407,7 +407,7 @@
 					}
 				}else{
 					$('#list_orderProduct_wish').html('<div class="messageAdver"><?=$lang["STORE_NO_WL"]?></div>');
-					$('div.ui-single-box').removeAttr('style');
+					$('div#shoppingCId.ui-single-box').removeAttr('style');
 				}
 			}
 		});
@@ -448,7 +448,7 @@
 									if (dato=="si" || dato=='ya-existe'){
 										if (data['numRow']==0){
 											$('#list_orderProduct').html('<div class="messageAdver"><?=$lang["STORE_NO_SC"]?></div>');
-											$('div.ui-single-box').removeAttr('style');
+											$('div#shoppingCId.ui-single-box').removeAttr('style');
 											$('#headerStoreCar').css('display','none');
 											$('.menu-l-shoppingCart').css('display','none');
 											if (data['wish'] && data['wish']['body']){
@@ -514,7 +514,7 @@
 					}
 				}else{
 					$('#list_orderProduct').html('<div class="messageAdver"><?=$lang["STORE_NO_SC"]?></div>');
-					$('div.ui-single-box').removeAttr('style');
+					$('div#shoppingCId.ui-single-box').removeAttr('style');
 				}
 			}
 		});
