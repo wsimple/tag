@@ -45,6 +45,11 @@
 		$tag=$_GET['tag'];
 	}
 	else $referee='';
+	if ($current=='hash'){
+		$srh = urldecode($_GET['hash']); //Fix De hashtags
+		$srh = str_replace(' ', '%', $srh); 
+		$srh=end(explode("#",$srh));
+	}
 ?>
 <div id="taglist-box" class="ui-single-box<?=$_SESSION['ws-tags']['ws-user']['view_type_timeline']==0||$dialog?'':' mini'?>">
 	<?php if(!$dialog){ ?>
@@ -86,7 +91,7 @@
 		var $box,
 			ref='<?=$referee?>',
 			hash = location.href.split('t=#'),
-			backSch ='';
+			backSch ='',current='<?=$current?>';
 		<?php if($dialog){ ?>
 			$box=$('.ui-dialog #taglist-box').last();
 		<?php }else{ ?>
@@ -104,19 +109,20 @@
 				layer: layer
 			};
 	<?php if($idPage=='tags'){ ?>
-		opc['current']='<?=$current?>';
-		opc['get']='<?=isset($_GET['uid'])?'&uid='.$_GET['uid']:''?>';
+		opc['current']=current;
+		opc['get']="<?=isset($_GET['uid'])?'&uid='.$_GET['uid']:''?>";
 	<?php }elseif($current=='privateTags'){ ?>
             opc.pBox='p-inbox';
             opc.pCont=1;
 	<?php } if($current=='hash'){ ?>
-		opc['get']='&hash=<?=$_GET['hash']?>';
+		opc['get']="&hash=<?=$srh?>";
+		opc['current']='hash';
 	<?php }elseif($range!=''){ ?>
 		opc['current']='top';
 		opc['get']='&range=<?=$range?>';
 	<?php }else{ ?>
-		opc['current']=(backSch[1])? backSch[1]+'|' : '<?=$current?>';
-		opc['get']='<?=$current!='user'?($current!='personal'?'':'&uid='.$_GET['uid']):'&uid='.$_GET['uid']?>';
+		opc['current']=(backSch[1])? backSch[1]+'|' : current;
+		opc['get']="<?=$current!='user'?($current!='personal'?'':'&uid='.$_GET['uid']):'&uid='.$_GET['uid']?>";
 	<?php }?>
 	<?php if($dialog){ ?>
 		console.log(opc);
