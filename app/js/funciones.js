@@ -757,7 +757,7 @@ function playComment(tagtId, opc){
 		},20000);
 	}
 
-	$('#tagsList').on('click', '#send-comment', function(e) {
+	$('#tagsList, #page-tag').on('click', '#send-comment', function(e) {
 		options.data.source = $(e.target).parents('[tag]').attr('tag');
 		console.log(e.currentTarget)
 		console.log(e.target)
