@@ -894,7 +894,6 @@ function trash(tag){
 			}
 		}
 	});
-	//actionsTags(6,opc+'|0',,'<?=js_string($lang["MNUTAG_TITLEREMOVESSSS"])?>|timeLine');
 }
 
 var tourHash,dataHash;
@@ -977,114 +976,6 @@ function valor(id){
 	if( typeof id==='string'&&id.charAt(0)!='#' ) id='#'+id;
 	return $(id).val();
 }
-
-//message(id,titulo,contenido,id_control,width,height,url)
-function actionsTags(op,dato,uri,more){
-	var tmpDato=dato.split('|');
-	var tag=(tmpDato[1]==1)?valor(tmpDato[0]) :tmpDato[0];//si [1]==1 (id), sino (dato)
-	var valores=more.split('|');
-
-	switch (op){
-		//refresh
-		case 1:
-			redir('home');
-		break;
-		//coment
-		case 2:
-			commentTag(valores[0],tag);
-		break;
-		//re-send
-		case 3:
-			send_ajax(uri+"?action="+op+"&tag="+tag+"&current="+valores[1],"#re_distribuirTag"+valores[1]+"_"+tag,0,"html");
-		break;
-		//Like
-		case 4:
-			send_ajax(uri+"?action="+op+"&tag="+tag+"&current="+valores[1],"#start_favorite"+valores[1]+"_"+tag,0,"html");
-			if (valores[2]=='1'){
-				send_ajax("controls/tags/numLikes.cotrol.php?tag="+tag,"#tdNumLikes",0,"html");
-			}
-		break;
-
-		//share
-		case 5:
-			shareTag(valores[0],"tag="+tag);
-		break;
-
-		//remove
-		case 6:
-			$.dialog({
-				id:'messages',
-				title:'Deleting Tag',
-				resizable:false,width:400,height:200,modal:true,show:'fade',hide:'fade',
-				content:lang.JS_DELETETAG,
-				buttons:{
-					'<?=$lang["JS_YES"]?>':function(){
-						var delprivate=(valores[1]=="privateTags")?"&delprivate=1":"",
-						$this=$(this);
-						$.ajax	({
-							type:'GET',
-							url:uri+'?action='+op+'&tag='+tag+delprivate,
-							dataType:'html',
-							success:function(result){
-								if(result==1){
-									$.all('[tag="'+tag+'"]').fadeOut(600).remove();
-								}else{
-									$this.html(result);
-								}
-							},
-							complete:function(){
-								setTimeout(function(){
-									$this.dialog('close').remove();
-								},1000);
-							}
-						});
-					},
-					'<?=$lang["JS_NO"]?>':function(){
-						$(this).dialog('close').remove();
-					}
-				}
-			});
-		break;
-
-		//contruction
-		case 7:alert("Sponsor, Tag: "+tag);break;
-
-		//denuncia
-		case 8:
-			bryTag(uri,op,tag,valores[0],valores[1]);//url,tag,titulo,pestania
-		break;
-
-		//sponsor
-		case 9://alert(op+" | "+dato+" | "+uri+" | "+more);
-			sponsorTag("views/tags/sponsorTags.view.php?type=4&tag="+tag,valores[0],tag);
-		break;
-
-		//editar
-		case 10://alert("controls/tags/isMyTag.controls.php?code="+valores[0]+"&tag="+tag);
-
-			$.ajax({
-				type:"POST",
-				url:"controls/tags/isMyTag.controls.php?code="+valores[0]+"&tag="+tag,
-				dataType:"html",
-				success:function(data){
-					if(data==1)
-						$.ajax({url:'views/tags/update.view.php?asyn&tag='+tag,success:function(){
-							$("#previewTag").dialog("close");
-							$('body #previewTag').remove();
-							redir('update');
-						}});
-					else
-						message("messages","Error",valores[1]);
-				}
-			});
-
-		break;
-		case 12:
-			alert(tmpDato[0]);
-		break;
-	}
-}
-
 function sponsorTag(url_vista,titulo,tag,edit){
 	$.dialog({
 		id:"messages",

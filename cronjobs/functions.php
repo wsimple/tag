@@ -790,35 +790,6 @@ function isValidURL($value){
 		return false;
 	}
 }
-
-function  usersPreferences($usr=''){
-
-		  $usr   = ($usr!='') ? $usr : $_SESSION['ws-tags']['ws-user']['id'];
-		  $cad   = '';
-		  $query = $GLOBALS['cn']->query("SELECT preference FROM users_preferences WHERE id_user = '".$usr."'"); //todas las preferencias del usuario
-
-		  while ($array = mysql_fetch_assoc($query)){
-				 $ids = explode(',', $array[preference]); //vector de preferencias
-				 foreach ($ids as $index){
-						  if ($index!=""){
-							  $validar = $GLOBALS['cn']->query("SELECT id_preference, detail FROM preference_details WHERE id = '$index'");
-							  if (mysql_num_rows($validar) == 0){
-							      $cad .= $index.'|';
-							  }else{
-						          $valida = mysql_fetch_assoc($validar);
-							      $cad .= $valida[detail].'|';
-							  }
-						  }// si el dato no esta vacio
-
-				 }//foreach
-
-
-		  }//while
-
-		  return rtrim($cad,'|');
-
-}
-
 function incHitsTag($tag, $resta=false) {
 
 		 $hits = ($resta==false) ? "hits = hits + 1" : "hits = hits - 1";

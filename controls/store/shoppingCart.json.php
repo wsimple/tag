@@ -40,7 +40,7 @@ include ('../../class/class.phpmailer.php');
             else{
 				if ($product['id_status']!='2' && $product['stock']>'0'){
 					$jsonResponse['datosCar2']['add'] = 'si';
-					$idOrder=$GLOBALS['cn']->query("SELECT id FROM store_orders WHERE id_status = '1' AND id_user = '".$_SESSION['ws-tags']['ws-user']['id']."'");
+					$idOrder=$GLOBALS['cn']->query("SELECT id FROM store_orders WHERE id_status = '1' AND id_user = '".$myId."'");
 					$numIdOrder=mysql_num_rows($idOrder);
 					$idOrder=  mysql_fetch_assoc($idOrder);
 					$idOrder=$idOrder['id'];
@@ -67,10 +67,10 @@ include ('../../class/class.phpmailer.php');
 						$price = 0;
 						$nproduct = 0;
 						if ($numIdOrder==0){
-							$GLOBALS['cn']->query("INSERT INTO store_orders SET id_status = '1', id_user = '".$_SESSION['ws-tags']['ws-user'][id]."'");
+							$GLOBALS['cn']->query("INSERT INTO store_orders SET id_status = '1', id_user = '".$myId."'");
 							$idOrder=  mysql_insert_id();
 							$_SESSION['car']['order']['order']=$idOrder;
-							$_SESSION['car']['order']['comprador']=$_SESSION['ws-tags']['ws-user']['id'];
+							$_SESSION['car']['order']['comprador']=$myId;
 							$_SESSION['car']['order']['comprador_code']=$_SESSION['ws-tags']['ws-user']['code'];
 							$tiempo=getTimeShoppingCarActive();
 							$minuto=$tiempo>=60?intval($tiempo%60):$tiempo;
@@ -180,14 +180,14 @@ include ('../../class/class.phpmailer.php');
                         }
                     }
                     //eliminamos las notificaciones de orden pendiente por pagar
-                    $GLOBALS['cn']->query('DELETE FROM `users_notifications` WHERE id_type="17" AND id_user="427" AND id_friend="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND md5(id_source)="'.$idOrder.'"');
+                    $GLOBALS['cn']->query('DELETE FROM `users_notifications` WHERE id_type="17" AND id_user="427" AND id_friend="'.$myId.'" AND md5(id_source)="'.$idOrder.'"');
                 }
                 $GLOBALS['cn']->query('UPDATE store_orders_detail SET id_status="2" WHERE '.$where); //eliminamos los productos de la orden
                 switch ($_GET['mod']){ //validamos si la orden fue borrada por completo o no
                     case 'wish-pend': case 'car-pend':
                         $num= numRecord('store_orders_detail', "WHERE md5(id_order)='".$idOrder."' AND id_status='".(($statusOrder=='1')?'11':$statusOrder)."'");
                         if ($num==0){
-                            $GLOBALS['cn']->query('UPDATE `store_orders` SET id_status="2" WHERE md5(id)="'.$idOrder.'" AND id_status="'.$statusOrder.'" AND id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"');
+                            $GLOBALS['cn']->query('UPDATE `store_orders` SET id_status="2" WHERE md5(id)="'.$idOrder.'" AND id_status="'.$statusOrder.'" AND id_user="'.$myId.'"');
                             if ($_GET['mod']=='car-pend'){
                                 unset($_SESSION['store']['car']);
                                 unset($_SESSION['havePaypalPayment']);
@@ -206,13 +206,13 @@ include ('../../class/class.phpmailer.php');
                         }
                         break;
                     case 'pay': case 'wish': default :
-                        $GLOBALS['cn']->query('UPDATE `store_orders` SET id_status="2" WHERE md5(id)="'.$idOrder.'" AND id_status="'.$statusOrder.'" AND id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"');
+                        $GLOBALS['cn']->query('UPDATE `store_orders` SET id_status="2" WHERE md5(id)="'.$idOrder.'" AND id_status="'.$statusOrder.'" AND id_user="'.$myId.'"');
                         $jsonResponse['del'] = 'all';
                 }
  			}else{
 				if ($_GET['mod']=='wish'){  
                     if (!isset($_SESSION['store']['wish'])){
-                        $_SESSION['store']['wish']=campo('store_orders','id_status','5','id',' AND id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"');
+                        $_SESSION['store']['wish']=campo('store_orders','id_status','5','id',' AND id_user="'.$myId.'"');
                     }
                 }else{
                     $idOrder=$_SESSION['car']['order']['order'];
@@ -636,15 +636,15 @@ include ('../../class/class.phpmailer.php');
 							break;
 					}
 				}
-				$filter='	o.id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" 
-							AND YEAR(o.date)=(SELECT YEAR(`date`) FROM `store_orders` WHERE `id_user`="'.$_SESSION['ws-tags']['ws-user']['id'].'" '.$filterRadio2.' AND (id_status!="1") AND (id_status!="5") AND (id_status!="2") ORDER BY `date` DESC LIMIT 1)
-							AND MONTH(o.date)=(SELECT MONTH(`date`) FROM `store_orders` WHERE `id_user`="'.$_SESSION['ws-tags']['ws-user']['id'].'" '.$filterRadio2.' AND (id_status!="1") AND (id_status!="5") AND (id_status!="2") ORDER BY `date` DESC LIMIT 1) ';
+				$filter='	o.id_user="'.$myId.'" 
+							AND YEAR(o.date)=(SELECT YEAR(`date`) FROM `store_orders` WHERE `id_user`="'.$myId.'" '.$filterRadio2.' AND (id_status!="1") AND (id_status!="5") AND (id_status!="2") ORDER BY `date` DESC LIMIT 1)
+							AND MONTH(o.date)=(SELECT MONTH(`date`) FROM `store_orders` WHERE `id_user`="'.$myId.'" '.$filterRadio2.' AND (id_status!="1") AND (id_status!="5") AND (id_status!="2") ORDER BY `date` DESC LIMIT 1) ';
 				if($_GET['year']){
-					$filter='o.id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND YEAR(o.date)='.$_GET['year'];
+					$filter='o.id_user="'.$myId.'" AND YEAR(o.date)='.$_GET['year'];
 					if ($_GET['month']){ $filter.=' AND MONTH(o.date)='.$_GET['month'].' '; } 
 				}
 				$filter.=$filterRadio.'AND ((o.id_status="12" AND od.id_status="12") OR (o.id_status="11" AND od.id_status="11"))';
-			}else{ $filter='md5(o.id)="'.$_GET['orderId'].'" AND '.($_GET['option']=='orders'?'o':'od').'.id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND ((o.id_status="12" AND od.id_status="12") OR (o.id_status="11" AND od.id_status="11"))'; }
+			}else{ $filter='md5(o.id)="'.$_GET['orderId'].'" AND '.($_GET['option']=='orders'?'o':'od').'.id_user="'.$myId.'" AND ((o.id_status="12" AND od.id_status="12") OR (o.id_status="11" AND od.id_status="11"))'; }
 			$sql='SELECT	
 						md5(p.id) AS id,
 						o.id AS idOrder,
@@ -713,9 +713,9 @@ include ('../../class/class.phpmailer.php');
 		break;
 		case 10: //fechas de las ordenes ya realizadas
 			$i=0; $filtro='';$inner='';$group='';
-			if ($_GET['option']=='orders'){ $filtro='o.id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"'; }
+			if ($_GET['option']=='orders'){ $filtro='o.id_user="'.$myId.'"'; }
             elseif($_GET['option']=='sales'){
-				$filtro='od.id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"';
+				$filtro='od.id_user="'.$myId.'"';
 				$inner='INNER JOIN store_orders_detail od ON od.id_order=o.id';
 				$group=' GROUP BY o.id';
 			}
@@ -771,8 +771,8 @@ include ('../../class/class.phpmailer.php');
 						break;
 				}
 			}
-			$a=0;$filter='	AND YEAR(o.date)=(SELECT YEAR(so.date) FROM `store_orders` so INNER JOIN store_orders_detail sod ON sod.id_order=so.id WHERE sod.id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" '.$filterRadio2.' AND so.id_status!="1" AND so.id_status!="2" AND so.id_status!="5" ORDER BY so.date DESC LIMIT 1)
-							AND MONTH(o.date)=(SELECT MONTH(so.date) FROM `store_orders` so INNER JOIN store_orders_detail sod ON sod.id_order=so.id WHERE sod.id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" '.$filterRadio2.'  AND so.id_status!="1" AND so.id_status!="2" AND so.id_status!="5" ORDER BY so.date DESC LIMIT 1)';
+			$a=0;$filter='	AND YEAR(o.date)=(SELECT YEAR(so.date) FROM `store_orders` so INNER JOIN store_orders_detail sod ON sod.id_order=so.id WHERE sod.id_user="'.$myId.'" '.$filterRadio2.' AND so.id_status!="1" AND so.id_status!="2" AND so.id_status!="5" ORDER BY so.date DESC LIMIT 1)
+							AND MONTH(o.date)=(SELECT MONTH(so.date) FROM `store_orders` so INNER JOIN store_orders_detail sod ON sod.id_order=so.id WHERE sod.id_user="'.$myId.'" '.$filterRadio2.'  AND so.id_status!="1" AND so.id_status!="2" AND so.id_status!="5" ORDER BY so.date DESC LIMIT 1)';
 			if($_GET['year']){
 				$filter=' AND YEAR(o.date)='.$_GET['year'];
 				if ($_GET['month']){ $filter.=' AND MONTH(o.date)='.$_GET['month']; }
@@ -792,7 +792,7 @@ include ('../../class/class.phpmailer.php');
 					INNER JOIN store_orders_detail od ON od.id_order=o.id
 					INNER JOIN store_products p ON p.id=od.id_product
 					INNER JOIN users AS u ON o.id_user=u.id
-					WHERE od.id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND o.id_status!="1" AND o.id_status!="2" AND o.id_status!="5"
+					WHERE od.id_user="'.$myId.'" AND o.id_status!="1" AND o.id_status!="2" AND o.id_status!="5"
 					'.$filter.' '.$filterRadio.'
 					GROUP BY o.id
 					ORDER BY o.id DESC';
@@ -810,7 +810,7 @@ include ('../../class/class.phpmailer.php');
 				$datosCar[$a]['numItems']=$array['numItems'];
 				$datosCar[$a]['imagenUser']=FILESERVER.getUserPicture($array['code'].'/'.$array['profile_image_url'],'img/users/default.png');
 				$datosCar[$a]['name_user']=  utf8_encode(formatoCadena($array['name_user']));
-				$sqlprice='SELECT SUM(price) AS total,formPayment FROM store_orders_detail WHERE id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND id_order="'.$array['idOrder'].'" GROUP BY formPayment';
+				$sqlprice='SELECT SUM(price) AS total,formPayment FROM store_orders_detail WHERE id_user="'.$myId.'" AND id_order="'.$array['idOrder'].'" GROUP BY formPayment';
 				$result=$GLOBALS['cn']->query($sqlprice);
 				$b=0;
 				while ($row=  mysql_fetch_assoc($result)){
@@ -824,10 +824,10 @@ include ('../../class/class.phpmailer.php');
 			$a=0;$filter='';$join='';
 			//ALTER TABLE  `store_orders_detail` ADD  `formPayment` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 0
 			
-			if ($_GET['option']=='orders'){ $filter=' o.id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"'; }
+			if ($_GET['option']=='orders'){ $filter=' o.id_user="'.$myId.'"'; }
             elseif($_GET['option']=='sales'){
 				$join=' INNER JOIN store_orders_detail od ON od.id_order=o.id';
-				$filter=' od.id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"';
+				$filter=' od.id_user="'.$myId.'"';
 			}
 			$sql='SELECT	COUNT(o.id) AS num,
 							o.id_status AS tipo
@@ -843,11 +843,11 @@ include ('../../class/class.phpmailer.php');
 			break;
 		case 14:
 			#Añadir productos a la lista de deseados  (estatus 5 porque en la tabla de status el 5 es pendiente)
-			if($product['seller']==$_SESSION['ws-tags']['ws-user']['id']){ $jsonResponse['listWish'] = 'no'; }
+			if($product['seller']==$myId){ $jsonResponse['listWish'] = 'no'; }
 			else{
 				if (($product['id_status']!='2' && $product['stock']>'0') || isset($_GET['shop'])){
 					$jsonResponse['listWish'] = 'si';
-					$idOrder=$GLOBALS['cn']->query("SELECT id FROM store_orders WHERE id_status = '5' AND id_user = '".$_SESSION['ws-tags']['ws-user']['id']."'");
+					$idOrder=$GLOBALS['cn']->query("SELECT id FROM store_orders WHERE id_status = '5' AND id_user = '".$myId."'");
 					$numIdOrder=mysql_num_rows($idOrder);
 					$idOrder=  mysql_fetch_assoc($idOrder);
 					$idOrder=$idOrder['id'];
@@ -856,7 +856,7 @@ include ('../../class/class.phpmailer.php');
 						$price = 0;
 						$nproduct = 0;
 						if ($numIdOrder==0){
-							$GLOBALS['cn']->query("INSERT INTO store_orders SET id_status = '5', id_user = '".$_SESSION['ws-tags']['ws-user']['id']."'");
+							$GLOBALS['cn']->query("INSERT INTO store_orders SET id_status = '5', id_user = '".$myId."'");
 							$idOrder=  mysql_insert_id();
                             $_SESSION['store']['wish']=$idOrder;
                             $jsonResponse['nuevo']='si';
@@ -1223,6 +1223,7 @@ include ('../../class/class.phpmailer.php');
 		}
 	}//quitar_inyect
     function consulWishList($array,$lang){
+       	$myId=$_SESSION['ws-tags']['ws-user']['id'];
         #consulta productos de la lista de deseados  (estatus 5 porque en la tabla de status el 5 es pendiente)
         $select=common_data().',
                     u.name AS nameUser,
@@ -1231,52 +1232,42 @@ include ('../../class/class.phpmailer.php');
                     JOIN store_orders_detail od ON od.id_order=o.id
                     JOIN store_products p ON p.id=od.id_product
                     JOIN users u ON p.id_user=u.id';
-        $where='    o.id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND 
+        $where='    o.id_user="'.$myId.'" AND 
                     o.id_status=5 AND 
                     od.id_status=5;';
         $noId='';
         switch ($array['tipo']){
-            case 'prefe':   $select.='  ,p.formPayment
-                                        ,p.sale_points AS price';
-                            $from='    store_products p
-                                        JOIN users u ON p.id_user=u.id';
-                            $preferences=usersPreferences();
-                            if ($preferences){
-                                $preferences=str_replace('"','\"',$preferences);
-//                                $where='    (p.name REGEXP "'.$preferences.'" OR
-//                                            p.description REGEXP "'.$preferences.'") AND
-//                                            p.id_user!="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND
-//                                            p.id NOT IN('.$array['noId'].') AND
-//                                            (p.id_status="1" AND p.stock>0)
-//                                            LIMIT 0,'.$array['max'];
-                                $where='    (p.name REGEXP "'.$preferences.'") AND
-                                            p.id_user!="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND ';
-                                if (isset($array['noId']) && $array['noId']!=''){ $where.='p.id NOT IN('.$array['noId'].') AND';}
-                                $where.=    '(p.id_status="1" AND p.stock>0)
-                                            LIMIT 0,'.$array['max'];
-                            }else{
-                                $where='    p.id_user!="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND
-                                            (p.id_status="1" AND p.stock>0)';
-                                if (isset($array['noId']) && $array['noId']!=''){ $where.=' AND p.id NOT IN('.$array['noId'].')';}
-                                $where.=    'LIMIT 0,'.$array['max'];
-                            }
+            case 'prefe':   $select.=',p.formPayment,p.sale_points AS price';
+                            $from=' store_products p
+                            		JOIN users u ON p.id_user=u.id';
+                            $where='p.id_user!="'.$myId.'" AND (p.id_status="1" AND p.stock>0)';
+                           	$prefe=users_preferences();
+							if (count($prefe)==0) $random=true;
+							else{
+								$like=' AND (';$or='';$random=false;
+								foreach ($prefe as $typePre)
+									foreach ($typePre as $row) {
+										$like.=$or.safe_sql('p.name LIKE "%??%" OR p.description LIKE "%??%"',array($row->text,$row->text));
+										if (!$or) $or=' OR ';
+									}
+								$like.=')';
+							}
+							if (!$random) $where.=$like;
+       						if (isset($array['noId']) && $array['noId']!=''){ $where.=' AND p.id NOT IN('.$array['noId'].')';}
+                            $where.='LIMIT 0,'.$array['max'];
                 break;
-            case 'aso':     $select.='  ,p.formPayment
-                                        ,p.sale_points AS price';
-                            $from='    store_products p
-                                        JOIN users u ON p.id_user=u.id';
-                            $where='    p.id_user!="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND
-                                        (p.id_status="1" AND p.stock>0)';
-                            if (isset($array['noId']) && $array['noId']!=''){ $where.=' AND p.id NOT IN('.$array['noId'].')';}
-                            $where.=    'LIMIT 0,'.$array['max'];
-
+            case 'aso':     $select.=',p.formPayment,p.sale_points AS price';
+                            $from=' store_products p
+                            		JOIN users u ON p.id_user=u.id';
+                            $where='p.id_user!="'.$myId.'" AND (p.id_status="1" AND p.stock>0)';
+       						if (isset($array['noId']) && $array['noId']!=''){ $where.=' AND p.id NOT IN('.$array['noId'].')';}
+                            $where.='ORDER BY RAND() LIMIT 0,'.$array['max'];
                 break;
             default : $select.=',od.price,
                                 od.formPayment,
                                 p.formPayment AS fp,
                                 o.id AS idOrder';
         }
-
         $sql='  SELECT '.$select.'
                 FROM '.$from.'
                 WHERE '.$where;
@@ -1368,7 +1359,7 @@ include ('../../class/class.phpmailer.php');
             if ($numIdOrder<$array['max'] && $array['tipo']=='prefe'){
                 $array['max']=$array['max']-$numIdOrder;
                 $array['tipo']='aso';
-                $array['noId']=$array['noId'].','.$noId;
+                $array['noId']=($array['noId'] && $array['noId']!=''?$array['noId'].',':'').$noId;
                 $temp=consulWishList($array,$lang);
                 if ($temp!='no-deseo'){
                     $html.=$temp['body'];
