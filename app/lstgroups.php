@@ -82,8 +82,8 @@
 									'<li group="'+pref['id']+'">'+
 										'<img '+pref['photoi']+' class="ui-li-icon-group" width="30" height="30" />'+
 										'<a class="linkGroup">'+pref['name']+'<br>'+
-											'<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal">'+pref['privacidad']+', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+
-                                            '<img src="'+pref['cphoto']+'" class="ui-li-icon-group" width="20" height="20" style="float: none; margin: 0px 5px;"/> '+lan('Category')+':'+pref['cname']+
+											'<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal"><img src="'+pref['cphoto']+'" class="ui-li-icon-group" width="20" height="20" style="float: none; margin: 0px 5px;"/><br>'+pref['privacidad']+', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+
+                                            ' '+lan('Category')+':'+pref['cname']+
                                             '</div>'+
 										'</a>'+
 									'</li>';
