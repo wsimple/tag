@@ -26,12 +26,7 @@ function tagsList_json($data,$mobile=false){
 	$res['info']='';
 	$res['request_id']=$data['id'];
 	$start=intval($data['start']);
-	$startsp=intval($data['startsp']);
 	$limit=(is_numeric($data['limit'])?intval($data['limit']):5);
-	$denominador=3;//por cada 3 tags, se agrega un sponsor
-	$numeroSponsor=ceil($limit/$denominador);
-	$id_sponsors=array();
-	if($data['idsponsor']!='') $id_sponsors=explode(',',$data['idsponsor']);
 	$sqlUid=isset($_GET['this_is_app'])?'md5(concat(t.id_creator,"_",(SELECT tu.email FROM users tu WHERE tu.id=t.id_creator),"_",t.id_creator))':'md5(t.id_creator)';
 	$sqlUid2=isset($_GET['this_is_app'])?'md5(concat(t.id_user,"_",u.email,"_",t.id_user))':'md5(t.id_user)';
 	$select='
@@ -201,108 +196,11 @@ function tagsList_json($data,$mobile=false){
 	// +--------------------------------+
 	//Se muestran patrocinantes solo en el time line
 	if($data['current']=='timeLine'||($data['current']==''&&$data['id']=='')){
+		$denominador=3;//por cada 3 tags, se agrega un sponsor
+		$datasponsor=array("select"=>$select,"startsp"=>intval($data['startsp']),"numeroSponsor"=>ceil($limit/$denominador));
 		$registrosfaltantes=0;
-		$preferences=usersPreferences();
-		if($preferences){
-			$preferences=str_replace('"','\"',$preferences);
-			$likes='
-				t.`text` REGEXP "'.$preferences.'" OR
-				t.`text2` REGEXP "'.$preferences.'" OR
-				t.code_number REGEXP "'.$preferences.'"
-			';
-		}
-		$sqls='
-			SELECT DISTINCT
-				up.link as enlace,
-				md5(up.id) as id_publicidad,
-				'.$select.'
-			FROM tags t
-			JOIN users u ON u.id=t.id_user
-			LEFT JOIN store_products sp ON sp.id=t.id_product
-			LEFT JOIN users_publicity up ON up.id_tag = t.id
-			LEFT JOIN tags_hits th ON th.id_tag=t.id
-			WHERE
-				up.status = "1"
-				AND up.click_max >= up.click_current
-				AND up.id_type_publicity = "4"'.($likes!=''?'
-				AND ('.$likes.')':'').($data['sp']!=''?'
-				AND t.id NOT IN ('.$data['sp'].')':'').'
-				'.(count($id_sponsors)>0?'AND t.id NOT IN ('.implode(',',$id_sponsors).')':'').'
-			GROUP BY t.id
-			'.($data['nolimit']?'':'LIMIT '.$startsp.', '.$numeroSponsor);
-//			ORDER BY rand()
-
-		$_sponsors=array();
-		$query_sponsor=CON::query($sqls);
-		$num_sponsors=CON::numRows($query_sponsor);
-		//si el numero de tag es menor al esperado
-		if($num_sponsors<$numeroSponsor && $num_sponsors!=0){
-			while($sponsor=CON::fetchAssoc($query_sponsor)){
-				$sponsor['uname']=ucwords($sponsor['uname']);
-				$_sponsors[]=$sponsor; //almacenamos el array resultante en el vector
-				$id_sponsors[]=$sponsor['id'];
-			}
-			$sqls='
-			SELECT DISTINCT
-				up.link as enlace,
-				md5(up.id) as id_publicidad,
-				'.$select.'
-			FROM tags t
-			JOIN users u ON u.id=t.id_user
-			LEFT JOIN store_products sp ON sp.id=t.id_product
-			LEFT JOIN users_publicity up ON up.id_tag = t.id
-			LEFT JOIN tags_hits th ON th.id_tag=t.id
-			WHERE
-				up.status = "1"
-				AND up.click_max >= up.click_current
-				AND up.id_type_publicity = "4"
-				AND id_creator!="'.$myId.'"
-				'.(count($id_sponsors)>0?'AND t.id NOT IN ('.implode(',',$id_sponsors).')':'').'
-			GROUP BY t.id
-			ORDER BY rand('.time().' * '.time().')
-			'.($data['nolimit']?'':'LIMIT 0, '.($numeroSponsor-$num_sponsors));
-			//if(isset($_GET['debug'])) echo '<br/>'.$sqls.'<br/>';
-			$query_sponsor=CON::query($sqls);
-			while($sponsor=CON::fetchAssoc($query_sponsor)){
-				$sponsor['uname']=ucwords($sponsor['uname']);
-				$_sponsors[]=$sponsor;//almacenamos el array resultante en el vector
-				$id_sponsors[]=$sponsor['id'];
-			}
-		}elseif($num_sponsors==0){//si el usuario no tiene preferencias acorde a las tag patrocinadas
-			$sqls='
-			SELECT DISTINCT
-				up.link as enlace,
-				md5(up.id) as id_publicidad,
-				'.$select.'
-			FROM tags t
-			JOIN users u ON u.id=t.id_user
-			LEFT JOIN store_products sp ON sp.id=t.id_product
-			LEFT JOIN users_publicity up ON up.id_tag = t.id
-			LEFT JOIN tags_hits th ON th.id_tag=t.id
-			WHERE
-				up.status = "1"
-				AND up.click_max >= up.click_current
-				AND up.id_type_publicity = "4"
-				'.(count($id_sponsors)>0?'AND t.id NOT IN ('.implode(',',$id_sponsors).')':'').'
-				AND id_creator!="'.$myId.'"
-			GROUP BY t.id
-			ORDER BY rand('.time().' * '.time().')
-			'.($data['nolimit']?'':'LIMIT 0,'.$numeroSponsor);
-			$res['query'][]=str_minify($sqls);
-			$query_sponsor=CON::query($sqls);
-			while($sponsor=CON::fetchAssoc($query_sponsor)){
-				$sponsor['uname']=$sponsor['uname'];
-				$_sponsors[]=$sponsor;//almacenamos el array resultante en el vector
-				$id_sponsors[]=$sponsor['id'];
-			}
-		}else{//si todo procede segun lo planeado
-			while($sponsor=CON::fetchAssoc($query_sponsor)){
-				$sponsor['uname']=ucwords($sponsor['uname']);
-				$_sponsors[]=$sponsor;//almacenamos el array resultante en el vector
-				$id_sponsors[]=$sponsor['id'];
-			}
-		}
-	$res['idsponsor']=implode(',',$id_sponsors);
+		$_sponsors=sponsor_json($data,$datasponsor);
+		$res['sponsors']=$_sponsors;
 	}
 	$sql='
 		SELECT DISTINCT '.$select.'
@@ -317,29 +215,10 @@ function tagsList_json($data,$mobile=false){
 	$timeLines=CON::query($sql);
 	if(is_debug('taglist')) echo CON::lastSql();
 	if(CON::numRows($timeLines)>0){
-		function likes($tag,$user){
-			return $user==''?0:
-			(existe('likes','id_source','WHERE id_source='.$tag.' AND id_user='.$user)?1:
-			(existe('dislikes','id_source','WHERE id_source="'.$tag.'" AND id_user="'.$user.'"')?-1:
-			0));
-		}
-		function buttons($tag,$id=''){
-			$btn=array();//arreglo de botones que se pueden mostrar
-			if($id!=''){
-				if(!$tag['redist']&&$tag['status']==1&&$tag['id_user']!=$id) $btn['redist']=true;
-				if($tag['status']==1||$tag['status']==9) $btn['share']=true;
-				if($tag['id_creator']==$id&&$tag['status']!=4) $btn['edit']=true;
-				if($tag['id_user']==$id xor $tag['status']==4) $btn['trash']=true;
-				if($tag['status']!=4&&$tag['status']!=7) $btn['sponsor']=true;//ni privada ni de grupo
-				if($tag['id_user']!=$id) $btn['report']=true;
-			}
-			return $btn;
-		}
 		//Limite de tags a mostrar
 		$i=0;//contador de sponsors
 		$n=$start;//contador de tags
 		$PNG_WEB_DIR='img/temp/';
-		$res['sponsors']=array();
 		if($data['action']=='reload'||$data['date']==''){//se guarda la fecha de la primera consulta
 			$date=CON::getRow('SELECT NOW() as date');
 			$res['date']=$date['date'];
@@ -406,44 +285,112 @@ function tagsList_json($data,$mobile=false){
 			$res['tags'][]=$tag; //almacenamos el array resultante en el vector
 
 			//si ya se han mostrado 4 tags normales, agregamos una tag patrosinada (si quedan)
-			if(++$n%3==0 && count($_sponsors)>$i && $n!=0){
-				$sponsor=$_sponsors[$i++];
-				//$sponsor['tag']=createTag($sponsor['id']);
-				$sponsor['img']=tagURL($sponsor['id']);
-				$sponsor['imgmini']=tagURL($sponsor['id'],true);
-				if($sponsor['business']==0) unset($sponsor['business']);
-				else $sponsor['business']=md5($sponsor['business']);
-				$sponsor['likeIt']=likes($sponsor['id'],$myId);
-				if($sponsor['id_product']!='0'){
-					$product=array(
-						'id'	=> md5($sponsor['id_product']),
-						'name'	=> $sponsor['name_product'],
-						'url'	=> DOMINIO.'#detailprod?prd='.$sponsor['store_p_id']
-					);
-					$product['qr']=$PNG_WEB_DIR.md5($product['url'].'|L|2').'.png';
-					QRcode::png($product['url'], RELPATH.$product['qr'], 'L', 2, 2);
-					$sponsor['product']=$product;
-				}
-				unset($sponsor['id_product']);
-				$sponsor['num_likes']=numRecord('likes', 'WHERE id_source="'.$sponsor['id'].'"');
-				$sponsor['num_disLikes']=numRecord('dislikes', 'WHERE id_source="'.$sponsor['id'].'"');
-				$validaVideo=new Video();
-				if ($tag['video']!='') $_GET['thisvideo']=$sponsor['video'];
-				else unset($_GET['thisvideo']);
-				$validaVideo=$validaVideo->validate(0,0,1,(isset($_GET['this_is_app'])?true:false),$config);
-				// array('success'=>$success,'urlV'=>$url,'type'=>$type,'test'=>$test)
-				if ($validaVideo['success']){
-					$sponsor['typeVideo']=$validaVideo['type'];
-					$sponsor['video']=$validaVideo['urlV'];
-				}else $sponsor['video']='';
-				$btn=buttons($sponsor,$myId);
-				if(count($btn)>0) $sponsor['btn']=$btn;
-				$res['tags'][]=$sponsor;
-				$res['sponsors'][]=$sponsor;
-			}
+			if(++$n%3==0 && count($_sponsors)>$i && $n!=0) $res['tags'][]=$_sponsors[$i++];
 		}
 	}
 	return $res;
+}
+function sponsor_json($data,$datasponsor,$_prefe=true,$noid=''){
+	$myId=$_SESSION['ws-tags']['ws-user']['id'];
+	$select=$datasponsor["select"]; $order="";
+	if ($noid!='')
+		if (isset($data['sp']) && $data['sp']!='') $data['sp'].=','.$noid;
+		else $data['sp']=$noid;
+	if (isset($data['sp']) && $data['sp']!='') $noId="AND t.id NOT IN (".$data['sp'].")";
+	else $noId="";
+	// $id_sponsors no recuerdo para que es eso
+	// '.(count($id_sponsors)>0?'AND t.id NOT IN ('.implode(',',$id_sponsors).')':'').'
+	$limit=$data['nolimit']?"":"LIMIT ".$datasponsor['startsp'].",".$datasponsor['numeroSponsor'];
+	if ($_prefe){
+		$prefe=users_preferences($usr);
+		if (count($prefe)==0) $_prefe=false;
+		else{
+			$like=' AND (';$or='';
+			foreach ($prefe as $typePre)
+				foreach ($typePre as $row) {
+					$like.=$or.safe_sql('t.text LIKE "%??%" OR t.text2 LIKE "%??%" OR t.code_number LIKE "%??%"',array($row->text,$row->text,$row->text));
+					if (!$or) $or=' OR ';
+				}
+			$like.=')';
+		}
+	}
+	if (!$_prefe){
+		$like=""; $order='ORDER BY rand('.time().' * '.time().')';
+	}
+	$query=CON::query(" SELECT DISTINCT
+				up.link as enlace,
+				md5(up.id) as id_publicidad,
+				$select
+			FROM tags t
+			JOIN users u ON u.id=t.id_user
+			LEFT JOIN store_products sp ON sp.id=t.id_product
+			LEFT JOIN users_publicity up ON up.id_tag = t.id
+			LEFT JOIN tags_hits th ON th.id_tag=t.id
+			WHERE up.status = '1'
+			AND up.click_max >= up.click_current
+			AND up.id_type_publicity = '4' $likes $noId
+		GROUP BY t.id $order $limit");
+	$info=array();$coma='';
+	while ($row=CON::fetchAssoc($query)) {
+		$row['uname']=ucwords($row['uname']);
+		$row['img']=tagURL($row['id']);
+		$row['imgmini']=tagURL($row['id'],true);
+		if($row['business']==0) unset($row['business']);
+		else $row['business']=md5($row['business']);
+		$row['likeIt']=likes($row['id'],$myId);
+		if($row['uid']==$row['rid']) unset($row['rid']);
+		else{
+			$row['rname']=$row['uname'];
+			$row['name_redist']=$row['uname'];//soporte para version vieja
+			unset($row['uname']);
+		}
+		if($row['id_product']!='0'){
+			$product=array(
+				'id'	=> md5($row['id_product']),
+				'name'	=> $row['name_product'],
+				'url'	=> DOMINIO.'#detailprod?prd='.$row['store_p_id']
+			);
+			$product['qr']=$PNG_WEB_DIR.md5($product['url'].'|L|2').'.png';
+			QRcode::png($product['url'], RELPATH.$product['qr'], 'L', 2, 2);
+			$row['product']=$product;
+		}
+		unset($row['id_product']);
+		$row['num_likes']=numRecord('likes', 'WHERE id_source="'.$row['id'].'"');
+		$row['num_disLikes']=numRecord('dislikes', 'WHERE id_source="'.$row['id'].'"');
+		if ($tag['video']!='') $_GET['thisvideo']=$row['video'];
+		else unset($_GET['thisvideo']);
+		$validaVideo=new Video();
+		$validaVideo=$validaVideo->validate(0,0,1,(isset($_GET['this_is_app'])?true:false),$config);
+		if ($validaVideo['success']){
+			$row['typeVideo']=$validaVideo['type'];
+			$row['video']=$validaVideo['urlV'];
+		}else $row['video']='';
+		$btn=buttons($row,$myId);
+		if(count($btn)>0) $row['btn']=$btn;
+		$noid.=$coma.$row['id']; $coma=',';
+		$info[]=$row;
+	}
+	if ($_prefe && ($datasponsor['numeroSponsor'] && $datasponsor['numeroSponsor']<CON::numRows($query)))
+		$info=array_merge($info,sponsor_json($data,$datasponsor,false,$noid));
+	return $info;
+}
+function likes($tag,$user){
+	return $user==''?0:
+	(existe('likes','id_source','WHERE id_source='.$tag.' AND id_user='.$user)?1:
+	(existe('dislikes','id_source','WHERE id_source="'.$tag.'" AND id_user="'.$user.'"')?-1:
+	0));
+}
+function buttons($tag,$id=''){
+	$btn=array();//arreglo de botones que se pueden mostrar
+	if($id!=''){
+		if(!$tag['redist']&&$tag['status']==1&&$tag['id_user']!=$id) $btn['redist']=true;
+		if($tag['status']==1||$tag['status']==9) $btn['share']=true;
+		if($tag['id_creator']==$id&&$tag['status']!=4) $btn['edit']=true;
+		if($tag['id_user']==$id xor $tag['status']==4) $btn['trash']=true;
+		if($tag['status']!=4&&$tag['status']!=7) $btn['sponsor']=true;//ni privada ni de grupo
+		if($tag['id_user']!=$id) $btn['report']=true;
+	}
+	return $btn;
 }
 if(!$notAjax){
 	$data=array();
