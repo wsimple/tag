@@ -100,7 +100,7 @@
 						txt+=(birth!='none'?'<div><strong>'+lang.PROFILE_BIRTHDATE+':</strong> '+birth+'</div>':'');
 					else
 						txt+=(data['birthday']!='none'?'<div><strong>'+lang.FOUNDATION_DATE+':</strong> '+data['birthday']+'</div>':'');
-					txt+=(data['country']!='none'?'<div><strong>'+lan('From')+':</strong> '+data['country']+'</div>':'');
+					txt+=(data['country'] && data['country']!='none' && data['country']!=''?'<div><strong>'+lan('From')+':</strong> '+data['country']+'</div>':'');
 					$('#userInfo').html(txt);
 					$('.fs-wrapper').jScroll('refresh');
 					$('#globalButtons').on('click','div',function(){

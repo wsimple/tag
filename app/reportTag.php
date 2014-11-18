@@ -44,12 +44,13 @@
 			},
 			after:function(){
 				$('#id_tag').val($_GET['id']);
+				console.log($('#id_tag').val($_GET['id']))
 				//$('#tagReport').html(showTag({'idTag':$('#id_tag').val()}));
 				$('#fs-wrapper').jScroll({hScroll:false});
 				$('#btnReport').click(function(){
 					myAjax({
 						type	: 'POST',
-						url		: DOMINIO+'controls/tags/actionsTags.controls.php?action=8&tag='+$('#id_tag').val()+'&type_report='+md5($('#selectReport option:selected').val()),
+						url		: DOMINIO+'controls/tags/actionsTags.controls.php?action=8&tag='+$_GET['id']+'&type_report='+md5($('#selectReport option:selected').val()),
 						dataType: 'html',
 						success	: function (data){
 							myDialog({
@@ -77,7 +78,7 @@
 					}
 				});
 
-			myAjax({
+				myAjax({
 					type	: 'POST',
 					dataType: 'json',
 					url		: DOMINIO+'controls/tags/tagsList.json.php?this_is_app&id='+$_GET['id'],

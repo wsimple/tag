@@ -107,7 +107,11 @@
                                     }else{ myDialog('#singleDialog','<div><strong>'+lang.STORE_NO_SC+'</strong></div>'); }
                                 });
                                 if (data['bodyEmerg']){  myDialog('#singleDialog',data['bodyEmerg']); }
-                            }else{ myDialog('#singleDialog','<div><strong>'+lang.STORE_NO_SC+'</strong></div>'); }
+                            }else{ 
+                                myDialog('#singleDialog','<div><strong>'+lang.STORE_NO_SC+'</strong></div>'); 
+                                $('#buttonCheckOut,#footer li.ui-block-c').remove();
+                                $('#footer ul li').css('width','50%');
+                            }
                 		}
                 	});
                 }
