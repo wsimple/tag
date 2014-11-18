@@ -16,7 +16,6 @@
 <link rel="stylesheet" href="css/colorPicker.css"/>
 <script src="cordova.js"></script>
 <!--<script src="http://debug.build.phonegap.com/target/target-script-min.js#82ad4bcc-195f-11e3-af04-22000a98b3d6"></script><!-- -->
-<script src="intelxdk.js"></script>
 <script src="js/core/const.js"></script>
 <script src="js/core/md5.js"></script>
 <script src="js/core/jquery-1.10.2.min.js"></script>
@@ -34,7 +33,6 @@
 <script src="js/min.js"></script>
 </head><body><div id="page-start" data-role="page" class="no-header no-footer">
 <div data-role="content" class="smt-bg smt-center"><div class="_tt">
-<div id="xdk-test" style="position:absolute;top:0;left:0;">XDK</div>
 <div class="ui-box-home _tc">
 <div class="logo-smt"></div>
 <div id="buttons" style="display:none;"><div class="_tt"><div class="_tc">
@@ -65,9 +63,6 @@
 </div>
 </div></div>
 <script>
-window.accountFb=function(){
-alert('Wait a moment, application not ready yet.');
-};
 //$.session('countpage',0);
 pageShow({
 id:'page-start',
@@ -132,29 +127,64 @@ $('#btn-login-change .ui-btn-text').css('padding','0 10px');
 // });
 // }
 // }
+
+//Login facebook
+// window.fbAsyncInit=function(){
+// FB.init({
+// appId:'',
+// xfbml:true,
+// version:'v2.2'
+// });
+// };
+
+// (function(d, s, id){
+// var js, fjs = d.getElementsByTagName(s)[0];
+// if (d.getElementById(id)) {return;}
+// js = d.createElement(s); js.id = id;
+// js.src = "//connect.facebook.net/en_US/sdk.js";
+// fjs.parentNode.insertBefore(js, fjs);
+// }(document, 'script', 'facebook-jssdk'));
+
+window.fbAsyncInit = function() {
+FB.init({
+appId:'',
+cookie:true,
+xfbml:true,
+oauth:true,
+status:true
+});
+};
+(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "http://connect.facebook.net/en_Us/all.js";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+function accountFb(){
+FB.login(function(response){
+if(response.authResponse){
+FB.api('/me',function(response){
+$.ajax({
+url:DOMINIO+'controls/facebook/fbuser.json.php',
+dataType:'json',
+success:function(data){
+redir(PAGE.home);
+}
+});
+});
+// }else{
+// console.log('No has logueado correctamente con fbb.');
+}
+},{scope:'email'});
+}
 $('.googlePlay,.appStore').click(function(event) {
 myDialog({//Information lang.INVITE_GROUP_TRUE
 id:'#singleDialog',
 content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
 });
 });
-
-//Login facebook
-document.addEventListener("intel.xdk.device.ready",function(e){
-document.addEventListener("intel.xdk.facebook.login",function(e){
-if(e.success==true){
-$('#xdk-test').html("Facebook Log in Successful");
-}else{
-$('#xdk-test').html("Unsuccessful Login");
-}
-$('#xdk-test').append('. Event:<pre>'+JSON.stringify(e)+'</pre>');
-},false);
-window.accountFb=intel.xdk.facebook&&intel.xdk.facebook.login?function(){
-intel.xdk.facebook.login("publish_stream,publish_actions,offline_access");
-}:function(){
-alert("Sorry, you can't login with facebook right now, try again later.");
-};
-},false);
 </script>
 </div>
 </body></html>
