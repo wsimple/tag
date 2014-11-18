@@ -370,10 +370,10 @@
 	-o-background-size:100% auto;
 	background-size:100% auto;
 }
-.tag-container [tag] .tag-icons div#likeIcon{ background-image:url(smt/tag/like.png); }
-.tag-container [tag] .tag-icons div#dislikeIcon{ background-image:url(smt/tag/dislike.png); }
-.tag-container [tag] .tag-icons div#redist{ background-image:url(smt/tag/redist.png); }
-.tag-container [tag] .tag-icons div#sponsor{ background-image:url(smt/tag/sponsor.png); }
+.tag-container [tag] .tag-icons div#likeIcon{ background-image:url(smt/tag/like_icon.png); }
+.tag-container [tag] .tag-icons div#dislikeIcon{ background-image:url(smt/tag/dislike_icon.png); }
+.tag-container [tag] .tag-icons div#redist{ background-image:url(smt/tag/redist_icon.png); }
+.tag-container [tag] .tag-icons div#sponsor{ background-image:url(smt/tag/sponsor_icon.png); }
 .tag-container [tag] .redist{
 	position:absolute;
 	top:0.2em;
