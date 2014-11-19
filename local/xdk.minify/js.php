@@ -10,7 +10,7 @@ $app_path='http://'.$_SERVER['SERVER_NAME'].'/tag/app';
 $output_path='../xdk';
 $output_file="$output_path/js/min.js";
 
-$data=file_get_contents("$app_path/js/min.js?minify");
+$data=file_get_contents("$app_path/js/min.js?minify&xdk");
 if($data){
 	echo "File $file readed.<br/>";
 	$data=JSMin::minify($data);
