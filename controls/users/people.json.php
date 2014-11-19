@@ -57,6 +57,10 @@ switch ($_GET['action']) {
 				}else{
 					$array['order']='ORDER BY RAND()';
 					$array['where']=safe_sql('u.id!=? AND u.id NOT IN ((SELECT ul.id_friend FROM users_links ul WHERE ul.id_user=?)) AND u.id NOT IN ((SELECT ul.id_user FROM users_links ul WHERE ul.id_friend=?))',array($uid,$uid,$uid));
+					if (isset($_POST['no_id_s']) && $_POST['no_id_s']!=''){
+						$array['where'].=safe_sql(' AND u.id NOT IN ('.$_POST['no_id_s'].')',array($uid));
+						$array['limit']='LIMIT 0,20';
+					}
 				}
 				$res['num']=1;
 			break;

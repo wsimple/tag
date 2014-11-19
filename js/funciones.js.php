@@ -1213,47 +1213,6 @@ function check_in_Notifications(source,type,objeto){
 }
 
 var seeUp=0;
-function seeMore(mobile,url,capa_prin,capa_word,capa_loading,size,width,opc){//alert(cant);
-	if(opc&&!opc.on) opc.on={};
-	var on=opc&&opc.on,
-		action='refresh',
-		cancel=function(){return (action!='new'&&on['new']);},//cancel action
-		onca=function(val){if(val!==undefined)on[action]=val;return on[action];};//on current action
-
-	$(capa_word).hide();
-	$(capa_loading).html('<img src="css/smt/loader.gif" width="'+size+'" height="'+size+'" />');
-	//alert(opc.srh);
-	seeUp=1;
-
-	if(!opc||(!cancel()&&!onca())){
-		if (opc) onca(true);
-		//alert(opc.srh+'--'+opc.seemore)
-		$$.ajax({
-			type:"POST",
-			data:$.extend({},opc.data||{},{seemore:opc&&opc.seemore}),
-			url:url,
-			dataType:"text",
-			success:function(data){
-						data=data.split("|");
-						if (opc) opc.seemore=data[0];
-						if(data[2]!=0){
-							$(capa_loading).html('');
-							$(capa_prin).append('<div style="width:'+width+';" id="div_'+data[0]+'" >'+data[1]+'</div>');
-							//$('button,input:submit,input:reset,input:button,#group-box .group_info a,#groupTabs .group_info a').button();
-							$(capa_word).show();
-						}else{
-							$(capa_word).hide();
-							$(capa_loading).html('');
-						}
-					},
-			complete:function(){
-				if(opc) onca(false);
-			}
-		});
-	}
-}
-
-var seeUp=0;
 function seemoreNew(mobile,url,capa_prin,capa_word,capa_loading,size,width,opc){//alert(cant);
 	if(opc&&!opc.on) opc.on={};
 	var on=opc&&opc.on,
@@ -1418,11 +1377,57 @@ function linkUser(id_user,objet,action){
 				if ($('#nf').length>0 && $('#tab .ui-single-box-title').length==0){
 					$('#nf').html('('+$('#tab .divYourFriends').length+')');
 				}
+				check_suggestion_of_friends();
 			}
 		}
 	});
 }
-
+function check_suggestion_of_friends(){
+	if (!$("#title-news-suggest .suggest-friends").length) return false;
+	var numDiv=$("#title-news-suggest .contentSuggestFriends").length;
+	if (numDiv<8){
+		if (numDiv<5){
+			$("#title-news-suggest .suggest-friends").css('height','auto');
+			if (numDiv==0){
+				$("#title-news-suggest .messageInviteSuggest,#title-news-suggest #inviteSuggest").css('display','block');
+				$("#title-news-suggest #seeMoreSuggest").css('display','none');
+			}
+		}else{
+			var noid=$('#title-news-suggest .suggest-friends input[name="no_id_s"]').val();
+			$.ajax({
+				type	:'POST',
+				url		:'controls/users/people.json.php?action=friendsAndFollow&mod=find',
+				dataType:'json',
+				data:{no_id_s:noid},
+				success	:function(data){
+					if (data['datos'].length>0){
+						var html='',i,coma=(noid!=''?',':'');
+						for(i=0;i<data['datos'].length;i++){
+							var datos=data['datos'][i];
+							noid+=coma+datos['id']; coma=",";
+							html+='<div class="contentSuggestFriends thisPeople">'+
+									'<div class="divYourFriendsSuggest" >'+
+										'<div class="divYourFriendsSuggestPhoto">'+
+											'<img action="profile,'+datos['id_friend']+','+datos['name_user']+'" border="0" src="'+datos['photo_friend']+'"/>'+
+										'</div>'+
+										'<div class="divYourFriendsSuggestInfo">'+
+											'<div class="left">'+
+												'<a href="javascript:void(0);" action="profile,'+datos['id_friend']+','+datos['name_user']+'">'+datos['name_user']+'</a>'+
+											'</div>'+
+										'</div>'+
+										'<input type="button" action="linkUser,'+datos['id_friend']+',1" style="display:none;"/>'+
+										'<div class="clearfix"></div>'+
+									'</div>'+
+								'</div>';
+						}
+						$("#title-news-suggest .suggest-friends").append(html);
+						$('#title-news-suggest .suggest-friends input[name="no_id_s"]').val(noid);
+					}
+				}
+			});
+		}
+	}
+}
 function userProfile(titulo,id,close){
 	if(close){
 	//close eliminado, conservado solo por compatibilidad. Si se incluyen todos los parametros, se desplaza el ultimo elemento al anterior
@@ -1495,80 +1500,6 @@ function tagsUser(titulo,get){
 	});
 }
 
-var PUBLISH;
-function previewTag(titulo,get,wedit,update){
-	PUBLISH=false;
-	$.dialog({
-		title: titulo,
-		resizable: false,
-		width:720,
-		height:460,
-		modal:true,
-		show:'fade',
-		hide:'fade',
-		open:function(){
-			$(this).load('views/tags/new/viewTag.php'+get);
-		},
-		close:function(/*ui*/){
-			if(wedit==1){
-				redir('timeline?current=timeLine');
-			}else{
-				if(!PUBLISH){
-					$.ajax({
-						type:'POST',
-						url:'controls/tags/actionsTags.controls.php'+get+'&action=6',
-						dataType:'text'
-					});//ajax
-				}
-			}
-		},//close
-		buttons:{
-			'<?=$lang["JS_CANCEL"]?>':function(){
-				$(this).dialog('close');
-				redir('timeline?current=timeLine');
-			},
-			'<?=$lang["JS_CHANGE"]?>':function(){
-				PUBLISH=true;
-				redir('update'+get);
-			},
-			'<?=$lang["JS_PUBLISH"]?>':function(){
-				//wedit es uno cuando se esta modificanto un tag
-				if(wedit==1){
-					//delete old tag
-					$.ajax({
-						type:'POST',
-						url:'controls/tags/actionsTags.controls.php?tag="+update+"&action=6',
-						dataType:'text'
-					});
-				}
-				//activar new tag
-				$.ajax({
-					type:'POST',
-					url:'controls/tags/actionsTags.controls.php'+get+'&action=9',
-					dataType:'text',
-					success:function(data){
-						$('loader.page',PAGE).hide();
-						PUBLISH=true;
-						switch(data.split('|')[0]){
-							case '7':redir('groupsDetails?grp='+data.split('|')[1]);break;
-							case '9':
-								if(data.split("|")[2]!=0){
-									redir('profile?sc=3');
-								}else{
-									redir('taglist?current=personal');
-								}
-							break;
-							case '10':redir('wpanel/?url=vistas/viewTagWpanel.php');break;
-							default: redir('timeline?current=timeLine');
-						}
-					}
-				});//ajax
-
-			}//click publish
-		}
-	});
-}
-
 function showPublicityWb(p){
 console.log('publiRight '+p);
 	$.ajax({
@@ -1578,28 +1509,6 @@ console.log('publiRight '+p);
 		success:function(result){
 			return true;
 		}
-	});
-}
-
-function viewPublicity(){
-	$.dialog({
-		id:'messages',
-		title: titulo,
-		resizable: false,
-		width:400,
-		height:200,
-		modal:true,
-		open:function(){
-			$(this).html(conte);
-		},
-		buttons:[{
-			text:lang.JS_YES,
-			click:function(){redirect(url);}
-		},
-		{
-			text:lang.JS_NO,
-			click:function(){$(this).dialog('close');}
-		}]
 	});
 }
 function str_replace(inChar,outChar,conversionString){
@@ -1683,50 +1592,6 @@ function compareValues(val_01, val_02, msj){
 		message("messages", "Error", msj);
 		return false;
 	}
-}
-
-function payMorePersonalTag(titulo, msj_send){
-	$.dialog({
-		id:'payNewPersonalTag',
-		title:titulo,
-		resizable:false,
-		width:450,
-		height:250,
-		modal:true,
-		open:function(){
-			$(this).load('views/tags/payMorePersonalTag.view.php');
-		},
-		buttons:[{
-			text:lang.JS_CANCEL,
-			click:function(){$( this ).dialog('close');}
-		},{
-			text:lang.JS_PAY,
-			click:function(){
-				$('#content_blok #loading strong').html(msj_send);
-				$.ajax({
-					type	:'POST',
-					url		:'views/tags/payMorePersonalTag.view.php?pay=1',
-					dataType:'text',
-					success	:function(data){
-						$('#content_blok').append(data);
-						$(this).dialog('close');
-					}
-				});
-			}
-		}]
-	});
-}
-
-//refrescar
-function loadOtherSocialNetworks() {
-	$.ajax({
-		type	: "POST",
-		url		: "views/othersSocialNetworks.view.php",
-		dataType: "text",
-		success	: function (data){
-			$("#table_footer").prepend(data);
-		}
-	});
 }
 
 //precarga de imagenes
@@ -2103,61 +1968,6 @@ function sellPublicity(url_vista,titulo,edit){
 				}// boton confirm
 			}
 		]
-	});
-}//FIN sellPublicity
-
-function sellPublicityProducts(url_vista,titulo,edit){
-	$.dialog({
-		id:"sellPublicityProducts",
-		title:titulo,
-		resizable:false,
-		width:500,
-		height:570,
-		modal:true,
-		show:"fade",
-		hide:"fade",
-		open:function(){
-			$(this).load(url_vista);
-		},
-		buttons:[{
-			text:lang.JS_CANCEL,
-			click:function(){
-				//$(this).dialog("destroy");
-				$(this).dialog("close");
-			}
-		},{
-			text:lang.JS_CONFIG,
-			click:function(){
-				//validamos el formato de la imagen
-				if(validaImputPictureFile("#publi_img")||(edit&&valor("picture"))){
-					//validamos que todos los campos este llenos
-					if(valor("publi_title")&&valor("publi_link")&&valor("publi_msg")){
-						//validamos que se un enlace valido
-						//alert($("#publi_link").val());
-						if(validateForm("#sell_publi")){
-							$("#sell_publi").submit();
-//								redir('myPubli');
-
-						}else{
-							$("#sponsor_msgerror").fadeOut(600);
-							$("#sponsor_msgerror2").fadeOut(600);
-							showAndHide('sponsor_msgerror3','sponsor_msgerror3',2500,true);
-							//$("#sponsor_msgerror3").fadeIn(600);
-						}
-					}else{//campos llenos
-						$("#sponsor_msgerror2").fadeOut(600);
-						$("#sponsor_msgerror3").fadeOut(600);
-						showAndHide('sponsor_msgerror','sponsor_msgerror',2500,true);
-						//$("#sponsor_msgerror").fadeIn(600);
-					}
-				}else{//formato de imagen
-					$("#sponsor_msgerror3").fadeOut(600);
-					$("#sponsor_msgerror").fadeOut(600);
-					showAndHide('sponsor_msgerror2','sponsor_msgerror2',2500,true);
-					//$("#sponsor_msgerror2").fadeIn(600);
-				}
-			}// boton confirm
-		}]
 	});
 }//FIN sellPublicity
 
