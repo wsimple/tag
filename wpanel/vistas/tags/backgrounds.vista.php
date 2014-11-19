@@ -28,7 +28,9 @@
 		 }	 
 		 mensajes("Sucessfully Process", "?url=".$_REQUEST["url"], "info");
 	 }elseif ($_REQUEST['action']=="delete"){ 
-		 @unlink($_REQUEST['path'].$_REQUEST['photo']);
+        echo $_REQUEST['path'].'<br>';
+        echo $_REQUEST['photo'].'<br>';
+		 var_dump(@unlink($_REQUEST['path'].$_REQUEST['photo']));
 	     //mensajes("Sucessfully Process", "?url=".$_REQUEST["url"], "info");
 	 }//action
      $r_url=$_REQUEST["url"];
