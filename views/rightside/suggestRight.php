@@ -1,12 +1,10 @@
 <article id="title-news-suggest" class="side-box imagenSug">
 	<header><span><?=HOME_SUGGESTFRIENDS?></span></header>
 	<?php
-	//relleno de sugerencias, por rand
-	$friends=randSuggestionFriends('',12); //incremetar el 0 por si se necesita relleno
-	if($numfriends=mysql_num_rows($friends)!=0){
-		echo '<div class="suggest-friends">';
-		while($friend=mysql_fetch_assoc($friends)){
-		?>
+	$friends=randSuggestionFriends('',12); $display="";
+	if($numfriends=mysql_num_rows($friends)!=0){ $display='style="display:none"'; $coma="";$ids=""; ?>
+	<div class="suggest-friends">
+	<?php while($friend=mysql_fetch_assoc($friends)){ $ids.=$coma.$friend['id_friend']; $coma=","; ?>
 		<div class="contentSuggestFriends thisPeople">
 			<div class="divYourFriendsSuggest" >
 				<div class="divYourFriendsSuggestPhoto">
@@ -24,14 +22,12 @@
 				<div class="clearfix"></div>
 			</div>
 		</div>
-		<?php
-		}
-		echo '</div>';
-	}else{?>
-		<div class="messageInviteSuggest"><?=INVITED_SUGGETSFRIENDS?></div>
-		<div id="inviteSuggest"><a href="<?=base_url('friends?sc=3')?>"><?=GROUPS_MENUINVITEFRIENDS?></a></div>
 	<?php } ?>
+	<input type="hidden" name="no_id_s" value="<?=$ids?>">
+	</div>
 	<div id="seeMoreSuggest" ><a href="<?=base_url('friends?sc=2')?>"><?=USER_BTNSEEMORE.'...'?></a></div>
-	<div id="inviteSuggest" style="display:none"><a href="<?=base_url('friends?sc=3')?>"><?=GROUPS_MENUINVITEFRIENDS?></a></div>
+	<?php } ?>
+	<div class="messageInviteSuggest" <?=$display?> ><?=INVITED_SUGGETSFRIENDS?></div>
+	<div id="inviteSuggest" <?=$display?>><a href="<?=base_url('friends?sc=3')?>"><?=GROUPS_MENUINVITEFRIENDS?></a></div>
 	<div class="clearfix"></div>
 </article>
