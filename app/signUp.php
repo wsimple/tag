@@ -87,7 +87,7 @@
 				$('#msgRequired').html(lang.REQUIRED);
 				$('#msgCreatedAccount').html(lang.TEXT_TERMS+'&nbsp;<a href="#" id="getTerms" data-rel="dialog" data-transition="pop">'+lang.TEXT_LINKTERMS+'</a>');
 				$('#showFormIndividual').html('<span><img src="css/smt/signup_personal.png" width="20" height="20" style="position: relative;top: 2px"/></span> '+lang.JS_SIGNUP_INDIVIDUAL);
-				$('#showFormEnterprise').html('<span><img src="css/smt/signup_business.png"/></span> '+lang.JS_SIGNUP_ENTERPRISE);
+				$('#showFormEnterprise').html('<span><img src="css/smt/signup_business.png" width="20" height="20"/></span> '+lang.JS_SIGNUP_ENTERPRISE);
 				$('#name,#lastName').attr({
 					'autocapitalize':'word'
 				});
