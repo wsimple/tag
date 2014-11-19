@@ -1,6 +1,10 @@
 <?php
 global $_header_json;
 if(!$_header_json){
+	if(isset($_COOKIE['_DEBUG_']))
+		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+	else
+		error_reporting(0);
 	global $debug,$myId,$mobile,$_origin;
 	header('Access-Control-Allow-Methods: POST, GET');
 	header('Access-Control-Allow-Origin: '.($_origin!=''?$_origin:'http://localhost'));
@@ -35,7 +39,6 @@ if(!$_header_json){
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
 	if(!$_origin) include $config->relpath.'includes/languages.config.php';
 	if(!quitar_inyect()) die();
-//	error_reporting(E_ERROR);
 	$debug=isset($_REQUEST['debug'])?$_REQUEST['debug']:$_COOKIE['_DEBUG_'];
 	unset($path,$_head);
 }
