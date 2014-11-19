@@ -43,7 +43,7 @@
 						return txt;
 					}
 					function newsFormat(d){return(
-						'<li type="'+d.type+'" date="'+d.date+'" source="'+d.source+'">'+
+						'<li data-type="'+d.type+'" date="'+d.date+'" data-source="'+d.source+'">'+
 							'<a>'+
 								'<img src="'+d.photo+'"/>'+
 								'<p class="title">'+d.txt+'</p>'+
@@ -167,13 +167,18 @@
 						var out = $li.attr('date').match(/\w+(\s+\d+)?|\d+-\d+-\d+/)[0];
 						return out;
 					}
-				}).on('click','li[type]',function(){
-					var type=$(this).attr('type'),source=$(this).attr('source');
+				}).on('click','li[data-type]',function(){
+					var type=this.dataset.type,
+						source=this.dataset.source,
+						url='';
 					switch(type){
-						case 'tag': redir(PAGE['tag']+'?id='+source); break;
-						case 'usr': redir(PAGE['profile']+'?id='+source); break;
-						case 'product': redir(PAGE['detailsproduct']+'?id='+source); break;
+						case 'tag':url=PAGE['tag']+'?id='+source; break;
+						case 'usr':url=PAGE['profile']+'?id='+source; break;
+						case 'product':url=PAGE['detailsproduct']+'?id='+source; break;
 						default: alert(type);
+					}
+					if(url){
+						redir(url);
 					}
 				});
 				$('#pd-wrapper').ptrScroll({

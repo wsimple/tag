@@ -59,13 +59,6 @@
 }
 .ui-page .ui-content.smt-bg,.smt-bg{
 	background: #fff;
-/*	background: -moz-linear-gradient(left,  #ffffff 0%, #e0e1e1 100%);
-	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(100%,#e0e1e1));
-	background: -webkit-linear-gradient(left,  #ffffff 0%,#e0e1e1 100%);
-	background: -o-linear-gradient(left,  #ffffff 0%,#e0e1e1 100%);
-	background: -ms-linear-gradient(left,  #ffffff 0%,#e0e1e1 100%);
-	background: linear-gradient(to right,  #ffffff 0%,#e0e1e1 100%); 
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e0e1e1',GradientType=1 );*/
 	background-image:url('tbum/bg1.png'),url('tbum/bg2.png');
 	background-position:top center,top center;
 	-webkit-background-size:100% auto;
