@@ -32,6 +32,6 @@ $file=$_GET['file'];
 if($file){
 	$file2=preg_replace('/\.php/','.html',$file);
 	#generamos minify para app de cordova (normal)
-	generatefile($input_path.$file.'?minify',$output_path.$file2,$file);
+	generatefile($input_path.$file.'?minify&xdk',$output_path.$file2,$file);
 }
 ?>
