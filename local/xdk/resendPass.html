@@ -31,6 +31,8 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><div id="page-resend" data-role="page" data-cache="false">
 <div data-role="header" data-position="fixed" data-theme="f">
 <a id="bntBack" data-icon="arrow-l" href="#"> </a>
@@ -131,7 +133,7 @@ switch(data['error']){
 case 'noPasCoin': cont=lang.RESETPASS_ERROR1; break;
 case 'pasMenorleng': cont=lang.USERPROFILE_PASSWORD; break;
 }
-showMsgError(cont,'#password|#repassword'); 
+showMsgError(cont,'#password|#repassword');
 }
 }
 });
@@ -161,8 +163,8 @@ case 'emailInvalid': cont=lang.EMAIL_ERROR; break;
 case 'emailNotExist': cont=lang.EMAIL_ERROR_NE; break;
 case 'notEmail': cont=lang.FORGOT_CTRMSGERROR; break;
 }
-showMsgError(cont,'#frmResend input'); 
-} 
+showMsgError(cont,'#frmResend input');
+}
 }
 });
 }else showMsgError(lang.SIGNUP_CTRERROREMAIL,'#frmResend input');
