@@ -18,7 +18,7 @@
 		pageShow({
 			id:'page-topTags',
 			title:lang.TOPTAGS_TITLE,
-			backButton:true,
+			buttons:{showmenu:true,creation:true},
 			before:function(){
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);
@@ -31,6 +31,7 @@
 				);
 			},
 			after:function(){
+				$('#page-topTags .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 				//myAjax({url:DOMINIO+'controls/users/test.json.php',dataType:'json',data:{test:true}});
 				//if($.session('debug')) alert('cordova='+CORDOVA+', app='+$.session('app')+', debug='+$.session('debug'));
 				function noTagsTxt(val){

@@ -28,7 +28,7 @@
 	<script>
 		pageShow({
 			id:'#page-profile',
-			buttons:{back:true,home:true},
+			buttons:{showmenu:true,creation:true},
 			title:lang.USER_PROFILE,
 			before:function(){
 				function buttonText(id,text){ $(id).html(text+' (<b><loader/></b>)'); }
@@ -47,6 +47,7 @@
 				$('#pictureButton').html(lan(CORDOVA?'change picture':'edit thumbnail','ucw'));
 			},
 			after:function(){
+				$('#page-profile .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 				var code=$_GET['id']||$.local('code'),
 					me=(code==$.local('code'));//me=true si es el perfil del usuario loggeado
 				$('.fs-wrapper').jScroll({hScroll:false});
