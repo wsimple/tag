@@ -14,7 +14,7 @@
 		pageShow({
 			id:'#page-notif',
 			title:lang['NOTIFICATIONS']+'<span class="push-notifications" style="display:none;">0</span>',
-			buttons:{back:true,home:true},
+			buttons:{showmenu:true,creation:true},
 			before:function(){
 				//languaje
 				$('#labelGroups').html(lang.MAINMNU_GROUPS);
@@ -23,6 +23,7 @@
 				$('#searchPreferences').attr('placeholder',lang.PREFERENCES_HOLDERSEARCH);
 			},
 			after:function(){
+				$('#page-notif .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 				var $wrapper=$('#pd-wrapper'),
 					$info=$('#infoList'),
 					opc={

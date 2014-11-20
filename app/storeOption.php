@@ -26,7 +26,7 @@
                     }   
                 }else{ return lang['STORE']; }
 			},
-			backButton:true,
+			showmenuButton:true,
 			before:function(){
 				$('#gotoStore').html(lan('store','ucw'));
                 $('#gotoCart').html(lan('shopping cart','ucw'));
@@ -69,6 +69,7 @@
                 }
 			},
 			after:function(){
+                $('#page-lstStoreOption .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
                 $('#footer').on('click','li a',function(){
 					switch($(this).attr('id')){
                         case 'gotoStore':   redir(PAGE['storeCat']); break;

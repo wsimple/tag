@@ -204,6 +204,9 @@ function readTxt(url){
 					'<div class="menu">'+
 						'<div class="header">'+
 							'<span>'+lang.MESSAGE_WELCOME+',</span><br/><em>'+($.local('full_name')||'')+'</em>'+
+							'<br><div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-rapperels="span">'+
+								'<span class="loader"></span>'+
+							'</div>'+
 						'</div>'+
 						'<div class="container"></div>'+
 //						'<ul id="logout">'+
@@ -214,6 +217,7 @@ function readTxt(url){
 					'<div class="underPage"/>'+
 				'</div>'
 			);
+			$('#userPoints').html(lan('POINTS_USERS')+' <b><loader/></b>').css('font-weight', 'bold');;
 			// Menu actions
 			$('body')
 				.on('pagebeforeshow','.ui-page',function(){console.log('beforeshow');hideMenu();})
@@ -256,6 +260,37 @@ function readTxt(url){
 				$b.animate(
 					{left:'0px'},menuTime
 				);
+			});
+			$('#menu').on('click','#userPoints',function(){
+			// $('#userPoints').click(function(){
+				myDialog({
+					id:'msg-points',
+					open:true,
+					content:
+						'<p>'+lang.MAINMENU_POINTS_2+'</p>'+
+						'<p>'+lang.MAINMENU_POINTS_1+'</p>',
+					style:{
+						'margin':10,
+						'font-size':14
+					}
+				});
+			});
+			$.ajax({
+				type	:'GET',
+				url		:DOMINIO+'controls/users/getUserPoints.json.php',
+				dataType:'json',
+				success	:function(data){
+					var datos='',pts='';
+					pts=data.split(' ');
+					//alert(pts[1]);
+					if(pts[1]=='CONST_UNITMIL')
+						datos=pts[0]+' K';
+					else if(pts[1]=='CONST_UNITMILLON')
+						datos=pts[0]+' M';
+					else
+						datos=data;
+					$('#userPoints b').html(datos);
+				}
 			});
 			hideMenu();
 		}
