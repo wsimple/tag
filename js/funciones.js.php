@@ -1726,19 +1726,6 @@ function showAndHide(toShow,toHide,speed,order){
 		$(toHide).fadeIn(speed,function(){$(toShow).fadeOut(speed);});
 	}
 }
-
-function actionComments(post,func){
-	var URL='controls/comments/comment.json.php';
-	$.ajax({
-		type:'POST',
-		url:URL,
-		data:post,
-		success:function(){
-			if($.isFunction(func)) func.call();
-		}
-	});
-}
-
 (function(window){//funciones de comentarios
 	function showComments(comments){
 		if(!comments||!comments.length) return '';
