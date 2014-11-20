@@ -31,6 +31,8 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><div id="page-seekPreferences" data-role="page" data-cache="false">
 <div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
 <div data-role="content" class="list-content">
@@ -62,13 +64,14 @@ backButton:true,
 before:function(){
 //languaje
 $('#labelTypePrefe1').html(lang.PREFERENCES_WHATILIKE);
-$('#labelTypePrefe2').html(lang.PREFERENCES_WHATINEED);
-$('#labelTypePrefe3').html(lang.PREFERENCES_WHATIWANT);
+$('#labelTypePrefe2').html(lang.PREFERENCES_WHATIWANT);
+$('#labelTypePrefe3').html(lang.PREFERENCES_WHATINEED);
 $("#searchPreferences").attr('placeholder',lang.seek);
 $('.list-wrapper').jScroll({hScroll:false});
 },
 after:function(){
-getPreferences(1,'');//call
+if ($_GET['type']) $('#labelTypePrefe'+$_GET['type']).click();
+getPreferences(1);//call
 $('#group_preferences').on('click','li',function(){
 touchPreferences(this);
 });

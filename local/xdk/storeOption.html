@@ -31,6 +31,8 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><div id="page-lstStoreOption" data-role="page" data-cache="false" class="no-footer">
 <div data-role="header" data-position="fixed" data-theme="f">
 <h1></h1>
@@ -55,7 +57,7 @@ title:function(){
 if ($_GET['option']){
 switch($_GET['option']){
 case '1': return lang.STORE_SHIPPING; break;
-} 
+}
 }else{ return lang['STORE']; }
 },
 backButton:true,
@@ -64,7 +66,7 @@ $('#gotoStore').html(lan('store','ucw'));
 $('#gotoCart').html(lan('shopping cart','ucw'));
 if ($_GET['option']){
 switch($_GET['option']){
-case '1': 
+case '1':
 $('#buttonCheckOutOption').html(lang.STORE_SHOPPING_CHECKOUT);
 var formulario='<div id="scroller">'+
 '<div>'+
@@ -94,9 +96,9 @@ var formulario='<div id="scroller">'+
 $('#storeOption').before('<img class="bg" src="css/smt/bg.png" />').html(formulario).addClass('fs-wrapper');
 $('#lstStoreOption').remove();
 break;
-} 
-}else{ 
-$('#shopping').html(lang.STORE_SHOPPING_CART); 
+}
+}else{
+$('#shopping').html(lang.STORE_SHOPPING_CART);
 $('#storeOption').remove();
 }
 },
@@ -109,7 +111,7 @@ case 'gotoCart': redir(PAGE['shoppingCart']); break;
 });
 if ($_GET['option']){
 switch($_GET['option']){
-case '1': 
+case '1':
 $('.fs-wrapper').jScroll({hScroll:false});
 myAjax({
 type: 'GET',
@@ -123,8 +125,8 @@ if (!data['exitSC']){ redir(PAGE['storeCat']); }
 else{
 var timer;
 $('#country').append(data['datosCar']['npais']+data['datosCar']['option']);
-if (data['datosCar']['thome']){ 
-$('#home_code').append(data['datosCar']['thome']+data['datosCar']['option']); 
+if (data['datosCar']['thome']){
+$('#home_code').append(data['datosCar']['thome']+data['datosCar']['option']);
 $('#phoneHome').val(data['datosCar']['nhome']);
 }else { $('#home_code,#phoneHome').remove(); }
 $('#work_code').append(data['datosCar']['twork']+data['datosCar']['option']);
@@ -156,7 +158,7 @@ if ($('#home_code').val()=='' && $('#phoneHome').val()!=$('#home_code').val()){ 
 if ($('#work_code').val()=='' && $('#phoneWork').val()!=$('#work_code').val()){ string+=lang.USERPROFILE_LBLCBOAREASCODE+'---'+lang.USERPROFILE_LBLWORKPHONE+'<br/>'; }
 if ($('#mobile_code').val()=='' && $('#phoneMobile').val()!=$('#mobile_code').val()){ string+=lang.USERPROFILE_LBLCBOAREASCODE+'---'+lang.USERPROFILE_LBLMOBILEPHONE+'<br/>'; }
 }
-if (string!=''){ 
+if (string!=''){
 myDialog('#singleDialog','<div class="msgShipp"><strong>'+lang.STORE_NO_COMPLETE+'</strong><p>'+string+'<br/><strong>'+lang.STORE_NO_COMPLETE_2+'</strong></p></div>');
 }else{
 myAjax({
@@ -195,12 +197,12 @@ action:function(){ redir(PAGE['storeCat']); }
 }
 }
 });
-} 
+}
 });
 break;
-} 
-//selectFriendsDialog( 
-}else{ 
+}
+//selectFriendsDialog(
+}else{
 var info='#lstStoreOption';
 $(info).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
 $('.list-wrapper').jScroll({hScroll:false});

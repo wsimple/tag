@@ -2069,7 +2069,7 @@ function checkOutShoppingCart(get){
 	}
 	function showComment(comment){return(
 		'<li comment="'+comment.id+'"'+(comment.short?' class="more"':'')+'>'+
-			'<img src="'+(comment.photoUser||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="60" height="60" />'+
+			'<img src="'+(comment.photoUser||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="50" height="50" />'+
 			(comment.delete?''/*'<img src="css/smt/delete.png" class="del"/>'/**/:'')+
 			'<em class="ui-li-asid">'+comment.commentDate+'</em>'+
 			'<div class="text">'+
@@ -2103,9 +2103,10 @@ function checkOutShoppingCart(get){
 			data:opc,
 			url:DOMINIO+'controls/comments/list.json.php',
 			dataType:'json',
-			loader:action!='refresh',
+			loader:false,
 			success:function(data){
 				//if(!data) return;
+				console.log(data)
 				if(data.deleted){//si fue una eliminacion
 					opc.start--;
 					var $ul=protected.parent();
@@ -2141,7 +2142,7 @@ function checkOutShoppingCart(get){
 				if(action=='reload'){
 					$list.html(list+
 						'<li id="comment-line">'+
-							'<img src="'+(comment['userPic']||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="60" height="60" />'+
+							'<img src="'+(data.userPic||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="50" height="50" />'+
 							//'<textarea id="commenting" rows="3" placeholder="Comentar..." name="comment"></textarea>'+
 							'<input type="text" name="comment" id="commenting" />'+
 							//'<a id="send-comment">Enviar</a>'+

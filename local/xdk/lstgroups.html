@@ -31,6 +31,8 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><div id="page-lstGroups" data-role="page" data-cache="false" class="no-footer">
 <div data-role="header" data-position="fixed" data-theme="f">
 <h1 id="titleGroups">&nbsp;</h1>
@@ -114,17 +116,17 @@ out +=
 '<li group="'+pref['id']+'">'+
 '<img '+pref['photoi']+' class="ui-li-icon-group" width="30" height="30" />'+
 '<a class="linkGroup">'+pref['name']+'<br>'+
-'<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal">'+pref['privacidad']+', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+
-'<img src="'+pref['cphoto']+'" class="ui-li-icon-group" width="20" height="20" style="float: none; margin: 0px 5px;"/> '+lan('Category')+':'+pref['cname']+
+'<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal"><img src="'+pref['cphoto']+'" class="ui-li-icon-group" width="20" height="20" style="float: none; margin: 0px 5px;"/><br>'+pref['privacidad']+', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+
+' '+lan('Category')+':'+pref['cname']+
 '</div>'+
 '</a>'+
 '</li>';
-} 
+}
 if (limit!='') $('#group_title').append(out).listview('refresh');
 else $('#group_title').html(out).listview('refresh');
 $wrapper.jScroll('refresh');
 }
-}); 
+});
 }
 }
 });

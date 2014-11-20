@@ -5,6 +5,8 @@
 <intelxdk:version value="1.0"/>
 <intelxdk:cordova-cli version="3.3"/>
 <name>Tagbum</name>
+<description>It’s Social Media with Rewards!</description>
+<author>Tagamation</author>
 <content src="index.html"/>
 <access origin="*"/>
 <intelxdk:plugin intelxdk:name="App Security API" intelxdk:value="com.intel.security" intelxdk:version="1.0.3"/>
