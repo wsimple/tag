@@ -115,10 +115,14 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 		if(!opc.disabled){
 			arrayGet(comeFromAjax?$.session('get'):null);
 			var runBefore=function(){
+				if(opc.showmenuButton||(opc.buttons&&opc.buttons.showmenu))
+					$('[data-role="header"]',opc.id).last().prepend('<a href="#" class="showMenu" style="top:0; background:none; border:none;margin-top:0;left:0;box-shadow:0 0 0 ;"><span class="btn-menu showMenu"></span><span class="push-notifications button" style="display:none;">0</span></a>');
 				if(opc.backButton||(opc.buttons&&opc.buttons.back))
 					$('[data-role="header"]',opc.id).last().prepend('<a href="#" data-icon="arrow-l" onclick="goBack()">'+lan('Back')+'</a>');
 				if(opc.homeButton||(opc.buttons&&opc.buttons.home))
 					$('[data-role="header"]',opc.id).last().append('<div class="home" onclick="redir(PAGE[\'home\'])"></div>');
+				if(opc.creationButton||(opc.buttons&&opc.buttons.creation))
+					$('[data-role="header"]',opc.id).last().append('<div class="creation" onclick="redir(PAGE[\'newtag\'])"></div>');
 				if(typeof opc.before === 'function') opc.before.call(opc);
 				loginState(opc.login||Login,opc.loginError);
 			};

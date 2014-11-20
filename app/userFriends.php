@@ -15,7 +15,7 @@
 		pageShow({
 			id:'#page-friendUser',
 			title:lan('friends','ucw'),
-			buttons:{back:true,home:true},
+			buttons:{showmenu:true,creation:true},
 			before:function(){
 				$('#seek').html(lang.seek);
 				$('#friendsFooter').prepend(
@@ -25,6 +25,7 @@
 				);
 			},
 			after:function(){
+				$('#page-friendUser .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 				console.log($_GET['type'])
 				var opc={layer:'#friendsList',mod:$_GET['type']||'friends',get:"",user:$_GET['id_user']||''};
 				$('#friendsFooter li a[opc='+$_GET['type']+']').addClass('ui-btn-active'); //Estilo de li activo

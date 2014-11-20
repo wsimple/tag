@@ -41,6 +41,19 @@
 	-o-background-size:100% 100%;
 	background-size:100% 100%;
 }
+.ui-page .ui-header .creation{
+	position:absolute;
+	cursor:pointer;
+	top:0px;
+	right:0px;
+	width:40px;
+	height:40px;
+	margin:3px 5px 5px 5px;
+	background:url('smt/creation.png');
+	-webkit-background-size:100% 100%;
+	-o-background-size:100% 100%;
+	background-size:100% 100%;
+}
 .ui-page .ui-footer{
 	z-index:90;
 	bottom:0;
@@ -680,10 +693,15 @@
 }
 #menu .header,#myMenu .header{
 	top:0;
-	padding:15px;
-	width:135px;
+	padding: 5px 0px 0px 0px;
+	width:145px;
 	height:40px;
 }
+
+#menu .header span,#myMenu .header span,#menu .header em,#myMenu .header em{
+	padding-left: 10px;
+}
+
 #menu .container,#myMenu .container{ top:70px;bottom:47px; }
 #menu ul,#myMenu ul{
 	position:absolute;
@@ -1029,11 +1047,15 @@ loader.s32,.loader.s32{
 
 #userPoints{
 	background:#77c574;
-	height:18px;
+	height:15px;
 	font-size:13px;
-	padding:8px;
+	padding: 3px 10px;
 	margin-top:3px;
 	cursor:pointer;
+	width: 100%;
+	text-align: center;
+	text-shadow: none;
+	color: #fff;
 }
 
 .ui-box-login{

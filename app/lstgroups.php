@@ -18,7 +18,7 @@
 		pageShow({
 			id:'#page-lstGroups',
 			title:lang.MAINMNU_GROUPS,
-			backButton:true,
+			showmenuButton:true,
 			before:function(){
 				//languaje
 				$('#labelGroups').html(lang.MAINMNU_GROUPS);
@@ -27,6 +27,7 @@
 				$('#searchPreferences').attr('placeholder', lang.PREFERENCES_HOLDERSEARCH);
 			},
 			after:function(){
+				$('#page-lstGroups .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 				var el=$('#group_title'),$wrapper=$('#pd-wrapper',this.id);
 				//getting group title
 				//var action	= $_GET['action']||2;

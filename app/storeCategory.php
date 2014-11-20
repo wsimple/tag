@@ -13,7 +13,7 @@
 		pageShow({
 			id:'#page-lstStoreCategory',
 			title:lang.STORE_CATEGORYS,
-			backButton:true,
+			showmenuButton:true,
 			before:function(){
 				$('#buttonShopping').html(lang.STORE_CART);
 				$('#cart-footer ul').html(
@@ -25,6 +25,7 @@
 				);
 			},
 			after:function(){
+				$('#page-lstStoreCategory .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 				var el='#categotyList';
 				$(el).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
 				$('.list-wrapper').jScroll({hScroll:false});

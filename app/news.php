@@ -14,7 +14,7 @@
 		pageShow({
 			id:'#page-lstGroups',
 			title:lang['NEWS'],
-			buttons:{back:true,home:true},
+			buttons:{showmenu:true,creation:true},
 			before:function(){
 				//languaje
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
@@ -23,10 +23,10 @@
 				$('#labelGroups').html(lang.MAINMNU_GROUPS);
 				$('#labelMyGroups').html(lang.GROUPS_MYGROUPS);
 				$('#btnGroupCreated').html(lang.GROUPS_TITLEWINDOWSNEW);
-
 				$('#searchPreferences').attr('placeholder', lang.PREFERENCES_HOLDERSEARCH);
 			},
 			after:function(){
+				$('#page-lstGroups .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 				var action={refresh:{refresh:true},more:{}},$info=$('#infoList'),on={};
 				function getNews(action,opc){
 					function peopleFormat(usr,num){
