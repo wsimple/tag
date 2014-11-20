@@ -2106,13 +2106,13 @@ function checkOutShoppingCart(get){
 				$list.find('.ui-li-divider').remove();
 				if(action=='reload'){
 					$list.html(list+
-						'<li id="comment-line">'+
+						'<li id="comment-line"><form>'+
 							'<img src="'+(data.userPic||'css/tbum/usr.png')+'" class="ui-li-thumb userBR" width="50" height="50" />'+
 							//'<textarea id="commenting" rows="3" placeholder="Comentar..." name="comment"></textarea>'+
 							'<input type="text" name="comment" id="commenting" />'+
 							//'<a id="send-comment">Enviar</a>'+
-							'<input id="send-comment" type="submit" value="Enviar"/>'+
-						'</li>'
+							'<input id="send-comment" type="submit" value="Enviar" class="invisible"/>'+
+						'</form></li>'
 					).slideDown();
 					//$('#send-comment').button();
 				}else if(action=='refresh'||action=='insert'){
