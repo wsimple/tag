@@ -1396,6 +1396,16 @@ loader.s32,.loader.s32{
 .msgShipp, .msgShipp + div{ text-align: center; }
 .msgShipp p{ text-align: left; }
 .dnone{ display:none; }
+.invisible{
+	width:0px !important;
+	height:0px !important;
+	margin:0px !important;
+	padding:0px !important;
+	border:none !important;
+	visibility:hidden !important;
+	/*display:inline-block !important;*/
+	/*overflow:hidden !important;*/
+}
 
 /*Estilos phone contacts APP*/
 .status-invitation{
