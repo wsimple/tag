@@ -88,6 +88,8 @@ include_once('../header.json.php');
 			}
 			unset($ini);
 		}
+		$res['userPic']=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['pic'],'img/users/default.png');
+
 		$comment['comment']=strToLink($comment['comment']);
 		$res['list'][]=$comment;
 	}

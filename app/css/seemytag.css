@@ -325,6 +325,9 @@
 .tag-container [tag] menu{
 	width:20.3125em;/*650px;*/
 }
+.tag-container [tag] menu{
+	width: 100%;/*Fixed;*/
+}
 .tag-container.clean [tag],
 .tag-container .tagLink,.tag-container [tag] img.bg,.tag-container [tag] div.bg,.tag-container [tag] .video,
 .tag-container [tag] .minitag,.tag-container [tag] .tag,.tag-container [tag] video{
@@ -1504,7 +1507,7 @@ input.password-field {
 }
 .tag-container [tag] menu ul{
 	float:right;
-	margin: 0 8% 0 0;
+	margin: 0 1% 0 0;
 	padding:0;
 	cursor:pointer;
 }
