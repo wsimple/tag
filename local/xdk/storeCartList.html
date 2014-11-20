@@ -31,6 +31,24 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+<!-- Facebook Conversion Code for Tagbum -->
+<script>(function() {
+var _fbq = window._fbq || (window._fbq = []);
+if (!_fbq.loaded) {
+var fbds = document.createElement('script');
+fbds.async = true;
+fbds.src = '//connect.facebook.net/en_US/fbds.js';
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(fbds, s);
+_fbq.loaded = true;
+}
+})();
+window._fbq = window._fbq || [];
+window._fbq.push(['track', '6018767308743', {'value':'0.00','currency':'USD'}]);
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6018767308743&amp;cd[value]=0.00&amp;cd[currency]=USD&amp;noscript=1" /></noscript>
+<!-----------------------------End facebook ---------------------------->
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><div id="page-lstStoreCarList" data-role="page" data-cache="false">
 <div data-role="header" data-position="fixed" data-theme="f">
 <h1></h1>
@@ -75,7 +93,7 @@ getCartList(msgShipp);
 $('#buttonCheckOut').click(function(){
 if ($('#dollarApp').val()=='si'){ myDialog('#singleDialog',lang.STORE_NOT_CHET_DOLLAR);}
 else {
-if ($('#productApp').val()=='si'){ 
+if ($('#productApp').val()=='si'){
 if (msgShipp.msg!=''){
 myDialog({
 id:'defaultDialog',
@@ -92,7 +110,7 @@ action:'close'
 }]
 });
 }else{ redir(PAGE['storeOption']+'?option=1'); }
-}else{ checkOutShoppingCart(); } 
+}else{ checkOutShoppingCart(); }
 }
 });
 $('#footer').on('click','li a',function(){
@@ -113,7 +131,7 @@ success :function(data){
 var out='';
 if (data['datosCar'][0]['name']){
 msgShipp.msg=data['msgShipp'];
-out=bodyCart(data); 
+out=bodyCart(data);
 $('#cartList').html(out).listview('refresh');
 var myselect = $( "select.cant-product" );
 if (myselect){
@@ -135,11 +153,15 @@ action:function(){ deleteAllCar(); }
 name:'No',
 action: 'close'
 }]
-}); 
+});
 }else{ myDialog('#singleDialog','<div><strong>'+lang.STORE_NO_SC+'</strong></div>'); }
 });
 if (data['bodyEmerg']){ myDialog('#singleDialog',data['bodyEmerg']); }
-}else{ myDialog('#singleDialog','<div><strong>'+lang.STORE_NO_SC+'</strong></div>'); }
+}else{
+myDialog('#singleDialog','<div><strong>'+lang.STORE_NO_SC+'</strong></div>');
+$('#buttonCheckOut,#footer li.ui-block-c').remove();
+$('#footer ul li').css('width','50%');
+}
 }
 });
 }
