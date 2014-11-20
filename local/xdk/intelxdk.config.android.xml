@@ -10,6 +10,9 @@
 <content src="index.html"/>
 <access origin="*"/>
 <icon platform="android" src="app-icon/152.png" density="ldpi" width="36" height="36"/>
+<icon platform="android" src="app-icon/48.png" density="mdpi" width="48" height="48"/>
+<icon platform="android" src="app-icon/96.png" density="xhdpi" width="96" height="96"/>
+<icon platform="android" src="app-icon/72.png" density="hdpi" width="72" height="72"/>
 <intelxdk:plugin intelxdk:name="App Security API" intelxdk:value="com.intel.security" intelxdk:version="1.0.3"/>
 <intelxdk:plugin intelxdk:name="Accelerometer" intelxdk:value="intel.xdk.accelerometer"/>
 <intelxdk:plugin intelxdk:name="Audio" intelxdk:value="intel.xdk.audio"/>
@@ -44,5 +47,8 @@
 <intelxdk:plugin intelxdk:name="Device" intelxdk:value="org.apache.cordova.device" intelxdk:version="0.2.9"/>
 <preference name="android-minSdkVersion" value="10"/>
 <preference name="android-targetSdkVersion" value="19"/>
+<preference name="android-installLocation" value="auto"/>
+<preference name="android-signed" value="false"/>
+<preference name="Orientation" value="landscape"/>
 <preference name="android-permission" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzZ2ypVLVh9JQDNwuZEoEzplBo/tYejlzvsOXOT/7Da2+FZ8D8pWjkgkacaB91iy1MWovdcNKCi5Xaw/IzFJZUbecYNwtbyWokyu6huFaxC2NXGPh82TinmGXcbZZfZ0/o1/U5sAmA9OhT0blNJzB5MlNg/sSLIKyLKoc2mlps/YokcM1SfDC92ndjniA2+bSg6yeEIea6YOe5QLpc4sXxxgh3F+WmtCMd9pqcUQNlZOwQfLXfxNdplc+Am5s3WZmNzdgXJUvjmLAyYOB7Ht/lXKM87JSo7fPGFqnud8luqNTDHMtVZtNQiFQES5NAqcOoX3o9YnDE9FiWA1fwHYUYwIDAQAB"/>
 <!--creationInfo:{"src":"","projectTypeName":"com.intel.xdk.projecttype.jsapp"}--></widget>

@@ -50,29 +50,30 @@ if(!( #validamos si el usuario tiene permitido ingresar a la app
 	<script src="js/core/colorPicker.js"></script>
 <?php if(isset($_GET['minify'])){
 ?>	<script src="js/min.js"></script>
+
 <?php }else{
-?>	<script src="js/path.js"></script>
+?>
+	<!-- Facebook Conversion Code for Tagbum -->
+	<script>(function() {
+	  var _fbq = window._fbq || (window._fbq = []);
+	  if (!_fbq.loaded) {
+	    var fbds = document.createElement('script');
+	    fbds.async = true;
+	    fbds.src = '//connect.facebook.net/en_US/fbds.js';
+	    var s = document.getElementsByTagName('script')[0];
+	    s.parentNode.insertBefore(fbds, s);
+	    _fbq.loaded = true;
+	  }
+	})();
+	window._fbq = window._fbq || [];
+	window._fbq.push(['track', '6018767308743', {'value':'0.00','currency':'USD'}]);
+	</script>
+	<!-----------------------------End facebook ---------------------------->
+	<script src="js/path.js"></script>
 	<script src="js/console.js"></script>
 	<script src="js/device.js"></script>
 	<script src="js/base.js"></script>
 	<script src="js/funciones.js"></script>
 <?php } ?>
-<!-- Facebook Conversion Code for Tagbum -->
-<script>(function() {
-  var _fbq = window._fbq || (window._fbq = []);
-  if (!_fbq.loaded) {
-    var fbds = document.createElement('script');
-    fbds.async = true;
-    fbds.src = '//connect.facebook.net/en_US/fbds.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(fbds, s);
-    _fbq.loaded = true;
-  }
-})();
-window._fbq = window._fbq || [];
-window._fbq.push(['track', '6018767308743', {'value':'0.00','currency':'USD'}]);
-</script>
-<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6018767308743&amp;cd[value]=0.00&amp;cd[currency]=USD&amp;noscript=1" /></noscript>
-<!-----------------------------End facebook ---------------------------->
 <meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><?php if(!isset($_GET['minify']))include_once("analyticstracking.php"); ?>
