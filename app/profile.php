@@ -156,8 +156,10 @@
 					url:DOMINIO+'controls/users/people.json.php?action=specific&code',
 					data:{uid:code},
 					success:function(data){
-						console.log('success '+data['datos'][0]['username']);
-						loadProfile(data['datos'][0]);
+						if (!data['error']){
+							console.log('success '+data.datos[0]['username']);
+							loadProfile(data.datos[0]);
+						}
 					},
 					error:function(){
 						console.log('error');
