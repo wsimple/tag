@@ -31,6 +31,8 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><div id="page-lstStore" data-role="page" data-cache="false" class="no-footer no-header">
 <div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
 <div data-role="content" class="list-content">
@@ -77,7 +79,7 @@ $('.list-wrapper').jScroll('refresh');
 });
 $(layer).on('click','li[idPro]',function(){
 redir(PAGE['detailsproduct']+'?id='+$(this).attr('idPro'));
-}); 
+});
 $('#storeNav').on('click','li a[opc]',function(){
 switch($(this).attr('opc')){
 case '1': redir(PAGE['storeCat']); break;

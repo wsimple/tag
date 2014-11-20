@@ -31,6 +31,8 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><div id="page-profile" data-role="page" data-cache="false">
 <div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
 <div data-role="content" data-theme="d" class="no-footer">
@@ -132,7 +134,7 @@ if(data['type']=='0')
 txt+=(birth!='none'?'<div><strong>'+lang.PROFILE_BIRTHDATE+':</strong> '+birth+'</div>':'');
 else
 txt+=(data['birthday']!='none'?'<div><strong>'+lang.FOUNDATION_DATE+':</strong> '+data['birthday']+'</div>':'');
-txt+=(data['country']!='none'?'<div><strong>'+lan('From')+':</strong> '+data['country']+'</div>':'');
+txt+=(data['country'] && data['country']!='none' && data['country']!=''?'<div><strong>'+lan('From')+':</strong> '+data['country']+'</div>':'');
 $('#userInfo').html(txt);
 $('.fs-wrapper').jScroll('refresh');
 $('#globalButtons').on('click','div',function(){

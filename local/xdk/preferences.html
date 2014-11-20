@@ -31,6 +31,8 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><script> var opc={type:1,dato:[]}; </script>
 <div id="page-preferences" data-role="page" data-cache="false">
 <div data-role="header" data-position="fixed" data-theme="f">
@@ -64,7 +66,7 @@
 <div data-role="navbar">
 <ul>
 <li><a id="labelChoosePre" class="ui-btn-active" onclick="redir(PAGE['preferences']);" >&nbsp;</a></li>
-<li><a id="labelSeekPre" onclick="redir(PAGE['seekpreferences']);">&nbsp;</a></li>
+<li><a id="labelSeekPre" onclick="redir(PAGE['seekpreferences']+'?type='+$('#typePre').val());">&nbsp;</a></li>
 <li><a id="labelMyPrefe" onclick="preferencesUsers();"></a></li>
 </ul>
 </div>
@@ -111,7 +113,7 @@ success :function(data){
 if (data['dato']){
 opc.dato[1]=configArray(data['dato'][1],true);
 opc.dato[2]=configArray(data['dato'][2],true);
-opc.dato[3]=configArray(data['dato'][3],true); 
+opc.dato[3]=configArray(data['dato'][3],true);
 }else opc.dato=new Array("","","","");
 $('#txtPrefe').val(opc.dato[opc.type]);
 $("#btnPreferences_update").show();
@@ -150,7 +152,7 @@ buttons:{
 'Close':function(){ this.close(); }
 }
 });
-else 
+else
 myDialog({
 id:'#prefeExitoDialog',
 content:'<br/>'+lang.TAG_DELETEDERROR+'<br/>',
