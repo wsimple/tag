@@ -31,6 +31,8 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><div id="page-reportTag" data-role="page" data-cache="false">
 <div data-role="header" data-position="fixed" data-theme="f">
 <h1></h1>
@@ -76,12 +78,13 @@ $('#txt3').html('<strong>'+lang.ACTIONSTAGS_REPORTTAG_TITLESELECT+'</strong>');
 },
 after:function(){
 $('#id_tag').val($_GET['id']);
+console.log($('#id_tag').val($_GET['id']))
 //$('#tagReport').html(showTag({'idTag':$('#id_tag').val()}));
 $('#fs-wrapper').jScroll({hScroll:false});
 $('#btnReport').click(function(){
 myAjax({
 type : 'POST',
-url : DOMINIO+'controls/tags/actionsTags.controls.php?action=8&tag='+$('#id_tag').val()+'&type_report='+md5($('#selectReport option:selected').val()),
+url : DOMINIO+'controls/tags/actionsTags.controls.php?action=8&tag='+$_GET['id']+'&type_report='+md5($('#selectReport option:selected').val()),
 dataType: 'html',
 success : function (data){
 myDialog({

@@ -31,6 +31,8 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><div id="page-search" data-role="page" data-cache="false">
 <div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
 <div data-role="content" >
@@ -70,7 +72,7 @@ $(this).slideUp();
 getSearch(opc);
 }).on('click','li[hash]',function(){
 redir(PAGE['tagslist']+'?current=hash&hash='+$(this).attr('hash').replace('#','%23').replace('<br>',' '));
-}); 
+});
 $('#resultList').on('collapse','div[data-role="collapsible"]',function(){
 $('.fs-wrapper').jScroll('refresh');
 });
@@ -146,7 +148,7 @@ break;
 console.log(pref['privacidad']);
 outG +=
 '<li group="'+pref['id']+'">'+
-'<img src="'+pref['icon']+'" class="ui-li-icon-group" width="16" height="16" />'+
+'<img src="'+pref['icon']+'" class="ui-li-icon-group" width="19" height="19" />'+
 '<a class="linkGroup">'+pref['name']+'<br>'+
 '<div style="float: left; margin-left: 0px; font-size: 10px; text-align: left;font-weight: normal">'+pref['privacidad']+', '+lang.GROUPS_MEMBERS+' ('+pref['num_members']+'), '+lang.GROUPS_CREATED+' '+pref['fecha']+'</div>'+
 '</a>'+
@@ -163,7 +165,7 @@ out+= '<div data-role="collapsible">'
 +'<h3>'+lan('hashTags','ucw')+'</h3>'
 +'<ul id="resultSH" data-role="listview" data-filter="true" data-divider-theme="e">';
 for(i in data['hash']) if(i){
-pref = data['hash'][i]; 
+pref = data['hash'][i];
 outH +=
 '<li hash="'+pref+'">'+
 pref+
@@ -200,7 +202,7 @@ $('#resultList').html(out).collapsibleset();
 if (outP!=''){ $('#resultList #resultSP').html(outP).listview(); }
 if (outG!=''){ $('#resultList #resultSG').html(outG).listview(); }
 if (outH!=''){ $('#resultList #resultSH').html(outH).listview(); }
-if (outS!=''){ $('#resultList #resultSS').html(outS).listview(); } 
+if (outS!=''){ $('#resultList #resultSS').html(outS).listview(); }
 }else if(opc.limit=='more'){
 if (outP!=''){ $('#resultList #resultSP').append(outP).listview('refresh'); }
 if (outG!=''){ $('#resultList #resultSG').append(outG).listview('refresh'); }
@@ -213,7 +215,7 @@ myDialog('#singleDialog',lang.noresultsearch_ini+' "'+opc.srh+'" '+lang.noresult
 }
 
 }
-}); 
+});
 }
 if (srh!=''){ getSearch(opc);
 }else{ myDialog('#singleDialog',lang.noresultsearch_end); }

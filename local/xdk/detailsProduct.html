@@ -31,6 +31,8 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><div id="page-detailsProducts" data-role="page" data-cache="false" class="no-footer no-header">
 <div data-role="header" data-position="fixed" data-theme="f">
 <h1></h1>
@@ -101,14 +103,14 @@ product=data['prod'][0];
 category=product['category'];
 idcategory=product['mid_category'];
 if(product['typeVideo']){
-var href='',$video=$('.tag-buttons #'+product['typeVideo']).fadeIn('slow'); 
+var href='',$video=$('.tag-buttons #'+product['typeVideo']).fadeIn('slow');
 if(openVideo){ href='nohref="'+product['video']+'"';
 }else{ href='href="'+product['video']+'" target="_blank"'; }
-video='<a id="'+product['typeVideo']+'" '+href+' class="video" data-ajax="false"></a>'; 
+video='<a id="'+product['typeVideo']+'" '+href+' class="video" data-ajax="false"></a>';
 }
 if(product['stock']>0){
 if(product['idse']!==product['id_user']){
-$('#buttonShopping').css('display','inline-block'); 
+$('#buttonShopping').css('display','inline-block');
 }
 }
 outLi+=
@@ -124,7 +126,7 @@ photo=product['photo'][i];
 outLi+='<div photo="'+photo['pic']+'" class="pic" style="background-image:url(\''+photo['pic']+'\');"></div>';
 }
 }else{ outLi+='<img src ="'+product['photo']+'" />'; }
-if (data['hash']){ 
+if (data['hash']){
 for (var jj=0;jj<data['hash'].length;jj++){
 hashS+='<a href="#" hashT="'+data['hash'][jj]+'">'+data['hash'][jj]+'</a>&nbsp;&nbsp;';
 }

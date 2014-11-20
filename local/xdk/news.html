@@ -31,6 +31,8 @@
 <script src="js/core/farbtastic.js"></script>
 <script src="js/core/colorPicker.js"></script>
 <script src="js/min.js"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><div id="page-lstGroups" data-role="page" data-cache="false" class="no-footer">
 <div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
 <div data-role="content" class="list-content">
@@ -75,7 +77,7 @@ txt+=(i<len-2)?', ':' [_AND_] ';
 return txt;
 }
 function newsFormat(d){return(
-'<li type="'+d.type+'" date="'+d.date+'" source="'+d.source+'">'+
+'<li data-type="'+d.type+'" date="'+d.date+'" data-source="'+d.source+'">'+
 '<a>'+
 '<img src="'+d.photo+'"/>'+
 '<p class="title">'+d.txt+'</p>'+
@@ -127,7 +129,7 @@ friends:friends,
 txt:data['txt'],
 tag:'[_TAG_]'
 });
-out+=newsFormat(d); 
+out+=newsFormat(d);
 break;
 case 'usr':
 d.source=info['keyUser'];
@@ -199,13 +201,18 @@ autodividersSelector: function ( $li ) {
 var out = $li.attr('date').match(/\w+(\s+\d+)?|\d+-\d+-\d+/)[0];
 return out;
 }
-}).on('click','li[type]',function(){
-var type=$(this).attr('type'),source=$(this).attr('source');
+}).on('click','li[data-type]',function(){
+var type=this.dataset.type,
+source=this.dataset.source,
+url='';
 switch(type){
-case 'tag': redir(PAGE['tag']+'?id='+source); break;
-case 'usr': redir(PAGE['profile']+'?id='+source); break;
-case 'product': redir(PAGE['detailsproduct']+'?id='+source); break;
+case 'tag':url=PAGE['tag']+'?id='+source; break;
+case 'usr':url=PAGE['profile']+'?id='+source; break;
+case 'product':url=PAGE['detailsproduct']+'?id='+source; break;
 default: alert(type);
+}
+if(url){
+redir(url);
 }
 });
 $('#pd-wrapper').ptrScroll({
