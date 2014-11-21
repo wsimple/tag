@@ -1,7 +1,7 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-start" data-role="page" class="no-header no-footer">
 	<div data-role="content" class="smt-bg smt-center"><div class="_tt">
-<?php if(isset($_GET['xdk'])){ ?>
+<?php if(false&&isset($_GET['xdk'])){ ?>
 		<div id="xdk-test" style="position:absolute;top:0;left:0;">XDK</div>
 <?php } ?>
 		<div class="ui-box-home _tc">
