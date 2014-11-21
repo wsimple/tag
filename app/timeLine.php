@@ -114,6 +114,7 @@
 						val=this.value;
 						priv=val=='out'?'&type=outbox':'';
 						opc.get=priv;
+						opc.class=val;
 						$wrapper.ptrScroll('reload');
 					}
 				});
