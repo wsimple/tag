@@ -88,9 +88,9 @@ if (quitar_inyect()){
 				$profile_image_url=true;
 				//thumb image
 				$photo='img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo'];
-				echo $photo."<br>";
+				// echo $photo."<br>";
 				if(($thumb=generateThumbPath($photo,true,''))!=''){
-					echo $thumb."<br>";
+					// echo $thumb."<br>";
 					$is=getimagesize(FILESERVER.$photo);
 					if($is[0]>$is[1]){
 						$x=$is[0]-$is[1];
@@ -105,7 +105,7 @@ if (quitar_inyect()){
 					FTPupload(end(explode('img/',$thumb)));
 					echo '00000';
 				}
-				echo 'aaaaa';
+				// echo 'aaaaa';
 			}else{
 				die('ERROR_UPLOADING_PROFILE_PICTURE');
 				echo 'bbbbb';
@@ -307,7 +307,8 @@ if (quitar_inyect()){
 	}elseif($updateLanguage){
 		echo 'updateLanguage';
 	}elseif($profile_image_url){
-		if(file_exists('img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo'])){
+		
+		if(fileExists($config->img_server.'img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo'])){
 			echo 'CROP';
 		}else{
 			$_SESSION['ws-tags']['ws-user']['updatePicture']	= 0;
