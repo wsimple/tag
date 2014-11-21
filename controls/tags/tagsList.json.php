@@ -62,7 +62,7 @@ function tagsList_json($data,$mobile=false){
 	';
 	$order='t.id DESC';
 	if($myId!=''){//si hay usuario logeado
-		$where=' t.id NOT IN (SELECT id_tag FROM tags_report WHERE id_user_report="'.$myId.'") ';//AND status = "8") ';
+		$where=' t.source NOT IN (SELECT id_tag FROM tags_report WHERE id_user_report="'.$myId.'") ';//AND status = "8") ';
 		if($res['date']!='') $where.=' AND t.date'.($refresh?'>':'<=').'"'.$res['date'].'" ';
 		//amigos
 		$friends=CON::query('SELECT id_user FROM users_links WHERE id_user = ?',array($uid));
