@@ -184,6 +184,7 @@
 				});
 				<?php if($current=='privateTags'){ ?>
 				$('#timeline-inboxOutbox').on('click','input',function() {
+					opc.type = '';
 					var id=this.id;// checked="checked"
 					$(id).attr('checked','checked');
                     opc.pCont++;
@@ -193,6 +194,7 @@
 					}else{
 					    opc.pBox='p-outbox';
 						opc.get = '&typeBox=outbox';
+						opc.type = 'out';
 					}
                     delete opc.on;
 					updateTags('reload',opc);

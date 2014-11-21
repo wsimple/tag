@@ -865,7 +865,7 @@ function playComment(tagtId, opc){
 								if($tag.length>0)
 									if($remove) $remove.add($tag); else $remove=$tag;
 							}
-							tags+=showTags(data.tags,opc.class);
+							tags+=showTags(data.tags,opc.type);
 							if($remove) $remove.remove();
 							if(action=='more')
 								$(layer).append(tags);
