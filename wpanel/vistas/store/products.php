@@ -42,7 +42,7 @@
 							fclose($fp);
 						}// is_dir
 						if (getRedime($_FILES['photo'.$i][tmp_name], $path.$photo, 650)){
-							uploadFTP($photo,"store","../",1,$folder);
+							FTPupload("store/$photo");
 							//insert
 							mysql_query("
 								INSERT INTO store_products_picture SET
