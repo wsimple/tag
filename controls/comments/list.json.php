@@ -12,6 +12,7 @@ include_once('../header.json.php');
 	$action=$_REQUEST['action'];
 	$res=array();
 	$res['action']=$action;
+	$res['userPic']=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['pic'],'img/users/default.png');
 	if($action=='insert'||$action=='del'){
 		include 'comment.json.php';
 	}
@@ -88,7 +89,6 @@ include_once('../header.json.php');
 			}
 			unset($ini);
 		}
-		$res['userPic']=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['pic'],'img/users/default.png');
 
 		$comment['comment']=strToLink($comment['comment']);
 		$res['list'][]=$comment;
