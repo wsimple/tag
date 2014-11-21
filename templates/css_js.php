@@ -32,7 +32,7 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 <?php if($minify){ ?>
 	<link href="min/?g=css" rel="stylesheet"/>
 	<script src="min/?g=js" charset="utf-8"></script>
-	<script src="http://www.youtube.com/iframe_api"></script>
+	<script src="https://www.youtube.com/iframe_api"></script>
 	<script src="min/?f=js/funciones_<?=$lang['langcode']?>.js" charset="utf-8"></script>
 <?php }else{
 	$cssJsLocal= (require 'min/groupsConfig.php');
