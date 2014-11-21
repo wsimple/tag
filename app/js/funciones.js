@@ -217,7 +217,6 @@ function readTxt(url){
 					'<div class="underPage"/>'+
 				'</div>'
 			);
-			$('#userPoints').html(lan('POINTS_USERS')+' <b><loader/></b>').css('font-weight', 'bold');;
 			// Menu actions
 			$('body')
 				.on('pagebeforeshow','.ui-page',function(){console.log('beforeshow');hideMenu();})
@@ -261,37 +260,40 @@ function readTxt(url){
 					{left:'0px'},menuTime
 				);
 			});
-			$('#menu').on('click','#userPoints',function(){
-			// $('#userPoints').click(function(){
-				myDialog({
-					id:'msg-points',
-					open:true,
-					content:
-						'<p>'+lang.MAINMENU_POINTS_2+'</p>'+
-						'<p>'+lang.MAINMENU_POINTS_1+'</p>',
-					style:{
-						'margin':10,
-						'font-size':14
+			if (isLogged()){
+				$('#userPoints').html(lan('POINTS_USERS')+' <b><loader/></b>').css('font-weight', 'bold');
+				$('#menu').on('click','#userPoints',function(){
+				// $('#userPoints').click(function(){
+					myDialog({
+						id:'msg-points',
+						open:true,
+						content:
+							'<p>'+lang.MAINMENU_POINTS_2+'</p>'+
+							'<p>'+lang.MAINMENU_POINTS_1+'</p>',
+						style:{
+							'margin':10,
+							'font-size':14
+						}
+					});
+				});
+				$.ajax({
+					type	:'GET',
+					url		:DOMINIO+'controls/users/getUserPoints.json.php',
+					dataType:'json',
+					success	:function(data){
+						var datos='',pts='';
+						pts=data.split(' ');
+						//alert(pts[1]);
+						if(pts[1]=='CONST_UNITMIL')
+							datos=pts[0]+' K';
+						else if(pts[1]=='CONST_UNITMILLON')
+							datos=pts[0]+' M';
+						else
+							datos=data;
+						$('#userPoints b').html(datos);
 					}
 				});
-			});
-			$.ajax({
-				type	:'GET',
-				url		:DOMINIO+'controls/users/getUserPoints.json.php',
-				dataType:'json',
-				success	:function(data){
-					var datos='',pts='';
-					pts=data.split(' ');
-					//alert(pts[1]);
-					if(pts[1]=='CONST_UNITMIL')
-						datos=pts[0]+' K';
-					else if(pts[1]=='CONST_UNITMILLON')
-						datos=pts[0]+' M';
-					else
-						datos=data;
-					$('#userPoints b').html(datos);
-				}
-			});
+			}
 			hideMenu();
 		}
 	}
