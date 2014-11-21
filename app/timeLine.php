@@ -25,8 +25,8 @@
 			
 		</div>
 		<h1><span class="loader"></span></h1>
-		<div style="position:absolute;top:0px;right:0;padding:0 5px;">
-			<a href="#" onclick="redir(PAGE['newtag'])"><img src="css/smt/creation.png" /></a>
+		<div class="creation" id="creationTag">
+			<a href="#" onclick="redir(PAGE['newtag'])"></a>
 		</div>
 		<<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
 			<span class="loader"></span>
@@ -73,15 +73,16 @@
 				);
 			},
 			after:function(){
+				// alert(active_tab);
 				if (active_tab != 'timeLine') {
 					$('#tl-footer ul li a').removeClass('ui-btn-active');
 					$('#tl-footer ul li a[opc='+active_tab+']').addClass('ui-btn-active');
 					if(active_tab=='privateTags'){
 						$('#private-select').show();
-						// $('#userPoints').hide();
+						$('.creation').hide();
 					}else{
 						$('#private-select').hide();
-						// $('#userPoints').show();
+						$('.creation').show();
 					}
 				}
 				var opc={ 
@@ -118,17 +119,18 @@
 				});
 				$('#tl-footer ul').on('click','a',function(){
 					var c=$(this).attr('opc');
+					// alert(c);
 					$.local('timeLine', {'last_tab':c});
 					if(opc.current!=c){
 						opc.current=c;
 						if(opc.current=='privateTags'){
 							opc.get=priv;
 							$('#private-select').show();
-							// $('#userPoints').hide();
+							$('#creationTag').hide();
 						}else{
 //							opc.get='';
 							$('#private-select').hide();
-							// $('#userPoints').show();
+							$('#creationTag').show();
 						}
 						delete opc.on;
 						$wrapper.ptrScroll('reload');
