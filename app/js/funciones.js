@@ -1730,7 +1730,7 @@ function viewCategories(action,idLayer,id){
 					out+=
 						'<li class="categorylist">'+
 							'<a code='+cate.id+' data-theme="e">'+
-								(cate.photo?'<img src="'+cate.photo+'" style="width:80px;height:50px;margin:20px 0 0 8px;border-radius:10px">':'')+
+								(cate.photo?'<img src="'+cate.photo+'" style="width:80px;height:50px;margin:20px 0 0 8px;">':'')+
 								'<p><h3 class="ui-li-heading">'+cate.name+'</h3>'+
 								(cate.cant?'<span class="ui-li-count">'+cate.cant+'</span>':'')+
 							'</p></a>'+
