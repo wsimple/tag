@@ -41,8 +41,9 @@
 							$fp=fopen($path.'index.html',"w");
 							fclose($fp);
 						}// is_dir
-						if (getRedime($_FILES['photo'.$i][tmp_name], $path.$photo, 650)){
-							FTPupload("store/$photo");
+						if (getRedime($_FILES['photo'.$i][tmp_name],$path.$photo,650)){
+							$up=FTPupload("store/$folder/$photo");
+							// echo "url=store/$folder/$photo<br>FTPupload=$up<br>";
 							//insert
 							mysql_query("
 								INSERT INTO store_products_picture SET
@@ -107,8 +108,9 @@
 							$old_pic = $array['picture'];
 							//upload
 							if (getRedime($_FILES['photo'.$i][tmp_name], $path.$photo, 650)){
-								if ($old_pic!='') deleteFTP($old_pic,'store');	
-								FTPupload("store/$photo");
+								if ($old_pic!='') deleteFTP($old_pic,'store');
+								$up=FTPupload("store/$folder/$photo");
+								// echo "url=store/$folder/$photo<br>FTPupload=$up<br>";
 								//insert
 								if (mysql_num_rows($query)>0){
 									mysql_query("
