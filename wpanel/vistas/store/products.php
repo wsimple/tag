@@ -1,7 +1,7 @@
 <?php
 
 	define(NUMBOXES, 5);
-	define(_PATH_, "../img/store/");
+	define(_PATH_, RELPATH."img/store/");
 	define(IDUSR, 427);//id user wpanel inna cloud
 
 	if (trim($_GET['delete'])=='0'){ 
