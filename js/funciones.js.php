@@ -692,7 +692,7 @@ function showTag(tag){
 					'<li id="redistr" action="redist,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLEREDISTRIBUTION"]?>"><span><?=$lang["MNUTAG_TITLEREDISTRIBUTION"]?></span></li>'
 				:'')+(btn['share']?
 					'<li id="share" action="share,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLESHARE"]?>"><span><?=$lang["MNUTAG_TITLESHARE"]?></span></li>'
-				:'')+btnSponsor+(btn['trash']?
+				:'')+btnSponsor+(btn['trash'] && tag.type != 'out'?
 					'<li id="trash" action="trash,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLEREMOVE"]?>"><span><?=$lang["MNUTAG_TITLEREMOVE"]?></span></li>'
 				:'')+((tag['product'])?(btn['edit']?
 					'<li id="edit" action="editProductTag,'+tag['id']+','+tag['product']['id']+'" title="<?=$lang["MNUTAG_TITLEEDIT"]?>"><span><?=$lang["MNUTAG_TITLEEDIT"]?></span></li>'
@@ -708,9 +708,10 @@ function showTag(tag){
 	);
 }
 
-function showTags(array){//tag list
+function showTags(array, type){//tag list
 	var i,tags='';
 	for(i=0;i<array.length;i++){
+		array[i].type = type;
 		tags+=showTag(array[i]);
 	}
 	return tags;
@@ -799,7 +800,7 @@ function showCarousel(array,layer){
 							if($rep) $rep.add($el);else $rep=$el;
 					}
 					if($rep) $rep.remove();
-					tags=showTags(data['tags']);
+					tags=showTags(data['tags'], opc.type);
 					if(action=='more')
 						$(layer).append(tags);
 					else

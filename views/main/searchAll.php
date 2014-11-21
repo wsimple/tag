@@ -13,7 +13,7 @@ if(isset($_GET['srh'])){
 if($srh!=""){
 	$srh = urldecode($srh); //Fix De hashtags
 	set_trending_topings($srh);
-
+	$srh_text = $srh;
 	$srh = str_replace(' ', '%', $srh);
 	$whereFriends.=' AND CONCAT(email," ",name," ",last_name) LIKE "%'.$srh.'%"';
 	$whereGroups='CONCAT(g.description," ",g.name) LIKE "%'.$srh.'%"';
@@ -66,7 +66,7 @@ $hash=end(explode('#',$srh));
 			<div id="contentHash">
 				<div class="titleSearchAllhash"><?=SEARCH_HASHTAGS?></div>
 				<?php if($hashtags_count == 0){?>
-				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
+				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh_text.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
 				<div class="ui-single-box-title"><?=SEARCH_HASHTAGS.' '.EDITFRIEND_VIEWTITLESUGGES?></div>
 				<?php } ?>
 				<div>
@@ -83,7 +83,7 @@ $hash=end(explode('#',$srh));
 			<?php //*************************amigos*************************// ?>
 			<div class="titleSearchAllfriends"><?=SEARCHALL_PEOPLES?></div>
 				<?php if($friends_count==0){ ?>
-				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
+				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh_text.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
 				<div class="ui-single-box-title"><?=SEARCHALL_PEOPLES.' '.EDITFRIEND_VIEWTITLESUGGES?></div>
 			<?php } ?>
 				<div>
@@ -96,7 +96,7 @@ $hash=end(explode('#',$srh));
 			<?php //*************************grupos*************************// ?>
 				<div class="titleSearchAllhashgroup"><?=SEARCHALL_GROUPS?></div>
 				<?php if($groups_count==0){ ?>
-				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
+				<div class="messageNoResultSearch"><?=SEARCHALL_NORESULT.' <span style="font-weight:bold">'.$srh_text.',</span> <span style="font-size:12px">'.SEARCHALL_NORESULT_COMPLE.'</span>'?></div>
 				<div class="ui-single-box-title"><?=SEARCHALL_GROUPS.' '.EDITFRIEND_VIEWTITLESUGGES ?></div>
 				<?php } ?>
 				<div>

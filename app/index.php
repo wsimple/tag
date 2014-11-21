@@ -14,7 +14,7 @@
 					<li>
 						<a id="btn-signup" class="btn-orange" data-role="button" data-inline="true" data-theme="f" onclick="redir(PAGE['signup']);">Sign Up</a>
 					</li>
-<?php if(isset($_GET['xdk'])||!isset($_GET['minify'])){ ?>
+<?php if((false&&isset($_GET['xdk']))||!isset($_GET['minify'])){ ?>
 					<li>
 						<a class="btn-facebook" id="btn-facebook" onclick="accountFb();" data-role="button" data-inline="true" data-theme="f"><?=LOGIN_TEXTBUTTONCREATEACCOUNT?> <?=JS_OR.' '.BTN_LOGIN?></a>
 					</li>
@@ -102,7 +102,7 @@
 //		}
 
 		//Login facebook
-<?php if(isset($_GET['xdk'])){ ?>
+<?php if(false&&isset($_GET['xdk'])){ ?>
 		document.addEventListener("intel.xdk.device.ready",function(e){
 			document.addEventListener("intel.xdk.facebook.login",function(e){
 				if(e.success==true){
