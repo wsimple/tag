@@ -108,7 +108,7 @@
 							//upload
 							if (getRedime($_FILES['photo'.$i][tmp_name], $path.$photo, 650)){
 								if ($old_pic!='') deleteFTP($old_pic,'store');	
-								uploadFTP($photo,"store","../",1,$folder);		
+								FTPupload("store/$photo");
 								//insert
 								if (mysql_num_rows($query)>0){
 									mysql_query("
