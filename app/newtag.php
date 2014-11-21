@@ -108,7 +108,7 @@
 					return lang['newTag'];
 				}
 			},
-			backButton:true,
+			showmenuButton:true,
 			before:function(){
 				//language constants
 				$('#topText'					).attr('placeholder',lang.NEWTAG_MESSAGE);
