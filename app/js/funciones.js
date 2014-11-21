@@ -594,7 +594,7 @@ function showTag(tag){//individual tag
 					'<li id="redistr" title="Redist"><span>Redist</span></li>'
 				:'')+(btn['share']?
 					'<li id="share" title="Share"><span>Share</span></li>'
-				:'')+btnSponsor+(btn['trash']?
+				:'')+btnSponsor+(btn['trash'] && tag.type != 'out'?
 					'<li id="trash" title="Trash"><span>Trash</span></li>'
 				:'')+(tag['typeVideo']?
 					'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>'
@@ -624,10 +624,12 @@ function showTag(tag){//individual tag
 	);
 }
 
-function showTags(array){//tag list
+function showTags(array,type){//tag list
 	var i,tags='';
-	for(i in array)
+	for(i in array){
+		array[i].type=type;
 		tags+=showTag(array[i]);
+	}
 //		tags+='<div class="tag-loading smt-container"><div class="smt-content" style="z-index:4;">Loading...</div></div>'+showTag(array[i]);
 	return '<div class="tag-container">'+tags+'</div>';
 }
@@ -812,6 +814,7 @@ function playComment(tagtId, opc){
 (function(window,$,console){
 	window.updateTags=function(action,opc,loader){
 		if(!opc.on) opc.on={};
+		console.log(opc)
 		var act,
 			current=opc.current,
 			on=opc.on,
@@ -862,7 +865,7 @@ function playComment(tagtId, opc){
 								if($tag.length>0)
 									if($remove) $remove.add($tag); else $remove=$tag;
 							}
-							tags+=showTags(data.tags);
+							tags+=showTags(data.tags,opc.type);
 							if($remove) $remove.remove();
 							if(action=='more')
 								$(layer).append(tags);
