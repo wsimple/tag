@@ -26,7 +26,7 @@
 		</div>
 		<h1><span class="loader"></span></h1>
 		<div class="creation" id="creationTag">
-			<a href="#" onclick="redir(PAGE['newtag'])"></a>
+			<!-- <a href="#" onclick="redir(PAGE['newtag'])"></a> -->
 		</div>
 		<<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
 			<span class="loader"></span>
@@ -73,6 +73,9 @@
 				);
 			},
 			after:function(){
+				$('#creationTag').click(function(){
+					redir(PAGE['newtag']);
+				});
 				// alert(active_tab);
 				if (active_tab != 'timeLine') {
 					$('#tl-footer ul li a').removeClass('ui-btn-active');
