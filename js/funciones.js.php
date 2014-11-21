@@ -699,7 +699,7 @@ function showTag(tag){
 				:''):(btn['edit']?
 					'<li id="edit" action="editTag,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLEEDIT"]?>"><span><?=$lang["MNUTAG_TITLEEDIT"]?></span></li>'
 				:''))+(btn['report']?
-					'<li id="report" action="report,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLEABUSE"]?>"><span><?=$lang["MNUTAG_TITLEABUSE"]?></span></li>'
+					'<li id="report" action="report,'+tag['source']+'" title="<?=$lang["MNUTAG_TITLEABUSE"]?>"><span><?=$lang["MNUTAG_TITLEABUSE"]?></span></li>'
 				:'')+
 			'</ul>'+
 		'<div class="clearfix"></div></menu>'
