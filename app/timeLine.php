@@ -110,10 +110,12 @@
 				});
 				var priv='',val='in';
 				$('#private-select input').click(function(){
+					opc.type = '';
 					if(val!=this.value){
 						val=this.value;
 						priv=val=='out'?'&type=outbox':'';
 						opc.get=priv;
+						opc.type=val;
 						$wrapper.ptrScroll('reload');
 					}
 				});
