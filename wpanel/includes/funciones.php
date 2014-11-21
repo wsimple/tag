@@ -1184,6 +1184,80 @@ function getRedime($img_original, $img_nueva, $img_nueva_anchura, $img_nueva_alt
 }
 //////////
 
+
+#subir imagenes por FTP. Usar rutas relativas desde dentro de IMG.
+# Valores retornados:
+# 200: subida exitosa
+# 206: subida exitosa, pero falla al eliminar el original
+# 400: la sintaxis de destino es incorrecta
+# 401: no se pudo crear el archivo
+# 403: no se pudo establecer la conexion
+# 404: el archivo a subir no existe o la ruta es incorrecta
+# 408: sin ftp, indica que no se pudo mover el archivo
+# 409: sin ftp, indica que no se pudo copiar el archivo
+# 412: no se pudo crear/acceder a la(s) carpeta(s) de destino
+function FTPupload($origen,$destino='',$borrar=true){
+	#origen: donde esta la imagen. destino: donde ira la imagen.
+	#borrar: falso si no se quiere eliminar la imagen original
+	#las rutas deben ser relativas a img. si destino es vacio o false, se colocara en la misma ruta del origen
+	//validaciones previas
+	if(!is_file(RELPATH.'img/'.$origen)) return 404;
+	if($destino=='') $destino=$origen;
+	$file=end(explode('/',$destino));
+	$error=0;
+	if(!$file) $error=400;
+	global $config;
+	$path=preg_replace('/^\/|\/[^\/]*$/','',$destino);
+	$data=" P:$path F:$file O:$origen D:$destino";
+	if(!$error)
+	if(isset($config->ftp)){
+		if(!$img_ftp_con){
+			$img_ftp_con=ftp_connect($config->ftp->host,21);
+			$login=@ftp_login($img_ftp_con,$config->ftp->user,$config->ftp->pass);
+			if(!$login){
+				$img_ftp_con=0;
+				return 403;
+			}
+			ftp_pasv($img_ftp_con,true);
+		}
+		#vamos a la carpeta raiz
+		// ftp_cdup($img_ftp_con);
+		#Nos vamos a la carpeta destino. Se crean las carpetas que no existan.
+		$foldercount=0;
+		$folders=explode('/',$path);
+		foreach($folders as $folder){
+			if($folder!=''){
+				if(@ftp_chdir($img_ftp_con,$folder)){#abrir carpeta
+					$foldercount++;
+				}elseif(@ftp_mkdir($img_ftp_con,$folder)){#crear y abrir carpeta
+					ftp_chdir($img_ftp_con,$folder);
+					$foldercount++;
+					@ftp_put($img_ftp_con,'index.html',RELPATH.'img/index.html',FTP_BINARY);
+				}else{
+					$error=412;
+				}
+			}
+		}
+		if(!$error){
+			$data='PWD:'.ftp_pwd($img_ftp_con).$data;
+			#Copiamos el archivo
+			$error=(@ftp_put($img_ftp_con,$file,RELPATH.'img/'.$origen,FTP_BINARY)) ? 200 : 401;
+			#Borramos la imagen de origen si es requerido
+			if($borrar&&$error==200&&!@unlink(RELPATH.'img/'.$origen)) $error=206;
+		}
+		ftp_quit($img_ftp_con);
+	}elseif($destino!=$origen){
+		#Cuando no es ftp, y el origen es distinto al destino, se mueve/copia el archivo
+		if(!@mkdir(RELPATH.'img/'.$path,0777,true)) $error=412;
+		if(!$error)
+		if($borrar)
+			$error=(!@rename(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino))?408:200;
+		else
+			$error=(!@copy(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino))?409:200;
+	}
+	return $error;//.$data;#descomentar data si decea ver los mensajes de error
+}
+
 function uploadFTP($file,$path,$parent='', $borrar=1, $code=''){
 	// nombre de archivo y carpeta solamente,  parent es para cuando se trabaje desde un include
 
