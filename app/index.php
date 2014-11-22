@@ -24,7 +24,7 @@
 				<div class="store-info" style="margin-top: 15px; margin-bottom: 20px">
 					<p id="app_download_msg"></p>
 					<div class="googlePlay"></div>
-					<!-- <a href="https://play.google.com/store/apps/details?id=org.app.seemytag"></a> -->
+					<a href="https://play.google.com/store/apps/details?id=com.tagbum.tagbum"></a>
 					<div class="appStore"></div>
 					<!-- <a href="https://itunes.apple.com/us/app/semytag/id658430038?ls=1&mt=8"></a> -->
 				</div>
