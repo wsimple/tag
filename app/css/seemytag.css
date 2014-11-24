@@ -1135,8 +1135,8 @@ loader.s32,.loader.s32{
 
 .store-info p{ margin:10px; }
 .store-info div{
-	width:100px;
-	height:30px;
+	width:110px;
+	height:40px;
 	background-repeat:no-repeat;
 	background-position:center center;
 	-webkit-background-size:auto auto;

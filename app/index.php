@@ -24,7 +24,7 @@
 				<div class="store-info" style="margin-top: 15px; margin-bottom: 20px">
 					<p id="app_download_msg"></p>
 					<div class="googlePlay"></div>
-					<!-- <a href="https://play.google.com/store/apps/details?id=org.app.seemytag"></a> -->
+					<!-- <a href="https://play.google.com/store/apps/details?id=com.tagbum.tagbum"></a> -->
 					<div class="appStore"></div>
 					<!-- <a href="https://itunes.apple.com/us/app/semytag/id658430038?ls=1&mt=8"></a> -->
 				</div>
@@ -79,6 +79,7 @@
 						if(is['iOS']) $('.googlePlay').hide();
 						if(is['android']) $('.appStore').hide();
 					}
+					$('#btn-facebook').hide();
 				}
 			},
 			loginError:function(){
@@ -171,10 +172,11 @@
 		}
 <?php } ?>
 		$('.googlePlay,.appStore').click(function(event) {
-			myDialog({//Information lang.INVITE_GROUP_TRUE
-				id:'#singleDialog',
-				content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
-			});
+			redir('https://play.google.com/store/apps/details?id=com.tagbum.tagbum');
+			// myDialog({//Information lang.INVITE_GROUP_TRUE
+			// 	id:'#singleDialog',
+			// 	content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
+			// });
 		});
 	</script>
 </div>
