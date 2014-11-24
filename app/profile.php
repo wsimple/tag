@@ -93,8 +93,7 @@
 					setFriendsButtons(data);
 					fillButton('#userTags',			data['numTags']);
 					fillButton('#userPersonalTags',	data['numPersTags']);
-					if(data['photo_friend']!='http://192.168.1.127/tag/') $('#userPicture').attr('src',data['photo_friend']);
-
+					if(data['photo_friend']!=data['FILESERVER']+'img/users/default.png') $('#userPicture').attr('src',data['photo_friend']);
 
 
 					var birth=lan(data['birthday'],'ucw'),
