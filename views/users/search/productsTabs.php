@@ -30,7 +30,7 @@ $(function(){
 			
 			//gallery
 			//srh = search.split('&');
-			srh =(search[1])?search[1]+',':"<?=$srh?>";
+			srh =(search[1])?search[1]+',':"<?=$srh_text?>";
 			
 			array['srh']='srh='+srh;
 			
