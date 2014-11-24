@@ -28,7 +28,7 @@
 		<div class="creation" id="creationTag">
 			<!-- <a href="#" onclick="redir(PAGE['newtag'])"></a> -->
 		</div>
-		<<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
+		<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
 			<span class="loader"></span>
 		</div> -->
 		<fieldset id="private-select" data-role="controlgroup" data-type="horizontal" data-mini="true" style="position:absolute;top:7px;right:5px;display:none;">
