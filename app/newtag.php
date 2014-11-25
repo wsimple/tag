@@ -130,6 +130,7 @@
 				if($_GET['group']||$_GET['product']){
 					$('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
 				}
+				$('#page-newTag').removeClass('default'); //Fix Vista Android
 //				console.log($_GET['product']);
 //				if ($_GET['product']){
 //					$('#div_publicTag').css('display','none');
