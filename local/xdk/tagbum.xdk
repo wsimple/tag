@@ -6,7 +6,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "",
       "projectGuid": "3e7392ed-1357-44e6-8d6c-63451713a92e",
-      "lastModifiedDate": 1416608073937,
+      "lastModifiedDate": 1416864584920,
       "creationDate": 1415392955499
     },
     "sourceDirectory": "",
@@ -321,13 +321,13 @@
         "runtime_": "Cordova 3.x",
         "name_": "iOS",
         "preferences_": {
-          "ios-target": "5",
+          "ios-target": "8.0",
           "ios-configuration": "adhoc",
-          "Orientation": "landscape"
+          "Orientation": "portrait"
         },
         "isActive_": true,
         "appName_": "Tagbum",
-        "appID_": "938965981",
+        "appID_": "com.tagbum.tagbum",
         "appAccess_": "*",
         "icons_": [
           {
@@ -351,7 +351,38 @@
             "width": 76
           }
         ],
-        "splashes_": [],
+        "splashes_": [
+          {
+            "relPath": "app-splash/640.png",
+            "height": 1136,
+            "width": 640,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "app-splash/640_2.png",
+            "height": 960,
+            "width": 640,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "app-splash/320.png",
+            "height": 480,
+            "width": 320,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "app-splash/1536.png",
+            "height": 2008,
+            "width": 1536,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "app-splash/768.png",
+            "height": 1004,
+            "width": 768,
+            "orientation": "portrait"
+          }
+        ],
         "iosProvs_": [
           {
             "relPath": "tagbumTest.mobileprovision",
