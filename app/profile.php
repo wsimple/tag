@@ -117,7 +117,6 @@
 						}
 					});
 					$('#userPreferences').click(function(){
-						alert(me);
 						if(me) redir(PAGE['preferences']);
 						else preferencesUsers(code);
 					});

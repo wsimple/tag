@@ -1010,27 +1010,6 @@ function viewFriends(opc){
 			divider='<li data-role="list-divider">'+(opc.mod=='find'?lang.FINDFRIENDS_LEGENDOFSEARCHBAR:divider+' <span class="ui-li-count">'+data.num+'</span>')+'</li>';
 
 			if (data.datos.length>0){
-				// for(i=0;i<data.datos.length;i++){
-				// 	friend=data.datos[i];
-				// 	if (friend.conocido) var te="a",icon="minus";
-				// 	else var te="e",icon="plus";
-				// 	out+='<li class="userInList">'+
-				// 		'<a code="'+friend.code_friend+'" data-theme="e">'+
-				// 			'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
-				// 			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
-				// 			'<p class="ui-li-desc">'+
-				// 				lan('friends','ucw')+' <span class="ufriends">('+(friend.friends_count||0)+'),</span> '+
-				// 				lan('admirers','ucw')+' <span class="ufollowers">('+(friend.followers_count||0)+'),</span>  '+
-				// 				lan('admired','ucw')+' <span class="ufollowing">('+(friend.following_count||0)+')</span> '+
-				// 			'</p>'+
-				// 		'</a>'+
-				// 		(friend.iAm=="0"?'<a class="userlink" type="a" userlink="'+md5(friend.id)+'" data-theme="'+te+'" data-icon="'+icon+'"  >&nbsp;</a>':'')+
-				// 		// (friend.iAm=="0"?'<a class="userlink" userlink="'+md5(friend.id)+'" data-role="button" data-theme="e" data-icon="plus"  >&nbsp;</a></a>':'')+
-				// 	'</li>';
-				// }
-
-
-
 				for(i=0;i<data.datos.length;i++){
 					friend=data.datos[i];
 					if (friend.conocido) var te="a",text=lang.unfollow;
@@ -1100,15 +1079,13 @@ function linkUser(layer){
 			},
 			success:function(data){
 				if(!data['error']){
-					var fr;
-					if (type=="a"){
-						animatelinkUser_a(obj,data.unlink);
-						fr=$(obj).parents('li.userInList');
-					} 
-					if (type=="b"){
-						animatelinkUser_b(obj,data.unlink);
-						fr=$(obj).parents('li.ui-body').prev('li.userInList');
+					var fr=$(obj).parents('li.ui-body').prev('li.userInList'),theme='e',text=lang.follow,oldtheme="a";
+					if(!data.unlink){
+						theme='a';oldtheme="e";
+						text=lang.unfollow;
 					}
+					$(obj).attr('data-theme',theme).prev('span.ui-btn-inner').find('.ui-btn-text').html(text)
+					.parents('.ui-block-b').find('.ui-btn-up-'+oldtheme).attr('data-theme',theme).removeClass('ui-btn-hover-'+oldtheme+' ui-btn-up-'+oldtheme).addClass('ui-btn-up-'+theme);
 					$('span.ufriends',fr).html('('+data.friend.friends+')');
 					$('span.ufollowers',fr).html('('+data.friend.admirers+')');
 					$('span.ufollowing',fr).html('('+data.friend.admired+')');
@@ -1124,27 +1101,6 @@ function linkUser(layer){
 		$('.list-wrapper').jScroll('refresh');
 	});
 }
-function animatelinkUser_a(obj,unfollow){
-	var theme='e',icon='ui-icon-plus',oldtheme="a";
-	if(!unfollow){
-		theme='a';oldtheme="e";
-		icon='ui-icon-minus';
-	}
-	$(obj).attr('data-theme',theme).removeClass('ui-btn-hover-'+oldtheme+' ui-btn-up-'+oldtheme).addClass('ui-btn-up-'+theme);
-	$(obj).find('.ui-btn-up-'+oldtheme).removeClass('ui-btn-hover-'+oldtheme+' ui-btn-up-'+oldtheme).addClass('ui-btn-up-'+theme);
-	$('.ui-icon',obj).removeClass('ui-icon-plus ui-icon-minus').addClass(icon);
-}
-function animatelinkUser_b(obj,unfollow){
-	console.log(obj);
-	var theme='e',text=lang.follow,oldtheme="a";
-	if(!unfollow){
-		theme='a';oldtheme="e";
-		text=lang.unfollow;
-	}
-	$(obj).attr('data-theme',theme).prev('span.ui-btn-inner').find('.ui-btn-text').html(text)
-	.parents('.ui-block-b').find('.ui-btn-up-'+oldtheme).attr('data-theme',theme).removeClass('ui-btn-hover-'+oldtheme+' ui-btn-up-'+oldtheme).addClass('ui-btn-up-'+theme);	
-}
-
 function verifyGroupMembership(idGroup,code,func){
 	myAjax({
 		type:'GET',
