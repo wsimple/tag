@@ -987,6 +987,38 @@ function playComment(tagtId, opc){
 	};
 })(window,jQuery,console);
 
+function bodyFriendsList(friend){
+	if (friend.conocido) var te="a",text=lang.unfollow;
+	else var te="e",text=lang.follow; 
+	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain">'+
+		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
+			'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
+			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
+			'<p class="ui-li-desc">'+
+				lan('friends','ucw')+' <span class="ufriends">('+(friend.friends_count||0)+'),</span>  '+
+				lan('admirers','ucw')+' <span class="ufollowers">('+(friend.followers_count||0)+'),</span>  '+
+				lan('admired','ucw')+' <span class="ufollowing">('+(friend.following_count||0)+')</span> '+
+			'</p>'+
+		'</a>'+
+	'</li>'+ //la maquetacion de este li se hizo con el jquerymobile ya cargado
+	(friend.iAm=="0"?'<li class="ui-body ui-body-b" style="display: none;">'+
+        '<fieldset class="ui-grid-a">'+
+            '<div class="ui-block-a">'+
+            	'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
+            		'<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.USER_PROFILE+'</span></span>'+
+            		'<button code="'+friend.code_friend+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lang.USER_PROFILE+'</button>'+
+            	'</div>'+
+            '</div>'+
+            '<div class="ui-block-b">'+
+				'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="'+te+'" data-disabled="false" class="ui-submit ui-btn ui-shadow ui-btn-corner-all ui-btn-up-'+te+'" aria-disabled="false">'+
+					'<span class="ui-btn-inner"><span class="ui-btn-text">'+text+'</span></span>'+
+					'<button type="b" data-theme="'+te+'" userlink="'+md5(friend.id)+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
+				'</div>'+
+			'</div>'+
+        '</fieldset>'+
+    '</li>':'');
+	return out;
+}
 function viewFriends(opc){
 	console.log('viewfriends');
 	myAjax({
@@ -1012,48 +1044,14 @@ function viewFriends(opc){
 			if (data.datos.length>0){
 				for(i=0;i<data.datos.length;i++){
 					friend=data.datos[i];
-					if (friend.conocido) var te="a",text=lang.unfollow;
-					else var te="e",text=lang.follow;
-					out+='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain">'+
-						'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
-							'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
-							'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
-							'<p class="ui-li-desc">'+
-								lan('friends','ucw')+' <span class="ufriends">('+(friend.friends_count||0)+'),</span>  '+
-								lan('admirers','ucw')+' <span class="ufollowers">('+(friend.followers_count||0)+'),</span>  '+
-								lan('admired','ucw')+' <span class="ufollowing">('+(friend.following_count||0)+')</span> '+
-							'</p>'+
-						'</a>'+
-					'</li>'+ //la maquetacion de este li se hizo con el jquerymobile ya cargado
-					(friend.iAm=="0"?'<li class="ui-body ui-body-b" style="display: none;">'+
-			            '<fieldset class="ui-grid-a">'+
-		                    '<div class="ui-block-a">'+
-		                    	'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
-		                    		'<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.USER_PROFILE+'</span></span>'+
-		                    		'<button code="'+friend.code_friend+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lang.USER_PROFILE+'</button>'+
-		                    	'</div>'+
-		                    '</div>'+
-		                    '<div class="ui-block-b">'+
-								'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="'+te+'" data-disabled="false" class="ui-submit ui-btn ui-shadow ui-btn-corner-all ui-btn-up-'+te+'" aria-disabled="false">'+
-									'<span class="ui-btn-inner"><span class="ui-btn-text">'+text+'</span></span>'+
-									'<button type="b" data-theme="'+te+'" userlink="'+md5(friend.id)+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
-								'</div>'+
-							'</div>'+
-			            '</fieldset>'+
-			        '</li>':'');
+					out+=bodyFriendsList(friend);
 				}
 			}else{
 				var mens='';
 				switch(opc.mod){
-					case 'friends':
-						mens = lang.EMPTY_INFO_FRIENDS;
-					break;
-					case 'follow':
-						mens = lang.EMPTY_INFO_ADMIRERS;
-					break;
-					case 'unfollow':
-						mens = lang.EMPTY_INFO_ADMIRED;
-					break;
+					case 'friends': mens = lang.EMPTY_INFO_FRIENDS; break;
+					case 'follow': mens = lang.EMPTY_INFO_ADMIRERS; break;
+					case 'unfollow': mens = lang.EMPTY_INFO_ADMIRED; break;
 				}
 				out+='<div class="emptyInfo">'+mens+'<br><br>';
 				if(opc.mod!='follow')
