@@ -741,6 +741,7 @@ function showCarousel(array,layer){
 (function(window){
 	var on={};
 	window.updateTags=function(action,opc,loader){
+		console.log(opc)
 		var act,pBox=(opc.current=='privateTags')?opc.pBox:'',
 			current=opc.current,
 			btncretagG=opc.btncretagG,
@@ -3357,8 +3358,6 @@ function hashJson(id,loading,num,search,seemoreButton){
 				if(data['cant']>0){
 					out+='<div style="padding: 10px 0; width: 100%;">';
 					for(var i=0;i<data['cant'];i++){
-						console.log(data['hash'][i]);
-						console.log('esto:'+search);
 						(data['hash'][i])?out+=bodyhash(data['hash'][i],search):'';
 					}
 					out+='<div class="clearfix"></div></div>';

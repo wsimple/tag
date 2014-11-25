@@ -1135,8 +1135,8 @@ loader.s32,.loader.s32{
 
 .store-info p{ margin:10px; }
 .store-info div{
-	width:110px;
-	height:40px;
+	width:200px;
+	height:100px;
 	background-repeat:no-repeat;
 	background-position:center center;
 	-webkit-background-size:auto auto;
@@ -1145,8 +1145,8 @@ loader.s32,.loader.s32{
 	margin:0 auto;
 	cursor: pointer;
 }
-.store-info .googlePlay{ background-image:url('smt/icon_googlePlay.png'); }
-.store-info .appStore{ background-image:url('smt/icon_appStore.png'); }
+.store-info .googlePlay{ background-image:url('smt/icon_googlePlay.svg'); background-size: 180px 160px;}
+.store-info .appStore{ background-image:url('smt/icon_appStore.svg'); background-size: 180px 160px; }
 
 #idProductContent{ font-size:12px; }
 #idProductContent span{ font-weight:bold; }
@@ -1727,4 +1727,23 @@ input.password-field {
 	height: 100%;
 	width: 100%;
 	margin: auto;
+}
+/*Loader feo*/
+.ui-body-a{
+	background: transparent;
+	background-color: transparent;
+	background-image: none;
+}
+.ui-loader{
+	top: 0;
+	left: auto;
+	right: 50px;
+}
+.ui-loader-default{
+	margin: 0;
+	padding: 0;
+}
+
+.ui-loader .ui-icon{
+	background-color: transparent;
 }

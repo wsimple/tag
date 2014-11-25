@@ -48,9 +48,9 @@
 			},
 			after:function(){
 				$('#page-profile .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
-				var code=$_GET['id']||$.local('code'),
-					me=(code==$.local('code'));//me=true si es el perfil del usuario loggeado
+				var code=$_GET['id']||$.local('code'), me=(code==$.local('code'));//me=true si es el perfil del usuario loggeado
 				$('.fs-wrapper').jScroll({hScroll:false});
+
 				function loadProfile(data){
 					console.log('load profile');
 					console.log(data);
@@ -93,10 +93,11 @@
 					setFriendsButtons(data);
 					fillButton('#userTags',			data['numTags']);
 					fillButton('#userPersonalTags',	data['numPersTags']);
-					if(data['photo_friend']) $('#userPicture').attr('src',data['photo_friend']);
+					if(data['photo_friend']!=data['FILESERVER']+'img/users/default.png') $('#userPicture').attr('src',data['photo_friend']);
+
 
 					var birth=lan(data['birthday'],'ucw'),
-						txt='<div><strong>'+(data['username']||'')+'</strong></div>';
+						txt='<div><strong>'+(data['username']||data['name_user'])+'</strong></div>';
 					if(data['type']=='0')
 						txt+=(birth!='none'?'<div><strong>'+lang.PROFILE_BIRTHDATE+':</strong> '+birth+'</div>':'');
 					else
@@ -116,6 +117,7 @@
 						}
 					});
 					$('#userPreferences').click(function(){
+						alert(me);
 						if(me) redir(PAGE['preferences']);
 						else preferencesUsers(code);
 					});
@@ -158,7 +160,7 @@
 					data:{uid:code},
 					success:function(data){
 						if (!data['error']){
-							console.log('success '+data.datos[0]['username']);
+							console.log('success name: '+data.datos[0]['name_user']);
 							loadProfile(data.datos[0]);
 						}
 					},

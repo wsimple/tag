@@ -461,6 +461,7 @@
 		//control de los botones send y back
 		$('#frmProfile_btnSend').click(function(){
 				if( valida('frmProfile_') ) {
+
 					var stri='',select='';
 					if ($('#frmProfile_mobile').val()!='' || $('#frmProfile_work').val()!='' || (typeUser=='0' && $('#frmProfile_home').val()!='')){
 						band=true;
@@ -472,11 +473,22 @@
 						if ($('#frmProfile_mobile').val()!='' && $('#mobile_code_search').val()==''){ select+=select!=''?' <?=ANDLABEL?> <?=USERPROFILE_LBLMOBILEPHONE?>':'<?=USERPROFILE_LBLMOBILEPHONE?>'; }
 					}
 					if (stri=='' && select==''){
-						$('loader.page',PAGE).show();console.log('is in there');
-						console.log($('#validaActionAjax').val());
-						$("#validaActionAjax").val('save');
-						console.log($('#validaActionAjax').val());
-						$('#frmProfile_').submit();
+						var val = $('#frmProfile_userName').val(),n='';
+						n = val.indexOf(" ");
+
+						if (n<0) {
+							$('loader.page',PAGE).show();console.log('is in there');
+							console.log($('#validaActionAjax').val());
+							$("#validaActionAjax").val('save');
+							console.log($('#validaActionAjax').val());
+							$('#frmProfile_').submit();	
+						}else{
+							$.dialog({
+								title:'Alert',
+								content:'<span style="font-weight: bold"><?=USERPROFILE_LBLPROFILEUSERNAME?></span>: <?=USERPROFILE_LBLHELPUSERNAME1?>',
+								focus:$('#frmProfile_userName')
+							});
+						}
 					}else{
 						band=false;
 						if(select!=''){
