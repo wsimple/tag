@@ -20,7 +20,7 @@ var hideGroups=false;
 	$.session('get',null);
 	$.session('page',null);
 	$.mobile.loader.prototype.options.text=lang.loading;
-	$.mobile.loader.prototype.options.textVisible=true;
+	$.mobile.loader.prototype.options.textVisible=false;
 	$.mobile.loader.prototype.options.theme='a';
 	$.mobile.listview.prototype.options.filterPlaceholder=lang.filter;
 })(window,jQuery);

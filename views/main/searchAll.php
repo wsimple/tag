@@ -225,6 +225,7 @@ $(function(){
 			idsearch:'1',
 			radiobtn:'.tags-size',
 			get		:"&hash=<?=$hash?>",
+			search: '<?=$srh_text?>',
 			limit: 3
 		};
 	var sizeTags='mini',interval;

@@ -189,7 +189,8 @@ switch ($_GET['action']) {
 		$info=array(); 
 		$res['datos']=1;
 		while ($row=CON::fetchAssoc($query)){
-			$row['photo_friend']=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend'],false);
+			$row['photo_friend']=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend']);
+			$row['FILESERVER'] = FILESERVER; 
 			if(isset($_GET['picture'])){
 				$row['code']=$code;
 				$row['picture']=FILESERVER."img/users/$code/".$row['picture'];
