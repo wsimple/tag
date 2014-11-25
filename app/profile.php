@@ -97,7 +97,7 @@
 
 
 					var birth=lan(data['birthday'],'ucw'),
-						txt='<div><strong>'+(data['username']||data['name_user'])+'</strong></div>';
+						txt='<div><strong>'+(data['name_user']||data['username'])+'</strong></div>';
 					if(data['type']=='0')
 						txt+=(birth!='none'?'<div><strong>'+lang.PROFILE_BIRTHDATE+':</strong> '+birth+'</div>':'');
 					else
