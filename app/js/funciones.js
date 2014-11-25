@@ -1481,7 +1481,8 @@ function getFriends(id,like){
 			for(var i in data['datos']){
 				if(emails.join().indexOf(data['datos'][i]['email'])<0)
 				ret+=
-					'<div onclick="$(\'input\',this).attr(\'checked\',($(\'input\',this).is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
+					'<div onclick="$(\'input\',this).click();" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
+					// '<div onclick="$(\'input\',this).attr(\'checked\',($(\'input\',this).is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
 						'<div style="float:right;padding-top:20px;margin-right:15px;">'+
 							'<fieldset data-role="controlgroup">'+
 								'<input value="'+data['datos'][i]['email']+'|'+data['datos'][i]['photo_friend']+'" type="checkbox" />'+
@@ -1545,16 +1546,18 @@ function closeDialogmembersGroup(idDialog){
 function getDialogCheckedUsers(idDialog){
 	console.log('getCheckedUsers');
 	var paso=false;
-	$('input:checkbox[checked]',idDialog).each(function(i,field){
-		var userInfo=field.value.split('|');
-		if(userInfo[1]){
-			$('#pictures_shareTag').append(
-				'<span id="'+md5(userInfo[0])+'" onclick="removePicture(this)">'+
-					'<input type="hidden" name="x" value="'+userInfo[0]+'" type="text"/>'+
-					'<img src="'+userInfo[1]+'" width="40" style="margin-left: 5px; border-radius: 5px;" class="userBR"/>'+
-				'</span>'
-			);
-			paso=true;
+	$('input:checkbox',idDialog).each(function(i,field){
+		if ($(field).is(':checked')){
+			var userInfo=field.value.split('|');
+			if(userInfo[1]){
+				$('#pictures_shareTag').append(
+					'<span id="'+md5(userInfo[0])+'" onclick="removePicture(this)">'+
+						'<input type="hidden" name="x" value="'+userInfo[0]+'" type="text"/>'+
+						'<img src="'+userInfo[1]+'" width="40" style="margin-left: 5px; border-radius: 5px;" class="userBR"/>'+
+					'</span>'
+				);
+				paso=true;
+			}
 		}
 	});
 	if(paso) $('#title_pictures_shareTag').fadeIn('slow');
