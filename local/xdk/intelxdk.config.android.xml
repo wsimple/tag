@@ -51,4 +51,11 @@
 <preference name="android-signed" value="true"/>
 <preference name="Orientation" value="portrait"/>
 <preference name="android-permission" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzZ2ypVLVh9JQDNwuZEoEzplBo/tYejlzvsOXOT/7Da2+FZ8D8pWjkgkacaB91iy1MWovdcNKCi5Xaw/IzFJZUbecYNwtbyWokyu6huFaxC2NXGPh82TinmGXcbZZfZ0/o1/U5sAmA9OhT0blNJzB5MlNg/sSLIKyLKoc2mlps/YokcM1SfDC92ndjniA2+bSg6yeEIea6YOe5QLpc4sXxxgh3F+WmtCMd9pqcUQNlZOwQfLXfxNdplc+Am5s3WZmNzdgXJUvjmLAyYOB7Ht/lXKM87JSo7fPGFqnud8luqNTDHMtVZtNQiFQES5NAqcOoX3o9YnDE9FiWA1fwHYUYwIDAQAB"/>
-<!--creationInfo:{"src":"","projectTypeName":"com.intel.xdk.projecttype.jsapp"}--></widget>
+<!--creationInfo:{"src":"","projectTypeName":"com.intel.xdk.projecttype.jsapp"}-->
+<icon platform="ios" src="app-icon/180.png" width="180" height="180"/>
+<splash platform="ios" src="app-splash/1242.png" width="1242" height="2208" orientation="portrait"/>
+<splash platform="ios" src="app-splash/750.png" width="750" height="1334" orientation="portrait"/>
+<splash platform="ios" src="app-splash/2208.png" width="2208" height="1242" orientation="landscape"/>
+<splash platform="ios" src="app-splash/2048.png" width="2048" height="1496" orientation="landscape"/>
+<splash platform="ios" src="app-splash/1334.png" width="1334" height="750" orientation="landscape"/>
+<splash platform="ios" src="app-splash/1024.png" width="1024" height="748" orientation="landscape"/></widget>

@@ -130,7 +130,6 @@
 				if($_GET['group']||$_GET['product']){
 					$('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
 				}
-				$('#page-newTag').removeClass('default'); //Fix Vista Android
 //				console.log($_GET['product']);
 //				if ($_GET['product']){
 //					$('#div_publicTag').css('display','none');
@@ -159,6 +158,7 @@
 				$('#button_changeMode').attr('value',lang.NEWTAG_BUTTON_ADVANCED);
 			},
 			after:function(){
+				$('#page-newTag').removeClass('default'); //Fix Vista Android
 				var status=1,aStatus=1,single=true;
 				// management of private/public
 				$("#div_publicTag_checkbox").change(function() {
