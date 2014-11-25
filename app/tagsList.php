@@ -201,7 +201,7 @@
 									friend=data['datos'][i];
 									//if(emails.join().indexOf(friend['email'])<0)
 									ret+=
-										'<div onclick="$(\'input\',this).is(\':checked\')?$(\'input\',this).removeProp(\'checked\'):$(\'input\',this).attr(\'checked\',true);" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
+										'<div onclick="$(\'input\',this).click();" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
 											'<div style="float: right; padding-top: 20px; margin-right: 15px;">'+
 												'<fieldset data-role="controlgroup">'+
 													'<input name="friend_'+friend['id']+'" '+
