@@ -1722,7 +1722,12 @@ input.password-field {
 #btn-signup,#btn-login,.btn-facebook{
 	padding:0px 10px;
 }
-
+.userlink span[data-iconpos="notext"]{
+	position: initial;
+	height: 100%;
+	width: 100%;
+	margin: auto;
+}
 /*Loader feo*/
 .ui-body-a{
 	background: transparent;

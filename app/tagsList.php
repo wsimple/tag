@@ -165,7 +165,7 @@
 								for(i in data['datos']){
 									friend=data['datos'][i];
 									ret	+=
-										'<div code="'+friend['code']+'" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
+										'<div code="'+friend['code_friend']+'" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
 											'<img src="'+friend['photo_friend']+'" style="float:left; width:60px; height:60px;" class="userBR"/>'+
 											'<div style="float: left; margin-left:5px; font-size:10px; text-align: left;">'+
 												'<spam style="color:#E78F08; font-weight:bold; ">' + friend['name_user'] + '</spam><br/>'+
