@@ -1567,23 +1567,26 @@ function getDialogCheckedUsers(idDialog){
 
 function sendInvitationMemberGrp(idDialog){
 	console.log('sendInvitationMemberGrp');
-	var friends=$('input:checkbox[checked]',idDialog).length;
-	$('input:checkbox[checked]',idDialog).each(function(i,field){
-		var userInfo=field.value.split('|');
-		myAjax({
-			url		:DOMINIO+'controls/groups/sendInvitacionGroup.json.php?idGroup='+userInfo[2]+'&idUser='+md5(userInfo[1]),
-			dataType:'JSON',
-			success	:function(data){
-				if(data=='1'){
-					if(i==(friends-1)){
-						myDialog('#singleDialog',lang.GROUPS_SENDINVITATION);
+	var friends=$('input:checkbox',idDialog).length;
+
+	$('input:checkbox',idDialog).each(function(i,field){
+		if ($(field).is(':checked')) {
+			var userInfo=field.value.split('|');
+			myAjax({
+				url		:DOMINIO+'controls/groups/sendInvitacionGroup.json.php?idGroup='+userInfo[2]+'&idUser='+md5(userInfo[1]),
+				dataType:'JSON',
+				success	:function(data){
+					if(data=='1'){
+						if(i==(friends-1)){
+							myDialog('#singleDialog',lang.GROUPS_SENDINVITATION);
+						}
 					}
+				},
+				error	:function(){
+					myDialog('#singleDialog','ERROR-invitedFriends');
 				}
-			},
-			error	:function(){
-				myDialog('#singleDialog','ERROR-invitedFriends');
-			}
-		});
+			});
+		};
 	});
 	$('.closedialog',idDialog).click();
 }
