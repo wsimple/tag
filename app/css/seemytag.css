@@ -90,8 +90,6 @@
 	width:100%;
 }
 .ui-navbar li .ui-btn .ui-btn-inner{ padding-bottom:.5em; }
-/*estilo personalizado de loader*/
-.ui-icon-loading{ background:url('loaders/ajax-loader.png') no-repeat; }
 /*.ui-loader{
 	width:100%;
 	left:0;
@@ -826,12 +824,21 @@
 	width: 97%;
 	margin: 0 auto;
 }
+
+.ui-loader-default{
+	opacity:1;
+}
+.ui-icon-loading{
+	background:url('loaders/loader-f82-fff.gif') no-repeat;
+	background-position:50% 50%;
+	background-repeat:no-repeat;
+}
 loader,.loader{
 	position:relative;
 	display:inline-block;
 	margin:0 3px;
 }
-loader,.loader,.ui-icon-loading{
+loader,.loader{
 	background-position:50% 50%;
 	background-repeat:no-repeat;
 	-webkit-transform:rotate(0deg) translateZ(0);
