@@ -41,10 +41,10 @@ if($logged){
 				<div class="textPage7"><?=ucfirst(LANDING_APP_FORIPHONEIPAD)?><br><?=LANDING_APP_FORIPODTOUCH?><br><?=LANDING_APP_ITUNES?></div>
 				
 				<div class="appLinks">
-					<div id="titleApp">Coming soon ...<?php //LANDING_APP_LINKDOWNLOAD?></div>
-					<div style="display: none">
-						<a href="https://itunes.apple.com/sv/app/seemytag/id658430038?mt=8" target="blank"><div id="iTunes"></div></a>
-						<a href="https://play.google.com/store/apps/details?id=org.app.seemytag&hl=es_419" target="blank"><div id="gPlay"></div></a>
+					<div id="titleApp"><?php echo ucfirst(LANDING_APP_LINKDOWNLOAD); ?></div>
+					<div >
+						<a href="https://itunes.apple.com/sv/app/seemytag/id658430038?mt=8" target="blank" style="display: none"><div id="iTunes"></div></a>
+						<a href="https://play.google.com/store/apps/details?id=com.tagbum.tagbum" target="blank"><div id="gPlay"></div></a>
 					</div>
 				</div>
 			</div>

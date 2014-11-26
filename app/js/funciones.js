@@ -20,7 +20,7 @@ var hideGroups=false;
 	$.session('get',null);
 	$.session('page',null);
 	$.mobile.loader.prototype.options.text=lang.loading;
-	$.mobile.loader.prototype.options.textVisible=true;
+	$.mobile.loader.prototype.options.textVisible=false;
 	$.mobile.loader.prototype.options.theme='a';
 	$.mobile.listview.prototype.options.filterPlaceholder=lang.filter;
 })(window,jQuery);
@@ -987,6 +987,38 @@ function playComment(tagtId, opc){
 	};
 })(window,jQuery,console);
 
+function bodyFriendsList(friend){
+	if (friend.conocido) var te="a",text=lang.unfollow;
+	else var te="e",text=lang.follow; 
+	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain">'+
+		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
+			'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
+			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
+			'<p class="ui-li-desc">'+
+				lan('friends','ucw')+' <span class="ufriends">('+(friend.friends_count||0)+'),</span>  '+
+				lan('admirers','ucw')+' <span class="ufollowers">('+(friend.followers_count||0)+'),</span>  '+
+				lan('admired','ucw')+' <span class="ufollowing">('+(friend.following_count||0)+')</span> '+
+			'</p>'+
+		'</a>'+
+	'</li>'+ //la maquetacion de este li se hizo con el jquerymobile ya cargado
+	(friend.iAm=="0"?'<li class="ui-body ui-body-b" style="display: none;">'+
+        '<fieldset class="ui-grid-a">'+
+            '<div class="ui-block-a">'+
+            	'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
+            		'<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.USER_PROFILE+'</span></span>'+
+            		'<button code="'+friend.code_friend+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lang.USER_PROFILE+'</button>'+
+            	'</div>'+
+            '</div>'+
+            '<div class="ui-block-b">'+
+				'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="'+te+'" data-disabled="false" class="ui-submit ui-btn ui-shadow ui-btn-corner-all ui-btn-up-'+te+'" aria-disabled="false">'+
+					'<span class="ui-btn-inner"><span class="ui-btn-text">'+text+'</span></span>'+
+					'<button type="b" data-theme="'+te+'" userlink="'+md5(friend.id)+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
+				'</div>'+
+			'</div>'+
+        '</fieldset>'+
+    '</li>':'');
+	return out;
+}
 function viewFriends(opc){
 	console.log('viewfriends');
 	myAjax({
@@ -1012,30 +1044,14 @@ function viewFriends(opc){
 			if (data.datos.length>0){
 				for(i=0;i<data.datos.length;i++){
 					friend=data.datos[i];
-					out+='<li class="userInList">'+
-						'<a code="'+friend.code_friend+'" data-theme="e">'+
-							'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
-							'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
-							'<p class="ui-li-desc">'+
-								lan('friends','ucw')+' ('+(friend.friends_count||0)+'), '+
-								lan('admirers','ucw')+' ('+(friend.followers_count||0)+'), '+
-								lan('admired','ucw')+' ('+(friend.following_count||0)+')'+
-							'</p>'+
-						'</a>'+
-					'</li>';
+					out+=bodyFriendsList(friend);
 				}
 			}else{
 				var mens='';
 				switch(opc.mod){
-					case 'friends':
-						mens = lang.EMPTY_INFO_FRIENDS;
-					break;
-					case 'follow':
-						mens = lang.EMPTY_INFO_ADMIRERS;
-					break;
-					case 'unfollow':
-						mens = lang.EMPTY_INFO_ADMIRED;
-					break;
+					case 'friends': mens = lang.EMPTY_INFO_FRIENDS; break;
+					case 'follow': mens = lang.EMPTY_INFO_ADMIRERS; break;
+					case 'unfollow': mens = lang.EMPTY_INFO_ADMIRED; break;
 				}
 				out+='<div class="emptyInfo">'+mens+'<br><br>';
 				if(opc.mod!='follow')
@@ -1050,7 +1066,39 @@ function viewFriends(opc){
 		}
 	});
 }
-
+function linkUser(layer){
+	$(layer).on('click','[userlink]',function(){
+		var id=$(this).attr('userlink'),type=$(this).attr('type'),obj=this;
+		myAjax({
+			type:'GET',
+			url:DOMINIO+'controls/users/follow.json.php?uid='+id,
+			error:function() {
+				console.log('follow button ERROR');
+			},
+			success:function(data){
+				if(!data['error']){
+					var fr=$(obj).parents('li.ui-body').prev('li.userInList'),theme='e',text=lang.follow,oldtheme="a";
+					if(!data.unlink){
+						theme='a';oldtheme="e";
+						text=lang.unfollow;
+					}
+					$(obj).attr('data-theme',theme).prev('span.ui-btn-inner').find('.ui-btn-text').html(text)
+					.parents('.ui-block-b').find('.ui-btn-up-'+oldtheme).attr('data-theme',theme).removeClass('ui-btn-hover-'+oldtheme+' ui-btn-up-'+oldtheme).addClass('ui-btn-up-'+theme);
+					$('span.ufriends',fr).html('('+data.friend.friends+')');
+					$('span.ufollowers',fr).html('('+data.friend.admirers+')');
+					$('span.ufollowing',fr).html('('+data.friend.admired+')');
+				}
+			}
+		});
+	}).on('click','[thisshow]',function(){
+		$('[thishide]',layer).removeAttr("thishide").attr("thisshow","1").next('li').hide();
+		$(this).removeAttr("thisshow").attr("thishide","1").next("li").show();
+		$('.list-wrapper').jScroll('refresh');
+	}).on('click','[thishide]',function(){
+		$(this).removeAttr("thishide").attr("thisshow","1").next("li").hide();
+		$('.list-wrapper').jScroll('refresh');
+	});
+}
 function verifyGroupMembership(idGroup,code,func){
 	myAjax({
 		type:'GET',
@@ -1387,7 +1435,8 @@ function getFriends(id,like){
 			for(var i in data['datos']){
 				if(emails.join().indexOf(data['datos'][i]['email'])<0)
 				ret+=
-					'<div onclick="$(\'input\',this).attr(\'checked\',($(\'input\',this).is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
+					'<div onclick="$(\'input\',this).click();" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
+					// '<div onclick="$(\'input\',this).attr(\'checked\',($(\'input\',this).is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
 						'<div style="float:right;padding-top:20px;margin-right:15px;">'+
 							'<fieldset data-role="controlgroup">'+
 								'<input value="'+data['datos'][i]['email']+'|'+data['datos'][i]['photo_friend']+'" type="checkbox" />'+
@@ -1451,16 +1500,18 @@ function closeDialogmembersGroup(idDialog){
 function getDialogCheckedUsers(idDialog){
 	console.log('getCheckedUsers');
 	var paso=false;
-	$('input:checkbox[checked]',idDialog).each(function(i,field){
-		var userInfo=field.value.split('|');
-		if(userInfo[1]){
-			$('#pictures_shareTag').append(
-				'<span id="'+md5(userInfo[0])+'" onclick="removePicture(this)">'+
-					'<input type="hidden" name="x" value="'+userInfo[0]+'" type="text"/>'+
-					'<img src="'+userInfo[1]+'" width="40" style="margin-left: 5px; border-radius: 5px;" class="userBR"/>'+
-				'</span>'
-			);
-			paso=true;
+	$('input:checkbox',idDialog).each(function(i,field){
+		if ($(field).is(':checked')){
+			var userInfo=field.value.split('|');
+			if(userInfo[1]){
+				$('#pictures_shareTag').append(
+					'<span id="'+md5(userInfo[0])+'" onclick="removePicture(this)">'+
+						'<input type="hidden" name="x" value="'+userInfo[0]+'" type="text"/>'+
+						'<img src="'+userInfo[1]+'" width="40" style="margin-left: 5px; border-radius: 5px;" class="userBR"/>'+
+					'</span>'
+				);
+				paso=true;
+			}
 		}
 	});
 	if(paso) $('#title_pictures_shareTag').fadeIn('slow');
@@ -1470,23 +1521,26 @@ function getDialogCheckedUsers(idDialog){
 
 function sendInvitationMemberGrp(idDialog){
 	console.log('sendInvitationMemberGrp');
-	var friends=$('input:checkbox[checked]',idDialog).length;
-	$('input:checkbox[checked]',idDialog).each(function(i,field){
-		var userInfo=field.value.split('|');
-		myAjax({
-			url		:DOMINIO+'controls/groups/sendInvitacionGroup.json.php?idGroup='+userInfo[2]+'&idUser='+md5(userInfo[1]),
-			dataType:'JSON',
-			success	:function(data){
-				if(data=='1'){
-					if(i==(friends-1)){
-						myDialog('#singleDialog',lang.GROUPS_SENDINVITATION);
+	var friends=$('input:checkbox',idDialog).length;
+
+	$('input:checkbox',idDialog).each(function(i,field){
+		if ($(field).is(':checked')) {
+			var userInfo=field.value.split('|');
+			myAjax({
+				url		:DOMINIO+'controls/groups/sendInvitacionGroup.json.php?idGroup='+userInfo[2]+'&idUser='+md5(userInfo[1]),
+				dataType:'JSON',
+				success	:function(data){
+					if(data=='1'){
+						if(i==(friends-1)){
+							myDialog('#singleDialog',lang.GROUPS_SENDINVITATION);
+						}
 					}
+				},
+				error	:function(){
+					myDialog('#singleDialog','ERROR-invitedFriends');
 				}
-			},
-			error	:function(){
-				myDialog('#singleDialog','ERROR-invitedFriends');
-			}
-		});
+			});
+		};
 	});
 	$('.closedialog',idDialog).click();
 }
@@ -1730,7 +1784,7 @@ function viewCategories(action,idLayer,id){
 					out+=
 						'<li class="categorylist">'+
 							'<a code='+cate.id+' data-theme="e">'+
-								(cate.photo?'<img src="'+cate.photo+'" style="width:80px;height:50px;margin:20px 0 0 8px;border-radius:10px">':'')+
+								(cate.photo?'<img src="'+cate.photo+'" style="width:80px;height:50px;margin:20px 0 0 8px;">':'')+
 								'<p><h3 class="ui-li-heading">'+cate.name+'</h3>'+
 								(cate.cant?'<span class="ui-li-count">'+cate.cant+'</span>':'')+
 							'</p></a>'+

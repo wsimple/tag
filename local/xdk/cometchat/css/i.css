@@ -55,14 +55,15 @@ body {
 
 .title div.home {
 	left:0;
-	background-image: url(img/home.png);
+	background-image: url(smt/menu.png);
 }
 .title div.back {
 	left:0;
-	background-image: url(img/back.png);
+	background-image: url(smt/back.png);
 }
 .title div.usr {
 	right:0;
+	border-radius: 50%;
 }
 
 .header {
@@ -134,7 +135,7 @@ body {
 
 #scroller li {
 	padding:0 10px;
-	height:40px;
+	height:70px;
 	line-height:40px;
 	border-bottom:1px solid #ccc;
 	border-top:1px solid #fff;
@@ -238,9 +239,13 @@ body {
 }
 
 .avatarimage {
-	height: 20px;
+	height: 60px;
+	width: 60px;
 	margin-right: 10px;
 	vertical-align: -5px;
+	webkit-border-radius: 50%;
+	border-radius: 50%;
+	moz-border-radius:50%; 
 }
 
 #cometchat, #cometchat_tooltip { display: none; }

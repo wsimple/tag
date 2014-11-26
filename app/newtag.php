@@ -158,6 +158,7 @@
 				$('#button_changeMode').attr('value',lang.NEWTAG_BUTTON_ADVANCED);
 			},
 			after:function(){
+				$('#page-newTag').removeClass('default'); //Fix Vista Android
 				var status=1,aStatus=1,single=true;
 				// management of private/public
 				$("#div_publicTag_checkbox").change(function() {

@@ -4,7 +4,7 @@ include '../header.json.php';
 
 
 if (quitar_inyect()){
-    $res=array();
+    $res=array();$myId=$myId?$myId:$_SESSION['ws-tags']['ws-user']['id'];
     if (isset($_REQUEST['search'])){ $srh = $_REQUEST['search']; }
     else{ $srh =''; }
     if (!isset($_GET['type'])) $_GET['type']='';
@@ -17,14 +17,16 @@ if (quitar_inyect()){
                 case 'perso':   $array['limit']='LIMIT '.$_REQUEST['f_limitIni'].','.$_REQUEST['f_limitEnd']; break;
             }   
         }
-        $array['where']= safe_sql('u.status IN (1,5) AND u.id!=?',array($_SESSION['ws-tags']['ws-user']['id']));
+        $array['select']=',IF(u.id='.$myId.',1,0) AS iAm,
+                        (SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
+        $array['where']= safe_sql('u.status IN (1,5) AND u.id!=?',array($myId));
         if ($srh!='') $array['where'].=safe_sql(' AND CONCAT_WS( " ",u.email, u.name, u.last_name) LIKE "%??%"',array($srh)); 
         $array['order']='ORDER BY u.name ASC, u.email ASC';
         $friends = peoples($array);
         $friendsarray=array();
         while ($friend=CON::fetchAssoc($friends)){
-    		$friend['name_user'] = utf8_encode(formatoCadena($friend['name_user']));
-    		$friend['img'] = FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['photo_friend'],'img/users/default.png');
+    		$friend['name_user'] = formatoCadena($friend['name_user']);
+    		$friend['photo_friend'] = FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['photo_friend'],'img/users/default.png');
     		$friendsarray[] = $friend;
     	}
         $num=count($friendsarray);
@@ -41,8 +43,8 @@ if (quitar_inyect()){
                 case 'perso':   $array['limit']='LIMIT '.$_REQUEST['g_limitIni'].','.$_REQUEST['g_limitEnd']; break;
             }   
         }
-        $array['select']="	,(SELECT ug.status FROM users_groups ug WHERE ug.id_group=g.id and ug.id_user='".$_SESSION['ws-tags']['ws-user']['id']."' LIMIT 1) AS integrant";
-        $array['where']=    "(g.id_privacy!='3' AND g.id=(SELECT ug.id_group FROM users_groups ug WHERE ug.id_group=g.id AND ug.id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' LIMIT 1))";
+        $array['select']="	,(SELECT ug.status FROM users_groups ug WHERE ug.id_group=g.id and ug.id_user='".$myId."' LIMIT 1) AS integrant";
+        $array['where']=    "(g.id_privacy!='3' AND g.id=(SELECT ug.id_group FROM users_groups ug WHERE ug.id_group=g.id AND ug.id_user = '".$myId."' LIMIT 1))";
         if ($srh!='') $array['where'].=safe_sql(' AND CONCAT_WS( " ",g.description, g.name) LIKE "%??%"',array($srh)); 
         $array['order']='ORDER BY g.date DESC';
         $results = groupss($array);
@@ -126,7 +128,7 @@ if (quitar_inyect()){
             }   
         }
         $array['where']="p.id_status=1 AND p.stock>0";
-        if (isset($_GET['mobile'])){ $array['where'].=' AND p.formPayment=0 AND p.id_user!="'.$_SESSION['ws-tags']['ws-user']['id'].'"';}
+        if (isset($_GET['mobile'])){ $array['where'].=' AND p.formPayment=0 AND p.id_user!="'.$myId.'"';}
         $array['select']=',p.formPayment AS pago';
         if($srh!=''){ //si viene palabra de busqueda se filtra por bur busqueda
 			if(strpos($srh,',')!==false){
@@ -143,7 +145,7 @@ if (quitar_inyect()){
         while ($row=  CON::fetchAssoc($result)){
             $row['id']=md5($row['id']);
             $row['seller'] = utf8_encode(formatoCadena($row['seller']));
-            if ($row['id_user']==$_SESSION['ws-tags']['ws-user']['id']){ $row['raffle']=true; }
+            if ($row['id_user']==$myId){ $row['raffle']=true; }
             if ($array['storeList']) $row['listStore']=true; 
             $row['category'] = utf8_encode(formatoCadena(@constant($row['category'])));
             $row['subCategory'] = utf8_encode(formatoCadena(@constant($row['subCategory'])));			

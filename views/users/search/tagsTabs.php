@@ -34,6 +34,7 @@
 				layer	:layer,
 				idsearch:'1',
 				radiobtn:'.tags-size',
+				search: '<?=$srh_text?>',
 				get		:"&hash=<?=$hash?>"
 			};
 			console.log('hast de tags = '+opc.hash);
