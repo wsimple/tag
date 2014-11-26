@@ -25,7 +25,7 @@
 				$('.fs-wrapper').jScroll({hScroll:false});
                 $('#resultList').on('click','#resultSG li[group]',function(){
     				menuGroupsClose($(this).attr('group'));
-    			}).on('click','#resultSP a[code]',function(){
+    			}).on('click','#resultSP [code]',function(){
 					redir(PAGE['profile']+'?id='+$(this).attr('code'));
 				}).on('click','#resultSS li[idPro]',function(){
 					redir(PAGE['detailsproduct']+'?id='+$(this).attr('idPro'));
@@ -39,6 +39,7 @@
 				}).on('click','li[hash]',function(){
 				    redir(PAGE['tagslist']+'?current=hash&hash='+$(this).attr('hash').replace('#','%23').replace('<br>',' '));
 				});	
+                linkUser('#resultList');
                 $('#resultList').on('collapse','div[data-role="collapsible"]',function(){
 					$('.fs-wrapper').jScroll('refresh');
 				});
@@ -74,20 +75,9 @@
                                                 +'<ul id="resultSP" data-role="listview" data-filter="true" data-divider-theme="e" class="list-friends">';
                             			for(i=0;i<data['friends'].length;i++){
                             				friend=data['friends'][i];
-                            				outP+=
-                            					'<li class="userInList">'+
-                            						'<a code="'+friend['code_friend']+'" data-theme="e">'+
-                            							 '<img src="'+friend['img']+'" class="ui-li-thumb userBR" width="60" height="60"/>'+
-                            							 '<h3 class="ui-li-heading">'+friend['name_user']+'</h3>'+
-                           							      '<p class="ui-li-desc">'+
-                            								lan('friends','ucw')+' ('+(friend['friends_count']||0)+'), '+
-                            								lan('admirers','ucw')+' ('+(friend['followers_count']||0)+'), '+
-                            								lan('admired','ucw')+' ('+(friend['following_count']||0)+')'+
-                            							'</p>'+
-                            						'</a>'+
-                            					'</li>';
-                                               more+=armarSeemore(data['limit'],'friends',(i+1),data['f_maxR']);
-                                               if (more!=''){ outP+=more; break;}
+                            				outP+=bodyFriendsList(friend);
+                                            more+=armarSeemore(data['limit'],'friends',(i+1),data['f_maxR']);
+                                            if (more!=''){ outP+=more; break;}
                             			}
                                         out+='   </ul>'
                                             +'</div>';
@@ -101,17 +91,10 @@
             								pref = data['groups'][i];
 
                                             switch (pref['idPri']) {
-                                                case 1:
-                                                    pref['privacidad'] = lang.GROUPS_OPEN;
-                                                break;
-                                                case 2:
-                                                    pref['privacidad'] = lang.GROUPS_CLOSED;
-                                                break;
-                                                case 3:
-                                                    pref['privacidad'] = lang.GROUPS_PRIVATE;
-                                                break;
+                                                case 1: pref['privacidad'] = lang.GROUPS_OPEN; break;
+                                                case 2: pref['privacidad'] = lang.GROUPS_CLOSED; break;
+                                                case 3: pref['privacidad'] = lang.GROUPS_PRIVATE; break;
                                             }
-                                            console.log(pref['privacidad']);
             								outG +=
             									'<li group="'+pref['id']+'">'+
             										'<img src="'+pref['icon']+'" class="ui-li-icon-group" width="19" height="19" />'+

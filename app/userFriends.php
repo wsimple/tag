@@ -34,9 +34,10 @@
 				$('.list-content input').keyup(function() {
 					$('.list-wrapper').jScroll('refresh');
 				});
-				$(opc.layer).on('click','a[code]',function(){
+				$(opc.layer).on('click','[code]',function(){
 					redir(PAGE['profile']+'?id='+$(this).attr('code'));
 				});
+				linkUser(opc.layer);
 				$('#friendsFooter').on('click','a[opc]',function(){
 					opc.mod=$(this).attr('opc');
 					viewFriends(opc);

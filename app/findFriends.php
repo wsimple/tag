@@ -42,10 +42,10 @@
 					}
 					last=val;
 				});
-				$('#friendsList').on('click','a[code]',function(){
+				$('#friendsList').on('click','[code]',function(){
 					redir(PAGE['profile']+'?id='+$(this).attr('code'));
 				});
-
+				linkUser(opc.layer);
 				$('#contactList').on('click','a[email]',function(){
 					that = $(this);
 					myDialog({

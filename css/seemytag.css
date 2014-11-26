@@ -169,7 +169,7 @@ page container#home .appLinks #gPlay{
 	height: 40px;
 	margin: 5px 0 0 0;
 	width: 39%;
-	background: url('tbum/icon_googlePlay.png') no-repeat;
+	background: url('tbum/icon_googlePlay.svg') no-repeat;
 	float: left;
 }
 page.unlogged footer{
