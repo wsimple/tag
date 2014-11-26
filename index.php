@@ -1,4 +1,7 @@
 <?php
+#mientras se este migrando a modelo-vista-controlador, se trabaja paralelo con la interfaz antigua. desactivar esta variable para trabajar unicamente con MVC
+$migrating=TRUE;
+
 #si la web se llama con "www." se remueve el subdominio
 if(substr($_SERVER['SERVER_NAME'],0,4)=='www.'){
 	header('Location: http://'.substr($_SERVER['SERVER_NAME'],4).$_SERVER['REQUEST_URI']);
@@ -12,20 +15,8 @@ else
 if(!is_file('.security/security.php')){ include 'security.php'; }
 include('.security/security.php');
 
-#mientras se este migrando a modelo-vista-controlador, se trabaja paralelo con la interfaz antigua
-$migrating=TRUE;
-if($migrating){
-	include('includes/config.php');
-	if(!is_file('main/controllers/'.$section.'.php')){
-		include('index_old.php');
-		die();
-	}
-}
-
-include 'main/core/globals.php';
-
+#carga automatica de clases permitidas
 function __autoload($classname){
-	#carga automatica de clases permitidas
 	$path='main';
 	$folder='controllers';
 	$filename=strtolower($classname);
@@ -37,6 +28,40 @@ function __autoload($classname){
 	elseif(TAG_functions::is_debug()) die("No existe la clase '$classname' ($folder).");
 	else die('Page not found.');
 }
+
+#mobile detection
+$detect=new Mobile_Detect;
+if($detect->isMobile()){
+	#cambiar entre version full y mobile
+	if(isset($_GET['mobileVersion'])){
+		setcookie('__FV__',NULL,NULL,'/',NULL,false,false);
+		@header('Location:app/');
+	}
+	if(isset($_GET['fullVersion'])){
+		setcookie('__FV__','1',time()+60*60*24*30,'/',NULL,false,false);
+		@header('Location:.');
+	}
+	if($detect->isTablet()){
+		if(!$_COOKIE['__FV__']){
+			header('Location:app/');
+			die();
+		}
+	}else{
+		header('Location:app/');
+		die();
+	}
+}
+
+if($migrating){
+	include('includes/config.php');
+	if(!is_file('main/controllers/'.$section.'.php')){
+		include('index_old.php');
+		die();
+	}
+}
+
+include 'main/core/globals.php';
+
 global $section,$params,$control;
 $control=new $section($params);
 if(method_exists($control,'__onload')) $control->__onload($params);

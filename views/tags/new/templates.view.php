@@ -1,5 +1,4 @@
 <?php
-	include ("../../../class/Mobile_Detect.php");
 	include ("../../../includes/config.php");
 	include ("../../../includes/session.php");
 	include ("../../../includes/functions.php");
