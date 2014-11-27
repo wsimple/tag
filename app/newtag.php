@@ -79,12 +79,14 @@
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
 			<div class="container">
-				<div style="display:inline-block;margin-right:10px;width:85px;">
-					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" style="width: 80px"/>
+				<div style="display:inline-block;margin-right:10px;width:65%;">
+					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" />
 				</div>
-				<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#shareTagDialog')" class="no-disable" data-mini="true" />
-				<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#shareTagDialog')" class="no-disable" data-mini="true" />
-				<div class="list-wrapper" style="margin-top:5px;height:150px"><div id="scroller"></div></div>
+				<div style="display:inline-block;margin-right:10px;width:30%;">
+					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#shareTagDialog')" class="no-disable" data-mini="true" />
+					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#shareTagDialog')" class="no-disable" data-mini="true" />
+				</div>
+				<div class="list-wrapper" style="margin-top:5px;height:150px"><div id="scroller"><ul data-role="listview" data-inset="true"></ul></div></div>
 			</div>
 			<div class="buttons">
 				<a href="#" data-role="button" onclick="getDialogCheckedUsers('#shareTagDialog')" data-theme="f">Ok</a>
