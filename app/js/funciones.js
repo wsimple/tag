@@ -633,36 +633,42 @@ function showTags(array,type){//tag list
 //		tags+='<div class="tag-loading smt-container"><div class="smt-content" style="z-index:4;">Loading...</div></div>'+showTag(array[i]);
 	return '<div class="tag-container">'+tags+'</div>';
 }
+function bigLike(tagId, icon){
+	$('#big-like').remove();
+	$('[tag='+tagId+']').append('<div id="big-like"></div>');
+	$('#big-like').addClass((icon == 'dislike' ? 'rotated': '' )).animate({
+		'background-size': '15%',
+		'-webkit-background-size': '15%',
+		'opacity': 0.2},
+		2000, function() {
+		$(this).remove();
+	});
+}
 function actionsTags(layer){
 	if(isLogged()){
-		$(layer).doubletap('[tag]', function(e){
+		$(layer).doubletap('[tag] .minitag', function(e){
 			var tagId = $(e.currentTarget).attr('tag')
+			bigLike(tagId,'like');
 			playLike(tagId,'likeIcon','dislikeIcon',true);
 		});
 		var lastId = 0;
 		$(layer).on('click', 'menu li', function(e){
+
+			if ($(e.target).hasClass('canceled')) return false;
+
 			var tagId = $(e.target).parents('[tag]').attr('tag');
-			var btnPresed = e.target.id;
 			switch(e.target.id){
 				case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
 				case 'share':redir(PAGE['sharetag']+'?id_tag='+tagId);break;
 				case 'comment':
 					tagId = $(e.target).parents('[tag]').attr('tag');
-					if (lastId != tagId) {
-						playComment(tagId);
-						lastId = tagId;
-					};
+					$(e.target).addClass('canceled');
+					playComment(tagId);
+					lastId = tagId;
 				break;
 				case 'like':case 'dislike':
-					// $(e.currentTarget).append('<img id="yok" src="http://vectorise.net/logo/wp-content/uploads/2012/08/Facebook-Like.png">');
-					// $('#yok').animate({
-					// 	height: '25%',
-					// 	width: '25%',
-					// 	opacity: 0.2,
-					// 	position:'absolute'},
-					// 	2000, function() {
-					// 	$('#yok').remove();
-					// });
+					//$(e.target).addClass('canceled');
+					bigLike(tagId, e.target.id);
 					var that=e.target.id+'Icon',
 						show=e.target.id!='like'?'likeIcon':'dislikeIcon';
 						playLike(tagId,that,show);
@@ -748,7 +754,7 @@ function actionsTags(layer){
 	}
 }
 function afterAjaxTags(data, tagId, toHide,toShow){
-	console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
+	//console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
 	if(data.indexOf('ERROR')<0){
 		$('[tag='+tagId+']').find(toHide).fadeOut('slow',function(){
 			$('[tag='+tagId+']').find(toShow).fadeIn('slow');
@@ -756,13 +762,13 @@ function afterAjaxTags(data, tagId, toHide,toShow){
 	}
 }
 function playLike(tagtId,that,show,comment){
-	afterAjaxTags(data['success'],tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
 	myAjax({
 		type:'POST',
 		url:DOMINIO+'controls/tags/actionsTags.controls.php?this_is_app&action='+(that=='likeIcon'?4:11)+'&tag='+tagtId,
 		dataType:'json',
 		loader: false,
 		success:function(data){
+			afterAjaxTags(data['success'],tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
 			if (data['success']=='likes') afterAjaxTags(data['success'], tagtId, 'menu #like', 'menu #dislike');
 			else afterAjaxTags(data['success'], tagtId,'menu #dislike', 'menu #like');
 			$('#numDislikes').html(data['dislikes']); $('#numLikes').html(data['likes']);
@@ -782,11 +788,11 @@ function playComment(tagtId, opc){
 		}
 	};
 	var options = opc || defaults;
-	// if ($('[tag='+tagtId+']').find(options.layer).length > 0) {
-	// 	$('#tagsList').off('keydown', '#commenting');
-	// 	window.clearInterval(interval);
-	// 	$(this).remove();
-	// }else{
+	if ($('[tag='+tagtId+']').find(options.layer).length > 0) {
+		$('#tagsList').off('keydown', '#commenting');
+		//window.clearInterval(interval);
+		$(options.layer).remove();
+	}else{
 		$(options.layer).remove();
 		$('[tag='+tagtId+']').find('#panel').append(
 				'<ul id="comments" style="display:none;" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>'
@@ -796,7 +802,8 @@ function playComment(tagtId, opc){
 		// var interval=setInterval(function(){
 		// 	if ( $(options.layer).length>0 ) getComments('refresh',options);
 		// },20000);
-	// }
+	}
+	$('[tag='+tagtId+']').find('menu #comment').removeClass('canceled');
 
 	$('#tagsList, #page-tag').on('click', '#send-comment', function(e) {
 		options.data.source = $(e.target).parents('[tag]').attr('tag');
