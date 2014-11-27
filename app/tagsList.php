@@ -26,26 +26,20 @@
 	<!-- Dialogs -->
 	<div id="friendsListDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
-			<div class="header">
-				<div id="groupTitle" class="optional dnone members center" style="font-weight:bold; padding: 5px 0px 10px;border-bottom: 1px solid #ccc;"></div>
-				<div id="searcher" class="optional dnone invite">
-					<div style="display:inline-block;margin-right:10px;width:85px;">
-						<input id="like_friend_group" name="like_friend_group" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" style="width: 80px"/>
-					</div>
-					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true, '#friendsListDialog')" class="no-disable" data-mini="true" />
-					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false, '#friendsListDialog')" class="no-disable" data-mini="true" />
-				</div>
-			</div>
 			<div class="container">
-				<div class="wrapper" style="height:150px" >
-					<div id="scroller" >
-						<div class="content" style="padding:5px; text-align: center;"></div>
-					</div>
+				<div class="this-search" style="display:inline-block;margin-right:10px;width:65%;">
+					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" />
 				</div>
+				<div class="this-button" style="display:inline-block;margin-right:10px;width:30%;">
+					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#friendsListDialog')" class="no-disable" data-mini="true" />
+					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#friendsListDialog')" class="no-disable" data-mini="true" />
+				</div>
+				<div class="list-wrapper" style="margin-top:5px;height:150px;">
+					<div id="scroller"><ul data-role="listview" data-inset="true"></ul>
+				</div></div>
 			</div>
 			<div class="buttons">
-				<a data-role="button" class="optional dnone members" onclick="closeDialogmembersGroup('#friendsListDialog')" data-theme="f">Ok</a>
-<!--				<a data-role="button" class="optional dnone invite" onclick="sendInvitationMemberGrp('#friendsListDialog')" data-theme="f">Send Invitation</a>-->
+				<a href="#" data-role="button" onclick="closeDialogmembersGroup('#friendsListDialog')" data-theme="f">Ok</a>
 			</div>
 		</div>
 	</div></div></div>
@@ -104,14 +98,7 @@
 				$('#buttonBack').click(function(){
 					($_GET['delete'])?((redir(PAGE['tagslist']+'?current=group&id='+id))):goBack();
 				});
-				$('#friendsListDialog .wrapper,#adminLeaveDialog .wrapper').jScroll({hScroll:false});
-				// $(layer).on('click','[tag]',function(){
-				// 	if($(this).attr('tag')!=''){
-				// 		var get=['id='+$(this).attr('tag')];
-				// 		if(current=='group') get.push('idGroup='+id);
-				// 		redir(PAGE['tag']+'?'+get.join('&'));
-				// 	}
-				// });
+				$('#friendsListDialog .list-wrapper,#adminLeaveDialog .list-wrapper').jScroll({hScroll:false});
 				/*action menu tag*/
 				actionsTags(opc.layer);
 				/*and action menu tag*/
@@ -165,7 +152,7 @@
 								for(i in data['datos']){
 									friend=data['datos'][i];
 									ret	+=
-										'<div code="'+friend['code_friend']+'" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
+										'<li data-icon="false" code="'+friend['code_friend']+'" >'+
 											'<img src="'+friend['photo_friend']+'" style="float:left; width:60px; height:60px;" class="userBR"/>'+
 											'<div style="float: left; margin-left:5px; font-size:10px; text-align: left;">'+
 												'<spam style="color:#E78F08; font-weight:bold; ">' + friend['name_user'] + '</spam><br/>'+
@@ -174,65 +161,19 @@
 												''+lan('admirers','ucw')+'('+friend['followers_count']+')<br/>'+
 												((friend['status'])?'<strong style="color:green">'+lan('active','ucw')+'</strong>':'<strong style="color:red">'+lan('inactive','ucw')+'</strong>')+
 											'</div>'+
-										'</div>';
+										'</li>';
 								}
-								$('#friendsListDialog').off().on('click','div[code]',function(){
+								$('#friendsListDialog .container ul').html(ret).listview('refresh');
+								$('.list-wrapper').jScroll('refresh');
+								$('#friendsListDialog').off().on('click','[code]',function(){
 									redir(PAGE['profile']+'?id='+$(this).attr('code'));
 								});
-								$('#friendsListDialog .content').html(ret);
-								setTimeout(function(){$('.wrapper').jScroll('refresh');}, 1000);
 							},
 							error	: function() {
 								myDialog('#singleDialog', 'ERROR-getMemberGroup');
 							}
 						});
 					}
-					function getFriendsGroup(like){
-						console.log('getFriendsGroup');
-						like=like?'&like='+like:'';
-						myAjax({
-							loader	:true,
-							type	:'POST',
-							url		:DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&mod=friends&code='+$.local('code')+like+'&idGroup='+id,
-							dataType:'json',
-							success	:function(data){
-								var friend,ret='';
-								for(var i in data['datos']){
-									friend=data['datos'][i];
-									//if(emails.join().indexOf(friend['email'])<0)
-									ret+=
-										'<div onclick="$(\'input\',this).click();" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
-											'<div style="float: right; padding-top: 20px; margin-right: 15px;">'+
-												'<fieldset data-role="controlgroup">'+
-													'<input name="friend_'+friend['id']+'" '+
-														'value="'+friend['email']+'|'+friend['id']+'|'+id+'" type="checkbox" />'+
-												'</fieldset>'+
-											'</div>'+
-											'<img src="'+friend['photo_friend']+'" style="float: left; width: 60px; height: 60px;" class="userBR"/>'+
-											'<div style="float: left; margin-left: 5px; font-size: 10px; text-align: left;">'+
-												'<spam style="color: #E78F08; font-weight: bold; ">' + friend['name_user'] + '</spam><br/>'+
-												(friend['country'] ? ''+lang.country+': '+friend['country']+'<br/>' : '')+
-												''+lan('friends','ucw')+'('+friend['friends_count']+')<br/>'+
-												''+lan('admirers','ucw')+'('+friend['followers_count']+')'+
-											'</div>'+
-										'</div>';
-								}
-								$('#friendsListDialog .content').html(ret);
-								if(data==''){
-									ret	=
-										'<div id="message" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
-											lang.GROUPS_MESSAGEMPTY+
-										'</div>';
-									$('.wrapper #scroller').html('<div style="padding:5px; text-align: center;">'+ret+'</div>');
-								}
-								$('.wrapper').jScroll('refresh');
-							},
-							error	: function() {
-								myDialog('#singleDialog', 'ERROR-getFriends');
-							}
-						});
-					}
-
 					function assignAdminGroup(like) {
 						console.log('assignAdminGroup');
 						like = like ? '&like='+like : '';
@@ -245,7 +186,6 @@
 								var friend,ret	= '';
 								for(var i in data){
 									friend=data[i];
-									//if(emails.join().indexOf(friend['email'])<0)
 									ret	+=
 										'<div id="'+friend['id']+'" onclick="$(\'#friend_'+friend['id']+'\').attr(\'checked\', ($(\'#friend_'+friend['id']+'\').is(\':checked\')) ? false : true);" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
 											'<div style="float: right; padding-top: 20px; margin-right: 15px;">'+
@@ -281,36 +221,24 @@
 						});
 					}
 					$('#footer #invite').click(function(){
-						myDialog({
-							id:'#friendsListDialog',
-							style:{'min-height':150},
-							buttons:[{
-								name:lang.GROUPS_SENDINVITATION,
-								action: function(){ sendInvitationMemberGrp('#friendsListDialog')}
-							},{
-								name:lang.close,
-								action:'close'
-							}],
-							after: function (options,dialog){
-								$('#like_friend_group',dialog).unbind('keyup').bind('keyup',function(event) {
-									if(event.which==8||event.which>40) getFriendsGroup($('#like_friend_group',dialog).val());
-								});
-								$('.optional',dialog).addClass('dnone');
-								$('.invite',dialog).removeClass('dnone');
-							}
-						});
-						getFriendsGroup();
+						selectFriendsDialog($.local('code'),id);
+						$('#friendsListDialog .buttons a').attr('onclick',"sendInvitationMemberGrp('#friendsListDialog','"+id+"');");
+						$('#friendsListDialog .this-button').show();
+						$('#friendsListDialog .this-search').css('width','65%');
 					});
 
 					$('#footer #members').click(function(){
 						myDialog({
 							id:'#friendsListDialog',
-							style:{'min-height':150},
+							style:{'min-height':200},
 							buttons:{},
 							after: function (options,dialog){
 								 getMembersGroup();
+								$('.buttons a',dialog).attr('onclick',"closeDialogmembersGroup('#friendsListDialog');");
 								$('.optional',dialog).addClass('dnone');
 								$('.members',dialog).removeClass('dnone');
+								$('.this-button',dialog).hide();
+								$('.this-search',dialog).css('width','100%');
 							}
 						});
 					});
