@@ -4,7 +4,6 @@ if(strpos($_SESSION['ws-tags']['ws-user']['pic'],FILESERVER)!==false){
 }
 //$fot_=FILESERVER.generateThumbPath('img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']).'?'.time();
 //detectar si es mobile
-include_once('class/Mobile_Detect.php');
 $detect=new Mobile_Detect();
 //mouse action (en web: over, en mobile: click)
 $ma=$detect->isMobile()?'mc':'mo';

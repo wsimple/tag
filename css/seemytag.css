@@ -232,7 +232,7 @@ page loader.page{
 	width:28px;
 	height:28px;
 }
-page.unlogged loader.page{
+page.unlogged loader.page,.loader.tag{
 	display:inline-block;
 	background:url('tbum/loader-fff-f82.gif') no-repeat 50%;
 	background-size:100% 100%;
