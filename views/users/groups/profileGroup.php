@@ -91,7 +91,7 @@
 						}else{
 							if (data['list'][0]['noti']['body']){
 								$('.tags-list').hide().after('<div id="info">'+data['list'][0]['noti']['body']+'</div>');
-								$('.btn input#back').click(function(){ history.back(); });
+								$('#btn input#back').click(function(){ history.back(); });
 							}
 						}
 					}else{
