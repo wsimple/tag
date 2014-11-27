@@ -1,7 +1,6 @@
 <?php
 	if( isset($_POST['asyn']) ) {
 	    include ("../../includes/session.php");
-		include ("../../class/Mobile_Detect.php");
 		include ("../../includes/config.php");
 		include ("../../includes/functions.php");
 		include ("../../class/wconecta.class.php");

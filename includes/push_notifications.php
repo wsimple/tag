@@ -1,7 +1,6 @@
 <?php
 	if ($_GET[ajaxnoti]=="1"){
 		include ("session.php");
-		include ("../class/Mobile_Detect.php");
 		include ("config.php");
 		include ("functions.php");
 		include ("../class/wconecta.class.php");
