@@ -21,7 +21,7 @@ switch ($_GET['action']) {
 				$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
 				$array['where']=safe_sql('ul.id_user=? AND ul.is_friend=1',array($uid));
 				if (isset($_GET['idGroup']))
-					$array['where'].=safe_sql(" AND ul.id_friend NOT IN ((SELECT id_user FROM users_groups WHERE id_group=?))",array($_GET['idGroup']));
+					$array['where'].=safe_sql(" AND ul.id_friend NOT IN ((SELECT id_user FROM users_groups WHERE md5(id_group)=?))",array($_GET['idGroup']));
 				if (isset($_GET['like'])){
 					$searches = explode(' ',$_GET['like']);$where='';
 					foreach ($searches as $word) {
@@ -78,6 +78,7 @@ switch ($_GET['action']) {
 			$query=peoples($array);
 			if (CON::numRows($query)>0) $html='<div class="ui-single-box-title">'.HOME_SUGGESTFRIENDS.'</div>';
 		}
+		$res['aaawww']=CON::lastSql();
 		$info=array();
 		while ($row=CON::fetchAssoc($query)){
 			$row['name_user']=formatoCadena($row['name_user']);

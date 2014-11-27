@@ -1,6 +1,5 @@
-<?php include 'inc/header.php';		  	
- ?>
-<div id="page-shareTag" data-role="page" data-cache="false">
+<?php include 'inc/header.php'; ?>
+<div id="page-shareTag" data-role="page" data-cache="false" class="no-footer">
 	<div data-role="header" data-position="fixed" data-theme="f">
 		<h1></h1>
 		<a id="publish_newTag"></a>
@@ -18,16 +17,20 @@
 							<label for="userName_shareTag" id="fromEmail"></label>
 							<input id="userName_shareTag" disabled="disabled" />
 						</fieldset>
-						<fieldset data-role="controlgroup" data-mini="true">
-							<label for="message" id="fromMessage"></label>
-							<textarea id="message" style="resize:none;border-radius:5px;height:50px;"></textarea>
-						</fieldset>
 						<label id="title_pictures_shareTag" style="font-size:10px;display:none;"></label>
-						<div id="pictures_shareTag" style="height:40px;margin-bottom:10px;text-align:center;margin:0 auto;overflow-y:hidden;overflow-x:auto;"></div>
+						<div id="pictures_shareTag" style="height:40px;text-align:center;margin:10px auto 5px;overflow-y:hidden;overflow-x:auto;">
+							<span onclick="selectFriendsDialog($.local('code'))">
+								<img src="css/smt/plus.png" width="40" style="margin-left: 5px; border-radius: 5px;" class="userBR"/>
+							</span>
+						</div>
 						<fieldset data-role="controlgroup" data-mini="true">
 							<label for="emails_shareTag" id="fromEmails"></label>
 							<textarea id="emails_shareTag" style="resize:none;border-radius:5px;height:50px;"></textarea>
 							<span id="emails_legend" style="font-size:10px;display:block;"></span>
+						</fieldset>
+						<fieldset data-role="controlgroup" data-mini="true">
+							<label for="message" id="fromMessage"></label>
+							<textarea id="message" style="resize:none;border-radius:5px;height:50px;"></textarea>
 						</fieldset>
 					</div>
 					<div id="tag_shareTag" class="smt-tag-content"></div>
@@ -35,23 +38,17 @@
 			</div>
 		</div>
 	</div>
-	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
-		<div data-role="navbar">
-			<ul>
-				<li><a id="friends" onclick="selectFriendsDialog($.local('code'))"></a></li>
-			</ul>
-		</div>
-	</div>
-	<!-- dialogs -->
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
 			<div class="container">
-				<div style="display:inline-block;margin-right:10px;width:85px;">
-					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" style="width: 80px" />
+				<div style="display:inline-block;margin-right:10px;width:65%;">
+					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" />
 				</div>
-				<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#shareTagDialog')" class="no-disable" data-mini="true" />
-				<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#shareTagDialog')" class="no-disable" data-mini="true" />
-				<div class="list-wrapper" style="margin-top:5px;height:150px;"><div id="scroller"></div></div>
+				<div style="display:inline-block;margin-right:10px;width:30%;">
+					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#shareTagDialog')" class="no-disable" data-mini="true" />
+					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#shareTagDialog')" class="no-disable" data-mini="true" />
+				</div>
+				<div class="list-wrapper" style="margin-top:5px;height:150px;"><div id="scroller"><ul data-role="listview" data-inset="true"></ul></div></div>
 			</div>
 			<div class="buttons">
 				<a href="#" data-role="button" onclick="getDialogCheckedUsers('#shareTagDialog')" data-theme="f">Ok</a>
@@ -91,10 +88,11 @@
 					$('#pictures_shareTag input').each(function(){
 						friends.push($(this).val());
 					});
+					emailsText+=(emailsText!=''?',':'')+friends.join();
 					myAjax({
 						type	:'POST',
 						url		:DOMINIO+'controls/tags/actionsTags.controls.php?action=5&tag='+idTag+(device ? '&device='+device : ''),
-						data:{mails:friends.join()+emailsText,msj:$('#message').val()},
+						data:{mails:emailsText,msj:$('#message').val()},
 						dataType:'text',
 						success	:function(data){
 							myDialog({
