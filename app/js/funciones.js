@@ -648,12 +648,14 @@ function bigLike(tagId, icon){
 }
 function actionsTags(layer){
 	if(isLogged()){
-		$(layer).doubletap('[tag] .minitag', function(e){
-			var tagId = $(e.currentTarget).attr('tag')
+		$(layer).doubletap('[tag] > .bg', function(e){
+			var tagId = $(e.currentTarget).parents('[tag]').attr('tag');
 			bigLike(tagId,'like');
-			playLike(tagId,'likeIcon','dislikeIcon',true);
+			
+			if ( $('[tag='+tagId+']').find('#comments').length == 0 ) {
+				playLike(tagId,'likeIcon','dislikeIcon',true);
+			};
 		});
-		var lastId = 0;
 		$(layer).on('click', 'menu li', function(e){
 
 			if ($(e.target).hasClass('canceled')) return false;
@@ -666,7 +668,6 @@ function actionsTags(layer){
 					tagId = $(e.target).parents('[tag]').attr('tag');
 					$(e.target).addClass('canceled');
 					playComment(tagId);
-					lastId = tagId;
 				break;
 				case 'like':case 'dislike':
 					//$(e.target).addClass('canceled');
@@ -1463,10 +1464,10 @@ function getFriends(id,groups,like){
 			var ret='';
 			for(var i in data['datos']){
 				if(emails.join().indexOf(data['datos'][i]['email'])<0)
-				ret+='	<li data-icon="false" style="width: 32%;border: 1px solid #ccc;float: left;">'+
+				ret+='	<li data-icon="false" style="width: 30%;border: 1px solid #ccc;float: left;padding-left: 13%;">'+
 							'<input value="'+data['datos'][i]['email']+'|'+data['datos'][i]['photo_friend']+'" type="checkbox" class="invisible"/>'+
-							'<img src="'+data['datos'][i]['photo_friend']+'" style="float:left;width:60px;height:60px;" class="userBR"/>'+
-							'<div style="float:left;margin-left:5px;font-size:10px;text-align:left;">'+
+							'<img src="'+data['datos'][i]['photo_friend']+'" style="float:left;width:50px;height:50px;" class="userBR"/>'+
+							'<div style="float:left;margin-left:2px;font-size:8px;text-align:left;">'+
 								'<spam style="color:#E78F08;font-weight:bold;">'+data['datos'][i]['name_user']+'</spam><br/>'+
 								(data['datos'][i]['country']?lang.country+':'+data['datos'][i]['country']+'<br/>':'')+
 								''+lan('friends','ucw')+'('+data['datos'][i]['friends_count']+')<br/>'+
