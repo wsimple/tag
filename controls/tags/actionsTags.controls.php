@@ -376,7 +376,12 @@
 
 							echo $id_creator.' '.$Nreport.' '.$Nsegui.' ' .$porcenEmails.' '.$porce[0].' '.round($total);
 							if ($Nreport>=$total) {
-								echo ' enviar correo ';
+								// echo ' enviar correo ';
+
+								$body ='datos';
+
+								$resp = sendMail(formatMail($body, "790"), EMAIL_NO_RESPONDA, formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.$lang['MENUTAG_CTRSHAREMAILTITLE1'], $per, "../../");
+								
 							}else{
 								echo ' no enviar correo ';
 							}
