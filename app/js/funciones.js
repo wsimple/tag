@@ -1457,10 +1457,10 @@ function getFriends(id,groups,like){
 			var ret='';
 			for(var i in data['datos']){
 				if(emails.join().indexOf(data['datos'][i]['email'])<0)
-				ret+='	<li data-icon="false" style="width: 32%;border: 1px solid #ccc;float: left;">'+
+				ret+='	<li data-icon="false" style="width: 30%;border: 1px solid #ccc;float: left;padding-left: 13%;">'+
 							'<input value="'+data['datos'][i]['email']+'|'+data['datos'][i]['photo_friend']+'" type="checkbox" class="invisible"/>'+
-							'<img src="'+data['datos'][i]['photo_friend']+'" style="float:left;width:60px;height:60px;" class="userBR"/>'+
-							'<div style="float:left;margin-left:5px;font-size:10px;text-align:left;">'+
+							'<img src="'+data['datos'][i]['photo_friend']+'" style="float:left;width:50px;height:50px;" class="userBR"/>'+
+							'<div style="float:left;margin-left:2px;font-size:8px;text-align:left;">'+
 								'<spam style="color:#E78F08;font-weight:bold;">'+data['datos'][i]['name_user']+'</spam><br/>'+
 								(data['datos'][i]['country']?lang.country+':'+data['datos'][i]['country']+'<br/>':'')+
 								''+lan('friends','ucw')+'('+data['datos'][i]['friends_count']+')<br/>'+
