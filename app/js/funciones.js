@@ -646,8 +646,9 @@ function bigLike(tagId, icon){
 }
 function actionsTags(layer){
 	if(isLogged()){
-		$(layer).doubletap('[tag]', function(e){
-			var tagId = $(e.currentTarget).attr('tag')
+		$(layer).doubletap('[tag] > .bg', function(e){
+			var tagId = $(e.currentTarget).parents('[tag]').attr('tag');
+			console.log(tagId)
 			bigLike(tagId,'like');
 			playLike(tagId,'likeIcon','dislikeIcon',true);
 		});
