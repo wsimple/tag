@@ -234,61 +234,48 @@
 				}
 			break;// end join to group
 			case 4: // leave to group
-				$id_group = campo('groups', 'md5(id)', $_GET['grp'], 'id');
-				if($id_group!=''){
-					//numero de administradores del grupo
-					$admins  = $GLOBALS['cn']->query("
-						SELECT id FROM users_groups
-						WHERE id_group = '".$id_group."' AND is_admin = '1'
-					");
-					$admins  = mysql_num_rows($admins);
-					$admins2 = $GLOBALS['cn']->query("
-						SELECT id FROM users_groups
-						WHERE id_group = '$id_group' AND is_admin='1' AND id_user = '".$_SESSION['ws-tags']['ws-user']['id']."'
-					");
-					$admins2 = mysql_num_rows($admins2);
-					if((!isset($_GET['force'])) && ($admins==$admins2)){ $res['leave']= 'leave';
-					}else{
-						if ($_GET['admin']=='1'&& $admins==$admins2){//se verifica si el usuario en sesion es el unico admin del grupo
-							$GLOBALS['cn']->query("DELETE FROM users_groups WHERE id_group = '".$id_group."' "); //se borran las miembros
-							$GLOBALS['cn']->query("DELETE FROM groups WHERE id = '".$id_group."' "); //se borra el grupo
-							$GLOBALS['cn']->query("DELETE FROM users_notifications WHERE id_source = '".$id_group."' AND (id_type = '6' OR id_type = '14' OR id_type = '13')"); //se borran las notificaciones tipo grupos
-							$tagsErases = $GLOBALS['cn']->query("SELECT id FROM tags WHERE id_group ='".$id_group."' "); //se consultan las tags del grupo
+				if (isset($_GET['grp'])){
+                    $id_group = CON::getVal("SELECT id FROM groups WHERE md5(id)=?",array($_GET['grp']));
+                    if (!$id_group){ $res['leave'] ='no-group'; break; }
+                    //control de nuevos miembros
+                    $admins  = CON::getRow("SELECT (SELECT COUNT(id) FROM users_groups WHERE id_group=?) AS numA,
+                    								 is_admin AS admin
+                    						FROM users_groups 
+                    						WHERE id_group=? ",array($id_group,$id_group,$myId));
+                    $res['tes']=$admins;
+					if(!isset($_GET['force']) && ($admins['numA']==1 && $admins['admin']=='1')) $res['leave']= 'leave';
+					else{
+						if ($admins['numA']==1 && $admins['admin']=='1'){//se verifica si el usuario en sesion es el unico admin del grupo
+							CON::delete("users_groups","id_group = ?",array($id_group)); //se borran las miembros
+							CON::delete("groups","id=?",array($id_group)); //se borra el grupo
+							CON::delete("users_notifications","id_source = ? AND (id_type = '6' OR id_type = '14' OR id_type = '13')",array($id_group)); //se borran las notificaciones tipo grupos
+							$query = CON::query("SELECT id FROM tags WHERE id_group=?",array($id_group)); //se consultan las tags del grupo
 							//se borran las notificaciones tipo TAG DE GRUPO (grupo en cuestion)
-							while ($tagsErase = mysql_fetch_assoc($tagsErases)){//se borran las notificaciones del tags del grupo en cuestion
-								   $GLOBALS['cn']->query("DELETE FROM users_notifications WHERE id_type = '10' AND id_source = '".$tagsErase['id']."' ");
-							}
-							$GLOBALS['cn']->query("UPDATE tags SET status='2' WHERE id_group = '".$id_group."' AND status=7");//se borran las tags del grupo
-						}else{//si no es el unico admin
+							while ($row= CON::fetchAssoc($id_group)){ //se borran las notificaciones del tags del grupo en cuestion
+								CON::delete("users_notifications","id_type = '10' AND id_source = ?",array($row['id']));
+							} 
+							CON::update("tags","status='2'","id_group=? AND status=7",array($id_group));//se borran las tags del grupo
+						}else{
 							//se elimina como miembro del grupo
-							$GLOBALS['cn']->query("
-								DELETE FROM users_groups
-								WHERE id_group = '".$id_group."' AND id_user = '".$_SESSION['ws-tags']['ws-user']['id']."'
-							");
+							CON::delete("users_groups","id_group=? AND id_user=? ",array($id_group,$myId));
 							//se borran las notificaciones tipo TAG DE GRUPO (grupo en cuestion) del miembro borrado
-							$tagsErases = $GLOBALS['cn']->query("SELECT id FROM tags WHERE id_group ='".$id_group."' "); //se consultan las tags del grupo
-							while ($tagsErase = mysql_fetch_assoc($tagsErases)){//se borran las notificaciones del tags del grupo en cuestion
-								   $GLOBALS['cn']->query("DELETE FROM users_notifications WHERE id_type = '10' AND id_source = '".$tagsErase['id']."' AND id_friend = '".$_SESSION['ws-tags']['ws-user']['id']."'");
-							}
+							$query = CON::query("SELECT id FROM tags WHERE id_group=?",array($id_group)); //se consultan las tags del grupo
+							//se borran las notificaciones tipo TAG DE GRUPO (grupo en cuestion)
+							while ($row= CON::fetchAssoc($id_group)) //se borran las notificaciones del tags del grupo en cuestion
+								   CON::delete("users_notifications","id_type = '10' AND id_source = ?",array($row['id']));
 							//se borran las notificaciones tipo grupo (grupo en cuestion) del miembro borrado
-							$GLOBALS['cn']->query("DELETE FROM users_notifications WHERE id_source = '".$id_group."' AND id_friend = '".$_SESSION['ws-tags']['ws-user']['id']."' AND (id_type = '6' OR id_type = '14' OR id_type = '10' OR id_type = '13')");
-							
+							CON::delete("users_notifications","id_source=? AND id_friend=? AND (id_type = '6' OR id_type = '14' OR id_type = '10' OR id_type = '13')",array($id_group,$myId));
 							//verificamos si el usuario en sesion es el creador del grupo, para asiganrle a otro usuario que ahora sera el creador del mismo
-							$idCreator = $GLOBALS['cn']->query("SELECT id_creator FROM groups WHERE id_creator = '".$_SESSION['ws-tags']['ws-user']['id']."'");
-
-							$idCreatorGroup = mysql_num_rows($idCreator);
-							if ($idCreatorGroup!=0){
-								 $adminUserGrps = mysql_fetch_assoc($adminUserGrp);
-								 $GLOBALS['cn']->query("UPDATE groups 
-														SET id_creator = (  SELECT id_user
-																			FROM users_groups
-																			WHERE id_group = '".$id_group."' AND is_admin = '1' LIMIT 1) 
-														WHERE id = '".$id_group."'");
-							}
+							$idCreator = CON::getVal("SELECT id_creator FROM groups WHERE id=?",array($id_group));
+							if ($idCreator==$myId)
+								 CON::update("groups","id_creator=(SELECT id_user
+																	FROM users_groups
+																	WHERE id_group = ? AND is_admin = '1' LIMIT 1)",
+								 				"id=?",array($id_group));
 						}
-						$res['leave']='true';
+						$res['leave'] ='true';
 					}
-				}else{$res['leave']='no-group';}
+                }else { $res['leave'] ='no-group'; }
 			break;// end leave to group
 			case 5: //invite friend
                 if (isset($_POST['grp'])){
