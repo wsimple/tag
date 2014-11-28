@@ -130,11 +130,20 @@
 	 <tr>
         <td class="td_menu"><strong style="font-size:12px">Tour</strong></td>
     </tr>
-<!--	<tr>
+<!--    <tr>
         <td class="td_submenu" onClick="inicio('?url=vistas/tour/tourActivate.view.php')">&nbsp;&raquo;&nbsp;Activate Section</td>
     </tr>-->
-	<tr>
+    <tr>
         <td class="td_submenu" onClick="inicio('?url=vistas/tour/createTourSection.view.php')">&nbsp;&raquo;&nbsp;Create Tour Section</td>
+    </tr>
+    <tr>
+        <td width="95%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td class="td_menu"><strong style="font-size:12px">Tags</strong></td>
+    </tr>
+    <tr>
+        <td class="td_submenu" onClick="inicio('?url=vistas/tags/reporTags.view.php')">&nbsp;&raquo;&nbsp;Report Tags</td>
     </tr>
     <tr>
         <td width="95%">&nbsp;</td>

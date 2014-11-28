@@ -289,6 +289,13 @@
 					if(isset($_REQUEST['url'])){
 						$idcre=CON::getVal("SELECT id_creator FROM tags WHERE id=?",array($tag['id']));
 						CON::update("tags","status='2'","id=? AND source =? AND id_creator=? AND status='10' ",array($tag['id'],$tag['id'],$idcre));
+
+						if (isset($_GET['report'])) {
+							$idcre=CON::getVal("SELECT id_creator FROM tags WHERE id=?",array($tag['id']));
+							CON::update("tags","status='2'","id=? AND source =? AND id_creator=? AND status='1' ",array($tag['id'],$tag['id'],$idcre));
+							CON::update("tags_report","status='2'","id_tag=? AND status='1' ",array($tag['id']));
+						}
+						// echo CON::lastSql();
 						header('Location: '.DOMINIO.$_REQUEST['url'].'');
 					}else{
 						if($tag['status']=='4') {//si la tag es privada
@@ -354,6 +361,28 @@
 									SET type_report = '.$typeR.'
 								WHERE	id='.$id
 							);
+
+							$id_creator = campo("tags", "id", $tag['id'], "id_creator");
+							//cantidad de reportes
+							$Nreport = campo("tags_report", "id_tag", $tag['id'], "COUNT(id_tag)");
+							//numero de seguidores
+							$Nsegui = campo("users_links", "id_friend", $id_creator, "COUNT(id_user)");
+							//porcentaje de seguidores
+							$porcenEmails = campo("config_system", "id", "1", "porcen_reporta_tag");
+
+							$porce = explode('%',$porcenEmails);
+
+							$total = (($Nsegui*$porce[0])/100);
+
+							echo $id_creator.' '.$Nreport.' '.$Nsegui.' ' .$porcenEmails.' '.$porce[0].' '.round($total);
+							if ($Nreport>=$total) {
+								echo ' enviar correo ';
+							}else{
+								echo ' no enviar correo ';
+							}
+
+
+
 							incPoints(21,$tag['id'],$tag['id_user'],$_SESSION['ws-tags']['ws-user']['id']);
 							incHitsTag($tag['id']);
                             if($_SESSION['ws-tags']['ws-user']['super_user']==1&&$typeR=='6'){
