@@ -1044,7 +1044,7 @@ function viewFriends(opc){
 		},
 		success:function(data){
 			if (data.error) return;
-			var i,friend,out='',divider,count=' <span class="ui-li-count">'+data.num+'</span>';
+			var i,friend,out='',divider,count='';//' <span class="ui-li-count">'+data.num+'</span>';
 			// console.log('cant '+data.datos.length+' user '+opc.user);
 			// if($.local('code')==opc.user){
 			switch(opc.mod){

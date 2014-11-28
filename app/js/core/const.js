@@ -67,6 +67,9 @@ is.limited= !is.webkit||is.android;
 		batterylow						:'Bater&iacute;a baja, se cerrar&aacute; la aplicaci&oacute;n.',
 		cancel							:'Cancelar',
 		chat							:'Chat',
+		contacts						:'contactos',
+		'all contacts'					:'todos los contactos',
+		TAGBUM_CONTACTS					:'contactos en tagbum',
 		checkLogin						:'Verificando Logeo de Sesi&oacuten...',
 		close							:'Cerrar',
 		COMMENTS_LBLHELPIMPUTNEWCOMMENT	:'Escriba su comentario aqu&iacute;...',
@@ -377,7 +380,8 @@ is.limited= !is.webkit||is.android;
 		yes								:'Yes',
 		filter							:'Filter items...',
 		externalLink					:'External Link',
-		
+
+		TAGBUM_CONTACTS					:'contacts in tagbum',
 		MSG_PAYPAL_HELP					:'Your account is temporarily blocked, to continue enjoying our services you must pay your fee through paypal',
 		MSG_PAYPAL_HELP_APP				:'In this moment this option is only available in web version',
 
