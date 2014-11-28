@@ -376,10 +376,9 @@
 
 							$total = (($Nsegui*$porcenEmails)/100);
 
-							echo 'id creador '.$id_creator.'<br> num repor '.$Nreport.'<br> num segui '.$Nsegui.' <br> porcentaje de seguidores '.$porcenEmails.' <br> porcen sin deci '.round($total);
+							// echo 'id creador '.$id_creator.'<br> num repor '.$Nreport.'<br> num segui '.$Nsegui.' <br> porcentaje de seguidores '.$porcenEmails.' <br> porcen sin deci '.round($total);
 							if ($Nreport>=$total) {
 								// echo ' enviar correo ';
-
 								$body ='
 								<div>
 									<div style="background-image: url(\''.DOMINIO.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;height: 103px;margin-left: 80px;"></div> 
