@@ -388,13 +388,9 @@
                             if($_SESSION['ws-tags']['ws-user']['super_user']==1&&$typeR=='6'){
 								$GLOBALS['cn']->query('UPDATE tags SET status="2" WHERE id="'.$tag['id'].'"');
 							}
-							echo '<div class="success_message"><img src="imgs/message_success.png" /> '.ACTIONTAG_REPORTEXITO.'</div>';
-						}else{
-							echo '<div class="error_message"><img src="imgs/message_error.png" /> '.ACTIONTAG_REPORTERROR1.'</div>';
-						}
-					}else{
-							echo '<div class="error_message"><img src="imgs/message_error.png" /> '.ACTIONTAG_REPORTERROR2.'</div>';
-					}
+							echo '<div class="success_message"><img src="'.DOMINIO.'imgs/message_success.png" /> '.$lang["ACTIONTAG_REPORTEXITO"].'</div>';
+						}else echo '<div class="error_message"><img src="'.DOMINIO.'imgs/message_error.png" /> '.$lang["ACTIONTAG_REPORTERROR1"].'</div>';
+					}else echo '<div class="error_message"><img src="'.DOMINIO.'imgs/message_error.png" /> '.$lang["ACTIONTAG_REPORTERROR2"].'</div>';
 				break;//report
 			// luego del preview (9)
 				case 9:
