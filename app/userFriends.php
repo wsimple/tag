@@ -11,41 +11,41 @@
 			</ul>
 		</div>
 	</div>
-	<script>
-		pageShow({
-			id:'#page-friendUser',
-			title:lan('friends','ucw'),
-			buttons:{showmenu:true,creation:true},
-			before:function(){
-				$('#seek').html(lang.seek);
-				$('#friendsFooter').prepend(
-					'<li><a href="#" opc="friends">'+lan('friends','ucw')+'</a></li>'+
-					'<li><a href="#" opc="follow">'+lan('admirers','ucw')+'</a></li>'+
-					'<li><a href="#" opc="unfollow">'+lan('admired','ucw')+'</a></li>'
-				);
-			},
-			after:function(){
-				$('#page-friendUser .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
-				console.log($_GET['type'])
-				var opc={layer:'#friendsList',mod:$_GET['type']||'friends',get:"",user:$_GET['id_user']||''};
-				$('#friendsFooter li a[opc='+$_GET['type']+']').addClass('ui-btn-active'); //Estilo de li activo
-				$(opc.layer).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
-				$('.list-wrapper').jScroll({hScroll:false});
-				$('.list-content input').keyup(function() {
-					$('.list-wrapper').jScroll('refresh');
-				});
-				$(opc.layer).on('click','[code]',function(){
-					redir(PAGE['profile']+'?id='+$(this).attr('code'));
-				});
-				linkUser(opc.layer);
-				$('#friendsFooter').on('click','a[opc]',function(){
-					opc.mod=$(this).attr('opc');
-					viewFriends(opc);
-					$('.list-content input').val('');
-				});
-				viewFriends(opc);
-			}
-		});
-	</script>
 </div>
+<script>
+	pageShow({
+		id:'#page-friendUser',
+		title:lan('friends','ucw'),
+		buttons:{showmenu:true,creation:true},
+		before:function(){
+			$('#seek').html(lang.seek);
+			$('#friendsFooter,.list-content #friends ul').html(
+				'<li><a href="#" opc="friends">'+lan('friends','ucw')+'</a></li>'+
+				'<li><a href="#" opc="follow">'+lan('admirers','ucw')+'</a></li>'+
+				'<li><a href="#" opc="unfollow">'+lan('admired','ucw')+'</a></li>'
+			).find('li a:first').addClass('ui-btn-active');
+		},
+		after:function(){
+			$('#page-friendUser .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
+			console.log($_GET['type']);
+			var opc={layer:'#friendsList',mod:$_GET['type']||'friends',get:"",user:$_GET['id_user']||''};
+			$('#friendsFooter li a[opc='+$_GET['type']+']').addClass('ui-btn-active'); //Estilo de li activo
+			$(opc.layer).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
+			$('.list-wrapper').jScroll({hScroll:false});
+			$('.list-content input').keyup(function() {
+				$('.list-wrapper').jScroll('refresh');
+			});
+			$(opc.layer).on('click','[code]',function(){
+				redir(PAGE['profile']+'?id='+$(this).attr('code'));
+			});
+			linkUser(opc.layer);
+			$(this.id).on('click','.ui-navbar a[opc]',function(){
+				opc.mod=$(this).attr('opc');
+				viewFriends(opc);
+				$('.list-content input').val('');
+			});
+			viewFriends(opc);
+		}
+	});
+</script>
 <?php include 'inc/footer.php'; ?>
