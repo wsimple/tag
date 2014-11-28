@@ -635,32 +635,42 @@ function showTags(array,type){//tag list
 //		tags+='<div class="tag-loading smt-container"><div class="smt-content" style="z-index:4;">Loading...</div></div>'+showTag(array[i]);
 	return '<div class="tag-container">'+tags+'</div>';
 }
+function bigLike(tagId, icon){
+	$('#big-like').remove();
+	$('[tag='+tagId+']').append('<div id="big-like"></div>');
+	$('#big-like').addClass((icon == 'dislike' ? 'rotated': '' )).animate({
+		'background-size': '15%',
+		'-webkit-background-size': '15%',
+		'opacity': 0.2},
+		2000, function() {
+		$(this).remove();
+	});
+}
 function actionsTags(layer){
 	if(isLogged()){
-		$(layer).doubletap('[tag]', function(e){
+		$(layer).doubletap('[tag] .minitag', function(e){
 			var tagId = $(e.currentTarget).attr('tag')
+			bigLike(tagId,'like');
 			playLike(tagId,'likeIcon','dislikeIcon',true);
 		});
+		var lastId = 0;
 		$(layer).on('click', 'menu li', function(e){
+
+			if ($(e.target).hasClass('canceled')) return false;
+
 			var tagId = $(e.target).parents('[tag]').attr('tag');
-			var btnPresed = e.target.id;
 			switch(e.target.id){
 				case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
 				case 'share':redir(PAGE['sharetag']+'?id_tag='+tagId);break;
 				case 'comment':
 					tagId = $(e.target).parents('[tag]').attr('tag');
+					$(e.target).addClass('canceled');
 					playComment(tagId);
+					lastId = tagId;
 				break;
 				case 'like':case 'dislike':
-					// $(e.currentTarget).append('<img id="yok" src="http://vectorise.net/logo/wp-content/uploads/2012/08/Facebook-Like.png">');
-					// $('#yok').animate({
-					// 	height: '25%',
-					// 	width: '25%',
-					// 	opacity: 0.2,
-					// 	position:'absolute'},
-					// 	2000, function() {
-					// 	$('#yok').remove();
-					// });
+					//$(e.target).addClass('canceled');
+					bigLike(tagId, e.target.id);
 					var that=e.target.id+'Icon',
 						show=e.target.id!='like'?'likeIcon':'dislikeIcon';
 						playLike(tagId,that,show);
@@ -746,7 +756,7 @@ function actionsTags(layer){
 	}
 }
 function afterAjaxTags(data, tagId, toHide,toShow){
-	console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
+	//console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
 	if(data.indexOf('ERROR')<0){
 		$('[tag='+tagId+']').find(toHide).fadeOut('slow',function(){
 			$('[tag='+tagId+']').find(toShow).fadeIn('slow');
@@ -782,10 +792,8 @@ function playComment(tagtId, opc){
 	var options = opc || defaults;
 	if ($('[tag='+tagtId+']').find(options.layer).length > 0) {
 		$('#tagsList').off('keydown', '#commenting');
-		window.clearInterval(interval);
-		$(options.layer).fadeOut('400', function() {
-			$(this).remove();
-		});
+		//window.clearInterval(interval);
+		$(options.layer).remove();
 	}else{
 		$(options.layer).remove();
 		$('[tag='+tagtId+']').find('#panel').append(
@@ -793,10 +801,11 @@ function playComment(tagtId, opc){
 		);
 		$(options.layer).listview();
 		getComments('reload',options);
-		var interval=setInterval(function(){
-			if ( $(options.layer).length>0 ) getComments('refresh',options);
-		},20000);
+		// var interval=setInterval(function(){
+		// 	if ( $(options.layer).length>0 ) getComments('refresh',options);
+		// },20000);
 	}
+	$('[tag='+tagtId+']').find('menu #comment').removeClass('canceled');
 
 	$('#tagsList, #page-tag').on('click', '#send-comment', function(e) {
 		options.data.source = $(e.target).parents('[tag]').attr('tag');
@@ -1416,45 +1425,64 @@ function myDialog(){
 }
 
 function checkAllCheckboxs(value,container){
-	$('input:checkbox',container).each(function(){this.checked=value;});
+	$(container+' li').each(function(){
+		if (value){
+			$('input',this).prop('checked',true);
+			$(this).addClass('ui-btn-active-checked');
+		}else{
+			$('input',this).prop('checked',false);
+			$(this).removeClass('ui-btn-active ui-btn-active-checked');
+		}
+	});
 	return false;
 }
-
-function getFriends(id,like){
+function getFriends(id,groups,like){
 	like=like?'&like='+like:'';
-	var emails=[];
+	var emails=[],content='.list-wrapper #scroller ul',
+		url=DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&code'+like;
 	$('#pictures_shareTag input').each(function(){
 		emails.push($(this).val());
 	});
+	if (groups){
+		if ($.isArray(groups))
+			url=DOMINIO+'controls/users/people.json.php?action=groupMembers&code&noMy&idGroup='+groups[0]+like;
+		else url+='&idGroup='+groups;
+		content='#friendsListDialog .container ul';
+	} 	
 	myAjax({
 		loader	:true,
 		type	:'POST',
-		url		:DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&code'+like,
+		url		:url,
 		data:{uid:id},
 		dataType:'json',
 		success	:function(data){
 			var ret='';
 			for(var i in data['datos']){
 				if(emails.join().indexOf(data['datos'][i]['email'])<0)
-				ret+=
-					'<div onclick="$(\'input\',this).click();" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
-					// '<div onclick="$(\'input\',this).attr(\'checked\',($(\'input\',this).is(\':checked\'))?false:true);" style="height:60px;min-width:200px;padding:5px 0px 5px 0px;border-bottom:solid 1px #D4D4D4;">'+
-						'<div style="float:right;padding-top:20px;margin-right:15px;">'+
-							'<fieldset data-role="controlgroup">'+
-								'<input value="'+data['datos'][i]['email']+'|'+data['datos'][i]['photo_friend']+'" type="checkbox" />'+
-							'</fieldset>'+
-						'</div>'+
-						'<img src="'+data['datos'][i]['photo_friend']+'" style="float:left;width:60px;height:60px;" class="userBR"/>'+
-						'<div style="float:left;margin-left:5px;font-size:10px;text-align:left;">'+
-							'<spam style="color:#E78F08;font-weight:bold;">'+data['datos'][i]['name_user']+'</spam><br/>'+
-							(data['datos'][i]['country']?lang.country+':'+data['datos'][i]['country']+'<br/>':'')+
-							''+lan('friends','ucw')+'('+data['datos'][i]['friends_count']+')<br/>'+
-							''+lan('admirers','ucw')+'('+data['datos'][i]['followers_count']+')'+
-						'</div>'+
-					'</div>';
+				ret+='	<li data-icon="false" style="width: 32%;border: 1px solid #ccc;float: left;">'+
+							'<input value="'+data['datos'][i]['email']+'|'+data['datos'][i]['photo_friend']+'" type="checkbox" class="invisible"/>'+
+							'<img src="'+data['datos'][i]['photo_friend']+'" style="float:left;width:60px;height:60px;" class="userBR"/>'+
+							'<div style="float:left;margin-left:5px;font-size:10px;text-align:left;">'+
+								'<spam style="color:#E78F08;font-weight:bold;">'+data['datos'][i]['name_user']+'</spam><br/>'+
+								(data['datos'][i]['country']?lang.country+':'+data['datos'][i]['country']+'<br/>':'')+
+								''+lan('friends','ucw')+'('+data['datos'][i]['friends_count']+')<br/>'+
+								''+lan('admirers','ucw')+'('+data['datos'][i]['followers_count']+')'+
+							'</div>'+
+						'</li>';
 			}
-			$('.list-wrapper #scroller').html('<div style="padding:5px;text-align:center;">'+ret+'</div>');
+			// ret=ret+'<li data-icon="false" ></li>';
+			$(content).html(ret).listview('refresh');
+			
 			$('.list-wrapper').jScroll('refresh');
+			$(content+' li').click(function(){
+				if (!$('input',this).is(':checked')){
+					$('input',this).prop('checked',true);
+					$(this).addClass('ui-btn-active-checked');
+				}else{
+					$('input',this).prop('checked',false);
+					$(this).removeClass('ui-btn-active ui-btn-active-checked');
+				} 
+			});
 		},
 		error	:function(){
 			myDialog('#singleDialog','ERROR-getFriends');
@@ -1462,26 +1490,26 @@ function getFriends(id,like){
 	});
 }
 
-function selectFriendsDialog(id){
+function selectFriendsDialog(id,groups){
 	console.log('selectfriendsdialog');
-	$('html,body').animate({scrollTop:0},'fast',function(){
-		myDialog({
-			id:'shareTagDialog',
-			style:{'min-height':200},
-			buttons:{},
-			after:function(options,dialog){
-				getFriends(id);
-				var timer;
-				$('#like_friend',dialog).unbind('keyup').bind('keyup',function(event){
-					if(event.which==8||event.which>40){
-						if(timer) clearTimeout(timer);
-						timer=setTimeout(function(){
-							getFriends(id,$('#like_friend',dialog).val());
-						},1000);
-					}
-				});
-			}
-		});
+	var idDialog='shareTagDialog';
+	if (groups) idDialog='friendsListDialog';
+	myDialog({
+		id:idDialog,
+		style:{'min-height':200},
+		buttons:{},
+		after:function(options,dialog){
+			getFriends(id,groups);
+			var timer;
+			$('#like_friend',dialog).unbind('keyup').bind('keyup',function(event){
+				if(event.which==8||event.which>40){
+					if(timer) clearTimeout(timer);
+					timer=setTimeout(function(){
+						getFriends(id,groups,$('#like_friend',dialog).val());
+					},1000);
+				}
+			});
+		}
 	});
 }
 
@@ -1495,18 +1523,18 @@ function removePicture(item){
 }
 
 function closeDialogmembersGroup(idDialog){
-	console.log('membersGroupDialog');
+	console.log('closeDialogmembersGroup');
 	$('.closedialog',idDialog).click();
 }
 
 function getDialogCheckedUsers(idDialog){
-	console.log('getCheckedUsers');
+	console.log('getDialogCheckedUsers');
 	var paso=false;
 	$('input:checkbox',idDialog).each(function(i,field){
 		if ($(field).is(':checked')){
 			var userInfo=field.value.split('|');
 			if(userInfo[1]){
-				$('#pictures_shareTag').append(
+				$('#pictures_shareTag').prepend(
 					'<span id="'+md5(userInfo[0])+'" onclick="removePicture(this)">'+
 						'<input type="hidden" name="x" value="'+userInfo[0]+'" type="text"/>'+
 						'<img src="'+userInfo[1]+'" width="40" style="margin-left: 5px; border-radius: 5px;" class="userBR"/>'+
@@ -1519,66 +1547,6 @@ function getDialogCheckedUsers(idDialog){
 	if(paso) $('#title_pictures_shareTag').fadeIn('slow');
 	$('.closedialog',idDialog).click();
 	checkboxPublicPrivateTag();
-}
-
-function sendInvitationMemberGrp(idDialog){
-	console.log('sendInvitationMemberGrp');
-	var friends=$('input:checkbox',idDialog).length;
-
-	$('input:checkbox',idDialog).each(function(i,field){
-		if ($(field).is(':checked')) {
-			var userInfo=field.value.split('|');
-			myAjax({
-				url		:DOMINIO+'controls/groups/sendInvitacionGroup.json.php?idGroup='+userInfo[2]+'&idUser='+md5(userInfo[1]),
-				dataType:'JSON',
-				success	:function(data){
-					if(data=='1'){
-						if(i==(friends-1)){
-							myDialog('#singleDialog',lang.GROUPS_SENDINVITATION);
-						}
-					}
-				},
-				error	:function(){
-					myDialog('#singleDialog','ERROR-invitedFriends');
-				}
-			});
-		};
-	});
-	$('.closedialog',idDialog).click();
-}
-
-function sendadminGroup(idDialog){
-	console.log('sendadminGroup');
-	var friends=$('input:checkbox[checked]',idDialog);
-	console.log('num friends='+friends.length);
-	$.each(friends,function(i,field){
-		//alert (field.value);
-		var userInfo=field.value.split('|');
-		myAjax({
-			url		:DOMINIO+'controls/groups/sendAdminMemberGroup.json.php?idGroup='+userInfo[2]+'&idUser='+md5(userInfo[1])+'&code='+$.local('code'),
-			dataType:'JSON',
-			success	:function(data){
-				//alert (data);
-				if(data=='1'){
-					if(i==(friends.length-1)){
-						myDialog({
-							id:'#invitationSending',
-							content:lang.GROUPS_LEAVECCOMPLETE,
-							buttons:{
-								ok:function(){
-									window.location=PAGE.groupslist+'?action=2';
-								}
-							}
-						});
-					}
-				}
-			},
-			error:function(){
-				myDialog('#singleDialog','ERROR-AssignAdmin');
-			}
-		});
-	});
-	$('.closedialog',idDialog).click();
 }
 
 function checkboxPublicPrivateTag(){

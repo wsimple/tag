@@ -21,7 +21,7 @@ switch ($_GET['action']) {
 				$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
 				$array['where']=safe_sql('ul.id_user=? AND ul.is_friend=1',array($uid));
 				if (isset($_GET['idGroup']))
-					$array['where'].=safe_sql(" AND ul.id_friend NOT IN ((SELECT id_user FROM users_groups WHERE id_group=?))",array($_GET['idGroup']));
+					$array['where'].=safe_sql(" AND ul.id_friend NOT IN ((SELECT id_user FROM users_groups WHERE md5(id_group)=?))",array($_GET['idGroup']));
 				if (isset($_GET['like'])){
 					$searches = explode(' ',$_GET['like']);$where='';
 					foreach ($searches as $word) {
@@ -102,6 +102,7 @@ switch ($_GET['action']) {
 			$query=peoples($array);
 			if (CON::numRows($query)>0) $html='<div class="ui-single-box-title">'.HOME_SUGGESTFRIENDS.'</div>';
 		}
+		$res['aaawww']=CON::lastSql();
 		$info=array();
 		while ($row=CON::fetchAssoc($query)){
 			$row['name_user']=formatoCadena($row['name_user']);
@@ -145,10 +146,6 @@ switch ($_GET['action']) {
 	break;
 	case 'groupMembers': //group members
 		if (!isset($_GET['idGroup'])) die(jsonp(array()));	
-		// $coi=isset($_GET['code'])?"md5(concat(id,'_', email,'_',id))":"md5(id)";
-		// if (!isset($_POST['uid']))	$uid=$myId;
-		// else $uid=CON::getVal("SELECT id FROM users WHERE $coi=?",array($_POST['uid']));
-		// if (!$uid) die(jsonp(array('error'=>'noIdValid')));
 		$array['select']=safe_sql(',md5(u.id) AS id_user,g.is_admin,g.status,IF(u.id='.$myId.',1,0) AS iAm,
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user=? AND oul.id_friend=u.id) AS conocido,
 						(SELECT COUNT(t.id) FROM tags t WHERE md5(t.id_group)=? AND t.id_creator=g.id_user) AS numTags',array($myId,$_GET['idGroup']));
@@ -156,6 +153,7 @@ switch ($_GET['action']) {
 		$array['order']='ORDER BY g.status,g.date DESC';
 		$array['where']=safe_sql(' md5(g.id_group)=?',array($_GET['idGroup']));
 		if (isset($_GET['status'])) $array['where'].=safe_sql('AND g.status=?',array($_GET['status']));
+		if (isset($_GET['noMy'])) $array['where'].=safe_sql('AND g.id_user!=?',array($myId));
 		$num=CON::query("SELECT g.id FROM users_groups g WHERE ".$array['where']);
 		$res['num']=CON::numRows($num);
 		$query=peoples($array); 
