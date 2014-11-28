@@ -16,7 +16,7 @@ switch ($_GET['action']) {
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
 		$array['order']='ORDER BY u.name, u.last_name';
 		switch ($_GET['mod']) {
-			case 'friends': 
+			case 'friends':
 				$array['select'].=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend';
 				$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
 				$array['where']=safe_sql('ul.id_user=? AND ul.is_friend=1',array($uid));
@@ -40,7 +40,7 @@ switch ($_GET['action']) {
 				$array['join']=' JOIN users_links ul ON ul.id_user=u.id';
 				$array['where']=safe_sql('ul.id_friend=?',array($uid));
 			break;
-			case 'find': //encontrar amigos
+			case 'find'://encontrar amigos
 				$numAction=3;
 				$array['join']='';
 				$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
@@ -58,16 +58,40 @@ switch ($_GET['action']) {
 					$array['order']='ORDER BY RAND()';
 					$array['where']=safe_sql('u.id!=? AND u.id NOT IN ((SELECT ul.id_friend FROM users_links ul WHERE ul.id_user=?)) AND u.id NOT IN ((SELECT ul.id_user FROM users_links ul WHERE ul.id_friend=?))',array($uid,$uid,$uid));
 					if (isset($_POST['no_id_s']) && $_POST['no_id_s']!=''){
-						$array['where'].=safe_sql(' AND u.id NOT IN ('.$_POST['no_id_s'].')',array($uid));
+						$array['where'].=' AND u.id NOT IN ('.CON::cleanString($_POST['no_id_s']).')';
 						$array['limit']='LIMIT 0,20';
 					}
+				}
+				if($_POST['in']){#filtrar inclusion
+					$data=$_POST['in'];
+					$emails=0;$phones=0;
+					if(isset($data['email'])&&count($data['email'])){
+						for($i=0;$i<count($data['email']);$i++)
+							$data['email'][$i]=CON::cleanString($data['email'][$i]);
+						$emails='u.email IN ("'.implode('","',$data['email']).'") ';
+					}
+					if(isset($data['phone'])&&count($data['phone'])){
+						$labels=array('u.home_phone','u.mobile_phone','u.work_phone');
+						$phones=array();
+						for($i=0;$i<count($data['phone']);$i++){
+							$phone=CON::cleanString($data['phone'][$i]);
+							$phone=preg_replace('/^0+|\D/','',$phone);#limpiamos de caracteres no numericos
+							if($phone) foreach($labels as $label)
+								$phones[]="TRIM(LEADING '0' FROM REPLACE(REPLACE(REPLACE($label,'+',''),'-',''),' ','') ) LIKE '%$phone'";
+						}
+						$phones=implode(' OR ', $phones);
+					}
+					$array['where'].=" AND ($emails OR $phones) ";
+				}
+				if($_POST['not_in']){#filtrar exclusion
+					$data=$_POST['not_in'];
 				}
 				$res['num']=1;
 			break;
 		}
-		if (!isset($res['num'])) $res['num']=CON::numRows(CON::query("SELECT ul.id_user FROM users_links ul WHERE ".$array['where']));
+		if(!isset($res['num'])) $res['num']=CON::numRows(CON::query("SELECT ul.id_user FROM users_links ul WHERE ".$array['where']));
 		$html='';
-		if ($res['num']>0){ $query=peoples($array);  } 
+		if($res['num']>0){ $query=peoples($array); }
 		elseif(!isset($_GET['nosugg'])){
 			$array['order']='ORDER BY RAND()';
 			$array['join']='';
@@ -91,9 +115,9 @@ switch ($_GET['action']) {
 	case 'usersLikesTags': //likes dislikes and Raffle participants
 		if (!isset($_GET['t']) || !isset($_GET['s'])) die(jsonp(array()));
 		$numAction=3;$html='';
-		$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
-						IF(u.id='.$myId.',1,0) AS iAm,
-						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
+		$array['select']=",md5(u.id) AS id_user, md5(u.id) AS id_friend,
+						IF(u.id=$myId,1,0) AS iAm,
+						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user=$myId AND oul.id_friend=u.id) AS conocido";
 		switch ($_GET['t']) {
 			case 'l': //likes
 				$array['join']=' JOIN likes lk ON lk.id_user=u.id';
