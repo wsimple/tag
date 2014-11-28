@@ -35,7 +35,13 @@
 		include ('includes/funciones.php');
 		include ('class/class.formularios.php');
 		include ('fckeditor/fckeditor.php');
-		
+
+		if (isset($_GET['idtagreport'])) {
+			$GLOBALS['cn']->query('UPDATE tags SET status = "2" WHERE md5(id) ="'.$_GET['idtagreport'].'"');
+			?> <script type="text/javascript">alert('La Tag se elimino correctamente');  </script><?php
+		}
+
+
 		if (($_SESSION['wpanel_user']['tipo']=='1')&&isset($_GET['successlang']))
 		{
 			mensajes("Languaje Successfully Processed", ".", "info");
