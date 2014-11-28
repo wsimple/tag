@@ -648,11 +648,12 @@ function actionsTags(layer){
 	if(isLogged()){
 		$(layer).doubletap('[tag] > .bg', function(e){
 			var tagId = $(e.currentTarget).parents('[tag]').attr('tag');
-			console.log(tagId)
 			bigLike(tagId,'like');
-			playLike(tagId,'likeIcon','dislikeIcon',true);
+			
+			if ( $('[tag='+tagId+']').find('#comments').length == 0 ) {
+				playLike(tagId,'likeIcon','dislikeIcon',true);
+			};
 		});
-		var lastId = 0;
 		$(layer).on('click', 'menu li', function(e){
 
 			if ($(e.target).hasClass('canceled')) return false;
@@ -665,7 +666,6 @@ function actionsTags(layer){
 					tagId = $(e.target).parents('[tag]').attr('tag');
 					$(e.target).addClass('canceled');
 					playComment(tagId);
-					lastId = tagId;
 				break;
 				case 'like':case 'dislike':
 					//$(e.target).addClass('canceled');
