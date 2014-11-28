@@ -17,7 +17,6 @@
 	include('includes/functions.php');
 	include('class/wconecta.class.php');
 	include('includes/languages.config.php');
-	include('class/Mobile_Detect.php');
 	include('class/forms.class.php'); 
 	if($section=='dialog'){
 		header('Content-type: text/html; charset=utf-8');
@@ -59,19 +58,6 @@
 		case 'signIn'		:include('controls/users/login.control.php');		die();//login de los usuarios
 		case 'resendPass'	:include('controls/users/resendPass.control.php');	die();//envio de link para resetear un clave de login
 		case 'updateProfile':include('controls/users/profile.control.php');		die();//actualizacion de los perfiles de usuarios
-	}
-
-	if(isset($_GET['mobileVersion'])){
-		cookie('__FV__',NULL);
-		unset($_SESSION['ws-tags']['ws-user']['fullversion']);
-		@header('Location: '.DOMINIO.'app/');
-	}
-
-	//full version
-	if(isset($_GET['fullVersion'])){
-		cookie('__FV__','1');
-		$_SESSION['ws-tags']['ws-user']['fullversion']=1;
-		@header('Location: .');
 	}
 
 	//se logea automatico si viene de paypal y esta validado

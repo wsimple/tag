@@ -19,33 +19,27 @@
 			<ul>
 				<li><a id="members"></a></li>
 				<li><a id="invite"></a></li>
-				<!--<li><a id="leave"></a></li>-->
+				<li><a id="leave"></a></li>
 			</ul>
 		</div>
 	</div>
 	<!-- Dialogs -->
 	<div id="friendsListDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
-			<div class="header">
-				<div id="groupTitle" class="optional dnone members center" style="font-weight:bold; padding: 5px 0px 10px;border-bottom: 1px solid #ccc;"></div>
-				<div id="searcher" class="optional dnone invite">
-					<div style="display:inline-block;margin-right:10px;width:85px;">
-						<input id="like_friend_group" name="like_friend_group" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" style="width: 80px"/>
-					</div>
-					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true, '#friendsListDialog')" class="no-disable" data-mini="true" />
-					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false, '#friendsListDialog')" class="no-disable" data-mini="true" />
-				</div>
-			</div>
 			<div class="container">
-				<div class="wrapper" style="height:150px" >
-					<div id="scroller" >
-						<div class="content" style="padding:5px; text-align: center;"></div>
-					</div>
+				<div class="this-search" style="display:inline-block;margin-right:10px;width:65%;">
+					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" />
 				</div>
+				<div class="this-button" style="display:inline-block;margin-right:10px;width:30%;">
+					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#friendsListDialog')" class="no-disable" data-mini="true" />
+					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#friendsListDialog')" class="no-disable" data-mini="true" />
+				</div>
+				<div class="list-wrapper" style="margin-top:5px;height:150px;">
+					<div id="scroller"><ul data-role="listview" data-inset="true"></ul>
+				</div></div>
 			</div>
 			<div class="buttons">
-				<a data-role="button" class="optional dnone members" onclick="closeDialogmembersGroup('#friendsListDialog')" data-theme="f">Ok</a>
-<!--				<a data-role="button" class="optional dnone invite" onclick="sendInvitationMemberGrp('#friendsListDialog')" data-theme="f">Send Invitation</a>-->
+				<a href="#" data-role="button" onclick="closeDialogmembersGroup('#friendsListDialog')" data-theme="f">Ok</a>
 			</div>
 		</div>
 	</div></div></div>
@@ -104,14 +98,7 @@
 				$('#buttonBack').click(function(){
 					($_GET['delete'])?((redir(PAGE['tagslist']+'?current=group&id='+id))):goBack();
 				});
-				$('#friendsListDialog .wrapper,#adminLeaveDialog .wrapper').jScroll({hScroll:false});
-				// $(layer).on('click','[tag]',function(){
-				// 	if($(this).attr('tag')!=''){
-				// 		var get=['id='+$(this).attr('tag')];
-				// 		if(current=='group') get.push('idGroup='+id);
-				// 		redir(PAGE['tag']+'?'+get.join('&'));
-				// 	}
-				// });
+				$('#friendsListDialog .list-wrapper,#adminLeaveDialog .list-wrapper').jScroll({hScroll:false});
 				/*action menu tag*/
 				actionsTags(opc.layer);
 				/*and action menu tag*/
@@ -132,6 +119,7 @@
 				}else if(current=='personal'){
 					$('#pageTitle').html(lang.MAINMNU_PERSONALTAGS);
 				}else if(current=='group'){
+					var admin=false,numAdm=0;
 					$('#pageTitle').html(lan('group','ucw'));
 					nameMenuGroups(id,0,function(data){
 						$('#pageTitle').html(lan('group','ucw')+': '+data['name']);
@@ -143,6 +131,8 @@
 								$('#btnAddTag').click(function(){
 									redir(PAGE['newtag']+'?group='+id);
 								});
+								admin=data['admin']=='0'?false:true;
+								numAdm=data['numAdm'];
 							}else{
 								$('#btnAddTag .ui-btn-text').html(lang.GROUPS_JOIN);
 								$('#btnAddTag').click(function(){
@@ -165,7 +155,7 @@
 								for(i in data['datos']){
 									friend=data['datos'][i];
 									ret	+=
-										'<div code="'+friend['code_friend']+'" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
+										'<li data-icon="false" code="'+friend['code_friend']+'" >'+
 											'<img src="'+friend['photo_friend']+'" style="float:left; width:60px; height:60px;" class="userBR"/>'+
 											'<div style="float: left; margin-left:5px; font-size:10px; text-align: left;">'+
 												'<spam style="color:#E78F08; font-weight:bold; ">' + friend['name_user'] + '</spam><br/>'+
@@ -174,143 +164,38 @@
 												''+lan('admirers','ucw')+'('+friend['followers_count']+')<br/>'+
 												((friend['status'])?'<strong style="color:green">'+lan('active','ucw')+'</strong>':'<strong style="color:red">'+lan('inactive','ucw')+'</strong>')+
 											'</div>'+
-										'</div>';
+										'</li>';
 								}
-								$('#friendsListDialog').off().on('click','div[code]',function(){
+								$('#friendsListDialog .container ul').html(ret).listview('refresh');
+								$('.list-wrapper').jScroll('refresh');
+								$('#friendsListDialog').off().on('click','[code]',function(){
 									redir(PAGE['profile']+'?id='+$(this).attr('code'));
 								});
-								$('#friendsListDialog .content').html(ret);
-								setTimeout(function(){$('.wrapper').jScroll('refresh');}, 1000);
 							},
 							error	: function() {
 								myDialog('#singleDialog', 'ERROR-getMemberGroup');
 							}
 						});
 					}
-					function getFriendsGroup(like){
-						console.log('getFriendsGroup');
-						like=like?'&like='+like:'';
-						myAjax({
-							loader	:true,
-							type	:'POST',
-							url		:DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&mod=friends&code='+$.local('code')+like+'&idGroup='+id,
-							dataType:'json',
-							success	:function(data){
-								var friend,ret='';
-								for(var i in data['datos']){
-									friend=data['datos'][i];
-									//if(emails.join().indexOf(friend['email'])<0)
-									ret+=
-										'<div onclick="$(\'input\',this).click();" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
-											'<div style="float: right; padding-top: 20px; margin-right: 15px;">'+
-												'<fieldset data-role="controlgroup">'+
-													'<input name="friend_'+friend['id']+'" '+
-														'value="'+friend['email']+'|'+friend['id']+'|'+id+'" type="checkbox" />'+
-												'</fieldset>'+
-											'</div>'+
-											'<img src="'+friend['photo_friend']+'" style="float: left; width: 60px; height: 60px;" class="userBR"/>'+
-											'<div style="float: left; margin-left: 5px; font-size: 10px; text-align: left;">'+
-												'<spam style="color: #E78F08; font-weight: bold; ">' + friend['name_user'] + '</spam><br/>'+
-												(friend['country'] ? ''+lang.country+': '+friend['country']+'<br/>' : '')+
-												''+lan('friends','ucw')+'('+friend['friends_count']+')<br/>'+
-												''+lan('admirers','ucw')+'('+friend['followers_count']+')'+
-											'</div>'+
-										'</div>';
-								}
-								$('#friendsListDialog .content').html(ret);
-								if(data==''){
-									ret	=
-										'<div id="message" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
-											lang.GROUPS_MESSAGEMPTY+
-										'</div>';
-									$('.wrapper #scroller').html('<div style="padding:5px; text-align: center;">'+ret+'</div>');
-								}
-								$('.wrapper').jScroll('refresh');
-							},
-							error	: function() {
-								myDialog('#singleDialog', 'ERROR-getFriends');
-							}
-						});
-					}
-
-					function assignAdminGroup(like) {
-						console.log('assignAdminGroup');
-						like = like ? '&like='+like : '';
-						myAjax({
-							loader	: true,
-							type	: 'POST',
-							url		: DOMINIO+'controls/groups/adminMemberGroup.json.php?id='+$.local('code')+like+'&idGroup='+id,
-							dataType: 'json',
-							success	: function(data) {
-								var friend,ret	= '';
-								for(var i in data){
-									friend=data[i];
-									//if(emails.join().indexOf(friend['email'])<0)
-									ret	+=
-										'<div id="'+friend['id']+'" onclick="$(\'#friend_'+friend['id']+'\').attr(\'checked\', ($(\'#friend_'+friend['id']+'\').is(\':checked\')) ? false : true);" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
-											'<div style="float: right; padding-top: 20px; margin-right: 15px;">'+
-												'<fieldset data-role="controlgroup">'+
-													'<input id="friend_'+friend['id']+'" name="friend_'+friend['id']+'" '+
-														'value="'+friend['email']+'|'+friend['id_user']+'|'+id+'" type="checkbox" />'+
-												'</fieldset>'+
-											'</div>'+
-											'<img src="'+friend['photo']+'" style="float: left; width: 60px; height: 60px;"/>'+
-											'<div style="float: left; margin-left: 5px; font-size: 10px; text-align: left;">'+
-												'<spam style="color: #E78F08; font-weight: bold; ">' + friend['name'] + '</spam><br/>'+
-												(friend['country'] ? ''+lang.country+': '+friend['country']+'<br/>' : '')+
-												''+lan('friends','ucw')+'('+friend['friends_count']+')<br/>'+
-												''+lan('admirers','ucw')+'('+friend['followers_count']+')'+
-											'</div>'+
-										'</div>';
-								}
-								$('#adminLeaveDialog .content').html(ret);
-								if(data!=''){
-								}else{
-									ret	=
-										'<div id="message" style="height: 60px; min-width: 200px; padding: 5px 0px 5px 0px; border-bottom: solid 1px #D4D4D4">'+
-											lang.GROUPS_MESSAGEMPTY+
-										'</div>';
-
-									$('.wrapper #scroller').html('<div style="padding:5px; text-align: center;">'+ret+'</div>');
-								}
-								$('.wrapper').jScroll('refresh');
-							},
-							error	: function() {
-								myDialog('#singleDialog', 'ERROR-getadminMembers');
-							}
-						});
-					}
 					$('#footer #invite').click(function(){
-						myDialog({
-							id:'#friendsListDialog',
-							style:{'min-height':150},
-							buttons:[{
-								name:lang.GROUPS_SENDINVITATION,
-								action: function(){ sendInvitationMemberGrp('#friendsListDialog')}
-							},{
-								name:lang.close,
-								action:'close'
-							}],
-							after: function (options,dialog){
-								$('#like_friend_group',dialog).unbind('keyup').bind('keyup',function(event) {
-									if(event.which==8||event.which>40) getFriendsGroup($('#like_friend_group',dialog).val());
-								});
-								$('.optional',dialog).addClass('dnone');
-								$('.invite',dialog).removeClass('dnone');
-							}
-						});
-						getFriendsGroup();
+						selectFriendsDialog($.local('code'),id);
+						$('#friendsListDialog .buttons a').attr('onclick',"sendInvitationMemberGrp('#friendsListDialog','"+id+"');");
+						$('#friendsListDialog .this-button').show();
+						$('#friendsListDialog .this-search').css('width','65%');
 					});
 
 					$('#footer #members').click(function(){
 						myDialog({
 							id:'#friendsListDialog',
-							style:{'min-height':150},
+							style:{'min-height':200},
 							buttons:{},
 							after: function (options,dialog){
 								 getMembersGroup();
+								$('.buttons a',dialog).attr('onclick',"closeDialogmembersGroup('#friendsListDialog');");
 								$('.optional',dialog).addClass('dnone');
 								$('.members',dialog).removeClass('dnone');
+								$('.this-button',dialog).hide();
+								$('.this-search',dialog).css('width','100%');
 							}
 						});
 					});
@@ -319,102 +204,69 @@
 							id:'#leaveDialog',
 							content: lang.GROUPS_LEAVEMESSAGE,
 							style:{'min-height':30},
-							buttons:[
-								{
-									name:lang.yes,
-									action:function (){
-										var that=this;
-										console.log('button yes');
-										myAjax({
-											type	: 'POST',
-											url		: DOMINIO+'controls/groups/isAdminGroup.json.php?code='+$.local('code')+'&idGroup='+id,
-											dataType: 'json',
-											error	: function(resp, status, error) {
-												myDialog("#singleDialog", lang.conectionFail);
+							buttons:[{
+								name:lang.yes,
+								action:function (){
+									var that=this;
+									console.log(admin)
+									if (admin && numAdm<=1){
+										that.close();
+										myDialog({
+											id:'#selectAdmin',
+											scroll:true,
+											content: '<strong>'+lang.GROUPS_LEAVEASIGNAR+': </strong>'+lang.GROUPS_LEAVEASIGNARMSG+'.<br><br><strong>'+lang.GROUPS_LEAVEABANDONAR+': </strong>'+lang.GROUPS_LEAVEABANDONARMSG,
+											style:{'min-height':100},
+											buttons:[{
+												name:lang.GROUPS_LEAVEASIGNAR,
+												action:function(){
+													this.close();
+													selectFriendsDialog($.local('code'),[id,true]);
+													$('#friendsListDialog .buttons a').attr('onclick',"sendadminGroup('#friendsListDialog','"+id+"');");
+													$('#friendsListDialog .this-button').show();
+													$('#friendsListDialog .this-search').css('width','65%');
+												}
+											},{
+												name:lang.GROUPS_LEAVEABANDONAR,
+												action:function(){
+													myAjax({
+														loader	: true,
+														type	: 'POST',
+														url		: DOMINIO+'controls/groups/actionsGroups.json.php?action=4&force=1&&admin=1&grp='+id,
+														dataType: 'json',
+														success	: function(data) {
+															if (data.leave=='true')
+																that.close(function(){
+																	myDialog({
+																		id: '#default',
+																		content: lang.GROUPS_LEAVEMESSAGEFINAL,
+																		buttons:{
+																			ok:function(){
+																				redir('lstgroups.html?action=2');
+																			}
+																		}
+																	});
+																});
+														},
+														error	: function() {
+															myDialog('#singleDialog', 'ERROR-getadminMembers');
+														}
+													});
+												}
 											},
+											{name:'Close',action:'close'}
+											]
+										});
+									}else{
+										myAjax({
+											loader	: true,
+											type	: 'POST',
+											url		: DOMINIO+'controls/groups/actionsGroups.json.php?action=4&force=1&grp='+id,
+											dataType: 'json',
 											success	: function(data) {
-												//console.log(data['onlyAdmin']);
-												//si eres admin, verificar si eres el unico o no
-												if (data['verifyAdmin']=='1'){
-													//si eres el unico, hay dos opcines: asiganr o abandonar
-													if (data['onlyAdmin']=='1'){
-														that.close(function(){
-															myDialog({
-																id:'#selectAdmin',
-																scroll:true,
-																content: '<strong>'+lang.GROUPS_LEAVEASIGNAR+': </strong>'+lang.GROUPS_LEAVEASIGNARMSG+'.<br><br><strong>'+lang.GROUPS_LEAVEABANDONAR+': </strong>'+lang.GROUPS_LEAVEABANDONARMSG,
-																style:{'min-height':100},
-																buttons:[{
-																	name:lang.GROUPS_LEAVEASIGNAR,
-																	action:function(){
-																		$('#selectAdmin').fadeOut(300,function(){
-																			myDialog({
-																				id:'#adminLeaveDialog',
-																				style:{'min-height':150},
-																				buttons:{},
-																				after: function (options,dialog){
-																					$('#like_admin_group',dialog).unbind('keyup').bind('keyup',function(event) {
-																						if(event.which==8||event.which>40) assignAdminGroup($('#like_admin_group',dialog).val());
-																					});
-																					$('.optional',dialog).addClass('dnone');
-																					$('.leaveAd',dialog).removeClass('dnone');
-																				}
-																			});
-																			assignAdminGroup();
-																		});
-																	}
-																},{
-																	name:lang.GROUPS_LEAVEABANDONAR,
-																	action:function(){
-																		$('#selectAdmin').fadeOut(300,function(){
-																			console.log(lang.GROUPS_LEAVEABANDONAR);
-																			myAjax({
-																				type	: 'POST',
-																				url		: DOMINIO+'controls/groups/isAdminGroup.json.php?code='+$.local('code')+'&idGroup='+id+'&act=leave',
-																				dataType: 'json',
-																				error	: function(/*resp, status, error*/) {
-																					myDialog("#singleDialog", lang.conectionFail);
-																				},
-																				success	: function(/*data*/) {
-																					myDialog({
-																						id: '#deleteGroup',
-																						content: lang.GROUPS_LEAVEBORRADO,
-																						buttons:{
-																							ok:function(){
-																								redir('lstgroups.html?action=2');
-																							}
-																						}
-																					});
-																				}
-																			});
-																		});
-																	}
-																},{
-																	name:'Close',
-																	action:'close'
-																}]
-															});
-														});
-													}else{
-														//si no eres el unico, abandonas el grupo sin problemas
-														that.close(function(){
-															myDialog({
-																id: '#closeDialogAdminGrp',
-																content: lang.GROUPS_LEAVEMESSAGEFINAL+' - admin but not only one',
-																buttons:{
-																	ok:function(){
-																		redir('lstgroups.html?action=2');
-																	}
-																}
-															});
-														});
-													}
-
-												}else{
-													//si no eres admin, abandonas el grupo sin problemas
+												if (data.leave=='true')
 													that.close(function(){
 														myDialog({
-															id: '#singleDialog',
+															id: '#default',
 															content: lang.GROUPS_LEAVEMESSAGEFINAL,
 															buttons:{
 																ok:function(){
@@ -423,22 +275,84 @@
 															}
 														});
 													});
-												}
+											},
+											error	: function() {
+												myDialog('#singleDialog', 'ERROR-getadminMembers');
 											}
 										});
 									}
-								},
-								{
-									name:'No',
-									action:function(){ this.close(); }
 								}
-							]
+							},
+							{
+								name:'No',
+								action:function(){ this.close(); }
+							}
+						]
 						});
 					});
 				}
 			}//end after
 		});
-
+	function sendadminGroup(idDialog,id){
+	console.log('sendadminGroup');
+	var friends=[],a=0;
+	$('input:checkbox',idDialog).each(function(i,field){
+		if ($(field).is(':checked')) {
+			var userInfo=field.value.split('|');
+			console.log(userInfo);
+			friends[a++]=userInfo[0];
+		};
+	});
+	if (friends.length>0){
+		myAjax({
+			url		:DOMINIO+'controls/groups/actionsGroups.json.php?action=6&grp='+id,
+			data:{uemails:friends},
+			dataType:'JSON',
+			success	:function(data){
+				if(data['asig']=='true') 
+					myDialog({
+						id: '#default',
+						content: lang.GROUPS_LEAVEMESSAGEFINAL,
+						buttons:{
+							ok:function(){
+								redir('lstgroups.html?action=2');
+							}
+						}
+					});
+				else myDialog('#singleDialog',lang.TAG_DELETEDERROR);
+			},
+			error	:function(){
+				myDialog('#singleDialog','ERROR-invitedFriends');
+			}
+		});		
+	}
+	$('.closedialog',idDialog).click();
+}
+function sendInvitationMemberGrp(idDialog,id){
+	console.log('sendInvitationMemberGrp');
+	var friends=[],a=0;
+	$('input:checkbox',idDialog).each(function(i,field){
+		if ($(field).is(':checked')) {
+			var userInfo=field.value.split('|');
+			console.log(userInfo);
+			friends[a++]=userInfo[0];
+		};
+	});
+	if (friends.length>0){
+		myAjax({
+			url		:DOMINIO+'controls/groups/actionsGroups.json.php?action=5',
+			data:{grp:id,friends:friends},
+			dataType:'JSON',
+			success	:function(data){
+				if(data['mensj']=='invite') myDialog('#singleDialog',lang.GROUPS_SENDINVITATION);
+			},
+			error	:function(){
+				myDialog('#singleDialog','ERROR-invitedFriends');
+			}
+		});		
+	}
+	$('.closedialog',idDialog).click();
+}
 	</script>
 </div>
 <?php include 'inc/footer.php'; ?>

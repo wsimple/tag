@@ -2,7 +2,6 @@
 	//if(isset($_REQUEST['debug'])) die('<br/>entro a facebook.php<br/>');
 	include('includes/config.php');
 	include('includes/session.php');
-	include('class/Mobile_Detect.php');
 	include('includes/functions.php');
 	include('class/wconecta.class.php');
 	include('includes/languages.config.php');
