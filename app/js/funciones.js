@@ -655,7 +655,6 @@ function actionsTags(layer){
 			};
 		});
 		$(layer).on('click', 'menu li', function(e){
-
 			if ($(e.target).hasClass('canceled')) return false;
 
 			var tagId = $(e.target).parents('[tag]').attr('tag');
@@ -852,7 +851,7 @@ function playComment(tagtId, opc){
 			myAjax({
 				type:'GET',
 				dataType:'json',
-				loader:false,
+				loader:true,
 				data:act||{},
 				url:DOMINIO+'controls/tags/tagsList.json.php?this_is_app&limit='+limit+'&current='+current+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 				success:function(data){
