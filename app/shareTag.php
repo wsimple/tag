@@ -137,8 +137,12 @@
 						setTimeout(function(){$('#fs-wrapper').jScroll('refresh'),300});
 					}
 				});
-				$('#tag_shareTag').html(	'<div style="width: 35%;margin: 0 auto;display: inline-block;"><iframe src="'+DOMINIO+'views/tags/share/facebook.php?tag='+idTag+'"  frameborder="0" scrolling="no" height="50px" allowtransparency="true" ></iframe></div>'+
-											'<div style="width: 35%;margin: 0 auto;display: inline-block;"><iframe src="'+DOMINIO+'views/tags/share/twitter.php?tag='+idTag+'"  frameborder="0" scrolling="no" height="50px" allowtransparency="true" "></iframe></div>');
+				$('#tag_shareTag').html(	'<div style="width: 35%;margin: 0 auto;display: inline-block;padding-right: 5%;">'+
+												'<iframe src="'+DOMINIO+'views/tags/share/facebook.php?tag='+idTag+'"  frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="width: 100%;"></iframe>'+
+												'<div class="clearfix"></div></div>'+
+											'<div style="width: 35%;margin: 0 auto;display: inline-block;padding-left: 5%;">'+
+												'<iframe src="'+DOMINIO+'views/tags/share/twitter.php?tag='+idTag+'"  frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="width: 100%;"></iframe>'+
+												'<div class="clearfix"></div></div>');
 				//facebook button AND //twitter button
 				// $('#tag_shareTag').html('<div id="tagShare_facebook">'+
 				// 							'<div id="fb-root"></div>'+
