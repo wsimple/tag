@@ -192,14 +192,14 @@
         					$row['noti']=$noti;
                             if ($noti['status']=='5'){
                                 $textBody='<div><div class="limitComent">'.GROUPS_VALIDATE_MSG_WAITING.'</div>
-                                            <div class="btn" >
+                                            <div id="btn">
                                                     <input type="button" size="20" id="back"
                                                             value="'.JS_BACK.'">&nbsp;
                                             </div>
                                         </div>';
                             }else{
                                 $textBody='<div><div class="limitComent" >'.GROUPS_ACCEPTINVITATION.'</div>
-                                                <div class="btn" >
+                                                <div id="btn">
                                                     <input type="button" size="20"
                                                             value="'.GROUPS_ACCEPTUSERS.'"
                                                             action="acceptInv,'.$row['id'].'">&nbsp;
@@ -214,7 +214,7 @@
         				}else{
                             if ($row['privacy']!='3'){
                                 $textBody='<div><div class="limitComent">'.GROUPS_NOHAVEPERMISSION.'</div>
-                                                <div class="btn" >
+                                                <div id="btn">
                                                     <div id="autoriGr" class="messageSuccessGroupo" style="display: none;margin-top: 13px;">'.JS_GROUPS_WAITAPPROBATION.'</div>&nbsp;
                                                     <input type="button" size="20" id="joinGroup"
                                                             value="'.GROUPS_JOINTOTHEGROUP.'"
@@ -225,7 +225,7 @@
                                             </div>';
                             }else{ 
                                 $body='<div><div class="messageAdver">'.GROUPS_VALIDATE_MSG_PRIVATE.'</div>
-                                                <div class="btn" >
+                                                <div id="btn" >
                                                     <input type="button" size="20" id="back"
                                                             value="'.JS_BACK.'" style="float: right; margin-right: 50px;">
                                                 </div>
@@ -270,4 +270,3 @@
         }
 		$res['list']=$rows;
 		die(jsonp($res));
-?>
