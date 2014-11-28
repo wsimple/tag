@@ -1774,3 +1774,23 @@ input.password-field {
 .ui-btn-active-checked span,
 .ui-btn-active-checked strong,
 .ui-btn-active-checked p{ color: #fff !important;}
+/* Big Like Icon in Tags on Click Button like/dislike */
+#big-like{
+	background-image: url('tbum/BigLike.png');
+	background-position: center center;
+	-webkit-background-size: 100%;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	display: block;
+	width: 6.5em;
+	height: 6.5em;
+	position: absolute;
+	top: .96em;
+	left: 7.1em;
+}
+#big-like.rotated{
+	-webkit-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
