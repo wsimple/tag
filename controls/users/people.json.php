@@ -58,7 +58,7 @@ switch ($_GET['action']) {
 					$array['order']='ORDER BY RAND()';
 					$array['where']=safe_sql('u.id!=? AND u.id NOT IN ((SELECT ul.id_friend FROM users_links ul WHERE ul.id_user=?)) AND u.id NOT IN ((SELECT ul.id_user FROM users_links ul WHERE ul.id_friend=?))',array($uid,$uid,$uid));
 					if (isset($_POST['no_id_s']) && $_POST['no_id_s']!=''){
-						$array['where'].=' AND u.id NOT IN ('.CON::cleanString($_POST['no_id_s']).')';
+						$array['where'].=' AND u.id NOT IN ('.CON::cleanStrings($_POST['no_id_s']).')';
 						$array['limit']='LIMIT 0,20';
 					}
 				}
@@ -67,14 +67,14 @@ switch ($_GET['action']) {
 					$emails=0;$phones=0;
 					if(isset($data['email'])&&count($data['email'])){
 						for($i=0;$i<count($data['email']);$i++)
-							$data['email'][$i]=CON::cleanString($data['email'][$i]);
+							$data['email'][$i]=CON::cleanStrings($data['email'][$i]);
 						$emails='u.email IN ("'.implode('","',$data['email']).'") ';
 					}
 					if(isset($data['phone'])&&count($data['phone'])){
 						$labels=array('u.home_phone','u.mobile_phone','u.work_phone');
 						$phones=array();
 						for($i=0;$i<count($data['phone']);$i++){
-							$phone=CON::cleanString($data['phone'][$i]);
+							$phone=CON::cleanStrings($data['phone'][$i]);
 							$phone=preg_replace('/^0+|\D/','',$phone);#limpiamos de caracteres no numericos
 							if($phone) foreach($labels as $label)
 								$phones[]="TRIM(LEADING '0' FROM REPLACE(REPLACE(REPLACE($label,'+',''),'-',''),' ','') ) LIKE '%$phone'";
