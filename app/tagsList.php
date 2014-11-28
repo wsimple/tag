@@ -26,13 +26,13 @@
 	<!-- Dialogs -->
 	<div id="friendsListDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
-			<div class="container">
-				<div class="this-search" style="display:inline-block;margin-right:10px;width:65%;">
+			<div class="container" style="font-size: 50%;">
+				<div class="this-search" style="display:inline-block;margin-right:5px;width:44%;">
 					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" />
 				</div>
-				<div class="this-button" style="display:inline-block;margin-right:10px;width:30%;">
-					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#friendsListDialog')" class="no-disable" data-mini="true" />
-					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#friendsListDialog')" class="no-disable" data-mini="true" />
+				<div class="this-button" style="display:inline-block;width:51%;">
+					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#friendsListDialog')" class="no-disable" data-mini="true"  style="padding: 0;"/>
+					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#friendsListDialog')" class="no-disable" data-mini="true" style="padding: 0;"/>
 				</div>
 				<div class="list-wrapper" style="margin-top:5px;height:150px;">
 					<div id="scroller"><ul data-role="listview" data-inset="true"></ul>
@@ -40,30 +40,6 @@
 			</div>
 			<div class="buttons">
 				<a href="#" data-role="button" onclick="closeDialogmembersGroup('#friendsListDialog')" data-theme="f">Ok</a>
-			</div>
-		</div>
-	</div></div></div>
-	<!-- leave and assign -->
-	<div id="adminLeaveDialog" class="myDialog"><div class="table"><div class="cell">
-		<div class="window">
-			<div class="header">
-				<div id="searcher" class="optional dnone leaveAd">
-					<div style="display:inline-block;margin-right:10px;width:85px;">
-						<input id="like_admin_group" name="like_admin_group" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" style="width: 80px"/>
-					</div>
-					<input type="button" id="all2" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true, '#adminLeaveDialog')" class="no-disable" data-mini="true" />
-					<input type="button" id="none2" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false, '#adminLeaveDialog')" class="no-disable" data-mini="true" />
-				</div>
-			</div>
-			<div class="container">
-				<div class="wrapper" style="height:150px">
-					<div id="scroller">
-						<div class="content" style="padding:5px; text-align: center;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="buttons">
-				<a data-role="button" class="optional dnone leaveAd" id="assignAdminGrp" onclick="sendadminGroup('#adminLeaveDialog')" data-theme="f"></a>
 			</div>
 		</div>
 	</div></div></div>
@@ -98,7 +74,7 @@
 				$('#buttonBack').click(function(){
 					($_GET['delete'])?((redir(PAGE['tagslist']+'?current=group&id='+id))):goBack();
 				});
-				$('#friendsListDialog .list-wrapper,#adminLeaveDialog .list-wrapper').jScroll({hScroll:false});
+				$('#friendsListDialog .list-wrapper').jScroll({hScroll:false});
 				/*action menu tag*/
 				actionsTags(opc.layer);
 				/*and action menu tag*/
@@ -181,7 +157,7 @@
 						selectFriendsDialog($.local('code'),id);
 						$('#friendsListDialog .buttons a').attr('onclick',"sendInvitationMemberGrp('#friendsListDialog','"+id+"');");
 						$('#friendsListDialog .this-button').show();
-						$('#friendsListDialog .this-search').css('width','65%');
+						$('#friendsListDialog .this-search').css('width','44%');
 					});
 
 					$('#footer #members').click(function(){
@@ -223,7 +199,7 @@
 													selectFriendsDialog($.local('code'),[id,true]);
 													$('#friendsListDialog .buttons a').attr('onclick',"sendadminGroup('#friendsListDialog','"+id+"');");
 													$('#friendsListDialog .this-button').show();
-													$('#friendsListDialog .this-search').css('width','65%');
+													$('#friendsListDialog .this-search').css('width','44%');
 												}
 											},{
 												name:lang.GROUPS_LEAVEABANDONAR,
