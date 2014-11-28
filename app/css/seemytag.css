@@ -1754,3 +1754,43 @@ input.password-field {
 .ui-loader .ui-icon{
 	background-color: transparent;
 }
+.ui-btn-active-checked{
+	border: 1px solid #2373a5 !important;
+	background: #5393c5;
+	font-weight: bold;
+	color: #fff;
+	cursor: pointer;
+	text-shadow: 0 1px 0 #3373a5;
+	text-decoration: none;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #5393c5 ), to( #6facd5 )); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #5393c5, #6facd5 ); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #5393c5, #6facd5 ); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #5393c5, #6facd5 ); /* IE10 */
+	background-image:      -o-linear-gradient( #5393c5, #6facd5 ); /* Opera 11.10+ */
+	background-image:         linear-gradient( #5393c5, #6facd5 );
+	font-family: Helvetica, Arial, sans-serif;
+}
+.ui-btn-active-checked a,
+.ui-btn-active-checked span,
+.ui-btn-active-checked strong,
+.ui-btn-active-checked p{ color: #fff !important;}
+/* Big Like Icon in Tags on Click Button like/dislike */
+#big-like{
+	background-image: url('tbum/BigLike.png');
+	background-position: center center;
+	-webkit-background-size: 100%;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	display: block;
+	width: 6.5em;
+	height: 6.5em;
+	position: absolute;
+	top: .96em;
+	left: 7.1em;
+}
+#big-like.rotated{
+	-webkit-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	transform: rotate(180deg);
+}

@@ -89,6 +89,9 @@
 			},
 			after:function(){
 				$('#btn-login-change .ui-btn-text').css('padding','0 10px');
+				if(is.device && !CORDOVA){
+					if(is['android']) $('.googlePlay').click();
+				}
 			}
 		});
 //		function updateAndroidMarketLinks(){
