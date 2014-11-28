@@ -127,7 +127,7 @@
 				out='<li data-role="list-divider">'+lan('all contacts','ucw')+' <span class="ui-li-count">'+contacts.length+'</span></li>';
 				var emailSent=$.local('emails_sent')||[];
 				for(var i=0;i<contacts.length;i++){
-					if(contacts[i].emails){
+					if(contacts[i].emails.length>0){
 						var photo=(contacts[i].photos)?contacts[i].photos[0].value:'css/tbum/usr.png';
 						out+=
 						'<li class="userInList">'+
