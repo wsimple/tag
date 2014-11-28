@@ -214,6 +214,7 @@ include ('../../class/class.phpmailer.php');
                     if (!isset($_SESSION['store']['wish'])){
                         $_SESSION['store']['wish']=campo('store_orders','id_status','5','id',' AND id_user="'.$myId.'"');
                     }
+                    $statusOrder='5';$idOrder=$_SESSION['store']['wish'];
                 }else{
                     $idOrder=$_SESSION['car']['order']['order'];
                     $statusOrder='11';
