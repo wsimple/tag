@@ -67,6 +67,9 @@ is.limited= !is.webkit||is.android;
 		batterylow						:'Bater&iacute;a baja, se cerrar&aacute; la aplicaci&oacute;n.',
 		cancel							:'Cancelar',
 		chat							:'Chat',
+		contacts						:'contactos',
+		'all contacts'					:'todos los contactos',
+		TAGBUM_CONTACTS					:'contactos en tagbum',
 		checkLogin						:'Verificando Logeo de Sesi&oacuten...',
 		close							:'Cerrar',
 		COMMENTS_LBLHELPIMPUTNEWCOMMENT	:'Escriba su comentario aqu&iacute;...',
@@ -86,7 +89,7 @@ is.limited= !is.webkit||is.android;
 		GROUPS_ALLGROUPS				:'Todos los Grupos',
 		GROUPS_ASSIGNADMIN				:'Asignar Admin',
 		GROUPS_BACKMAIN					:'Regresar',
-		GROUPS_CLOSE					:'Grupo Privado',
+		GROUPS_CLOSE					:'Grupo Cerrado',
 		GROUPS_CREATED					:'Creado',
 		GROUPS_INVITEDFRIENDS			:'Invitar Amigos',
 		GROUPS_JOIN						:'Unirse',
@@ -377,7 +380,8 @@ is.limited= !is.webkit||is.android;
 		yes								:'Yes',
 		filter							:'Filter items...',
 		externalLink					:'External Link',
-		
+
+		TAGBUM_CONTACTS					:'contacts in tagbum',
 		MSG_PAYPAL_HELP					:'Your account is temporarily blocked, to continue enjoying our services you must pay your fee through paypal',
 		MSG_PAYPAL_HELP_APP				:'In this moment this option is only available in web version',
 
@@ -603,7 +607,7 @@ is.limited= !is.webkit||is.android;
 		MAINMNU_GROUP					:'Group',
 		MAINMNU_GROUPS					:'Groups',
 		GROUPS_TITLEWINDOWSNEW			:'New Group',
-		GROUPS_CLOSE					:'Private Group',
+		GROUPS_CLOSE					:'Closed Group',
 		MSGGROUPS_CLOSE					:'If you want enter it, you should be invited for a member.',
 		MSGGROUPS_CLOSE_INVI_SED		:'Please wait until the administrator approves your membership application',
 		INVITE_GROUP_TRUE       		:'You have an invitation to this group',
