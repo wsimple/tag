@@ -370,23 +370,27 @@
 							//porcentaje de seguidores
 							$porcenEmails = campo("config_system", "id", "1", "porcen_reporta_tag");
 
-							$porce = explode('%',$porcenEmails);
+							$emails = campo("config_system", "id", "1", "emails_admin_reports_tags");
 
-							$total = (($Nsegui*$porce[0])/100);
+							// $porce = explode('%',$porcenEmails);
 
-							echo $id_creator.' '.$Nreport.' '.$Nsegui.' ' .$porcenEmails.' '.$porce[0].' '.round($total);
+							$total = (($Nsegui*$porcenEmails)/100);
+
+							echo 'id creador '.$id_creator.'<br> num repor '.$Nreport.'<br> num segui '.$Nsegui.' <br> porcentaje de seguidores '.$porcenEmails.' <br> porcen sin deci '.round($total);
 							if ($Nreport>=$total) {
 								// echo ' enviar correo ';
 
-								$body ='datos';
-
-								$resp = sendMail(formatMail($body, "790"), EMAIL_NO_RESPONDA, formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.$lang['MENUTAG_CTRSHAREMAILTITLE1'], $per, "../../");
-								
-							}else{
-								echo ' no enviar correo ';
+								$body ='
+								<div>
+									<div style="background-image: url(\''.DOMINIO.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;height: 103px;margin-left: 80px;"></div> 
+									<div style="padding: 25px;text-align: center; font-size: 25px; color:#FA0D1F">'.EMAIL_REPORTS_TAGS.'</div>
+									<div style="text-align: center;"><img src="'.tagURL($tag['id']).'"></div>
+									<div style="background-image: url(\''.DOMINIO.'css/smt/email/yellowbutton_get_started.png\');background-size: 110px 37px;background-repeat: no-repeat;width: 100px;height: 27px;padding: 8px 0 0 0;margin-left: 345px; margin-top: 20px;">
+											<a style="text-decoration: none; color: #514C4C; padding-left: 26px;" href="'.DOMINIO.'wpanel/?idtagreport='.md5($tag['id']).'">'.EMAIL_REPORTS_TAGS_DELETE.'</a>
+									</div>
+								</div>';
+								$resp = sendMail($body, EMAIL_NO_RESPONDA,'Tagbum','Report Tags','aesqueda14@gmail.com', "../../");								
 							}
-
-
 
 							incPoints(21,$tag['id'],$tag['id_user'],$_SESSION['ws-tags']['ws-user']['id']);
 							incHitsTag($tag['id']);

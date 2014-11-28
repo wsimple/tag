@@ -1,6 +1,4 @@
 <?php
-
-echo (100*50)/100;
 if ($_REQUEST['action']!=''){
 
 	mysql_query("UPDATE config_system SET emails_admin_reports_tags = '".$_REQUEST[emails_admin_reports_tags]."', porcen_reporta_tag = '".$_REQUEST[porcen_reporta_tag]."' WHERE id = '1'") or die (mysql_error());
@@ -12,11 +10,17 @@ if ($_REQUEST['action']!=''){
 $_pagi_sql='select DISTINCT tags.id FROM tags, tags_report WHERE tags.id = tags_report.id_tag AND tags_report.status = 1 ORDER BY tags.id DESC';
 
 //cantidad de resultados por página (opcional, por defecto 20) 
-$_pagi_cuantos = 5; 
+$_pagi_cuantos = 10; 
 
 //Incluimos el script de paginación. Éste ya ejecuta la consulta automáticamente 
 include("includes/paginator.inc.php"); 
-if ($_SESSION['wpanel_user']['tipo']=='1') {
+
+// echo  $_pagi_sql;
+
+// $num = mysql_num_rows($_pagi_result);
+
+// echo $num;
+
 ?>
 <fieldset>
 	<legend>Information</legend>
@@ -91,7 +95,7 @@ if ($_SESSION['wpanel_user']['tipo']=='1') {
 	</table>
 </fieldset>
 <br><br>
-<?php } ?>
+
 <fieldset>
 	<legend>Reports Tags</legend>
         <table width="680" border="1" align="center" cellpadding="2" cellspacing="0" style="font-size:11px; font-weight:normal; text-align:left; border:1px solid #FBCBA4;">
