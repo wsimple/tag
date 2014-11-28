@@ -1436,18 +1436,21 @@ function checkAllCheckboxs(value,container){
 }
 function getFriends(id,groups,like){
 	like=like?'&like='+like:'';
-	var emails=[],get='',content='.list-wrapper #scroller ul';
+	var emails=[],content='.list-wrapper #scroller ul',
+		url=DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&code'+like;
 	$('#pictures_shareTag input').each(function(){
 		emails.push($(this).val());
 	});
 	if (groups){
-		get+='&idGroup='+groups;
+		if ($.isArray(groups))
+			url=DOMINIO+'controls/users/people.json.php?action=groupMembers&code&noMy&idGroup='+groups[0]+like;
+		else url+='&idGroup='+groups;
 		content='#friendsListDialog .container ul';
 	} 	
 	myAjax({
 		loader	:true,
 		type	:'POST',
-		url		:DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&code'+like+get,
+		url		:url,
 		data:{uid:id},
 		dataType:'json',
 		success	:function(data){
@@ -1465,8 +1468,9 @@ function getFriends(id,groups,like){
 							'</div>'+
 						'</li>';
 			}
+			// ret=ret+'<li data-icon="false" ></li>';
 			$(content).html(ret).listview('refresh');
-			// $('.list-wrapper #scroller').html('<div style="padding:5px;text-align:center;">'+ret+'</div>');
+			
 			$('.list-wrapper').jScroll('refresh');
 			$(content+' li').click(function(){
 				if (!$('input',this).is(':checked')){
@@ -1541,67 +1545,6 @@ function getDialogCheckedUsers(idDialog){
 	if(paso) $('#title_pictures_shareTag').fadeIn('slow');
 	$('.closedialog',idDialog).click();
 	checkboxPublicPrivateTag();
-}
-
-function sendInvitationMemberGrp(idDialog,id){
-	console.log('sendInvitationMemberGrp');
-	var friends=[],a=0;
-	$('input:checkbox',idDialog).each(function(i,field){
-		if ($(field).is(':checked')) {
-			var userInfo=field.value.split('|');
-			console.log(userInfo);
-			friends[a++]=userInfo[0];
-		};
-	});
-	console.log(friends);
-	if (friends.length>0){
-		myAjax({
-			url		:DOMINIO+'controls/groups/actionsGroups.json.php?action=5',
-			data:{grp:id,friends:friends},
-			dataType:'JSON',
-			success	:function(data){
-				if(data['mensj']=='invite') myDialog('#singleDialog',lang.GROUPS_SENDINVITATION);
-			},
-			error	:function(){
-				myDialog('#singleDialog','ERROR-invitedFriends');
-			}
-		});		
-	}
-	$('.closedialog',idDialog).click();
-}
-
-function sendadminGroup(idDialog){
-	console.log('sendadminGroup');
-	var friends=$('input:checkbox[checked]',idDialog);
-	console.log('num friends='+friends.length);
-	$.each(friends,function(i,field){
-		//alert (field.value);
-		var userInfo=field.value.split('|');
-		myAjax({
-			url		:DOMINIO+'controls/groups/sendAdminMemberGroup.json.php?idGroup='+userInfo[2]+'&idUser='+md5(userInfo[1])+'&code='+$.local('code'),
-			dataType:'JSON',
-			success	:function(data){
-				//alert (data);
-				if(data=='1'){
-					if(i==(friends.length-1)){
-						myDialog({
-							id:'#invitationSending',
-							content:lang.GROUPS_LEAVECCOMPLETE,
-							buttons:{
-								ok:function(){
-									window.location=PAGE.groupslist+'?action=2';
-								}
-							}
-						});
-					}
-				}
-			},
-			error:function(){
-				myDialog('#singleDialog','ERROR-AssignAdmin');
-			}
-		});
-	});
-	$('.closedialog',idDialog).click();
 }
 
 function checkboxPublicPrivateTag(){

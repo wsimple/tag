@@ -18,7 +18,7 @@
 							<input id="userName_shareTag" disabled="disabled" />
 						</fieldset>
 						<label id="title_pictures_shareTag" style="font-size:10px;display:none;"></label>
-						<div id="pictures_shareTag" style="height:40px;text-align:center;margin:10px auto 5px;overflow-y:hidden;overflow-x:auto;">
+						<div id="pictures_shareTag" style="min-height:40px;text-align:center;margin:10px auto 5px;width: 69%;">
 							<span onclick="selectFriendsDialog($.local('code'))">
 								<img src="css/smt/plus.png" width="40" style="margin-left: 5px; border-radius: 5px;" class="userBR"/>
 							</span>
@@ -48,7 +48,7 @@
 					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#shareTagDialog')" class="no-disable" data-mini="true" />
 					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#shareTagDialog')" class="no-disable" data-mini="true" />
 				</div>
-				<div class="list-wrapper" style="margin-top:5px;height:150px;"><div id="scroller"><ul data-role="listview" data-inset="true"></ul></div></div>
+				<div class="list-wrapper" style="margin-top:5px;height:150px;"><div id="scroller"><ul data-role="listview" data-inset="true"></ul><div class="clearfix"></div></div></div>
 			</div>
 			<div class="buttons">
 				<a href="#" data-role="button" onclick="getDialogCheckedUsers('#shareTagDialog')" data-theme="f">Ok</a>
@@ -136,28 +136,31 @@
 						setTimeout(function(){$('#fs-wrapper').jScroll('refresh'),300});
 					}
 				});
+				$('#tag_shareTag').html('<div id="tagShare_facebook">'+
+											'<iframe src="'+DOMINIO+'views/tags/share/facebook.php?tag='+idTag+'" width="170px" frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="float:left;"></iframe>'+
+											'<iframe src="'+DOMINIO+'views/tags/share/twitter.php?tag='+idTag+'" width="130px" frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="float:right;"></iframe>'+
+										'</div>');
+				//facebook button AND //twitter button
+				// $('#tag_shareTag').html('<div id="tagShare_facebook">'+
+				// 							'<div id="fb-root"></div>'+
+				// 							'<script>(function(d,s,id){'+
+				// 								'var js, fjs=d.getElementsByTagName(s)[0];'+
+				// 								'if(d.getElementById(id)) return;'+
+				// 								'js=d.createElement(s);'+
+				// 								'js.id=id;'+
+				// 								'js.src="//connect.facebook.net/en_US/all.js#xfbml=1";'+
+				// 								'fjs.parentNode.insertBefore(js,fjs);'+
+				// 							'}(document,"script","facebook-jssdk"));<\/script>'+
+				// 							'<div class="fb-like" data-href="http://tagbum.com/?tag='+idTag.substr(-16)+'" data-layout="button_count" data-show-faces="false"></div>'+
+				// 						'</div>'+
+				// 						'<div id="tagShare_twitter">'+
+				// 							'<a href="https://twitter.com/share" class="twitter-share-button"'+
+				// 								'data-url="'+DOMINIO+'?tag='+md5(idTag).substr(-16)+'"'+
+				// 								'data-via="tagbum" data-text="Disfruten cha lala" data-lang="en"></a>'+
+				// 							'<script type="text/javascript" src="http://platform.twitter.com/widgets.js"><\/script>'+
+				// 						'</div>');
 			}
 		});
-		//facebook button
-		/*$('#tagShare_facebook').html(
-			'<div id="fb-root"></div>'+
-			'<script>(function(d,s,id){'+
-				'var js, fjs=d.getElementsByTagName(s)[0];'+
-				'if(d.getElementById(id)) return;'+
-				'js=d.createElement(s);'+
-				'js.id=id;'+
-				'js.src="//connect.facebook.net/en_US/all.js#xfbml=1";'+
-				'fjs.parentNode.insertBefore(js,fjs);'+
-			'}(document,"script","facebook-jssdk"));<\/script>'+
-			'<div class="fb-like" data-href="http://tagbum.com/?tag='+idTag.substr(-16)+'" data-layout="button_count" data-show-faces="false"></div>'
-		);/**/
-		//twitter button
-		/*$('#tagShare_twitter').html(
-			'<a href="https://twitter.com/share" class="twitter-share-button"'+
-				'data-url="'+DOMINIO+'?tag='+md5(idTag).substr(-16)+'"'+
-				'data-via="tagbum" data-text="Disfruten cha lala" data-lang="en"></a>'+
-			'<script type="text/javascript" src="http://platform.twitter.com/widgets.js"><\/script>'
-		);/**/
 	</script>
 </div>
 <?php include 'inc/footer.php'; ?>

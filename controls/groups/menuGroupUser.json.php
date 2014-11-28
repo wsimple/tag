@@ -213,11 +213,17 @@
 		)));
 	break;
 	case '6':
-		$verifyUser = $GLOBALS['cn']->query('SELECT id_user FROM users_groups WHERE md5(id_group) ="'.$_GET['idGroup'].'" AND id_user="'.$mnUseGrp.'"');
-		$verifyUserGrp = mysql_fetch_array($verifyUser);
-		die(jsonp(array(
-			'isMember' => $verifyUserGrp['id_user']!=''
-		)));
+		$users = CON::query("SELECT id_user,is_admin,
+									(SELECT COUNT(id) FROM users_groups WHERE is_admin='1' AND md5(id_group) =?) AS numAdm
+			FROM users_groups WHERE md5(id_group) =? AND id_user=? AND status='1' LIMIT 1",array($_GET['idGroup'],$_GET['idGroup'],$mnUseGrp));
+		if (CON::numRows($users)>0){
+			$admin='';$numAdm='';
+			while ($row=CON::fetchAssoc($users)) {
+				$admin=$row['is_admin'];
+				$numAdm=$row['numAdm'];
+			}
+			die(jsonp(array('isMember'=>true,'admin'=>$admin,'numAdm'=>$numAdm)));
+		}else die(jsonp(array('isMember'=>false)));
 	break;
 	case '7':
 		if((isset($_GET[idGroup]))&&!existe('users_groups', 'id_user', " WHERE md5(id_group) ='".$_GET['idGroup']."' AND id_user='".$mnUseGrp."'")){

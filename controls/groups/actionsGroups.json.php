@@ -323,36 +323,25 @@
                     $res['mensj']=!$typeBox?'no-invite':'invite';
                 }else { $res['mensj'] ='no-group'; }
 			break;
-			//eliminar ultimo administrador y asiganr uno nuevo
-			case 6:
-				if($_GET['chkVal']!=''){
-					$chk = explode(",", $_GET['chkVal']);
-					$a=0;
-					$lstUsrs = $GLOBALS['cn']->query('
-						SELECT id
-						FROM groups
-						WHERE md5(id) = "'.$_GET['grp'].'"
-					');
-					$id_group = mysql_fetch_assoc($lstUsrs);
+			case 6: //eliminar ultimo administrador y asiganr uno nuevo
+				if (isset($_GET['grp'])){
+					$id_group = CON::getVal("SELECT id FROM groups WHERE md5(id)=?",array($_GET['grp']));
+                    if (!$id_group){ $res['asig'] ='no-group'; break; }
+                    if (!$_GET['chkVal'] && !$_POST['uemails']){ $res['asig']='false'; break; }
+					if(isset($_GET['chkVal']) && $_GET['chkVal']!=''){
+						$where="md5(id) IN ('".str_replace(",","','",$_GET['chkVal'])."')";
+					}elseif(isset($_POST['uemails'])){
+						if (count($_POST['uemails'])==0){ $res['asig']='false'; break; }
+						$where="email IN ('".implode("','",$_POST['uemails'])."')";
+					}else{ $res['asig']='false'; break; }
 					$ultId='';
-					while($chk[$a]!=''){
-						$lstUsrs = $GLOBALS['cn']->query('
-							SELECT id
-							FROM users
-							WHERE md5(id) = "'.$chk[$a].'"
-						');
-						 $lstUsr = mysql_fetch_assoc($lstUsrs);
-						 $ultId = $lstUsr['id'];
-						if (existe('users_groups', 'id', " WHERE id_group = '".$id_group['id']."' AND id_user = '".$lstUsr['id']."'")){
-							$GLOBALS['cn']->query("UPDATE users_groups SET is_admin = '1', date_update = now(), status = '1' WHERE id_group = '".$id_group['id']."' AND id_user = '".$lstUsr['id']."';");
-						}else{
-						   $GLOBALS['cn']->query("INSERT INTO users_groups SET is_admin = '1', id_group = '".$id_group['id']."', id_user = '".$lstUsr['id']."', date_update = now(), status = '1'");
-						}
-						notifications($lstUsr['id'], $id_group['id'], 14);
-						$a++;
+					$query=CON::query("SELECT id FROM users WHERE $where");
+					while ($row=CON::fetchAssoc($query)){
+						CON::insert_or_update("users_groups","is_admin='1',date_update=now(),status='1'","id_group=?,id_user=?","id_group=? AND id_user=?",array($id_group,$row['id'],$id_group,$row['id']));
+						notifications($row['id'],$id_group, 14); $ultId=$row['id'];
 					}
-					$GLOBALS['cn']->query("DELETE FROM users_groups WHERE id_group = '".$id_group['id']."' AND id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND is_admin = '1'"); //se borran las miembros
-					$GLOBALS['cn']->query("UPDATE groups SET id_creator  = '".$ultId."' WHERE id = '".$id_group['id']."'");
+					CON::delete("users_groups","id_group=? AND id_user=?",array($id_group,$myId));
+					CON::update("groups","id_creator=?","id=?",array($ultId,$id_group));
 					$res['asig'] = 'true';
 				}else{ $res['asig'] = 'false'; }
 			break;
