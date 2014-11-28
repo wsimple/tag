@@ -1032,10 +1032,13 @@ function bodyFriendsList(friend){
 }
 function viewFriends(opc){
 	console.log('viewfriends');
+	if(!opc.post) opc.post={};
+	opc.get=opc.get||'';
+	opc.post.uid=opc.user;
 	myAjax({
 		type:'POST',
 		url:DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&code&mod='+opc.mod+opc.get,
-		data: {uid: opc.user },
+		data:opc.post,
 		error:function(/*resp,status,error*/){
 			myDialog('#singleDialog',lang.conectionFail);
 		},
@@ -1073,6 +1076,7 @@ function viewFriends(opc){
 			$('#findFriends').click(function(event) {
 				redir(PAGE['findfriends']);
 			});
+			if(opc.success) opc.success(data);
 			$('.list-wrapper').jScroll('refresh');
 		}
 	});
