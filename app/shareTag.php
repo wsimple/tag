@@ -136,28 +136,31 @@
 						setTimeout(function(){$('#fs-wrapper').jScroll('refresh'),300});
 					}
 				});
+				$('#tag_shareTag').html('<div id="tagShare_facebook">'+
+											'<iframe src="'+DOMINIO+'views/tags/share/facebook.php?tag='+idTag+'" width="170px" frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="float:left;"></iframe>'+
+											'<iframe src="'+DOMINIO+'views/tags/share/twitter.php?tag='+idTag+'" width="130px" frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="float:right;"></iframe>'+
+										'</div>');
+				//facebook button AND //twitter button
+				// $('#tag_shareTag').html('<div id="tagShare_facebook">'+
+				// 							'<div id="fb-root"></div>'+
+				// 							'<script>(function(d,s,id){'+
+				// 								'var js, fjs=d.getElementsByTagName(s)[0];'+
+				// 								'if(d.getElementById(id)) return;'+
+				// 								'js=d.createElement(s);'+
+				// 								'js.id=id;'+
+				// 								'js.src="//connect.facebook.net/en_US/all.js#xfbml=1";'+
+				// 								'fjs.parentNode.insertBefore(js,fjs);'+
+				// 							'}(document,"script","facebook-jssdk"));<\/script>'+
+				// 							'<div class="fb-like" data-href="http://tagbum.com/?tag='+idTag.substr(-16)+'" data-layout="button_count" data-show-faces="false"></div>'+
+				// 						'</div>'+
+				// 						'<div id="tagShare_twitter">'+
+				// 							'<a href="https://twitter.com/share" class="twitter-share-button"'+
+				// 								'data-url="'+DOMINIO+'?tag='+md5(idTag).substr(-16)+'"'+
+				// 								'data-via="tagbum" data-text="Disfruten cha lala" data-lang="en"></a>'+
+				// 							'<script type="text/javascript" src="http://platform.twitter.com/widgets.js"><\/script>'+
+				// 						'</div>');
 			}
 		});
-		//facebook button
-		/*$('#tagShare_facebook').html(
-			'<div id="fb-root"></div>'+
-			'<script>(function(d,s,id){'+
-				'var js, fjs=d.getElementsByTagName(s)[0];'+
-				'if(d.getElementById(id)) return;'+
-				'js=d.createElement(s);'+
-				'js.id=id;'+
-				'js.src="//connect.facebook.net/en_US/all.js#xfbml=1";'+
-				'fjs.parentNode.insertBefore(js,fjs);'+
-			'}(document,"script","facebook-jssdk"));<\/script>'+
-			'<div class="fb-like" data-href="http://tagbum.com/?tag='+idTag.substr(-16)+'" data-layout="button_count" data-show-faces="false"></div>'
-		);/**/
-		//twitter button
-		/*$('#tagShare_twitter').html(
-			'<a href="https://twitter.com/share" class="twitter-share-button"'+
-				'data-url="'+DOMINIO+'?tag='+md5(idTag).substr(-16)+'"'+
-				'data-via="tagbum" data-text="Disfruten cha lala" data-lang="en"></a>'+
-			'<script type="text/javascript" src="http://platform.twitter.com/widgets.js"><\/script>'
-		);/**/
 	</script>
 </div>
 <?php include 'inc/footer.php'; ?>
