@@ -1045,16 +1045,24 @@ function viewFriends(opc){
 		},
 		success:function(data){
 			if (data.error) return;
-			var i,friend,out='',divider;
+			var i,friend,out='',divider,count=' <span class="ui-li-count">'+data.num+'</span>';
 			// console.log('cant '+data.datos.length+' user '+opc.user);
 			// if($.local('code')==opc.user){
-				switch(opc.mod){
-					case 'friends':divider=lan('friends','ucw');break;
-					case 'follow':divider=lan('admirers','ucw');break;
-					case 'unfollow':divider=lan('admired','ucw');break;
-				}
+			switch(opc.mod){
+				case 'friends':divider=lan('friends','ucw');break;
+				case 'follow':divider=lan('admirers','ucw');break;
+				case 'unfollow':divider=lan('admired','ucw');break;
+				case 'find':
+					if(opc.divider){
+						divider=opc.divider
+					}else{
+						divider=lan('FINDFRIENDS_LEGENDOFSEARCHBAR','ucw');
+						count='';
+					}
+				break;
+			}
 			// }
-			divider='<li data-role="list-divider">'+(opc.mod=='find'?lang.FINDFRIENDS_LEGENDOFSEARCHBAR:divider+' <span class="ui-li-count">'+data.num+'</span>')+'</li>';
+			divider='<li data-role="list-divider">'+divider+count+'</li>';
 
 			if (data.datos.length>0){
 				for(i=0;i<data.datos.length;i++){
