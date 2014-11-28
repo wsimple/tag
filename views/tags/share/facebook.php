@@ -16,7 +16,22 @@
 	  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&appId=141402139297347&version=v2.0";
 	  fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));</script>
-	<div class="fb-share-button" data-href="<?=DOMINIO.'tag/'.$_GET['tag']?>"></div>
-	<!-- <div class="fb-share-button" data-href="<?=DOMINIO.base_url('tag?tag='.$_GET['tag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'])?>"></div> -->
+	<!-- <div class="fb-share-button" data-href="<?=DOMINIO.'tag/'.$_GET['tag']?>"></div> -->
+	<style>
+  .fb-share-button{
+	transform: scale(1.5);
+	-ms-transform: scale(1.5);
+	-webkit-transform: scale(1.5);
+	-o-transform: scale(1.5);
+	-moz-transform: scale(1.5);
+	transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-webkit-transform-origin: top left;
+	}
+  </style>
+	<div class="fb-share-button" data-href="<?=DOMINIO.base_url('tag?tag='.$_GET['tag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'])?>" data-layout="button"></div>
 </body>
 </html>
+
