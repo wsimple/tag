@@ -95,6 +95,7 @@ function readTxt(url){
 			case 'myPubli'		:func=function(){redir(PAGE.storeMypubli);};break;
 			case 'notif'		:func=function(){redir(PAGE.notify);};break;
 			case 'friends'		:func=function(){redir(PAGE.userfriends+'?type=friends&id_user='+$.local('code'));};break;
+			case 'friendsSearch':func=function(){redir(PAGE.findfriends);};break;
 			case 'chat'			:func=function(){redir(PAGE.chat);};break;
 			case 'profile'		:func=function(){redir(PAGE.profile+'?id='+$.local('code'));};break;
 			case 'profilepic'	:func=function(){redir(PAGE.profilepic);};break;
@@ -125,6 +126,7 @@ function readTxt(url){
 				'<li opc="notif" onlyif="!window.location.href.match(/[\\/=]notif/i)"><img src="css/smt/notifications.png"/><div>'+lang.NOTIFICATIONS+'</div><span class="push-notifications"></span><arrow/></li>'+
 				//'<li class="separator"></li>'+
 				'<li opc="friends"><img src="css/smt/friends.png"/><div>'+lan('friends','ucw')+'</div><arrow/></li>'+
+				'<li opc="friendsSearch"><img src="css/smt/friends.png"/><div>'+lan('friendSearh_title','ucw')+'</div><arrow/></li>'+
 				(PRODUCCION?
 					'<li opc="chat"><img src="css/smt/chat.png"/><div>'+lang.chat+'</div><arrow/></li>'
 				:'')+
