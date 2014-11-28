@@ -1873,6 +1873,11 @@ function deleteItemCar(id,get,obj){
 			if(data.del!='1'){
 				if(data.del=='all'){
 					if(obj.mod=='car'){redir(PAGE.storeCat);}
+					else if (obj.mod=='wish'){
+						$('#lstStoreOption').html(data.wish.body).listview('refresh');
+						actionButtonsStore();
+						$('.list-wrapper').jScroll('refresh');
+					}
 				}else if(data.del=='no-all'){
 
 				}
