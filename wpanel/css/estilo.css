@@ -139,6 +139,12 @@ legend{
 	font-weight:bold;
 }
 
+.pagnew{
+	border: 1px solid #000;
+	padding: 4px;
+	margin: 0 2px;
+}
+
 /*
 <!-- 
 		+ --------------------------------------------------------- +
