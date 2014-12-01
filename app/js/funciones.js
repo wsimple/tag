@@ -95,6 +95,7 @@ function readTxt(url){
 			case 'myPubli'		:func=function(){redir(PAGE.storeMypubli);};break;
 			case 'notif'		:func=function(){redir(PAGE.notify);};break;
 			case 'friends'		:func=function(){redir(PAGE.userfriends+'?type=friends&id_user='+$.local('code'));};break;
+			case 'friendsSearch':func=function(){redir(PAGE.findfriends);};break;
 			case 'chat'			:func=function(){redir(PAGE.chat);};break;
 			case 'profile'		:func=function(){redir(PAGE.profile+'?id='+$.local('code'));};break;
 			case 'profilepic'	:func=function(){redir(PAGE.profilepic);};break;
@@ -125,6 +126,7 @@ function readTxt(url){
 				'<li opc="notif" onlyif="!window.location.href.match(/[\\/=]notif/i)"><img src="css/smt/notifications.png"/><div>'+lang.NOTIFICATIONS+'</div><span class="push-notifications"></span><arrow/></li>'+
 				//'<li class="separator"></li>'+
 				'<li opc="friends"><img src="css/smt/friends.png"/><div>'+lan('friends','ucw')+'</div><arrow/></li>'+
+				'<li opc="friendsSearch"><img src="css/smt/friends.png"/><div>'+lan('friendSearh_title','ucw')+'</div><arrow/></li>'+
 				(PRODUCCION?
 					'<li opc="chat"><img src="css/smt/chat.png"/><div>'+lang.chat+'</div><arrow/></li>'
 				:'')+
@@ -1030,25 +1032,36 @@ function bodyFriendsList(friend){
 }
 function viewFriends(opc){
 	console.log('viewfriends');
+	if(!opc.post) opc.post={};
+	opc.get=opc.get||'';
+	opc.post.uid=opc.user;
 	myAjax({
 		type:'POST',
 		url:DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&code&mod='+opc.mod+opc.get,
-		data: {uid: opc.user },
+		data:opc.post,
 		error:function(/*resp,status,error*/){
 			myDialog('#singleDialog',lang.conectionFail);
 		},
 		success:function(data){
 			if (data.error) return;
-			var i,friend,out='',divider;
+			var i,friend,out='',divider,count='';//' <span class="ui-li-count">'+data.num+'</span>';
 			// console.log('cant '+data.datos.length+' user '+opc.user);
 			// if($.local('code')==opc.user){
-				switch(opc.mod){
-					case 'friends':divider=lan('friends','ucw');break;
-					case 'follow':divider=lan('admirers','ucw');break;
-					case 'unfollow':divider=lan('admired','ucw');break;
-				}
+			switch(opc.mod){
+				case 'friends':divider=lan('friends','ucw');break;
+				case 'follow':divider=lan('admirers','ucw');break;
+				case 'unfollow':divider=lan('admired','ucw');break;
+				case 'find':
+					if(opc.divider){
+						divider=opc.divider
+					}else{
+						divider=lan('FINDFRIENDS_LEGENDOFSEARCHBAR','ucw');
+						count='';
+					}
+				break;
+			}
 			// }
-			divider='<li data-role="list-divider">'+(opc.mod=='find'?lang.FINDFRIENDS_LEGENDOFSEARCHBAR:divider+' <span class="ui-li-count">'+data.num+'</span>')+'</li>';
+			divider='<li data-role="list-divider">'+divider+count+'</li>';
 
 			if (data.datos.length>0){
 				for(i=0;i<data.datos.length;i++){
@@ -1071,6 +1084,7 @@ function viewFriends(opc){
 			$('#findFriends').click(function(event) {
 				redir(PAGE['findfriends']);
 			});
+			if(opc.success) opc.success(data);
 			$('.list-wrapper').jScroll('refresh');
 		}
 	});
@@ -1873,6 +1887,11 @@ function deleteItemCar(id,get,obj){
 			if(data.del!='1'){
 				if(data.del=='all'){
 					if(obj.mod=='car'){redir(PAGE.storeCat);}
+					else if (obj.mod=='wish'){
+						$('#lstStoreOption').html(data.wish.body).listview('refresh');
+						actionButtonsStore();
+						$('.list-wrapper').jScroll('refresh');
+					}
 				}else if(data.del=='no-all'){
 
 				}
