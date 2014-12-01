@@ -38,6 +38,7 @@
 
 		if (isset($_GET['idtagreport'])) {
 			$GLOBALS['cn']->query('UPDATE tags SET status = "2" WHERE md5(id) ="'.$_GET['idtagreport'].'"');
+			$GLOBALS['cn']->query('UPDATE tags_report SET status = "2" WHERE md5(id_tag) ="'.$_GET['idtagreport'].'"');
 			?> <script type="text/javascript">alert('La Tag se elimino correctamente');  </script><?php
 		}
 
