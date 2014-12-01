@@ -71,6 +71,7 @@
 					$('#tl-footer ul li a').removeClass('ui-btn-active');
 					$('#tl-footer ul li a[opc='+active_tab+']').addClass('ui-btn-active');
 					if(active_tab=='privateTags'){
+						$('.ui-loader').css('right','130px'); // Fix Temporal Loader
 						$('#private-select').show();
 						$('.creation').hide();
 					}else{

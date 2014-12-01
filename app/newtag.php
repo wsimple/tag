@@ -160,6 +160,7 @@
 				$('#button_changeMode').attr('value',lang.NEWTAG_BUTTON_ADVANCED);
 			},
 			after:function(){
+				$('.ui-loader').css('right','94px'); // Fix Temporal Loader
 				$('#page-newTag').removeClass('default'); //Fix Vista Android
 				var status=1,aStatus=1,single=true;
 				// management of private/public
