@@ -19,7 +19,7 @@ var hideGroups=false;
 	//se eliminan algunas cookies cuando no viene de una transicion
 	$.session('get',null);
 	$.session('page',null);
-	$.mobile.loader.prototype.options.text=lang.loading;
+	//$.mobile.loader.prototype.options.text=lang.loading;
 	$.mobile.loader.prototype.options.textVisible=false;
 	$.mobile.loader.prototype.options.theme='a';
 	$.mobile.listview.prototype.options.filterPlaceholder=lang.filter;
