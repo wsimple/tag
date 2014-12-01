@@ -377,19 +377,17 @@
 							$total = (($Nsegui*$porcenEmails)/100);
 
 							// echo 'id creador '.$id_creator.'<br> num repor '.$Nreport.'<br> num segui '.$Nsegui.' <br> porcentaje de seguidores '.$porcenEmails.' <br> porcen sin deci '.round($total);
-							if ($Nreport>=$total) {
+							// if ($Nreport>=$total) {
 								// echo ' enviar correo ';
 								$body ='
 								<div>
-									<div style="background-image: url(\''.DOMINIO.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;height: 103px;margin-left: 80px;"></div> 
+									<div style="background-image: url(\''.DOMINIO.'css/smt/icon.png\');background-repeat: no-repeat;background-size: 70px 65px;width: 100px;height: 70px;margin-left: 40px;"></div> 
 									<div style="padding: 25px;text-align: center; font-size: 25px; color:#FA0D1F">'.EMAIL_REPORTS_TAGS.'</div>
 									<div style="text-align: center;"><img src="'.tagURL($tag['id']).'"></div>
-									<div style="background-image: url(\''.DOMINIO.'css/smt/email/yellowbutton_get_started.png\');background-size: 110px 37px;background-repeat: no-repeat;width: 100px;height: 27px;padding: 8px 0 0 0;margin-left: 345px; margin-top: 20px;">
-											<a style="text-decoration: none; color: #514C4C; padding-left: 26px;" href="'.DOMINIO.'wpanel/?idtagreport='.md5($tag['id']).'">'.EMAIL_REPORTS_TAGS_DELETE.'</a>
-									</div>
+									<div style="text-align: center; font-size: 16px; padding:15px 0"><a style="text-decoration: none; color: #514C4C;" href="'.DOMINIO.'wpanel/?idtagreport='.md5($tag['id']).'">'.EMAIL_REPORTS_TAGS_DELETE.'</a></div>
 								</div>';
 								$resp = sendMail($body, EMAIL_NO_RESPONDA,'Tagbum','Report Tags','aesqueda14@gmail.com', "../../");								
-							}
+							// }
 
 							incPoints(21,$tag['id'],$tag['id_user'],$_SESSION['ws-tags']['ws-user']['id']);
 							incHitsTag($tag['id']);
