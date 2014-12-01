@@ -115,6 +115,9 @@ is.limited= !is.webkit||is.android;
 		GROUPS_MYGROUPS					:'Mis Grupos',
 		GROUPS_SENDINVITATION 			:'Enviar Invitación',
 		GROUPS_TITLEWINDOWSNEW			:'Nuevo Grupo',
+		GROUPS_RESQUEST_SENT			:'Solicitud Enviada',
+		GROUPS_RESQUEST_WAIT			:'Por favor, espere que el administrador aprube su solicitud',
+		GROUPS_RESQUEST_PRIVATE			:'Para ingresar debes ser invitado por un administrador',
 
 		GROUPS_OPEN						:'Grupo Abierto',
 		GROUPS_CLOSED					:'Grupo Cerrado',
@@ -572,6 +575,10 @@ is.limited= !is.webkit||is.android;
 		MAINMNU_GROUP					:'Group',
 		MAINMNU_GROUPS					:'Groups',
 		GROUPS_TITLEWINDOWSNEW			:'New Group',
+		GROUPS_RESQUEST_SENT			:'Request Sent',
+		GROUPS_RESQUEST_WAIT			:'Please wait for the administrator aprube your request',
+		GROUPS_RESQUEST_PRIVATE			:'Para ingresar debes ser invitado por un administrador',
+
 		GROUPS_CLOSE					:'Closed Group',
 		MSGGROUPS_CLOSE					:'If you want enter it, you should be invited for a member.',
 		MSGGROUPS_CLOSE_INVI_SED		:'Please wait until the administrator approves your membership application',
