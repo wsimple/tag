@@ -127,17 +127,14 @@
 					$mails=explode(',',$_POST['mails']);
 					
 					if(count($mails)>0){
-						// $con = 0;
 						$correos='';$numE=0;$numA=0;
-						//echo $mails[0].'--'.$mails[1];
 						foreach($mails as $per){
 
 							if($per!=''){
 								//$co.= $per; 
 								//verificar si es un correo valido
-								if (isValidEmail($per)){ 
-									if ($numE++>20) continue;
-								}else{
+								if (isValidEmail($per)) if ($numE++>20) continue;
+								else{
 									$query=CON::getRow("SELECT u.id,u.email FROM users u WHERE md5(u.id)=?",array($per));
 									if (count($query)>0){
 										$sendDataPublicity = $query['id'];
@@ -278,10 +275,12 @@
 						}//foreach
 					}//if (count($mails)>0)
 					$msgBox='<div class="div_exito"><strong>'.$lang['MENUTAG_CTRSHAREMAILEXITO'].":</strong></div><br><br> ".$correos;
-
-
-
 					if ($correos==="") $msgBox=$_GET['device']? '<div class="div_error">'.$_GET['device'].'<br>'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>':'<div class="div_error">'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>';
+					if (isset($_GET['this_is_app'])){ 
+						if ($correos==="") $pass=false;
+						else $pass=true;
+						die(jsonp(array('success'=>$pass,'msg'=>$msgBox)));
+					}
 				break; //share
 				//delete
 				case 6:

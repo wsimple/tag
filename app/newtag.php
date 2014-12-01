@@ -79,10 +79,10 @@
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
 			<div class="container" style="font-size: 50%;">
-				<div style="display:inline-block;margin-right:5px;width:44%;">
+				<div style="display:inline-block;margin-right:5px;width:37%;">
 					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" />
 				</div>
-				<div style="display:inline-block;width:51%;">
+				<div style="display:inline-block;width:60%;">
 					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#shareTagDialog')" class="no-disable" data-mini="true" style="padding: 0;"/>
 					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#shareTagDialog')" class="no-disable" data-mini="true" style="padding: 0;"/>
 				</div>
