@@ -86,7 +86,7 @@
 				var idTag=$_GET['id_tag'];
 				//$('#tag_shareTag').html(showTag({'id':idTag,'tag':md5(idTag).substr(17)}));
 				$('#sharetag_div').fadeIn('slow');
-				$('#urlTag').val(DOMINIO+'tag/'+idTag);
+				$('#urlTag').val(SERVERS.main+'tag/'+idTag);
 				$('#fs-wrapper,.list-wrapper').jScroll({hScroll:false});
 				function shareTag() {
 					var device = (is['android'] ? 'Android' : (is['iOS'] ? (is['tablet'] ? 'iPad' : 'iPhone') : false));
