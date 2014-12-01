@@ -27,10 +27,10 @@
 	<div id="friendsListDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
 			<div class="container" style="font-size: 50%;">
-				<div class="this-search" style="display:inline-block;margin-right:5px;width:44%;">
+				<div class="this-search" style="display:inline-block;margin-right:5px;width:37%;">
 					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" />
 				</div>
-				<div class="this-button" style="display:inline-block;width:51%;">
+				<div class="this-button" style="display:inline-block;width:60%;">
 					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#friendsListDialog')" class="no-disable" data-mini="true"  style="padding: 0;"/>
 					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#friendsListDialog')" class="no-disable" data-mini="true" style="padding: 0;"/>
 				</div>
@@ -157,7 +157,7 @@
 						selectFriendsDialog($.local('code'),id);
 						$('#friendsListDialog .buttons a').attr('onclick',"sendInvitationMemberGrp('#friendsListDialog','"+id+"');");
 						$('#friendsListDialog .this-button').show();
-						$('#friendsListDialog .this-search').css('width','44%');
+						$('#friendsListDialog .this-search').css('width','37%');
 					});
 
 					$('#footer #members').click(function(){
@@ -199,7 +199,7 @@
 													selectFriendsDialog($.local('code'),[id,true]);
 													$('#friendsListDialog .buttons a').attr('onclick',"sendadminGroup('#friendsListDialog','"+id+"');");
 													$('#friendsListDialog .this-button').show();
-													$('#friendsListDialog .this-search').css('width','44%');
+													$('#friendsListDialog .this-search').css('width','37%');
 												}
 											},{
 												name:lang.GROUPS_LEAVEABANDONAR,
@@ -328,6 +328,24 @@ function sendInvitationMemberGrp(idDialog,id){
 		});		
 	}
 	$('.closedialog',idDialog).click();
+}
+function insertUserGroup(idGroup){
+	console.log(DOMINIO+'controls/groups/actionsGroups.json?action=3&grp='+idGroup);
+	myAjax({
+		url:DOMINIO+'controls/groups/actionsGroups.json.php?action=3&grp='+idGroup,
+		dataType:'JSON',
+		error:function(/*resp,status,error*/){
+			myDialog('#singleDialog',lang.conectionFail);
+		},
+		success	:function(data){
+			switch(data.join){
+				case 'true': case true: location.reload(); break;
+				case 'existe': myDialog('#singleDialog', GROUPS_CLOSE+' '+GROUPS_RESQUEST_SENT); break;
+				case 'private-nosent': myDialog('#singleDialog', GROUPS_CLOSE+' '+GROUPS_RESQUEST_WAIT); break;
+				case 'secrete': myDialog('#singleDialog', GROUPS_PRIVATE+' '+GROUPS_RESQUEST_PRIVATE); break;
+			}
+		}
+	});
 }
 	</script>
 </div>

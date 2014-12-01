@@ -92,16 +92,16 @@
 										// that.parents('li.userInList').remove();
 										var emailSent=$.local('emails_sent')||[];
 										that.find('.status-invitation').html(' '+lang.FIENDFRIENDS_INVITED);
-										myDialog('#singleDialog','<?=INVITEUSERTOSYSTEM_CTRSSENDMAILTOFRIEND?>:'+that.find('h3.ui-li-heading').html());
+										myDialog('#singleDialog',lan('EMAIL_SENT')+that.find('h3.ui-li-heading').html());
 										emailSent.push( that.attr('email') );
 										$.local('emails_sent',emailSent);
 									}else{
-										myDialog('#singleDialog','<?=INVITEUSERTOSYSTEM_CTRSSENDMAILTOFRIENDERROR?>');
+										myDialog('#singleDialog',lan('EMAIL_ERROR_INVITE'));
 									};
 								},
 								error: function(){
 									mainDialog.close();
-									myDialog('#singleDialog','<?=INVITEUSERTOSYSTEM_CTRSSENDMAILTOFRIENDERROR?>');
+									myDialog('#singleDialog',lan('EMAIL_ERROR_INVITE'));
 								}
 							});
 						}
