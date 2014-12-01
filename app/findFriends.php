@@ -63,7 +63,7 @@
 					opc.get="&search="+val;
 					viewFriends(opc);
 					$.cordova(function(){
-						viewContacsPhone('#contactList', val);    //Filtra elemntos tambien por agenda de contactos
+						viewContacsPhone('#contactList',val);//Filtrar elementos tambien por agenda de contactos
 					});
 				}
 				last=val;
@@ -92,16 +92,16 @@
 										// that.parents('li.userInList').remove();
 										var emailSent=$.local('emails_sent')||[];
 										that.find('.status-invitation').html(' '+lang.FIENDFRIENDS_INVITED);
-										myDialog('#singleDialog','<?=INVITEUSERTOSYSTEM_CTRSSENDMAILTOFRIEND?>:'+that.find('h3.ui-li-heading').html());
+										myDialog('#singleDialog',lan('EMAIL_SENT')+that.find('h3.ui-li-heading').html());
 										emailSent.push( that.attr('email') );
 										$.local('emails_sent',emailSent);
 									}else{
-										myDialog('#singleDialog','<?=INVITEUSERTOSYSTEM_CTRSSENDMAILTOFRIENDERROR?>');
+										myDialog('#singleDialog',lan('EMAIL_ERROR_INVITE'));
 									};
 								},
 								error: function(){
 									mainDialog.close();
-									myDialog('#singleDialog','<?=INVITEUSERTOSYSTEM_CTRSSENDMAILTOFRIENDERROR?>');
+									myDialog('#singleDialog',lan('EMAIL_ERROR_INVITE'));
 								}
 							});
 						}
@@ -121,23 +121,26 @@
 	 */
 	function viewContacsPhone(idLayer,filter){
 		if (typeof ContactFindOptions === "undefined") return;
-		filter=(filter||'');
-		var out='',
-			onSuccess=function(contacts){
+		var onSuccess=function(contacts){
+				console.log('contactos:',contacts);
+				var i,j,out,data={email:[],phone:[]},
+					email,photo,name,
+					emailSent=$.local('emails_sent')||[];
 				out='<li data-role="list-divider">'+lan('all contacts','ucw')+' <span class="ui-li-count">'+contacts.length+'</span></li>';
-				var emailSent=$.local('emails_sent')||[];
-				for(var i=0;i<contacts.length;i++){
-					if(contacts[i].emails){
-						var photo=(contacts[i].photos)?contacts[i].photos[0].value:'css/tbum/usr.png';
+				for(i=0;i<contacts.length;i++){
+					email=contacts[i].emails&&contacts[i].emails[0].value;
+					if(email){
+						photo=(contacts[i].photos&&contacts[i].photos[0].value)||'css/tbum/usr.png';
+						name=contacts[i].name.formatted||email;
 						out+=
 						'<li class="userInList">'+
-							'<a email="'+contacts[i].emails[0].value+'" data-theme="e">'+
+							'<a email="'+email+'" data-theme="e">'+
 								'<img src="'+photo+'"'+'class="ui-li-thumb" width="60" height="60"/>'+
-								'<h3 class="ui-li-heading">'+contacts[i].name.formatted+'</h3>'+
+								'<h3 class="ui-li-heading">'+name+'</h3>'+
 								'<p class="ui-li-desc">'+
 									'<img src="css/smt/phone.png" alt="'+lang.FIENDFRIENDS_PHONECONTACT+'" widt="16" height="16" />'+
 									lang.FIENDFRIENDS_PHONECONTACT+
-									'<span class="status-invitation">&nbsp;'+($.inArray(contacts[i].emails[0].value,emailSent)>-1?lang.FIENDFRIENDS_INVITED:'')+'</span>'+
+									'<span class="status-invitation">&nbsp;'+($.inArray(email,emailSent)>-1?lang.FIENDFRIENDS_INVITED:'')+'</span>'+
 								'</p>'+
 							'</a>'+
 						'</li>';
@@ -146,15 +149,12 @@
 				$(idLayer).html(out).listview('refresh');
 				$('.list-wrapper').jScroll('refresh');
 				//se buscan los contactos ya existentes en tagbum y se remueven de la lista global 
-				var i,j,data={email:[],phone:[]};
-				console.log('contactos:',contacts);
 				for(i=0;i<contacts.length;i++){
 					if(contacts[i].emails) for(j=0;j<contacts[i].emails.length;j++)
 						data.email.push(contacts[i].emails[j].value);
-					if(contacts[i].phoneNumbers) for(j=0;j<contacts[i].phoneNumbers.length;j++)
-						data.phone.push(contacts[i].phoneNumbers[j].value);
+					// if(contacts[i].phoneNumbers) for(j=0;j<contacts[i].phoneNumbers.length;j++)
+					// 	data.phone.push(contacts[i].phoneNumbers[j].value);
 				}
-				console.log('post data:',data);
 				viewFriends({
 					layer:'#contactFilter',
 					mod:'find',
@@ -165,8 +165,8 @@
 			},
 			onError=function(contactError){ return false; };
 		var options=new ContactFindOptions();
-		options.filter=filter;
 		options.multiple=true;
+		if(filter) options.filter=filter;
 		var fields=["displayName","name","phoneNumbers","emails","photos"];
 		navigator.contacts.find(fields,onSuccess,onError,options);
 	}

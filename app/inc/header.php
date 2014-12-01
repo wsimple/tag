@@ -20,6 +20,7 @@ if(!( #validamos si el usuario tiene permitido ingresar a la app
 	<link rel="apple-touch-icon" href="css/smt/screen-icon.png"/>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0"/>
 	<meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta charset="UTF-8">
 	<title>Tagbum Mobile</title>
 	<link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
 	<link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
@@ -34,7 +35,7 @@ if(!( #validamos si el usuario tiene permitido ingresar a la app
 ?>	<script src="<?=isset($_GET['steroids'])?'http://localhost/cordova.js':'cordova.js'?>"></script>
 	<!--<script src="http://debug.build.phonegap.com/target/target-script-min.js#82ad4bcc-195f-11e3-af04-22000a98b3d6"></script><!-- -->
 <?php } ?>
-	<script src="js/core/const.js"></script>
+	<script src="js/core/const.js" charset="UTF-8"></script>
 	<script src="js/core/md5.js"></script>
 	<script src="js/core/jquery-1.10.2.min.js"></script>
 	<script src="js/core/jquery.cookie.js"></script>
@@ -49,11 +50,11 @@ if(!( #validamos si el usuario tiene permitido ingresar a la app
 	<script src="js/core/farbtastic.js"></script>
 	<script src="js/core/colorPicker.js"></script>
 <?php if(isset($_GET['minify'])){
-?>	<script src="js/min.js"></script>
+?>	<script src="js/min.js" charset="UTF-8"></script>
 
 <?php }else{
 ?>
-	<!-- Facebook Conversion Code for Tagbum -->
+	<!---------- Facebook Conversion Code for Tagbum ---------->
 	<script>(function() {
 	  var _fbq = window._fbq || (window._fbq = []);
 	  if (!_fbq.loaded) {
@@ -68,12 +69,12 @@ if(!( #validamos si el usuario tiene permitido ingresar a la app
 	window._fbq = window._fbq || [];
 	window._fbq.push(['track', '6018767308743', {'value':'0.00','currency':'USD'}]);
 	</script>
-	<!-----------------------------End facebook ---------------------------->
+	<!---------- End facebook ---------->
 	<script src="js/path.js"></script>
 	<script src="js/console.js"></script>
 	<script src="js/device.js"></script>
-	<script src="js/base.js"></script>
-	<script src="js/funciones.js"></script>
+	<script src="js/base.js" charset="UTF-8"></script>
+	<script src="js/funciones.js" charset="UTF-8"></script>
 <?php } ?>
 <meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head><body><?php if(!isset($_GET['minify']))include_once("analyticstracking.php"); ?>
