@@ -25,7 +25,7 @@
 					<p id="app_download_msg"></p>
 					<div class="googlePlay"></div>
 					<!-- <a href="https://play.google.com/store/apps/details?id=com.tagbum.tagbum"></a> -->
-					<div class="appStore"></div>
+					<!-- <div class="appStore"></div> -->
 					<!-- <a href="https://itunes.apple.com/us/app/semytag/id658430038?ls=1&mt=8"></a> -->
 				</div>
 			</div></div></div>
@@ -76,7 +76,7 @@
 					$('div#buttons').show();
 					if(CORDOVA)	$('.store-info').hide();
 					else{
-						if(is['iOS']) $('.googlePlay').hide();
+						if(is['iOS']){ $('.googlePlay').hide(); $('#app_download_msg').hide(); $('.appStore').hide();}
 						if(is['android']) $('.appStore').hide();
 					}
 					$('#btn-facebook').hide();
