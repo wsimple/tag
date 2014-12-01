@@ -380,11 +380,11 @@
 							if ($Nreport>=$total) {
 								// echo ' enviar correo ';
 								$body ='
-								<div>
-									<div style="background-image: url(\''.DOMINIO.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;height: 103px;margin-left: 80px;"></div> 
+								<div style="border: 1px solid #000">
+									<div style="background-image: url(\''.DOMINIO.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;background-size: 70px 70px;height: 70px;margin-left: 80px;"></div> 
 									<div style="padding: 25px;text-align: center; font-size: 25px; color:#FA0D1F">'.EMAIL_REPORTS_TAGS.'</div>
 									<div style="text-align: center;"><img src="'.tagURL($tag['id']).'"></div>
-									<div style="background-image: url(\''.DOMINIO.'css/smt/email/yellowbutton_get_started.png\');background-size: 110px 37px;background-repeat: no-repeat;width: 100px;height: 27px;padding: 8px 0 0 0;margin-left: 345px; margin-top: 20px;">
+									<div style="background-image: url(\''.DOMINIO.'css/smt/email/yellowbutton_get_started.png\');background-size: 110px 37px;background-repeat: no-repeat;background-position: center center; text-align: center;height: 60px;padding-top: 46px;">
 											<a style="text-decoration: none; color: #514C4C; padding-left: 26px;" href="'.DOMINIO.'wpanel/?idtagreport='.md5($tag['id']).'">'.EMAIL_REPORTS_TAGS_DELETE.'</a>
 									</div>
 								</div>';
