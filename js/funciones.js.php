@@ -1503,7 +1503,7 @@ function tagsUser(titulo,get){
 }
 
 function showPublicityWb(p){
-console.log('publiRight '+p);
+console.log('showPublicityWb '+p);
 	$.ajax({
 		type:'GET',
 		url:'controls/publicity/sellPublicity.controls.php?op=1&ajax=1&p='+p,
@@ -1536,6 +1536,7 @@ function actionCheckbox_listFriends(chk) {
 }
 
 function shareTag_friendsList(url, titulo,share){
+	console.log('shareTag_friendsList');
 	$.dialog({
 		id:"shareTag_friendsList",
 		title:titulo,

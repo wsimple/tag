@@ -1133,23 +1133,6 @@ function verifyGroupMembership(idGroup,code,func){
 		success:func
 	});
 }
-
-function insertUserGroup(idGroup){
-	var code=$.local('code');
-	myAjax({
-		type:'GET',
-		url:DOMINIO+'controls/groups/menuGroupUser.json.php?action=7&code='+code+'&idGroup='+idGroup,
-		dataType:'json',
-		error:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
-		},
-		success	:function(data){
-			if(data=='1')
-				redir(PAGE.tagslist+'?current=group&id='+idGroup);
-		}
-	});
-}
-
 function preferencesUsers(usr){
 	var code=usr||$.local('code');
 	myAjax({
@@ -1471,7 +1454,7 @@ function getFriends(id,groups,like){
 			var ret='';
 			for(var i in data['datos']){
 				if(emails.join().indexOf(data['datos'][i]['email'])<0)
-				ret+='	<li data-icon="false" style="width: 30%;border: 1px solid #ccc;float: left;padding-left: 13%;">'+
+				ret+='	<li data-icon="false" style="width: 24%;border: 1px solid #ccc;float: left;padding-left: 19%;">'+
 							'<input value="'+data['datos'][i]['email']+'|'+data['datos'][i]['photo_friend']+'" type="checkbox" class="invisible"/>'+
 							'<img src="'+data['datos'][i]['photo_friend']+'" style="float:left;width:50px;height:50px;" class="userBR"/>'+
 							'<div style="float:left;margin-left:2px;font-size:8px;text-align:left;">'+
