@@ -153,23 +153,11 @@ include("includes/paginator.inc.php");
 	</table>
 	<div><?="<p>".$_pagi_navegacion."</p>"?></div>
 </fieldset>
-
-<?php
-// echo '<div style="border: 1px solid #000">
-// 		<div style="background-image: url(\''.DOMINIO.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;background-size: 70px 70px;height: 70px;margin-left: 80px;"></div> 
-// 		<div style="padding: 25px;text-align: center; font-size: 25px; color:#FA0D1F">'.EMAIL_REPORTS_TAGS.'</div>
-// 		<div style="text-align: center;"><img src="'.tagURL($infoT['id_tag']).'"></div>
-// 		<div style="background-image: url(\''.DOMINIO.'css/smt/email/yellowbutton_get_started.png\');background-size: 110px 37px;background-repeat: no-repeat;background-position: center center; text-align: center;height: 60px;padding-top: 46px;">
-// 				<a style="text-decoration: none; color: #514C4C; padding-left: 26px;" href="'.DOMINIO.'wpanel/?idtagreport='.md5($infoT['id_tag']).'">'.EMAIL_REPORTS_TAGS_DELETE.'</a>
-// 		</div>
-// 	</div>';
-?>
 <script type="text/javascript">
 function my(id,id_tag){
 	// alert('hola');
 	window.open("vistas/tags/usersTagreport.php?tag="+id+"&creator="+id_tag,"usersTR","width=340,height=350,left=550,top=100,menubar=no");
 }
-
 function editPorcent(){
 	// alert('hola');
 	redirect('?url=vistas/tags/reporTags.view.php&editP=1');

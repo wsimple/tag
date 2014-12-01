@@ -127,17 +127,14 @@
 					$mails=explode(',',$_POST['mails']);
 					
 					if(count($mails)>0){
-						// $con = 0;
 						$correos='';$numE=0;$numA=0;
-						//echo $mails[0].'--'.$mails[1];
 						foreach($mails as $per){
 
 							if($per!=''){
 								//$co.= $per; 
 								//verificar si es un correo valido
-								if (isValidEmail($per)){ 
-									if ($numE++>20) continue;
-								}else{
+								if (isValidEmail($per)) if ($numE++>20) continue;
+								else{
 									$query=CON::getRow("SELECT u.id,u.email FROM users u WHERE md5(u.id)=?",array($per));
 									if (count($query)>0){
 										$sendDataPublicity = $query['id'];
@@ -278,10 +275,12 @@
 						}//foreach
 					}//if (count($mails)>0)
 					$msgBox='<div class="div_exito"><strong>'.$lang['MENUTAG_CTRSHAREMAILEXITO'].":</strong></div><br><br> ".$correos;
-
-
-
 					if ($correos==="") $msgBox=$_GET['device']? '<div class="div_error">'.$_GET['device'].'<br>'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>':'<div class="div_error">'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>';
+					if (isset($_GET['this_is_app'])){ 
+						if ($correos==="") $pass=false;
+						else $pass=true;
+						die(jsonp(array('success'=>$pass,'msg'=>$msgBox)));
+					}
 				break; //share
 				//delete
 				case 6:
@@ -369,25 +368,27 @@
 							$Nsegui = campo("users_links", "id_friend", $id_creator, "COUNT(id_user)");
 							//porcentaje de seguidores
 							$porcenEmails = campo("config_system", "id", "1", "porcen_reporta_tag");
-
+							//correos destinatarios 
 							$emails = campo("config_system", "id", "1", "emails_admin_reports_tags");
 
-							// $porce = explode('%',$porcenEmails);
-
+							//calculo del porcentje para enviar los correos
 							$total = (($Nsegui*$porcenEmails)/100);
 
 							// echo 'id creador '.$id_creator.'<br> num repor '.$Nreport.'<br> num segui '.$Nsegui.' <br> porcentaje de seguidores '.$porcenEmails.' <br> porcen sin deci '.round($total);
-							// if ($Nreport>=$total) {
-								// echo ' enviar correo ';
+							if ($Nreport>=$total) {								
 								$body ='
 								<div>
-									<div style="background-image: url(\''.DOMINIO.'css/smt/icon.png\');background-repeat: no-repeat;background-size: 70px 65px;width: 100px;height: 70px;margin-left: 40px;"></div> 
+									<div style="background-image: url(\''.DOMINIO.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;height: 103px;margin-left: 40px;"></div> 
 									<div style="padding: 25px;text-align: center; font-size: 25px; color:#FA0D1F">'.EMAIL_REPORTS_TAGS.'</div>
 									<div style="text-align: center;"><img src="'.tagURL($tag['id']).'"></div>
-									<div style="text-align: center; font-size: 16px; padding:15px 0"><a style="text-decoration: none; color: #514C4C;" href="'.DOMINIO.'wpanel/?idtagreport='.md5($tag['id']).'">'.EMAIL_REPORTS_TAGS_DELETE.'</a></div>
+									<div style="text-align: center; font-size: 20px; font-weight:bold; padding:20px 0"><a style="text-decoration: none; color: #514C4C; " href="'.DOMINIO.'wpanel/?idtagreport='.md5($tag['id']).'">'.EMAIL_REPORTS_TAGS_DELETE.'</a></div>
 								</div>';
-								$resp = sendMail($body, EMAIL_NO_RESPONDA,'Tagbum','Report Tags','aesqueda14@gmail.com', "../../");								
-							// }
+
+								$mails=explode(',',$emails);
+								foreach($mails as $per_report){
+									$resp = sendMail($body, EMAIL_NO_RESPONDA,'Tagbum','Report Tags',$per_report,"../../");	
+								}						
+							}
 
 							incPoints(21,$tag['id'],$tag['id_user'],$_SESSION['ws-tags']['ws-user']['id']);
 							incHitsTag($tag['id']);

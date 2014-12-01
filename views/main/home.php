@@ -43,8 +43,8 @@ if($logged){
 				<div class="appLinks">
 					<div id="titleApp"><?php echo ucfirst(LANDING_APP_LINKDOWNLOAD); ?></div>
 					<div >
-						<a href="https://itunes.apple.com/sv/app/seemytag/id658430038?mt=8" target="blank" style="display: none"><div id="iTunes"></div></a>
-						<a href="https://play.google.com/store/apps/details?id=com.tagbum.tagbum" target="blank"><div id="gPlay"></div></a>
+						<!-- <a href="https://itunes.apple.com/sv/app/seemytag/id658430038?mt=8" target="blank" ><div id="iTunes"></div></a> -->
+						<a href="https://play.google.com/store/apps/details?id=com.tagbum.tagbum" target="blank"><div id="gPlay" style="margin-left: 90px;"></div></a>
 					</div>
 				</div>
 			</div>

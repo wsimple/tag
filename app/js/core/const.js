@@ -39,17 +39,17 @@ is.limited= !is.webkit||is.android;
 		'edit thumbnail':'editar miniatura',
 		'friends'	:'amigos',
 		'From'		:'De',
-		'gallery'	:'galer&iacute;a',
+		'gallery'	:'galería',
 		'group'		:'grupo',
         'hashtags'  :'hashtags',
 		'inbox'		:'entrada',
 		'My publications':'Mis publicaciones',
 		'outbox'	:'salida',
-		'password'	:'contrase&ntilde;a',
+		'password'	:'contraseña',
         'peoples'   :'personas',
 		'private'	:'privado',
 		'save'		:'guardar',
-		'see more'	:'ver m&aacute;s',
+		'see more'	:'ver más',
         'shopping cart':'carrito de compras',
         'stock'     :'stock',
         'store'     :'tienda',
@@ -62,26 +62,28 @@ is.limited= !is.webkit||is.android;
         
 
 		//Traducciones al estilo antiguo
-		ACTIONSTAGS_REPORTTAG_TITLESELECT:'Todos los informes son estrictamente confidenciales. Qu&eacute; etiqueta describe mejor esto?',
+		ACTIONSTAGS_REPORTTAG_TITLESELECT:'Todos los informes son estrictamente confidenciales. Qué etiqueta describe mejor esto?',
 		goback							:'Volver a',
-		batterylow						:'Bater&iacute;a baja, se cerrar&aacute; la aplicaci&oacute;n.',
+		batterylow						:'Batería baja, se cerrará la aplicación.',
 		cancel							:'Cancelar',
 		chat							:'Chat',
 		contacts						:'contactos',
 		'all contacts'					:'todos los contactos',
 		TAGBUM_CONTACTS					:'contactos en tagbum',
-		checkLogin						:'Verificando Logeo de Sesi&oacuten...',
+		checkLogin						:'Verificando Logeo de Sesión...',
 		close							:'Cerrar',
-		COMMENTS_LBLHELPIMPUTNEWCOMMENT	:'Escriba su comentario aqu&iacute;...',
-		CON_ERROR						:'Error de conexi&oacute;n. Espere un momento e intente de nuevo.',
-		conectionFail					:'No se pudo conectar con el servidor.<br/>Intente de nuevo m&aacute;s tarde.',
-		country							:'Pa&iacute;s',
+		COMMENTS_LBLHELPIMPUTNEWCOMMENT	:'Escriba su comentario aquí...',
+		CON_ERROR						:'Error de conexión. Espere un momento e intente de nuevo.',
+		conectionFail					:'No se pudo conectar con el servidor.<br/>Intente de nuevo más tarde.',
+		country							:'País',
 		deFrom							:'<strong>De</strong>',
 		Email							:'Correo',
+		EMAIL_ERROR_INVITE				:'Fallo el envío de la invitación',
+		EMAIL_SENT						:'Correo enviado con éxito a: ',
 		EMPTY_TAGS_LIST					:'Lista de tags vacia',
 		externalLink					:'Link Externo',
-		filter							:'Filtrar busqueda...',
-		FINDFRIENDS_LEGENDOFSEARCHBAR	:'La b&uacute;squeda se iniciar&aacute; autom&aacute;ticamente; si no hay letras, podr&aacute;s ver las sugerencias de amigos.',
+		filter							:'Filtrar búsqueda...',
+		FINDFRIENDS_LEGENDOFSEARCHBAR	:'La búsqueda se iniciará automáticamente; si no hay letras, podrás ver las sugerencias de amigos.',
 		follow							:'Seguir',
 		FOUNDATION_DATE					:'Desde',
 		FRIENDS_TITLE					:'Amigos',
@@ -95,24 +97,27 @@ is.limited= !is.webkit||is.android;
 		GROUPS_JOIN						:'Unirse',
 		GROUPS_LEAVE					:'Abandonar Grupo',
 		GROUPS_LEAVEABANDONAR			:'Abandonar',
-		GROUPS_LEAVEABANDONARMSG		:'Usted es el unico administrador de este grupo. Si el grupo queda sin administrador, será eliminado. ¿Está seguro que desea abandonar el grupo?',
+		GROUPS_LEAVEABANDONARMSG		:'Usted es el único administrador de este grupo. Si el grupo queda sin administrador, será eliminado. ¿Está seguro que desea abandonar el grupo?',
 		GROUPS_LEAVEASIGNAR				:'Asignar',
 		GROUPS_LEAVEASIGNARMSG			:'Selecciona el(los) administrador(es) del Grupo',
 		GROUPS_LEAVEBORRADO				:'Este grupo ha sido eliminado',
 		GROUPS_LEAVECCOMPLETE			:'Usuario(s) asignado(s) como administrador',
-		GROUPS_LEAVEMESSAGE				:'Seguro que quieres abandonar el grupo?',
+		GROUPS_LEAVEMESSAGE				:'¿Seguro que quieres abandonar el grupo?',
 		GROUPS_LEAVEMESSAGEFINAL		:'Usted ha dejado el grupo con éxito',
 		GROUPS_MEMBERS					:'Miembros',
 		GROUPS_MEMBERSTITLE				:'Miembros',
 		GROUPS_MEMBERSTITLE2			:'Miembros del Grupo',
 		GROUPS_MENUADDTAG				:'Tag',
-		GROUPS_MESSAGE_JOIN				:'Para crear tag(s), &uacute;nete al grupo.',
+		GROUPS_MESSAGE_JOIN				:'Para crear tag(s), únete al grupo.',
 		GROUPS_MESSAGE_TAGS				:'No hay tags creadas.',
 		GROUPS_MESSAGEMPTY				:'Busca a tus amigos e invitalos a unirse al grupo',
-		GROUPS_MORE						:'M&aacute;s Grupos',
+		GROUPS_MORE						:'Más Grupos',
 		GROUPS_MYGROUPS					:'Mis Grupos',
-		GROUPS_SENDINVITATION 			:'Enviar Invitaci&oacute;n',
+		GROUPS_SENDINVITATION 			:'Enviar Invitación',
 		GROUPS_TITLEWINDOWSNEW			:'Nuevo Grupo',
+		GROUPS_RESQUEST_SENT			:'Solicitud Enviada',
+		GROUPS_RESQUEST_WAIT			:'Por favor, espere que el administrador aprube su solicitud',
+		GROUPS_RESQUEST_PRIVATE			:'Para ingresar debes ser invitado por un administrador',
 
 		GROUPS_OPEN						:'Grupo Abierto',
 		GROUPS_CLOSED					:'Grupo Cerrado',
@@ -122,11 +127,11 @@ is.limited= !is.webkit||is.android;
 		INDEX_LBL_PRIVATE				:'Privado',
 		inputPlaceHolder				:'Buscar',
         noresultsearch_ini 				:'Disculpe, no hay resultados para',
-        noresultsearch_end				:'Compruebe su t&eacute;rmino de b&uacute;squeda e intentelo de nuevo.',
+        noresultsearch_end				:'Compruebe su término de búsqueda e inténtelo de nuevo.',
         searchtitle                     :'Todos los resultados',
-		JS_INVITEPHONECONTACT			:'&iquest;Desea enviar invitacion a este contacto?',
+		JS_INVITEPHONECONTACT			:'¿Desea enviar invitación a este contacto?',
 		JS_APP_LOADING					:'Loading...',
-		JS_DELETETAG					:'Est&aacute; seguro que quiere eliminar esta tag?',
+		JS_DELETETAG					:'Está seguro que quiere eliminar esta tag?',
 		JS_FAVORITETAGS					:'Favoritas',
 		JS_MYTAGS						:'Mis Tags',
 		JS_PRIVATETAGS					:'Tags Privadas',
@@ -134,9 +139,9 @@ is.limited= !is.webkit||is.android;
 		JS_SIGNUP_INDIVIDUAL			:'Individual',
 		JS_SIGNUP_LBLADVERTISERNAME		:'Empresa o Anunciante',
 		JS_SIGNUP_LBLBUSINESSSINCE		:'Empresa desde',
-		JS_SIGNUP_LBLDAY				:'D&iacute;a',
+		JS_SIGNUP_LBLDAY				:'Día',
 		JS_SIGNUP_LBLMONTH				:'Mes',
-		JS_SIGNUP_LBLYEAR				:'A&ntilde;o',
+		JS_SIGNUP_LBLYEAR				:'Año',
 		JS_SIGNUP_PROFILE				:'Perfil',
 		JS_TIMELINE						:'Time Line',
 		LINK_DOWNLOADAPP				:'Descarga nuestra app y disfruta de todas las bondades de nuestra red social',
@@ -144,61 +149,61 @@ is.limited= !is.webkit||is.android;
 		loadingTags						:'Cargando tags...',
 		login							:'&nbsp;Entrar',
 		logout							:'Salir',
-		MAINMENU_POINTS_1				:'Usted podr&aacute; cambiar sus puntos por los servicios y productos en Tagbum. Mientras mas puntos obtenga, m&aacute;s servicios y productos podr&aacute; obtener.',
-		MAINMENU_POINTS_2				:'<strong>Puedes obtener mas puntos:</strong> compartiendo tags ya sea publicando, redistribuyendo o enviandolas por correo electr&oacute:nico. Acumula al menos 5000 puntos antes de 31 de diciembre y podr&aacute;s participar en el sorteo de gift cards de $500.',
+		MAINMENU_POINTS_1				:'Usted podrá cambiar sus puntos por los servicios y productos en Tagbum. Mientras mas puntos obtenga, más servicios y productos podrá obtener.',
+		MAINMENU_POINTS_2				:'<strong>Puedes obtener mas puntos:</strong> compartiendo tags, ya sea publicando, redistribuyendo o enviandolas por correo electrónico. Acumula al menos 5000 puntos antes de 31 de diciembre y podrás participar en el sorteo de gift cards de $500.',
 		MAINMNU_GROUP					:'Grupo',
 		MAINMNU_GROUPS					:'Grupos',
 		MAINMNU_MYTAGS					:'Tags',
 		MAINMNU_PERSONALTAGS			:'Tags Personales',
-		MAINSMNU_PASSWORD				:'Contrase&ntilde;a',
+		MAINSMNU_PASSWORD				:'Contraseña',
 		message							:'<strong>Mensaje</strong>',
 		MESSAGE_WELCOME					:'Bienvenido',
-		MNU_LOSTPASS					:'Olvidaste tus datos?',
+		MNU_LOSTPASS					:'¿Olvidaste tus datos?',
 		MNU_REGISTER					:'Registrar',
 		MNUTAGREPORT_SELECTONEFIRST		:'Seleccione uno',
 		MNUTAGREPORT_TEXT1				:'Gracias por su ayuda',
-		MNUTAGREPORT_TEXT2				:'Sus comentarios y quejas pueden ayudar a que no haya spam en la secci&oacute;n del Timeline.',
-		MSG_PAYPAL_HELP					:'Su cuenta est&aacute; bloqueada temporalmente, para seguir disfrutando de nuestros servicios usted debe cancelar su cuota a trav&eacute;s de paypal.',
-		MSG_PAYPAL_HELP_APP				:'En este momento esta opci&oacute;n s&oacute;lo est&aacute; disponible en la versi&oacute;n web',
-		MSGGROUPS_CLOSE					:'Si quieres entrar en &eacute;l, debe ser invitado por un miembro.',
-		MSGGROUPS_CLOSE_INVI_SED        :'Por favor, espere hasta que el administrador apruebe su solicitud de membres&iacute;a.',
-		INVITE_GROUP_TRUE               :'Tienes una invitaci&oacute;n a este grupo',
-		CONFI_JOIN_TO_GROUPS            :'&iquest;Deseas unirte a este grupo?',
+		MNUTAGREPORT_TEXT2				:'Sus comentarios y quejas pueden ayudar a que no haya spam en la sección del Timeline.',
+		MSG_PAYPAL_HELP					:'Su cuenta está bloqueada temporalmente, para seguir disfrutando de nuestros servicios usted debe cancelar su cuota a través de paypal.',
+		MSG_PAYPAL_HELP_APP				:'En este momento esta opción sólo se encuentra disponible en la versión web',
+		MSGGROUPS_CLOSE					:'Si quieres entrar en él, debe ser invitado por un miembro.',
+		MSGGROUPS_CLOSE_INVI_SED        :'Por favor, espere hasta que el administrador apruebe su solicitud de membresía.',
+		INVITE_GROUP_TRUE               :'Tienes una invitación a este grupo',
+		CONFI_JOIN_TO_GROUPS            :'¿Deseas unirte a este grupo?',
 		newGroupTag						:'Tag de Grupo',
 		NEWS							:'Noticias',
 		newTag							:'Crear Tag',
 		NEWTAG_BACKGROUNDAPP			:'Fondos',
 		NEWTAG_BOTTOMMESSAGE			:'Mensaje 2',
 		NEWTAG_BUTTON_ADVANCED			:'Cambiar a Vista Avanzada',
-		NEWTAG_BUTTON_QUICK				:'Regresar a la Vista Rapida',
+		NEWTAG_BUTTON_QUICK				:'Regresar a la Vista Rápida',
 		NEWTAG_BUTTON_SHARE				:'Personas que pueden ver esta Tag',
 		NEWTAG_EMAILSPRIVATEPUBLICTAG	:'Correos:',
 		NEWTAG_LEYENDBTNPUBLIC			:'Desmarque para enviar tag(s) privada(s)',
 		NEWTAG_MESSAGE					:'Mensaje',
 		NEWTAG_MIDDLEMESSAGE			:'Mensaje Corto',
 		NEWTAG_PLACEHOLDER_EMAIL		:'Comparte esta Tag con personas fuera de Tagbum',
-		NEWTAG_PRIVATEPUBLICTAG			:'Publico',
-		noConnection					:"No tiene conexi&oacute;n a Internet.\nVerifique e intente de nuevo.",
+		NEWTAG_PRIVATEPUBLICTAG			:'Público',
+		noConnection					:"No tiene conexión a Internet.\nVerifique e intente de nuevo.",
 		none							:'Ninguno',
 		NOTIFICATIONS					:'Notificaciones',
-		pass							:'Contrase&ntilde;a',
-		PASS_MESSAGEERROR				:'Hubo un error en la verificaci&oacute;n de la contrase&ntilde;a. Intente de nuevo.',
-		RESETPASS_ERROR1                :'Los valores de las contrase&ntilde;as introducidas deben ser igual',
+		pass							:'Contraseña',
+		PASS_MESSAGEERROR				:'Hubo un error en la verificación de la contraseña. Intente de nuevo.',
+		RESETPASS_ERROR1                :'Los valores de las contraseñas introducidas deben ser igual',
         POINTS_USERS					:'Pts',
 		PREFERENCES_BTNMINE				:'Mias',
 		PREFERENCES_BTNUPDATE			:'Actualizar',
 		PREFERENCES_ERRORSELECC			:'Error, debe seleccionar al menos una preferencia',
-		PREFERENCES_HOLDERSEARCH		:'Use comas para separar las preferencias, por ejemplo: Pel&iacute;culas, Ejecutar, Comer, B&eacute;isbol, Pesca.',
-		PREFERENCES_LBLCHOOSEOP			:'Seleccione una opci&oacute;n',
+		PREFERENCES_HOLDERSEARCH		:'Use comas para separar las preferencias, por ejemplo: Películas, Ejecutar, Comer, Béisbol, Pesca.',
+		PREFERENCES_LBLCHOOSEOP			:'Seleccione una opción',
 		PREFERENCES_LBLCHOOSEOPFOOTER	:'Manual',
-		PREFERENCES_MSJCONFIRMADDPREFE	:'Est&aacute; seguro de a&ntilde;adir esta opci&oacute;n a sus preferencias?',
+		PREFERENCES_MSJCONFIRMADDPREFE	:'¿Está seguro de añadir esta opción a sus preferencias?',
 		PREFERENCES_MSJSUCESSFULLY		:'Preferencias actualizadas',
 		PREFERENCES_TITLESEEK			:'Buscar Preferencias',
 		PREFERENCES_WHATILIKE			:'Lo que me gusta',
 		PREFERENCES_WHATINEED			:'Lo que necesito',
 		PREFERENCES_WHATIWANT			:'Lo que yo quiero',
 		profile							:'Perfil',
-		PROFILE_BIRTHDATE				:'Cumplea&ntilde;os',
+		PROFILE_BIRTHDATE				:'Cumpleaños',
 		PROFILE_PERSONALTAGS			:'Tags Personales',
 		PUBLICITY_MSGSUCCESSFULLY		:'Solicitud procesada correctamente',
 		publish							:'Publicar',
@@ -207,10 +212,10 @@ is.limited= !is.webkit||is.android;
 		REQUIRED						:'Los campos con (*) son obligatorios',
 		RESET_BTNRESETPASS				:'Restablecer',
 		RESET_LINKNISHSIGNUP			:'con un enlace para finalizar su registro.',
-		RESET_MESSAGEPRINCIPAL			:'Nosotros le enviaremos un correo para verificar su direcci&oacute;n de correo electr&oacute;nico. Haga clic en el enlace del correo para terminar de restablecer su contrase&ntilde;a.',
-		RESET_MSGNRESETPASS				:'Su contrase&ntilde;a se ha cambiado correctamente.',
+		RESET_MESSAGEPRINCIPAL			:'Le enviaremos un correo para verificar su dirección de correo electrónico. Haga clic en el enlace del correo para terminar de restablecer su contraseña.',
+		RESET_MSGNRESETPASS				:'Su contraseña se ha cambiado correctamente.',
 		RESET_PLEASECHECKEMAIL			:'Por favor, revise su correo.',
-		RESET_TITLERESETPASS			:'Restablecer contrase&ntilde;a',
+		RESET_TITLERESETPASS			:'Restablecer contraseña',
 		RESET_WESENTMESSAGE				:'Le enviamos un mensaje a',
 		retry							:'Reintentar',
 		SCROLL_LOADING					:'Cargando...',
@@ -223,32 +228,32 @@ is.limited= !is.webkit||is.android;
 		SHARETAG_EMAILSLEGEND			:'Coloque los correos separados por comas',
 		SHARETAG_TOUCHPICTURE			:'Toca la imagen para eliminarla',
 		signup							:'Registro',
-		SIGNUP_CONFIRMPASSWORD			:'Confirmar Contrase&ntilde;a Requerido',
+		SIGNUP_CONFIRMPASSWORD			:'Confirmar Contraseña Requerido',
 		SIGNUP_CTRERRORBIRTHDATE		:'Fecha de Nacimiento Requerido',
 		SIGNUP_CTRERROREMAIL			:'Correo Requerido',
-        EMAIL_ERROR                     :'Email inválido',
-        EMAIL_ERROR_NE                  :'Disculpe, este email no est&aacute; registrado en nuestro sistema',
-        FORGOT_CTRMSGERROR              :'Error al enviar el correo, int&eacute;ntalo de nuevo',
-        PASS_MESSAGEERROR               :'Hubo un error con la verificaci&oacute;n de la contraseña. Intente de nuevo.',
-		RESETPASS_ERROR1                :'The values ​​of the passwords listed should be equal',
+        EMAIL_ERROR                     :'Correo inválido',
+        EMAIL_ERROR_NE                  :'Disculpe, este correo no está registrado en nuestro sistema',
+        FORGOT_CTRMSGERROR              :'Error al enviar el correo, inténtalo de nuevo',
+        PASS_MESSAGEERROR               :'Hubo un error con la verificación de la contraseña. Intente de nuevo.',
+		RESETPASS_ERROR1                :'Las contraseñas ingresadas deben ser iguales',
         SIGNUP_CTRERROREMAIL2			:'Correo existente. Intente con otro correo',
 		SIGNUP_CTRERRORLASTNAME			:'Apellido Requerido',
 		SIGNUP_CTRERRORNAME				:'Nombre Requerido',
 		SIGNUP_CTRERRORNAMENTER			:'Empresa o Anunciante Requerido',
-		SIGNUP_CTRERRORPASS				:'Contrase&ntilde;a Requerido',
+		SIGNUP_CTRERRORPASS				:'Contraseña Requerido',
 		SIGNUP_LBLBIRTHDATE				:'Fecha de Nacimiento',
 		SIGNUP_LBLEMAIL					:'Correo',
 		SIGNUP_LBLFIRSTNAME				:'Nombre',
 		SIGNUP_LBLLASTNAME				:'Apellido',
-		SIGNUP_PASSWORD					:'Contrase&ntilde;a',
-		SIGNUP_PASSWORD2				:'Confirmar Contrase&ntilde;a',
+		SIGNUP_PASSWORD					:'Contraseña',
+		SIGNUP_PASSWORD2				:'Confirmar Contraseña',
 		SMT_SIGNUP_EXITOREGISTER		:'Registro exitoso. Revise su correo para confirmar su cuenta.',
-		SMT_SIGNUP_PASSWORDNOTMATCH		:'No coinciden las Contrase&ntilde;as',
+		SMT_SIGNUP_PASSWORDNOTMATCH		:'No coinciden las Contraseñas',
 		STORE							:'Tienda App',
 		store							:'Tienda',
 		STORE_CART						:'Carrito',
-		STORE_CATEGORY					:'Categoria',
-		STORE_CATEGORYS					:'Categorias',
+		STORE_CATEGORY					:'Categoría',
+		STORE_CATEGORYS					:'Categorías',
 		STORE_MYPUBLICATIONS			:'Mis publicaciones',
 		STORE_DETAILS					:'Detalle del Producto',
 		STORE_SHOPPING_ADD				:'Agregar',
@@ -256,81 +261,81 @@ is.limited= !is.webkit||is.android;
 		STORE_SHOPPING_CART				:'Carrrito de Compras',
 		STORE_SHOPPING_CHECKOUT			:'Comprar',
 		STORE_SHOPPING_DELETE			:'Eliminar Carrito',
-		STORE_SHOPPING_DELETEALL		:'Eliminar el Carrito de Compras?',
+		STORE_SHOPPING_DELETEALL		:'¿Eliminar el Carrito de Compras?',
 		STORE_PRODUCT_TAG				:'Crear Tag de Producto',
-		STORE_SHOPPING_DESCRIPTION		:'Descripci&oacute;n Producto',
+		STORE_SHOPPING_DESCRIPTION		:'Descripción Producto',
 		STORE_SHOPPING_DETAILS			:'Detalles',
-		STORE_SHOPPING_ITEM				:'Eliminar articulo',
+		STORE_SHOPPING_ITEM				:'Eliminar artículo',
         STORE_WISH_LIST_MOVE            :'Mover a la lista de deseos',
 		STORE_SHOPPING_MESSAGEORDER		:'Estos fondos los tendras disponibles en Crear Tag',
 		STORE_SHOPPING_NOBUY			:'Este fondo te pertenece. No puedes comprarlo',
         STORE_UNI_BACKG                 :'Este Backgrounds ya ha sido agregado a la orden. Los Backgrounds solo pueden ser comprados una vez.',
-		STORE_PRODUCTO_NO_STOCK         :'Disculpe este producto ya no est&aacute; disponible en stock',
+		STORE_PRODUCTO_NO_STOCK         :'Disculpe, este producto ya no está disponible en stock',
         STORE_SHOPPING_NOITEMS			:'No tiene productos en el carrito de compras',
 		STORE_SHOPPING_NOPOINTS			:'No dispones de la cantidad de puntos necesarios para hacer esta compra',
 		STORE_SHOPPING_NUMORDER			:'Orden',
 		STORE_SHOPPING_ORDER			:'Orden de Compra',
 		STORE_SHOPPING_POINTS			:'puntos',
 		STORE_SHOPPING_POINTSMA			:'Puntos',
-        STORE_SHOPPING_DOLLARS          :'D&oacute;lares',
+        STORE_SHOPPING_DOLLARS          :'Dólares',
 		STORE_SHOPPING_SELLER			:'Publicado por',
-		STORE_SHOPPING_TITLE			:'Titulo',
+		STORE_SHOPPING_TITLE			:'Título',
 		STORE_SHOPPING_TOTAL			:'Cantidad Productos:',
 		STORE_SHOPPING_TOTAL_PRODUCTS	:'Puntos Totales:',
         STORE_SHOPPING_TOTAL_PRODUCTSD  :'Dolares Totales:',
 		STORE_SHOPPING_VALUE			:'Costo',
-		STORE_SUBCATEGORY				:'Sub - Categorias',
+		STORE_SUBCATEGORY				:'Sub - Categorías',
 		STORE_VIEWORDERINCART           :'Ver Orden',
         STORE_SUGGEST                   :'Sugerencia de productos',
 		STORE_NOSTORE_MESSAGE           :'No hay productos disponibles', 
-        STORE_ORDER_EDIT_STOCK          :'Algunos productos ya no est&aacute;n disponibles, su pedido fue modificado.',
-		STORE_DELETESHOPPING            :'&iquest;Est&aacute;s seguro de eliminar esta orden?',
-        STORE_NOT_CHET_DOLLAR           :'Disculpe, nuestra versi&oacute;n m&oacute;vil por ahora solo acepta puntos para pagar. Puede finalizar la compra usando nuestra versi&oacute;n web si no cuenta con puntos suficientes.',
-        STORE_NO_SC                     :'Disculpe, no hay art&iacute;culos disponibles en su carrito de compras.',
-        STORE_NO_WL                     :'Disculpe, no hay art&iacute;culos disponibles en su lista de deseos.',
+        STORE_ORDER_EDIT_STOCK          :'Algunos productos ya no están disponibles, su pedido fue modificado.',
+		STORE_DELETESHOPPING            :'¿Estás seguro de eliminar esta orden?',
+        STORE_NOT_CHET_DOLLAR           :'Disculpe, nuestra versión móvil por ahora solo acepta puntos para pagar. Puede finalizar la compra usando nuestra versión web si no cuenta con puntos suficientes.',
+        STORE_NO_SC                     :'Disculpe, no hay artículos disponibles en su carrito de compras.',
+        STORE_NO_WL                     :'Disculpe, no hay artículos disponibles en su lista de deseos.',
         STORE_NO_AB                     :'Lo sentimos, esta opción sólo está disponible para las empresas asociadas a nuestro sistema.',
-        STORE_SHIPPING                  :'Direcci&oacute;n de env&iacute;o',
-        STORE_SHIPPING_CHANGE           :'&iquest;desea cambiar la direcci&oacute;n de env&iacute;o?',
-        STORE_COUNTRY                   :'Pa&iacute;s',
+        STORE_SHIPPING                  :'Dirección de envío',
+        STORE_SHIPPING_CHANGE           :'¿Desea cambiar la dirección de envío?',
+        STORE_COUNTRY                   :'País',
         STORE_NO_COMPLETE               :'Los siguientes campos:',
         STORE_NO_COMPLETE_2             :'Son obligatorios.',
-        STORE_NOT_NUM_PHONE             :'Un numero de telefono',
+        STORE_NOT_NUM_PHONE             :'Un número de teléfono',
         BUSINESSCARD_LBLCITY            :'Ciudad',
-        SIGNUP_ZIPCODE                  :'C&oacute;digo postal',
-        USERPROFILE_LBLWORKPHONE        :'Tel&eacute;fono del trabajo',
-        USERPROFILE_LBLHOMEPHONE        :'Tel&eacute;fono de casa',
-        BUSINESSCARD_LBLADDRESS         :'Direcci&oacute;n',
-        USERPROFILE_LBLMOBILEPHONE      :'Tel&eacute;fono m&oacute;vil',
-        USERPROFILE_LBLCBOAREASCODE     :'C&oacute;digo de &aacute;rea',       
-        TAG_CONTENTUNAVAILABLE			:'Este contenido ya no est&aacute; disponible',
+        SIGNUP_ZIPCODE                  :'Código postal',
+        USERPROFILE_LBLWORKPHONE        :'Teléfono del trabajo',
+        USERPROFILE_LBLHOMEPHONE        :'Teléfono de casa',
+        BUSINESSCARD_LBLADDRESS         :'Dirección',
+        USERPROFILE_LBLMOBILEPHONE      :'Teléfono móvil',
+        USERPROFILE_LBLCBOAREASCODE     :'Código de área',       
+        TAG_CONTENTUNAVAILABLE			:'Este contenido ya no está disponible',
 		TAG_DELETEDERROR				:'ERROR: Por favor intente de nuevo',
 		TAG_DELETEDOK					:'Tag eliminada exitosamente',
-		TAGS_WHENTAGNOEXIST				:'Este contenido ya no est&aacute; disponible',
+		TAGS_WHENTAGNOEXIST				:'Este contenido ya no está disponible',
 		TEXT_LINKTERMS					:'Condiciones de Servicio',
-		TEXT_TERMS						:'Cuando usted se registra, admite que conoce y est&aacute; de acuerdo con nuestras',
+		TEXT_TERMS						:'Cuando usted se registra, admite que conoce y está de acuerdo con nuestras',
 		TIMELINE_TITLE					:'Timeline',
 		TITLE_TILECHAT					:'Chat',
 		TITLEBOTTONLOGIN				:'Cambia por Productos y Servicios',
-		TITLEMIDLELOGIN					:'Expresate. Obten puntos',
+		TITLEMIDLELOGIN					:'Exprésate. Obtén puntos',
 		TITLESHARETAG					:'Compartir Tag',
 		TITLETOPLOGIN					:'Red Social con Premios',
 		TOPTAGS_ALWAYS		:'De siempre',
-		TOPTAGS_DAILY		:'Del d&iacute;a',
+		TOPTAGS_DAILY		:'Del día',
 		TOPTAGS_MONTHLY		:'Del mes',
 		TOPTAGS_NOTAGS		:'Top Tags depende del gusto de los usuarios.<br/>Actualmente no hay tags disponibles para mostrar en las tags ',
 		TOPTAGS_TITLE		:'Top Tags',
 		TOPTAGS_WEEKLY		:'De la semana',
-		TOPTAGS_YEARLY		:'Del a&ntilde;o',
-		TXT_REDIST	:' (redistribuci&oacute;n) ',
+		TOPTAGS_YEARLY		:'Del año',
+		TXT_REDIST	:' (redistribución) ',
 		TXT_REDISTBY:'Redistribuida por ',
 		unfollow						:'Dejar de seguir',
 		USER_PROFILE					:'Perfil',
-		USERPROFILE_PASSWORD			:'La contrase&ntilde;a debe tener al menos 6 caracteres',
+		USERPROFILE_PASSWORD			:'La contraseña debe tener al menos 6 caracteres',
 		USERPROFILE_PREFERENCES			:'Preferencias',
 		USERPROFILE_PREFERENCES_TITLE	:'Preferencias',
 		FIENDFRIENDS_INVITED			:'Invitado',
-		FIENDFRIENDS_PHONECONTACT		:'Contacto de telefono',
-		yes								:'S&iacute;',
+		FIENDFRIENDS_PHONECONTACT		:'Contacto de teléfono',
+		yes								:'Sí',
 
 		EMPTY_INFO_NOTIFICATION			:'Disculpe, no hay notificaciones que mostrar porque no tienes amigos. Haz clic abajo y encuentra a tus amigos.',
 		EMPTY_INFO_NEWS					:'Disculpe, no hay noticias que mostrar porque no tienes amigos. Haz clic abajo y encuentra a tus amigos.',
@@ -380,7 +385,8 @@ is.limited= !is.webkit||is.android;
 		yes								:'Yes',
 		filter							:'Filter items...',
 		externalLink					:'External Link',
-
+		EMAIL_ERROR_INVITE				:'Failure to send the invitation',
+		EMAIL_SENT						:'Email successfully sent to: ',
 		TAGBUM_CONTACTS					:'contacts in tagbum',
 		MSG_PAYPAL_HELP					:'Your account is temporarily blocked, to continue enjoying our services you must pay your fee through paypal',
 		MSG_PAYPAL_HELP_APP				:'In this moment this option is only available in web version',
@@ -397,7 +403,7 @@ is.limited= !is.webkit||is.android;
 		RESET_BTNRESETPASS				:'Reset Password',
 		RESET_PLEASECHECKEMAIL			:'Please check your email.',
 		RESET_WESENTMESSAGE				:'We just sent a message to',
-		RESET_LINKNISHSIGNUP			:'with a link to finish signing up.',
+		RESET_LINKNISHSIGNUP			:'with a link to finish signing up.',
 		PASS_MESSAGEERROR				:'There was an error with your verification. Please try again.',
 		RESET_MSGNRESETPASS				:'Your password was changed successfully.',
 		RESET_TITLERESETPASS			:'Reset Password',
@@ -499,96 +505,58 @@ is.limited= !is.webkit||is.android;
 		MNUTAGREPORT_TEXT1				:'Thanks for your help',
 		MNUTAGREPORT_TEXT2				:'Your comments and complaints help that there is no spam in the section of the timeline.',
 		ACTIONSTAGS_REPORTTAG_TITLESELECT :'All reports are strictly confidential. What best describes this?',
-		FINDFRIENDS_LEGENDOFSEARCHBAR	:'The scan will start automatically, if there\'s no letters, you\'ll get link suggestions.',
+		FINDFRIENDS_LEGENDOFSEARCHBAR	:"The scan will start automatically, if there's no letters, you'll get link suggestions.",
 		DIALOG_TERMS					:
 			'<p><span style="font-size:large;"><strong>Terms of Service for Tagbum.com</strong></span></p>'+
-			'<p><br />'+
-				'<strong>Introduction </strong><br />'+
-				'<br />'+
-				'Welcome to Tagbum.com. This website is owned and operated by Tagamation, LLC. By visiting our website and accessing the information, resources, services, products, and tools we provide, you understand and agree to accept and adhere to the following terms and conditions as stated in this policy (hereafter referred to as \'User Agreement\'). <br />'+
-				'<br />'+
-				'This agreement is in effect as of October 1, 2011.<br />'+
-				'<br />'+
-				'We reserve the right to change this User Agreement from time to time without notice. You acknowledge and agree that it is your responsibility to review this User Agreement periodically to familiarize yourself with any modifications. Your continued use of this site after such modifications will constitute acknowledgment and agreement of the modified terms and conditions.&nbsp; We do reserve the right to send such notification to you of any changes of this User Agreement.<br />'+
-				'<br />'+
-				'<strong>Responsible Use and Conduct </strong><br />'+
-				'<br />'+
-				'By visiting our website and accessing the information, resources, services, products, and tools we provide for you, either directly or indirectly (hereafter referred to as \'Resources\'), you agree to use these Resources only for the purposes intended as permitted by (a) the terms of this User Agreement, and (b) applicable laws, regulations and generally accepted online practices or guidelines. <br />'+
-				'<br />'+
-				'<strong>Wherein, you understand that:</strong><br />'+
-				'<br />'+
-				'a. In order to access our Resources, you may be required to provide certain information about yourself (such as identification, contact details, etc.) as part of the registration process, or as part of your ability to use the Resources. You agree that any information you provide will always be accurate, correct, and up to date. <br />'+
-				'<br />'+
-				'b. You are responsible for maintaining the confidentiality of any login information associated with any account you use to access our Resources. Accordingly, you are responsible for all activities that occur under your account/s. <br />'+
-				'<br />'+
-				'c. Accessing (or attempting to access) any of our Resources by any means other than through the means we provide, is strictly prohibited. You specifically agree not to access (or attempt to access) any of our Resources through any automated, unethical or unconventional means.<br />'+
-				'<br />'+
-				'd. Engaging in any activity that disrupts or interferes with our Resources, including the servers and/or networks to which our Resources are located or connected, is strictly prohibited.<br />'+
-				'<br />'+
-				'e. Attempting to copy, duplicate, reproduce, sell, trade, or resell our Resources is strictly prohibited.<br />'+
-				'<br />'+
-				'f. You are solely responsible any consequences, losses, or damages that we may directly or indirectly incur or suffer due to any unauthorized activities conducted by you, as explained above, and may incur criminal or civil liability.<br />'+
-				'<br />'+
-				'g. We may provide various open communication tools on our website, such as blog comments, blog posts, public chat, forums, message boards, newsgroups, product ratings and reviews, various social media services, etc. You understand that generally we do not pre-screen or monitor the content posted by users of these various communication tools, which means that if you choose to use these tools to submit any type of content to our website, then it is your personal responsibility to use these tools in a responsible and ethical manner. By posting information or otherwise using any open communication tools as mentioned, you agree that you will not upload, post, share, or otherwise distribute any content that.<br />'+
-				'<br />'+
-				'i. Is illegal, threatening, defamatory, abusive, harassing, degrading, intimidating, fraudulent, deceptive, invasive, racist, or contains any type of suggestive, inappropriate, or explicit language; <br />'+
-				'ii. Infringes on any trademark, patent, trade secret, copyright, or other proprietary right of any party;<br />'+
-				'iii. Contains any type of unauthorized or unsolicited advertising;<br />'+
-				'iv. Impersonates any person or entity, including any Tagbum.com employees or representatives.<br />'+
-				'<br />'+
-				'<br />'+
-				'We have the right at our sole discretion to remove any content that, we feel in our judgment does not comply with this User Agreement, along with any content that we feel is otherwise offensive, harmful, objectionable, inaccurate, or violates any 3rd party copyrights or trademarks. We are not responsible for any delay or failure in removing such content. If you post content that we choose to remove, you hereby consent to such removal, and consent to waive any claim against us.<br />'+
-				'<br />'+
-				'h. We do not assume any liability for any content posted by you or any other 3rd party users of our website. However, any content posted by you using any open communication tools on our website, provided that it doesn\'t violate or infringe on any 3rd party copyrights or trademarks, becomes the property of Tagamation, LLC, and as such, gives us a perpetual, irrevocable, worldwide, royalty-free, exclusive license to reproduce, modify, adapt, translate, publish, publicly display and/or distribute as we see fit. This only refers and applies to content posted via open communication tools as described, and does not refer to information that is provided as part of the registration process, necessary in order to use our Resources.<br />'+
-				'<br />'+
-				'i. You agree to indemnify and hold harmless Tagamation, LLC and its parent company and affiliates, and their directors, officers, managers, employees, donors, agents, and licensors, from and against all losses, expenses, damages and costs, including reasonable attorneys\' fees, resulting from any violation of this User Agreement or the failure to fulfill any obligations relating to your account incurred by you or any other person using your account. We reserve the right to take over the exclusive defense of any claim for which we are entitled to indemnification under this User Agreement. In such event, you shall provide us with such cooperation as is reasonably requested by us.<br />'+
-				'<br />'+
-				'<strong>Limitation of Warranties </strong><br />'+
-				'<br />'+
-				'By using our website, you understand and agree that all Resources we provide are &quot;as is&quot; and &quot;as available&quot;.&nbsp; This means that we do not represent or warrant to you that:<br />'+
-				'i) the use of our Resources will meet your needs or requirements;<br />'+
-				'ii) the use of our Resources will be uninterrupted, timely, secure or free from errors;<br />'+
-				'iii) the information obtained by using our Resources will be accurate or reliable; and<br />'+
-				'iv) any defects in the operation or functionality of any Resources we provide will be repaired or corrected.<br />'+
-				'<br />'+
-				'<strong>Furthermore, you understand and agree that:</strong><br />'+
-				'<br />'+
-				'v) any content downloaded or otherwise obtained through the use of our Resources is done at your own discretion and risk, and that you are solely responsible for any damage to your computer or other devices for any loss of data that may result from the download of such content of use of the Resources; and <br />'+
-				'vi) no information or advice, whether expressed, implied, oral or written, obtained by you from Tagamation, LLC or through any Resources we provide shall create any warranty, guarantee, or conditions of any kind, except for those expressly outlined in this User Agreement.<br />'+
-				'<br />'+
-				'<br />'+
-				'<strong>Limitation of Liability </strong><br />'+
-				'<br />'+
-				'In conjunction with the Limitation of Warranties as explained above, you expressly understand and agree that any claim against us shall be limited to the amount you paid, if any, for use of products and/or services. Tagamation, LLC will not be liable for any direct, indirect, incidental, consequential or exemplary loss or damages which may be incurred by you as a result of using our Resources, or as a result of any changes, data loss or corruption, cancellation, loss of access, or downtime to the full extent that applicable limitation of liability laws apply.<br />'+
-				'<br />'+
-				'<strong>Copyrights/Trademarks </strong><br />'+
-				'<br />'+
-				'All content and materials available on Tagbum.com, including but not limited to text, graphics, website name, code, images and logos are the intellectual property of Tagamation, LLC, and are protected by applicable copyright and trademark law. Any inappropriate use, including but not limited to the reproduction, distribution, display or transmission of any content on this site is strictly prohibited, unless specifically authorized by Tagamation, LLC.<br />'+
-				'<br />'+
-				'<strong>Termination of Use </strong><br />'+
-				'<br />'+
-				'You agree that we may, at our sole discretion, suspend or terminate your access to all or part of our website and Resources with or without notice and for any reason, including, without limitation, breach of this User Agreement. Any suspected illegal, fraudulent or abusive activity may be grounds for terminating your relationship and may be referred to appropriate law enforcement authorities. Upon suspension or termination, your right to use the Resources we provide will immediately cease, and we reserve the right to remove or delete any information that you may have on file with us, including any account or login information.<br />'+
-				'<br />'+
-				'<strong>Governing Law </strong><br />'+
-				'<br />'+
-				'This website is controlled by Tagamation, LLC. It can be accessed in most countries around the world. By accessing our website, you agree that the statutes and laws of Oklahoma, United States of America, without regard to the conflict of laws and the United Nations Convention on the International Sales of Goods, will apply to all matters relating to the use of this website and the purchase of any products or services through this site.<br />'+
-				'<br />'+
-				'Furthermore, any action to enforce or related to this User Agreement shall be brought in the federal or state courts of Oklahoma, United States of America.&nbsp; You hereby agree to submit to personal jurisdiction in such courts, and waive any jurisdictional, venue, or inconvenient forum objections to such courts.<br />'+
-				'<br />'+
-				'<strong>Guarantee </strong><br />'+
-				'<br />'+
-				'UNLESS OTHERWISE EXPRESSED, TAGAMATION, LLC EXPRESSLY DISCLAIMS ALL WARRANTIES AND CONDITIONS OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES AND CONDITIONS OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.<br />'+
-				'<br />'+
-				'Contact Information<br />'+
-				'<br />'+
-				'If you have any questions or comments about these Terms of Service as outlined above, you can contact us at:<br />'+
-				'<br />'+
-				'Tagamation, LLC<br />'+
-				'<br />'+
-				'HR Dept.<br />'+
-				'5830 NW Expressway, #347<br />'+
-				'Oklahoma City, OK 73132<br />'+
-				'or<br />'+
+			'<p><br/>'+
+				'<strong>Introduction </strong><br/><br/>'+
+				'Welcome to Tagbum.com. This website is owned and operated by Tagamation, LLC. By visiting our website and accessing the information, resources, services, products, and tools we provide, you understand and agree to accept and adhere to the following terms and conditions as stated in this policy (hereafter referred to as \'User Agreement\'). <br/><br/>'+
+				'This agreement is in effect as of October 1, 2011.<br/><br/>'+
+				'We reserve the right to change this User Agreement from time to time without notice. You acknowledge and agree that it is your responsibility to review this User Agreement periodically to familiarize yourself with any modifications. Your continued use of this site after such modifications will constitute acknowledgment and agreement of the modified terms and conditions.&nbsp; We do reserve the right to send such notification to you of any changes of this User Agreement.<br/><br/>'+
+				'<strong>Responsible Use and Conduct </strong><br/><br/>'+
+				'By visiting our website and accessing the information, resources, services, products, and tools we provide for you, either directly or indirectly (hereafter referred to as \'Resources\'), you agree to use these Resources only for the purposes intended as permitted by (a) the terms of this User Agreement, and (b) applicable laws, regulations and generally accepted online practices or guidelines. <br/><br/>'+
+				'<strong>Wherein, you understand that:</strong><br/><br/>'+
+				'a. In order to access our Resources, you may be required to provide certain information about yourself (such as identification, contact details, etc.) as part of the registration process, or as part of your ability to use the Resources. You agree that any information you provide will always be accurate, correct, and up to date. <br/><br/>'+
+				'b. You are responsible for maintaining the confidentiality of any login information associated with any account you use to access our Resources. Accordingly, you are responsible for all activities that occur under your account/s. <br/><br/>'+
+				'c. Accessing (or attempting to access) any of our Resources by any means other than through the means we provide, is strictly prohibited. You specifically agree not to access (or attempt to access) any of our Resources through any automated, unethical or unconventional means.<br/><br/>'+
+				'd. Engaging in any activity that disrupts or interferes with our Resources, including the servers and/or networks to which our Resources are located or connected, is strictly prohibited.<br/><br/>'+
+				'e. Attempting to copy, duplicate, reproduce, sell, trade, or resell our Resources is strictly prohibited.<br/><br/>'+
+				'f. You are solely responsible any consequences, losses, or damages that we may directly or indirectly incur or suffer due to any unauthorized activities conducted by you, as explained above, and may incur criminal or civil liability.<br/><br/>'+
+				'g. We may provide various open communication tools on our website, such as blog comments, blog posts, public chat, forums, message boards, newsgroups, product ratings and reviews, various social media services, etc. You understand that generally we do not pre-screen or monitor the content posted by users of these various communication tools, which means that if you choose to use these tools to submit any type of content to our website, then it is your personal responsibility to use these tools in a responsible and ethical manner. By posting information or otherwise using any open communication tools as mentioned, you agree that you will not upload, post, share, or otherwise distribute any content that.<br/><br/>'+
+				'i. Is illegal, threatening, defamatory, abusive, harassing, degrading, intimidating, fraudulent, deceptive, invasive, racist, or contains any type of suggestive, inappropriate, or explicit language; <br/>'+
+				'ii. Infringes on any trademark, patent, trade secret, copyright, or other proprietary right of any party;<br/>'+
+				'iii. Contains any type of unauthorized or unsolicited advertising;<br/>'+
+				'iv. Impersonates any person or entity, including any Tagbum.com employees or representatives.<br/><br/><br/>'+
+				'We have the right at our sole discretion to remove any content that, we feel in our judgment does not comply with this User Agreement, along with any content that we feel is otherwise offensive, harmful, objectionable, inaccurate, or violates any 3rd party copyrights or trademarks. We are not responsible for any delay or failure in removing such content. If you post content that we choose to remove, you hereby consent to such removal, and consent to waive any claim against us.<br/><br/>'+
+				'h. We do not assume any liability for any content posted by you or any other 3rd party users of our website. However, any content posted by you using any open communication tools on our website, provided that it doesn\'t violate or infringe on any 3rd party copyrights or trademarks, becomes the property of Tagamation, LLC, and as such, gives us a perpetual, irrevocable, worldwide, royalty-free, exclusive license to reproduce, modify, adapt, translate, publish, publicly display and/or distribute as we see fit. This only refers and applies to content posted via open communication tools as described, and does not refer to information that is provided as part of the registration process, necessary in order to use our Resources.<br/><br/>'+
+				'i. You agree to indemnify and hold harmless Tagamation, LLC and its parent company and affiliates, and their directors, officers, managers, employees, donors, agents, and licensors, from and against all losses, expenses, damages and costs, including reasonable attorneys\' fees, resulting from any violation of this User Agreement or the failure to fulfill any obligations relating to your account incurred by you or any other person using your account. We reserve the right to take over the exclusive defense of any claim for which we are entitled to indemnification under this User Agreement. In such event, you shall provide us with such cooperation as is reasonably requested by us.<br/><br/>'+
+				'<strong>Limitation of Warranties </strong><br/><br/>'+
+				'By using our website, you understand and agree that all Resources we provide are &quot;as is&quot; and &quot;as available&quot;.&nbsp; This means that we do not represent or warrant to you that:<br/>'+
+				'i) the use of our Resources will meet your needs or requirements;<br/>'+
+				'ii) the use of our Resources will be uninterrupted, timely, secure or free from errors;<br/>'+
+				'iii) the information obtained by using our Resources will be accurate or reliable; and<br/>'+
+				'iv) any defects in the operation or functionality of any Resources we provide will be repaired or corrected.<br/><br/>'+
+				'<strong>Furthermore, you understand and agree that:</strong><br/><br/>'+
+				'v) any content downloaded or otherwise obtained through the use of our Resources is done at your own discretion and risk, and that you are solely responsible for any damage to your computer or other devices for any loss of data that may result from the download of such content of use of the Resources; and <br/>'+
+				'vi) no information or advice, whether expressed, implied, oral or written, obtained by you from Tagamation, LLC or through any Resources we provide shall create any warranty, guarantee, or conditions of any kind, except for those expressly outlined in this User Agreement.<br/><br/><br/>'+
+				'<strong>Limitation of Liability </strong><br/><br/>'+
+				'In conjunction with the Limitation of Warranties as explained above, you expressly understand and agree that any claim against us shall be limited to the amount you paid, if any, for use of products and/or services. Tagamation, LLC will not be liable for any direct, indirect, incidental, consequential or exemplary loss or damages which may be incurred by you as a result of using our Resources, or as a result of any changes, data loss or corruption, cancellation, loss of access, or downtime to the full extent that applicable limitation of liability laws apply.<br/><br/>'+
+				'<strong>Copyrights/Trademarks </strong><br/><br/>'+
+				'All content and materials available on Tagbum.com, including but not limited to text, graphics, website name, code, images and logos are the intellectual property of Tagamation, LLC, and are protected by applicable copyright and trademark law. Any inappropriate use, including but not limited to the reproduction, distribution, display or transmission of any content on this site is strictly prohibited, unless specifically authorized by Tagamation, LLC.<br/><br/>'+
+				'<strong>Termination of Use </strong><br/><br/>'+
+				'You agree that we may, at our sole discretion, suspend or terminate your access to all or part of our website and Resources with or without notice and for any reason, including, without limitation, breach of this User Agreement. Any suspected illegal, fraudulent or abusive activity may be grounds for terminating your relationship and may be referred to appropriate law enforcement authorities. Upon suspension or termination, your right to use the Resources we provide will immediately cease, and we reserve the right to remove or delete any information that you may have on file with us, including any account or login information.<br/><br/>'+
+				'<strong>Governing Law </strong><br/><br/>'+
+				'This website is controlled by Tagamation, LLC. It can be accessed in most countries around the world. By accessing our website, you agree that the statutes and laws of Oklahoma, United States of America, without regard to the conflict of laws and the United Nations Convention on the International Sales of Goods, will apply to all matters relating to the use of this website and the purchase of any products or services through this site.<br/><br/>'+
+				'Furthermore, any action to enforce or related to this User Agreement shall be brought in the federal or state courts of Oklahoma, United States of America.&nbsp; You hereby agree to submit to personal jurisdiction in such courts, and waive any jurisdictional, venue, or inconvenient forum objections to such courts.<br/><br/>'+
+				'<strong>Guarantee </strong><br/><br/>'+
+				'UNLESS OTHERWISE EXPRESSED, TAGAMATION, LLC EXPRESSLY DISCLAIMS ALL WARRANTIES AND CONDITIONS OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES AND CONDITIONS OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.<br/><br/>'+
+				'Contact Information<br/><br/>'+
+				'If you have any questions or comments about these Terms of Service as outlined above, you can contact us at:<br/><br/>'+
+				'Tagamation, LLC<br/><br/>'+
+				'HR Dept.<br/>'+
+				'5830 NW Expressway, #347<br/>'+
+				'Oklahoma City, OK 73132<br/>'+
+				'or<br/>'+
 				'Terms@seemytag.com'+
 			'</p>',
 		JS_TIMELINE						:'Time Line',
@@ -607,6 +575,10 @@ is.limited= !is.webkit||is.android;
 		MAINMNU_GROUP					:'Group',
 		MAINMNU_GROUPS					:'Groups',
 		GROUPS_TITLEWINDOWSNEW			:'New Group',
+		GROUPS_RESQUEST_SENT			:'Request Sent',
+		GROUPS_RESQUEST_WAIT			:'Please wait for the administrator aprube your request',
+		GROUPS_RESQUEST_PRIVATE			:'To enter you must be invited by an administrator',
+
 		GROUPS_CLOSE					:'Closed Group',
 		MSGGROUPS_CLOSE					:'If you want enter it, you should be invited for a member.',
 		MSGGROUPS_CLOSE_INVI_SED		:'Please wait until the administrator approves your membership application',
@@ -660,11 +632,11 @@ is.limited= !is.webkit||is.android;
 		STORE_SHOPPING_TOTAL			:'Total Products:',
 		STORE_SHOPPING_TOTAL_PRODUCTS	:'Total Points:',
         STORE_SHOPPING_TOTAL_PRODUCTSD  :'Total Dollars:',
-		STORE_SHOPPING_NOITEMS			:'You haven\'t items in your shopping cart',
+		STORE_SHOPPING_NOITEMS			:"You haven't items in your shopping cart",
 		STORE_SHOPPING_VALUE			:'Cost',
 		STORE_SHOPPING_TITLE			:'Title',
 		STORE_SHOPPING_DESCRIPTION		:'Product Description',
-		STORE_SHOPPING_NOBUY			:'This background belongs to you. You cann\'t buy',
+		STORE_SHOPPING_NOBUY			:"This background belongs to you. You can't buy",
         STORE_UNI_BACKG                 :'This Backgrounds already been added to the order. The Backgrounds can only be purchased once.',
 		STORE_PRODUCTO_NO_STOCK         :'Sorry this product is no longer available in stock',
         STORE_VIEWORDERINCART           :'View Order',
@@ -686,7 +658,7 @@ is.limited= !is.webkit||is.android;
 		STORE_SHOPPING_DETAILS			:'Details',
 		STORE_SHOPPING_NUMORDER			:'Order',
 		STORE_SHOPPING_MESSAGEORDER		:'These background are available in Create Tag',
-		STORE_SHOPPING_NOPOINTS			:'You don\'t have the amount of points needed to make this purchase',
+		STORE_SHOPPING_NOPOINTS			:"You don't have the amount of points needed to make this purchase",
 		STORE_SHOPPING_SELLER			:'Published By',
 		STORE_SHOPPING_BACKLIST			:'Back to list',
 		STORE_SHOPPING_DELETE			:'Delete Cart',
@@ -758,13 +730,6 @@ is.limited= !is.webkit||is.android;
 function lan(value,opc){
 	var txt=(lang[value]||value);
 	//cambio de caracteres especiales por unicode (español)
-	if(lang.actual=='es') txt=txt
-	.replace(/Á|&Aacute;/,'\u00C1').replace(/á|&aacute;/,'\u00E1')
-	.replace(/É|&Eacute;/,'\u00C9').replace(/é|&eacute;/,'\u00E9')
-	.replace(/Í|&Iacute;/,'\u00CD').replace(/í|&iacute;/,'\u00ED')
-	.replace(/Ó|&Oacute;/,'\u00D3').replace(/ó|&oacute;/,'\u00F3')
-	.replace(/Ú|&Uacute;/,'\u00DA').replace(/ú|&uacute;/,'\u00FA')
-	.replace(/Ñ|&Ntilde;/,'\u00D1').replace(/ñ|&ntilde;/,'\u00F1');
 	if(opc&&typeof opc=='string'){
 		switch(opc.toLowerCase()){
 			case 'lc':txt=txt.toLowerCase();break;

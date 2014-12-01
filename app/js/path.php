@@ -41,6 +41,7 @@ if(false){ ?><script><?php } ?>
 	DOMINIO=dom;
 	FILESERVER=prod?'http://i.tagbum.com/':'http://68.109.244.201/';
 	SERVERS={
+			main:'http://tagbum.com/',
 			img:'http://i.tagbum.com',
 			video:'http://v.tagbum.com'
 		};
