@@ -1340,8 +1340,8 @@ include ('../../class/class.phpmailer.php');
                 }                
                 //datos empieza el html
                 if ($array['mobile']){
-                    $html.=mobileWishList($row,$lang,$array);
-                }else $html.=wishList($row,$i,$lang,$array);  
+                    $html.=mobileWishList($row,$lang,$array,$price);
+                }else $html.=wishList($row,$i,$lang,$array,$price);  
                 $i++;$r[]=$row;
             }
 
@@ -1396,7 +1396,7 @@ include ('../../class/class.phpmailer.php');
     }
     /********************************END - PRE - DATOS ***********************************/
     /********************************HTML***********************************/
-    function wishList($row,$i,$lang,$array){
+    function wishList($row,$i,$lang,$array,$price){
     	$class='';$button='';$msg='';$delete='';$noSt='';
     	if ($row['stock']<=10 && $row['id_category']!='1'){
     		$class='class="color_red"';
@@ -1424,7 +1424,7 @@ include ('../../class/class.phpmailer.php');
 				</li>';
 		return $html; 
     }
-    function mobileWishList($row,$lang,$array){
+    function mobileWishList($row,$lang,$array,$price){
 		$delete='';$button='';
     	if ($array['tipo']!='prefe' && $array['tipo']!='aso')
     		$delete='<a func="delete" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f">
