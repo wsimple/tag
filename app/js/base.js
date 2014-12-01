@@ -29,6 +29,17 @@
 		};
 	}
 })();
+//-- cordova checkout --//
+$.cordova=function(fn){
+	document.addEventListener('deviceready',function(){
+		fn();
+	},false);
+};
+document.addEventListener('deviceready',function(){
+	$.cordova=function(fn){
+		fn();
+	};
+},false);
 //-- get --//
 var $_GET;
 function arrayGet(get){
