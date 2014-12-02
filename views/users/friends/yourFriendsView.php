@@ -35,7 +35,8 @@
 </div>
 <script >
 $(document).ready(function(){
-	var title=new Array(),opc={mod : 'friends',get:""},find=('<?=$find?0:1?>')*1;
+	var title=new Array(),opc={mod : 'friends',get:""},find=('<?=$find?0:1?>')*1,mod='<?=$_GET[mod]?>';
+
 	title['friends'] = '<?=USER_FINDFRIENDSTITLELINKS?>';
 	title['follow'] = '<?=USER_LBLFOLLOWERS?>';
 	title['unfollow'] = '<?=USER_LBLFRIENDS?>';
@@ -45,15 +46,19 @@ $(document).ready(function(){
 		$( "#radio-buttons" ).buttonset();
 		$( "#radio-buttons label" ).click( function(){
 			opc.mod = $(this).attr('for');
-			$('#yourFriendsView div#tab').removeAttr('class').addClass(opc.mod);
-			$('#titleFriends').html(title[opc.mod]);
-			friendsAndF(opc);
+			redir('friends?sc=1&mod='+opc.mod);
+
 		});
+		$('#yourFriendsView div#tab').removeAttr('class').addClass(opc.mod);
+		$('#titleFriends').html(title[opc.mod]);
+		if (mod!='') {opc.mod = mod};
+		$( "#radio-buttons input#"+opc.mod).click();
+
 	}else{
 		opc.mod='find';
 		$('#txtSearchFriend').keyup(function() {
 			opc.get = $.trim($(this).val());
-			if (opc.get!="" && $(this).val().length>2)	{
+			if (opc.get!="" && $(this).val().length>2){
 				opc.get="&search="+opc.get;
 				friendsAndF(opc);
 			}
@@ -61,6 +66,8 @@ $(document).ready(function(){
 	}
 	opc.find=find;
 	$('#titleFriends').html(title[opc.mod]);
+
+	
 	friendsAndF(opc);
 	$('#tab').html('');
 	function friendsAndF(opc){
