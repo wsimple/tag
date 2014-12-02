@@ -17,17 +17,18 @@
 							<?=ucwords($friend['name_user'])?>
 						</a>
 					</div>
+					<div class="left" style="width:100%;"></div>
+					<input class="left" type="button" value="<?=$lang['USER_BTNLINK']?>" action="linkUser,<?=md5($friend['id_friend'])?>,2" style="padding: 5px 8px; margin-top: 5px;float: none;margin-left: 30%;"/>
 				</div>
-				<input type="button" action="linkUser,<?=md5($friend['id_friend'])?>,1" style="display:none;"/>
 				<div class="clearfix"></div>
 			</div>
 		</div>
 	<?php } ?>
 	<input type="hidden" name="no_id_s" value="<?=$ids?>">
 	</div>
-	<div id="seeMoreSuggest" ><a href="<?=base_url('friends?sc=2')?>"><?=USER_BTNSEEMORE.'...'?></a></div>
+	<div id="seeMoreSuggest" ><a href="<?=base_url('friends?sc=2')?>"><?=$lang["USER_BTNSEEMORE"].'...'?></a></div>
 	<?php } ?>
-	<div class="messageInviteSuggest" <?=$display?> ><?=INVITED_SUGGETSFRIENDS?></div>
-	<div id="inviteSuggest" <?=$display?>><a href="<?=base_url('friends?sc=3')?>"><?=GROUPS_MENUINVITEFRIENDS?></a></div>
+	<div class="messageInviteSuggest" <?=$display?> ><?=$lang["INVITED_SUGGETSFRIENDS"]?></div>
+	<div id="inviteSuggest" <?=$display?>><a href="<?=base_url('friends?sc=3')?>"><?=$lang["GROUPS_MENUINVITEFRIENDS"]?></a></div>
 	<div class="clearfix"></div>
 </article>
