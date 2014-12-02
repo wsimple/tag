@@ -1416,8 +1416,9 @@ function check_suggestion_of_friends(){
 											'<div class="left">'+
 												'<a href="javascript:void(0);" action="profile,'+datos['id_friend']+','+datos['name_user']+'">'+datos['name_user']+'</a>'+
 											'</div>'+
+											'<div class="left" style="width:100%;"></div>'+
+											'<input class="left" type="button" value="<?=$lang['USER_BTNLINK']?>" action="linkUser,'+datos['id_friend']+',2" style="padding: 5px 8px; margin-top: 5px;float: none;margin-left: 30%;"/>'+
 										'</div>'+
-										'<input type="button" action="linkUser,'+datos['id_friend']+',1" style="display:none;"/>'+
 										'<div class="clearfix"></div>'+
 									'</div>'+
 								'</div>';
