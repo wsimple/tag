@@ -48,7 +48,7 @@
 				$('.list-wrapper').jScroll('refresh');
 			});
 			var opc={layer:'#friendsList',mod:'find',user:$.local('code')};
-			viewFriends(opc);
+			viewFriends('refresh',opc);
 			$.cordova(function(){
 				viewContacsPhone('#contactList','');
 			});
@@ -60,7 +60,7 @@
 				if(val.length<3) val='';
 				if(last!=val){
 					opc.get="&search="+val;
-					viewFriends(opc);
+					viewFriends('refresh',opc);
 					$.cordova(function(){
 						viewContacsPhone('#contactList',val);//Filtrar elementos tambien por agenda de contactos
 					});
@@ -146,7 +146,7 @@
 				if(!emails.length&&!phones.length)
 					$('#contactFilter').html('');
 				else
-				viewFriends({
+				viewFriends('refresh',{
 					layer:'#contactFilter',
 					mod:'find',
 					divider:lan('TAGBUM_CONTACTS','ucw'),

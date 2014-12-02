@@ -1030,7 +1030,7 @@ function bodyFriendsList(friend){
 	'</li>':'');
 	return out;
 }
-function viewFriends(opc){
+function viewFriends(method, opc){
 	console.log('viewfriends');
 	if(!opc.post) opc.post={};
 	opc.get=opc.get||'';
@@ -1079,13 +1079,19 @@ function viewFriends(opc){
 				mens+='<br><br>'+(opc.mod=='friends'||opc.mod=='unfollow'?'<div id="findFriends" style="font-weight:bold">'+lan('FIND_FRIENDS_NOTIFICATION')+'</div>':'');
 				out+='<li>'+mens+'</li>';
 			};
-
-			$(opc.layer).html(divider+out).listview('refresh');
+			if (method=='refresh') {
+				$(opc.layer).html(divider+out).listview('refresh');
+			}else if(method=='more'){
+				if ($('#findFriends').length == 0) {
+					$(opc.layer).append(out).listview('refresh');
+				}
+			}
 			$('#findFriends').click(function(event){
 				redir(PAGE['findfriends']);
 			});
 			if(opc.success) opc.success(data);
-			$('.list-wrapper').jScroll('refresh');
+			//return true;
+			//$('.list-wrapper').jScroll('refresh');
 		}
 	});
 }
