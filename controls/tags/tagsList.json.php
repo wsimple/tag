@@ -41,8 +41,6 @@ function tagsList_json($data,$mobile=false){
 		'.$sqlUid2.' as rid,
 		u.screen_name as uname,
 		(t.id=(SELECT DISTINCT source FROM tags WHERE id!=t.id AND (source=t.id OR source=t.source) AND id_user="'.$myId.'")) as redist,
-		SUM(th.hits) AS hits,
-		SUM(th.hits) AS top,
 		t.id_product,
 		sp.name as name_product,
 		md5(sp.id) as store_p_id,
@@ -55,8 +53,7 @@ function tagsList_json($data,$mobile=false){
 	';
 	$join='
 		JOIN users u ON u.id=t.id_user
-		LEFT JOIN store_products sp ON sp.id=t.id_product
-		LEFT JOIN tags_hits th ON th.id_tag=t.id
+		LEFT JOIN store_products sp ON sp.id=t.id_product		
 	';
 	$order='t.id DESC';
 	if($myId!=''){//si hay usuario logeado
@@ -118,6 +115,8 @@ function tagsList_json($data,$mobile=false){
 			}
 			$where .= ' AND th.hits !=0 AND t.status=1 ';
 			$order='top DESC';
+			$join.='LEFT JOIN tags_hits th ON th.id_tag=t.id';
+			$select.=',SUM(th.hits) AS hits,SUM(th.hits) AS top';
 		}elseif($data['current']=='personalTags'||$data['current']=='personal'){//tag personales de un usuario
 			$res['info']='tag personales de un usuario -9-';
 			$where.=safe_sql(' AND t.id_creator=? AND t.status=9 ',array($uid));
