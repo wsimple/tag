@@ -19,14 +19,14 @@ var hideGroups=false;
 	//se eliminan algunas cookies cuando no viene de una transicion
 	$.session('get',null);
 	$.session('page',null);
-	//$.mobile.loader.prototype.options.text=lang.loading;
+	//$.mobile.loader.prototype.options.text=lan('loading');
 	$.mobile.loader.prototype.options.textVisible=false;
 	$.mobile.loader.prototype.options.theme='a';
-	$.mobile.listview.prototype.options.filterPlaceholder=lang.filter;
+	$.mobile.listview.prototype.options.filterPlaceholder=lan('filter');
 })(window,jQuery);
 function redir(url,trans){
 	if(offline){
-		myDialog('#errorDialog',lang.noConnection);
+		myDialog('#errorDialog',lan('noConnection'));
 	}else{
 		//if(!url.match(/\.(html|php)/)) url='smt.html?page='+url;
 		console.log('move to '+url);
@@ -49,7 +49,7 @@ function redir(url,trans){
 }
 function goBack(num){
 	if(offline){
-		myDialog('#errorDialog',lang.noConnection);
+		myDialog('#errorDialog',lan('noConnection'));
 	}else{
 		num=num||-1;
 		if(num<0){
@@ -100,7 +100,7 @@ function readTxt(url){
 			case 'profile'		:func=function(){redir(PAGE.profile+'?id='+$.local('code'));};break;
 			case 'profilepic'	:func=function(){redir(PAGE.profilepic);};break;
 			case 'myGroup'		:func=function(){redir(PAGE.tagslist+'?current=group&id='+(data.group||$this.attr('group')));};break;
-			case 'closedGroup'	:myDialog('#singleDialog','<sp>'+lang.GROUPS_CLOSE+'</sp><br><sp>'+lang.MSGGROUPS_CLOSE+'</sp>');break;
+			case 'closedGroup'	:myDialog('#singleDialog','<sp>'+lan('GROUPS_CLOSE')+'</sp><br><sp>'+lan('MSGGROUPS_CLOSE')+'</sp>');break;
 			case 'openGroup'	:func=function(){redir(PAGE.tagslist+'?current=group&id='+idGroup);};break;
 			case 'otherGroup'	:menuGroupsClose(data.group||$this.attr('group'));break;
 			case 'moreGroups'	:func=function(){redir(PAGE.groupslist+'?action='+(data.action||$this.attr('action')));};break;
@@ -116,27 +116,27 @@ function readTxt(url){
 				'<li>'+
 					'<div id="headerSearch" class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c">'+
 						'<form role="search" action="'+PAGE.search+'">'+
-							'<input name="srh" type="search" class="ui-input-text ui-body-c" value="" onkeypress="return enterSubmit(event,this)" placeholder="'+lang.inputPlaceHolder+'"/>'+
+							'<input name="srh" type="search" class="ui-input-text ui-body-c" value="" onkeypress="return enterSubmit(event,this)" placeholder="'+lan('inputPlaceHolder')+'"/>'+
 						'</form>'+
 					'</div>'+
-			   '</li>'+
-				'<li opc="timeline" onlyif="!window.location.href.match(/[\\/=]timeline/i)"><img src="css/smt/home_.png"/><div>'+lang.TIMELINE_TITLE+'</div><arrow/></li>'+
-				'<li opc="toptags" onlyif="!window.location.href.match(/[\\/=]toptags/i)"><img src="css/smt/topTags.png"/><div>'+lang.TOPTAGS_TITLE+'</div><arrow/></li>'+
-				'<li opc="news" onlyif="!window.location.href.match(/[\\/=]news/i)"><img src="css/smt/news.png"/><div>'+lang.NEWS+'</div><arrow/></li>'+
-				'<li opc="notif" onlyif="!window.location.href.match(/[\\/=]notif/i)"><img src="css/smt/notifications.png"/><div>'+lang.NOTIFICATIONS+'</div><span class="push-notifications"></span><arrow/></li>'+
+				'</li>'+
+				'<li opc="timeline" onlyif="!window.location.href.match(/[\\/=]timeline/i)"><img src="css/smt/home_.png"/><div>'+lan('TIMELINE_TITLE')+'</div><arrow/></li>'+
+				'<li opc="toptags" onlyif="!window.location.href.match(/[\\/=]toptags/i)"><img src="css/smt/topTags.png"/><div>'+lan('TOPTAGS_TITLE')+'</div><arrow/></li>'+
+				'<li opc="news" onlyif="!window.location.href.match(/[\\/=]news/i)"><img src="css/smt/news.png"/><div>'+lan('NEWS')+'</div><arrow/></li>'+
+				'<li opc="notif" onlyif="!window.location.href.match(/[\\/=]notif/i)"><img src="css/smt/notifications.png"/><div>'+lan('NOTIFICATIONS')+'</div><span class="push-notifications"></span><arrow/></li>'+
 				//'<li class="separator"></li>'+
 				'<li opc="friends"><img src="css/smt/friends.png"/><div>'+lan('friends','ucw')+'</div><arrow/></li>'+
 				'<li opc="friendsSearch"><img src="css/smt/friends.png"/><div>'+lan('friendSearh_title','ucw')+'</div><arrow/></li>'+
 				(PRODUCCION?
-					'<li opc="chat"><img src="css/smt/chat.png"/><div>'+lang.chat+'</div><arrow/></li>'
+					'<li opc="chat"><img src="css/smt/chat.png"/><div>'+lan('chat')+'</div><arrow/></li>'
 				:'')+
 				//'<li opc="profilepic"><img src="img/profile.png"/><div>'+lan('Profile Picture')+'</div><arrow/></li>'+
-				'<li opc="profile"><img src="css/smt/profile.png"/><div>'+lang.profile+'</div><arrow/></li>'+
-				'<li goto="store"><img src="css/smt/store.png"/><div>'+lang.store+'</div><span class="icon"></span></li>'+
-				'<li style="display:none;" goto="groups"><img src="css/smt/group.png"/><div>'+lang.MAINMNU_GROUPS+'</div><span class="icon"></span></li>'+
+				'<li opc="profile"><img src="css/smt/profile.png"/><div>'+lan('profile')+'</div><arrow/></li>'+
+				'<li goto="store"><img src="css/smt/store.png"/><div>'+lan('store')+'</div><span class="icon"></span></li>'+
+				'<li style="display:none;" goto="groups"><img src="css/smt/group.png"/><div>'+lan('MAINMNU_GROUPS')+'</div><span class="icon"></span></li>'+
 				//'<li class="title"><img src="img/profile.png"/><div>Groups</div><span class="icon"/></li>'+
 				//'<li goto="test"><div>test change menu</div><span class="icon"/></li>'+
-				'<li opc="logout"><img src="css/smt/logout.png"/><div>'+lang.logout+'</div><span class="icon"/></li>'+
+				'<li opc="logout"><img src="css/smt/logout.png"/><div>'+lan('logout')+'</div><span class="icon"/></li>'+
 			'</ul>'+
 			'<ul id="store">'+
 				'<li goback="main"><div>back to main</div><arrow/></li>'+
@@ -152,7 +152,7 @@ function readTxt(url){
 		$('#menu .container').html(menu);
 		$('#myMenu .container').html(menu);
 		if(isLogged()&&!hideGroups) menuGroups($.local('code'));
-		//out='<li goback="main"><div>'+lang.GROUPS_BACKMAIN+'</div><arrow/></li>';
+		//out='<li goback="main"><div>'+lan('GROUPS_BACKMAIN')+'</div><arrow/></li>';
 		//$('#menu .container').append('<ul id="groups">'+out+'</ul>');
 	}
 	var menuStatus;
@@ -205,14 +205,14 @@ function readTxt(url){
 				'<div id="menu">'+
 					'<div class="menu">'+
 						'<div class="header">'+
-							'<span>'+lang.MESSAGE_WELCOME+',</span><br/><em>'+($.local('full_name')||'')+'</em>'+
+							'<span>'+lan('MESSAGE_WELCOME')+',</span><br/><em>'+($.local('full_name')||'')+'</em>'+
 							'<br><div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-rapperels="span">'+
 								'<span class="loader"></span>'+
 							'</div>'+
 						'</div>'+
 						'<div class="container"></div>'+
 //						'<ul id="logout">'+
-//							'<li opc="logout"><img src="img/logout.png"/><div>'+lang.logout+'</div><span class="icon"/></li>'+
+//							'<li opc="logout"><img src="img/logout.png"/><div>'+lan('logout')+'</div><span class="icon"/></li>'+
 //						'</ul>'+
 					'</div>'+
 					'<div class="overPage"/>'+
@@ -239,7 +239,7 @@ function readTxt(url){
 				hideMenu();
 				setTimeout(function(){eval(click);},menuTime+100);
 			}).on('submit','#headerSearch form',function(){
-				 $.loader('show');
+				$.loader('show');
 			});
 			$('#menu .container').on('click','li[goto]',function(){
 				var $a=$(this).parent(),
@@ -270,8 +270,8 @@ function readTxt(url){
 						id:'msg-points',
 						open:true,
 						content:
-							'<p>'+lang.MAINMENU_POINTS_2+'</p>'+
-							'<p>'+lang.MAINMENU_POINTS_1+'</p>',
+							'<p>'+lan('MAINMENU_POINTS_2')+'</p>'+
+							'<p>'+lan('MAINMENU_POINTS_1')+'</p>',
 						style:{
 							'margin':10,
 							'font-size':14
@@ -314,9 +314,9 @@ function readTxt(url){
 			success:function(data){
 				if(data){
 					$('#menu #main [goto=groups]').fadeIn();
-					var i,group,out='<li goback="main"><div>'+lang.GROUPS_BACKMAIN+'</div><arrow/></li>';
+					var i,group,out='<li goback="main"><div>'+lan('GROUPS_BACKMAIN')+'</div><arrow/></li>';
 					if(data.myGroups){
-						out+='<li class="title"><div>'+lang.GROUPS_MYGROUPS+'</div><span class="icon"></span></li>';
+						out+='<li class="title"><div>'+lan('GROUPS_MYGROUPS')+'</div><span class="icon"></span></li>';
 						for(i in data.myGroups){
 							group=data.myGroups[i];
 							out+=
@@ -328,10 +328,10 @@ function readTxt(url){
 //									'<div style="font-size:12px;padding-left:10px">'+group.name+'</div><span class="icon"></span>'+
 //								'</li>';
 						}
-						out+='<li opc="moreGroups" action="3"><div style="font-size: 10px; padding-left: 65px">'+lang.GROUPS_MORE+'</div></li>';
+						out+='<li opc="moreGroups" action="3"><div style="font-size: 10px; padding-left: 65px">'+lan('GROUPS_MORE')+'</div></li>';
 					}
 					if(data.allGroups){
-						out+='<li class="title"><div>'+lang.GROUPS_ALLGROUPS+'</div><span class="icon"></span></li>';
+						out+='<li class="title"><div>'+lan('GROUPS_ALLGROUPS')+'</div><span class="icon"></span></li>';
 						for(i in data.allGroups){
 							group=data.allGroups[i];
 							out+=
@@ -339,7 +339,7 @@ function readTxt(url){
 									'<div style="font-size: 12px; padding-left: 10px">'+group.name+'</div><span class="icon"></span>'+
 								'</li>';
 						}
-						out+='<li opc="moreGroups" action="2"><div style="font-size: 10px; padding-left: 65px">'+lang.GROUPS_MORE+'</div></li>';
+						out+='<li opc="moreGroups" action="2"><div style="font-size: 10px; padding-left: 65px">'+lan('GROUPS_MORE')+'</div></li>';
 					}
 					$('#menu .container').append('<ul id="groups">'+out+'</ul>');
 				}
@@ -367,12 +367,12 @@ function readTxt(url){
 					menuActions({opc:'myGroup',group:id});
 				}else{
 					switch(data.out){
-						case 'si':myDialog('#singleDialog','<sp>'+lang.GROUPS_CLOSE+'</sp><br><sp>'+lang.MSGGROUPS_CLOSE+'</sp>');break;
+						case 'si':myDialog('#singleDialog','<sp>'+lan('GROUPS_CLOSE')+'</sp><br><sp>'+lan('MSGGROUPS_CLOSE')+'</sp>');break;
 						case 'invit':myDialog({
 											id:'#singleDialog',
-											content:'<div style="text-align:center;"><sp>'+lang.INVITE_GROUP_TRUE+'</sp><br>'+lang.CONFI_JOIN_TO_GROUPS+'</div>',
+											content:'<div style="text-align:center;"><sp>'+lan('INVITE_GROUP_TRUE')+'</sp><br>'+lan('CONFI_JOIN_TO_GROUPS')+'</div>',
 											buttons:[{
-												name:lang.yes,
+												name:lan('yes'),
 												action:function(){
 													var obje=this,get='&accept=1';
 													actionGroup(id,7,get,obje);
@@ -386,7 +386,7 @@ function readTxt(url){
 											}]
 										});
 							break;
-						case 'pend':myDialog('#singleDialog','<sp>'+lang.GROUPS_CLOSE+'</sp><br><sp>'+lang.MSGGROUPS_CLOSE_INVI_SED+'</sp>');break;
+						case 'pend':myDialog('#singleDialog','<sp>'+lan('GROUPS_CLOSE')+'</sp><br><sp>'+lan('MSGGROUPS_CLOSE_INVI_SED')+'</sp>');break;
 					}
 				}
 			}
@@ -398,7 +398,7 @@ function readTxt(url){
 			url:DOMINIO+'controls/groups/actionsGroups.json.php?action='+action+'&grp='+id+get,
 			dataType:'json',
 			error:function(/*resp,status,error*/){
-				myDialog('#singleDialog',lang.conectionFail);
+				myDialog('#singleDialog',lan('conectionFail'));
 			},
 			success:function(data){
 				if(data.accept=='true'){
@@ -536,7 +536,7 @@ function includePage(){
 	});
 	window.myAjax=function(opc,more){
 		if(offline){
-			myDialog('#errorDialog',lang.noConnection);
+			myDialog('#errorDialog',lan('noConnection'));
 			return null;
 		}
 		if(more!==undefined){
@@ -689,10 +689,10 @@ function actionsTags(layer){
 				case 'trash':
 					myDialog({
 						id:'#singleRedirDialog',
-						content:lang.JS_DELETETAG,
+						content:lan('JS_DELETETAG'),
 						loader: false,
 						buttons:[{
-							name:lang.yes,
+							name:lan('yes'),
 							action:function(){
 								var dialog = this;
 								myAjax({
@@ -832,7 +832,7 @@ function playComment(tagtId, opc){
 			layer=opc.layer,
 			get=opc.get||'',
 			limit=opc.limit||'15',
-			notag=opc.notag||lang.EMPTY_TAGS_LIST,
+			notag=opc.notag||lan('EMPTY_TAGS_LIST'),
 			//se cancela la action si no hay current o si se esta ejecutando reload
 			cancel=function(){return !current||opc.current!=current||(action!='reload'&&on.reload);},
 			//se asigna y/o devuelve el estatus de la accion actual
@@ -890,9 +890,9 @@ function playComment(tagtId, opc){
 								verifyGroupMembership(opc.id,opc.code,function(data){
 //									alert(opc.code);
 									if(data.isMember){
-										$('#noTags').html(lang.GROUPS_MESSAGE_TAGS);
+										$('#noTags').html(lan('GROUPS_MESSAGE_TAGS'));
 									}else{
-										$('#noTags').html(lang.GROUPS_MESSAGE_TAGS+' '+lang.GROUPS_MESSAGE_JOIN);
+										$('#noTags').html(lan('GROUPS_MESSAGE_TAGS')+' '+lan('GROUPS_MESSAGE_JOIN'));
 									}
 								});
 							}
@@ -966,15 +966,15 @@ function playComment(tagtId, opc){
 							}
 						}else if(action=='reload'){
 							$(opc.layer).html(
-								'<div><div class="tag-loading smt-container" style="max-height:300px;height:300px;"><div id="noTags" class="smt-content" style="z-index:4;">'+lang.EMPTY_TAGS_LIST+'</div></div><div class="smt-tag"><img src="../img/placaFondo.png" class="tag-img" style="z-index:3;"></div></div>'
+								'<div><div class="tag-loading smt-container" style="max-height:300px;height:300px;"><div id="noTags" class="smt-content" style="z-index:4;">'+lan('EMPTY_TAGS_LIST')+'</div></div><div class="smt-tag"><img src="../img/placaFondo.png" class="tag-img" style="z-index:3;"></div></div>'
 							);
 							if(current=='group'){
 								verifyGroupMembership(opc.id,opc.code,function(data){
 //									alert(opc.code);
 									if(data.isMember)
-										$('#noTags').html(lang.GROUPS_MESSAGE_TAGS);
+										$('#noTags').html(lan('GROUPS_MESSAGE_TAGS'));
 									else
-										$('#noTags').html(lang.GROUPS_MESSAGE_TAGS+' '+lang.GROUPS_MESSAGE_JOIN);
+										$('#noTags').html(lan('GROUPS_MESSAGE_TAGS')+' '+lan('GROUPS_MESSAGE_JOIN'));
 								});
 							}
 						}
@@ -999,8 +999,8 @@ function playComment(tagtId, opc){
 })(window,jQuery,console);
 
 function bodyFriendsList(friend){
-	if (friend.conocido) var te="a",text=lang.unfollow;
-	else var te="e",text=lang.follow; 
+	if (friend.conocido) var te="a",text=lan('unfollow');
+	else var te="e",text=lan('follow'); 
 	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain">'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
 			'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
@@ -1013,21 +1013,21 @@ function bodyFriendsList(friend){
 		'</a>'+
 	'</li>'+ //la maquetacion de este li se hizo con el jquerymobile ya cargado
 	(friend.iAm=="0"?'<li class="ui-body ui-body-b" style="display: none;">'+
-        '<fieldset class="ui-grid-a">'+
-            '<div class="ui-block-a">'+
-            	'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
-            		'<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.USER_PROFILE+'</span></span>'+
-            		'<button code="'+friend.code_friend+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lang.USER_PROFILE+'</button>'+
-            	'</div>'+
-            '</div>'+
-            '<div class="ui-block-b">'+
+		'<fieldset class="ui-grid-a">'+
+			'<div class="ui-block-a">'+
+				'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
+					'<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('USER_PROFILE')+'</span></span>'+
+					'<button code="'+friend.code_friend+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lan('USER_PROFILE')+'</button>'+
+				'</div>'+
+			'</div>'+
+			'<div class="ui-block-b">'+
 				'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="'+te+'" data-disabled="false" class="ui-submit ui-btn ui-shadow ui-btn-corner-all ui-btn-up-'+te+'" aria-disabled="false">'+
 					'<span class="ui-btn-inner"><span class="ui-btn-text">'+text+'</span></span>'+
 					'<button type="b" data-theme="'+te+'" userlink="'+md5(friend.id)+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
 				'</div>'+
 			'</div>'+
-        '</fieldset>'+
-    '</li>':'');
+		'</fieldset>'+
+	'</li>':'');
 	return out;
 }
 function viewFriends(opc){
@@ -1040,7 +1040,7 @@ function viewFriends(opc){
 		url:DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&code&mod='+opc.mod+opc.get,
 		data:opc.post,
 		error:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
+			myDialog('#singleDialog',lan('conectionFail'));
 		},
 		success:function(data){
 			if (data.error) return;
@@ -1071,17 +1071,17 @@ function viewFriends(opc){
 			}else{
 				var mens='';
 				switch(opc.mod){
-					case 'friends': mens = lang.EMPTY_INFO_FRIENDS; break;
-					case 'follow': mens = lang.EMPTY_INFO_ADMIRERS; break;
-					case 'unfollow': mens = lang.EMPTY_INFO_ADMIRED; break;
+					case 'friends':mens=lan('EMPTY_INFO_FRIENDS');break;
+					case 'follow':mens=lan('EMPTY_INFO_ADMIRERS');break;
+					case 'unfollow':mens=lan('EMPTY_INFO_ADMIRED');break;
+					case 'find':mens=lan('EMPTY_INFO_FIND'); break;
 				}
-				out+='<div class="emptyInfo">'+mens+'<br><br>';
-				if(opc.mod!='follow')
-					out+='<div id="findFriends" style="font-weight:bold">'+lang.FIND_FRIENDS_NOTIFICATION+'</div></div>';
+				mens+='<br><br>'+(opc.mod=='friends'||opc.mod=='unfollow'?'<div id="findFriends" style="font-weight:bold">'+lan('FIND_FRIENDS_NOTIFICATION')+'</div>':'');
+				out+='<li>'+mens+'</li>';
 			};
 
 			$(opc.layer).html(divider+out).listview('refresh');
-			$('#findFriends').click(function(event) {
+			$('#findFriends').click(function(event){
 				redir(PAGE['findfriends']);
 			});
 			if(opc.success) opc.success(data);
@@ -1095,15 +1095,15 @@ function linkUser(layer){
 		myAjax({
 			type:'GET',
 			url:DOMINIO+'controls/users/follow.json.php?uid='+id,
-			error:function() {
+			error:function(){
 				console.log('follow button ERROR');
 			},
 			success:function(data){
 				if(!data['error']){
-					var fr=$(obj).parents('li.ui-body').prev('li.userInList'),theme='e',text=lang.follow,oldtheme="a";
+					var fr=$(obj).parents('li.ui-body').prev('li.userInList'),theme='e',text=lan('follow'),oldtheme="a";
 					if(!data.unlink){
 						theme='a';oldtheme="e";
-						text=lang.unfollow;
+						text=lan('unfollow');
 					}
 					$(obj).attr('data-theme',theme).prev('span.ui-btn-inner').find('.ui-btn-text').html(text)
 					.parents('.ui-block-b').find('.ui-btn-up-'+oldtheme).attr('data-theme',theme).removeClass('ui-btn-hover-'+oldtheme+' ui-btn-up-'+oldtheme).addClass('ui-btn-up-'+theme);
@@ -1128,7 +1128,7 @@ function verifyGroupMembership(idGroup,code,func){
 		url:DOMINIO+'controls/groups/menuGroupUser.json.php?action=6&code='+code+'&idGroup='+idGroup,
 		dataType:'json',
 		error:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
+			myDialog('#singleDialog',lan('conectionFail'));
 		},
 		success:func
 	});
@@ -1140,10 +1140,10 @@ function preferencesUsers(usr){
 		url		:DOMINIO+'controls/users/preferences.json.php?action=1&code='+code,
 		dataType:'json',
 		error	:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
+			myDialog('#singleDialog',lan('conectionFail'));
 		},
 		success	:function(data){
-			var i,j,pref,out='',text=['',lang.PREFERENCES_WHATILIKE,lang.PREFERENCES_WHATIWANT,lang.PREFERENCES_WHATINEED];
+			var i,j,pref,out='',text=['',lan('PREFERENCES_WHATILIKE'),lan('PREFERENCES_WHATIWANT'),lan('PREFERENCES_WHATINEED')];
 			for(i in data.dato){
 				out+='<li style="text-align:center;"><strong>'+text[i]+'</strong></li>';
 				for(j in data.dato[i]){
@@ -1167,7 +1167,7 @@ function preferencesUsers(usr){
 							url		:DOMINIO+'controls/users/preferences.json.php?action=del&type='+$(obj).attr('type')+'&p='+$(obj).attr('pref')+'&code='+$.local('code'),
 							dataType:'json',
 							error	:function(/*resp,status,error*/){
-								myDialog('#singleDialog',lang.conectionFail);
+								myDialog('#singleDialog',lan('conectionFail'));
 							},
 							success	:function(data){
 								$(obj).parents('li').fadeOut('slow');
@@ -1231,7 +1231,7 @@ function setAllLocals(opc){
 function login(opc){
 	//console.log('Login.....o');
 	if(opc&&opc.data){
-		opc.data.lng=lang.actual;
+		opc.data.lng=lan('actual');
 		myAjax({
 			url:DOMINIO+'controls/users/login.json.php?mobile',
 			data:opc.data,
@@ -1245,7 +1245,7 @@ function login(opc){
 						redir(opc.error);
 					}
 				}else
-					myDialog('#log-msg',lang.CON_ERROR);
+					myDialog('#log-msg',lan('CON_ERROR'));
 			},
 			success:function(data){
 				if(data&&data.logged){
@@ -1275,7 +1275,7 @@ function logout(move){
 		type:'GET',
 		url:DOMINIO+'controls/users/logout.json.php',
 		error:function(){
-			myDialog('#log-msg',lang.conectionFail);
+			myDialog('#log-msg',lan('conectionFail'));
 		},
 		success:function(data){
 			if(data.logout){
@@ -1459,7 +1459,7 @@ function getFriends(id,groups,like){
 							'<img src="'+data['datos'][i]['photo_friend']+'" style="float:left;width:50px;height:50px;" class="userBR"/>'+
 							'<div style="float:left;margin-left:2px;font-size:8px;text-align:left;">'+
 								'<spam style="color:#E78F08;font-weight:bold;">'+data['datos'][i]['name_user']+'</spam><br/>'+
-								(data['datos'][i]['country']?lang.country+':'+data['datos'][i]['country']+'<br/>':'')+
+								(data['datos'][i]['country']?lan('country')+':'+data['datos'][i]['country']+'<br/>':'')+
 								''+lan('friends','ucw')+'('+data['datos'][i]['friends_count']+')<br/>'+
 								''+lan('admirers','ucw')+'('+data['datos'][i]['followers_count']+')'+
 							'</div>'+
@@ -1613,35 +1613,35 @@ function convertirLinks(text){
 					onRefresh:function(){
 						if(pullDownEl.className.match('loading')){
 							pullDownEl.className='';
-							pullDownEl.querySelector('.pullDownLabel').innerHTML=lang.SCROLL_PULLDOWN;
+							pullDownEl.querySelector('.pullDownLabel').innerHTML=lan('SCROLL_PULLDOWN');
 						}else if(pullUpEl.className.match('loading')){
 							pullUpEl.className='';
-							pullUpEl.querySelector('.pullUpLabel').innerHTML=lang.SCROLL_PULLUP;
+							pullUpEl.querySelector('.pullUpLabel').innerHTML=lan('SCROLL_PULLUP');
 						}
 					},
 					onScrollMove:function(){
 						if(this.y>5&&!pullDownEl.className.match('flip')){
 							pullDownEl.className='flip';
-							pullDownEl.querySelector('.pullDownLabel').innerHTML=lang.SCROLL_RELEASE;
+							pullDownEl.querySelector('.pullDownLabel').innerHTML=lan('SCROLL_RELEASE');
 							this.minScrollY=0;
 						}else if(this.y<5&&pullDownEl.className.match('flip')){
 							pullDownEl.className='';
-							pullDownEl.querySelector('.pullDownLabel').innerHTML=lang.SCROLL_PULLDOWN;
+							pullDownEl.querySelector('.pullDownLabel').innerHTML=lan('SCROLL_PULLDOWN');
 							this.minScrollY=-pullDownOffset;
 						}else if(this.y<(this.maxScrollY-5)&&!pullUpEl.className.match('flip')){
 							pullUpEl.className='flip';
-							pullUpEl.querySelector('.pullUpLabel').innerHTML=lang.SCROLL_RELEASE;
+							pullUpEl.querySelector('.pullUpLabel').innerHTML=lan('SCROLL_RELEASE');
 							this.maxScrollY=this.maxScrollY;
 						}else if(this.y>(this.maxScrollY+5)&&pullUpEl.className.match('flip')){
 							pullUpEl.className='';
-							pullUpEl.querySelector('.pullUpLabel').innerHTML=lang.SCROLL_PULLUP;
+							pullUpEl.querySelector('.pullUpLabel').innerHTML=lan('SCROLL_PULLUP');
 							this.maxScrollY=pullUpOffset;
 						}
 					},
 					onScrollEnd:function(){
 						if(pullDownEl.className.match('flip')){
 							pullDownEl.className='loading';
-							pullDownEl.querySelector('.pullDownLabel').innerHTML=lang.SCROLL_LOADING;
+							pullDownEl.querySelector('.pullDownLabel').innerHTML=lan('SCROLL_LOADING');
 							if(typeof options.onPullDown=='function'){
 								options.onPullDown.call(this,this);//Execute custom function (ajax call?)
 							}else{
@@ -1649,7 +1649,7 @@ function convertirLinks(text){
 							}
 						}else if(pullUpEl.className.match('flip')){
 							pullUpEl.className='loading';
-							pullUpEl.querySelector('.pullUpLabel').innerHTML=lang.SCROLL_LOADING;
+							pullUpEl.querySelector('.pullUpLabel').innerHTML=lan('SCROLL_LOADING');
 							if(typeof options.onPullUp=='function'){
 								options.onPullUp.call(this,this);//Execute custom function (ajax call?)
 							}else{
@@ -1738,7 +1738,7 @@ function viewCategories(action,idLayer,id){
 		url:DOMINIO+'controls/store/actionStoreApp.json.php?action='+action+(id?'&id='+id:''),
 		dataType:'json',
 		error:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
+			myDialog('#singleDialog',lan('conectionFail'));
 		},
 		success:function(data){
 			console.log(data);
@@ -1758,7 +1758,7 @@ function viewCategories(action,idLayer,id){
 			}else{
 				myDialog({
 					id:'#idDontStore',
-					content:'<center><strong>'+lang.STORE_NOSTORE_MESSAGE+'</strong></center>',
+					content:'<center><strong>'+lan('STORE_NOSTORE_MESSAGE')+'</strong></center>',
 					scroll:true,
 					buttons:{ ok:'close' }
 				});
@@ -1770,7 +1770,7 @@ function viewCategories(action,idLayer,id){
 	});
 }
 function bodyCart(data){
-	var i,out='',num=0,outDivider='<li data-role="list-divider" class="titleDivider">'+lang.STORE_SHOPPING_TOTAL+' ('+data.nproduct+')';
+	var i,out='',num=0,outDivider='<li data-role="list-divider" class="titleDivider">'+lan('STORE_SHOPPING_TOTAL')+' ('+data.nproduct+')';
 	for(i=0;i<data.datosCar.length;i++){
 		var select='';
 		if(data.datosCar[i].place=='1' && parseInt(data.datosCar[i].stock)>0){
@@ -1784,7 +1784,7 @@ function bodyCart(data){
 			select=select+option+'</select>';
 		}else if(data.datosCar[i].place=='1' && data.datosCar[i].stock<=0){
 			$('#productApp').val('si');
-			select='<em class="info-top-p">'+lang.TAGS_WHENTAGNOEXIST+'</em><input type="hidden" class="cant-product"  value="'+data.datosCar[i].cant+'">';
+			select='<em class="info-top-p">'+lan('TAGS_WHENTAGNOEXIST')+'</em><input type="hidden" class="cant-product"  value="'+data.datosCar[i].cant+'">';
 		}
 		if(data.datosCar[i].formPayment=='1'){ $('#dollarApp').val('si'); }
 		out+='<li id="'+data.datosCar[i].mId+'" >'+
@@ -1794,29 +1794,29 @@ function bodyCart(data){
 					'</div>'+
 					'<div class="itemDes">'+
 						'<div class="name">'+data.datosCar[i].name+'</div>'+
-						'<div><strong>'+lang.STORE_SHOPPING_SELLER+':</strong> '+data.datosCar[i].nameUser+'</div>'+
+						'<div><strong>'+lan('STORE_SHOPPING_SELLER')+':</strong> '+data.datosCar[i].nameUser+'</div>'+
 						'<div>'+data.datosCar[i].nameC+' > '+data.datosCar[i].nameSC+'</div>'+
-						'<div class="price">'+lang.STORE_SHOPPING_VALUE+': '+data.datosCar[i].sale_points+' '+(data.datosCar[i].formPayment=='1'?lang.STORE_SHOPPING_DOLLARS:lang.STORE_SHOPPING_POINTSMA)+'</div>'+
+						'<div class="price">'+lan('STORE_SHOPPING_VALUE')+': '+data.datosCar[i].sale_points+' '+(data.datosCar[i].formPayment=='1'?lan('STORE_SHOPPING_DOLLARS'):lan('STORE_SHOPPING_POINTSMA'))+'</div>'+
 						select+
 					'</div>'+
 				'</div><br/>'+
 				'<div class="buttons">'+
-					'<a func="details" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lang.STORE_SHOPPING_DETAILS+'</span></span></a>'+
-					'<a func="delete" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lang.STORE_SHOPPING_ITEM+'</span></span></a>'+
-					'<a func="sendWish" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lang.STORE_WISH_LIST_MOVE+'</span></span></a>'+
+					'<a func="details" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_SHOPPING_DETAILS')+'</span></span></a>'+
+					'<a func="delete" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_SHOPPING_ITEM')+'</span></span></a>'+
+					'<a func="sendWish" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_WISH_LIST_MOVE')+'</span></span></a>'+
 				'</div>'+
 			'</li>';
 	}
 	if(data.totalpoints>0){
 		outDivider+='<div class="point">'+
-						lang.STORE_SHOPPING_TOTAL_PRODUCTS+
+						lan('STORE_SHOPPING_TOTAL_PRODUCTS')+
 						'<span>'+data.totalpoints+'</span>'+
 						'<input type="hidden" value="'+data.totalpoints+'">'+
 					'</div>';
 	}
 	if(data.totalmoney>0){
 		outDivider+='<div class="money">'+
-						lang.STORE_SHOPPING_TOTAL_PRODUCTSD+
+						lan('STORE_SHOPPING_TOTAL_PRODUCTSD')+
 						'<span>'+data.totalmoney+'</span>'+
 						'<input type="hidden" value="'+data.totalmoney+'">'+
 					'</div>';
@@ -1863,7 +1863,7 @@ function deleteItemCar(id,get,obj){
 		url:DOMINIO+'controls/store/shoppingCart.json.php?action=2&w=1&id='+id+get,
 		dataType:'json',
 		error	:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
+			myDialog('#singleDialog',lan('conectionFail'));
 		},
 		success:function(data){
 			console.log(data);
@@ -1931,7 +1931,7 @@ function updateCantP(myselect){
 					}
 				}else{
 					myDialog({
-						content:lang.STORE_ORDER_EDIT_STOCK,
+						content:lan('STORE_ORDER_EDIT_STOCK'),
 						name:'ok',
 						action:function(){
 							location.reload();
@@ -1948,7 +1948,7 @@ function getProducts(layer,category,subcategory){
 		url		:DOMINIO+'controls/store/listProd.json.php?source=mobile&module=store&limit=0&c='+category+'&sc='+subcategory,
 		dataType:'json',
 		error	:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
+			myDialog('#singleDialog',lan('conectionFail'));
 		},
 		success	:function(data){
 			var out='',num=0,prod=data.prod,category,idcategory;
@@ -1966,7 +1966,7 @@ function getProducts(layer,category,subcategory){
 				idcategory=prod[i].mid_category;
 			}
 			$(layer).html(out).listview('refresh');
-			$('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+category+'</span></span>').attr('code',idcategory);
+			$('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('goback')+' '+category+'</span></span>').attr('code',idcategory);
 			$('.list-wrapper').jScroll('refresh');
 		}
 	});
@@ -1977,7 +1977,7 @@ function addProductShoppingCart(id,wish){
 		type:'GET',
 		url:DOMINIO+'controls/store/shoppingCart.json.php?action=1&add=si&id='+id,
 		dataType:'json',
-		error:function(/*resp,status,error*/){myDialog('#singleDialog',lang.conectionFail);},
+		error:function(/*resp,status,error*/){myDialog('#singleDialog',lan('conectionFail'));},
 		success:function(data){
 			if(data.datosCar2.add=='si'){
 				if(data.datosCar2.order){
@@ -1992,13 +1992,13 @@ function addProductShoppingCart(id,wish){
 				switch(data.datosCar2.msg){
 					case 'no-disponible':
 						myDialog({
-							content	:lang.TAGS_WHENTAGNOEXIST,
+							content	:lan('TAGS_WHENTAGNOEXIST'),
 							scroll:true,
 							buttons:{'ok':function(){location.reload();}}
 						});
 						break;
-					case 'backg':myDialog('#information',lang.STORE_UNI_BACKG);break;
-					case 'no-stock':myDialog('#information',lang.STORE_PRODUCTO_NO_STOCK);break;
+					case 'backg':myDialog('#information',lan('STORE_UNI_BACKG'));break;
+					case 'no-stock':myDialog('#information',lan('STORE_PRODUCTO_NO_STOCK'));break;
 					case 'no-product':break;
 				}
 			}
@@ -2038,7 +2038,7 @@ function moveToWish(id,get){
 						//$('#list_orderProduct_wish ul').html(data.wish.body);
 						//$('.button').button();
 					}else{
-						myDialog('#singleDialog','<div><strong>'+lang.STORE_NO_SC+'</strong></div>');
+						myDialog('#singleDialog','<div><strong>'+lan('STORE_NO_SC')+'</strong></div>');
 						$('#cartList').empty().html('').listview('refresh');
 					}
 				}
@@ -2053,30 +2053,30 @@ function checkOutShoppingCart(get){
 		url		:DOMINIO+'controls/store/shoppingCart.json.php?action=4'+get,
 		dataType:'json',
 		error	:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lang.conectionFail);
+			myDialog('#singleDialog',lan('conectionFail'));
 		},
 		success	:function(data){
 			if(data.productMobile){$.loader('show');redir(PAGE.storeOption+'?option=1');}
 			else if(data.formPaymentD){
-				myDialog('#singleDialog',lang.STORE_NOT_CHET_DOLLAR);
+				myDialog('#singleDialog',lan('STORE_NOT_CHET_DOLLAR'));
 			}else{
 				//alert(data.nOrden+'+++'+data.nproduct)
 				if(data.datosCar=='noCredit'){
 					myDialog({
 						id:'#idCheckOutAppNo',
 						style:{'min-height':80},
-						content:lang.STORE_SHOPPING_NOPOINTS,
+						content:lan('STORE_SHOPPING_NOPOINTS'),
 						scroll:true,
 						buttons:{
 							ok:'close'
 						}
 					});
-					//alert(lang.STORE_SHOPPING_NOPOINTS);
+					//alert(lan('STORE_SHOPPING_NOPOINTS'));
 				}else{
 					myDialog({
 						id:'#idCheckOutAppDone',
 						style:{'min-height':80},
-						content:lang.PUBLICITY_MSGSUCCESSFULLY+'. '+lang.RESET_PLEASECHECKEMAIL,
+						content:lan('PUBLICITY_MSGSUCCESSFULLY')+'. '+lan('RESET_PLEASECHECKEMAIL'),
 						scroll:true,
 						buttons:{ok:function(){redir(PAGE.storeCat);}}
 					});

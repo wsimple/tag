@@ -25,11 +25,10 @@
 	pageShow({
 		id:'#page-friendSearch',
 		title:lang.friendSearh_title,
-		buttons:{back:true,home:true},
+		buttons:{showmenu:true,home:true},
 		before:function(){
 			$('#searchFriends').attr('placeholder',lang.inputPlaceHolder);
-			$('#contactFilter').html('<li data-role="list-divider">'+lan('TAGBUM_CONTACTS','ucw')+'</li><li class="center"><loader class="s32"/></li>');
-			$('#contactList').html('<li data-role="list-divider">'+lan('all contacts','ucw')+'</li><li class="center"><loader class="s32"/></li>');
+			$('#contactList').html('<li data-role="list-divider">'+lan('CONTACTS_LOADING','ucf')+'</li><li class="center"><loader class="s32"/></li>');
 			if(CORDOVA){
 				$('#friendsList',this.id).addClass('dnone');
 				$('#friendsFooter').html(
@@ -73,7 +72,11 @@
 			});
 			linkUser(opc.layer);
 			linkUser('#contactFilter');
-			$('#contactList').on('click','a[email]',function(){
+			$('#contactList').on('error','a[email] img',function(){
+				this.onerror = "";
+				this.src='css/tbum/usr.png';
+				return true;
+			}).on('click','a[email]',function(){
 				that = $(this);
 				myDialog({
 					// id:'#singleRedirDialog',
@@ -83,8 +86,8 @@
 						action:function(){
 							var mainDialog=this;
 							$.ajax({
-								type    :"POST",
-								url     :DOMINIO+"controls/users/inviteFriends.json.php?email="+that.attr('email'),
+								type	:"POST",
+								url		:DOMINIO+"controls/users/inviteFriends.json.php?email="+that.attr('email'),
 								dataType:"json",
 								success :function(data){
 									mainDialog.close();
@@ -107,7 +110,7 @@
 						}
 					},{
 						name:lan('no','ucw'),
-						action: 'close'
+						action:'close'
 					}]
 				});
 			});		
@@ -121,46 +124,82 @@
 	 */
 	function viewContacsPhone(idLayer,filter){
 		if (typeof ContactFindOptions === "undefined") return;
-		var onSuccess=function(contacts){
-				console.log('contactos:',contacts);
+		var onSuccess=function(c){//c=contactos
+				c=c||[];
 				var i,j,out,data={email:[],phone:[]},
-					email,photo,name,
+					emails,phones,phone,photo,name,
 					emailSent=$.local('emails_sent')||[];
-				out='<li data-role="list-divider">'+lan('all contacts','ucw')+' <span class="ui-li-count">'+contacts.length+'</span></li>';
-				for(i=0;i<contacts.length;i++){
-					email=contacts[i].emails&&contacts[i].emails[0].value;
-					if(email){
-						photo=(contacts[i].photos&&contacts[i].photos[0].value)||'css/tbum/usr.png';
-						name=contacts[i].name.formatted||email;
-						out+=
-						'<li class="userInList">'+
-							'<a email="'+email+'" data-theme="e">'+
-								'<img src="'+photo+'"'+'class="ui-li-thumb" width="60" height="60"/>'+
-								'<h3 class="ui-li-heading">'+name+'</h3>'+
-								'<p class="ui-li-desc">'+
-									'<img src="css/smt/phone.png" alt="'+lang.FIENDFRIENDS_PHONECONTACT+'" widt="16" height="16" />'+
-									lang.FIENDFRIENDS_PHONECONTACT+
-									'<span class="status-invitation">&nbsp;'+($.inArray(email,emailSent)>-1?lang.FIENDFRIENDS_INVITED:'')+'</span>'+
-								'</p>'+
-							'</a>'+
-						'</li>';
+				for(i=0;i<c.length;i++){
+					emails=[];
+					if(c[i].emails) for(j=0;j<c[i].emails.length;j++){
+						emails.push(c[i].emails[j].value);
+						data.email.push(c[i].emails[j].value);
+					}
+					phones=[];
+					if(c[i].phoneNumbers) for(j=0;j<c[i].phoneNumbers.length;j++){
+						phone=c[i].phoneNumbers[j].value.replace(/^0+|\D/g,'');
+						phones.push(phone);
+						data.phone.push(phone);
 					}
 				}
-				$(idLayer).html(out).listview('refresh');
-				$('.list-wrapper').jScroll('refresh');
-				//se buscan los contactos ya existentes en tagbum y se remueven de la lista global 
-				for(i=0;i<contacts.length;i++){
-					if(contacts[i].emails) for(j=0;j<contacts[i].emails.length;j++)
-						data.email.push(contacts[i].emails[j].value);
-					// if(contacts[i].phoneNumbers) for(j=0;j<contacts[i].phoneNumbers.length;j++)
-					// 	data.phone.push(contacts[i].phoneNumbers[j].value);
-				}
+				//se buscan los contactos ya existentes en tagbum y se remueven de la lista global
+				if(!emails.length&&!phones.length)
+					$('#contactFilter').html('');
+				else
 				viewFriends({
 					layer:'#contactFilter',
 					mod:'find',
 					divider:lan('TAGBUM_CONTACTS','ucw'),
 					user:$.local('code'),
-					post:{in:data}
+					post:{in:data},
+					success:function(data){
+						var emails=(data.registered&&data.registered.emails)||[],
+							phones=(data.registered&&data.registered.phones)||[],
+							remove;
+						console.log('contactos antes:',c.length,c);
+						console.log('emails:',emails,'phones:',phones,'contactos:',c);
+						for(i=c.length-1;i>=0;i--){
+							remove=false;
+							if(c[i].emails) for(j=0;j<c[i].emails.length&&!remove;j++){
+								remove=remove||emails.indexOf(c[i].emails[j].value)>-1;
+							}
+							if(c[i].phoneNumbers) for(j=0;j<c[i].phoneNumbers.length&&!remove;j++){
+								remove=remove||phones.indexOf(c[i].phoneNumbers[j].value.replace(/^0+|\D/g,''))>-1;
+							}
+							if(remove) c.splice(i,1);
+						}
+						console.log('contactos despues:',c.length,c);
+						out='<li data-role="list-divider">'+lan('all contacts','ucw')+' <span class="ui-li-count">'+c.length+'</span></li>';
+						for(i=0;i<c.length;i++){
+							emails=[];
+							if(c[i].emails) for(j=0;j<c[i].emails.length;j++)
+								emails.push(c[i].emails[j].value);
+							if(emails.length){
+								photo=(c[i].photos&&c[i].photos[0].value)||'css/tbum/usr.png';
+								name=c[i].name.formatted||emails[0];
+								out+=
+								'<li class="userInList">'+
+									'<a email="'+emails[0]+'" data-theme="e">'+
+										'<img src="'+photo+'"'+'class="ui-li-thumb" onerror="imgError(this)" width="60" height="60"/>'+
+										'<h3 class="ui-li-heading">'+name+'</h3>'+
+										'<p class="ui-li-desc">'+
+											'<img src="css/smt/phone.png" alt="'+lang.FIENDFRIENDS_PHONECONTACT+'" widt="16" height="16" />'+
+											lang.FIENDFRIENDS_PHONECONTACT+
+											'<span class="status-invitation">&nbsp;'+($.inArray(emails[0],emailSent)>-1?lang.FIENDFRIENDS_INVITED:'')+'</span>'+
+										'</p>'+
+									'</a>'+
+								'</li>';
+							}else{
+								'<li class="userInList">'+
+									lan('NOT_EMAIL_CONTACTS')+
+								'</li>';
+
+							}
+						}
+						$(idLayer).html(out).listview('refresh');
+						// if(!data.datos.length) $('#contactFilter').html('');
+						$('.list-wrapper').jScroll('refresh');
+					}
 				});
 			},
 			onError=function(contactError){ return false; };

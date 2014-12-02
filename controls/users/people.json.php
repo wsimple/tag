@@ -11,7 +11,8 @@ switch ($_GET['action']) {
 		if (!isset($_POST['uid']))	$uid=$myId;
 		else $uid=CON::getVal("SELECT id FROM users WHERE $coi=?",array($_POST['uid']));
 		if (!$uid) die(jsonp(array('error'=>'noIdValid')));
-		// if (!isset($_GET['nolimit'])) $array['limit']='LIMIT '.$_GET['limit'].',30';
+		if (!isset($_GET['nolimit'])) $array['limit']=' LIMIT '.$_GET['limit'].',50';
+		else $array['limit']="";
 		$array['select']=',IF(u.id='.$myId.',1,0) AS iAm,
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
 		$array['order']='ORDER BY u.name, u.last_name';
@@ -62,6 +63,7 @@ switch ($_GET['action']) {
 						$array['limit']='LIMIT 0,20';
 					}
 				}
+				$filter='';
 				if($_POST['in']){#filtrar inclusion
 					$data=$_POST['in'];
 					$emails=0;$phones=0;
@@ -81,18 +83,20 @@ switch ($_GET['action']) {
 						}
 						$phones=implode(' OR ', $phones);
 					}
-					$array['where'].=" AND ($emails OR $phones) ";
+					$filter.=" AND ($emails OR $phones) ";
+					$array['where'].=$filter;
 				}
-				if($_POST['not_in']){#filtrar exclusion
-					$data=$_POST['not_in'];
-				}
+				// if($_POST['not_in']){#filtrar exclusion
+				// 	$filter=true;
+				// 	$data=$_POST['not_in'];
+				// }
 				$res['num']=1;
 			break;
 		}
 		if(!isset($res['num'])) $res['num']=CON::numRows(CON::query("SELECT ul.id_user FROM users_links ul WHERE ".$array['where']));
 		$html='';
 		if($res['num']>0){ $query=peoples($array); }
-		elseif(!isset($_GET['nosugg'])){
+		elseif(!isset($_GET['nosugg']) && (!isset($_GET['limit']))){
 			$array['order']='ORDER BY RAND()';
 			$array['join']='';
 			$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
@@ -102,7 +106,6 @@ switch ($_GET['action']) {
 			$query=peoples($array);
 			if (CON::numRows($query)>0) $html='<div class="ui-single-box-title">'.HOME_SUGGESTFRIENDS.'</div>';
 		}
-		$res['aaawww']=CON::lastSql();
 		$info=array();
 		while ($row=CON::fetchAssoc($query)){
 			$row['name_user']=formatoCadena($row['name_user']);
@@ -112,6 +115,18 @@ switch ($_GET['action']) {
 		}
 		$res['datos']=$info;
 		if ($html!='') $res['html']=$html;
+
+		if($filter){//si hay filtro, devolvemos tambien los usuarios ya registrados
+			$query=CON::query("SELECT u.email,u.home_phone,u.mobile_phone,u.work_phone FROM users AS u WHERE 1 $filter");
+			$reg=array('emails'=>array(),'phones'=>array());
+			while($row=CON::fetchObject($query)){
+				$reg['emails'][]=$row->email;
+				if(($phone=preg_replace('/^0+|\D/','',$row->home_phone))!='')	$reg['phones'][]=$phone;
+				if(($phone=preg_replace('/^0+|\D/','',$row->mobile_phone))!='')	$reg['phones'][]=$phone;
+				if(($phone=preg_replace('/^0+|\D/','',$row->work_phone))!='')	$reg['phones'][]=$phone;
+			}
+			$res['registered']=$reg;
+		}
 	break;
 	case 'usersLikesTags': //likes dislikes and Raffle participants
 		if (!isset($_GET['t']) || !isset($_GET['s'])) die(jsonp(array()));
@@ -230,6 +245,8 @@ switch ($_GET['action']) {
 }
 die(jsonp($res));
 
+
+//---------- funciones ----------//
 function htmlfriends($row,$numAction=1){
 	$foto=$row['photo_friend'];
 	$width=!isset($_GET['w'])?'width:450px;':'width:'.$_GET['w'].'px;';
@@ -293,5 +310,3 @@ function actionGroupMembers($row){
 	}
 	return $body.'</div>';
 }
-
-?>
