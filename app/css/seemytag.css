@@ -1,3 +1,7 @@
+#friendsList{
+	min-height: 545px;
+}
+
 .ui-mobile body{
 	height:100%;
 	margin:0;

@@ -58,7 +58,6 @@
 			$wrapper.ptrScroll({
 				onPullUp:function(){
 					opc.get = '&limit='+(page*i++);
-					console.log(opc.get)
 					var response = viewFriends('more',opc);
 					if (!response) {
 						$wrapper.jScroll('refresh');
