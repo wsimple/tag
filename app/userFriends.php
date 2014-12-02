@@ -52,6 +52,7 @@
 				opc.get = null;
 				opc.mod=$(this).attr('opc');
 				viewFriends('refresh',opc);
+				$wrapper.jScroll('refresh');
 				$('.list-content input').val('');
 			});
 			viewFriends('refresh',opc);
