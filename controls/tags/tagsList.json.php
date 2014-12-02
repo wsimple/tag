@@ -26,7 +26,7 @@ function tagsList_json($data,$mobile=false){
 	$res['info']='';
 	$res['request_id']=$data['id'];
 	$start=intval($data['start']);
-	$limit=(is_numeric($data['limit'])?intval($data['limit']):5);
+	$limit=(!is_numeric($data['limit'])?5:(intval($data['limit'])>50?50:intval($data['limit'])));
 	$sqlUid=isset($_GET['this_is_app'])?'md5(concat(t.id_creator,"_",(SELECT tu.email FROM users tu WHERE tu.id=t.id_creator),"_",t.id_creator))':'md5(t.id_creator)';
 	$sqlUid2=isset($_GET['this_is_app'])?'md5(concat(t.id_user,"_",u.email,"_",t.id_user))':'md5(t.id_user)';
 	$select="
@@ -37,7 +37,6 @@ function tagsList_json($data,$mobile=false){
 		t.id_user,
 		$sqlUid2 as rid,
 		u.screen_name as uname,
-		r.id IS NOT NULL as redist,
 		t.id_product,
 		t.id_group,
 		t.id_business_card as business,
@@ -46,10 +45,7 @@ function tagsList_json($data,$mobile=false){
 		t.status,
 		t.date
 	";
-	$join="
-		JOIN users u ON u.id=t.id_user
-		LEFT JOIN tags r ON (r.id_user='$uid' AND r.source=t.source)
-	";
+	$join=" JOIN users u ON u.id=t.id_user ";
 	$order='t.id DESC';
 	if($myId!=''){//si hay usuario logeado
 		$join.=' LEFT JOIN tags_report tr ON (t.id_user=tr.id_user_report AND t.source=tr.id_tag) ';
@@ -83,7 +79,8 @@ function tagsList_json($data,$mobile=false){
 			$where.=safe_sql(' AND t.id_creator=? AND t.status=9 ',array($uid));
 		}elseif($data['current']=='favorites'){//tags favoritas de un usuario
 			$res['info']='listado de tags favoritas de un usuario -4-';
-			$where.=safe_sql(' AND t.id IN (SELECT id_source FROM likes WHERE id_user=?) AND t.status IN (1,4) ',array($uid));
+			$join.=" JOIN likes l ON t.id=l.id_source ";
+			$where.=safe_sql(' AND l.id_user=? AND t.status IN (1,4) ',array($uid));
 		}elseif($data['current']=='privateTags'){//tags privadas de un usuario
 			$res['info']='tags privadas de un usuario -5-';
 			if ($_GET['typeBox']=='outbox'||$_GET['type']=='outbox'){
@@ -121,12 +118,25 @@ function tagsList_json($data,$mobile=false){
 			$where.=safe_sql(' AND t.id_user=? AND t.status=1 ',array($uid));
 		}elseif(CON::numRows($friends)>0){//TIMELINE: si el usuario tiene amigos
 			$res['info']='timeline, y el usuario tiene amigos -15-';
-			$join.=' LEFT JOIN users_links l ON t.id_user=l.id_friend ';
-			$where.=safe_sql('
-				AND DATEDIFF(NOW(),t.date)<15
-				AND ? IN (t.id_user,l.id_user)
+			$where.='
+				AND DATEDIFF(NOW(),t.date)<10
 				AND t.status=1
-			',array($uid));
+			';
+			$sql=safe_sql("(
+				SELECT DISTINCT $select
+				FROM tags t
+				$join
+				LEFT JOIN users_links l ON t.id_user=l.id_friend
+				WHERE $where AND l.id_user=?
+			) UNION (
+				SELECT DISTINCT $select
+				FROM tags t
+				$join
+				WHERE $where AND t.id_user=?
+			)
+			ORDER BY id DESC
+			".($data['nolimit']?'':"LIMIT $start,$limit"),
+			array($uid,$uid)); //numero de registros a mostrar por consulta
 		}else{//TIMELINE: si la persona es nueva en el sistema o no tiene amigos
 			$res['info']='timeline, y la persona es nueva en el sistema o no tiene amigos -16-';
 			//verificamos que el usuario tenga tags creadas
@@ -183,9 +193,9 @@ function tagsList_json($data,$mobile=false){
 //	if($debug) echo $res['info'];
 
 	// +--------------------------------+
-	// |                                |
+	// |								|
 	// | Seleccion de tags patrocinadas |
-	// |                                |
+	// |								|
 	// +--------------------------------+
 	//Se muestran patrocinantes solo en el time line
 	if($data['current']=='timeLine'||($data['current']==''&&$data['id']=='')){
@@ -195,12 +205,13 @@ function tagsList_json($data,$mobile=false){
 		$_sponsors=sponsor_json($data,$datasponsor);
 		$res['sponsors']=$_sponsors;
 	}
-	$sql='
-		SELECT DISTINCT '.$select.'
-		FROM tags t '.$join.'
-		WHERE '.$where.'
-		ORDER BY '.$order.'
-		'.($data['nolimit']?'':'LIMIT '.$start.', '.$limit); //numero de registros a mostrar por consulta
+	if(!$sql)
+	$sql="
+		SELECT DISTINCT $select
+		FROM tags t $join
+		WHERE $where
+		ORDER BY $order
+		".($data['nolimit']?'':"LIMIT $start,$limit"); //numero de registros a mostrar por consulta
 	//Query - TimeLine
 	$res['query'][]=str_minify($sql);
 	$res['tags']=array();
@@ -236,7 +247,7 @@ function tagsList_json($data,$mobile=false){
 			if($tag['id_product']!='0'){
 				/*	sp.name as name_product,
 				md5(sp.id) as store_p_id,
-				store_products sp ON sp.id=t.id_product*/	
+				store_products sp ON sp.id=t.id_product*/
 				$name=CON::getVal("SELECT name as name_product FROM store_products WHERE id=?",array($tag['id_product']));	
 				$tag['name_product']=strtolower($name);
 				$tag['name_product']=formatoCadena($tag['name_product']);
@@ -256,10 +267,10 @@ function tagsList_json($data,$mobile=false){
 			//hastatash Tag
 			$textTop=get_hashtags($tag['text'].' '.$tag['text2'].' '.$tag['code_number']);
 			$result=count($textTop);
-            if ($result>0){
-                $textTop=explode(' ',implode(' ',$textTop));
-                $tag['hashTag']=$textTop;
-            }
+			if ($result>0){
+				$textTop=explode(' ',implode(' ',$textTop));
+				$tag['hashTag']=$textTop;
+			}
 			$tag['hashExCurrent']=$exCurrenHash;
 			$tag['video']=trim($tag['video']);
 			$headers=apache_request_headers();
@@ -288,6 +299,7 @@ function tagsList_json($data,$mobile=false){
 }
 function sponsor_json($data,$datasponsor,$_prefe=true,$noid=''){
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
+	$uid=$data['uid']==''?$myId:CON::getVal('SELECT id FROM users WHERE md5(id)=?',array(intToMd5($data['uid'])));
 	$select=$datasponsor["select"]; $order="";
 	if ($noid!='')
 		if (isset($data['sp']) && $data['sp']!='') $data['sp'].=','.$noid;
@@ -410,9 +422,8 @@ if(!$notAjax){
 	$data['date']=$_REQUEST['date'];
 	$data['limit']=$_REQUEST['limit'];
 	$data['embed']=isset($_REQUEST['embed']);
-	$data['nolimit']=isset($_REQUEST['nolimit']);
+	$data['nolimit']=isset($_POST['nolimit']);
 	$res=tagsList_json($data,isset($_REQUEST['mobile']));
 	if(!is_debug()) unset($res['info'],$res['query'],$res['request_id']);
 	die(jsonp($res));
 }
-?>
