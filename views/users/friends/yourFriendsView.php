@@ -44,17 +44,17 @@ $(document).ready(function(){
 		//Acción botones para navegación
 		$( "#radio-buttons" ).buttonset();
 		$( "#radio-buttons label" ).click( function(){
-			opc.mod = $(this).attr('for');
+			opc.mod = $(this).attr('for');$('#tab').html("");
 			$('#yourFriendsView div#tab').removeAttr('class').addClass(opc.mod);
 			$('#titleFriends').html(title[opc.mod]);
 			friendsAndF(opc);
 		});
 	}else{
-		opc.mod='find';
+		opc.mod='find';$('#tab').html("");
 		$('#txtSearchFriend').keyup(function() {
 			opc.get = $.trim($(this).val());
 			if (opc.get!="" && $(this).val().length>2)	{
-				opc.get="&search="+opc.get;
+				opc.get="&search="+opc.get;$('#tab').html("");
 				friendsAndF(opc);
 			}
 		});
@@ -62,24 +62,31 @@ $(document).ready(function(){
 	opc.find=find;
 	$('#titleFriends').html(title[opc.mod]);
 	friendsAndF(opc);
-	$('#tab').html('');
+	$('#tab').html('').on('click','#seemore',function(){
+		$(this).remove().next('div.clearfix').remove();
+		opc.get="&limit="+$("#tab .thisPeople ").length;
+		friendsAndF(opc);
+	});
 	function friendsAndF(opc){
-		$('#tab').html('<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="margin: 0 auto;display:block;">');
+		$('#tab').append('<img src="css/smt/loader.gif" id="loader" width="32" height="32" class="loader" style="margin: 0 auto;display:block;">');
 		$.ajax({
 			url: 'controls/users/people.json.php?action=friendsAndFollow&withHtml&mod='+opc.mod+opc.get,
 			type: 'POST',
 			dataType: 'json',
 			success:function(data){
+				$('#loader').remove();
 				if (data['html']){
-					$('#tab').html(data['html']);
-					if (opc.find!=0) $('#nf').html('('+data['num']+')');
-				}else{
+					$('#tab').append(data['html']);
+					if (opc.find!=0 && opc.get.indexOf("limit")==-1) $('#nf').html('('+data['num']+')');
+					if (data['datos'].length>=50) $('#tab').append('<a class="plus" id="seemore"><?=$lang["USER_BTNSEEMORE"]?></a><div class="clearfix"></div>');
+				}else if (opc.get.indexOf("limit")==-1){
 					if (opc.find==0){
 						$('#nf').html('('+0+')');
 						if (opc.get!='') $('#tab').html('<div class="messageAdver" style="width: 400px; margin: 70px auto;text-align: center;"><?=$lang["SEARCHALL_NORESULT"]?>: '+opc.get.replace('&search=','')+'</div>');
 						else $('#tab').html('<div class="messageAdver" style="width: 400px; margin: 70px auto;text-align: center;"><?=$lang["FRIENDS_NORESULTS"]?></div>');
 					}else $('#tab').html('');
 				}
+				opc.get="";
 			}
 		});
 		

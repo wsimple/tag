@@ -11,7 +11,8 @@ switch ($_GET['action']) {
 		if (!isset($_POST['uid']))	$uid=$myId;
 		else $uid=CON::getVal("SELECT id FROM users WHERE $coi=?",array($_POST['uid']));
 		if (!$uid) die(jsonp(array('error'=>'noIdValid')));
-		// if (!isset($_GET['nolimit'])) $array['limit']='LIMIT '.$_GET['limit'].',30';
+		if (!isset($_GET['nolimit'])) $array['limit']=' LIMIT '.$_GET['limit'].',50';
+		else $array['limit']="";
 		$array['select']=',IF(u.id='.$myId.',1,0) AS iAm,
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
 		$array['order']='ORDER BY u.name, u.last_name';
@@ -95,7 +96,7 @@ switch ($_GET['action']) {
 		if(!isset($res['num'])) $res['num']=CON::numRows(CON::query("SELECT ul.id_user FROM users_links ul WHERE ".$array['where']));
 		$html='';
 		if($res['num']>0){ $query=peoples($array); }
-		elseif(!isset($_GET['nosugg'])){
+		elseif(!isset($_GET['nosugg']) && (!isset($_GET['limit']))){
 			$array['order']='ORDER BY RAND()';
 			$array['join']='';
 			$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
@@ -105,7 +106,6 @@ switch ($_GET['action']) {
 			$query=peoples($array);
 			if (CON::numRows($query)>0) $html='<div class="ui-single-box-title">'.HOME_SUGGESTFRIENDS.'</div>';
 		}
-		$res['aaawww']=CON::lastSql();
 		$info=array();
 		while ($row=CON::fetchAssoc($query)){
 			$row['name_user']=formatoCadena($row['name_user']);
