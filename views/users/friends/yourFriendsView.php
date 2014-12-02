@@ -35,7 +35,8 @@
 </div>
 <script >
 $(document).ready(function(){
-	var title=new Array(),opc={mod : 'friends',get:""},find=('<?=$find?0:1?>')*1;
+	var title=new Array(),opc={mod : 'friends',get:""},find=('<?=$find?0:1?>')*1,mod='<?=$_GET[mod]?>';
+
 	title['friends'] = '<?=USER_FINDFRIENDSTITLELINKS?>';
 	title['follow'] = '<?=USER_LBLFOLLOWERS?>';
 	title['unfollow'] = '<?=USER_LBLFRIENDS?>';
@@ -44,23 +45,36 @@ $(document).ready(function(){
 		//Acción botones para navegación
 		$( "#radio-buttons" ).buttonset();
 		$( "#radio-buttons label" ).click( function(){
+
 			opc.mod = $(this).attr('for');$('#tab').html("");
+			redir('friends?sc=1&mod='+opc.mod);
 			$('#yourFriendsView div#tab').removeAttr('class').addClass(opc.mod);
 			$('#titleFriends').html(title[opc.mod]);
-			friendsAndF(opc);
+			// friendsAndF(opc);
+
 		});
+
+		$('#yourFriendsView div#tab').removeAttr('class').addClass(opc.mod);
+		$('#titleFriends').html(title[opc.mod]);
+		if (mod!='') {opc.mod = mod};
+		$( "#radio-buttons input#"+opc.mod).click();
+
 	}else{
 		opc.mod='find';$('#tab').html("");
 		$('#txtSearchFriend').keyup(function() {
 			opc.get = $.trim($(this).val());
+
 			if (opc.get!="" && $(this).val().length>2)	{
 				opc.get="&search="+opc.get;$('#tab').html("");
+
 				friendsAndF(opc);
 			}
 		});
 	}
 	opc.find=find;
 	$('#titleFriends').html(title[opc.mod]);
+
+	
 	friendsAndF(opc);
 	$('#tab').html('').on('click','#seemore',function(){
 		$(this).remove().next('div.clearfix').remove();
