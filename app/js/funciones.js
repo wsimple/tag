@@ -1076,9 +1076,8 @@ function viewFriends(opc){
 					case 'unfollow':mens=lan('EMPTY_INFO_ADMIRED');break;
 					case 'find':mens=lan('EMPTY_INFO_FIND'); break;
 				}
-				out+='<div class="emptyInfo">'+mens+'<br><br>';
-				if(opc.mod!='follow')
-					out+='<div id="findFriends" style="font-weight:bold">'+lang.FIND_FRIENDS_NOTIFICATION+'</div></div>';
+				mens+='<br><br>'+(opc.mod=='friends'||opc.mod=='unfollow'?'<div id="findFriends" style="font-weight:bold">'+lan('FIND_FRIENDS_NOTIFICATION')+'</div>':'');
+				out+='<li>'+mens+'</li>';
 			};
 
 			$(opc.layer).html(divider+out).listview('refresh');
