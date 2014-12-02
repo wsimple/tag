@@ -49,6 +49,7 @@
 			linkUser(opc.layer);
 
 			$(this.id).on('click','.ui-navbar a[opc]',function(){
+				opc.get = null;
 				opc.mod=$(this).attr('opc');
 				viewFriends('refresh',opc);
 				$('.list-content input').val('');
