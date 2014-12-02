@@ -62,6 +62,7 @@ switch ($_GET['action']) {
 						$array['limit']='LIMIT 0,20';
 					}
 				}
+				$filter='';
 				if($_POST['in']){#filtrar inclusion
 					$data=$_POST['in'];
 					$emails=0;$phones=0;
@@ -81,11 +82,13 @@ switch ($_GET['action']) {
 						}
 						$phones=implode(' OR ', $phones);
 					}
-					$array['where'].=" AND ($emails OR $phones) ";
+					$filter.=" AND ($emails OR $phones) ";
+					$array['where'].=$filter;
 				}
-				if($_POST['not_in']){#filtrar exclusion
-					$data=$_POST['not_in'];
-				}
+				// if($_POST['not_in']){#filtrar exclusion
+				// 	$filter=true;
+				// 	$data=$_POST['not_in'];
+				// }
 				$res['num']=1;
 			break;
 		}
@@ -112,6 +115,18 @@ switch ($_GET['action']) {
 		}
 		$res['datos']=$info;
 		if ($html!='') $res['html']=$html;
+
+		if($filter){//si hay filtro, devolvemos tambien los usuarios ya registrados
+			$query=CON::query("SELECT u.email,u.home_phone,u.mobile_phone,u.work_phone FROM users AS u WHERE 1 $filter");
+			$reg=array('emails'=>array(),'phones'=>array());
+			while($row=CON::fetchObject($query)){
+				$reg['emails'][]=$row->email;
+				if(($phone=preg_replace('/^0+|\D/','',$row->home_phone))!='')	$reg['phones'][]=$phone;
+				if(($phone=preg_replace('/^0+|\D/','',$row->mobile_phone))!='')	$reg['phones'][]=$phone;
+				if(($phone=preg_replace('/^0+|\D/','',$row->work_phone))!='')	$reg['phones'][]=$phone;
+			}
+			$res['registered']=$reg;
+		}
 	break;
 	case 'usersLikesTags': //likes dislikes and Raffle participants
 		if (!isset($_GET['t']) || !isset($_GET['s'])) die(jsonp(array()));
@@ -230,6 +245,8 @@ switch ($_GET['action']) {
 }
 die(jsonp($res));
 
+
+//---------- funciones ----------//
 function htmlfriends($row,$numAction=1){
 	$foto=$row['photo_friend'];
 	$width=!isset($_GET['w'])?'width:450px;':'width:'.$_GET['w'].'px;';
@@ -293,5 +310,3 @@ function actionGroupMembers($row){
 	}
 	return $body.'</div>';
 }
-
-?>
