@@ -4971,7 +4971,7 @@ container #pageNews .news-wrapper #news-here div[tipo="29"]{
 }
 .divYourFriendsSuggest{
 	padding-left:7px;
-	height:40px;
+	height:54px;
 }
 .divYourFriendsSuggest .divYourFriendsSuggestPhoto{
 	float:left;
@@ -5751,7 +5751,7 @@ container #pageNews .news-wrapper #news-here div[tipo="29"]{
 .right-panel .side-box>header span{ right:0;margin-left:10px; }
 .right-panel .side-box .suggest-friends{
 	overflow: hidden;
-	height: 218px;
+	height: 228px;
 }
 .side-box.menu{
 	color:#71cbe9;
