@@ -5,23 +5,18 @@
 
 	if (quitar_inyect()){
 		include('../../includes/functions_mails.php');
-
+		$myId=$myId?$myId:$_SESSION['ws-tags']['ws-user']['id'];
 		$tag=CON::getRow("SELECT id,id_user,status FROM tags WHERE md5(id)=?",array(intToMd5($_GET['tag'])));
 		switch($_GET['action']){
 			case 3://redistribute
 				//getting tag source
-				$_sourceTag=$GLOBALS['cn']->query('SELECT source, CONCAT(t.text," ",t.text2," ",t.code_number) AS text FROM tags WHERE id="'.$tag['id'].'"');
-				$_sourceTag=mysql_fetch_assoc($_sourceTag);
-				$_sourceTag=$_sourceTag['source'];
+				$_sourceTag=CON::getRow("SELECT source,id_creator, CONCAT(text,' ',text2,' ',code_number) AS text FROM tags WHERE id=?",array($tag['id']));
 
 				//Toma redistribuciones de tags como trending toping
 				set_trending_topings($_sourceTag['text'],true);
 
-				$_valRedist=$GLOBALS['cn']->query('
-					SELECT id FROM tags
-					WHERE id_creator!=id_user AND id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'" AND source="'.$_sourceTag.'"
-				');
-				if(mysql_num_rows($_valRedist)<=0){
+				if($tag['id_user']!=$myId && !CON::getVal("SELECT id FROM tags
+					WHERE id_creator!=id_user AND id_user=? AND source=?",array($myId,$_sourceTag['source']))){
 					//Tabla Tags
 					$atributes='
 						id_user,			id_creator,	id_product,		background,
@@ -30,45 +25,28 @@
 						profile_img_url,	video_url,	date,			status,
 						points,				source,		id_business_card
 					';
-					//nuevo tag
-					$validatex	= $GLOBALS['cn']->query("SELECT	id
-														FROM	tags
-														WHERE	id_user	= '".$_SESSION['ws-tags']['ws-user']['id']."' AND
-																source	= '".$tag['id']."'");
-					if( mysql_num_rows($validatex)==0 ) {
-						incPoints(8,$tag['id'],$tag['id_user'],$_SESSION['ws-tags']['ws-user']['id']); //incremento de hits a la tag que se recibe
-						incHitsTag($tag['id']);
-						$insert = $GLOBALS['cn']->query("INSERT INTO tags ($atributes)
-																SELECT	 $atributes
-																FROM tags
-																WHERE id = '".$tag['id']."'");
-						$idTag=mysql_insert_id();
-						createTag($idTag);
-						//act dueño tag
-						$update=$GLOBALS['cn']->query("UPDATE tags SET id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' WHERE id = '".$idTag."'");
-						//selecion el id_user de la tag redistribuida
-						$select_id=$GLOBALS['cn']->query("SELECT id_creator, id_user FROM tags WHERE id = '".$idTag."'");
-						$idUserRedis=mysql_fetch_assoc($select_id);
-						//notificacion de redistribucion - envio de correo
-						notifications($idUserRedis[id_creator],$tag['id'],8);
-						// adding user's points
-								$points	= getTagPoints($_sourceTag);
-								updateUserCounters($_SESSION['ws-tags']['ws-user']['id'],	'accumulated_points',	$points,	'+');
-								updateUserCounters($_SESSION['ws-tags']['ws-user']['id'],	'current_points',		$points,	'+');
-						// END - adding user's points
-						// $msgBox='<img src="img/re-distribuirTag.png" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" />';
-						// $msgBox = $t;
-					}else{//validacion de solo una redistribucion
-						$msgBox = '&nbsp;';
-					}
-				}else{
-					$msgBox = '<img src="img/re-distribuirTag.png" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" />';
-				}
+					incPoints(8,$tag['id'],$tag['id_user'],$myId); //incremento de hits a la tag que se recibe
+					incHitsTag($tag['id']);
+					CON::query("INSERT INTO tags ($atributes)
+											SELECT	 $atributes
+											FROM tags
+											WHERE id =?",array($tag['id']));
+					$idTag=mysqli_insert_id(CON::con());
+					createTag($idTag);
+					//act dueño tag
+					CON::update("tags","id_user=?"," id=?",array($myId,$idTag));
+					
+					//notificacion de redistribucion - envio de correo
+					notifications($_sourceTag["id_creator"],$tag['id'],8);
+					
+					// adding user's points
+					$points	= getTagPoints($_sourceTag['source']);
+					CON::update("users","accumulated_points=?,current_points=?","id=?",array($points,$points,$myId));
+				}else $msgBox = '<img src="img/re-distribuirTag.png" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" />';
 			break;
 			// END - redistribute (3)
 			// likes  (4)
 			case 4: //add favorite
-				$myId=$myId?$myId:$_SESSION['ws-tags']['ws-user']['id'];
 				if (!CON::getVal("SELECT id FROM likes WHERE id_source=? AND id_user=?",array($tag['id'],$myId))){
 						CON::insert("likes","id_user=?,id_source=?,date=NOW()",array($myId,$tag['id']));
 						CON::delete("dislikes","id_user=? AND id_source=?",array($myId,$tag['id']));
@@ -283,7 +261,6 @@
 				break; //share
 				//delete
 				case 6:
-					$myId = $_SESSION['ws-tags']['ws-user']['id'];
 					if(isset($_REQUEST['url'])){
 						$idcre=CON::getVal("SELECT id_creator FROM tags WHERE id=?",array($tag['id']));
 						CON::update("tags","status='2'","id=? AND source =? AND id_creator=? AND status='10' ",array($tag['id'],$tag['id'],$idcre));
@@ -524,7 +501,6 @@
 					//echo PUBLICITY_MSGSUCCESSFULLY;
 			   break;//case 10
 			   case 11://add dislikes
-					$myId=$myId?$myId:$_SESSION['ws-tags']['ws-user']['id'];
 					if (!CON::getVal("SELECT id FROM dislikes WHERE id_source=? AND id_user=?",array($tag['id'],$myId))){
 							CON::insert("dislikes","id_user=?,id_source=?,date=NOW()",array($myId,$tag['id']));
 							CON::delete("likes","id_user=? AND id_source=?",array($myId,$tag['id']));
