@@ -29,40 +29,31 @@ function tagsList_json($data,$mobile=false){
 	$limit=(is_numeric($data['limit'])?intval($data['limit']):5);
 	$sqlUid=isset($_GET['this_is_app'])?'md5(concat(t.id_creator,"_",(SELECT tu.email FROM users tu WHERE tu.id=t.id_creator),"_",t.id_creator))':'md5(t.id_creator)';
 	$sqlUid2=isset($_GET['this_is_app'])?'md5(concat(t.id_user,"_",u.email,"_",t.id_user))':'md5(t.id_user)';
-	$select='
+	$select="
 		t.id,
 		t.source,
 		t.id_creator,
-		'.$sqlUid.' as uid,
+		$sqlUid as uid,
 		t.id_user,
-		t.text,
-		t.text2,
-		t.code_number,
-		'.$sqlUid2.' as rid,
+		$sqlUid2 as rid,
 		u.screen_name as uname,
-		(t.id=(SELECT DISTINCT source FROM tags WHERE id!=t.id AND (source=t.id OR source=t.source) AND id_user="'.$myId.'")) as redist,
-		SUM(th.hits) AS hits,
-		SUM(th.hits) AS top,
+		r.id IS NOT NULL as redist,
 		t.id_product,
-		up.id as sponsor,
-		sp.name as name_product,
-		md5(sp.id) as store_p_id,
 		t.id_group,
 		t.id_business_card as business,
 		t.video_url		as video,
 		unix_timestamp(t.date) AS udate,
 		t.status,
 		t.date
-	';
-	$join='
+	";
+	$join="
 		JOIN users u ON u.id=t.id_user
-		LEFT JOIN store_products sp ON sp.id=t.id_product
-		LEFT JOIN users_publicity up ON up.id_tag = t.id
-		LEFT JOIN tags_hits th ON th.id_tag=t.id
-	';
+		LEFT JOIN tags r ON (r.id_user='$uid' AND r.source=t.source)
+	";
 	$order='t.id DESC';
 	if($myId!=''){//si hay usuario logeado
-		$where=' t.source NOT IN (SELECT id_tag FROM tags_report WHERE id_user_report="'.$myId.'") ';//AND status = "8") ';
+		$join.=' LEFT JOIN tags_report tr ON (t.id_user=tr.id_user_report AND t.source=tr.id_tag) ';
+		$where=' tr.id_tag IS NULL ';
 		if($res['date']!='') $where.=' AND t.date'.($refresh?'>':'<=').'"'.$res['date'].'" ';
 		//amigos
 		$friends=CON::query('SELECT id_user FROM users_links WHERE id_user = ?',array($uid));
@@ -120,6 +111,8 @@ function tagsList_json($data,$mobile=false){
 			}
 			$where .= ' AND th.hits !=0 AND t.status=1 ';
 			$order='top DESC';
+			$join.='LEFT JOIN tags_hits th ON th.id_tag=t.id';
+			$select.=',SUM(th.hits) AS hits,SUM(th.hits) AS top';
 		}elseif($data['current']=='personalTags'||$data['current']=='personal'){//tag personales de un usuario
 			$res['info']='tag personales de un usuario -9-';
 			$where.=safe_sql(' AND t.id_creator=? AND t.status=9 ',array($uid));
@@ -153,7 +146,7 @@ function tagsList_json($data,$mobile=false){
 		//listado de tag del usuario de session (logeado)
 		}
 	}else{
-		$where='t.id IS NOT NULL ';
+		$where=' 1 ';
 		if($res['date']!='') $where.=' AND t.date'.($refresh?'>':'<=').'"'.$res['date'].'" ';
 		if($data['id']!='' && $data['current']==''){//una tag especifica
 			$res['info']='se retorna una sola tag -21-';
@@ -206,7 +199,6 @@ function tagsList_json($data,$mobile=false){
 		SELECT DISTINCT '.$select.'
 		FROM tags t '.$join.'
 		WHERE '.$where.'
-		GROUP BY t.id
 		ORDER BY '.$order.'
 		'.($data['nolimit']?'':'LIMIT '.$start.', '.$limit); //numero de registros a mostrar por consulta
 	//Query - TimeLine
@@ -240,15 +232,19 @@ function tagsList_json($data,$mobile=false){
 				unset($tag['uname']);
 			}
 			if($data['popup']) $tag['popup']=true;
-			if($tag['sponsor']==null || ($tag['id_creator']!=$myId && $tag['id_user']!=$myId)) unset($tag['sponsor']);
+			// if($tag['sponsor']==null || ($tag['id_creator']!=$myId && $tag['id_user']!=$myId)) unset($tag['sponsor']);
 			if($tag['id_product']!='0'){
-				$tag['name_product']=strtolower($tag['name_product']);
+				/*	sp.name as name_product,
+				md5(sp.id) as store_p_id,
+				store_products sp ON sp.id=t.id_product*/	
+				$name=CON::getVal("SELECT name as name_product FROM store_products WHERE id=?",array($tag['id_product']));	
+				$tag['name_product']=strtolower($name);
 				$tag['name_product']=formatoCadena($tag['name_product']);
 				$product=array(
 					'id'	=> md5($tag['id_product']),
 					'name'	=> $tag['name_product'],
-					'url'	=> DOMINIO.'detailprod?prd='.$tag['store_p_id'],
-					'app'	=> DOMINIO.'app/detailsProduct.php?id='.$tag['store_p_id']
+					'url'	=> DOMINIO.'detailprod?prd='.md5($tag['id_product']),
+					'app'	=> DOMINIO.'app/detailsProduct.php?id='.md5($tag['id_product'])
 				);
 				$product['qr']=$PNG_WEB_DIR.md5($product['url'].'|L|2').'.png';
 				QRcode::png($product['app'],RELPATH.$product['qr'],'L',2,2);
@@ -323,13 +319,11 @@ function sponsor_json($data,$datasponsor,$_prefe=true,$noid=''){
 				$select
 			FROM tags t
 			JOIN users u ON u.id=t.id_user
-			LEFT JOIN store_products sp ON sp.id=t.id_product
 			LEFT JOIN users_publicity up ON up.id_tag = t.id
-			LEFT JOIN tags_hits th ON th.id_tag=t.id
 			WHERE up.status = '1'
 			AND up.click_max >= up.click_current
 			AND up.id_type_publicity = '4' $likes $noId
-		GROUP BY t.id $order $limit");
+		$order $limit");
 	$info=array();$coma='';
 	while ($row=CON::fetchAssoc($query)) {
 		$row['uname']=ucwords($row['uname']);
@@ -345,13 +339,17 @@ function sponsor_json($data,$datasponsor,$_prefe=true,$noid=''){
 			unset($row['uname']);
 		}
 		if($row['id_product']!='0'){
+			$name=CON::getVal("SELECT name as name_product FROM store_products WHERE id=?",array($row['id_product']));	
+			$row['name_product']=strtolower($name);
+			$row['name_product']=formatoCadena($row['name_product']);
 			$product=array(
 				'id'	=> md5($row['id_product']),
 				'name'	=> $row['name_product'],
-				'url'	=> DOMINIO.'#detailprod?prd='.$row['store_p_id']
+				'url'	=> DOMINIO.'detailprod?prd='.md5($row['id_product']),
+				'app'	=> DOMINIO.'app/detailsProduct.php?id='.md5($row['id_product'])
 			);
 			$product['qr']=$PNG_WEB_DIR.md5($product['url'].'|L|2').'.png';
-			QRcode::png($product['url'], RELPATH.$product['qr'], 'L', 2, 2);
+			QRcode::png($product['app'],RELPATH.$product['qr'],'L',2,2);
 			$row['product']=$product;
 		}
 		unset($row['id_product']);
@@ -414,7 +412,7 @@ if(!$notAjax){
 	$data['embed']=isset($_REQUEST['embed']);
 	$data['nolimit']=isset($_REQUEST['nolimit']);
 	$res=tagsList_json($data,isset($_REQUEST['mobile']));
-	if(!$debug) unset($res['info'],$res['query'],$res['request_id']);
+	if(!is_debug()) unset($res['info'],$res['query'],$res['request_id']);
 	die(jsonp($res));
 }
 ?>
