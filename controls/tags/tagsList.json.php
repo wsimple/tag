@@ -35,15 +35,9 @@ function tagsList_json($data,$mobile=false){
 		t.id_creator,
 		'.$sqlUid.' as uid,
 		t.id_user,
-		t.text,
-		t.text2,
-		t.code_number,
 		'.$sqlUid2.' as rid,
-		u.screen_name as uname,
 		(t.id=(SELECT DISTINCT source FROM tags WHERE id!=t.id AND (source=t.id OR source=t.source) AND id_user="'.$myId.'")) as redist,
 		t.id_product,
-		sp.name as name_product,
-		md5(sp.id) as store_p_id,
 		t.id_group,
 		t.id_business_card as business,
 		t.video_url		as video,
@@ -51,10 +45,7 @@ function tagsList_json($data,$mobile=false){
 		t.status,
 		t.date
 	';
-	$join='
-		JOIN users u ON u.id=t.id_user
-		LEFT JOIN store_products sp ON sp.id=t.id_product		
-	';
+	$join='JOIN users u ON u.id=t.id_user';
 	$order='t.id DESC';
 	if($myId!=''){//si hay usuario logeado
 		$where=' t.source NOT IN (SELECT id_tag FROM tags_report WHERE id_user_report="'.$myId.'") ';//AND status = "8") ';
@@ -239,13 +230,17 @@ function tagsList_json($data,$mobile=false){
 			if($data['popup']) $tag['popup']=true;
 			// if($tag['sponsor']==null || ($tag['id_creator']!=$myId && $tag['id_user']!=$myId)) unset($tag['sponsor']);
 			if($tag['id_product']!='0'){
-				$tag['name_product']=strtolower($tag['name_product']);
+				/*	sp.name as name_product,
+				md5(sp.id) as store_p_id,
+				store_products sp ON sp.id=t.id_product*/	
+				$name=CON::getVal("SELECT name as name_product FROM store_products WHERE id=?",array($tag['id_product']));	
+				$tag['name_product']=strtolower($name);
 				$tag['name_product']=formatoCadena($tag['name_product']);
 				$product=array(
 					'id'	=> md5($tag['id_product']),
 					'name'	=> $tag['name_product'],
-					'url'	=> DOMINIO.'detailprod?prd='.$tag['store_p_id'],
-					'app'	=> DOMINIO.'app/detailsProduct.php?id='.$tag['store_p_id']
+					'url'	=> DOMINIO.'detailprod?prd='.md5($tag['id_product']),
+					'app'	=> DOMINIO.'app/detailsProduct.php?id='.md5($tag['id_product'])
 				);
 				$product['qr']=$PNG_WEB_DIR.md5($product['url'].'|L|2').'.png';
 				QRcode::png($product['app'],RELPATH.$product['qr'],'L',2,2);
@@ -320,9 +315,7 @@ function sponsor_json($data,$datasponsor,$_prefe=true,$noid=''){
 				$select
 			FROM tags t
 			JOIN users u ON u.id=t.id_user
-			LEFT JOIN store_products sp ON sp.id=t.id_product
 			LEFT JOIN users_publicity up ON up.id_tag = t.id
-			LEFT JOIN tags_hits th ON th.id_tag=t.id
 			WHERE up.status = '1'
 			AND up.click_max >= up.click_current
 			AND up.id_type_publicity = '4' $likes $noId
@@ -342,13 +335,17 @@ function sponsor_json($data,$datasponsor,$_prefe=true,$noid=''){
 			unset($row['uname']);
 		}
 		if($row['id_product']!='0'){
+			$name=CON::getVal("SELECT name as name_product FROM store_products WHERE id=?",array($row['id_product']));	
+			$row['name_product']=strtolower($name);
+			$row['name_product']=formatoCadena($row['name_product']);
 			$product=array(
 				'id'	=> md5($row['id_product']),
 				'name'	=> $row['name_product'],
-				'url'	=> DOMINIO.'#detailprod?prd='.$row['store_p_id']
+				'url'	=> DOMINIO.'detailprod?prd='.md5($row['id_product']),
+				'app'	=> DOMINIO.'app/detailsProduct.php?id='.md5($row['id_product'])
 			);
 			$product['qr']=$PNG_WEB_DIR.md5($product['url'].'|L|2').'.png';
-			QRcode::png($product['url'], RELPATH.$product['qr'], 'L', 2, 2);
+			QRcode::png($product['app'],RELPATH.$product['qr'],'L',2,2);
 			$row['product']=$product;
 		}
 		unset($row['id_product']);
