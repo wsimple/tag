@@ -297,7 +297,7 @@ function infoextra($row){
 function linkAndUnlink($row,$numAction){
 	return ('<div style="height:70px; width:0px;float: right; text-align: right;">
 	            <input type="button" value="'.USER_BTNLINK.'" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['conocido']?'style="display:none"':'').'/>					
-				<input type="button" value="'.USER_BTNUNLINK.'" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['conocido']?'':'style="display:none"').' />
+				<input type="button" value="'.USER_BTNUNLINK.'" class="btn btn-disabled" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['conocido']?'':'style="display:none"').' />
 	        </div>');
 }
 function actionGroupMembers($row){

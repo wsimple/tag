@@ -3275,7 +3275,7 @@ function bodyfriends(friends,Link,unLink){
 		+		'</div>'
 		+		'<div style="height:70px; width:0px; float: right; text-align: right;">'
 		+			'<input style="margin-top: 20px;font-size:10px;'+Link+'" type="button" value="<?=$lang["USER_BTNLINK"]?>" action="linkUser,'+md5(friends['id_friend'])+',2" />'
-		+			'<input style="margin-top: 20px;font-size:10px;'+unLink+'" type="button" value="<?=$lang["USER_BTNUNLINK"]?>" action="linkUser,'+md5(friends['id_friend'])+',2" />'
+		+			'<input style="margin-top: 20px;font-size:10px;'+unLink+'" type="button" value="<?=$lang["USER_BTNUNLINK"]?>" action="linkUser,'+md5(friends['id_friend'])+',2" class="btn btn-disabled" />'
 		+		'</div>'
 		+	'</div>'
 		+	'<div class="clearfix"></div>'
