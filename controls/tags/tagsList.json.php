@@ -28,7 +28,7 @@ function tagsList_json($data,$mobile=false){
 	$start=intval($data['start']);
 	$limit=(is_numeric($data['limit'])?intval($data['limit']):5);
 	$sqlUid=isset($_GET['this_is_app'])?'md5(concat(t.id_creator,"_",(SELECT tu.email FROM users tu WHERE tu.id=t.id_creator),"_",t.id_creator))':'md5(t.id_creator)';
-	$sqlUid2=isset($_GET['this_is_app'])?'md5(concat(t.id_user,"_",u.email,"_",t.id_user))':'md5(t.id_user)';
+	$sqlUid2=isset($_GET['this_is_app'])?'md5(concat(t.id_user,"_",(SELECT tu.email FROM users tu WHERE tu.id=t.id_user),"_",t.id_user))':'md5(t.id_user)';
 	$select='
 		t.id,
 		t.source,
@@ -45,7 +45,7 @@ function tagsList_json($data,$mobile=false){
 		t.status,
 		t.date
 	';
-	$join='JOIN users u ON u.id=t.id_user';
+	$join='';
 	$order='t.id DESC';
 	if($myId!=''){//si hay usuario logeado
 		$where=' t.source NOT IN (SELECT id_tag FROM tags_report WHERE id_user_report="'.$myId.'") ';//AND status = "8") ';
@@ -314,7 +314,6 @@ function sponsor_json($data,$datasponsor,$_prefe=true,$noid=''){
 				md5(up.id) as id_publicidad,
 				$select
 			FROM tags t
-			JOIN users u ON u.id=t.id_user
 			LEFT JOIN users_publicity up ON up.id_tag = t.id
 			WHERE up.status = '1'
 			AND up.click_max >= up.click_current
