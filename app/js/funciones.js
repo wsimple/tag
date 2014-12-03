@@ -1248,6 +1248,7 @@ function login(opc){
 					myDialog('#log-msg',lan('CON_ERROR'));
 			},
 			success:function(data){
+				// console.log(data);
 				if(data&&data.logged){
 					isLogged(true);
 					setAllLocals(data);
