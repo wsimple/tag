@@ -29,15 +29,15 @@ function tagsList_json($data,$mobile=false){
 	$limit=(is_numeric($data['limit'])?intval($data['limit']):5);
 	$sqlUid=isset($_GET['this_is_app'])?'md5(concat(t.id_creator,"_",(SELECT tu.email FROM users tu WHERE tu.id=t.id_creator),"_",t.id_creator))':'md5(t.id_creator)';
 	$sqlUid2=isset($_GET['this_is_app'])?'md5(concat(t.id_user,"_",u.email,"_",t.id_user))':'md5(t.id_user)';
-	$select='
+	$select="
 		t.id,
 		t.source,
 		t.id_creator,
-		'.$sqlUid.' as uid,
+		$sqlUid as uid,
 		t.id_user,
-		'.$sqlUid2.' as rid,
+		$sqlUid2 as rid,
 		u.screen_name as uname,
-		(t.id=(SELECT DISTINCT source FROM tags WHERE id!=t.id AND (source=t.id OR source=t.source) AND id_user="'.$myId.'")) as redist,
+		r.id IS NOT NULL as redist,
 		t.id_product,
 		t.id_group,
 		t.id_business_card as business,
@@ -45,8 +45,11 @@ function tagsList_json($data,$mobile=false){
 		unix_timestamp(t.date) AS udate,
 		t.status,
 		t.date
-	';
-	$join='JOIN users u ON u.id=t.id_user';
+	";
+	$join="
+		JOIN users u ON u.id=t.id_user
+		LEFT JOIN tags r ON (r.id_user="$uid" AND r.source=t.source)
+	";
 	$order='t.id DESC';
 	if($myId!=''){//si hay usuario logeado
 		$join.=' LEFT JOIN tags_report tr ON (t.id_user=tr.id_user_report AND t.source=tr.id_tag) ';
