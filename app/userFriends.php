@@ -49,8 +49,10 @@
 			linkUser(opc.layer);
 
 			$(this.id).on('click','.ui-navbar a[opc]',function(){
+				opc.get = null;
 				opc.mod=$(this).attr('opc');
 				viewFriends('refresh',opc);
+				$wrapper.jScroll('refresh');
 				$('.list-content input').val('');
 			});
 			viewFriends('refresh',opc);
@@ -58,7 +60,6 @@
 			$wrapper.ptrScroll({
 				onPullUp:function(){
 					opc.get = '&limit='+(page*i++);
-					console.log(opc.get)
 					var response = viewFriends('more',opc);
 					if (!response) {
 						$wrapper.jScroll('refresh');
