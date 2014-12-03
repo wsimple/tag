@@ -48,7 +48,7 @@ function tagsList_json($data,$mobile=false){
 	";
 	$join="
 		JOIN users u ON u.id=t.id_user
-		LEFT JOIN tags r ON (r.id_user="$uid" AND r.source=t.source)
+		LEFT JOIN tags r ON (r.id_user='$uid' AND r.source=t.source)
 	";
 	$order='t.id DESC';
 	if($myId!=''){//si hay usuario logeado
