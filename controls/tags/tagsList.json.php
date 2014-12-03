@@ -49,7 +49,9 @@ function tagsList_json($data,$mobile=false){
 	$join='JOIN users u ON u.id=t.id_user';
 	$order='t.id DESC';
 	if($myId!=''){//si hay usuario logeado
-		$where=' t.source NOT IN (SELECT id_tag FROM tags_report WHERE id_user_report="'.$myId.'") ';//AND status = "8") ';
+		// $where=' t.source NOT IN (SELECT id_tag FROM tags_report WHERE id_user_report="'.$myId.'") ';
+		$join.=' LEFT JOIN tags_report tr ON (t.id_user=tr.id_user_report AND t.source=tr.id_tag) ';
+		$where=' tr.id_tag IS NULL ';
 		if($res['date']!='') $where.=' AND t.date'.($refresh?'>':'<=').'"'.$res['date'].'" ';
 		//amigos
 		$friends=CON::query('SELECT id_user FROM users_links WHERE id_user = ?',array($uid));
@@ -142,7 +144,7 @@ function tagsList_json($data,$mobile=false){
 		//listado de tag del usuario de session (logeado)
 		}
 	}else{
-		$where='t.id IS NOT NULL ';
+		$where=' 1 ';
 		if($res['date']!='') $where.=' AND t.date'.($refresh?'>':'<=').'"'.$res['date'].'" ';
 		if($data['id']!='' && $data['current']==''){//una tag especifica
 			$res['info']='se retorna una sola tag -21-';
