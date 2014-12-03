@@ -79,7 +79,7 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 			<?php if (!$edit && $logged){ ?>
 			<div id="userProfileDialog" style="float:right; margin-top: 43px">
 				<input type="button" <?=$obj->follower?'style="display:none;"':''?> action="linkUser,<?=md5($obj->id)?>" value="<?=$lang["USER_BTNLINK"]?>"/>
-				<input type="button" <?=$obj->follower?'':'style="display:none;"'?>  action="linkUser,<?=md5($obj->id)?>" value="<?=$lang["USER_BTNUNLINK"]?>"/>
+				<input type="button" <?=$obj->follower?'':'style="display:none;"'?>  action="linkUser,<?=md5($obj->id)?>" value="<?=$lang["USER_BTNUNLINK"]?>" class="btn btn-disabled"/>
 			</div>
 			<?php } ?>
 			<div id="coverExternalProfile">

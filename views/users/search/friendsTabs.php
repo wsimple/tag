@@ -36,7 +36,7 @@ while($friend=mysql_fetch_assoc($friendsAll)):
 			</div>
 			<div class="btnFriendsSearch" style="height:70px;width:0px;float:right;text-align:right;">
 				<input style="margin-top:20px;<?=$follower?'display:none;':''?>" name="btn_link_<?=md5($friend['id_friend'])?>" id="btn_link_<?=md5($friend['id_friend'])?>" type="button" value="<?=USER_BTNLINK?>" action="linkUser,,<?=md5($friend['id_friend'])?>" />
-				<input style="margin-top:20px;<?=$follower?'':'display:none;'?>" name="btn_unlink_<?=md5($friend['id_friend'])?>" id="btn_unlink_<?=md5($friend['id_friend'])?>" type="button" value="<?=USER_BTNUNLINK?>" action="linkUser,,<?=md5($friend['id_friend'])?>,animate" />
+				<input style="margin-top:20px;<?=$follower?'':'display:none;'?>" name="btn_unlink_<?=md5($friend['id_friend'])?>" id="btn_unlink_<?=md5($friend['id_friend'])?>" type="button" value="<?=USER_BTNUNLINK?>" action="linkUser,,<?=md5($friend['id_friend'])?>,animate" class="btn btn-disabled"/>
 			</div>
 		</div>
 		<div class="clearfix"></div>
