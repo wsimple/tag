@@ -408,7 +408,7 @@ if(!$notAjax){
 	$data['embed']=isset($_REQUEST['embed']);
 	$data['nolimit']=isset($_REQUEST['nolimit']);
 	$res=tagsList_json($data,isset($_REQUEST['mobile']));
-	if(!$debug) unset($res['info'],$res['query'],$res['request_id']);
+	if(!is_debug()) unset($res['info'],$res['query'],$res['request_id']);
 	die(jsonp($res));
 }
 ?>
