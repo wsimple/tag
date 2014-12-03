@@ -33,7 +33,6 @@
 		},
 		after:function(){
 			$('#page-friendUser .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
-			console.log($_GET['type']);
 			var opc={layer:'#friendsList',mod:$_GET['type']||'friends',get:"",user:$_GET['id_user']||''},
 			$wrapper=$('#pd-wrapper',this.id);
 
@@ -51,21 +50,22 @@
 
 			$(this.id).on('click','.ui-navbar a[opc]',function(){
 				opc.mod=$(this).attr('opc');
-				viewFriends(opc);
+				viewFriends('refresh',opc);
 				$('.list-content input').val('');
 			});
-			viewFriends(opc);
-			console.log(opc)
+			viewFriends('refresh',opc);
+			var i = 1, page = 50;
 			$wrapper.ptrScroll({
 				onPullUp:function(){
-					opc.get = '&limit=50';
-					var response = viewFriends(opc);
+					opc.get = '&limit='+(page*i++);
+					console.log(opc.get)
+					var response = viewFriends('more',opc);
 					if (!response) {
 						$wrapper.jScroll('refresh');
 					}
 				},
 				onReload:function(){
-					viewFriends(opc);
+					viewFriends('refresh',opc);
 				}
 			});
 		}
