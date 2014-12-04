@@ -64,7 +64,7 @@ if ( quitar_inyect() ){
 				$emailUserSend = mysql_fetch_assoc($query);
 				if($emailUserSend['email']!=''){ $sendDataPublicity = $emailUserSend['id'];}
                 else{ $sendDataPublicity = $emailUserSend['email'].'|'.$_GET['grp']; }
-				$linkGroup = base_url('groupsDetails?grp='.$_GET['grp']);
+				$linkGroup = DOMINIO.base_url('groupsDetails?grp='.$_GET['grp']);
 
                 //cuerpo del email
 				$body  = '

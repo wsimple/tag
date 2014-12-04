@@ -38,10 +38,6 @@
 					
 					//notificacion de redistribucion - envio de correo
 					notifications($_sourceTag["id_creator"],$tag['id'],8);
-					
-					// adding user's points
-					$points	= getTagPoints($_sourceTag['source']);
-					CON::update("users","accumulated_points=?,current_points=?","id=?",array($points,$points,$myId));
 				}else $msgBox = '<img src="img/re-distribuirTag.png" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" />';
 			break;
 			// END - redistribute (3)
