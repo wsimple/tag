@@ -1097,7 +1097,10 @@ function viewFriends(method, opc){
 		}
 	});
 }
-function linkUser(layer){
+function linkUser(layer,$wrapper){
+	var footerPos = $('#friendsFooter').offset().top,//Para posicion del elemento
+		footerHeight = $('#friendsFooter').height();
+
 	$(layer).on('click','[userlink]',function(){
 		var id=$(this).attr('userlink'),type=$(this).attr('type'),obj=this;
 		myAjax({
@@ -1121,10 +1124,25 @@ function linkUser(layer){
 				}
 			}
 		});
-	}).on('click','[thisshow]',function(){
+	}).on('click','[thisshow]',function(e){
 		$('[thishide]',layer).removeAttr("thishide").attr("thisshow","1").next('li').hide();
 		$(this).removeAttr("thisshow").attr("thishide","1").next("li").show();
-		$('.list-wrapper').jScroll('refresh');
+		console.log('Posicion del click:'+e.pageY)
+		if ($wrapper) {
+			var eleHeight = $(this).height();
+			var broHeight = $(this).next().height();
+			var total = e.pageY-footerPos+eleHeight+broHeight;
+			console.log('total:'+total,e);
+			if (total > 0 ) {
+				$wrapper.jScroll(function(){
+					console.log(this)
+					this.scrollTo(0,total,100,true);
+				}).jScroll('refresh');	
+			};
+			
+		}else{
+			$('.list-wrapper').jScroll('refresh');
+		}
 	}).on('click','[thishide]',function(){
 		$(this).removeAttr("thishide").attr("thisshow","1").next("li").hide();
 		$('.list-wrapper').jScroll('refresh');
