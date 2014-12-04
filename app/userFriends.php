@@ -33,7 +33,7 @@
 		},
 		after:function(){
 			$('#page-friendUser .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
-			var pag=1,perpag=20,opc={layer:'#friendsList',mod:$_GET['type']||'friends',get:'&offset='+perpag,user:$_GET['id_user']||''},$wrapper=$('#pd-wrapper',this.id);
+			var $wrapper=$('#pd-wrapper',this.id), pag=1,perpag=20,opc={wrapper: $wrapper, layer:'#friendsList',mod:$_GET['type']||'friends',get:'&offset='+perpag,user:$_GET['id_user']||''};
 
 			$('#friendsFooter li a[opc='+$_GET['type']+']').addClass('ui-btn-active'); //Estilo de li activo
 			// $(opc.layer).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
@@ -47,14 +47,17 @@
 			});
 
 			linkUser(opc.layer);
+			viewFriends('refresh',opc);
+			
 			$(this.id).on('click','.ui-navbar a[opc]',function(){
 				opc.get='&offset='+perpag;
 				opc.mod=$(this).attr('opc');
+				$wrapper.jScroll(function(){
+					this.scrollTo(0,0,100);
+				});
 				viewFriends('refresh',opc);
-				$wrapper.jScroll('refresh');
 				$('.list-content input').val('');
 			});
-			viewFriends('refresh',opc);
 			$wrapper.ptrScroll({
 				onPullUp:function(){
 					opc.get = '&offset='+perpag+'&limit='+(perpag*pag++);

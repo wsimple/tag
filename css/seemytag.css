@@ -336,6 +336,17 @@ page wrapper button,page wrapper input[type="submit"],page wrapper input[type="r
     text-decoration:none;
     display:inline-block;
 }
+
+.btn.btn-success{ background-color:#77c574; }
+.btn.btn-success:hover{ background-color:#55a352; }
+.btn.btn-primary{ background-color:#8286c2; }
+.btn.btn-primary:hover{ background-color:#6064a0; }
+.btn.btn-warning{ background-color:#f82; }
+.btn.btn-warning:hover{ background-color:#d60; }
+.btn.btn-danger{ background-color:#f32; }
+.btn.btn-danger:hover{ background-color:#d10; }
+
+.btn.btn-disabled,
 .ui-dialog button[disabled],.ui-dialog input[type="submit"][disabled],
 .ui-dialog input[type="reset"][disabled],.ui-dialog input[type="button"][disabled],
 page wrapper button[disabled],page wrapper input[type="submit"][disabled],

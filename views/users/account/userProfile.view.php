@@ -56,7 +56,7 @@ $friend = CON::getRow("SELECT
 <?php if ($_SESSION['ws-tags']['ws-user']['id'] != $friend['id']) { ?>
 		<div style="width:100%; text-align:center;">
 			<input type="button" style="<?=$friend['follower']?'display:none;':''?> margin-right: 20px;color: white;"  action="linkUser,<?=md5($friend['id'])?>,2" value="<?=USER_BTNLINK?>"/>
-			<input type="button" style="<?=$friend['follower']?'':'display:none;'?> margin-right: 20px;color: white;" action="linkUser,<?=md5($friend['id'])?>,2" value="<?=USER_BTNUNLINK?>"/>
+			<input type="button" style="<?=$friend['follower']?'':'display:none;'?> margin-right: 20px;color: white;" action="linkUser,<?=md5($friend['id'])?>,2" value="<?=USER_BTNUNLINK?>" class="btn btn-disabled"/>
 	<?php
 	if ($friend['username'] != '') $externalProfileId = $friend['username'];
 	else $externalProfileId = "user/".md5($friend['id']);

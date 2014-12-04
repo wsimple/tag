@@ -64,7 +64,7 @@ if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){
 								</div>
 								<div style="height:70px; width:0px;float: right; text-align: right;">
 								<input style="margin-top:20px;<?=$follower['id_user']?'display:none;':''?>" type="button" value="<?=USER_BTNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2"/>
-								<input style="margin-top: 20px;<?=$follower['id_user']?'':'display:none;'?>" type="button" value="<?=USER_BTNUNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2" />
+								<input style="margin-top: 20px;<?=$follower['id_user']?'':'display:none;'?>" type="button" value="<?=USER_BTNUNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2" class="btn btn-disabled"/>
 								</div>
 							</div>
 							<div class="clearfix"></div>
@@ -102,7 +102,7 @@ if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){
 								<div style="height:70px; width:0px;float: right; text-align: right;">
 								<input style="margin-top: 20px;<?=$follower['id_user']?'display:none;':''?>" type="button" value="<?=USER_BTNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2" />
 								<input style="margin-top: 20px;<?=$follower['id_user']?'':'display:none;'?>" 
-								type="button" value="<?=USER_BTNUNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2" />
+								type="button" value="<?=USER_BTNUNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2" class="btn btn-disabled"/>
 								</div>
 							</div>
 							<div class="clearfix"></div>
