@@ -139,7 +139,7 @@
     <tr>
         <td width="95%">&nbsp;</td>
     </tr>
-   <!--  <tr>
+    <tr>
         <td class="td_menu"><strong style="font-size:12px">Tags</strong></td>
     </tr>
     <tr>
@@ -147,7 +147,7 @@
     </tr>
     <tr>
         <td width="95%">&nbsp;</td>
-    </tr> -->
+    </tr>
     <tr>
         <td class="td_menu"><strong style="font-size:12px">Config</strong></td>
     </tr>
