@@ -1047,13 +1047,14 @@ function viewFriends(method, opc){
 			var i,friend,out='',divider,count='';//' <span class="ui-li-count">'+data.num+'</span>';
 			// console.log('cant '+data.datos.length+' user '+opc.user);
 			// if($.local('code')==opc.user){
+			count = data.num;
 			switch(opc.mod){
 				case 'friends':divider=lan('friends','ucw');break;
 				case 'follow':divider=lan('admirers','ucw');break;
 				case 'unfollow':divider=lan('admired','ucw');break;
 				case 'find':
 					if(opc.divider){
-						divider=opc.divider
+						divider=opc.divider;
 					}else{
 						divider=lan('FINDFRIENDS_LEGENDOFSEARCHBAR','ucw');
 						count='';
@@ -1061,7 +1062,7 @@ function viewFriends(method, opc){
 				break;
 			}
 			// }
-			divider='<li data-role="list-divider">'+divider+count+'</li>';
+			divider='<li data-role="list-divider">'+divider+' ('+count+')'+'</li>';
 
 			if (data.datos.length>0){
 				for(i=0;i<data.datos.length;i++){
@@ -1090,7 +1091,6 @@ function viewFriends(method, opc){
 				redir(PAGE['findfriends']);
 			});
 			if(opc.success) opc.success(data);
-			//return true;
 			//$('.list-wrapper').jScroll('refresh');
 		}
 	});

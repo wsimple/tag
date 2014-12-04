@@ -11,7 +11,8 @@ switch ($_GET['action']) {
 		if (!isset($_POST['uid']))	$uid=$myId;
 		else $uid=CON::getVal("SELECT id FROM users WHERE $coi=?",array($_POST['uid']));
 		if (!$uid) die(jsonp(array('error'=>'noIdValid')));
-		if (!isset($_GET['nolimit'])) $array['limit']=' LIMIT '.$_GET['limit'].',50';
+		$offset = ( isset( $_GET['offset'] ) ) ? $_GET['offset'] : 50;
+		if (!isset($_GET['nolimit'])) $array['limit']=' LIMIT '.$_GET['limit'].",$offset";
 		else $array['limit']="";
 		$array['select']=',IF(u.id='.$myId.',1,0) AS iAm,
 						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
