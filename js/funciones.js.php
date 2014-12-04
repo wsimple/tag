@@ -662,6 +662,10 @@ function showTag(tag){
 			'<span id="dislikeIcon" '+(tag['likeIt']<0?'':'style="display:none;"')+'></span>'+
 			videomini+
 		'</div>'+
+		'<div class="tag-counts">'+
+			'<div id="likeIcon"></div><span>'+tag.num_likes+'</span>'+
+			'<div id="dislikeIcon"></div><span>'+tag.num_disLikes+'</span>'+
+		'</div>'+
 		'<div class="profilepic" action="profile,'+tag['uid']+'" title="<?=js_string($lang["USERPROFILE_PERSONALINFO"])?>"></div>'+
 		'<div class="profile" action="profile,'+tag['uid']+'" title="<?=js_string($lang["USERPROFILE_PERSONALINFO"])?>"></div>'+
 		((tag['product']||tag['typeVideo'])?
