@@ -1,12 +1,23 @@
 <?php include 'inc/header.php'; ?>
+<style>
+	.ui-page .ui-content{
+		margin: 8px 0;
+	}
+</style>
 <div id="page-friendUser" data-role="page" data-cache="false">
 	<div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
 	<div data-role="content" class="list-content">
-		<div id="pd-wrapper">
+		<div class="list-wrapper">
 			<div id="scroller">
-				<div id="pullDown" style="display:none;"></div>
-				<ul id="friendsList" data-role="listview" data-filter="true" data-divider-theme="e" class="list-friends"></ul>
-				<div id="pullUp"><div class="smt-tag-content"><span class="pullUpIcon"></span><span class="pullUpLabel"></span></div></div>
+				<div id="friends" class="list">
+					<ul data-role="listview" data-filter="true" data-divider-theme="e" class="list-friends"></ul>
+				</div>
+				<div id="follow" class="list">
+					<ul data-role="listview" data-filter="true" data-divider-theme="e" class="list-friends"></ul>
+				</div>
+				<div id="unfollow" class="list">
+					<ul data-role="listview" data-filter="true" data-divider-theme="e" class="list-friends"></ul>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -33,43 +44,46 @@
 		},
 		after:function(){
 			$('#page-friendUser .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
-			var $wrapper=$('#pd-wrapper',this.id), pag=1,perpag=20,opc={wrapper: $wrapper, layer:'#friendsList',mod:$_GET['type']||'friends',get:'&offset='+perpag,user:$_GET['id_user']||''};
+			var $wrapper=$('.list-wrapper'), pag=1,perpag=20,
+				type=$_GET['type']||'friends',
+				opc={wrapper: $wrapper,get:'&offset='+perpag,user:$_GET['id_user']||''},
+				modaux='',layeraux=null;
 
 			$('#friendsFooter li a[opc='+$_GET['type']+']').addClass('ui-btn-active'); //Estilo de li activo
 			// $(opc.layer).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
-			// $('.list-wrapper').jScroll({hScroll:false});
+			$('.list-wrapper').jScroll({hScroll:false});
 			$('.list-content input').keyup(function() {
-				// $('.list-wrapper').jScroll('refresh');
-				$wrapper.jScroll('refresh');
+				$('.list-wrapper').jScroll('refresh');
 			});
 			$(opc.layer).on('click','[code]',function(){
 				redir(PAGE['profile']+'?id='+$(this).attr('code'));
 			});
 
 			linkUser(opc.layer);
-			viewFriends('refresh',opc);
+
+			$(this.id).on('click','#seemore', function(event) {
+				opc.get = '&offset='+perpag+'&limit='+(perpag*pag++);
+				viewFriends('more',$.extend({mod:modaux,layer:layeraux},opc));
+			});
 			
 			$(this.id).on('click','.ui-navbar a[opc]',function(){
-				opc.get='&offset='+perpag;
-				opc.mod=$(this).attr('opc');
+				type=$(this).attr('opc');
+				modaux=type;
+				layeraux='#'+type+' ul';
+				pag = Math.round( $(layeraux+' .userInList').length/perpag );
+				if (pag == 0) { pag = 1};
 				$wrapper.jScroll(function(){
 					this.scrollTo(0,0,100);
-				});
-				viewFriends('refresh',opc);
+				}).jScroll('refresh');
+				$('#scroller > .list').hide();
+				$('#'+type+'.list').show();
 				$('.list-content input').val('');
 			});
-			$wrapper.ptrScroll({
-				onPullUp:function(){
-					opc.get = '&offset='+perpag+'&limit='+(perpag*pag++);
-					var response = viewFriends('more',opc);
-					if (!response) {
-						$wrapper.jScroll('refresh');
-					}
-				},
-				onReload:function(){
-					viewFriends('refresh',opc);
-				}
-			});
+
+			$('.ui-navbar a[opc='+type+']').click();
+			viewFriends('refresh',$.extend({mod:'friends',layer:'#friends ul'},opc));
+			viewFriends('refresh',$.extend({mod:'follow',layer:'#follow ul'},opc));
+			viewFriends('refresh',$.extend({mod:'unfollow',layer:'#unfollow ul'},opc));
 		}
 	});
 </script>
