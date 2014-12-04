@@ -148,6 +148,7 @@
 				else
 				viewFriends('refresh',{
 					layer:'#contactFilter',
+					wrapper:$('.list-wrapper'),
 					mod:'find',
 					divider:lan('TAGBUM_CONTACTS','ucw'),
 					user:$.local('code'),
