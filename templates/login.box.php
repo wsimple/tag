@@ -31,7 +31,7 @@
 		<input type="hidden" name="hash" id="hash" value="" />
 		<?php if($_GET['store']=='1'){ ?><input type="hidden" name="store" value="1" /><?php } ?>
 		<?php if($_GET['wpAddTag']=='1'){ ?><input type="hidden" name="wpAddTag" value="1" /><?php } ?>
-		<input type="hidden" name="goto" value="<?=$bodyPage=='main/failure.php'?'':'//'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']?>" />
+		<input type="hidden" name="goto" id="goto" value="<?=$bodyPage=='main/failure.php'?'':'//'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']?>" />
 	</form>
 	<!-- <div class="social-block">
 		<?=LOGIN_TITLECREATEACCOUNTFB?><br>
@@ -39,7 +39,7 @@
 </div>
 <script>
 (function($){
-	var wait=false,send=false,box=$('#login-box form')[0],$keep=$('#keepLogin',box);
+	var wait=false,send=false,box=$('#login-box form')[0],$keep=$('#keepLogin',box),$go=$('#goto',box), urlFriends = 'friends?sc=2';
 	var _login=function(){
 		$('#hash',box).val(document.location.hash);
 		if(!send&&!wait&&valida(this)){
@@ -51,13 +51,14 @@
 			if($keep.is(':checked')) data.keep=true;
 			login({
 				data:data,
-				success:function(){
+				success:function(d){
 					send=true;
 					var exceptions=/^#(page|signup|home|$)/i,
 						hash=document.location.hash;
 					if(hash.match(exceptions)) hash='';
 					var url=document.location.search+hash;
 					if(url) $.session('login_url',url);
+					if (d.numFriends==0) { $go.val(urlFriends)};
 					$(box).submit();
 				},
 				fail:function(data){
