@@ -15,15 +15,15 @@ switch ($_GET['action']) {
 		if (!isset($_GET['nolimit'])) $array['limit']=' LIMIT '.$_GET['limit'].",$offset";
 		else $array['limit']="";
 		$array['select']=',IF(u.id='.$myId.',1,0) AS iAm,
-						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
+						ul.id_user AS conocido';
 		$array['order']='ORDER BY u.name, u.last_name';
 		switch ($_GET['mod']) {
 			case 'friends':
-				$array['select'].=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend';
-				$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
-				$array['where']=safe_sql('ul.id_user=? AND ul.is_friend=1',array($uid));
+				$array['select'].=',md5(ul2.id_user) AS id_user, md5(ul2.id_friend) AS id_friend';
+				$array['join']=' JOIN users_links ul2 ON ul2.id_friend=u.id';
+				$array['where']="ul2.id_user=$uid AND ul2.is_friend=1";
 				if (isset($_GET['idGroup']))
-					$array['where'].=safe_sql(" AND ul.id_friend NOT IN ((SELECT id_user FROM users_groups WHERE md5(id_group)=?))",array($_GET['idGroup']));
+					$array['where'].=safe_sql(" AND ul2.id_friend NOT IN ((SELECT id_user FROM users_groups WHERE md5(id_group)=?))",array($_GET['idGroup']));
 				if (isset($_GET['like'])){
 					$searches = explode(' ',$_GET['like']);$where='';
 					foreach ($searches as $word) 
@@ -32,9 +32,9 @@ switch ($_GET['action']) {
 				}
 			break;
 			case 'unfollow': //admirados
-				$array['select'].=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend';
-				$array['where']=safe_sql('ul.id_user=?',array($uid));
-				$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
+				$array['select'].=',md5(ul2.id_user) AS id_user, md5(ul2.id_friend) AS id_friend';
+				$array['where']="ul2.id_user=$uid";
+				$array['join']=' JOIN users_links ul2 ON ul2.id_friend=u.id';
 				if (isset($_GET['like'])){
 					$searches = explode(' ',$_GET['like']);$where='';
 					foreach ($searches as $word) 
@@ -43,9 +43,9 @@ switch ($_GET['action']) {
 				}
 			break;
 			case 'follow': //admiradores
-				$array['select'].=',md5(ul.id_user) AS id_friend, md5(ul.id_friend) AS id_user';
-				$array['join']=' JOIN users_links ul ON ul.id_user=u.id';
-				$array['where']=safe_sql('ul.id_friend=?',array($uid));
+				$array['select'].=',md5(ul2.id_user) AS id_friend, md5(ul2.id_friend) AS id_user';
+				$array['join']=' JOIN users_links ul2 ON ul2.id_user=u.id';
+				$array['where']="ul2.id_friend=$uid";
 				if (isset($_GET['like'])){
 					$searches = explode(' ',$_GET['like']);$where='';
 					foreach ($searches as $word) 
@@ -58,18 +58,18 @@ switch ($_GET['action']) {
 				$array['join']='';
 				$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
 						IF(u.id='.$myId.',1,0) AS iAm,
-						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
+						ul.id_user AS conocido';
 				if (isset($_GET['search'])){
 					$searches = explode(' ',$_GET['search']);$where='';
 					foreach ($searches as $word) {
 						// AND g.name LIKE ?",array('%'.$hash[0].'%'));
 						$where.=safe_sql('AND  CONCAT_WS(" ",u.username,u.last_name,u.screen_name,u.name,u.email) LIKE "%??%"',array($word));
 					}
-					$array['where']=safe_sql('u.id!=? '.$where,array($uid));
+					$array['where']="u.id!=$uid $where";
 					$array['order']='ORDER BY u.username';
 				}else{
 					$array['order']='ORDER BY RAND()';
-					$array['where']=safe_sql('u.id!=? AND u.id NOT IN ((SELECT ul.id_friend FROM users_links ul WHERE ul.id_user=?)) AND u.id NOT IN ((SELECT ul.id_user FROM users_links ul WHERE ul.id_friend=?))',array($uid,$uid,$uid));
+					$array['where']="u.id!=$uid AND u.id NOT IN ((SELECT id_friend FROM users_links WHERE id_user=$uid)) AND u.id NOT IN ((SELECT id_user FROM users_links WHERE id_friend=$uid))";
 					if (isset($_POST['no_id_s']) && $_POST['no_id_s']!=''){
 						$array['where'].=' AND u.id NOT IN ('.CON::cleanStrings($_POST['no_id_s']).')';
 						$array['limit']='LIMIT 0,20';
@@ -102,10 +102,21 @@ switch ($_GET['action']) {
 				// 	$filter=true;
 				// 	$data=$_POST['not_in'];
 				// }
+				if($filter){//si hay filtro, guardamos los usuarios ya registrados
+					$query=CON::query("SELECT u.email,u.home_phone,u.mobile_phone,u.work_phone FROM users AS u WHERE 1 $filter");
+					$reg=array('emails'=>array(),'phones'=>array());
+					while($row=CON::fetchObject($query)){
+						$reg['emails'][]=$row->email;
+						if(($phone=preg_replace('/^0+|\D/','',$row->home_phone))!='')	$reg['phones'][]=$phone;
+						if(($phone=preg_replace('/^0+|\D/','',$row->mobile_phone))!='')	$reg['phones'][]=$phone;
+						if(($phone=preg_replace('/^0+|\D/','',$row->work_phone))!='')	$reg['phones'][]=$phone;
+					}
+					$res['registered']=$reg;
+				}
 				$res['num']=1;
 			break;
 		}
-		if(!isset($res['num'])) $res['num']=CON::numRows(CON::query("SELECT ul.id_user FROM users_links ul WHERE ".$array['where']));
+		if(!isset($res['num'])) $res['num']=CON::numRows(CON::query("SELECT ul2.id_user FROM users_links ul2 WHERE ".$array['where']));
 		$html='';
 		if($res['num']>0){ $query=peoples($array); }
 		elseif(!isset($_GET['nosugg']) && (!isset($_GET['limit']))){
@@ -113,8 +124,8 @@ switch ($_GET['action']) {
 			$array['join']='';
 			$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
 						IF(u.id='.$myId.',1,0) AS iAm,
-						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user='.$myId.' AND oul.id_friend=u.id) AS conocido';
-			$array['where']=safe_sql('u.id!=? AND u.id NOT IN ((SELECT ul.id_friend FROM users_links ul WHERE ul.id_user=?)) AND u.id NOT IN ((SELECT ul.id_user FROM users_links ul WHERE ul.id_friend=?))',array($uid,$uid,$uid));
+						ul.id_user AS conocido';
+			$array['where']="u.id!=$uid AND u.id NOT IN ((SELECT id_friend FROM users_links WHERE id_user=$uid)) AND u.id NOT IN ((SELECT id_user FROM users_links WHERE id_friend=$uid))";
 			$query=peoples($array);
 			if (CON::numRows($query)>0) $html='<div class="ui-single-box-title">'.HOME_SUGGESTFRIENDS.'</div>';
 		}
@@ -127,25 +138,13 @@ switch ($_GET['action']) {
 		}
 		$res['datos']=$info;
 		if ($html!='') $res['html']=$html;
-
-		if($filter){//si hay filtro, devolvemos tambien los usuarios ya registrados
-			$query=CON::query("SELECT u.email,u.home_phone,u.mobile_phone,u.work_phone FROM users AS u WHERE 1 $filter");
-			$reg=array('emails'=>array(),'phones'=>array());
-			while($row=CON::fetchObject($query)){
-				$reg['emails'][]=$row->email;
-				if(($phone=preg_replace('/^0+|\D/','',$row->home_phone))!='')	$reg['phones'][]=$phone;
-				if(($phone=preg_replace('/^0+|\D/','',$row->mobile_phone))!='')	$reg['phones'][]=$phone;
-				if(($phone=preg_replace('/^0+|\D/','',$row->work_phone))!='')	$reg['phones'][]=$phone;
-			}
-			$res['registered']=$reg;
-		}
 	break;
 	case 'usersLikesTags': //likes dislikes and Raffle participants
 		if (!isset($_GET['t']) || !isset($_GET['s'])) die(jsonp(array()));
 		$numAction=3;$html='';
 		$array['select']=",md5(u.id) AS id_user, md5(u.id) AS id_friend,
 						IF(u.id=$myId,1,0) AS iAm,
-						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user=$myId AND oul.id_friend=u.id) AS conocido";
+						ul.id_user AS conocido";
 		switch ($_GET['t']) {
 			case 'l': //likes
 				$array['join']=' JOIN likes lk ON lk.id_user=u.id';
@@ -173,9 +172,9 @@ switch ($_GET['action']) {
 	break;
 	case 'groupMembers': //group members
 		if (!isset($_GET['idGroup'])) die(jsonp(array()));	
-		$array['select']=safe_sql(',md5(u.id) AS id_user,g.is_admin,g.status,IF(u.id='.$myId.',1,0) AS iAm,
-						(SELECT oul.id_user FROM users_links oul WHERE oul.id_user=? AND oul.id_friend=u.id) AS conocido,
-						(SELECT COUNT(t.id) FROM tags t WHERE md5(t.id_group)=? AND t.id_creator=g.id_user) AS numTags',array($myId,$_GET['idGroup']));
+		$array['select']=safe_sql(",md5(u.id) AS id_user,g.is_admin,g.status,IF(u.id=$myId,1,0) AS iAm,
+						ul.id_user AS conocido,
+						(SELECT COUNT(t.id) FROM tags t WHERE md5(t.id_group)=? AND t.id_creator=g.id_user) AS numTags",array($_GET['idGroup']));
 		$array['join']=' JOIN users_groups g ON g.id_user=u.id';
 		$array['order']='ORDER BY g.status,g.date DESC';
 		$array['where']=safe_sql(' md5(g.id_group)=?',array($_GET['idGroup']));
@@ -230,10 +229,10 @@ switch ($_GET['action']) {
 									u.type,
 									(SELECT count(t.id) FROM tags t WHERE t.id_user=u.id AND t.status = 1) AS numTags,
 									(SELECT count(t.id) FROM tags t WHERE t.status=9 AND t.id_user=u.id AND t.id_user=t.id_creator) AS numPersTags,
-									(SELECT oul.id_user FROM users_links oul WHERE oul.id_user=? AND oul.id_friend=u.id) AS follow',
+									ul.id_user AS follow',
 									array($myId));
 		}
-		$array['where']=safe_sql('u.id=?',array($uid));
+		$array['where']="u.id=$uid";
 		$query=peoples($array); 
 		$info=array(); 
 		$res['datos']=1;

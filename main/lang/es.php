@@ -6,6 +6,7 @@ $lang=array(
 	'Help' => 'Ayuda',
 	'Retry' => 'Reintentar',
 	'Category' => 'Categoría',
+	'fb_lang'=>'es_LA',
 	#Menu superior logeado
 	'About' => 'Acerca de',
 	'Carousel' => 'Carrusel',

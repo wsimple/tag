@@ -478,22 +478,23 @@ function view_friendsOfFriends($id=''){
 
 function randSuggestionFriends($not_ids, $limit=10){
 	$criterio = ($not_ids!='') ? 'u.id NOT IN ('.$not_ids.') AND' : '';
-	$query = $GLOBALS['cn']->query('
+	$uid=$_SESSION['ws-tags']['ws-user']['id'];
+	$query = $GLOBALS['cn']->query("
 		SELECT
 			u.id AS id_user,
 			u.id AS id_friend,
-			CONCAT(u.`name`, " ", u.last_name) AS name_user,
+			CONCAT(u.`name`, ' ', u.last_name) AS name_user,
 			u.description AS description,
 			u.profile_image_url AS photo_friend,
-			md5(CONCAT(u.id, "_", u.email, "_", u.id)) AS code_friend
+			md5(CONCAT(u.id, '_', u.email, '_', u.id)) AS code_friend
 		FROM users u
 		WHERE
-			'.$criterio.'
-			u.id != "'.$_SESSION['ws-tags']['ws-user']['id'].'" AND
-			u.id NOT IN (select f.id_friend from users_links f where f.id_user = "'.$_SESSION['ws-tags']['ws-user']['id'].'")
-		ORDER BY RAND()
-		LIMIT 0, $limit
-	');
+			$criterio
+			u.id!='$uid' AND
+			u.id NOT IN (select f.id_friend from users_links f where f.id_user='$uid')
+		ORDER BY u.followers_count DESC
+		LIMIT 0,$limit
+	");
 	return $query;
 }
 
