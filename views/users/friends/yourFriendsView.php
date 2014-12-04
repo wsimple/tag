@@ -1,6 +1,7 @@
 <?php  
 	$find=isset($sc)&&$sc=='2'?true:false;
 ?>
+<div id="tourSearchFriends"></div>
 <div id="yourFriendsView" class="ui-single-box">
 		<!-- BARRA TITULO Y BUSQUEDA DE AMIGO -->
 		<h3 class="ui-single-box-title" style="background-size: 50% 32px;">
@@ -33,7 +34,7 @@
 			<?=FRIENDS_COMMENTSDINAMICO?><!-- Aquí se carga el contenido dinamicamente...-->
 		</div>
 </div>
-<script >
+<script type="text/javascript">
 $(document).ready(function(){
 	var title=new Array(),opc={mod : 'friends',get:""},find=('<?=$find?0:1?>')*1,mod='<?=$_GET[mod]?>';
 
@@ -106,4 +107,7 @@ $(document).ready(function(){
 		
 	}
 });
+
+if ('<?=$sc?>'==2) { tour(SECTION); };
+
 </script>
