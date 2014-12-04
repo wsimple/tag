@@ -1092,7 +1092,7 @@ function viewFriends(method, opc){
 				redir(PAGE['findfriends']);
 			});
 			if(opc.success) opc.success(data);
-			//$('.list-wrapper').jScroll('refresh');
+			if (opc.wrapper) opc.wrapper.jScroll('refresh');
 		}
 	});
 }
@@ -1255,6 +1255,7 @@ function login(opc){
 					myDialog('#log-msg',lan('CON_ERROR'));
 			},
 			success:function(data){
+				// console.log(data);
 				if(data&&data.logged){
 					isLogged(true);
 					setAllLocals(data);
