@@ -662,6 +662,16 @@
 
 .myDialog .buttons{ margin:0px -5px -5px; }
 
+.myDialog .title{ 	
+	text-align:justify;
+	background:#fff;
+	margin:auto;
+	text-align: center;
+	overflow:hidden;
+	font-weight: bold;
+	font-size: 16px;
+}
+
 @media all and (max-width:680px){
 	.myDialog .window{
 		width:auto;
@@ -1797,4 +1807,12 @@ input.password-field {
 	-ms-transform: rotate(180deg);
 	-o-transform: rotate(180deg);
 	transform: rotate(180deg);
+}
+#rowTitle{
+	text-align: center;
+	font-weight: bold;
+	margin: 5px auto;
+	background: #77c574;
+	color: #fff;
+	padding: 4px 0;
 }

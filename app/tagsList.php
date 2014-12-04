@@ -58,12 +58,23 @@
 				$('#none,#none2').val(lang.none);
 				$('#assignAdminGrp').val(lang.GROUPS_ASSIGNADMIN);
 				$('#like_friend_group, #like_admin_group').attr('placeholder',lang.inputPlaceHolder);
+				var current=$_GET['current']||'tagsUser';
+				if(current=='tagsUser'){
+					$('#pageTitle').html(lang.MAINMNU_MYTAGS);
+					$('#pd-wrapper').css('top','30px');
+					$('div[data-role="content"]').prepend('<div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">'+lang.MAINMNU_MYTAGS+'</div></div>');
+				}else if(current=='personalTags'){
+					$('#pageTitle').html(lang.MAINMNU_PERSONALTAGS);
+					$('#pd-wrapper').css('top','30px');
+					$('div[data-role="content"]').prepend('<div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">'+lang.MAINMNU_PERSONALTAGS+'</div></div>');
+				}
 			},//end before
 			after:function(){
 				var current=$_GET['current']||'tagsUser',layer='#tagsList',id=$_GET['id'];
 				var opc={current:current,layer: layer };
 				if((current=='tagsUser')||(current=='personalTags')){
-					opc.get='&uid='+$_GET['id'];
+					opc.get='&uid='+$_GET['id']+'&rtitle';
+					opc.title=true;
 				}
 				if(current=='group'){
 					opc.get='&grupo='+$_GET['id'];
@@ -81,20 +92,16 @@
 
 				$('#pd-wrapper',this.id).ptrScroll({
 					onPullDown:function(){
-						updateTagsOld('refresh',opc);
+						updateTags('refresh',opc);
 					},
 					onPullUp:function(){
-						updateTagsOld('more',opc);
+						updateTags('more',opc);
 					},
 					onReload:function(){
-						updateTagsOld('reload',opc);
+						updateTags('reload',opc);
 					}
 				});
-				if(current=='tagsUser'){
-					$('#pageTitle').html(lang.MAINMNU_MYTAGS);
-				}else if(current=='personal'){
-					$('#pageTitle').html(lang.MAINMNU_PERSONALTAGS);
-				}else if(current=='group'){
+				if(current=='group'){
 					var admin=false,numAdm=0;
 					$('#pageTitle').html(lan('group','ucw'));
 					nameMenuGroups(id,0,function(data){
@@ -184,7 +191,6 @@
 								name:lang.yes,
 								action:function (){
 									var that=this;
-									console.log(admin)
 									if (admin && numAdm<=1){
 										that.close();
 										myDialog({
@@ -275,7 +281,6 @@
 	$('input:checkbox',idDialog).each(function(i,field){
 		if ($(field).is(':checked')) {
 			var userInfo=field.value.split('|');
-			console.log(userInfo);
 			friends[a++]=userInfo[0];
 		};
 	});
@@ -310,7 +315,6 @@ function sendInvitationMemberGrp(idDialog,id){
 	$('input:checkbox',idDialog).each(function(i,field){
 		if ($(field).is(':checked')) {
 			var userInfo=field.value.split('|');
-			console.log(userInfo);
 			friends[a++]=userInfo[0];
 		};
 	});
@@ -330,7 +334,7 @@ function sendInvitationMemberGrp(idDialog,id){
 	$('.closedialog',idDialog).click();
 }
 function insertUserGroup(idGroup){
-	console.log(DOMINIO+'controls/groups/actionsGroups.json?action=3&grp='+idGroup);
+	console.log("insertUserGroup");
 	myAjax({
 		url:DOMINIO+'controls/groups/actionsGroups.json.php?action=3&grp='+idGroup,
 		dataType:'JSON',

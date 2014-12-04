@@ -901,23 +901,23 @@ function trash(tag){
 var tourHash,dataHash;
 function tour(hashActive,force){
 	function struct(data,id){
-		var ort='';
+		var ort='', path = '<?=$config->path?>';
 		if(id=='home'){
 			ort=id;
 		}else{
-			// if(NOHASH)
-				ort=window.location.pathname.split(BASEURL)[1].split('/')[0];
-			// else{
-			// 	ort=window.location.hash.substr(1);
-			// 	var hashVerify=ort.match(/\?/);
-			// 	ort=hashVerify?ort.split('?')[0]:ort;
-			// }
+			if (path=='/') {
+				ort=window.location.pathname.substr(1).split('/')[0];
+			}else{
+				ort=window.location.pathname.split(path)[1].split('/')[0];
+			};
+			console.log('baseurl '+ort);
+		
 		}
-		//console.log('ori: '+window.location.hash+'---- hashdb: '+id+'----- comp: '+ort);
+		console.log('ori: '+window.location.hash+'---- hashdb: '+id+'----- comp: '+ort);
 		if(id==ort){
 			guidely.clear();
 			$('html,body').scrollTop(0);
-			$.each(data,function(id,tour){
+			$.each(data,function(id,tour){ 
 			if($(tour['id_div']).length>0&&$(tour['id_div']).is(':visible')){
 					guidely.add ({
 						attachTo:tour['id_div'],
@@ -940,13 +940,16 @@ function tour(hashActive,force){
 		hashActive=hashVerify?hashActive.split('?')[0]:hashActive;
 	}
 	$.debug('tour').log('tour: '+hashActive);
-	if(tourHash!=hashActive){
+	
+
+	if(tourHash!=hashActive){ 
 		$.ajax({
 			type:'GET',
 			url:'controls/tour/tour.php?hash='+md5(hashActive),
 			dataType:'json',
 			debug:'tour',
-			success:function (data){
+			success:function (data){ 
+			console.log(data);
 			tourHash=hashActive;
 			dataHash=data;
 			//console.log(data['liTour'].length);
@@ -3275,7 +3278,7 @@ function bodyfriends(friends,Link,unLink){
 		+		'</div>'
 		+		'<div style="height:70px; width:0px; float: right; text-align: right;">'
 		+			'<input style="margin-top: 20px;font-size:10px;'+Link+'" type="button" value="<?=$lang["USER_BTNLINK"]?>" action="linkUser,'+md5(friends['id_friend'])+',2" />'
-		+			'<input style="margin-top: 20px;font-size:10px;'+unLink+'" type="button" value="<?=$lang["USER_BTNUNLINK"]?>" action="linkUser,'+md5(friends['id_friend'])+',2" />'
+		+			'<input style="margin-top: 20px;font-size:10px;'+unLink+'" type="button" value="<?=$lang["USER_BTNUNLINK"]?>" action="linkUser,'+md5(friends['id_friend'])+',2" class="btn btn-disabled" />'
 		+		'</div>'
 		+	'</div>'
 		+	'<div class="clearfix"></div>'

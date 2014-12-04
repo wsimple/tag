@@ -75,6 +75,7 @@ function login_json($data){
 				}else{
 					createSession($sesion);
 					$myId=$_SESSION['ws-tags']['ws-user']['id'];
+					$res['numFriends']=CON::getVal('SELECT COUNT(id_user) as num from users_links where id_user = ?',array($_SESSION['ws-tags']['ws-user']['id']));
 					//Aumentamos el contador de login
 					CON::update('users','logins_count=logins_count+1','email=?',array($login));
 					$_SESSION['ws-tags']['ws-user']['logins_count']++;
