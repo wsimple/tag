@@ -65,6 +65,7 @@
 						login({
 							data:data,
 							success:function(d){
+								if (d.numFriends==0) { $form.attr('action',PAGE.findfriends); };
 //								if(data.keep) $.cookie('kl',1);
 //								else $.cookie('kl',null);
 								send=true;
