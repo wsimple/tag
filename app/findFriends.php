@@ -47,7 +47,7 @@
 				$('.ui-content ul').addClass('dnone').filter(this.dataset.opc).removeClass('dnone');
 				$('.list-wrapper').jScroll('refresh');
 			});
-			var opc={layer:'#friendsList',mod:'find',user:$.local('code')};
+			var opc={layer:'#friendsList',wrapper:$('.list-wrapper'),mod:'find',user:$.local('code')};
 			viewFriends('refresh',opc);
 			$.cordova(function(){
 				viewContacsPhone('#contactList','');
