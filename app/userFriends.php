@@ -36,7 +36,7 @@
 		buttons:{showmenu:true,creation:true},
 		before:function(){
 			$('#seek').html(lang.seek);
-			$('#friendsFooter,.list-content #friends ul').html(
+			$('#friendsFooter').html(
 				'<li><a href="#" opc="friends">'+lan('friends','ucw')+'</a></li>'+
 				'<li><a href="#" opc="follow">'+lan('admirers','ucw')+'</a></li>'+
 				'<li><a href="#" opc="unfollow">'+lan('admired','ucw')+'</a></li>'
