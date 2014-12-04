@@ -25,6 +25,22 @@
 			</div>
 		</div>
 	</div>
+	<!-- Dialogs -->
+	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
+		<div class="window">
+			<div class="container" style="font-size: 50%;">
+				<div class="this-search" style="display:inline-block;margin-right:5px;width:100%;">
+					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" />
+				</div>
+				<div class="list-wrapper" style="margin-top:5px;height:150px;">
+					<div id="scroller"><ul id="ulListFriends" data-role="listview" data-inset="true"></ul>
+				</div></div>
+			</div>
+			<div class="buttons">
+				<a href="#" data-role="button" onclick="closeDialogmembersGroup('#shareTagDialog')" data-theme="f">Ok</a>
+			</div>
+		</div>
+	</div></div></div>
 	<script>
 		pageShow({
 			id:'#page-profile',
@@ -95,11 +111,10 @@
 					fillButton('#userPersonalTags',	data['numPersTags']);
 					if(data['photo_friend']!=data['FILESERVER']+'img/users/default.png') $('#userPicture').attr('src',data['photo_friend']);
 
-
 					var birth=lan(data['birthday'],'ucw'),
 						txt='<div><strong>'+(data['name_user']||data['username'])+'</strong></div>';
 					if(data['type']=='0')
-						txt+=(birth!='none'?'<div><strong>'+lang.PROFILE_BIRTHDATE+':</strong> '+birth+'</div>':'');
+						txt+=((birth!='none' && data['birthday']!='private')?'<div><strong>'+lang.PROFILE_BIRTHDATE+':</strong> '+birth+'</div>':'');
 					else
 						txt+=(data['birthday']!='none'?'<div><strong>'+lang.FOUNDATION_DATE+':</strong> '+data['birthday']+'</div>':'');
 					txt+=(data['country'] && data['country']!='none' && data['country']!=''?'<div><strong>'+lan('From')+':</strong> '+data['country']+'</div>':'');
@@ -108,13 +123,23 @@
 					$('#globalButtons').on('click','div',function(){
 						if($(this).attr('num')>0){
 							switch(this.id){
-								case 'userFriends': redir(PAGE['userfriends']+'?type=friends&id_user='+code); break;
-								case 'userFollowers': redir(PAGE['userfriends']+'?type=follow&id_user='+code); break;
-								case 'userFollowing': redir(PAGE['userfriends']+'?type=unfollow&id_user='+code); break;
+								case 'userFriends': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"friends"}); break;
+								case 'userFollowers': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"follow"}); break;
+								case 'userFollowing': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"unfollow"}); break;
+								// case 'userFriends': selectFriendsDialog([code,'friends']); break;
+								// case 'userFollowers': selectFriendsDialog([code,'follow']); break;
+								// case 'userFollowing': selectFriendsDialog([code,'unfollow']); break;
+								// case 'userFriends': redir(PAGE['userfriends']+'?type=friends&id_user='+code); break;
+								// case 'userFollowers': redir(PAGE['userfriends']+'?type=follow&id_user='+code); break;
+								// case 'userFollowing': redir(PAGE['userfriends']+'?type=unfollow&id_user='+code); break;
 								case 'userTags': redir(PAGE['tagslist']+'?current=tagsUser&id='+md5(data['id'])); break;
 								case 'userPersonalTags': redir(PAGE['tagslist']+'?current=personalTags&id='+md5(data['id'])); break;
 							}
 						}
+					});
+					linkUser('#ulListFriends');
+					$('#ulListFriends').on('click','[code]',function(){
+						redir(PAGE['profile']+'?id='+$(this).attr('code'));
 					});
 					$('#userPreferences').click(function(){
 						if(me) redir(PAGE['preferences']);
@@ -169,6 +194,30 @@
 				});
 			}
 		});
+		function profileFriendsDialog(method, opc){
+			console.log('selectfriendsdialog');
+			var idDialog='shareTagDialog';
+			$(opc.layer).html('').listview('refresh');
+			myDialog({
+				id:idDialog,
+				style:{'min-height':200},
+				buttons:{},
+				after:function(options,dialog){
+					$('#like_friend',dialog).val('');
+					viewFriends(method, opc);
+					var timer;
+					$('#like_friend',dialog).unbind('keyup').bind('keyup',function(event){
+						if(event.which==8||event.which>40){
+							if(timer) clearTimeout(timer);
+							timer=setTimeout(function(){
+								opc.get+='&like='+$('#like_friend',dialog).val();
+								viewFriends(method, opc);
+							},1000);
+						}
+					});
+				}
+			});
+		}
 	</script>
 </div>
 <?php include 'inc/footer.php'; ?>

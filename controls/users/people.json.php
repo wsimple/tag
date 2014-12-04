@@ -26,9 +26,8 @@ switch ($_GET['action']) {
 					$array['where'].=safe_sql(" AND ul.id_friend NOT IN ((SELECT id_user FROM users_groups WHERE md5(id_group)=?))",array($_GET['idGroup']));
 				if (isset($_GET['like'])){
 					$searches = explode(' ',$_GET['like']);$where='';
-					foreach ($searches as $word) {
+					foreach ($searches as $word) 
 						$array['where'].=safe_sql(' AND  CONCAT_WS(" ",u.username,u.last_name,u.screen_name,u.name,u.email) LIKE "%??%"',array($word));
-					}
 					$res['num']=1;
 				}
 			break;
@@ -36,11 +35,23 @@ switch ($_GET['action']) {
 				$array['select'].=',md5(ul.id_user) AS id_user, md5(ul.id_friend) AS id_friend';
 				$array['where']=safe_sql('ul.id_user=?',array($uid));
 				$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
+				if (isset($_GET['like'])){
+					$searches = explode(' ',$_GET['like']);$where='';
+					foreach ($searches as $word) 
+						$array['where'].=safe_sql(' AND  CONCAT_WS(" ",u.username,u.last_name,u.screen_name,u.name,u.email) LIKE "%??%"',array($word));
+					$res['num']=1;
+				}
 			break;
 			case 'follow': //admiradores
 				$array['select'].=',md5(ul.id_user) AS id_friend, md5(ul.id_friend) AS id_user';
 				$array['join']=' JOIN users_links ul ON ul.id_user=u.id';
 				$array['where']=safe_sql('ul.id_friend=?',array($uid));
+				if (isset($_GET['like'])){
+					$searches = explode(' ',$_GET['like']);$where='';
+					foreach ($searches as $word) 
+						$array['where'].=safe_sql(' AND  CONCAT_WS(" ",u.username,u.last_name,u.screen_name,u.name,u.email) LIKE "%??%"',array($word));
+					$res['num']=1;
+				}
 			break;
 			case 'find'://encontrar amigos
 				$numAction=3;
