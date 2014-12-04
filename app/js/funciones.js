@@ -1091,7 +1091,7 @@ function viewFriends(method, opc){
 				redir(PAGE['findfriends']);
 			});
 			if(opc.success) opc.success(data);
-			//$('.list-wrapper').jScroll('refresh');
+			if (opc.wrapper) opc.wrapper.jScroll('refresh');
 		}
 	});
 }
