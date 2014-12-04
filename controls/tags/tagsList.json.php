@@ -22,6 +22,10 @@ function tagsList_json($data,$mobile=false){
 	$data['id']=intToMd5($data['id']);
 	$refresh=($data['action']=='refresh');
 	$uid=$data['uid']==''?$myId:CON::getVal('SELECT id FROM users WHERE md5(id)=?',array(intToMd5($data['uid'])));
+	if ($data['rtitle']){
+			$res['rtitle']=CON::getVal('SELECT CONCAT(name," ",last_name) AS title FROM users WHERE md5(id)=?',array(intToMd5($data['uid'])));
+			$res['rtitle']=formatoCadena($res['rtitle']);
+	}
 	$res['date']=$data['date'];
 	$res['info']='';
 	$res['request_id']=$data['id'];
@@ -413,6 +417,7 @@ if(!$notAjax){
 	$data['idsponsor']=$_REQUEST['idsponsor'];
 	$data['mobile']=isset($_REQUEST['mobile']);
 	$data['popup']=isset($_REQUEST['popup']);
+	$data['rtitle']=isset($_REQUEST['rtitle']);
 	//necesarios
 	$data['action']=$_REQUEST['action'];
 	$data['current']=$_REQUEST['current'];
