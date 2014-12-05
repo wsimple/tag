@@ -231,10 +231,11 @@ var guidely = function()
 			that = this;
 			coords = this._getAnchorCoords(options);
 			displayId = id;
-			number = $('<div>',
-			{
-				'id' : 'guidely-number-' + id, 'class' : 'guidely-number', 'html' : '<span>' + displayId + '</span>'
-			});
+			if (this._guides.length!=1) {
+				number = $('<div>',	{'id' : 'guidely-number-' + id, 'class' : 'guidely-number', 'html' : '<span>' + displayId + '</span>'});
+			}else{
+				number = $('<div>',	{'id' : 'guidely-number-' + id, 'class' : 'guidely-number', 'style':'background:none'});
+			}
 			number.css({
 				'top' : coords[0], 'left' : coords[1]
 			});
@@ -247,37 +248,42 @@ var guidely = function()
 				that.hideGuides();
 				that.show(id)
 			});
+			
 			number.appendTo('body').show()
+			
 		},
 		_createGuide : function (id, options)
 		{
-			var that, content, popup, pad, close, controls, coords, number;
+			var that, content, popup, pad, close, controls, coords, number,style;
 			that = this;
+
 			coords = this._getCoords(options);
 			number = $('#guidely-number-' + id);
-			content = $('<div>', {
-				'id' : 'guidely-guide-' + id, 'class' : 'guidely-guide'
-			}).appendTo('body');
-			close = $('<a>',
-			{
-				'href' : 'javascript:;', 'class' : 'guidely-close-trigger', 'html' : 'x', 'click' : function ()
-				{
-					that.close()
-				}
-			}).appendTo(content);
-			popup = $('<div>', {
-				'class' : 'guidely-popup'
-			}).appendTo(content);
-			pad = $('<div>', {
-				'class' : 'guidely-guide-pad'
-			}).appendTo(popup);
-			if (options.title !== '' && options.title !== undefined) {
-				pad.append('<h4>' + options.title + '</h4>')
+			
+			if (this._guides.length==1) {
+				content = $('<div>', {'id' : 'guidely-guide-' + id, 'class' : 'guidely-guide','style':'left: 373px !important; width: 600px !important;'}).appendTo('body');
+				popup = $('<div>', {'class' : 'guidely-popup','style':'background-image: url(\'css/tbum/home_what_is_it.png\') !important; background-size: 600px 300px'}).appendTo(content);
+			}else{
+				content = $('<div>', {'id' : 'guidely-guide-' + id, 'class' : 'guidely-guide'	}).appendTo('body');
+				popup = $('<div>', {'class' : 'guidely-popup'}).appendTo(content);
 			}
-			pad.append(options.text);
-			controls = $('<div>', {
-				'class' : 'guidely-controls'
-			}).appendTo(popup);
+			
+			close = $('<a>',{'href' : 'javascript:;', 'class' : 'guidely-close-trigger', 'html' : 'X', 'click' : function (){ that.close() } }).appendTo(content);
+
+			pad = $('<div>', {'class' : 'guidely-guide-pad'}).appendTo(popup);
+
+			if (options.title !== '' && options.title !== undefined) {
+				if (this._guides.length==1) {
+					pad.append('<div><img src="css/tbum/full-logo.png" width="120" height="160"></div><h1>' + options.title + '</h1>')
+					pad.append('<div style="font-size: 20px; text-align: center">'+options.text+'</div>');
+				}else{
+					pad.append('<h4>' + options.title + '</h4>')
+					pad.append(options.text);
+				};
+			}
+
+			controls = $('<div>', {'class' : 'guidely-controls'}).appendTo(popup);			
+
 			if (this._guides.length == id) {
 				this._createDoneButton().prependTo(controls)
 			}
