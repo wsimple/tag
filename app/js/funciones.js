@@ -82,7 +82,7 @@ function readTxt(url){
 	function menuActions(data){
 		//aqui se ejecutan las acciones aplicadas al menu
 		console.log('menuActions');
-		console.log(data);
+		// console.log(data);
 		var func,$this=data.that;
 		switch(data.opc){
 			case 'home':case 'timeline':case 'news':
@@ -860,7 +860,6 @@ function playComment(tagtId, opc){
 					if(cancel()){
 						console.log('Cancelada carga de '+current+'.'); return;
 					}else{
-						console.log(data);
 						if (opc.title && data.rtitle) $('#pageTitle').append(': '+data.rtitle);
 						if(action=='more'&&(!data.tags||data.tags.length<1)) act.more=false;
 						if(data.tags && data.tags.length>0){
@@ -955,7 +954,6 @@ function playComment(tagtId, opc){
 								if($tag.length>0)
 									if($remove) $remove.add($tag); else $remove=$tag;
 							}
-							console.log(data.tags);
 							tags+=showTags(data.tags);
 							if($remove) $remove.remove();
 							if(action=='more'){
@@ -1063,7 +1061,7 @@ function viewFriends(method, opc){
 				break;
 			}
 			// }
-			divider='<li data-role="list-divider">'+divider+' ('+count+')'+'</li>';
+			divider='<li data-role="list-divider">'+divider+(!opc.noCount?' ('+count+')':'')+'</li>';
 
 			if (data.datos.length>0){
 				for(i=0;i<data.datos.length;i++){
@@ -1140,7 +1138,7 @@ function verifyGroupMembership(idGroup,code,func){
 		success:func
 	});
 }
-function preferencesUsers(usr){
+function preferencesUsers(usr,name){
 	var code=usr||$.local('code');
 	myAjax({
 		type	:'GET',
@@ -1161,6 +1159,11 @@ function preferencesUsers(usr){
 					out+=pref.text+'</li>';
 				}
 			}
+			if (out==''){
+				if (code==$.local('code')) out=lan('SOONEXTERPREFERENCES3');
+				else out=lan('soon','ucw')+' '+(name||lan('SOONEXTERPREFERENCES1'))+' '+lan('SOONEXTERPREFERENCES2');
+				out='<div style="width: 80%;margin: 0 auto;text-align: center"><strong>'+out+'</strong></div>';
+			} 
 			myDialog({
 				id:'#preferencesDialog',
 				content:'<ul data-role="listview" id="ulMyPrefe" data-theme="c" style="padding:0 20px 20px;">'+out+'</ul>',
@@ -1749,7 +1752,6 @@ function viewCategories(action,idLayer,id){
 			myDialog('#singleDialog',lan('conectionFail'));
 		},
 		success:function(data){
-			console.log(data);
 			var out='',cate;
 			if (data.data.length>0){
 				for(var i in data.data){
@@ -1856,7 +1858,6 @@ function actionButtonsStore(){
 				break;
 				case 'sendCart':
 					var auxi=$('#lstStoreOption .buttons a');
-					console.log(auxi);
 					$.each(auxi,function(){$(this).attr('func2',$(this).attr('func'));});
 					addProductShoppingCart($(this).parents('li').attr('id'),auxi);
 				break;
@@ -1874,7 +1875,6 @@ function deleteItemCar(id,get,obj){
 			myDialog('#singleDialog',lan('conectionFail'));
 		},
 		success:function(data){
-			console.log(data);
 			if(data.del!='1'){
 				if(data.del=='all'){
 					if(obj.mod=='car'){redir(PAGE.storeCat);}
@@ -1922,7 +1922,6 @@ function updateCantP(myselect){
 			url:DOMINIO+'controls/store/shoppingCart.json.php?action=15&linea='+linea+'&cant='+objeto.val(),
 			dataType:'json',
 			success:function(data){
-				console.log([diferencia,totalAct,totalAnt]);
 				if(data.datosCar=='update'){
 					objeto.attr('cantAct',diferencia);
 					totalAct=$('#cartList .titleDivider .money input').val();
@@ -2143,12 +2142,11 @@ function checkOutShoppingCart(get){
 			loader:false,
 			success:function(data){
 				//if(!data) return;
-				console.log(data)
 				if(data.deleted){//si fue una eliminacion
 					opc.start--;
 					var $ul=protected.parent();
 					protected.fadeOut(600,function(){
-						console.log($ul.children(':visible').length);
+						// console.log($ul.children(':visible').length);
 						if(!$ul.children(':visible').length)
 							$('.seemore',$header[0]).click();
 					});
@@ -2233,7 +2231,7 @@ function checkOutShoppingCart(get){
 	};
 	window.delComment=function(el,opc){
 		var id=el.attr('comment');
-		console.log('delcomment='+id);
+		// console.log('delcomment='+id);
 		if(!id) return;
 		opc.data.id=id;
 		return _getComments('del',opc,el);
