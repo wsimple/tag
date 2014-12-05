@@ -68,8 +68,8 @@ switch ($_GET['action']) {
 					$array['where']="u.id!=$uid $where";
 					$array['order']='ORDER BY u.username';
 				}else{
-					$array['order']='ORDER BY RAND()';
-					$array['where']="u.id!=$uid AND u.id NOT IN ((SELECT id_friend FROM users_links WHERE id_user=$uid)) AND u.id NOT IN ((SELECT id_user FROM users_links WHERE id_friend=$uid))";
+					$array['order']='ORDER BY u.followers_count DESC';
+					$array['where']="u.id!=$uid AND ul.id_friend IS NULL ";
 					if (isset($_POST['no_id_s']) && $_POST['no_id_s']!=''){
 						$array['where'].=' AND u.id NOT IN ('.CON::cleanStrings($_POST['no_id_s']).')';
 						$array['limit']='LIMIT 0,20';
