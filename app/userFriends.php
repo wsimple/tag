@@ -55,11 +55,7 @@
 			$('.list-content input').keyup(function() {
 				$('.list-wrapper').jScroll('refresh');
 			});
-			$(opc.layer).on('click','[code]',function(){
-				redir(PAGE['profile']+'?id='+$(this).attr('code'));
-			});
 
-			linkUser(opc.layer);
 
 			$(this.id).on('click','#seemore', function(event) {
 				opc.get = '&offset='+perpag+'&limit='+(perpag*pag++);
@@ -84,6 +80,11 @@
 			viewFriends('refresh',$.extend({mod:'friends',layer:'#friends ul'},opc));
 			viewFriends('refresh',$.extend({mod:'follow',layer:'#follow ul'},opc));
 			viewFriends('refresh',$.extend({mod:'unfollow',layer:'#unfollow ul'},opc));
+
+			$(this.id).on('click','[code]',function(){
+				redir(PAGE['profile']+'?id='+$(this).attr('code'));
+			});
+			linkUser(this.id, $wrapper);
 		}
 	});
 </script>
