@@ -2,6 +2,7 @@
 $lang=array(
 	#Basicas
 	'OK'=>'Ok',
+	'fb_lang'=>'en_US',
 	#variables de la web
 	'AUTHOR'=>'Websarrollo.com, Maoghost.com',
 	'COPYRIGHT'=>'Tagamation, LLc',
