@@ -50,6 +50,7 @@
 			before:function(){
 				$('.pullDownLabel').html(lan('SCROLL_PULLDOWN'));
 				$('.pullUpLabel').html(lan('SCROLL_PULLUP'));
+				$('#singleRedirDialog #scroller.content').html(lan('JS_DELETETAG'));
 				// $('#userPoints').html(lan('POINTS_USERS')+' <b><loader/></b>');
 				$('#tl-footer ul').html(//llenado de footer
 					'<li><a opc="timeLine" data-icon="tag-tl" data-iconpos="top" class="ui-btn-active">'+lang.JS_TIMELINE+'</a></li>'+
