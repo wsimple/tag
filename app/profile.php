@@ -29,11 +29,13 @@
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
 			<div class="container" style="font-size: 50%;">
-				<div class="this-search" style="display:inline-block;margin-right:5px;width:100%;">
-					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" />
-				</div>
-				<div class="list-wrapper" style="margin-top:5px;height:150px;">
-					<div id="scroller"><ul id="ulListFriends" data-role="listview" data-inset="true"></ul>
+				<div class="title"></div>
+				<div class="list-wrapper" style="height:165px;top:15px">
+					<div id="scroller">
+						<div class="this-search" style="margin-bottom:10px;width:100%;height:20px;">
+							<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" style="font-size: 12px" />
+						</div>
+						<ul id="ulListFriends" data-role="listview" data-inset="true"></ul>
 				</div></div>
 			</div>
 			<div class="buttons">
@@ -123,12 +125,9 @@
 					$('#globalButtons').on('click','div',function(){
 						if($(this).attr('num')>0){
 							switch(this.id){
-								case 'userFriends': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"friends"}); break;
-								case 'userFollowers': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"follow"}); break;
-								case 'userFollowing': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"unfollow"}); break;
-								// case 'userFriends': selectFriendsDialog([code,'friends']); break;
-								// case 'userFollowers': selectFriendsDialog([code,'follow']); break;
-								// case 'userFollowing': selectFriendsDialog([code,'unfollow']); break;
+								case 'userFriends': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"friends",noCount:true,userN:(data['name_user']||data['username'])}); break;
+								case 'userFollowers': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"follow",noCount:true,userN:(data['name_user']||data['username'])}); break;
+								case 'userFollowing': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"unfollow",noCount:true,userN:(data['name_user']||data['username'])}); break;
 								// case 'userFriends': redir(PAGE['userfriends']+'?type=friends&id_user='+code); break;
 								// case 'userFollowers': redir(PAGE['userfriends']+'?type=follow&id_user='+code); break;
 								// case 'userFollowing': redir(PAGE['userfriends']+'?type=unfollow&id_user='+code); break;
@@ -143,7 +142,7 @@
 					});
 					$('#userPreferences').click(function(){
 						if(me) redir(PAGE['preferences']);
-						else preferencesUsers(code);
+						else preferencesUsers(code,data['name_user']||data['username']);
 					});
 					if(me){
 						$('#followButton').remove();
@@ -196,14 +195,19 @@
 		});
 		function profileFriendsDialog(method, opc){
 			console.log('selectfriendsdialog');
-			var idDialog='shareTagDialog';
+			var idDialog='shareTagDialog',titles=[];  
+			titles['unfollow']=lan('admired','ucw');
+			titles['follow']=lan('admirers','ucw');
+			titles['friends']=lan('friends','ucw');
 			$(opc.layer).html('').listview('refresh');
+			// userN
 			myDialog({
 				id:idDialog,
-				style:{'min-height':200},
+				style:{'min-height':175},
 				buttons:{},
 				after:function(options,dialog){
 					$('#like_friend',dialog).val('');
+					$('.title',dialog).html(opc.userN+' '+titles[opc.mod]);
 					viewFriends(method, opc);
 					var timer;
 					$('#like_friend',dialog).unbind('keyup').bind('keyup',function(event){
