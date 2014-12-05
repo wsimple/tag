@@ -662,6 +662,16 @@
 
 .myDialog .buttons{ margin:0px -5px -5px; }
 
+.myDialog .title{ 	
+	text-align:justify;
+	background:#fff;
+	margin:auto;
+	text-align: center;
+	overflow:hidden;
+	font-weight: bold;
+	font-size: 16px;
+}
+
 @media all and (max-width:680px){
 	.myDialog .window{
 		width:auto;

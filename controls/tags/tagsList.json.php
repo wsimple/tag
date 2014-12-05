@@ -22,10 +22,15 @@ function tagsList_json($data,$mobile=false){
 	$data['id']=intToMd5($data['id']);
 	$refresh=($data['action']=='refresh');
 	$uid=$data['uid']==''?$myId:CON::getVal('SELECT id FROM users WHERE md5(id)=?',array(intToMd5($data['uid'])));
+	if ($data['rtitle']){
+			$res['rtitle']=CON::getVal('SELECT CONCAT(name," ",last_name) AS title FROM users WHERE md5(id)=?',array(intToMd5($data['uid'])));
+			$res['rtitle']=formatoCadena($res['rtitle']);
+	}
 	$res['date']=$data['date'];
 	$res['info']='';
 	$res['request_id']=$data['id'];
 	$start=intval($data['start']);
+	$group='';
 	$limit=(!is_numeric($data['limit'])?5:(intval($data['limit'])>50?50:intval($data['limit'])));
 	$sqlUid=isset($_GET['this_is_app'])?'md5(concat(t.id_creator,"_",(SELECT tu.email FROM users tu WHERE tu.id=t.id_creator),"_",t.id_creator))':'md5(t.id_creator)';
 	$sqlUid2=isset($_GET['this_is_app'])?'md5(concat(t.id_user,"_",u.email,"_",t.id_user))':'md5(t.id_user)';
@@ -101,12 +106,14 @@ function tagsList_json($data,$mobile=false){
 			$res['info']='lista de las mejores tags -8-';
 			//$where.=' AND t.status="1"';
 			switch($data['range']){
-				case '1': $where.=' AND th.date=DATE(NOW())';break;
-				case '2': $where.=' AND th.date BETWEEN DATE_SUB(NOW(),INTERVAL 1 WEEK) AND NOW()';break;
-				case '3': $where.=' AND th.date BETWEEN DATE(DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 30 DAY),"%Y-%m-01")) AND LAST_DAY(CURDATE())';break;
-				case '4': $where.=' AND YEAR(th.date)=YEAR(CURDATE())';break;
+				case '1':$where.=' AND th.date=DATE(NOW())';break;
+				case '2':$where.=' AND th.date BETWEEN DATE_SUB(NOW(),INTERVAL 1 WEEK) AND NOW()';break;
+				case '3':$where.=' AND th.date BETWEEN DATE(DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 30 DAY),"%Y-%m-01")) AND LAST_DAY(CURDATE())';break;
+				case '4':
+				default:$where.=' AND YEAR(th.date)=YEAR(CURDATE())';break;
 			}
 			$where .= ' AND th.hits !=0 AND t.status=1 ';
+			$group='GROUP BY t.id';
 			$order='top DESC';
 			$join.='LEFT JOIN tags_hits th ON th.id_tag=t.id';
 			$select.=',SUM(th.hits) AS hits,SUM(th.hits) AS top';
@@ -210,6 +217,7 @@ function tagsList_json($data,$mobile=false){
 		SELECT DISTINCT $select
 		FROM tags t $join
 		WHERE $where
+		$group
 		ORDER BY $order
 		".($data['nolimit']?'':"LIMIT $start,$limit"); //numero de registros a mostrar por consulta
 	//Query - TimeLine
@@ -413,6 +421,7 @@ if(!$notAjax){
 	$data['idsponsor']=$_REQUEST['idsponsor'];
 	$data['mobile']=isset($_REQUEST['mobile']);
 	$data['popup']=isset($_REQUEST['popup']);
+	$data['rtitle']=isset($_REQUEST['rtitle']);
 	//necesarios
 	$data['action']=$_REQUEST['action'];
 	$data['current']=$_REQUEST['current'];
