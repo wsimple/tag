@@ -57,6 +57,7 @@ is.limited= !is.webkit||is.android;
 		'wish list' :'lista de deseos',
 		'active'	:'activo',
 		'inactive'	:'inactivo',
+		'soon'		:'pronto',
 
 		//'':'mover a',
 
@@ -204,6 +205,9 @@ is.limited= !is.webkit||is.android;
 		PREFERENCES_WHATILIKE			:'Lo que me gusta',
 		PREFERENCES_WHATINEED			:'Lo que necesito',
 		PREFERENCES_WHATIWANT			:'Lo que yo quiero',
+		SOONEXTERPREFERENCES1			:'esta persona',
+		SOONEXTERPREFERENCES2			:'Colocará sus preferencias.',
+		SOONEXTERPREFERENCES3			:'Usted aún no especificado sus preferencias.',
 		profile							:'Perfil',
 		PROFILE_BIRTHDATE				:'Cumpleaños',
 		PROFILE_PERSONALTAGS			:'Tags Personales',
@@ -450,6 +454,9 @@ is.limited= !is.webkit||is.android;
 		PREFERENCES_WHATILIKE			:'What I like',
 		PREFERENCES_WHATINEED			:'What I need',
 		PREFERENCES_WHATIWANT			:'What I want',
+		SOONEXTERPREFERENCES1			:'this person',
+		SOONEXTERPREFERENCES2			:'Will place their preferences.',
+		SOONEXTERPREFERENCES3			:'You do not yet specified your preferences.',
 		USERPROFILE_PREFERENCES			:'Preferences',
 		PREFERENCES_ERRORSELECC			:'Error, You must select at least one preference',
 		PREFERENCES_HOLDERSEARCH		:'Use commas to separate preferences, Example: Movie, Run, Eat, Baseball, Fishing.',
