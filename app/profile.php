@@ -25,6 +25,24 @@
 			</div>
 		</div>
 	</div>
+	<!-- Dialogs -->
+	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
+		<div class="window">
+			<div class="container" style="font-size: 50%;">
+				<div class="title"></div>
+				<div class="list-wrapper" style="height:165px;top:15px">
+					<div id="scroller">
+						<div class="this-search" style="margin-bottom:10px;width:100%;height:20px;">
+							<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" style="font-size: 12px" />
+						</div>
+						<ul id="ulListFriends" data-role="listview" data-inset="true"></ul>
+				</div></div>
+			</div>
+			<div class="buttons">
+				<a href="#" data-role="button" onclick="closeDialogmembersGroup('#shareTagDialog')" data-theme="f">Ok</a>
+			</div>
+		</div>
+	</div></div></div>
 	<script>
 		pageShow({
 			id:'#page-profile',
@@ -95,11 +113,10 @@
 					fillButton('#userPersonalTags',	data['numPersTags']);
 					if(data['photo_friend']!=data['FILESERVER']+'img/users/default.png') $('#userPicture').attr('src',data['photo_friend']);
 
-
 					var birth=lan(data['birthday'],'ucw'),
 						txt='<div><strong>'+(data['name_user']||data['username'])+'</strong></div>';
 					if(data['type']=='0')
-						txt+=(birth!='none'?'<div><strong>'+lang.PROFILE_BIRTHDATE+':</strong> '+birth+'</div>':'');
+						txt+=((birth!='none' && data['birthday']!='private')?'<div><strong>'+lang.PROFILE_BIRTHDATE+':</strong> '+birth+'</div>':'');
 					else
 						txt+=(data['birthday']!='none'?'<div><strong>'+lang.FOUNDATION_DATE+':</strong> '+data['birthday']+'</div>':'');
 					txt+=(data['country'] && data['country']!='none' && data['country']!=''?'<div><strong>'+lan('From')+':</strong> '+data['country']+'</div>':'');
@@ -108,17 +125,24 @@
 					$('#globalButtons').on('click','div',function(){
 						if($(this).attr('num')>0){
 							switch(this.id){
-								case 'userFriends': redir(PAGE['userfriends']+'?type=friends&id_user='+code); break;
-								case 'userFollowers': redir(PAGE['userfriends']+'?type=follow&id_user='+code); break;
-								case 'userFollowing': redir(PAGE['userfriends']+'?type=unfollow&id_user='+code); break;
+								case 'userFriends': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"friends",noCount:true,userN:(data['name_user']||data['username'])}); break;
+								case 'userFollowers': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"follow",noCount:true,userN:(data['name_user']||data['username'])}); break;
+								case 'userFollowing': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"unfollow",noCount:true,userN:(data['name_user']||data['username'])}); break;
+								// case 'userFriends': redir(PAGE['userfriends']+'?type=friends&id_user='+code); break;
+								// case 'userFollowers': redir(PAGE['userfriends']+'?type=follow&id_user='+code); break;
+								// case 'userFollowing': redir(PAGE['userfriends']+'?type=unfollow&id_user='+code); break;
 								case 'userTags': redir(PAGE['tagslist']+'?current=tagsUser&id='+md5(data['id'])); break;
 								case 'userPersonalTags': redir(PAGE['tagslist']+'?current=personalTags&id='+md5(data['id'])); break;
 							}
 						}
 					});
+					linkUser('#ulListFriends');
+					$('#ulListFriends').on('click','[code]',function(){
+						redir(PAGE['profile']+'?id='+$(this).attr('code'));
+					});
 					$('#userPreferences').click(function(){
 						if(me) redir(PAGE['preferences']);
-						else preferencesUsers(code);
+						else preferencesUsers(code,data['name_user']||data['username']);
 					});
 					if(me){
 						$('#followButton').remove();
@@ -169,6 +193,35 @@
 				});
 			}
 		});
+		function profileFriendsDialog(method, opc){
+			console.log('selectfriendsdialog');
+			var idDialog='shareTagDialog',titles=[];  
+			titles['unfollow']=lan('admired','ucw');
+			titles['follow']=lan('admirers','ucw');
+			titles['friends']=lan('friends','ucw');
+			$(opc.layer).html('').listview('refresh');
+			// userN
+			myDialog({
+				id:idDialog,
+				style:{'min-height':175},
+				buttons:{},
+				after:function(options,dialog){
+					$('#like_friend',dialog).val('');
+					$('.title',dialog).html(opc.userN+' '+titles[opc.mod]);
+					viewFriends(method, opc);
+					var timer;
+					$('#like_friend',dialog).unbind('keyup').bind('keyup',function(event){
+						if(event.which==8||event.which>40){
+							if(timer) clearTimeout(timer);
+							timer=setTimeout(function(){
+								opc.get+='&like='+$('#like_friend',dialog).val();
+								viewFriends(method, opc);
+							},1000);
+						}
+					});
+				}
+			});
+		}
 	</script>
 </div>
 <?php include 'inc/footer.php'; ?>
