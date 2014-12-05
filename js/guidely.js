@@ -251,13 +251,18 @@ var guidely = function()
 		},
 		_createGuide : function (id, options)
 		{
-			var that, content, popup, pad, close, controls, coords, number;
+			var that, content, popup, pad, close, controls, coords, number,style;
 			that = this;
+
 			coords = this._getCoords(options);
 			number = $('#guidely-number-' + id);
-			content = $('<div>', {
-				'id' : 'guidely-guide-' + id, 'class' : 'guidely-guide'
-			}).appendTo('body');
+			
+			if (this._guides.length==1) {
+				content = $('<div>', {'id' : 'guidely-guide-' + id, 'class' : 'guidely-guide','style':'left: 373px !important; width: 600px !important'	}).appendTo('body');
+			}else{
+				content = $('<div>', {'id' : 'guidely-guide-' + id, 'class' : 'guidely-guide'	}).appendTo('body');
+			}
+			
 			close = $('<a>',
 			{
 				'href' : 'javascript:;', 'class' : 'guidely-close-trigger', 'html' : 'x', 'click' : function ()
@@ -272,9 +277,15 @@ var guidely = function()
 				'class' : 'guidely-guide-pad'
 			}).appendTo(popup);
 			if (options.title !== '' && options.title !== undefined) {
-				pad.append('<h4>' + options.title + '</h4>')
+				if (this._guides.length==1) {
+					pad.append('<div><img src="css/tbum/logo-white-orange.png" width="200" height="60"></div><h2>' + options.title + '</h2>')
+					pad.append('<div style="font-size: 18px; text-align: center">'+options.text+'</div>');
+				}else{
+					pad.append('<h4>' + options.title + '</h4>')
+					pad.append(options.text);
+				};
 			}
-			pad.append(options.text);
+			
 			controls = $('<div>', {
 				'class' : 'guidely-controls'
 			}).appendTo(popup);
