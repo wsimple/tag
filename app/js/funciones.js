@@ -646,14 +646,15 @@ function bigLike(tagId, icon){
 		$(this).remove();
 	});
 }
-function actionsTags(layer){
+function actionsTags(layer, forceComments){
+	forceComments = forceComments || false;
 	if(isLogged()){
 		$(layer).doubletap('[tag] > .bg', function(e){
 			var tagId = $(e.currentTarget).parents('[tag]').attr('tag');
 			bigLike(tagId,'like');
 			
-			if ( $('[tag='+tagId+']').find('#comments').length == 0 ) {
-				playLike(tagId,'likeIcon','dislikeIcon',true);
+			if ( forceComments || $('[tag='+tagId+']').find('#comments').length == 0 ) {
+				playLike(tagId,'likeIcon','dislikeIcon',!forceComments);
 			};
 		});
 		$(layer).on('click', 'menu li', function(e){
@@ -757,20 +758,20 @@ function actionsTags(layer){
 }
 function afterAjaxTags(data, tagId, toHide,toShow){
 	//console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
-	if(data.indexOf('ERROR')<0){
+	if(data || data.indexOf('ERROR')<0){
 		$('[tag='+tagId+']').find(toHide).fadeOut('slow',function(){
 			$('[tag='+tagId+']').find(toShow).fadeIn('slow');
 		});
 	}
 }
 function playLike(tagtId,that,show,comment){
+	afterAjaxTags(true,tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
 	myAjax({
 		type:'POST',
 		url:DOMINIO+'controls/tags/actionsTags.controls.php?this_is_app&action='+(that=='likeIcon'?4:11)+'&tag='+tagtId,
 		dataType:'json',
 		loader: false,
 		success:function(data){
-			afterAjaxTags(data['success'],tagtId,'.tag-icons #'+show,'.tag-icons #'+that);
 			if (data['success']=='likes') afterAjaxTags(data['success'], tagtId, 'menu #like', 'menu #dislike');
 			else afterAjaxTags(data['success'], tagtId,'menu #dislike', 'menu #like');
 			$('#numDislikes').html(data['dislikes']); $('#numLikes').html(data['likes']);
@@ -860,7 +861,7 @@ function playComment(tagtId, opc){
 					if(cancel()){
 						console.log('Cancelada carga de '+current+'.'); return;
 					}else{
-						if (opc.title && data.rtitle) $('#pageTitle').append(': '+data.rtitle);
+						if (action=='reload' && opc.title && data.rtitle) $('#pageTitle, #rowTitle').append(': '+data.rtitle);
 						if(action=='more'&&(!data.tags||data.tags.length<1)) act.more=false;
 						if(data.tags && data.tags.length>0){
 							opc.date=data.date;
@@ -1078,17 +1079,19 @@ function viewFriends(method, opc){
 				}
 				mens+='<br><br>'+(opc.mod=='friends'||opc.mod=='unfollow'?'<div id="findFriends" style="font-weight:bold">'+lan('FIND_FRIENDS_NOTIFICATION')+'</div>':'');
 				out+='<li>'+mens+'</li>';
+				$(opc.layer+' #seemore').remove(); //Elimina boton seemore si no hay mas nada qwue ver
 			};
 			if (method=='refresh') {
-				$(opc.layer).html(divider+out).listview('refresh');
+				$(opc.layer).html(divider+out+'<li data-theme="f" data-icon="false" id="seemore"><a style="text-align:center;" href="#">'+lan('see more','ucw')+'</a></li>').listview('refresh');
 			}else if(method=='more'){
 				if ($('#findFriends').length == 0) {
-					$(opc.layer).append(out).listview('refresh');
+					$(opc.layer+' #seemore').before(out);
+					$(opc.layer).listview('refresh');
 				}
+				$('#findFriends').click(function(event){
+					redir(PAGE['findfriends']);
+				});
 			}
-			$('#findFriends').click(function(event){
-				redir(PAGE['findfriends']);
-			});
 			if(opc.success) opc.success(data);
 			if (opc.wrapper) opc.wrapper.jScroll('refresh');
 		}

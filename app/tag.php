@@ -93,7 +93,7 @@
 							$('.tag-title').html(tag['rid']?tag['rname']+lang.TXT_REDIST:tag['uname']);
 							delete tag['uname'];
 							$('#tag').html(showTag(tag));
-							actionsTags('#tag');
+							actionsTags('#tag', true);
 							$('#tag menu li#comment').click().hide();
 						}else{
 							$('#tag').html('<div id="tagNoExits" class="tagNoExits">'+lang.TAGS_WHENTAGNOEXIST+'.</div>'
