@@ -58,6 +58,16 @@
 				$('#none,#none2').val(lang.none);
 				$('#assignAdminGrp').val(lang.GROUPS_ASSIGNADMIN);
 				$('#like_friend_group, #like_admin_group').attr('placeholder',lang.inputPlaceHolder);
+				var current=$_GET['current']||'tagsUser';
+				if(current=='tagsUser'){
+					$('#pageTitle').html(lang.MAINMNU_MYTAGS);
+					$('#pd-wrapper').css('top','30px');
+					$('div[data-role="content"]').prepend('<div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">'+lang.MAINMNU_MYTAGS+'</div></div>');
+				}else if(current=='personalTags'){
+					$('#pageTitle').html(lang.MAINMNU_PERSONALTAGS);
+					$('#pd-wrapper').css('top','30px');
+					$('div[data-role="content"]').prepend('<div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">'+lang.MAINMNU_PERSONALTAGS+'</div></div>');
+				}
 			},//end before
 			after:function(){
 				var current=$_GET['current']||'tagsUser',layer='#tagsList',id=$_GET['id'];
@@ -91,11 +101,7 @@
 						updateTags('reload',opc);
 					}
 				});
-				if(current=='tagsUser'){
-					$('#pageTitle').html(lang.MAINMNU_MYTAGS);
-				}else if(current=='personalTags'){
-					$('#pageTitle').html(lang.MAINMNU_PERSONALTAGS);
-				}else if(current=='group'){
+				if(current=='group'){
 					var admin=false,numAdm=0;
 					$('#pageTitle').html(lan('group','ucw'));
 					nameMenuGroups(id,0,function(data){
