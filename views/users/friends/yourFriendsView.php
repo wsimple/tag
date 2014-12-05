@@ -1,5 +1,6 @@
 <?php  
 	$find=isset($sc)&&$sc=='2'?true:false;
+	$numFriends=CON::getVal('SELECT COUNT(id_user) as num from users_links where id_user = ?',array($_SESSION['ws-tags']['ws-user']['id']));
 ?>
 <div id="tourSearchFriends"></div>
 <div id="yourFriendsView" class="ui-single-box">
@@ -108,6 +109,6 @@ $(document).ready(function(){
 	}
 });
 
-if ('<?=$sc?>'==2) { tour(SECTION); };
+if (('<?=$sc?>'==2)&&('<?=$numFriends?>'==0)) { tour(SECTION); };
 
 </script>
