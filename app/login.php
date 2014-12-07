@@ -1,4 +1,10 @@
 <?php include 'inc/header.php'; ?>
+<style>
+	.ui-loader{
+		top: 16px;
+		right: 10px;
+	}
+</style>
 <div id="page-login" data-role="page" class="no-header no-footer">
 	<div data-role="content" class="smt-bg smt-center">
 		<div class="ui-box-login">

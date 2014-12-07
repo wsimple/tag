@@ -64,12 +64,12 @@
 				$('#btn-reload').html(lang.retry);
 				if(is['tablet']&&!CORDOVA)
 					$('#btn-fullVersion').show();
-				$.loader('show');
+				//$.loader('show');
 				isLogged(isLogged());
 			},
 			login:function(logged){
 				console.log('logged='+logged);
-				$.loader('hide');
+				//$.loader('hide');
 				if(logged) redir(PAGE['home'],true);
 				else{
 //					updateAndroidMarketLinks()
