@@ -799,6 +799,7 @@ function playLike(tagtId,that,show,comment){
 			if (data['success']=='likes') afterAjaxTags(data['success'], tagtId, 'menu #like', 'menu #dislike');
 			else afterAjaxTags(data['success'], tagtId,'menu #dislike', 'menu #like');
 			$('#numDislikes').html(data['dislikes']); $('#numLikes').html(data['likes']);
+			$('[tag='+tagtId+'] .tag-counts').find('#dislikeIcon+span').html(data['dislikes']); $('[tag='+tagtId+'] .tag-counts').find('#likeIcon+span').html(data['likes']);
 			if (comment) playComment(tagtId);
 		}
 	});
@@ -834,8 +835,6 @@ function playComment(tagtId, opc){
 
 	$('#tagsList, #page-tag').on('click', '#send-comment', function(e) {
 		options.data.source = $(e.target).parents('[tag]').attr('tag');
-		console.log(e.currentTarget)
-		console.log(e.target)
 		//alert(options.data.source)
 		var comment=$.trim($('#commenting').val());
 		if(comment!=''){
