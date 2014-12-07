@@ -1310,50 +1310,6 @@ function searchAll(dato){
 	}
 }
 
-function addSuggestFriends(id_capa,content){
-	var capa=[];
-	if(content){
-		$('input[user]',content).each(function(){
-			capa.push($(this).attr('user'));
-		});
-	}
-	$$.ajax({
-		type	:"POST",
-		url		:"controls/users/addSuggestFriend.json.php",
-		dataType:"json",
-		data	:{user:capa},
-		success	:function(data){
-			var dato='', out='';
-			dato=data['friend'][0];
-			console.log(data['cad']);
-			console.log(id_capa);
-			if(dato){
-				out+='<div class="divYourFriendsSuggestPhoto">'+
-						'<img action="profile,'+dato['id_friend']+','+dato['name_user']+'" src="'+dato['photo_friend']+'" border="0"  width="50" height="50">'+
-					'</div>'+
-					'<div class="divYourFriendsSuggestInfo">'+
-						'<div class="left">'+
-							'<a href="javascript:void(0);" action="profile,'+dato['id_friend']+','+dato['name_user']+'">'+
-								dato['name_user']+
-							'</a>'+
-						'</div>'+
-						'<div class="right">'+
-							'<input user="'+dato['id_friend']+'" class="ui-button ui-widget ui-state-default ui-corner-all" style="font-size: 9px; padding: 2px 5px; margin-left: 3px;" type="button" value="<?=$lang["USER_BTNLINK"]?>"  action="linkUser,'+id_capa+','+dato['id_friend']+',,.contentSuggestFriends">'+
-					'</div>'+
-					'<div class="clearfix"></div>';
-					$(id_capa).html(out).show().css('border-bottom','1px solid #f8f8f8');
-			}else{
-				if(data['cad']!=''){
-					$(id_capa).css('height','0').css('border-bottom','0').css('display','none');
-				}else{
-					$('#seeMoreSuggest').fadeOut('400',function(){ $('#inviteSuggest').show(); });
-					$(id_capa).html('<div class="messageInviteSuggest"><?=$lang["INVITED_SUGGETSFRIENDS"]?></div>');
-				}
-			}
-		}
-	});
-}
-
 function linkUser(id_user,objet,action){
 	action=action*1;
 	$.ajax({

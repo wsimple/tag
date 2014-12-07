@@ -51,14 +51,14 @@ unset($detect);
 			<div id="tourTimeline"></div>
 		</li>
 		<li>
-			<a class="fNiv <?=$ma?>" href="<?=base_url('toptag?sc=1')?>"><?=TOPTAG_TITLE?></a>
+			<a class="fNiv <?=$ma?>" href="<?=base_url('toptag')?>"><?=TOPTAG_TITLE?></a>
 			<ul>
 				<li class="arrow"></li>
-				<li><a href="<?=base_url('toptag?current=hits&range=1')?>"><?=TOPTAGS_DAILY?></a></li>
-				<li><a href="<?=base_url('toptag?current=hits&range=2')?>"><?=TOPTAGS_WEEKLY?></a></li>
-				<li><a href="<?=base_url('toptag?current=hits&range=3')?>"><?=TOPTAGS_MONTHLY?></a></li>
-				<li><a href="<?=base_url('toptag?current=hits&range=4')?>"><?=TOPTAGS_YEARLY?></a></li>
-				<li><a href="<?=base_url('toptag?current=hits&range=5')?>"><?=TOPTAGS_ALWAYS?></a></li>
+				<li><a href="<?=base_url('toptag/daily')?>"><?=TOPTAGS_DAILY?></a></li>
+				<li><a href="<?=base_url('toptag/weekly')?>"><?=TOPTAGS_WEEKLY?></a></li>
+				<li><a href="<?=base_url('toptag/monthly')?>"><?=TOPTAGS_MONTHLY?></a></li>
+				<li><a href="<?=base_url('toptag/yearly')?>"><?=TOPTAGS_YEARLY?></a></li>
+				<li><a href="<?=base_url('toptag/always')?>"><?=TOPTAGS_ALWAYS?></a></li>
 			</ul>
 			<div id="tourToptag"></div>
 		</li>

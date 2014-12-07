@@ -46,8 +46,8 @@
                             (SELECT COUNT(id) FROM tags_report WHERE id_user_report=$id) AS numReportTags,
                             (SELECT SUM(od.price) FROM store_orders_detail od JOIN store_orders o ON od.id_order=o.id WHERE o.id_user=$id) AS buyStore,
                             (SELECT SUM(od.price) FROM store_orders o JOIN store_orders_detail od ON od.id_order=o.id WHERE od.id_user=$id) AS SellStore");
-        $pRow['SellStore']=($pRow['SellStore']?$pRow['SellStore']:0);
-        $pRow['buyStore']=($pRow['buyStore']?$pRow['buyStore']:0);
+        $pRow['SellStore']=0;//($pRow['SellStore']?$pRow['SellStore']:0);
+        $pRow['buyStore']=0;//($pRow['buyStore']?$pRow['buyStore']:0);
         if (isset($_GET['debug'])){
             echo '<pre>';
             print_r($pRow);
