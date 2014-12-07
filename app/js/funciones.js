@@ -2234,6 +2234,7 @@ function checkOutShoppingCart(get){
 				}else if(action=='refresh'||action=='insert'){
 					// $list.append(list);
 					$('#comment-line').before(list);
+					if (action=='insert') $( "#commenting" ).blur();
 				}else{
 					$list.prepend(list);
 				}

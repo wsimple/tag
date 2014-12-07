@@ -1,10 +1,10 @@
 <article id="title-news-suggest" class="side-box imagenSug">
 	<header><span><?=HOME_SUGGESTFRIENDS?></span></header>
 	<?php
-	$friends=randSuggestionFriends('',12); $display="";
-	if($numfriends=mysql_num_rows($friends)!=0){ $display='style="display:none"'; $coma="";$ids=""; ?>
+	$friends=suggestionFriends('',12); $display="";
+	if(count($friends)){ $display='style="display:none"'; $coma="";$ids=""; ?>
 	<div class="suggest-friends">
-	<?php while($friend=mysql_fetch_assoc($friends)){ $ids.=$coma.$friend['id_friend']; $coma=","; ?>
+	<?php foreach($friends as $friend){ $ids.=$coma.$friend['id_friend']; $coma=","; ?>
 		<div class="contentSuggestFriends thisPeople">
 			<div class="divYourFriendsSuggest" >
 				<div class="divYourFriendsSuggestPhoto">
