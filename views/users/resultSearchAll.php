@@ -74,17 +74,17 @@ if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){
 					}//fin while sugerencias
 					//relleno de sugerencias, por rand
 					$idsNotIn = rtrim($idsNotIn,',');// echo "relleno";
-					$friends = ($idsNotIn=="") ? randSuggestionFriends("", 50) : randSuggestionFriends($idsNotIn, 0); //incremetar el 0 por si se necesita relleno
-					while ($friend = mysql_fetch_assoc($friends)){
+					$friends = ($idsNotIn=="") ? suggestionFriends("", 50) : suggestionFriends($idsNotIn, 0); //incremetar el 0 por si se necesita relleno
+					foreach($friends as $friend){
 					$nameCountryUser=$GLOBALS['cn']->queryRow("SELECT name FROM countries WHERE id = '".$friend['country']."'");
 					$follower=$GLOBALS['cn']->queryRow("SELECT `id_user` AS `id_user` FROM users_links WHERE `id_friend`=".$friend['id_friend']." AND `id_user`=".$uid);
 					?>
 						<div id="div_<?=md5($friend['id_friend'])?>" class="divYourFriends">
-							<div style="float:left; width:80px; cursor:pointer;">
+							<div style="float:left;width:80px;cursor:pointer;">
 								<img onclick="userProfile('<?=$friend['name_user']?>','Close','<?=md5($friend['id_friend'])?>')" src="<?=FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['photo_friend'],'img/users/default.png')?>" border="0"  width="62" height="62" style="border: 1px solid #ccc"/>
 							</div>
-							<div style="float:left; width:500px; height:73px;">
-								<div style="height:70px; width:450px;  float: left">
+							<div style="float:left;width:500px;height:73px;">
+								<div style="height:70px;width:450px;float:left;">
 									<a href="javascript:void(0);" onclick="userProfile('<?=$friend['name_user']?>','Close','<?=md5($friend['id_friend'])?>')">
 										<img src="css/smt/menu_left/friends.png" alt="Friends Icons" title="Person" width="20" height="20">
 										<?=ucwords($friend['name_user'])?>
@@ -101,7 +101,7 @@ if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){
 								</div>
 								<div style="height:70px; width:0px;float: right; text-align: right;">
 								<input style="margin-top: 20px;<?=$follower['id_user']?'display:none;':''?>" type="button" value="<?=USER_BTNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2" />
-								<input style="margin-top: 20px;<?=$follower['id_user']?'':'display:none;'?>" 
+								<input style="margin-top: 20px;<?=$follower['id_user']?'':'display:none;'?>"
 								type="button" value="<?=USER_BTNUNLINK?>" action="linkUser,<?=md5($friend['id_friend'])?>,2" class="btn btn-disabled"/>
 								</div>
 							</div>
