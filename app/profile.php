@@ -28,7 +28,7 @@
 	<!-- Dialogs -->
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
-			<div class="container" style="font-size: 50%;height:340px;">
+			<div class="container" style="font-size: 50%;height:300px;">
 				<div class="title"></div>
 				<div class="list-wrapper" style="top:15px">
 					<div id="scroller">
@@ -66,7 +66,14 @@
 			},
 			after:function(){
 				$('#page-profile .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
-				var code=$_GET['id']||$.local('code'), me=(code==$.local('code'));//me=true si es el perfil del usuario loggeado
+				var code=$_GET['id']||$.local('code'), me=(code==$.local('code')),opc={
+					user:code,
+					layer:'#ulListFriends',
+					get:'&offset=20',
+					mod:"friends",
+					noCount:true,
+					userN:'',pag:1,perpag:20
+				};
 				$('.fs-wrapper').jScroll({hScroll:false});
 
 				function loadProfile(data){
@@ -123,11 +130,13 @@
 					$('#userInfo').html(txt);
 					$('.fs-wrapper').jScroll('refresh');
 					$('#globalButtons').on('click','div',function(){
+						opc.userN=(data['name_user']||data['username']);
+						opc.get='&offset=20';
 						if($(this).attr('num')>0){
 							switch(this.id){
-								case 'userFriends': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"friends",noCount:true,userN:(data['name_user']||data['username'])}); break;
-								case 'userFollowers': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"follow",noCount:true,userN:(data['name_user']||data['username'])}); break;
-								case 'userFollowing': profileFriendsDialog("refresh",{user:code,layer:'#ulListFriends',get:'&nolimit',mod:"unfollow",noCount:true,userN:(data['name_user']||data['username'])}); break;
+								case 'userFriends': opc.mod="friends"; profileFriendsDialog("refresh",opc); break;
+								case 'userFollowers': opc.mod="follow"; profileFriendsDialog("refresh",opc); break;
+								case 'userFollowing': opc.mod="unfollow"; profileFriendsDialog("refresh",opc); break;
 								// case 'userFriends': redir(PAGE['userfriends']+'?type=friends&id_user='+code); break;
 								// case 'userFollowers': redir(PAGE['userfriends']+'?type=follow&id_user='+code); break;
 								// case 'userFollowing': redir(PAGE['userfriends']+'?type=unfollow&id_user='+code); break;
@@ -139,6 +148,10 @@
 					linkUser('#ulListFriends');
 					$('#ulListFriends').on('click','[code]',function(){
 						redir(PAGE['profile']+'?id='+$(this).attr('code'));
+					});
+					$('#ulListFriends').on('click','#seemore', function(event) {
+						opc.get = '&offset='+opc.perpag+'&limit='+(opc.perpag*opc.pag++);
+						viewFriends('more',opc);
 					});
 					$('#userPreferences').click(function(){
 						if(me) redir(PAGE['preferences']);
@@ -195,6 +208,7 @@
 		});
 		function profileFriendsDialog(method, opc){
 			console.log('selectfriendsdialog');
+			opc.pag=1,opc.perpag=20;
 			var idDialog='shareTagDialog',titles=[];  
 			titles['unfollow']=lan('admired','ucw');
 			titles['follow']=lan('admirers','ucw');

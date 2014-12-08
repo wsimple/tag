@@ -13,7 +13,7 @@
 	  var js, fjs = d.getElementsByTagName(s)[0];
 	  if (d.getElementById(id)) return;
 	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&appId=141402139297347&version=v2.0";
+	  js.src = "//connect.facebook.net/<?=lan('fb_lang')?>/sdk.js#xfbml=1&appId=141402139297347&version=v2.0";
 	  fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));</script>
 	<!-- <div class="fb-share-button" data-href="<?=DOMINIO.'tag/'.$_GET['tag']?>"></div> -->

@@ -1,5 +1,6 @@
 <?php
-	$dialog=$dialog||isset($_GET['popup'])||isset($_GET['dialog']);
+	global $dialog,$section,$params;
+	if(!$dialog) $dialog=isset($_GET['popup'])||isset($_GET['dialog']);
 	$current=$_GET['current'];
 	if($current!=''){
 		//compatibilidad para links antiguos
@@ -35,9 +36,17 @@
 		}
 		unset($usr);
 	}elseif($idPage=='toptag'){
-		$range=$_GET['range']==''?5:$_GET['range'];
+		$current='hits';
 		$titulos=array(TOPTAGS_DAILY, TOPTAGS_WEEKLY, TOPTAGS_MONTHLY, TOPTAGS_YEARLY, TOPTAGS_ALWAYS);
-		$titulo=TOPTAG_TITLE.': '.$titulos[$range-1];
+		$range=$_GET['range']==''?1:$_GET['range'];
+		switch($params[0]){
+			case 'daily':$range=1;break;
+			case 'weekly':$range=2;break;
+			case 'monthly':$range=3;break;
+			case 'yearly':$range=4;break;
+			case 'always':$range=5;break;
+		}
+		$titulo=TOPTAG_TITLE.': '.ucfirst($titulos[$range-1]);
 	}
 	//Si viene de referencia la tag...
 	if(isset($_GET['tag'])&&isset($_GET['referee'])){
