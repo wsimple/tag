@@ -30,7 +30,7 @@
 		<div class="window">
 			<div class="container" style="font-size: 50%;height:300px;">
 				<div class="title"></div>
-				<div class="list-wrapper" style="top:15px">
+				<div class="list-wrapper" style="top:20px">
 					<div id="scroller">
 						<div class="this-search" style="margin-bottom:10px;width:100%;height:20px;">
 							<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" style="font-size: 12px" />
@@ -78,7 +78,6 @@
 
 				function loadProfile(data){
 					console.log('load profile');
-					console.log(data);
 					//cambia el tema de los botones (solo funciona con botones)
 					function changeButtonTheme(theme,obj){
 						$(obj)

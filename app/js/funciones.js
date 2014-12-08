@@ -1085,7 +1085,7 @@ function viewFriends(method, opc){
 				break;
 			}
 			// }
-			divider=!opc.noCount?'<li data-role="list-divider">'+divider+' ('+count+')'+'</li>':'';
+			divider=!opc.noCount?'<li data-role="list-divider">'+divider+(count!=''?' ('+count+')':'')+'</li>':'';
 
 			if (data.datos.length>0){
 				for(i=0;i<data.datos.length;i++){
@@ -1105,7 +1105,9 @@ function viewFriends(method, opc){
 				$(opc.layer+' #seemore').remove(); //Elimina boton seemore si no hay mas nada qwue ver
 			};
 			if (method=='refresh') {
-				$(opc.layer).html(divider+out+'<li data-theme="f" data-icon="false" id="seemore"><a style="text-align:center;" href="#">'+lan('see more','ucw')+'</a></li>').listview('refresh');
+				var seemore='';
+				if (opc.perpag && data.datos.length>=opc.perpag) seemore='<li data-theme="f" data-icon="false" id="seemore"><a style="text-align:center;" href="#">'+lan('see more','ucw')+'</a></li>';
+				$(opc.layer).html(divider+out+seemore).listview('refresh');
 			}else if(method=='more'){
 				if ($('#findFriends').length == 0) {
 					$(opc.layer+' #seemore').before(out);
