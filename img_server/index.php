@@ -20,4 +20,12 @@ function __autoload($classname){
 	else die('Class not found.');
 }
 
-$upload_handler = new UploadHandler();
+$options=null;
+if(strpos($_SERVER['HTTP_REFERER'],'localhost')){
+	$options=array(
+		'access_control_allow_origin'=>'http://localhost',
+		'access_control_allow_credentials'=>true
+	);
+}
+
+$upload_handler = new UploadHandler($options);
