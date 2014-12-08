@@ -1,5 +1,14 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-newTag" data-role="page" data-cache="false">
+	<style>
+		.smt-tag-bg-mini div{
+			background-position:0 50%;
+			-webkit-background-size:100% auto;
+			-o-background-size:100% auto;
+			background-size:100% auto;
+			height:100px;
+		}
+	</style>
 	<div data-role="header" data-position="fixed" data-theme="f">
 		<h1></h1>
 		<a id="publish_newTag" data-icon="check" data-theme="f"></a>
@@ -63,14 +72,22 @@
 							<div id="pictures_shareTag" style="height:40px;margin-bottom:10px;text-align:center;overflow:hidden;"></div>
 						</div>
 					</div>
-					<div class="smt-tag-content ui-shadow-inset">
-						<div id="divbackgroundPreview" class="smt-tag-bg">
-							<img id="backgroundPreview" style="width:100%;" src="css/smt/bg_pop.png"/>
+					<div class="tag-solo">
+						<div class="tag-container">
+							<div tag>
+								<div id="backgroundPreview" class="tag"></div>
+							</div>
 						</div>
 					</div>
-				</div>
+<!-- 					<div class="smt-tag-content ui-shadow-inset">
+						<div id="backgroundPreview" class="smt-tag-bg">
+						</div>
+							<img id="backgroundPreview" style="width:100%;" src="css/smt/bg_pop.png"/>
+					</div>
+ -->				</div>
 			</div>
 		</div>
+		<div style="display:none;"><img id="checkBackground" src=""></div>
 	</div>
 	<div data-role="footer" data-position="fixed" data-theme="f" data-tap-toggle="false">
 		<div data-role="navbar"><ul id="footerPicture"></ul></div>
@@ -163,6 +180,7 @@
 				$('.ui-loader').css('right','94px'); // Fix Temporal Loader
 				$('#page-newTag').removeClass('default'); //Fix Vista Android
 				var status=1,aStatus=1,single=true;
+				var $bgCheck=$('#checkBackground');
 				// management of private/public
 				$("#div_publicTag_checkbox").change(function() {
 					if(this.checked){
@@ -269,27 +287,30 @@
 				// END - counters
 				$('.list-wrapper').jScroll({hScroll:false});
 				$('#footerPicture #template').click(function(){
-					myAjax({
-						url			:DOMINIO+'controls/tags/getTemplates.json.php',
-						dataType	:'JSON',
-						success		:function(data){
-							if(!data||!data['templates']) return;
+					$.ajax({
+						url:SERVERS.img,
+						type:'get',
+						data:{folder:'templates'},
+						xhrFields:{withCredentials:true},
+						headers:{},
+						success:function(data){
+							if(!data||!data['files']) return;
 							var list='';
-							data['templates'].forEach(function(el){
+							data['files'].forEach(function(el){
 								list+=
-								'<div style="background-image:url(\''+DOMINIO+'includes/imagen.php?img='+el+'&tipo=3\');'+
-									'background-position:0 50%;" template="'+el+'"></div>';
+								'<div style="background-image:url('+el.url+');" '+
+									'data-url="'+el.url+'" data-template="'+el.code+'/'+el.name+'"></div>';
 							});
 							myDialog({
 								id:'#backgroundsDialog',
 								content:'<div class="smt-tag-bg-mini">'+list+'</div>',
-								style:{'padding-right':5,height:200},
+								style:{'padding-right':5,height:300},
 								scroll:true,
 								after:function(){
-									$('#backgroundsDialog div[template]').click(function(){
-										var data=$(this).attr('template');
-										$('#backgroundPreview').attr('src',data);
-										$('#imgTemplate').val(data);
+									$('#backgroundsDialog div[data-template]').click(function(){
+										$bgCheck[0].dataset.template=this.dataset.template;
+										$bgCheck[0].dataset.url=this.dataset.url;
+										$bgCheck.attr('src',this.dataset.url);
 										$('#backgroundsDialog .closedialog').click();
 									});
 									windowFix();
@@ -299,49 +320,78 @@
 					});
 				});
 				var img64;
-                if(CORDOVA){
-            		document.addEventListener('deviceready',function(){
-	    				var cam=Camera,
-	    					photoData={
-	    						targetWidth:650,
-	    						quality:60,
-	    						destinationType:cam.DestinationType.DATA_URL
-	    					},
-	    					onPhotoSuccess=function(data){
-	    						if(!data.match(/^https?:\/\//i)){//no url = base64
-	    							data='data:image/jpg;base64,'+data;
-	    							img64=data;
-	    						}
-	    						$('#backgroundPreview').attr('src',data).fadeIn('slow');
-	    					},
-	    					onPhotoFail=function(message){
-	    						//if(message!='no image selected') myDialog(message);
-	    					},
-	    					getPhoto=function(type){
-	    						var data=$.extend({},photoData);
-	    						switch(type){
-	    							case 'editcam'://camara (editable)
-	    								data.allowEdit=true;
-	    							break;
-	    							case 'lib':
-	    								data.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
-	    							break;
-	    							case 'album':
-	    								data.sourceType=cam.PictureSourceType.SAVEDPHOTOALBUM;
-	    							break;
-	    							case 'cam':break;//camara - default
-	    						}
-	    						try{
-	    							navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
-	    						}catch(e){
-	    							myDialog('Error: '+e);
-	    						}
-	    					};
-	    				$('#footerPicture').on('click','a[opc]',function(){
-	    					getPhoto($(this).attr('opc'));
-	    				});
+				$('#checkBackground').load(function(){
+					var bg;
+					if(this.dataset.template){
+						console.log('template');
+						$('#imgTemplate').val(this.dataset.template);
+						img64='';
+						bg=this.dataset.url;
+					}
+					if(this.dataset.img64){
+						console.log('img64');
+						$('#imgTemplate').val('');
+						img64=this.dataset.img64;
+						bg=img64;
+					}
+					if(bg){
+						var bgsize=this.naturalWidth>650?100:100*this.naturalWidth/650;
+						bgsize=bgsize+'% auto';
+						$('#backgroundPreview').css({
+							'background-image':'url('+bg+')',
+							'-webkit-background-size':bgsize,
+							'-o-background-size':bgsize,
+							'background-size':bgsize
+						});
+						$(this).attr('src','');
+						this.dataset.template='';
+						this.dataset.img64='';
+					}
+				});
+				if(CORDOVA){
+					document.addEventListener('deviceready',function(){
+						var cam=Camera,
+							photoData={
+								targetWidth:650,
+								quality:60,
+								destinationType:cam.DestinationType.DATA_URL
+							},
+							onPhotoSuccess=function(data){
+								if(!data.match(/^https?:\/\//i)){//no url = base64
+									data='data:image/jpg;base64,'+data;
+									$bgCheck[0].dataset.img64=data;
+									img64=data;
+									$bgCheck.attr('src',data);
+								}
+							},
+							onPhotoFail=function(message){
+								//if(message!='no image selected') myDialog(message);
+							},
+							getPhoto=function(type){
+								var data=$.extend({},photoData);
+								switch(type){
+									case 'editcam'://camara (editable)
+										data.allowEdit=true;
+									break;
+									case 'lib':
+										data.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
+									break;
+									case 'album':
+										data.sourceType=cam.PictureSourceType.SAVEDPHOTOALBUM;
+									break;
+									case 'cam':break;//camara - default
+								}
+								try{
+									navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
+								}catch(e){
+									myDialog('Error: '+e);
+								}
+							};
+						$('#footerPicture').on('click','a[opc]',function(){
+							getPhoto($(this).attr('opc'));
+						});
 					},false);
-                }
+				}
 				function publish(){
 					var i,emails=[];
 					if($('#emails_shareTag').length>0){
