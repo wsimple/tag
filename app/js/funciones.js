@@ -1498,7 +1498,7 @@ function getFriends(id,groups,like){
 		if ($.isArray(groups))
 			url=DOMINIO+'controls/users/people.json.php?action=groupMembers&code&noMy&idGroup='+groups[0]+like;
 		else url+='&idGroup='+groups;
-		content='#friendsListDialog .container ul';
+		// content='#friendsListDialog .container ul';
 	} 	
 	myAjax({
 		loader	:true,
@@ -1523,8 +1523,8 @@ function getFriends(id,groups,like){
 			}
 			// ret=ret+'<li data-icon="false" ></li>';
 			$(content).html(ret).listview('refresh');
-			
 			$('.list-wrapper').jScroll('refresh');
+						
 			$(content+' li').click(function(){
 				if (!$('input',this).is(':checked')){
 					$('input',this).prop('checked',true);
