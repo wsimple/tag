@@ -1119,7 +1119,11 @@ content.resendEmailPassword input[type='button']{
 	-webkit-background-size:100% auto;
 	-o-background-size:100% auto;
 	background-size:100% auto;
-	-background-repeat: no-repeat;
+	-webkit-background-repeat: no-repeat;
+	-moz-background-repeat: no-repeat;
+	-ms-background-repeat: no-repeat;
+	-o-background-repeat: no-repeat;
+	background-repeat: no-repeat;
 	-webkit-background-position:left center;
 	-moz-background-position:left center;
 	-ms-background-position:left center;
