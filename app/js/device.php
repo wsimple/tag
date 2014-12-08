@@ -10,13 +10,15 @@ if(false){ ?><script><?php } ?>
 (function($){
 	var opc={
 		type:'POST',
-		dataType:'json'
+		dataType:'json',
+		xhrFields:{withCredentials:true},
+		data:{'CROSSDOMAIN':'1'}
 	};
-	if(LOCAL||location.host.match(/localhost/)){
-		opc.xhrFields={withCredentials:true};
-		opc.data={'CROSSDOMAIN':'1'};
-	}else
-		opc.headers={'SOURCEFORMAT':'mobile'};
+	// if(LOCAL||location.host.match(/localhost/)){
+	// 	opc.xhrFields={withCredentials:true};
+	// 	opc.data={'CROSSDOMAIN':'1'};
+	// }else
+	// 	opc.headers={'SOURCEFORMAT':'mobile'};
 	$.ajaxSetup(opc);
 })(jQuery);
 
