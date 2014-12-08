@@ -42,12 +42,16 @@
 		},
 		after:function(){
 			$('.list-wrapper').jScroll({hScroll:false});
-			var that=this.id;
+			var that=this.id,pag=1,perpag=20;
 			$(that).on('click','.ui-navbar a[data-opc]',function(){
 				$('.ui-content ul').addClass('dnone').filter(this.dataset.opc).removeClass('dnone');
 				$('.list-wrapper').jScroll('refresh');
 			});
-			var opc={layer:'#friendsList',wrapper:$('.list-wrapper'),mod:'find',user:$.local('code')};
+			var opc={layer:'#friendsList',wrapper:$('.list-wrapper'),mod:'find',user:$.local('code'),get:'&offset='+perpag,perpag:20};
+			$(that).on('click','#seemore', function(event) {
+				opc.get = '&offset='+perpag+'&limit='+(perpag*pag++);
+				viewFriends('more',opc);
+			});
 			viewFriends('refresh',opc);
 			$.cordova(function(){
 				viewContacsPhone('#contactList','');

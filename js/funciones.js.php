@@ -1354,7 +1354,7 @@ function check_suggestion_of_friends(){
 	if (!$("#title-news-suggest .suggest-friends").length) return false;
 	var numDiv=$("#title-news-suggest .contentSuggestFriends").length;
 	if (numDiv<8){
-		if (numDiv<5){
+		if (numDiv<4){
 			$("#title-news-suggest .suggest-friends").css('height','auto');
 			if (numDiv==0){
 				$("#title-news-suggest .messageInviteSuggest,#title-news-suggest #inviteSuggest").css('display','block');
