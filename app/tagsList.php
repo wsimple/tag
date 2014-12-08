@@ -26,17 +26,16 @@
 	<!-- Dialogs -->
 	<div id="friendsListDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
-			<div class="container" style="font-size: 50%;height:340px;">
+			<div class="container" style="font-size: 50%;height:300px;">
 				<div class="this-search" style="display:inline-block;margin-right:5px;width:37%;">
-					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" />
+					<input id="like_friend" name="like_friend" type="text" value="" data-inline="true" class="no-disable" />
 				</div>
 				<div class="this-button" style="display:inline-block;width:60%;">
 					<input type="button" id="all" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(true,'#friendsListDialog')" class="no-disable" data-mini="true"  style="padding: 0;"/>
 					<input type="button" id="none" data-inline="true" data-theme="f" onclick="checkAllCheckboxs(false,'#friendsListDialog')" class="no-disable" data-mini="true" style="padding: 0;"/>
 				</div>
-				<div class="list-wrapper" style="margin-top:5px;">
-					<div id="scroller"><ul data-role="listview" data-inset="true"></ul>
-				</div></div>
+				<div class="clearfix"></div>
+				<div class="list-wrapper" style="margin-top:5px;"><div id="scroller"><ul data-role="listview" data-inset="true"></ul><div class="clearfix"></div></div></div>
 			</div>
 			<div class="buttons">
 				<a href="#" data-role="button" onclick="closeDialogmembersGroup('#friendsListDialog')" data-theme="f">Ok</a>
@@ -57,7 +56,7 @@
 				$('#all,#all2').val(lan('All'));
 				$('#none,#none2').val(lang.none);
 				$('#assignAdminGrp').val(lang.GROUPS_ASSIGNADMIN);
-				$('#like_friend_group, #like_admin_group').attr('placeholder',lang.inputPlaceHolder);
+				$('#like_friend').attr('placeholder',lang.inputPlaceHolder);
 				var current=$_GET['current']||'tagsUser';
 				if(current=='tagsUser'){
 					$('#pageTitle').html(lang.MAINMNU_MYTAGS);
@@ -85,7 +84,7 @@
 				$('#buttonBack').click(function(){
 					($_GET['delete'])?((redir(PAGE['tagslist']+'?current=group&id='+id))):goBack();
 				});
-				$('#friendsListDialog .list-wrapper').jScroll({hScroll:false});
+				$('.list-wrapper').jScroll({hScroll:false});
 				/*action menu tag*/
 				actionsTags(opc.layer);
 				/*and action menu tag*/

@@ -577,6 +577,7 @@ function colorSelector(picker,inputField){
 function showTag(tag){//individual tag
 	var btn=tag['btn']||{};
 	var btnSponsor='',paypal='prueba';
+	console.log(tag);
 	return(
 	'<div tag="'+tag['id']+'" udate="'+tag['udate']+'">'+
 		'<div class="minitag" style="background-image:url('+tag['imgmini']+')"></div>'+
@@ -614,6 +615,10 @@ function showTag(tag){//individual tag
 			'<div id="likeIcon" '+(tag['likeIt']>0?'':'style="display:none;"')+'></div>'+
 			'<div id="dislikeIcon" '+(tag['likeIt']<0?'':'style="display:none;"')+'></div>'+
 		'</div>'+
+		'<div class="tag-counts">'+
+			'<div id="likeIcon"></div><span>'+tag.num_likes+'</span>'+
+			'<div id="dislikeIcon"></div><span>'+tag.num_disLikes+'</span>'+
+		'</div>'+
 		(tag['rid']?'<div class="redist"><div>'+lan('TXT_REDISTBY')+tag['name_redist']+'</div></div>':'')+
 		((tag['product']||tag['typeVideo'])?
 			'<div class="extras"><div>'+
@@ -624,6 +629,25 @@ function showTag(tag){//individual tag
 		:'')+
 	'</div>'
 	);
+}
+
+function mskPoints(num){
+	//if(num<20000000){
+		num = num+'';
+		var len=num.length;
+		if(num>=999&&len<7)
+			return Math.round((num/1000),2)+'K';
+		if(len>=7&&len<10)
+			return Math.round((num/1000000),1)+'M';
+		if(len>=10&&len<13)
+			return Math.round((num/1000000000),1)+'G';
+		if(len>=13&&len<16)
+			return Math.round((num/1000000000000),1);
+		if(len>=16&&len<20)
+			return Math.round((num/1000000000000000),1);
+		return num;
+	//}
+	//return 0;
 }
 
 function showTags(array,type){//tag list
@@ -758,7 +782,7 @@ function actionsTags(layer, forceComments){
 }
 function afterAjaxTags(data, tagId, toHide,toShow){
 	//console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
-	if(data || data.indexOf('ERROR')<0){
+	if((typeof data == 'boolean' && data) || data.indexOf('ERROR')<0){
 		$('[tag='+tagId+']').find(toHide).fadeOut('slow',function(){
 			$('[tag='+tagId+']').find(toShow).fadeIn('slow');
 		});
@@ -1062,7 +1086,7 @@ function viewFriends(method, opc){
 				break;
 			}
 			// }
-			divider='<li data-role="list-divider">'+divider+(!opc.noCount?' ('+count+')':'')+'</li>';
+			divider=!opc.noCount?'<li data-role="list-divider">'+divider+' ('+count+')'+'</li>':'';
 
 			if (data.datos.length>0){
 				for(i=0;i<data.datos.length;i++){
@@ -1098,9 +1122,10 @@ function viewFriends(method, opc){
 	});
 }
 function linkUser(layer,$wrapper){
+	if ($wrapper) {
 	var footerPos = $('#friendsFooter').offset().top,//Para posicion del elemento
 		footerHeight = $('#friendsFooter').height();
-
+	}
 	$(layer).on('click','[userlink]',function(){
 		var id=$(this).attr('userlink'),type=$(this).attr('type'),obj=this;
 		myAjax({
@@ -1127,15 +1152,15 @@ function linkUser(layer,$wrapper){
 	}).on('click','[thisshow]',function(e){
 		$('[thishide]',layer).removeAttr("thishide").attr("thisshow","1").next('li').hide();
 		$(this).removeAttr("thisshow").attr("thishide","1").next("li").show();
-		console.log('Posicion del click:'+e.pageY)
+		//console.log('Posicion del click:'+e.pageY)
 		if ($wrapper) {
 			var eleHeight = $(this).height();
 			var broHeight = $(this).next().height();
 			var total = e.pageY-footerPos+eleHeight+broHeight;
-			console.log('total:'+total,e);
+			//console.log('total:'+total,e);
 			if (total > 0 ) {
 				$wrapper.jScroll(function(){
-					console.log(this)
+					//console.log(this)
 					this.scrollTo(0,total,100,true);
 				}).jScroll('refresh');	
 			};
@@ -1474,7 +1499,7 @@ function getFriends(id,groups,like){
 		if ($.isArray(groups))
 			url=DOMINIO+'controls/users/people.json.php?action=groupMembers&code&noMy&idGroup='+groups[0]+like;
 		else url+='&idGroup='+groups;
-		content='#friendsListDialog .container ul';
+		// content='#friendsListDialog .container ul';
 	} 	
 	myAjax({
 		loader	:true,
@@ -1499,8 +1524,8 @@ function getFriends(id,groups,like){
 			}
 			// ret=ret+'<li data-icon="false" ></li>';
 			$(content).html(ret).listview('refresh');
-			
 			$('.list-wrapper').jScroll('refresh');
+
 			$(content+' li').click(function(){
 				if (!$('input',this).is(':checked')){
 					$('input',this).prop('checked',true);
