@@ -23,11 +23,11 @@
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);
 				$('#footer-icons').html(//llenado de footer
-					'<li><a opc="0" class="ui-btn-active">'+lang.TOPTAGS_ALWAYS+'</a></li>'+
-					'<li><a opc="1">'+lang.TOPTAGS_DAILY+'</a></li>'+
+					'<li><a opc="1" class="ui-btn-active">'+lang.TOPTAGS_DAILY+'</a></li>'+
 					'<li><a opc="2">'+lang.TOPTAGS_WEEKLY+'</a></li>'+
 					'<li><a opc="3">'+lang.TOPTAGS_MONTHLY+'</a></li>'+
-					'<li><a opc="4">'+lang.TOPTAGS_YEARLY+'</a></li>'
+					'<li><a opc="4">'+lang.TOPTAGS_YEARLY+'</a></li>'+
+					'<li><a opc="0" >'+lang.TOPTAGS_ALWAYS+'</a></li>'
 				);
 			},
 			after:function(){
@@ -48,7 +48,7 @@
 				var opc={
 						current:'hits',
 						layer: $('#tagsList')[0],
-						notag:noTagsTxt($_GET['range']||0),
+						notag:noTagsTxt($_GET['range']||1),
 						get:$_GET['range']?'&range='+$_GET['range']:''
 					},
 					$wrapper=$('#pd-wrapper',this.id);
@@ -66,7 +66,7 @@
 						if(data){
 							opc.notag=noTagsTxt(data);
 							opc.get='&range='+data;
-						}
+						}else opc.get='&range=1';
 						updateTags('reload',opc,true);
 					}
 				});
