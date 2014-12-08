@@ -109,6 +109,7 @@ $(document).ready(function(){
 	}
 });
 
+// console.log('<?=$numFriends?>');
 if (('<?=$sc?>'==2)&&('<?=$numFriends?>'==0)) { tour(SECTION); };
 
 </script>
