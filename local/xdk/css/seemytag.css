@@ -1,3 +1,7 @@
+#friendsList{
+	min-height: 545px;
+}
+
 .ui-mobile body{
 	height:100%;
 	margin:0;
@@ -364,6 +368,42 @@
 	-moz-border-radius:0.875em; /*28px;*/
 	-webkit-border-radius:0.875em; /*28px;*/
 }
+.tag-container [tag] .tag-counts{
+	position:absolute;
+	top:0.563em;
+	right:0.781em; /*25px;*/
+	background-color: rgba(255, 255, 255, 0.7);
+	padding: .2em;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+}
+.tag-container [tag] .tag-counts div{
+	display:inline-block;
+	width:0.706em; /*29px;*/
+	height:0.706em; /*29px;*/
+	-webkit-background-size:100% auto;
+	-o-background-size:100% auto;
+	background-size:100% auto;
+	-background-repeat: no-repeat;
+	-webkit-background-position:left center;
+	-moz-background-position:left center;
+	-ms-background-position:left center;
+	-o-background-position:left center;
+	background-position:left center;
+	margin: 0 2px;
+}
+
+.tag-container [tag] .tag-counts div+span{
+	font-size: 0.6em;
+	position: relative;
+	bottom: 3px;
+}
+.tag-container [tag] .tag-counts div#likeIcon{ background-image:url(smt/tag/likes.png); }
+.tag-container [tag] .tag-counts div#dislikeIcon{ background-image:url(smt/tag/dislikes.png); }
+
 .tag-container [tag] .tag-icons{
 	position:absolute;
 	top:0.563em; /*18px;*/
@@ -657,6 +697,16 @@
 .myDialog .container{ position:relative; }
 
 .myDialog .buttons{ margin:0px -5px -5px; }
+
+.myDialog .title{ 	
+	text-align:justify;
+	background:#fff;
+	margin:auto;
+	text-align: center;
+	overflow:hidden;
+	font-weight: bold;
+	font-size: 16px;
+}
 
 @media all and (max-width:680px){
 	.myDialog .window{
@@ -1519,12 +1569,12 @@ input.password-field {
 }
 
 #comments{
-	width: 90%;
+	width: 98%;
 	margin: 0 auto;
 }
 
 #commenting{
-	width: 98%;
+	width: 99%;
 }
 
 #comments .ui-btn-up-c, #comments .ui-bar-e{
@@ -1794,3 +1844,25 @@ input.password-field {
 	-o-transform: rotate(180deg);
 	transform: rotate(180deg);
 }
+#rowTitle{
+	text-align: center;
+	font-weight: bold;
+	margin: 5px auto;
+	background: #77c574;
+	color: #fff;
+	padding: 4px 0;
+}
+.ui-btn-up-e,.ui-btn-hover-e {
+	border: 1px solid #3DB5E8;
+	background: #3DB5E8;
+	font-weight: bold;
+	color: white;
+	text-shadow: 0 1px 0 #fff;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #3DB5E8 ), to( #3DB5E7 ));
+	background-image: -webkit-linear-gradient( #3DB5E8, #3DB5E7 );
+	background-image: -moz-linear-gradient( #3DB5E8, #3DB5E7 );
+	background-image: -ms-linear-gradient( #3DB5E8, #3DB5E7 );
+	background-image: -o-linear-gradient( #3DB5E8, #3DB5E7 );
+	background-image: linear-gradient( #3DB5E8, #3DB5E7 );
+}
+.ui-btn-hover-e:hover{ color: white; }
