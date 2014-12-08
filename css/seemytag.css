@@ -1099,6 +1099,43 @@ content.resendEmailPassword input[type='button']{
 	-moz-background-size:100% auto;
 	-webkit-background-size:100% auto;
 }
+.tag-container [tag] .tag-counts{
+	display: none;
+	position:absolute;
+	top:0.563em;
+	right:0.781em; /*25px;*/
+	background-color: rgba(255, 255, 255, 0.7);
+	padding: .2em;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+}
+.tag-container [tag] .tag-counts div{
+	display:inline-block;
+	width:0.606em; /*29px;*/
+	height:0.606em; /*29px;*/
+	-webkit-background-size:100% auto;
+	-o-background-size:100% auto;
+	background-size:100% auto;
+	-background-repeat: no-repeat;
+	-webkit-background-position:left center;
+	-moz-background-position:left center;
+	-ms-background-position:left center;
+	-o-background-position:left center;
+	background-position:left center;
+	margin: 0 2px;
+}
+
+.tag-container [tag] .tag-counts div+span{
+	font-size: 0.6em;
+	position: relative;
+	bottom: 3px;
+}
+.tag-container [tag] .tag-counts div#likeIcon{ background-image:url(smt/comments/like.png); }
+.tag-container [tag] .tag-counts div#dislikeIcon{ background-image:url(smt/comments/dislike.png); }
+
 .tag-container [tag] .tag-icons{
 	position:absolute;
 	top:0.4em;
