@@ -103,8 +103,8 @@ function pageAction(action,data){
 		break;
 		case 'like':
 			var $tag=$('[tag="'+opc[0]+'"]'),
-				$hide=$tag.find('#dislikeIcon,menu #like'),
-				$show=$tag.find('#likeIcon,menu #dislike'),
+				$hide=$tag.find('.tag-icons #dislikeIcon,menu #like'),
+				$show=$tag.find('.tag-icons #likeIcon,menu #dislike'),
 				$loader=$tag.find('.tag-icons #loader');
 			$('[tag="'+opc[0]+'"] #like').prop('disabled',true);
 			//console.log(opc[1]);
@@ -116,8 +116,8 @@ function pageAction(action,data){
 		break;
 		case 'dislike':
 			var $tag=$('[tag="'+opc[0]+'"]'),
-				$hide=$tag.find('#likeIcon,menu #dislike'),
-				$show=$tag.find('#dislikeIcon,menu #like'),
+				$hide=$tag.find('.tag-icons #likeIcon,menu #dislike'),
+				$show=$tag.find('.tag-icons #dislikeIcon,menu #like'),
 				$loader=$tag.find('.tag-icons #loader');
 			$('[tag="'+opc[0]+'"] #dislike').prop('disabled',true);
 			$tag=$('[tag="'+opc[0]+'"]');
@@ -1163,6 +1163,9 @@ function send_ajax(url,capa,mode,data_type){
 				case 8://like-dislike coment
 					var $dislikes=capa[3].find('#numDislikes'),$likes=capa[3].find('#numLikes');
 					//console.log([$dislikes[0],$likes[0]]);
+					capa[3].find('.tag-counts #dislikeIcon+span').html(data.split('|')[0]);
+					capa[3].find('.tag-counts #likeIcon+span').html(data.split('|')[1]);
+
 					if($dislikes.length>0) $dislikes.html(data.split('|')[0]);
 					if($likes.length>0) $likes.html(data.split('|')[1]);
 					if(capa[0].length>0) $(capa[0]).hide();
