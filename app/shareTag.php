@@ -45,7 +45,7 @@
 	</div>
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
-			<div class="container" style="font-size: 50%;height:340px;">
+			<div class="container" style="font-size: 50%;height:300px;">
 				<div style="display:inline-block;margin-right:5px;width:37%;">
 					<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" />
 				</div>
