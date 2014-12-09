@@ -8,7 +8,7 @@ else{
 		case 'privacy':
 			include('users/account/userPrivacy.view.php');break;
 		case 'preferences':
-			include('users/account/preferences.view.php');break;
+			include('users/account/preferences.php');break;
 		case 'businesscards':case 'cards':
 			include('users/account/business_card/beginning.php');break;
 		case 'password':
