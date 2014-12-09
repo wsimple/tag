@@ -40,6 +40,9 @@ function tagsList_json($data,$mobile=false){
 		t.id_creator,
 		$sqlUid as uid,
 		t.id_user,
+		t.text,
+		t.text2,
+		t.code_number,
 		$sqlUid2 as rid,
 		u.screen_name as uname,
 		t.id_product,
@@ -279,7 +282,6 @@ function tagsList_json($data,$mobile=false){
 				$textTop=explode(' ',implode(' ',$textTop));
 				$tag['hashTag']=$textTop;
 			}
-			$tag['hashExCurrent']=$exCurrenHash;
 			$tag['video']=trim($tag['video']);
 			$headers=apache_request_headers();
 			$validaVideo=new Video();
