@@ -341,7 +341,8 @@
 							'background-image':'url('+bg+')',
 							'-webkit-background-size':bgsize,
 							'-o-background-size':bgsize,
-							'background-size':bgsize
+							'background-size':bgsize,
+							'background-position':'50%'
 						});
 						$(this).attr('src','');
 						this.dataset.template='';
