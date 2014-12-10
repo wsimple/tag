@@ -22,6 +22,11 @@
 	</div>
 </div><!-- /page -->
 <script>
+	function usrImgError(img){
+		img.onerror = "";
+		img.src='css/tbum/usr.png';
+		return true;
+	}
 	pageShow({
 		id:'#page-friendSearch',
 		title:lang.friendSearh_title,
@@ -75,11 +80,7 @@
 				redir(PAGE['profile']+'?id='+$(this).attr('code'));
 			});
 			linkUser('#contactFilter,#friendsList');
-			$('#contactList').on('error','a[email] img',function(){
-				this.onerror = "";
-				this.src='css/tbum/usr.png';
-				return true;
-			}).on('click','a[email]',function(){
+			$('#contactList').on('click','a[email]',function(){
 				that = $(this);
 				myDialog({
 					// id:'#singleRedirDialog',
@@ -181,7 +182,7 @@
 								out+=
 								'<li class="userInList">'+
 									'<a email="'+emails[0]+'" data-theme="e">'+
-										'<img src="'+photo+'"'+'class="ui-li-thumb" onerror="imgError(this)" width="60" height="60"/>'+
+										'<img src="'+photo+'"'+'class="ui-li-thumb" onerror="usrImgError(this)" width="60" height="60"/>'+
 										'<h3 class="ui-li-heading">'+name+'</h3>'+
 										'<p class="ui-li-desc">'+
 											'<img src="css/smt/phone.png" alt="'+lang.FIENDFRIENDS_PHONECONTACT+'" widt="16" height="16" />'+
