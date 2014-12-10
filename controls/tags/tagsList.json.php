@@ -388,6 +388,7 @@ function sponsor_json($data,$datasponsor,$_prefe=true,$noid=''){
 		$btn=buttons($row,$myId);
 		if(count($btn)>0) $row['btn']=$btn;
 		$noid.=$coma.$row['id']; $coma=',';
+		$row['sponsor']=true;
 		$info[]=$row;
 	}
 	if ($_prefe && ($datasponsor['numeroSponsor'] && $datasponsor['numeroSponsor']<CON::numRows($query)))
