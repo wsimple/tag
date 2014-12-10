@@ -46,7 +46,7 @@
 			$('#page-friendUser .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 			var $wrapper=$('.list-wrapper'), pag=1,perpag=20,
 				type=$_GET['type']||'friends',
-				opc={wrapper: $wrapper,get:'&offset='+perpag,user:$_GET['id_user']||''},
+				opc={wrapper: $wrapper,get:'&offset='+perpag,user:$_GET['id_user']||'',perpag:20},
 				modaux='',layeraux=null;
 
 			$('#friendsFooter li a[opc='+$_GET['type']+']').addClass('ui-btn-active'); //Estilo de li activo

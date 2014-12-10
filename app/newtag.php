@@ -127,7 +127,13 @@
 					return lang['newTag'];
 				}
 			},
-			showmenuButton:true,
+			buttons:function(){
+				if($_GET['group']){
+					return { back:true};
+				}else{
+					return { showmenu:true};
+				}
+			},
 			before:function(){
 				//language constants
 				$('#topText'					).attr('placeholder',lang.NEWTAG_MESSAGE);
@@ -341,7 +347,8 @@
 							'background-image':'url('+bg+')',
 							'-webkit-background-size':bgsize,
 							'-o-background-size':bgsize,
-							'background-size':bgsize
+							'background-size':bgsize,
+							'background-position':'50%'
 						});
 						$(this).attr('src','');
 						this.dataset.template='';
