@@ -1574,8 +1574,8 @@ input.password-field {
 }
 
 #commenting{
-	min-width: 99%;
-	max-width: 97%;
+	min-width: 185px;
+	max-width: 99%;
 }
 
 #comments .ui-btn-up-c, #comments .ui-bar-e{
