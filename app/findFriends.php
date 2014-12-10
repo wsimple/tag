@@ -157,8 +157,6 @@
 						var emails=(data.registered&&data.registered.emails)||[],
 							phones=(data.registered&&data.registered.phones)||[],
 							remove;
-						console.log('contactos antes:',c.length,c);
-						console.log('emails:',emails,'phones:',phones,'contactos:',c);
 						for(i=c.length-1;i>=0;i--){
 							remove=false;
 							if(c[i].emails) for(j=0;j<c[i].emails.length&&!remove;j++){
@@ -169,7 +167,6 @@
 							}
 							if(remove) c.splice(i,1);
 						}
-						console.log('contactos despues:',c.length,c);
 						out='<li data-role="list-divider">'+lan('all contacts','ucw')+' <span class="ui-li-count">'+c.length+'</span></li>';
 						for(i=0;i<c.length;i++){
 							emails=[];
@@ -194,7 +191,6 @@
 								'<li class="userInList">'+
 									lan('NOT_EMAIL_CONTACTS')+
 								'</li>';
-
 							}
 						}
 						$(idLayer).html(out).listview('refresh');
