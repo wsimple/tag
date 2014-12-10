@@ -6036,3 +6036,7 @@ td.ui-smt-help #urlTag{
 	height: 30px;
 }
 #boxUserLstSeemytag img{ border-radius: 50%; }
+#ui-datepicker-div select,
+#ui-datepicker-div select option{
+	color: black;
+}
