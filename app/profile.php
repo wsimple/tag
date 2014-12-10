@@ -28,7 +28,7 @@
 	<!-- Dialogs -->
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
-			<div class="container" style="font-size: 50%;height:300px;">
+			<div class="container" style="font-size: 50%;height:340px;">
 				<div class="title"></div>
 				<div class="list-wrapper" style="top:20px">
 					<div id="scroller">
@@ -63,6 +63,7 @@
 				buttonText('#userPersonalTags',lang.PROFILE_PERSONALTAGS);
 				$('#userPreferences').html(lang.USERPROFILE_PREFERENCES_TITLE);
 				$('#pictureButton').html(lan(CORDOVA?'change picture':'edit thumbnail','ucw'));
+				$('#shareTagDialog .buttons a').html(lan('exit','ucw'));
 			},
 			after:function(){
 				$('#page-profile .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
