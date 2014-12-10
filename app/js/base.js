@@ -126,6 +126,7 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 		if(!opc.disabled){
 			arrayGet(comeFromAjax?$.session('get'):null);
 			var runBefore=function(){
+				if(typeof opc.buttons === 'function') opc.buttons=opc.buttons();
 				if(opc.showmenuButton||(opc.buttons&&opc.buttons.showmenu))
 					$('[data-role="header"]',opc.id).last().prepend('<a href="#" class="showMenu" style="top:0; background:none; border:none;margin-top:0;left:0;box-shadow:0 0 0 ;"><span class="btn-menu showMenu"></span><span class="push-notifications button" style="display:none;">0</span></a>');
 				if(opc.backButton||(opc.buttons&&opc.buttons.back))
