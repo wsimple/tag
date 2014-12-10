@@ -22,6 +22,11 @@
 	</div>
 </div><!-- /page -->
 <script>
+	function usrImgError(img){
+		img.onerror = "";
+		img.src='css/tbum/usr.png';
+		return true;
+	}
 	pageShow({
 		id:'#page-friendSearch',
 		title:lang.friendSearh_title,
@@ -71,16 +76,11 @@
 				}
 				last=val;
 			});
-			$('#friendsList').on('click','[code]',function(){
+			$('#contactFilter,#friendsList').on('click','[code]',function(){
 				redir(PAGE['profile']+'?id='+$(this).attr('code'));
 			});
-			linkUser(opc.layer);
-			linkUser('#contactFilter');
-			$('#contactList').on('error','a[email] img',function(){
-				this.onerror = "";
-				this.src='css/tbum/usr.png';
-				return true;
-			}).on('click','a[email]',function(){
+			linkUser('#contactFilter,#friendsList');
+			$('#contactList').on('click','a[email]',function(){
 				that = $(this);
 				myDialog({
 					// id:'#singleRedirDialog',
@@ -161,8 +161,6 @@
 						var emails=(data.registered&&data.registered.emails)||[],
 							phones=(data.registered&&data.registered.phones)||[],
 							remove;
-						console.log('contactos antes:',c.length,c);
-						console.log('emails:',emails,'phones:',phones,'contactos:',c);
 						for(i=c.length-1;i>=0;i--){
 							remove=false;
 							if(c[i].emails) for(j=0;j<c[i].emails.length&&!remove;j++){
@@ -173,7 +171,6 @@
 							}
 							if(remove) c.splice(i,1);
 						}
-						console.log('contactos despues:',c.length,c);
 						out='<li data-role="list-divider">'+lan('all contacts','ucw')+' <span class="ui-li-count">'+c.length+'</span></li>';
 						for(i=0;i<c.length;i++){
 							emails=[];
@@ -185,7 +182,7 @@
 								out+=
 								'<li class="userInList">'+
 									'<a email="'+emails[0]+'" data-theme="e">'+
-										'<img src="'+photo+'"'+'class="ui-li-thumb" onerror="imgError(this)" width="60" height="60"/>'+
+										'<img src="'+photo+'"'+'class="ui-li-thumb" onerror="usrImgError(this)" width="60" height="60"/>'+
 										'<h3 class="ui-li-heading">'+name+'</h3>'+
 										'<p class="ui-li-desc">'+
 											'<img src="css/smt/phone.png" alt="'+lang.FIENDFRIENDS_PHONECONTACT+'" widt="16" height="16" />'+
@@ -198,7 +195,6 @@
 								'<li class="userInList">'+
 									lan('NOT_EMAIL_CONTACTS')+
 								'</li>';
-
 							}
 						}
 						$(idLayer).html(out).listview('refresh');
