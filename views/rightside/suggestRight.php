@@ -2,8 +2,9 @@
 	<header><span><?=HOME_SUGGESTFRIENDS?></span></header>
 	<?php
 	$friends=suggestionFriends('',12); $display="";
-	if(count($friends)){ $display='style="display:none"'; $coma="";$ids=""; ?>
-	<div class="suggest-friends">
+	$num=count($friends);
+	if($num){ $display='style="display:none"'; $coma="";$ids=""; ?>
+	<div class="suggest-friends" <?=$num<4?'style="height:auto;"':''?>>
 	<?php foreach($friends as $friend){ $ids.=$coma.$friend['id_friend']; $coma=","; ?>
 		<div class="contentSuggestFriends thisPeople">
 			<div class="divYourFriendsSuggest" >

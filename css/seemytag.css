@@ -1100,7 +1100,6 @@ content.resendEmailPassword input[type='button']{
 	-webkit-background-size:100% auto;
 }
 .tag-container [tag] .tag-counts{
-	display: none;
 	position:absolute;
 	top:0.563em;
 	right:0.781em; /*25px;*/

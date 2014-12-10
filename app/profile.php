@@ -28,9 +28,9 @@
 	<!-- Dialogs -->
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
-			<div class="container" style="font-size: 50%;height:300px;">
+			<div class="container" style="font-size: 50%;height:340px;">
 				<div class="title"></div>
-				<div class="list-wrapper" style="top:15px">
+				<div class="list-wrapper" style="top:20px">
 					<div id="scroller">
 						<div class="this-search" style="margin-bottom:10px;width:100%;height:20px;">
 							<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" style="font-size: 12px" />
@@ -63,6 +63,7 @@
 				buttonText('#userPersonalTags',lang.PROFILE_PERSONALTAGS);
 				$('#userPreferences').html(lang.USERPROFILE_PREFERENCES_TITLE);
 				$('#pictureButton').html(lan(CORDOVA?'change picture':'edit thumbnail','ucw'));
+				$('#shareTagDialog .buttons a').html(lan('exit','ucw'));
 			},
 			after:function(){
 				$('#page-profile .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
@@ -78,7 +79,6 @@
 
 				function loadProfile(data){
 					console.log('load profile');
-					console.log(data);
 					//cambia el tema de los botones (solo funciona con botones)
 					function changeButtonTheme(theme,obj){
 						$(obj)
