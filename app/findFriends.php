@@ -71,11 +71,10 @@
 				}
 				last=val;
 			});
-			$('#friendsList').on('click','[code]',function(){
+			$('#contactFilter,#friendsList').on('click','[code]',function(){
 				redir(PAGE['profile']+'?id='+$(this).attr('code'));
 			});
-			linkUser(opc.layer);
-			linkUser('#contactFilter');
+			linkUser('#contactFilter,#friendsList');
 			$('#contactList').on('error','a[email] img',function(){
 				this.onerror = "";
 				this.src='css/tbum/usr.png';
