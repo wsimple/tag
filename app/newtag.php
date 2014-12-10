@@ -28,7 +28,7 @@
 							<div id="topCounter" style="width:35px;"></div>
 						</div>
 						<textarea id="topText" name="topText" style="resize:none;"></textarea>
-						<input type="hidden" name="topColor" id="topColor" value="#000000" />
+						<input type="hidden" name="topColor" id="topColor" value="#000" />
 					</div>
 					<div id="div_middleText" class="smt-div-profile-color" style="margin-bottom:20px;">
 						<div style="width:5px;right:30px;position:absolute;">
@@ -38,7 +38,7 @@
 							<div id="middleCounter" style="width:35px;"></div>
 						</div>
 						<input id="middleText" name="middleText" value="" type="text" />
-						<input type="hidden" name="middleColor" id="middleColor" value="#000000" />
+						<input type="hidden" name="middleColor" id="middleColor" value="#000" />
 					</div>
 					<div id="div_bottomText" class="smt-div-profile-color">
 						<div style="width:5px;right:30px;position:absolute;">
@@ -48,7 +48,7 @@
 							<div id="bottomCounter" style="width:35px;"></div>
 						</div>
 						<textarea id="bottomText" name="bottomText" style="resize:none;"></textarea>
-						<input type="hidden" name="bottomColor" id="bottomColor" value="#000000" />
+						<input type="hidden" name="bottomColor" id="bottomColor" value="#000" />
 					</div>
 					<div id="div_changeMode" class="smt-div-profile">
 						<input id="button_changeMode" type="button"/>
@@ -127,7 +127,13 @@
 					return lang['newTag'];
 				}
 			},
-			showmenuButton:true,
+			buttons:function(){
+				if($_GET['group']){
+					return { back:true};
+				}else{
+					return { showmenu:true};
+				}
+			},
 			before:function(){
 				//language constants
 				$('#topText'					).attr('placeholder',lang.NEWTAG_MESSAGE);
