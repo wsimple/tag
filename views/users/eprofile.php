@@ -2,55 +2,57 @@
 global $section,$params;
 
 if(isset($_GET['sc']) && $_GET['sc']=='6'){
-	if (isset($_GET['userIdExternalProfile'])) $where = "md5(id) = '".$_GET['userIdExternalProfile']."'";
-	else $where = "id = ".$_SESSION['ws-tags']['ws-user']['id'];
-}elseif ($_GET['uid']!='') { $where = "md5(id) = '".intToMd5($_GET['uid'])."'"; }
-elseif ($_GET['userIdExternalProfile']!='') { $where = "md5(id) = '".$_GET['userIdExternalProfile']."'"; }
-elseif(isset($_GET['usr'])){ $where = "username LIKE '".$_GET['usr']."'"; }
+	if(isset($_GET['userIdExternalProfile'])) $where="md5(u.id)='".$_GET['userIdExternalProfile']."'";
+	else $where = "u.id = ".$_SESSION['ws-tags']['ws-user']['id'];
+}elseif($_GET['uid']!=''){ $where="md5(u.id)='".intToMd5($_GET['uid'])."'"; }
+elseif($_GET['userIdExternalProfile']!='') { $where="md5(u.id)='".$_GET['userIdExternalProfile']."'"; }
+elseif(isset($_GET['usr'])){ $where="u.username LIKE '".$_GET['usr']."'"; }
 elseif($section=='user'||$section=='profile'){
-	if($params[0]!='' && strlen($params[0])==32) $where="md5(id)='".$params[0]."'";
+	if($params[0]!='' && strlen($params[0])==32) $where="md5(u.id)='".$params[0]."'";
 	else $where='id='.$_SESSION['ws-tags']['ws-user']['id'];
-}elseif($section!='') $where = "username!='' AND username LIKE '$section'";
+}elseif($section!='') $where="u.username!='' AND u.username LIKE '$section'";
 else{ $where='id='.$_SESSION['ws-tags']['ws-user']['id']; }
-$sid=$_SESSION['ws-tags']['ws-user']['id']!=''?$_SESSION['ws-tags']['ws-user']['id']:"id";
+$myId=$_SESSION['ws-tags']['ws-user']['id']!=''?$_SESSION['ws-tags']['ws-user']['id']:0;
 
-//echo $sid.'--'.$_SESSION['ws-tags']['ws-user']['id'];
-$query = CON::query("
+//echo $myId.'--'.$_SESSION['ws-tags']['ws-user']['id'];
+$query=CON::query("
 	SELECT
-		id,
-		email,
-		home_phone,
-		mobile_phone,
-		work_phone,
-		user_background,
-		profile_image_url,
-		username,
-		type,
-		screen_name,
-		sex,
-		url,
-		personal_messages,
-		user_cover,
-		CONCAT(name,' ',last_name) AS nameUser,
-		md5(CONCAT(id,'_',email,'_',id)) AS code,
-		(SELECT c.name FROM countries c WHERE c.id=country) AS country,
-		(SELECT s.label FROM sex s WHERE s.id=sex) AS sex,
-		followers_count,
-		friends_count,
-		(SELECT id_user FROM users_links WHERE id_friend=id AND id_user=$sid LIMIT 1) as follower,
-		(SELECT count(id) FROM tags WHERE id_creator = ".$sid." AND id_user = id_creator AND status = 1) AS nTags
-	FROM users
-	WHERE $where ");
+		u.id,
+		u.email,
+		u.home_phone,
+		u.mobile_phone,
+		u.work_phone,
+		u.user_background,
+		u.profile_image_url,
+		u.username,
+		u.type,
+		u.screen_name,
+		u.sex,
+		u.url,
+		u.personal_messages,
+		u.user_cover,
+		CONCAT(u.name,' ',u.last_name) AS nameUser,
+		md5(CONCAT(u.id,'_',u.email,'_',u.id)) AS code,
+		(SELECT c.name FROM countries c WHERE c.id=u.country) AS country,
+		(SELECT s.label FROM sex s WHERE s.id=u.sex) AS sex,
+		u.followers_count,
+		u.friends_count,
+		(SELECT id_user FROM users_links WHERE id_friend=u.id AND id_user=$myId LIMIT 1) as follower,
+		(SELECT count(id) FROM tags WHERE id_creator=$myId AND id_user=id_creator AND status=1) AS nTags
+	FROM users u
+	WHERE $where
+");
 if(CON::numRows($query)>0){
 	if(is_debug('user')) echo CON::lastSql();
 
 $obj=CON::fetchObject($query);
+if(is_debug('profile')) echo str_replace(',"',',<br>"',json_encode($obj));
 $edit='<div class="edit"></div>';
 $edit=$obj->id==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
-$styleCon = !$logged?'style="margin-left: 100px;"':'';
+$styleCon=!$logged?'style="margin-left:100px;"':'';
 ?>
 <div id="externalProfile" class="ui-single-box" <?=$styleCon?>>
-	<div id="coverExpro" style="background-image: url('<?=FILESERVER?>img/users_cover/<?=$obj->user_cover?>');height: 196px;width: 846px;position: absolute;top: 0;left: 0;">
+	<div id="coverExpro" style="background-image: url('<?=FILESERVER?>img/users_cover/<?=$obj->user_cover?>');height:196px;width:846px;position:absolute;top:0;left:0;">
 		<div class="ui-single-box-title">
 			<div class="photoProfile" id="photoProfileChange"><?=$edit?$edit:''?>
 				<form action="?current=updateProfile" id="frmChangePhoto" name="frmChangePhoto" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
@@ -63,7 +65,7 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 				<?php //Profile Picture
 				$photoT=FILESERVER.getUserPicture("$obj->code/$obj->profile_image_url",'img/users/default.png');
 				$photoF=FILESERVER."img/users/$obj->code/$obj->profile_image_url";
-				if($photoF!=$photoT && $logged){ 
+				if($photoF!=$photoT && $logged){
 					$imgDetails='class="imgWithMouseOverEfect" title="'.$lang["EXTERNALPROFILE_VIEWPICTUREALBUM"].'"';
 				?>
 				<a href="views/photos/picture.view.php?src=<?=$photoF?>&default&id_user=<?=$obj->id?>" class="grouped_PP" rel="PP_1"/>
@@ -94,27 +96,25 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 		</div>
 	</div>
 	<div id="eProfileInfo">
-		<div style="float: left;width: 380px;">
+		<div style="float:left;width:380px;">
 			<article id="externalProfileInfo" class="side-box imagenSug">
 				<header><span><?=$lang["INFO_PER"]?></span><?=$edit?$edit:''?></header>
-				<div>	
+				<div>
 					<ul>
 						<li class="tituloName"><?=$obj->screen_name?></li>
-						<?php 
+						<?php
 							echo ($obj->personal_messages!='')?'<li class="infoPerExter color">'.$obj->personal_messages.'</li>':'';
 						?>
 						<li style="padding:3px 0"><?=$obj->email?></li>
-						<?php 
+						<?php
 							echo ($obj->country!='')?'<li class="infoPerExter">'.$obj->country.'</li>':'';
-
 							echo ($obj->url!='')?'<li class="peddingEx"><a target="_blank" href="'.$obj->url.'">'.$obj->url.'</a></li>':'';
 						?>
 						<li><label><?=$lang["USER_LBLFOLLOWERS"]." (</label>$obj->followers_count<label>) - ".$lang["USER_LBLFRIENDS"]." (</label>$obj->friends_count<label>)"?></label></li>
-						<?php if($obj->type=='0'){ 
+						<?php if($obj->type=='0'){
 							echo ($obj->home_phone!=''&&$obj->home_phone!='-')?'<li><label>'.$lang["USERPROFILE_LBLHOMEPHONE"].': </label>'.$obj->home_phone.'</li>':'';
-							} 
+							}
 							echo ($obj->work_phone!=''&&$obj->work_phone!='-')?'<li><label>'.$lang["USERPROFILE_LBLWORKPHONE"].': </label>'.$obj->work_phone.'</li>':'';
-
 							echo ($obj->mobile_phone!=''&&$obj->mobile_phone!='-')?'<li><label>'.$lang["USERPROFILE_LBLMOBILEPHONE"].': </label>'.$obj->mobile_phone.'</li>':'';
 						?>
 					</ul>
@@ -125,23 +125,22 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 				<header><span style="background-image: url('css/tbum/box-title/preferences.png')"><?=$lang["USERPROFILE_PREFERENCES"]?></span><?=$edit?$edit:''?></header>
 				<div>
 					<ul>
-				   		<?php 
-							$titles=array(null,$lang["EXTERNALPROFILE_LIKES"],$lang["EXTERNALPROFILE_WANTS"],$lang["EXTERNALPROFILE_NEEDS"]); 
+						<?php
+							$titles=array(null,$lang["EXTERNALPROFILE_LIKES"],$lang["EXTERNALPROFILE_WANTS"],$lang["EXTERNALPROFILE_NEEDS"]);
 							$prefe=users_preferences($obj->id);
-							if (count($prefe)){
-								for ($i=1;$i<4;$i++){
-									if (!isset($prefe[$i])) continue;
+							if(count($prefe)){
+								for($i=1;$i<4;$i++){
+									if(!isset($prefe[$i])) continue;
 								?>
-								<li style="margin-bottom:5px;"><label><?=$titles[$i].':'?></label>	
-								<?php 
-									foreach ($prefe[$i] as $key => $value) {
-									if ($logged): ?>
+								<li style="margin-bottom:5px;"><label><?=$titles[$i].':'?></label>
+								<?php
+									foreach($prefe[$i] as $key=>$value)
+									if($logged): ?>
 										<a class="externalPre" href="<?=base_url('searchall?srh='.preg_replace('/ +/','%20',$value->text))?>"><?=$value->text?></a>
 									<?php else: ?>
-										<a class="externalPre">'.$value->text.'</a>
-									<?php endif; 
-										} ?>
-								</li>	
+										<a class="externalPre"><?=$value->text?></a>
+									<?php endif; ?>
+								</li>
 						<?php	}
 							}else echo $lang["SOONEXTERPREFERENCES"].' '.formatoCadena("$obj->nameUser").' '.$lang["SOONEXTERPREFERENCES2"];
 						?>
@@ -150,12 +149,12 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 				<div class="clearfix"></div>
 			</article>
 		</div>
-		<div id="taglist-box" class="tags mini side-box imagenSug" >
+		<div id="taglist-box" class="tags mini side-box imagenSug">
 			<header><span style="background-image: url('css/tbum/box-title/tags.png')"><?=$lang["MAINMNU_HOME"]?></span></header>
 			<?php //echo $edit?$edit:'';?>
 			<div class="tags-list">
-				<div class="tag-container" ></div>
-				<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="display: none;"/>
+				<div class="tag-container"></div>
+				<img src="css/smt/loader.gif" width="32" height="32" class="loader" style="display:none;"/>
 			</div>
 			<div class="clearfix"></div>
 			<!-- include 'templates/tags/carousel.php';  -->
@@ -171,21 +170,19 @@ $styleCon = !$logged?'style="margin-left: 100px;"':'';
 		</div>
 		<div class="clearfix"></div>
 	</div>
-	
 </div>
 <script type="text/javascript">
 $(function(){
-	!isLogged()?$('wrapper').css('width', '947px'):'';
-
-	if(!isLogged()) $('.tag-container').addClass('noMenu'); 
-	else
+	if(!isLogged()){
+		$('wrapper').css('width','947px');
+		$('.tag-container').addClass('noMenu');
+	}else
 		$('a.grouped_PP').fancybox({
 			type:'ajax',
 			transitionIn:'fade',
 			transitionOut:'elastic',
-			scrolling : 'no',
-			title:"<?=$obj->nameUser?>'s <?=USERPROFILE_PHOTOPROFILE?>",
-			onClosed:function() {/*alert('aaa');*/}
+			scrolling:'no',
+			title:"<?=$obj->nameUser?>'s <?=USERPROFILE_PHOTOPROFILE?>"
 		});
 
 		var $box=$('#taglist-box').last(),
@@ -199,7 +196,7 @@ $(function(){
 			opc['get']='&uid=<?=md5($obj->id)?>';
 		$.on({
 			open:function(){
-				updateTags('reload',opc);				
+				updateTags('reload',opc);
 			},
 			close:function(){
 				$('#taglist-box').removeClass('mini');
@@ -225,17 +222,16 @@ $(function(){
 	$('.edit').click(function(){
 		var id=$(this).parents('[id]').attr('id'),destino='';
 		switch(id){
-			case 'eProfileTag':			    destino='timeline?current=personalTags'; break;
-			case 'externalProfilePrefe':	destino='profile?sc=2'; break;
-			case 'externalProfileInfo':	    destino='profile'; break;
-			case 'photoProfileChange':	    $('#frmProfile_filePhoto').click(); break;
-			case 'coverExternalProfile':	$('#frmProfile_fileCover').click(); break; /*alert('change Cover'); break;*/
+			case 'eProfileTag':			destino='timeline?current=personalTags'; break;
+			case 'externalProfilePrefe':destino='profile?sc=2'; break;
+			case 'externalProfileInfo':	destino='profile'; break;
+			case 'photoProfileChange':	$('#frmProfile_filePhoto').click(); break;
+			case 'coverExternalProfile':$('#frmProfile_fileCover').click(); break; /*alert('change Cover'); break;*/
 		}
 		if (destino!='') redir(destino);
 	});
 
 	$('#frmProfile_filePhoto').bind('change',function(){
-		
 		$("#actionAjax").val("UPLOADING-PROFILE-PICTURE");
 		$("#validaActionAjax").val("filePhoto");
 		$('loader.page',PAGE).show();
@@ -254,14 +250,14 @@ $(function(){
 			}else if (data!=0) {
 				console.log(data);
 				$('loader.page',PAGE).hide();
-				$('#coverExpro').css('background-image', 'url("<?=FILESERVER?>img/users_cover/'+data+'")');	
+				$('#coverExpro').css('background-image', 'url("<?=FILESERVER?>img/users_cover/'+data+'")');
 			}else{
 				$.dialog({
 					title:'<?=$lang["ERROR_COVER"]?>',
 					content:'<?=$lang["ERROR_UPLOADING_PROFILE_PICTURE"]?>',
 					close:function(){
 						$(this).off();
-					},				
+					},
 					width:350,
 					height:200,
 					modal:true,
