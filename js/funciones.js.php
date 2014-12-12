@@ -748,7 +748,6 @@ function showCarousel(array,layer){
 		console.log(opc)
 		var act,pBox=(opc.current=='privateTags')?opc.pBox:'',
 			current=opc.current,
-			btncretagG=opc.btncretagG,
 			idsearch=opc.idsearch||'',
 			search=opc.search||'',
 			radiobtn=opc.radiobtn||'',
@@ -789,7 +788,7 @@ function showCarousel(array,layer){
 					if(opc.pBox!=pBox) return;
 				}
 				if(action=='more'&&(!data['tags']||data['tags'].length<1)) act.more=false;
-				if(data['tags']&&data['tags'].length>0){ $(btncretagG).show().addClass('divctg');
+				if(data['tags']&&data['tags'].length>0){
 					tour(SECTION);
 					opc.date=data['date'];
 					if(data['sp']) act.sp=data['sp'];
@@ -815,7 +814,6 @@ function showCarousel(array,layer){
 				}else if(action=='reload'){
 					act.more=false;
 					if(current=='group'){
-						$(btncretagG).hide();
 						$(layer).html('<div class="messageAdver"><?=$lang["GROUPS_MESSAGE_TAGS"]?>&nbsp;<?=$lang["GROUPS_MESSAGE_NEWTAG"]?><a href="'+BASEURL+'creation?group='+opc['grupo']+'"><?=$lang["GROUPS_MENUADDTAG"]?></a></div>');
 					}else{
 						if(idsearch=='1'){

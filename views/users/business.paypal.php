@@ -45,8 +45,8 @@ $query=CON::query("	SELECT *, p.id AS idPlan FROM subscription_plans p
 					<?php
 					while ( $type=CON::fetchAssoc($query) ):
 						//Verifica si los planes tienen traduccion
-						$name = (defined($type['name'])) ? constant($type['name']) : $type['name'] ;
-						$description = (defined($type['description'])) ? constant($type['description']) : $type['description'] ;
+						$name = (defined($type['name'])) ? lan($type['name']) : $type['name'] ;
+						$description = (defined($type['description'])) ? lan($type['description']) : $type['description'] ;
 						//Checkeaa y activa un plan previamente comprado o selecciona el 1ero por defecto
 						$selected = ( $type['idPlan'] == $plan ) ? 'checked="checked"' : '';
 						$features = explode(',', $type['features']);

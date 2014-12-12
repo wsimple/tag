@@ -103,8 +103,8 @@
 				<div class="anytext" action="UserLikedOrRaffle,r,<?=$product['raffle_id']?>">* <strong id="parTiUserRaffle"><?=STORE_PLACES_A?>: </strong><?=  intval($product['raffle_cant_users'])-  intval($product['numParti'])?></div>
 			<?php }else{ ?>
 				<h3><?=(($product['formPayment']=='1')?TYPEPRICEMONEY.': <span id="lblCost">'.$product['cost'].'</span>':STORE_TITLEPOINTS.': <span id="lblCost">'.$product['cost'].'</span>')?></h3>
-				<div class="anytext">* <strong><?=STORE_CATEGORIES2?>: </strong><?=formatoCadena(constant($product['category']))?></div>
-				<div class="anytext">* <strong><?=STORE_CATEGORIES3?>: </strong><?=formatoCadena(constant($product['subCategory']))?></div>
+				<div class="anytext">* <strong><?=STORE_CATEGORIES2?>: </strong><?=formatoCadena(lan($product['category']))?></div>
+				<div class="anytext">* <strong><?=STORE_CATEGORIES3?>: </strong><?=formatoCadena(lan($product['subCategory']))?></div>
 				<?php if ($product['id_category']!=1){ ?><div class="anytext">* <strong><?=formatoCadena(STORE_STOCK)?>: </strong><span <?=($product['stock']<10?'class="color_red"':'')?>><?=$product['stock']?></span></div><?php }?>
 				<?php if ($product['stock']<10 && $product['id_category']!='1'){ ?><div class="anytext color_red"><?=$product['stock']==0?STORE_NOT_STOCK_LIST:STORE_MESSAGE_STOCK_LOW?></div><?php }?>
 			<?php } ?>

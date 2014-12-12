@@ -43,6 +43,7 @@
 				$('#txt3').html('<strong>'+lang.ACTIONSTAGS_REPORTTAG_TITLESELECT+'</strong>');
 			},
 			after:function(){
+				$('.ui-loader').css('right','94px'); // Fix Temporal Loader
 				$('#id_tag').val($_GET['id']);
 				console.log($('#id_tag').val($_GET['id']))
 				//$('#tagReport').html(showTag({'idTag':$('#id_tag').val()}));

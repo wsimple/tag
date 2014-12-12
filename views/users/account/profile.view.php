@@ -131,7 +131,7 @@
 				<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
 				<select name="frmProfile_showbirthday" id="frmProfile_showbirthday">
 					<?php while ($show_birthday=mysql_fetch_assoc($shows_birthday)){ ?>
-						<option value="<?=$show_birthday['id']?>" <?php if($_SESSION['ws-tags']['ws-user']['show_birthday']==$show_birthday[id]) echo "selected"; ?> ><?=constant($show_birthday['label'])?></option>
+						<option value="<?=$show_birthday['id']?>" <?php if($_SESSION['ws-tags']['ws-user']['show_birthday']==$show_birthday[id]) echo "selected"; ?> ><?=lan($show_birthday['label'])?></option>
 					<?php } ?>
 				</select>
 				<?php } ?>
@@ -227,7 +227,7 @@
 			<?php }
 			while($sexo=mysql_fetch_assoc($sex)){ ?>
 				<option value="<?=$sexo['id']?>" <?=($_SESSION['ws-tags']['ws-user']['sex']==$sexo['id']?"selected":'')?>>
-					<?=constant($sexo['label'])?>
+					<?=lan($sexo['label'])?>
 				</option>
 			<?php } ?>
 			</select>
