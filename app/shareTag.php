@@ -83,6 +83,7 @@
 				$('#userName_shareTag').val($.local('full_name')+' ('+$.local('email')+')');
 			},
 			after:function(){
+				$('.ui-loader').css('right','90px'); // Fix Temporal Loader
 				var idTag=$_GET['id_tag'];
 				//$('#tag_shareTag').html(showTag({'id':idTag,'tag':md5(idTag).substr(17)}));
 				$('#sharetag_div').fadeIn('slow');
