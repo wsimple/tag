@@ -31,7 +31,7 @@ include '../header.json.php';
 				$arrayCate[$i]['id'] = $categorys['id'];
                 if ($categorys['photo']) $arrayCate[$i]['photo'] = FILESERVER.'css/tbum/storeCategory/'.$categorys['photo'];
                 else $arrayCate[$i]['photo']=DOMINIO.'css/tbum/storeCategory/category.png';
-				$arrayCate[$i++]['name'] = utf8_encode(formatoCadena(constant($categorys['name'])));
+				$arrayCate[$i++]['name'] = utf8_encode(formatoCadena(lan($categorys['name'])));
 			}
 		break;
 		
@@ -60,7 +60,7 @@ include '../header.json.php';
 			$i = 0;
 			while($categorys  = mysql_fetch_assoc($category)){
 				$arrayCate[$i]['id'] = $categorys['id'];
-				$arrayCate[$i]['name'] = utf8_encode(formatoCadena(constant($categorys['name'])));
+				$arrayCate[$i]['name'] = utf8_encode(formatoCadena(lan($categorys['name'])));
 				$arrayCate[$i++]['cant'] = $categorys['cant'];
 			}
 		break;
@@ -91,8 +91,8 @@ include '../header.json.php';
 			");			
 			$product = mysql_fetch_assoc($products);
 			$product['sellerName'] = utf8_encode(formatoCadena($product['sellerName']));
-			$product['category'] = utf8_encode(formatoCadena(constant($product['category'])));
-			$product['subCategory'] = utf8_encode(formatoCadena(constant($product['subCategory'])));
+			$product['category'] = utf8_encode(formatoCadena(lan($product['category'])));
+			$product['subCategory'] = utf8_encode(formatoCadena(lan($product['subCategory'])));
 			if ($product['place']=='1'){
 				$photos = $GLOBALS['cn']->query("
 					SELECT

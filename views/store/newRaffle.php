@@ -46,8 +46,8 @@
 				<div class="detail-box limitComent raffle">
 					<h3><?=formatoCadena($product['name'])?></h3>
 					<div class="prevPhotoStore" style="display: block;"><div style="background-image: url('<?=FILESERVER."img/".$product['photo']?>');background-repeat:repeat;background-size:100%;"></div></div>
-					<label><strong><?=STORE_CATEGORIES2?>:</strong><span><?=' '.constant($product['name_category'])?></span></label><br>
-					<label><strong><?=STORE_CATEGORIES3?>:</strong><span><?=' '.constant($product['name_subCategory'])?></span></label><br>
+					<label><strong><?=STORE_CATEGORIES2?>:</strong><span><?=' '.lan($product['name_category'])?></span></label><br>
+					<label><strong><?=STORE_CATEGORIES3?>:</strong><span><?=' '.lan($product['name_subCategory'])?></span></label><br>
 					<a action="detailProd,<?=$_GET['idProd']?>,dialog"><?=TIMELINE_TITLETAGSPONSOR?></a>
 				</div>
 				<div class="detail-box raffle">

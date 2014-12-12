@@ -154,15 +154,6 @@ include '../header.json.php';
 			}while(count($afriends)<$numfriends && $friend=CON::fetchAssoc($friends));
 			$info['friends']=$afriends;
 		}
-		//verificar si el llamado se hizo desde la web
-//		if($_GET['web']){
-//			$plural=$info['num_friends']>1?'_PLURAL':'';
-//			$info['message_sent']= constant($info['message_sent'].$plural);
-//			$info['message_link']= constant($info['message_link']);
-//			if($info['id_type']=='16'||$info['id_type']=='17'){
-//				$info['message_sent']=STORE_ORDER_START_NOTI.' '.$info['order'].' '.$info['message_sent'];
-//			}
-//		}
 		$info['idsource']=$info['id_source'];
 		$info['source']=md5($info['id_source']);
 		unset($info['id_source']);
