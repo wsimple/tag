@@ -147,8 +147,8 @@ if (quitar_inyect()){
             $row['seller'] = utf8_encode(formatoCadena($row['seller']));
             if ($row['id_user']==$myId){ $row['raffle']=true; }
             if ($array['storeList']) $row['listStore']=true; 
-            $row['category'] = utf8_encode(formatoCadena(@constant($row['category'])));
-            $row['subCategory'] = utf8_encode(formatoCadena(@constant($row['subCategory'])));			
+            $row['category'] = utf8_encode(formatoCadena(lan($row['category'])));
+            $row['subCategory'] = utf8_encode(formatoCadena(lan($row['subCategory'])));			
             $row['name'] = utf8_encode(formatoCadena($row['name']));
             $photo = FILESERVER.'img/'.$row['photo'];
             if(fileExistsRemote($photo)){ $row['photo'] = $photo; }

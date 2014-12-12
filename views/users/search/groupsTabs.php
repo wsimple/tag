@@ -15,9 +15,9 @@ if ($groups_count == 0) {
         $photo=FILESERVER.'img/groups/'.$group['photo'];
         $photo=fileExistsRemote($photo)?$photo:'';
         $group['photo']= $photo!=''? 'style="background-image:url(\''.$photo.'\');"':'';
-        $group['cname']=formatoCadena(constant($group['cname']));
+        $group['cname']=formatoCadena(lan($group['cname']));
         $group['photoi']= $photo!=''? 'src="'.$photo.'" ':'src="'.DOMINIO.'css/smt/groups_default.png"';
-        $group['ctitle']=$group['cname'].': '.constant($group['csummary']);
+        $group['ctitle']=$group['cname'].': '.lan($group['csummary']);
         $group['cphoto']=$group['cphoto']!=''?DOMINIO.'img/groups/category/'.$group['cphoto']:DOMINIO.'css/smt/menu_left/groups.png';
 		switch ($group['privacy']) {
 			case 1:

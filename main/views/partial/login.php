@@ -26,9 +26,9 @@ $user=$facebook->getUser(); //Obtengo usuario de facebook para usar la api js
 			<input type="checkbox" name="keepLogin" id="keepLogin" <?=isset($_COOKIE['kl'])?' checked="checked"':''?> />
 			<span><?=$lang->get('LOGIN_LBLREMEMBERMELOGIN')?></span>
 		</p>
-		<p>
+		<!-- <p>
 			<a href="<?=$lang->get('HREF_DEFAULT')?>"><?=$lang->get('LOGIN_LBLLINKTROUBLELOGGIN')?></a>
-		</p>
+		</p> -->
 		<p style="text-align:right;">
 			<input type="submit" name="btnLogin" id="btnLogin" value="<?=$lang->get('BTN_LOGIN')?>" style="width:100px;" />
 		</p>

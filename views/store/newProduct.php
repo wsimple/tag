@@ -21,12 +21,12 @@ if($_SESSION['ws-tags']['ws-user']['type']==1){
 		if(isset($categorys[$categoryss['id_category']])){
 			$i=count($categorys[$categoryss['id_category']]['sub_category']);
 			$categorys[$categoryss['id_category']]['sub_category'][$i]['id']=$categoryss['id'];
-			$categorys[$categoryss['id_category']]['sub_category'][$i]['name']=  formatoCadena(constant($categoryss['name']));	
+			$categorys[$categoryss['id_category']]['sub_category'][$i]['name']=  formatoCadena(lan($categoryss['name']));	
 		}else{
 			$categorys[$categoryss['id_category']]['id_category']=$categoryss['id_category'];
-			$categorys[$categoryss['id_category']]['category_name']=  formatoCadena(constant($categoryss['category_name']));
+			$categorys[$categoryss['id_category']]['category_name']=  formatoCadena(lan($categoryss['category_name']));
 			$categorys[$categoryss['id_category']]['sub_category'][0]['id']=$categoryss['id'];
-			$categorys[$categoryss['id_category']]['sub_category'][0]['name']=  formatoCadena(constant($categoryss['name']));
+			$categorys[$categoryss['id_category']]['sub_category'][0]['name']=  formatoCadena(lan($categoryss['name']));
 		}
 	}
 	$categorys=json_encode($categorys);
@@ -281,8 +281,6 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 				cat='<?=$product['category']?>';
 				subcat='<?=$product['subCategory']?>';
 				fp='<?=$product['formPayment']?>';
-    //             console.log(category);
-				// console.log(cat);
                 var v=JSON.parse(category);
 				<?php if($_GET['idProd']){ ?>
 					categorys(v,cat);
@@ -328,7 +326,6 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 			var vc=0,sto;//vimeo counter ajax
 			$('#txtVideo').bind('change keyup',function(){
 				var that=this,URL=that.value;
-				// console.log(URL);
 				if(URL.match(/^https?:\/\/vimeo\.com\/.+\/.+/)){
 					var $running=$('#vimeo #running'),
 						$success=$('#vimeo #success'),
@@ -411,8 +408,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 			//success despues del submit
 			var options={
                 dataType:'json',
-				success:function(data){ // post-submit callback
-					// console.log(data);
+				success:function(data){ 
                     switch(data['action']){
                         case 'img': 
                             setBG(data['img']['img'],data['img']['pos']);
@@ -518,19 +514,6 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 	}
 	<?php }else{ ?>
         message('#default','<?=RESET_TITLEALERTEMAILPASSWORD?>','<div syplay="text-aling:center;"><strong><?=NOT_BUSINEES_INCORRUP?></trong></div>','','',200,'','store?');
-//		$.dialog({
-//			title:'<?=RESET_TITLEALERTEMAILPASSWORD?>',
-//			resizable:false,
-//			width:350,
-//			height:220,
-//			modal:true,
-//			open:function(){
-//				$(this).html('<div syplay="text-aling:center;"><strong><?=NOT_BUSINEES_INCORRUP?></trong></div>');
-//			},
-//			close:function(){
-//				redir("store?");
-//			}
-//		});
 	<?php } ?>
 	});
 </script>

@@ -17,6 +17,7 @@ if (quitar_inyect()){
 		$sql_userName	='';
 		$error_username	='';
 		if($_POST['frmProfile_userName']){
+			$_POST['frmProfile_userName'] = str_replace(" ","",$_POST['frmProfile_userName']);
 			if(!valid::isAlphaNumeric($_POST['frmProfile_userName'])){
 				$error_username='ERROR_USERNAME_FORMAT';
 			}else{

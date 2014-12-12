@@ -16,7 +16,7 @@ $query = 'SELECT '.$sc.' AS dato FROM dialogs WHERE id = 1';
 			<?php
 			$rs = $GLOBALS['cn']->query( $query );
 			if ( $row = mysql_fetch_assoc( $rs ) ){
-				if ( @constant( $row['dato'] ) != NULL ) echo constant($row['dato']);
+				if (lan( $row['dato'] ) != NULL ) echo lan($row['dato']);
 				else echo DIALOG_NOTFOUND;
 			}else{
 				echo INDEX_DIALOGSORRYUNDER;
