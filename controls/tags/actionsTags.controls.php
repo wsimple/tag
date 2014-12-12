@@ -115,12 +115,12 @@
 									}else continue;
 								}
 								$sendDataPublicity = $tag['idTag'];
-								$linkTag = DOMINIO.'tag?id='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($tag['email']);
+								$linkTag = $config->main_server.'tag?id='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($tag['email']);
 								$imgTag	= tagURL($tag['idTag']);
-								$iconoSpon = DOMINIO.'/img/menu_users/publicidad.png';
+								$iconoSpon = $config->main_server.'/img/menu_users/publicidad.png';
 								$foto_usuario=FILESERVER.getUserPicture($tag['code'].'/'.$tag['photoUser']);
 								$foto_remitente	=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']);
-								$share=DOMINIO.'/css/smt/tag/share.png';
+								$share=$config->main_server.'/css/smt/tag/share.png';
 
 								if ($msj!=""){
 									$trMsj = '<tr><td style="padding:5px; font-size:12px; color:#000; text-align:justify">'.convertir_especiales_html($msj).'</td></tr>';
@@ -133,9 +133,9 @@
 														FROM users u
 														WHERE u.id =?",array($_SESSION['ws-tags']['ws-user']['id']));
 								if (trim($_SESSION['ws-tags']['ws-user']['username'])!=''){
-										$external=$lang['USERS_BROWSERFRIENDSLABELEXTERNALPROFILE'].":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.$_SESSION['ws-tags']['ws-user']['username']."' onFocus='this.blur();' target='_blank'>".DOMINIO.$_SESSION['ws-tags']['ws-user']['username']."</a><br>";
+										$external=$lang['USERS_BROWSERFRIENDSLABELEXTERNALPROFILE'].":&nbsp;<span ><a style='color:#999999' href='".$config->main_server.$_SESSION['ws-tags']['ws-user']['username']."' onFocus='this.blur();' target='_blank'>".$config->main_server.$_SESSION['ws-tags']['ws-user']['username']."</a><br>";
 								}else {
-									$external=$lang['USERS_BROWSERFRIENDSLABELEXTERNALPROFILE'].":&nbsp;<span ><a style='color:#999999' href='".DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."' onFocus='this.blur();' target='_blank'>".DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."</a><br>";
+									$external=$lang['USERS_BROWSERFRIENDSLABELEXTERNALPROFILE'].":&nbsp;<span ><a style='color:#999999' href='".$config->main_server.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."' onFocus='this.blur();' target='_blank'>".$config->main_server.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."</a><br>";
 								}
 								if (trim($array['pais'])!=''){
 										$pais=$lang['USERS_BROWSERFRIENDSLABELCOUNTRY'].":&nbsp;<span style='color:#999999'>".$array['pais']."</span><br/>";
@@ -171,7 +171,7 @@
 															<strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).'&nbsp;</strong>'
 															.$lang['MENUTAG_CTRSHAREMAILTITLE1'].'
 														</td>
-														<td background="'.DOMINIO.'css/smt/email/yellowbutton_get_started2.png" style="width: 140px; height: 22px;  display: inline-block; background-repeat: no-repeat; padding: 10px 14px 5px 5px;">
+														<td background="'.$config->main_server.'css/smt/email/yellowbutton_get_started2.png" style="width: 140px; height: 22px;  display: inline-block; background-repeat: no-repeat; padding: 10px 14px 5px 5px;">
 															<a style="font-weight: bold; color: #2d2d2d; font-size:12px; text-decoration: none" href="'.$linkTag.'">'.$lang['MENUTAG_CTRSHAREMAILTITLE2'].'</a>
 														</td>
 													</tr>
@@ -197,7 +197,7 @@
 												<center><table style="width:100%;">
 													<tr>
 														<td colspan="2" valign="top" style="border-bottom: 1px #f4f4f4 solid; border-top: 1px #f4f4f4 solid; padding: 8px 0px 0px 0px;">
-															<img src="'.DOMINIO.'/css/smt/email/publicidad3.png">
+															<img src="'.$config->main_server.'/css/smt/email/publicidad3.png">
 															&nbsp;
 															'.$lang['USERPUBLICITY_PAYMENT'].'
 														</td>
@@ -267,7 +267,7 @@
 							CON::update("tags_report","status='2'","id_tag=? AND status='1' ",array($tag['id']));
 						}
 						// echo CON::lastSql();
-						header('Location: '.DOMINIO.$_REQUEST['url'].'');
+						header('Location: '.$config->main_server.$_REQUEST['url'].'');
 					}else{
 						if($tag['status']=='4') {//si la tag es privada
 							// eliminamos los tags privados
@@ -350,10 +350,10 @@
 							if ($Nreport>=$total) {								
 								$body ='
 								<div>
-									<div style="background-image: url(\''.DOMINIO.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;height: 103px;margin-left: 40px;"></div> 
+									<div style="background-image: url(\''.$config->main_server.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;height: 103px;margin-left: 40px;"></div> 
 									<div style="padding: 25px;text-align: center; font-size: 25px; color:#FA0D1F">'.EMAIL_REPORTS_TAGS.'</div>
 									<div style="text-align: center;"><img src="'.tagURL($tag['id']).'"></div>
-									<div style="text-align: center; font-size: 20px; font-weight:bold; padding:20px 0"><a style="text-decoration: none; color: #514C4C; " href="'.DOMINIO.'wpanel/?idtagreport='.md5($tag['id']).'">'.EMAIL_REPORTS_TAGS_DELETE.'</a></div>
+									<div style="text-align: center; font-size: 20px; font-weight:bold; padding:20px 0"><a style="text-decoration: none; color: #514C4C; " href="'.$config->main_server.'wpanel/?idtagreport='.md5($tag['id']).'">'.EMAIL_REPORTS_TAGS_DELETE.'</a></div>
 								</div>';
 
 								$mails=explode(',',$emails);
@@ -367,9 +367,9 @@
                             if($_SESSION['ws-tags']['ws-user']['super_user']==1&&$typeR=='6'){
 								$GLOBALS['cn']->query('UPDATE tags SET status="2" WHERE id="'.$tag['id'].'"');
 							}
-							echo '<div class="success_message"><img src="'.DOMINIO.'imgs/message_success.png" /> '.$lang["ACTIONTAG_REPORTEXITO"].'</div>';
-						}else echo '<div class="error_message"><img src="'.DOMINIO.'imgs/message_error.png" /> '.$lang["ACTIONTAG_REPORTERROR1"].'</div>';
-					}else echo '<div class="error_message"><img src="'.DOMINIO.'imgs/message_error.png" /> '.$lang["ACTIONTAG_REPORTERROR2"].'</div>';
+							echo '<div class="success_message"><img src="'.$config->main_server.'imgs/message_success.png" /> '.$lang["ACTIONTAG_REPORTEXITO"].'</div>';
+						}else echo '<div class="error_message"><img src="'.$config->main_server.'imgs/message_error.png" /> '.$lang["ACTIONTAG_REPORTERROR1"].'</div>';
+					}else echo '<div class="error_message"><img src="'.$config->main_server.'imgs/message_error.png" /> '.$lang["ACTIONTAG_REPORTERROR2"].'</div>';
 				break;//report
 			// luego del preview (9)
 				case 9:
