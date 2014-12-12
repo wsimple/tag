@@ -64,6 +64,7 @@
 				);
 			},
 			after:function(){
+
 				$('#creationTag').click(function(){
 					redir(PAGE['newtag']);
 				});
@@ -72,7 +73,6 @@
 					$('#tl-footer ul li a').removeClass('ui-btn-active');
 					$('#tl-footer ul li a[opc='+active_tab+']').addClass('ui-btn-active');
 					if(active_tab=='privateTags'){
-						$('.ui-loader').css('right','130px'); // Fix Temporal Loader
 						$('#private-select').show();
 						$('.creation').hide();
 					}else{
@@ -122,9 +122,11 @@
 						opc.current=c;
 						if(opc.current=='privateTags'){
 							opc.get=priv;
+							$('.ui-loader').css('right','130px'); // Fix Temporal Loader
 							$('#private-select').show();
 							$('#creationTag').hide();
 						}else{
+							$('.ui-loader').css('right','50px');
 //							opc.get='';
 							$('#private-select').hide();
 							$('#creationTag').show();
