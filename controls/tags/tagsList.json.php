@@ -14,7 +14,7 @@ function tagsList_json($data,$mobile=false){
 		$tipos=CON::query('SELECT id,descrip FROM type_tag_report ORDER BY id');
 		while($tipo=CON::fetchAssoc($tipos)){
 			$res[]=$tipo['id'];
-			$res[]=constant($tipo['descrip']);
+			$res[]=lan($tipo['descrip']);
 		}
 		return $res;
 	}

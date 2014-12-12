@@ -21,12 +21,12 @@ if($_SESSION['ws-tags']['ws-user']['type']==1){
 		if(isset($categorys[$categoryss['id_category']])){
 			$i=count($categorys[$categoryss['id_category']]['sub_category']);
 			$categorys[$categoryss['id_category']]['sub_category'][$i]['id']=$categoryss['id'];
-			$categorys[$categoryss['id_category']]['sub_category'][$i]['name']=  formatoCadena(constant($categoryss['name']));	
+			$categorys[$categoryss['id_category']]['sub_category'][$i]['name']=  formatoCadena(lan($categoryss['name']));	
 		}else{
 			$categorys[$categoryss['id_category']]['id_category']=$categoryss['id_category'];
-			$categorys[$categoryss['id_category']]['category_name']=  formatoCadena(constant($categoryss['category_name']));
+			$categorys[$categoryss['id_category']]['category_name']=  formatoCadena(lan($categoryss['category_name']));
 			$categorys[$categoryss['id_category']]['sub_category'][0]['id']=$categoryss['id'];
-			$categorys[$categoryss['id_category']]['sub_category'][0]['name']=  formatoCadena(constant($categoryss['name']));
+			$categorys[$categoryss['id_category']]['sub_category'][0]['name']=  formatoCadena(lan($categoryss['name']));
 		}
 	}
 	$categorys=json_encode($categorys);

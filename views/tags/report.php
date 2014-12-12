@@ -26,13 +26,13 @@
 	<div>
 		<select name="tipo_reporte" id="tipo_reporte">
         <?php while ($tipo=mysql_fetch_assoc($tipos)){ 
-			if(($tipo[id]!='6')&&($tipo[id]!='7')){
+			if(($tipo['id']!='6')&&($tipo['id']!='7')){
 			?>
-				<option value="<?=md5($tipo[id])?>" <?php if ($tipo[id]=='5') echo "selected"; ?> ><?=constant($tipo[descrip])?></option>
+				<option value="<?=md5($tipo['id'])?>" <?php if ($tipo['id']=='5') echo "selected"; ?> ><?=lan($tipo['descrip'])?></option>
 			<?php 
-			}else if($_SESSION['ws-tags']['ws-user']['super_user']==1&&($tipo[id]=='6'||$tipo[id]=='7')){
+			}else if($_SESSION['ws-tags']['ws-user']['super_user']==1&&($tipo['id']=='6'||$tipo['id']=='7')){
 			?>
-				<option value="<?=md5($tipo[id])?>"><?=constant($tipo[descrip])?></option>	
+				<option value="<?=md5($tipo['id'])?>"><?=lan($tipo['descrip'])?></option>	
 			<?php
 			}	
 		} ?>

@@ -11,7 +11,7 @@ include '../header.json.php';
 		unset($ret);
 		while ($tipo=mysql_fetch_assoc($tipos)){
 			$ret[] = $tipo['id'];
-			$ret[] = constant($tipo['descrip']);
+			$ret[] = lan($tipo['descrip']);
 		}
 
 		die(jsonp($ret));
