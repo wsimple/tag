@@ -56,7 +56,7 @@ function tagsList_json($data,$mobile=false){
 	$join=" JOIN users u ON u.id=t.id_user ";
 	$order='t.id DESC';
 	if($myId!=''){//si hay usuario logeado
-		$join.=' LEFT JOIN tags_report tr ON (t.id_user=tr.id_user_report AND t.source=tr.id_tag) ';
+		$join.=" LEFT JOIN tags_report tr ON ($myId=tr.id_user_report AND t.source=tr.id_tag) ";
 		$where=' tr.id_tag IS NULL ';
 		if($res['date']!='') $where.=' AND t.date'.($refresh?'>':'<=').'"'.$res['date'].'" ';
 		//amigos
