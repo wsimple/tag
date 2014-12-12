@@ -1574,7 +1574,15 @@ input.password-field {
 }
 
 #commenting{
-	width: 99%;
+	min-width: 160px;
+	width: 92%;
+	max-width: 97%;
+}
+
+@media screen and (min-width:720px){
+	#commenting{
+		width: 99%;
+	}
 }
 
 #comments .ui-btn-up-c, #comments .ui-bar-e{

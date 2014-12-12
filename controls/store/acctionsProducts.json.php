@@ -31,7 +31,7 @@ switch ($_GET['acc']) {
     case '0': //Agregar producto
 		if( quitar_inyect() ) {
 			$userId = $_SESSION['ws-tags']['ws-user']['id'];
-			foreach ($_POST as $nameVar => $valueVar) ${$nameVar} = "'$valueVar'";
+			foreach ($_POST as $nameVar => $valueVar) ${$nameVar} = "$valueVar";
 			$txtPrice = str_replace(',','',$txtPrice); //Formatea el tipo de dinero para ser insertado
 			
             if (isset($backgSelect_)){
@@ -47,28 +47,14 @@ switch ($_GET['acc']) {
             }
             if($txtVideo==''||!preg_match(regex('video'),$txtVideo)) $txtVideo=='http://';
             else $txtVideo=str_replace("'",'',$txtVideo);
-			// $idproduct=CON::insert('store_products','id_user=?,id_status=?,id_category=?,id_sub_category =?,name =?,description=?,stock =?,sale_points =?,photo=?,join_date=NOW(),update_date=NOW(),place=?,formPayment=?,video_url=?',
-									// array($userId,$status, $txtCategory,$txtSubCategory,formatText($txtName),$txtDescription,$txtStock,$txtPrice,$img,$place,$txtMethod,$txtVideo));
-			$idproduct=CON::insert('store_products',"id_user=$userId,id_status=$status,id_category=$txtCategory,id_sub_category =$txtSubCategory,name =".formatText($txtName).",description=$txtDescription,stock =$txtStock,sale_points =$txtPrice,photo='$img',join_date=NOW(),update_date=NOW(),place=$place,formPayment=$txtMethod,video_url=$txtVideo");
-			// $sql="INSERT INTO `store_products` (
-			// 			`id_user` ,
-			// 			`id_status` ,
-			// 			`id_category` ,
-			// 			`id_sub_category` ,
-			// 			`name` ,
-			// 			`description` ,
-			// 			`stock` ,
-			// 			`sale_points` ,
-			// 			`photo` ,
-			// 			`join_date`,
-			// 			`update_date`,
-			// 			`place`,
-			// 			`formPayment`,
-			// 			`video_url`
-			// 			)
-			// 			VALUES ( $userId, $status, $txtCategory,$txtSubCategory,".formatText($txtName).", ".$txtDescription.", $txtStock, $txtPrice, '$img', NOW(), NOW(),$place,$txtMethod,".$txtVideo.");";
-			//$result = $GLOBALS['cn']->query($sql);
-			// echo $res['sql']= CON::lastSql();
+           	$idproduct=CON::insert('store_products','id_user=?,
+									id_status=?,id_category=?,
+									id_sub_category=?,name=?,
+									description=?,stock=?,
+									sale_points=?,photo=?,
+									join_date=NOW(),update_date=NOW(),
+									place=?,formPayment=?,
+									video_url=?',array($userId,$status,$txtCategory,$txtSubCategory,formatText($txtName),$txtDescription,$txtStock,$txtPrice,$img,$place,$txtMethod,$txtVideo));
 			if (!isset($backgSelect_)){
 				$band=false;
 				// $idproduct=mysql_insert_id();
@@ -77,13 +63,11 @@ switch ($_GET['acc']) {
 				for ($y=1;$y<6;$y++){
 					if ($_POST['backgSelect_'.$y]){
 						$sql.=($band?',':'').safe_sql("(?,?,?,?,1)",array($y,$idproduct,$_POST['backgSelect_'.$y],$_POST['txtOrder'.$y]));
-						// $sql.=$band?',('.$y.','.$idproduct.',\''.$_POST['backgSelect_'.$y].'\','.$_POST['txtOrder'.$y].',1)':'('.$y.','.$idproduct.',\''.$_POST['backgSelect_'.$y].'\','.$_POST['txtOrder'.$y].',1)';
 						$band=true;
 					}
 				}
 				$sql.=';';
 				$result = CON::query($sql);
-				// $result = $GLOBALS['cn']->query($sql);
 			}
 			if($result){ 
 				$res['action'] = 'insert'; 
@@ -98,7 +82,7 @@ switch ($_GET['acc']) {
 		  if( isset($_GET['id']) ){
     		  if (existe('store_products', 'id', 'WHERE id= "'.$_GET['id'].'" AND id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'"')){
     			if (!existe('store_orders o JOIN store_orders_detail od ON od.id_order=o.id', 'o.id', 'WHERE od.id_product= "'.$_GET['id'].'" AND ((o.id_status="1" AND od.id_status="11") OR (o.id_status="11" AND od.id_status="11"))')){
-				    foreach ($_POST as $nameVar => $valueVar) ${$nameVar} = "'$valueVar'";
+				    foreach ($_POST as $nameVar => $valueVar) ${$nameVar} = "$valueVar";
 					if (isset($backgSelect_)){
         				$place='null';
         				$txtCategory='1';
@@ -111,33 +95,17 @@ switch ($_GET['acc']) {
                     }
 					$txtPrice = str_replace(',','',$txtPrice); //Formatea el tipo de dinero para ser insertado
                     if($txtVideo==''||!preg_match(regex('video'),$txtVideo)) $txtVideo=='http://';
-                    else $txtVideo=str_replace("'",'',$txtVideo);
-					$sql="UPDATE `store_products` SET
-								`id_status` = $status,
-								`name` = ".formatText($txtName).",
-								`id_category` = $txtCategory,
-								`id_sub_category` = $txtSubCategory,
-								`description` = ".$txtDescription.",
-								`stock` = $txtStock,
-								`sale_points` = $txtPrice,
-								`photo`='$img',
-								`update_date` = NOW(),
-								`formPayment` = $txtMethod,
-								`video_url` = $txtVideo
-								WHERE id = ".$_GET['id'];
-					$res['sql']= $sql;
-					$result = $GLOBALS['cn']->query($sql);
+                    else $txtVideo=str_replace("'",'',$txtVideo);					
+					$result = CON::update('store_products','id_status=?,name=?,id_category=?,id_sub_category=?,
+										description=?,stock=?,sale_points=?,photo=?,update_date=NOW(),formPayment=?,video_url=?',
+										'id=?',
+										array($status,formatText($txtName),$txtCategory,$txtSubCategory,$txtDescription,$txtStock,$txtPrice,$img,$txtMethod,$txtVideo,$_GET['id']));
 					if (!isset($backgSelect_)){
 						$band=false;
 						for ($y=1;$y<6;$y++){
-							if ($_POST['backgSelect_'.$y]){
-								$upda=$GLOBALS['cn']->query('SELECT id FROM `store_products_picture` WHERE id='.$y.' AND id_product='.$_GET['id']);							
-								if (mysql_num_rows($upda)!=1){
-									$GLOBALS['cn']->query('INSERT INTO `store_products_picture` (
-																`id` ,`id_product` ,`picture` ,`order` ,`status` ) 
-														   VALUES ('.$y.','.$_GET['id'].',\''.$_POST['backgSelect_'.$y].'\','.$_POST['txtOrder'.$y].',1)');
-								}else{ $GLOBALS['cn']->query('UPDATE `store_products_picture` SET picture=\''.$_POST['backgSelect_'.$y].'\', store_products_picture.order='.$_POST['txtOrder'.$y].' WHERE id='.$y.' AND id_product='.$_GET['id']); }
-							}
+							if ($_POST['backgSelect_'.$y])
+								CON::insert_or_update('store_products_picture','picture=?,store_products_picture.order=?','id=?,id_product=?,status=1','id=? AND id_product=?',
+									array($_POST['backgSelect_'.$y],$_POST['txtOrder'.$y],$y,$_GET['id'],$y,$_GET['id']));
 						}
 					}
                     if ($result) $res['action']='update';

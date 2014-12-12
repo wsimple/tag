@@ -44,9 +44,9 @@ if($_GET['cate']){
 			$AND LIMIT 0,1;";
 	$category = $GLOBALS['cn']->query($sql); 
 	$category = mysql_fetch_assoc($category);
-	$titleCate=  constant($category['category']);
+	$titleCate=  lan($category['category']);
 	$idCate=  $category['id_category'];
-	if ($_GET['subcate']) $titleSubCate=constant($category['subCategory']);	
+	if ($_GET['subcate']) $titleSubCate=lan($category['subCategory']);	
 }
 ?>
 <div class="ui-single-box mini" id="pageStore"> 

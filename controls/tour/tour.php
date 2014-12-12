@@ -9,8 +9,8 @@
 			while($hashTours=mysql_fetch_array($sqlTour)){
 					$arraytour[]=array(
 						'id_div'=> $hashTours['id_div'],
-						'title'=> utf8_encode(constant($hashTours['title'])),
-						'message'=> utf8_encode(constant($hashTours['message'])),
+						'title'=> lan($hashTours['title']),
+						'message'=> lan($hashTours['message']),
 						'position'=> $hashTours['position'],
 						'hashTash'=> $hashTours['hash_tash']
 					);//array
