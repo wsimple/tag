@@ -80,7 +80,6 @@ if ($acceso){  ?>
 		</div>
 		<!-- end mensaje corto -->
 		<!-- mensaje inferior -->
-		<?php if($_SESSION['ws-tags']['ws-user']['view_creation_tag'])?>
 		<div id="inputLongMessage" style="position: absolute; top: 200px; left: 40px; z-index: 999979;">
 			<div>
 				<input name="txtMsg2" id="txtMsg2" type="hidden" value="<?=$tag['text2']?>"/>
@@ -378,29 +377,6 @@ $(function(){
 			}
 		});
 	}
-	var $advanced=$('#inputLongMessage,#PublicPrivate,#videosTag label'),
-		$data=$advanced.find('input,textarea');
-	$('#radio1').click(function(){//esconder
-		$advanced.fadeOut(function(){
-			$data.prop('disabled',true);
-		});
-		$.ajax('controls/users/viewcreation.control.php?hide');
-	});
-
-	$('#radio2').click(function(){//mostrar
-		$data.prop('disabled',false);
-		$advanced.fadeIn();
-		$.ajax({
-			url:'controls/users/viewcreation.control.php'
-		});
-	});
-
-	<?php if(($tag['text2']!='')&&($_SESSION['ws-tags']['ws-user']['view_creation_tag']==0)){?>
-			$advanced.show();
-	<?php
-	}elseif($_SESSION['ws-tags']['ws-user']['view_creation_tag']==0){ ?>
-			$advanced.hide();
-	<?php } ?>
 	$('#bckArchive').hide();
 	colorSelector('hiddenColorDiv', 'hiddenColor');
 	colorSelector('hiddenColorDiv2','hiddenColor2');

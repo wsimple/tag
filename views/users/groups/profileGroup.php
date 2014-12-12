@@ -1,23 +1,23 @@
 <div class="group-details" id="taglist-box">
 	<div class="ui-single-box-title" style="display: none;">
-		<span style="float:left;"><a href="<?=base_url('groups')?>" title=""><?=GROUPS_TITLENAMEGROUPPREFIJO?></a>&nbsp;>&nbsp;</span><div id="groupTitleStyle" title=""></span></div>
+		<span style="float:left;"><a href="<?=base_url('groups')?>" title=""><?=$lang['GROUPS_TITLENAMEGROUPPREFIJO']?></a>&nbsp;>&nbsp;</span><div id="groupTitleStyle" title=""></span></div>
 		<ul id="subMenuAdminGroups" class="mainMenu" style="float: right; background: #FFF;">
 			<li>
-				<a class="fNiv mo" ><?=GROUPS_MENUADMINISTRATION?></a>
+				<a class="fNiv mo" ><?=$lang['GROUPS_MENUADMINISTRATION']?></a>
 				<ul>
 					<li class="arrow" style=" padding-left: 35px"></li>
 					<li id="btneditprofilegroup"></li>
-					<li><a id="btnShowMembers" class="linkOptionGrouop"><?=GROUPS_NEWMEMBERS?></a></li>
-					<li><a id="btnInviteFriends" class="linkOptionGrouop"><?=GROUPS_INVITEFRIENDSBTNINVITE?></a></li>
-					<li><a id="btnLeaveGroup" class="linkOptionGrouop"><?=GROUPS_MENULEAVEGROUP?></a></li>
+					<li><a id="btnShowMembers" class="linkOptionGrouop"><?=$lang['GROUPS_NEWMEMBERS']?></a></li>
+					<li><a id="btnInviteFriends" class="linkOptionGrouop"><?=$lang['GROUPS_INVITEFRIENDSBTNINVITE']?></a></li>
+					<li><a id="btnLeaveGroup" class="linkOptionGrouop"><?=$lang['GROUPS_MENULEAVEGROUP']?></a></li>
 				</ul>
 			</li>
 		</ul>
-		<a id="btnNewGroup" class="float-right" style="margin-left:90px"><?=GROUPS_TITLEWINDOWSNEW?></a>
-		<!-- <a id="btncreateTags" class="float-right" ><?=MAINMNU_CREATETAG?></a> -->
+		<a id="btnNewGroup" class="float-right" style="margin-left:90px"><?=$lang['GROUPS_TITLEWINDOWSNEW']?></a>
+		<!-- <a id="btncreateTags" class="float-right" ><?=$lang['MAINMNU_CREATETAG']?></a> -->
 		<form>
 			<div class="tags-size">
-				<?=RADIOBTN_VIEW?>:
+				<?=$lang['RADIOBTN_VIEW']?>:
 				<input type="radio" name="radio" id="normal" <?=$_SESSION['ws-tags']['ws-user']['view_type_timeline']==0?'checked="checked"':''?>/><label title="Normal Tags" for="normal">&nbsp;</label>
 				<input type="radio" name="radio" id="mini" <?=$_SESSION['ws-tags']['ws-user']['view_type_timeline']!=0?'checked="checked"':''?>/><label title="Mini Tags" for="mini">&nbsp;</label>
 			</div>
@@ -26,7 +26,7 @@
 	<br/>
     <div id="info-top-groups"></div>
     <div id="divctg">
-    	<a class="ctgruop" id="btncreateTagsG" ><?=GROUPS_CONTRIBUTEGROUP?></a>
+    	<a class="ctgruop" id="btncreateTagsG" ><?=$lang['GROUPS_CONTRIBUTEGROUP']?></a>
     </div>
     <div class="clearfix"></div>
 	<div class="tags-list">
@@ -48,13 +48,13 @@
 				url		:	"controls/groups/listGroups.json.php?gid="+idg+"&profile=1",
 				dataType:	"json",
 				success	:	function (data) {
-					if (data['list']){ $('#divctg').addClass('ctg');
+					if (data['list']){ 
 						$('div#groupTitleStyle').attr('title',data['list'][0]['name']);
 						$('div#groupTitleStyle').html(data['list'][0]['name']);
+						if (data['list'][0]['date_join']) $('#divctg').addClass('ctg').find('a#btncreateTagsG').attr('href',BASEURL+'creation?group='+idg).show();
 						if (data['list'][0]['isAdmin']){
 						  console.log(data['list'][0]['sqlw'])
 							$('.group-details .ui-single-box-title').css('display','block');
-							$('.group-details a#btncreateTagsG').attr('href',BASEURL+'creation?group=<?=$_GET['grp']?>');
 							if (data['list'][0]['isAdmin']=='1'){
 								$('li#btneditprofilegroup').html('<a class="linkOptionGrouop"><?=GROUPS_PROFILETITLE?></a>');
 								$('#btneditprofilegroup a').click(function(){
@@ -111,7 +111,6 @@
 					layer=$box.find('.tag-container')[0],
 					opc={
 						current:'group',
-						btncretagG:'#btncreateTagsG',
 						layer:layer,
 						grupo:'<?=$_GET['grp']?>',
 						get:'&grupo=<?=$_GET['grp']?>'
