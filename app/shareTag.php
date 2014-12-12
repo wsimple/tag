@@ -148,30 +148,11 @@
 					}
 				});
 				$('#tag_shareTag').append(	'<div style="width: 35%;margin: 0 auto;display: inline-block;padding-right: 5%;">'+
-												'<iframe src="'+DOMINIO+'views/tags/share/facebook.php?tag='+idTag+'"  frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="width: 100%;"></iframe>'+
+												'<iframe src="'+SERVERS.main+'views/tags/share/facebook.php?tag='+idTag+'"  frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="width: 100%;"></iframe>'+
 												'<div class="clearfix"></div></div>'+
 											'<div style="width: 35%;margin: 0 auto;display: inline-block;padding-left: 5%;">'+
-												'<iframe src="'+DOMINIO+'views/tags/share/twitter.php?tag='+idTag+'"  frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="width: 100%;"></iframe>'+
+												'<iframe src="'+SERVERS.main+'views/tags/share/twitter.php?tag='+idTag+'"  frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="width: 100%;"></iframe>'+
 												'<div class="clearfix"></div></div>');
-				//facebook button AND //twitter button
-				// $('#tag_shareTag').html('<div id="tagShare_facebook">'+
-				// 							'<div id="fb-root"></div>'+
-				// 							'<script>(function(d,s,id){'+
-				// 								'var js, fjs=d.getElementsByTagName(s)[0];'+
-				// 								'if(d.getElementById(id)) return;'+
-				// 								'js=d.createElement(s);'+
-				// 								'js.id=id;'+
-				// 								'js.src="//connect.facebook.net/en_US/all.js#xfbml=1";'+
-				// 								'fjs.parentNode.insertBefore(js,fjs);'+
-				// 							'}(document,"script","facebook-jssdk"));<\/script>'+
-				// 							'<div class="fb-like" data-href="http://tagbum.com/?tag='+idTag.substr(-16)+'" data-layout="button_count" data-show-faces="false"></div>'+
-				// 						'</div>'+
-				// 						'<div id="tagShare_twitter">'+
-				// 							'<a href="https://twitter.com/share" class="twitter-share-button"'+
-				// 								'data-url="'+DOMINIO+'?tag='+md5(idTag).substr(-16)+'"'+
-				// 								'data-via="tagbum" data-text="Disfruten cha lala" data-lang="en"></a>'+
-				// 							'<script type="text/javascript" src="http://platform.twitter.com/widgets.js"><\/script>'+
-				// 						'</div>');
 			}
 		});
 	</script>
