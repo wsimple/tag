@@ -7,10 +7,11 @@
 	else
 		$tid=isset($_GET['tag'])?$_GET['tag']:$_GET['id'];
 	$tag=CON::getRowObject('
-		SELECT id,id_user,status,id_group
-		FROM tags
-		WHERE md5(id)=?
-	',array(intToMd5($tid)));
+		SELECT t.id,t.id_user,t.status,t.id_group
+		FROM tags t
+		LEFT JOIN tags_report tr ON (?=tr.id_user_report AND t.source=tr.id_tag)
+		WHERE md5(t.id)=? AND tr.id_tag IS NULL
+	',array($_SESSION['ws-tags']['ws-user']['id'],intToMd5($tid)));
 	if($tag->status==''||$tag->status=='2') unset($tag);
 //	$num_comments = numRecord('comments', ' WHERE id_source = "'.$tag->id.'" and id_type= "4"');
 //	$num_likes = numRecord('likes', " WHERE id_source = '".$tag->id."'");

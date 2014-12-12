@@ -11,6 +11,6 @@
 //	if ($_GET['mo'])
 //		$array['dato']= json_encode ($array['dato']);
 	
-	constant($array['dato']);
+	lan($array['dato']);
 	echo $array['dato'];
 ?>

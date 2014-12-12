@@ -22,9 +22,9 @@
 			<input type="checkbox" name="keepLogin" id="keepLogin" <?=isset($_COOKIE['kl'])?' checked="checked"':''?> />
 			<span><?=LOGIN_LBLREMEMBERMELOGIN?></span>
 		</p>
-		<p>
+		<!-- <p>
 			<a href="<?=HREF_DEFAULT?>"><?=LOGIN_LBLLINKTROUBLELOGGIN?></a>
-		</p>
+		</p> -->
 		<p style="text-align:right;">
 			<input type="submit" name="btnLogin" id="btnLogin" value="<?=BTN_LOGIN?>" style="width:100px;" />
 		</p>
