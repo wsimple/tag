@@ -676,10 +676,7 @@ function actionsTags(layer, forceComments){
 		$(layer).doubletap('[tag] > .bg', function(e){
 			var tagId = $(e.currentTarget).parents('[tag]').attr('tag');
 			bigLike(tagId,'like');
-			
-			if ( forceComments || $('[tag='+tagId+']').find('#comments').length == 0 ) {
-				playLike(tagId,'likeIcon','dislikeIcon',!forceComments);
-			};
+			playLike(tagId,'likeIcon','dislikeIcon',!forceComments);
 		});
 		$(layer).on('click', 'menu li', function(e){
 			if ($(e.target).hasClass('canceled')) return false;
@@ -800,7 +797,9 @@ function playLike(tagtId,that,show,comment){
 			else afterAjaxTags(data['success'], tagtId,'menu #dislike', 'menu #like');
 			$('#numDislikes').html(data['dislikes']); $('#numLikes').html(data['likes']);
 			$('[tag='+tagtId+'] .tag-counts').find('#dislikeIcon+span').html(data['dislikes']); $('[tag='+tagtId+'] .tag-counts').find('#likeIcon+span').html(data['likes']);
-			if (comment) playComment(tagtId);
+			if (comment || $('[tag='+tagId+']').find('#comments').length == 0 ) {
+				playComment(tagtId);
+			}
 		}
 	});
 }
