@@ -2675,7 +2675,7 @@ function storeRaffle(layer,get){
 				lst += '</ul>';
 			}else{
 				if (layer!='.product-list .product-list'){
-					lst='<div class="noStoreProductsList messageAdver"><span><?=$lang["NOSTORERAFFLE_MESSAGE"]?></span>'+(data['empre']?', <?=$lang["STORE_NOSTOREMESSAGERAFFLE"]?>':'')+'<div class="product-list"></div>';
+					lst='<div class="noStoreProductsList messageAdver"><span><?=$lang["NOSTORERAFFLE_MESSAGE"]?></span>'+(data['adtb']?', <?=$lang["STORE_NOSTOREMESSAGERAFFLE"]?>':'')+'<div class="product-list"></div>';
 				}
 			}
 			$(layer).html(lst);
