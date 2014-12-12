@@ -68,8 +68,7 @@
 
 .ui-page .ui-header.ui-bar-f,.ui-page .ui-footer.ui-bar-f{
 	border:none;
-	background-color: #f82;
-	background-image:-webkit-gradient(linear,left top,left bottom,from(#f93),to(#e60));
+	background-color: #f93;
 	-webkit-box-shadow:0 0 5px #000;
 	-moz-box-shadow:0 0 5px #000;
 	box-shadow:0 0 5px #000;
@@ -100,7 +99,6 @@
 }
 .ui-bar-f .ui-btn-active,.ui-footer.ui-bar-f .ui-btn-active{
     background: #77C574;
-	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#F7F8FD),color-stop(15%,#77C574));
 	/*background:#77C574 url(images/bg_btn_down_1x100.png) 50% 50% repeat-x;*/
 	color:#444;
 	text-shadow:none;
