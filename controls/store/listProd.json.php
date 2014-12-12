@@ -294,10 +294,10 @@
 		else{ $products; $html='';$noId='';
 			while($row=mysql_fetch_assoc($result)){
 				if($array['tipo']=='category'){
-					$row['category_name']=formatoCadena(@constant($row['category_name']));
+					$row['category_name']=formatoCadena(lan($row['category_name']));
 					$row['sub_category_mId']=$row['mId'];
 					$row['sub_category_id']=$row['id'];
-					$row['sub_category_name']= formatoCadena(@constant($row['name']));
+					$row['sub_category_name']= formatoCadena(lan($row['name']));
 				}else{
 					if ($row['eseller']=='wpanel@tagbum.com') $row['p_adtb'];
 					elseif ($row['eseller']=='wpanel@tagbum.com') $row['p_adtb'];
@@ -310,8 +310,8 @@
 					if($_GET['module']=='raffle'){
 						if(isset ($_GET['my'])){ $row['my']=true; }
 					}elseif ($_GET['module']=='store'){ if ($array['storeList']) $row['listStore']=true; }
-					$row['category'] = formatoCadena(@constant($row['category']));
-					$row['subCategory'] = formatoCadena(@constant($row['subCategory']));
+					$row['category'] = formatoCadena(lan($row['category']));
+					$row['subCategory'] = formatoCadena(lan($row['subCategory']));
 					$row['name'] = formatoCadena($row['name']);
 					$photo = FILESERVER.'img/'.$row['photo'];
 					if(fileExistsRemote($photo)){ $row['photo'] = $photo; }
