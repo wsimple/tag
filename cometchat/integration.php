@@ -17,18 +17,18 @@ define('FORCE_MAGIC_QUOTES','0');
 // DO NOT EDIT DATABASE VALUES BELOW
 // DO NOT EDIT DATABASE VALUES BELOW
 
-define('DB_SERVER',					'192.168.57.15'						    );
-define('DB_PORT',					'3306'							 		);
-define('DB_USERNAME',				'uservzla200'					    	);
-define('DB_PASSWORD',				'-t@gvzlA_mysql'			            );
-define('DB_NAME',					'tagbum200'  							);
-define('TABLE_PREFIX',				''							            );
-define('DB_USERTABLE',				'users'									);
-define('DB_USERTABLE_USERID',		'id'								    );
-define('DB_USERTABLE_NAME',			'screen_name'							);
-//define('DB_USERTABLE_LASTACTIVITY',	'lastChatActivity'						);
-define('DB_AVATARTABLE',		" "					);
-define('DB_AVATARFIELD',		" ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." ");
+define('DB_SERVER',					$config->db->host	);
+define('DB_PORT',					'3306'				);
+define('DB_USERNAME',				$config->db->user	);
+define('DB_PASSWORD',				$config->db->pass	);
+define('DB_NAME',					$config->db->data	);
+define('TABLE_PREFIX',				''					);
+define('DB_USERTABLE',				'users'				);
+define('DB_USERTABLE_USERID',		'id'				);
+define('DB_USERTABLE_NAME',			'screen_name'		);
+// define('DB_USERTABLE_LASTACTIVITY',	'lastChatActivity'	);
+define('DB_AVATARTABLE',			" "					);
+define('DB_AVATARFIELD',			" ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." ");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
