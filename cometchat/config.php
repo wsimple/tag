@@ -1,4 +1,5 @@
 <?php
+require '../includes/config.php';
 
 /* TIMEZONE SPECIFIC INFORMATION (DO NOT TOUCH) */
 
@@ -14,7 +15,7 @@ include_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'integration.php');
 
 /* BASE URL START */
 
-define('BASE_URL','/cometchat/');
+define('BASE_URL',$config->path.'cometchat/');
 
 /* BASE URL END */
 
