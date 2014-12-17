@@ -6,7 +6,26 @@ RewriteEngine On
 #ErrorDocument 403 errors/403.php
 #ErrorDocument 404 errors/404.php
 
+#redireccion a app
+RewriteCond %{SERVER_NAME} !^app\.
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^app(\/?.*)$ http://app.tagbum.com$1 [L]
+
+RewriteCond %{SERVER_NAME} !^app\.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [L]
+
+#app server
+RewriteCond %{SERVER_NAME} ^app\.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)\.html$ $1.php [L]
+
+RewriteCond %{SERVER_NAME} ^app\.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ - [L,R=404]
+
 </IfModule>
