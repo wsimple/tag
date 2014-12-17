@@ -296,7 +296,7 @@ define('ONLINE_TIMEOUT',USE_COMET?REFRESH_BUDDYLIST*2:($maxHeartbeat/1000*2.5));
 										// Time in seconds after which a user is considered offline
 define('DISABLE_ANNOUNCEMENTS','0');	// Reduce server stress by disabling announcements
 define('DISABLE_ISTYPING','1');			// Reduce server stress by disabling X is typing feature
-define('CROSS_DOMAIN','0');				// Do not activate without consulting the CometChat Team
+define('CROSS_DOMAIN','1');				// Do not activate without consulting the CometChat Team
 define('ENCRYPT_USERID', '1');      //Set to 1 to encrypt userid
 
 
