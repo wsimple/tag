@@ -16,25 +16,34 @@ define('FORCE_MAGIC_QUOTES','0');
 // DO NOT EDIT DATABASE VALUES BELOW
 // DO NOT EDIT DATABASE VALUES BELOW
 
-define('DB_SERVER',					$config->db->host	);
-define('DB_PORT',					'3306'				);
-define('DB_USERNAME',				$config->db->user	);
-define('DB_PASSWORD',				$config->db->pass	);
-define('DB_NAME',					$config->db->data	);
-define('TABLE_PREFIX',				''					);
-define('DB_USERTABLE',				'users'				);
-define('DB_USERTABLE_USERID',		'id'				);
-define('DB_USERTABLE_NAME',			'screen_name'		);
-// define('DB_USERTABLE_LASTACTIVITY',	'lastChatActivity'	);
-define('DB_AVATARTABLE',			" "					);
-define('DB_AVATARFIELD',			" ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." ");
+define('DB_SERVER',					$config->db->host		);
+define('DB_PORT',					'3306'					);
+define('DB_USERNAME',				$config->db->user		);
+define('DB_PASSWORD',				$config->db->pass		);
+define('DB_NAME',					$config->db->data		);
+define('TABLE_PREFIX',				''						);
+define('DB_USERTABLE',				'users'					);
+define('DB_USERTABLE_USERID',		'id'					);
+define('DB_USERTABLE_NAME',			'screen_name'			);
+define('DB_AVATARTABLE',			" "						);
+#personalizados
+$usr_table=TABLE_PREFIX.DB_USERTABLE;
+// define('DB_USERTABLE_LASTACTIVITY',	'lastChatActivity'		);#old
+define('DB_AVATARFIELD',			" CONCAT(md5(CONCAT($usr_table.id,'_',$usr_table.email,'_',$usr_table.id)),'/',$usr_table.profile_image_url) ");
+define('DB_USERTABLE_USERLINK',		" IFNULL($usr_table.username,CONCAT('user/',MD5($usr_table.id)))");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /* FUNCTIONS */
 
 function getUserID() {
-	$userid = 0;	
+	$userid = 0;
+	#tag
+	if (!empty($_SESSION['ws-tags']['ws-user']['id'])) {
+		$userid=intval($_SESSION['ws-tags']['ws-user']['id']);
+	}
+	return $userid;
+	#end tag
 	if (!empty($_SESSION['basedata']) && $_SESSION['basedata'] != 'null') {
 		$_REQUEST['basedata'] = $_SESSION['basedata'];
 	}
@@ -57,16 +66,14 @@ function getUserID() {
 	if (!empty($_SESSION['userid'])) {
 		$userid = $_SESSION['userid'];
 	}
-	if (!empty($_SESSION['ws-tags']['ws-user'][id])) {
-		$userid = $_SESSION['ws-tags']['ws-user'][id];
-	}
 
 	$userid = intval($userid);
 	return $userid;
 }
 
 function chatLogin($userName,$userPass) {
-
+	return getUserID();
+	#desactivado login por chat
 	$userid = 0;
 	if (filter_var($userName, FILTER_VALIDATE_EMAIL)) {
 		$sql = ("SELECT * FROM `".TABLE_PREFIX.DB_USERTABLE."` WHERE email ='".$userName."'");
@@ -96,13 +103,31 @@ function chatLogin($userName,$userPass) {
 
 function getFriendsList($userid,$time) {
 	global $hideOffline;
-	$offlinecondition = '';
-	$sql = ("select DISTINCT ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." userid, ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_NAME." username, ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." link, ".DB_AVATARFIELD." avatar, cometchat_status.lastactivity lastactivity, cometchat_status.status, cometchat_status.message, cometchat_status.isdevice from ".TABLE_PREFIX."friends join ".TABLE_PREFIX.DB_USERTABLE." on  ".TABLE_PREFIX."friends.toid = ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." left join cometchat_status on ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." = cometchat_status.userid ".DB_AVATARTABLE." where ".TABLE_PREFIX."friends.fromid = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."' order by username asc");
+	#original retocado
+	$user_table=TABLE_PREFIX.DB_USERTABLE;
+	$friends=TABLE_PREFIX.'friends';
+	$values="$user_table.".DB_USERTABLE_USERID." userid, $user_table.".DB_USERTABLE_NAME." username, $user_table.".DB_USERTABLE_USERLINK." link, ".DB_AVATARFIELD." avatar, cometchat_status.lastactivity lastactivity, cometchat_status.status, cometchat_status.message, cometchat_status.isdevice";
+	$order='order by username asc';
+	$join="left join cometchat_status on $user_table.".DB_USERTABLE_USERID." = cometchat_status.userid ".DB_AVATARTABLE;
+	$sql = ("select DISTINCT $values
+		from $friends join $user_table on $friends.toid = $user_table.".DB_USERTABLE_USERID." $join
+		where $friends.fromid = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'
+		$order");
+	#personalizado
+	$friends=TABLE_PREFIX.'users_links';
+	$join="join $friends f on f.id_friend=$user_table.id
+		join $friends x on x.id_friend=f.id_user
+		$join";
+	$sql = ("select DISTINCT $values from $user_table $join
+		where f.id_user = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'
+		$order");
+	#fin personalizado
 	if ((defined('MEMCACHE') && MEMCACHE <> 0) || DISPLAY_ALL_USERS == 1) {
+		$offlinecondition = '';
 		if ($hideOffline) {
 			$offlinecondition = "where ((cometchat_status.lastactivity > (".mysqli_real_escape_string($GLOBALS['dbh'],$time)."-".((ONLINE_TIMEOUT)*2).")) OR cometchat_status.isdevice = 1) and (cometchat_status.status IS NULL OR cometchat_status.status <> 'invisible' OR cometchat_status.status <> 'offline')";
 		}
-		$sql = ("select ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." userid, ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_NAME." username, ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." link, ".DB_AVATARFIELD." avatar, cometchat_status.lastactivity lastactivity, cometchat_status.status, cometchat_status.message, cometchat_status.isdevice from  ".TABLE_PREFIX.DB_USERTABLE."   left join cometchat_status on ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." = cometchat_status.userid ".DB_AVATARTABLE." ".$offlinecondition ." order by username asc");
+		$sql = ("select $values from $user_table $join $offlinecondition $order");
 	}
 		
 	return $sql;
@@ -116,7 +141,7 @@ function getFriendsIds($userid) {
 }
 
 function getUserDetails($userid) {
-	$sql = ("select ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." userid, ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_NAME." username, ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." link, ".DB_AVATARFIELD." avatar, cometchat_status.lastactivity lastactivity, cometchat_status.status, cometchat_status.message, cometchat_status.isdevice from ".TABLE_PREFIX.DB_USERTABLE." left join cometchat_status on ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." = cometchat_status.userid ".DB_AVATARTABLE." where ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'");
+	$sql = ("select ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." userid, ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_NAME." username, ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERLINK." link, ".DB_AVATARFIELD." avatar, cometchat_status.lastactivity lastactivity, cometchat_status.status, cometchat_status.message, cometchat_status.isdevice from ".TABLE_PREFIX.DB_USERTABLE." left join cometchat_status on ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." = cometchat_status.userid ".DB_AVATARTABLE." where ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'");
 
 	return $sql;
 }
@@ -136,8 +161,26 @@ function fetchLink($link) {
         return '';
 }
 
+function fileExistsRemote($path){
+	return (@fopen($path,'r')==true);
+}
+
 function getAvatar($image) {
-        return BASE_URL.'images/noavatar.png';
+	global $config;
+	$path='img/users/';
+	$default=$config->img_server.$path.'default.png';
+	if(strpos($photo,$path)===false) $photo=$path.$photo;
+	$photo=$config->img_server.$photo;
+	if(preg_match('/\S+\.[^\.]+$/',$photo)){
+		$thumb=preg_replace('/(\.[^\.]+)$/','_thumb$1',$photo);
+		if(fileExistsRemote($thumb))
+			return $thumb;
+		elseif(fileExistsRemote($photo))
+			return $photo;
+	}
+	return $default;
+	#original
+	return BASE_URL.'images/noavatar.png';
 }
 
 function getTimeStamp() {
