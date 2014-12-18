@@ -15,6 +15,11 @@ RewriteRule ^app(\/?.*)$ http://app.tagbum.com$1 [L]
 RewriteCond %{SERVER_NAME} !^app\.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^cometchat\/(.*)$ cometchat.old/$1 [L]
+
+RewriteCond %{SERVER_NAME} !^app\.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [L]
 
 #app server

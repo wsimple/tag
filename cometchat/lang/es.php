@@ -1,0 +1,85 @@
+<?php
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* LANGUAGE */
+
+$rtl = '0';
+$language[0] = 'Opciones de Chat';
+$language[1] = 'Escribe tu estatus y presiona enter.';
+$language[2] = 'Mi Estatus';
+$language[3] = 'Disponible';
+$language[4] = 'Ocupado';
+$language[5] = 'Invisible';
+$language[6] = '';
+$language[7] = '';
+$language[8] = 'Por favor loguee para poder usar el chat';
+$language[9] = 'Chatear';
+$language[10] = 'Yo';
+$language[11] = 'Desconectado';
+$language[12] = 'Quien está Conectado';
+$language[13] = 'Desactivar sonido de notificaciones';
+$language[14] = 'No tiene amigos en su lista de amigos, por favor agregue algunos amigos para poder usar el chat';
+$language[15] = 'Nuevos mensajes...';
+$language[16] = '';
+$language[17] = 'Desconectado';
+$language[18] = 'Buscar un usuario';
+$language[19] = '<br/><span style=\'color:#999\'>está conectado</span>';
+$language[20] = '<br/><span style=\'color:#999\'>está desconectado</span>';
+$language[21] = '<br/><span style=\'color:#999\'>está conectado (ocupado)</span>';
+$language[22] = 'Guardar';
+$language[23] = 'Estoy...';
+$language[24] = 'Desactivar dialogo de notificaciones';
+$language[25] = '';
+$language[26] = 'Comienza a chatear!';
+$language[27] = 'Cerrar esta barra';
+$language[28] = 'No hay usuarios conectados en este momento. Porfavor intente de nuevo más tarde.';
+$language[29] = 'No hay amigos conectados en este momento. Porfavor intente de nuevo más tarde.';
+$language[30] = 'Estoy disponible';
+$language[31] = 'Estoy ocupado(a)';
+$language[32] = 'Estoy desconectado(a)';
+$language[33] = 'Estoy desconectado(a)';
+$language[34] = 'Estoy ausente';
+$language[35] = ' | ';
+$language[36] = 'Y ';
+$language[37] = ' notificaciones más';
+$language[38] = 'El diálogo ya fue abierto. Cierre el ya existente y vuelva a intentar.';
+$language[39] = 'Navegar fuera de la página cerrará el chat.';
+$language[40] = 'Otros';
+$language[41] = 'Cargando...';
+$language[42] = '';
+$language[43] = 'Mi Nombre';
+$language[44] = 'Cambiar mi nombre';
+$language[45] = 'Escribe tu nombre/estatus y presiona enter.';
+$language[46] = 'Mensaje de';
+$language[47] = 'Click aquí para verlo';
+$language[48] = 'Nuevo mensaje de';
+$language[49] = 'Actualizado';
+$language[50] = 'Fallo';
+$language[51] = 'Chatear';
+$language[52] = 'Has recibido un nuevo mensaje de chat. Click OK para leerlo';
+$language[53] = 'Por favor no spamees a tus amigos';
+$language[54] = 'Nuevo Mensaje';
+$language[55] = 'Mandar un mensaje...';
+$language[56] = 'Lo lamento, te has deslogeado';
+$language[57] = 'No hay cambios';
+$language[58] = 'Usuario no encontrado.';
+$language[59] = 'Te ha mansando un mensaje con emoticono.';
+$language[60] = 'Web';
+$language[61] = 'Mobile';
+$language[62] = 'Minimizar pestaña de Usuario';
+$language[63] = 'Minimizar pestaña de Configuración';
+$language[64] = 'Borrar Conversación';
+$language[65] = 'Reportar Conversación';
+$language[66] = 'Compartir Imagen';
+$language[67] = 'Captura de Foto';
+$language[68] = 'Compartir Video';
+$language[69] = 'Capturar Video';
+$language[70] = 'Dejar Chatroom';
+$language[71] = 'Invitar Usuarios';
+$language[72] = 'Crear Chatroom';
+$language[73] = 'Opciones';
+$language[74] = 'Cerrar';
+$language[75] = 'Minimizar';
+$language[76] = 'Cerrar diálogo';
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
