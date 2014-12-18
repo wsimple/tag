@@ -62,11 +62,15 @@ $minify=!$setting->local&&!$control->is_debug('minify');
 	<?php	if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
 	<script type="text/javascript" src="<?=$minify?"min/?f=":""?>js/jquery.tipsy.js"></script>
 	<?php	}
-			if ( $client->is_logged && !$setting->local){ ?>
-	<link type="text/css" href="/cometchat/cometchatcss.php" rel="stylesheet" charset="utf-8" />
-	<script type="text/javascript" src="/cometchat/cometchatjs.php" charset="utf-8"></script>
+			if($client->is_logged){ ?>
+	<?php		if(!$control->is_debug()){ ?>
+	<link type="text/css" href="cometchat.old/cometchatcss.php" rel="stylesheet" charset="utf-8" />
+	<script type="text/javascript" src="cometchat.old/cometchatjs.php" charset="utf-8"></script>
+	<?php		}else{ ?>
+	<link type="text/css" href="cometchat/cometchatcss.php" rel="stylesheet" charset="utf-8" />
+	<script type="text/javascript" src="cometchat/cometchatjs.php" charset="utf-8"></script>
+	<?php		} ?>
 	<?php	} ?>
-
 	<?php if($lang->code()=='es') { ?><script src="js/chosen.es.js"></script><?php } ?>
 
 	<?php if($client->is_logged){//si esta loggeado ?>
