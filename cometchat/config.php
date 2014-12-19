@@ -72,7 +72,7 @@ $plugins = array('smilies','clearconversation','chattime','games');
 
 /* EXTENSIONS START */
 
-$extensions = array('mobileapp');
+$extensions = array('mobileapp', 'mobilewebapp');
 
 /* EXTENSIONS END */
 
@@ -227,7 +227,7 @@ define('MC_NAME','files');			// Set name of caching method if 0 : '', 1 : memcac
 
 /* COLOR START */
 
-$color = 'standard';
+$color = 'hangout';
 
 /* COLOR END */
 
@@ -239,7 +239,7 @@ if (!empty($_COOKIE[$cookiePrefix."color"])) {
 
 /* THEME START */
 
-$theme = 'standard';
+$theme = 'hangout';
 
 /* THEME END */
 
