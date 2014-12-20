@@ -13,6 +13,7 @@ local/app/
 quepeo.php
 video_server/jqueryupload/
 
+cometchat/cache/*
 js/funciones_en.js
 js/funciones_es.js
 
@@ -32,3 +33,4 @@ Tag.xdke
 Tag.xdk
 js/funciones_es.js
 app/css/smt/old/
+
