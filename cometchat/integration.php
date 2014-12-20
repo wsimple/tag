@@ -113,7 +113,7 @@ function getFriendsList($userid,$time) {
 		from $friends join $user_table on $friends.toid = $user_table.".DB_USERTABLE_USERID." $join
 		where $friends.fromid = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'
 		$order");
-	#personalizado
+	#tag
 	$friends=TABLE_PREFIX.'users_links';
 	$join="join $friends f on f.id_friend=$user_table.id
 		join $friends x on x.id_friend=f.id_user
@@ -121,7 +121,7 @@ function getFriendsList($userid,$time) {
 	$sql = ("select DISTINCT $values from $user_table $join
 		where f.id_user = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'
 		$order");
-	#fin personalizado
+	#end tag
 	if ((defined('MEMCACHE') && MEMCACHE <> 0) || DISPLAY_ALL_USERS == 1) {
 		$offlinecondition = '';
 		if ($hideOffline) {
@@ -166,6 +166,7 @@ function fileExistsRemote($path){
 }
 
 function getAvatar($image) {
+	#tag
 	global $config;
 	$path='img/users/';
 	$default=$config->img_server.$path.'default.png';
@@ -179,7 +180,7 @@ function getAvatar($image) {
 			return $photo;
 	}
 	return $default;
-	#original
+	#end tag
 	return BASE_URL.'images/noavatar.png';
 }
 
