@@ -106,7 +106,7 @@ function getFriendsList($userid,$time) {
 	#original retocado
 	$user_table=TABLE_PREFIX.DB_USERTABLE;
 	$friends=TABLE_PREFIX.'friends';
-	$values="$user_table.".DB_USERTABLE_USERID." userid, $user_table.".DB_USERTABLE_NAME." username, $user_table.".DB_USERTABLE_USERLINK." link, ".DB_AVATARFIELD." avatar, cometchat_status.lastactivity lastactivity, cometchat_status.status, cometchat_status.message, cometchat_status.isdevice";
+	$values="$user_table.".DB_USERTABLE_USERID." userid, $user_table.".DB_USERTABLE_NAME." username, ".DB_USERTABLE_USERLINK." link, ".DB_AVATARFIELD." avatar, cometchat_status.lastactivity lastactivity, cometchat_status.status, cometchat_status.message, cometchat_status.isdevice";
 	$order='order by username asc';
 	$join="left join cometchat_status on $user_table.".DB_USERTABLE_USERID." = cometchat_status.userid ".DB_AVATARTABLE;
 	$sql = ("select DISTINCT $values
@@ -115,21 +115,17 @@ function getFriendsList($userid,$time) {
 		$order");
 	#tag
 	$friends=TABLE_PREFIX.'users_links';
-	$join="join $friends f on f.id_friend=$user_table.id
-		join $friends x on x.id_friend=f.id_user
-		$join";
-	$sql = ("select DISTINCT $values from $user_table $join
-		where f.id_user = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'
-		$order");
+	$join=" join $friends f on f.id_user=$user_table.id $join ";
+	$where="f.is_friend AND f.id_friend = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'";
+	$sql = ("select DISTINCT $values from $user_table $join where $where $order");
 	#end tag
 	if ((defined('MEMCACHE') && MEMCACHE <> 0) || DISPLAY_ALL_USERS == 1) {
 		$offlinecondition = '';
 		if ($hideOffline) {
-			$offlinecondition = "where ((cometchat_status.lastactivity > (".mysqli_real_escape_string($GLOBALS['dbh'],$time)."-".((ONLINE_TIMEOUT)*2).")) OR cometchat_status.isdevice = 1) and (cometchat_status.status IS NULL OR cometchat_status.status <> 'invisible' OR cometchat_status.status <> 'offline')";
+			$offlinecondition = "where $where AND ((cometchat_status.lastactivity > (".mysqli_real_escape_string($GLOBALS['dbh'],$time)."-".((ONLINE_TIMEOUT)*2).")) OR cometchat_status.isdevice = 1) and (cometchat_status.status IS NULL OR cometchat_status.status <> 'invisible' OR cometchat_status.status <> 'offline')";
 		}
 		$sql = ("select $values from $user_table $join $offlinecondition $order");
 	}
-		
 	return $sql;
 }
 
@@ -141,7 +137,7 @@ function getFriendsIds($userid) {
 }
 
 function getUserDetails($userid) {
-	$sql = ("select ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." userid, ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_NAME." username, ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERLINK." link, ".DB_AVATARFIELD." avatar, cometchat_status.lastactivity lastactivity, cometchat_status.status, cometchat_status.message, cometchat_status.isdevice from ".TABLE_PREFIX.DB_USERTABLE." left join cometchat_status on ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." = cometchat_status.userid ".DB_AVATARTABLE." where ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'");
+	$sql = ("select ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." userid, ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_NAME." username, ".DB_USERTABLE_USERLINK." link, ".DB_AVATARFIELD." avatar, cometchat_status.lastactivity lastactivity, cometchat_status.status, cometchat_status.message, cometchat_status.isdevice from ".TABLE_PREFIX.DB_USERTABLE." left join cometchat_status on ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." = cometchat_status.userid ".DB_AVATARTABLE." where ".TABLE_PREFIX.DB_USERTABLE.".".DB_USERTABLE_USERID." = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'");
 
 	return $sql;
 }
@@ -170,9 +166,10 @@ function getAvatar($image) {
 	global $config;
 	$path='img/users/';
 	$default=$config->img_server.$path.'default.png';
+	$photo=$image;
 	if(strpos($photo,$path)===false) $photo=$path.$photo;
 	$photo=$config->img_server.$photo;
-	if(preg_match('/\S+\.[^\.]+$/',$photo)){
+	if(preg_match('/\.[^\.]+$/',$photo)){
 		$thumb=preg_replace('/(\.[^\.]+)$/','_thumb$1',$photo);
 		if(fileExistsRemote($thumb))
 			return $thumb;
