@@ -1,14 +1,14 @@
 <?php
 //_imprimir($_SESSION['ws-tags']['ws-user']);
 //_imprimir($_REQUEST);
-$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
-if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
+$wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
+if (!$wid) $wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
 if(($_SESSION['ws-tags']['ws-user']['home_phone']==""&&$_SESSION['ws-tags']['ws-user']['mobile_phone']==""&&$_SESSION['ws-tags']['ws-user']['work_phone']=="")
 	||($_SESSION['ws-tags']['ws-user']['home_phone']=="-"&&$_SESSION['ws-tags']['ws-user']['mobile_phone']=="-"&&$_SESSION['ws-tags']['ws-user']['work_phone']=="-"))
 	$noTele=1;
 else $noTele=0;
 //ALTER TABLE  `store_products` ADD  `video_url` VARCHAR( 200 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ;
-if($_SESSION['ws-tags']['ws-user']['type']==1){
+if($_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0){
 		//Categorias
 	$sqlcats = 'SELECT s.id, s.id_category, s.name, c.name AS category_name FROM store_sub_category AS s
 				JOIN store_category AS c ON c.id=s.id_category
@@ -54,7 +54,7 @@ if($_GET['idProd']){
 	
 	$product=mysql_fetch_assoc($result);
 	$_GET['idProd']=$product['id'];
-	if($_SESSION['ws-tags']['ws-user']['type']==1){
+	if($_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0){
 		$photoss=$GLOBALS['cn']->query("
 			SELECT id,`order`,picture
 			FROM store_products_picture
@@ -73,8 +73,6 @@ $numOrder=$_SESSION['store']['order']?$_SESSION['store']['order']:'';
 $numWish=$_SESSION['store']['wish']?$_SESSION['store']['wish']:'';
 $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 ?>
-
-
 <div class="ui-single-box">
 	<div class="ui-single-box-title"><?=($_GET['idProd'])?PRODUCTS_EDIT.' '.TOUR_CREATIONBACKGROUND_TITLE:PRODUCTS_ADD?></div>
 	<div id="dialogBck"></div>
@@ -82,7 +80,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 		<form class="newStoreBack" method="post" enctype="multipart/form-data" name="frmProducts" id="frmProducts">
 			<div id="fields_error" name="fields_error" class="error_addNewProductsView"> <?=ALLFIELDSAREREQUIRED ?>	</div>
 			<div class="list_inline">
-				<?php if($_SESSION['ws-tags']['ws-user']['type']==1){ ?>
+				<?php if($_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0){ ?>
 					<div class="div-li">
 						<label ><strong>(*) <?=STORE_CATEGORIES2?></strong></label><br/>
 						<div id="category"></div>
@@ -97,7 +95,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 				<div class="div-li">
 					<label><strong>(*) <?=PRODUCTS_PICTURE?></strong></label>
 					<label><span><?=STORE_MSG_HELP_NEW_PRODUCT2?></span></label>
-					<?php if(!$_SESSION['ws-tags']['ws-user']['type']==1){ ?>
+					<?php if(!$_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0){ ?>
 						<div id="photoUpload">
 							<!--<div id="photoDIVS"></div>-->
 							<div id="photoDIV" class="invisible"><input type="file" id="photo" class="invisible"  name="photo" value="<?=($_GET[idProd])?$product['photo']:''?>" <?=($_GET[idProd])?'':'requerido="'.PRODUCTS_PICTURE.'"'?>/></div>
@@ -133,7 +131,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 						echo '<div class="clearfix"></div></div>';
 					} ?>
 				</div>
-				<?php if($_SESSION['ws-tags']['ws-user']['type']==1){ ?>
+				<?php if($_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0){ ?>
 				<div class="div-li">
 					<label ><strong>(*) <?=TOUR_CREATIONVIDEO_TITLE?></strong></label> <br>
 					<input name="txtVideo" type="text" id="txtVideo" size="40" maxlength="100"
@@ -157,7 +155,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 					<div><div class="messageHelp arrowLeft"><span><?=STORE_MSG_HELP_NEW_PRODUCT?></span></div></div><br>
 					<div class="clearfix"></div>
 				</div>
-					<?php if(($_SESSION['ws-tags']['ws-user']['id']==$wid)&&($_SESSION['ws-tags']['ws-user']['paypal']!='')): ?>
+					<?php if(($wid>0)&&($_SESSION['ws-tags']['ws-user']['paypal']!='')): ?>
 					<div class="div-li">
 						<label ><strong>(*) <?=STORE_METHODPAYMENT?></strong></label>
 						<div id="selectTypePrice"></div>
@@ -174,7 +172,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 						class="txt_box" value="<?=($_GET['idProd']?$product['cost']:'')?>" requerido="<?=PRODUCTS_PRICE?>"/><h6 id="value_Input_Price"></h6>
 					<br><label id="mPoints" ><span><?=STORE_MESSAGEPOINTS?></span></label>
 				</div>
-				<?php if ($_SESSION['ws-tags']['ws-user']['type']==1){ ?>
+				<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0){ ?>
 				<div class="div-li">
 					<label ><strong>(*) <?=STORE_STOCK?></strong></label><br />
 					<input name="txtStock" type="text" id="txtStock" size="3" maxlength="4"
@@ -251,7 +249,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 		if(numOrder!=''){ $('.menu-l-youOrders').css('display','list-item'); }
 		if(numSales!=''){ $('.menu-l-youSales').css('display','list-item'); }
 
-		<?php if($_SESSION['ws-tags']['ws-user']['type']==1){  ?>
+		<?php if($_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0){  ?>
 		//validacion de telefonos
 		var noNUmTele='<?=$noTele?>';
 		if(noNUmTele==1){
@@ -274,7 +272,7 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 				}]
 			});
 		}else{
-		<?php if(!$_SESSION['ws-tags']['ws-user']['type']==1){ ?>
+		<?php if(!$_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0){ ?>
 				uploadPhoto()
 		<?php }else{ ?>
 				category='<?=$categorys?>';

@@ -1,13 +1,13 @@
 <?php 
 //ALTER TABLE  `config_system` ADD  `time_in_minutes_shopping_cart_active` INT( 11 ) NOT NULL DEFAULT  '120',
 //ADD  `time_in_minutes_pending_order_payable` INT( 11 ) NOT NULL DEFAULT  '120'
-$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
-if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
+$wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
+if (!$wid) $wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
 //valida el menu left
 $numIt=createSessionCar('','','count');
 $numOrder=$_SESSION['store']['order']?$_SESSION['store']['order']:'';
 $numWish=$_SESSION['store']['wish']?$_SESSION['store']['wish']:'';
-if (!isset($_SESSION['store']['sales']) && ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']==$wid)){
+if (!isset($_SESSION['store']['sales']) && ($_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0)){
     $sql="  SELECT o.id 
             FROM store_orders o
             JOIN store_orders_detail od ON od.id_order=o.id
@@ -140,7 +140,7 @@ $(function() {
 										+'		<option value=""><?=OPTIONS?></option>'
 										+'		<option value="tag"><?=MAINMNU_CREATETAG?></option>'
 										<?php // if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']==$wid){ ?>
-										<?php  if ($_SESSION['ws-tags']['ws-user']['id']==$wid){ ?>
+										<?php  if ($wid>0){ ?>
 										<?php // if ($_SESSION['ws-tags']['ws-user']['id']=='-1000'){ ?>
 										+'		<option value="create"><?=PRODUCTS_NEW_RAFFLE?></option>'
 										+'		<option value="myraffles"		'+(SECTION=='#myfreeproducts'?'selected':'')+'><?=STORE_MYRAFFLE?></option>'
