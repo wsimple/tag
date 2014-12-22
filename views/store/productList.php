@@ -2,7 +2,6 @@
 //ALTER TABLE  `config_system` ADD  `time_in_minutes_shopping_cart_active` INT( 11 ) NOT NULL DEFAULT  '120',
 //ADD  `time_in_minutes_pending_order_payable` INT( 11 ) NOT NULL DEFAULT  '120'
 $wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
-if (!$wid) $wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
 //valida el menu left
 $numIt=createSessionCar('','','count');
 $numOrder=$_SESSION['store']['order']?$_SESSION['store']['order']:'';
