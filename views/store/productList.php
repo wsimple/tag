@@ -1,8 +1,8 @@
 <?php 
 //ALTER TABLE  `config_system` ADD  `time_in_minutes_shopping_cart_active` INT( 11 ) NOT NULL DEFAULT  '120',
 //ADD  `time_in_minutes_pending_order_payable` INT( 11 ) NOT NULL DEFAULT  '120'
-$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
-if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
+$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
+if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
 //valida el menu left
 $numIt=createSessionCar('','','count');
 $numOrder=$_SESSION['store']['order']?$_SESSION['store']['order']:'';

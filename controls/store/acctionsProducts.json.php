@@ -71,8 +71,8 @@ switch ($_GET['acc']) {
 			}
 			if($result){ 
 				$res['action'] = 'insert'; 
-				$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
-				if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
+				$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
+				if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
 				notifications($userId,$idproduct,'29',"",$wid);
 			}			
 		}

@@ -21,8 +21,8 @@ $notify_url    = $config->dominio."controls/pay.controls.php";
 
 //Producto/s que se pagaran por Paypal
 $paypalProducts = array();
-$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
-if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
+$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
+if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
 //Verifica accion a realizar para pagos en paypal
 if(isset($_GET['payAcc'])){
     switch ($_GET['payAcc']) {

@@ -1,8 +1,8 @@
 <?php
 //_imprimir($_SESSION['ws-tags']['ws-user']);
 //_imprimir($_REQUEST);
-$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
-if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com";');
+$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
+if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
 if(($_SESSION['ws-tags']['ws-user']['home_phone']==""&&$_SESSION['ws-tags']['ws-user']['mobile_phone']==""&&$_SESSION['ws-tags']['ws-user']['work_phone']=="")
 	||($_SESSION['ws-tags']['ws-user']['home_phone']=="-"&&$_SESSION['ws-tags']['ws-user']['mobile_phone']=="-"&&$_SESSION['ws-tags']['ws-user']['work_phone']=="-"))
 	$noTele=1;
