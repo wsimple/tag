@@ -71,8 +71,7 @@ switch ($_GET['acc']) {
 			}
 			if($result){ 
 				$res['action'] = 'insert'; 
-				$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
-				if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
+				$wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
 				notifications($userId,$idproduct,'29',"",$wid);
 			}			
 		}
