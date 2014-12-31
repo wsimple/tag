@@ -49,7 +49,7 @@ if($_COOKIE['_DEBUG_']=='section') echo "section:$section - params:".implode(','
 		define('PATH_SITE',$config->path);//ruta de la carpeta de trabajo
 		define('DOMINIO',$config->dominio);
 		define('DOMINIOSTORE',$config->dominio);
-		define('FILESERVER',$config->imgserver);
+		define('FILESERVER',$config->img_server);
 	}else{
 		die('Not configured server.');
 	}
@@ -83,7 +83,7 @@ if($_COOKIE['_DEBUG_']=='section') echo "section:$section - params:".implode(','
 	}else{
 		//si es produccion
 		if(preg_match('/seemytag\.com$/',$_name)) $_prod='seemytag.com';
-		if(strpos(' '.$_url,$_pruebas)) $_path=$_pruebas;
+		if($_url&&strpos(' '.$_url,$_pruebas)) $_path=$_pruebas;
 		$_site=$_prod.$_path;
 	}
 
