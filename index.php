@@ -25,32 +25,13 @@ function __autoload($classname){
 	$file="$path/$folder/$filename.php";
 	if(is_file($file)) include_once $file;
 	elseif(is_file("$path/core/$classname.php")) include_once("$path/core/$classname.php");
+	elseif(is_file("$path/plugins/$classname.php")) include_once("$path/plugins/$classname.php");
 	elseif(TAG_functions::is_debug()) die("No existe la clase '$classname' ($folder).");
 	else die('Page not found.');
 }
 
 #mobile detection
-$detect=new Mobile_Detect;
-if($detect->isMobile()){
-	#cambiar entre version full y mobile
-	if(isset($_GET['mobileVersion'])){
-		setcookie('__FV__',NULL,NULL,'/',NULL,false,false);
-		@header('Location:app/');
-	}
-	if(isset($_GET['fullVersion'])){
-		setcookie('__FV__','1',time()+60*60*24*30,'/',NULL,false,false);
-		@header('Location:.');
-	}
-	if($detect->isTablet()){
-		if(!$_COOKIE['__FV__']){
-			header('Location:app/');
-			die();
-		}
-	}else{
-		header('Location:app/');
-		die();
-	}
-}
+APP::detect();
 
 if($migrating){
 	include('includes/config.php');
