@@ -136,7 +136,7 @@ function tagsList_json($data,$mobile=false){
 				SELECT DISTINCT $select
 				FROM tags t
 				$join
-				LEFT JOIN users_links l ON t.id_user=l.id_friend
+				LEFT JOIN (SELECT id_friend, id_user FROM users_links) l ON t.id_user=l.id_friend
 				WHERE $where AND l.id_user=?
 			) UNION (
 				SELECT DISTINCT $select

@@ -39,3 +39,12 @@ unset($_tmp);
 foreach ($lang as $key => $value){
 	define($key, $value);
 }
+#guardar cookies para lenguaje de cometchat
+$__dominio='tagbum.com';
+if(isset($_SESSION['ws-tags'])&&strpos($_SERVER['SERVER_NAME'],$__dominio)!==FALSE){
+	$__dominio='.'.$__dominio;
+}else{
+	$__dominio='';
+}
+setcookie('cc_lang',$actual,time()+60*30,'/',$__dominio);
+unset($__dominio);
