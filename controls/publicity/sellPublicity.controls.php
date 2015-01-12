@@ -10,15 +10,13 @@
 		 require_once '../../includes/languages.config.php';
 		 require_once '../../class/class.phpmailer.php';
 
-	 if ($_GET[ajax]=='1' && $_GET[op]=='1') {
+	 if ($_GET['ajax']=='1' && $_GET['op']=='1') {
 	     
 		 //validacion del click en la publicidad por usuario
 		 $validaClick = validPointPubli($_SESSION['ws-tags']['ws-user'][id],$_GET[p],$_SERVER['REMOTE_ADDR']);
 		 
-		 if(($_SESSION['ws-tags']['ws-user'][id]!='')&&($validaClick==1)){
-			 			
+		 if( $validaClick>0 ){
 			$update = $GLOBALS['cn']->query("UPDATE users_publicity SET click_current = click_current + 1 WHERE md5(id) = '".$_GET[p]."'");
-
 			$update = $GLOBALS['cn']->query("UPDATE users_publicity SET status = '2' WHERE click_current >= click_max ");
 
 			//datos publi
