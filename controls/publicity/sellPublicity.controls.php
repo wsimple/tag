@@ -37,7 +37,7 @@
 
 			$publi = mysql_fetch_assoc($publix);
 
-		 if ($publi[click_max] == $publi[click_current]){
+		 	if ($publi[click_max] == $publi[click_current]){
 				  //verificaci�n de finalizaci�n de la campa�a
 				  $body = '
 							 <table width="600" border="0" align="center" cellpadding="2" cellspacing="2" style="font-family:Verdana, Geneva, sans-serif; font-size:12px; text-align:left">
@@ -101,7 +101,7 @@
 
 				 @sendMail(formatMail($body, 700), EMAIL_NO_RESPONDA, "Tagbum.com", PUBLICITY_CTREMAILASUNTO, $publi[email_persona], "../../");
 
-			 }//if ($publi[click_max] == $public[click_current])
+			}//if ($publi[click_max] == $public[click_current])
 			//echo 'link: '.$publi['link'].'Ingreso clik: si '.$validaClick;
 
 		}
