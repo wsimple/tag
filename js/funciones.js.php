@@ -1468,9 +1468,9 @@ function tagsUser(titulo,get){
 }
 
 function showPublicityWb(p){
-console.log('showPublicityWb '+p);
+	console.log('showPublicityWb '+p);
 	$.ajax({
-		type:'GET',
+		type:'POST',
 		url:'controls/publicity/sellPublicity.controls.php?op=1&ajax=1&p='+p,
 		dataType:'html',
 		success:function(result){
