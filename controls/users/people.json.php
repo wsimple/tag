@@ -5,14 +5,14 @@ $res= array();
 switch ($_GET['action']) {
 	case 'friendsAndFollow': //amigos admiradores admirados y encontrar amigos
 		if (!isset($_GET['mod'])) $_GET['mod']='friends';
-		if (!isset($_GET['limit'])) $_GET['limit']=0;
+		if (!isset($_GET['limit'])) $limit=0; else $limit = $_GET['limit'];
 		$numAction=1;
 		$coi=isset($_GET['code'])?"md5(concat(id,'_', email,'_',id))":"md5(id)";
 		if (!isset($_POST['uid']))	$uid=$myId;
 		else $uid=CON::getVal("SELECT id FROM users WHERE $coi=?",array($_POST['uid']));
 		if (!$uid) die(jsonp(array('error'=>'noIdValid')));
 		$offset = ( isset( $_GET['offset'] ) ) ? $_GET['offset'] : 50;
-		if (!isset($_GET['nolimit'])) $array['limit']=' LIMIT '.$_GET['limit'].",$offset";
+		if (!isset($_GET['nolimit'])) $array['limit']=' LIMIT '.$limit.",$offset";
 		else $array['limit']="";
 		$array['select']=',IF(u.id='.$myId.',1,0) AS iAm,
 						ul.id_user AS conocido';

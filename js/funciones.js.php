@@ -1312,7 +1312,7 @@ function searchAll(dato){
 }
 
 function linkUser(id_user,objet,action){
-	action=action*1;
+	action=action*1;//Obliga action a tipo int
 	$.ajax({
 		type	:'GET',
 		url		:'controls/users/follow.json.php?uid='+id_user,
