@@ -43,6 +43,7 @@ switch ($_GET['action']) {
 				}
 			break;
 			case 'follow': //admiradores
+				$numAction=3;
 				$array['select'].=',md5(ul2.id_user) AS id_friend, md5(ul2.id_friend) AS id_user';
 				$array['join']=' JOIN users_links ul2 ON ul2.id_user=u.id';
 				$array['where']="ul2.id_friend=$uid";
@@ -114,6 +115,9 @@ switch ($_GET['action']) {
 					$res['registered']=$reg;
 				}
 				$res['num']=1;
+			break;
+			case 'suggest':
+				$res['num'] = 0;
 			break;
 		}
 		if(!isset($res['num'])) $res['num']=CON::numRows(CON::query("SELECT ul2.id_user FROM users_links ul2 WHERE ".$array['where']));
