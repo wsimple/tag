@@ -279,69 +279,99 @@
 
 							if( $save==1 ) {
 								$payment_type = $_POST[payment];
-								if (!PAYPAL_PAYMENTS) $payment_type = '3';
+								// if (!PAYPAL_PAYMENTS) $payment_type = '3';
 
 						//payment methods
 								switch( $payment_type ) {
-									//payment = points
-									case "3":
-										$monto_inversion = $_POST[number_of_points];
+									// //payment = points
+									// case "3":
 
-										$id_points	= $GLOBALS['cn']->query("
-													SELECT	id
-													FROM	points_publicity
-													WHERE	id_typepublicity = '2' AND '"
-															.$_POST[number_of_points]."' BETWEEN min_points AND max_points");
+									// 	echo $_POST[publi_amount_1].' '.$_POST[showBuyedClicks];
+									// 	$monto_inversion = str_replace(',','',$_POST['publi_amount_1']);
 
-										//if used points are aout of range, the clicks are calculated with the lowest factor
-										if( mysql_num_rows($id_points)!=1 ) {
+									// 	// $monto_inversion = $_POST[publi_amount_1].'.'.$_POST[publi_amount_1];
 
-											$id_points	= $GLOBALS['cn']->query("
-													SELECT	id
-													FROM	points_publicity
-													WHERE	id_typepublicity = '2' AND
-															factor = (	SELECT	MIN(factor)
-																		FROM	points_publicity
-																		WHERE	id_typepublicity = '2')");
-										}
-										$id_points	= mysql_fetch_assoc($id_points);
+									// 	//sondeo publicitario
+									// 	$valida = $GLOBALS['cn']->query("
+									// 			SELECT id, click_to, cost
+									// 			FROM cost_publicity
+									// 			WHERE '".factorPublicity(2, $monto_inversion)."' BETWEEN click_from AND click_to");
 
-										//updating user points
-										$GLOBALS['cn']->query("
-													UPDATE	users
-													SET		current_points = current_points - '".$_POST[number_of_points]."'
-													WHERE	id = '".$_SESSION['ws-tags']['ws-user'][id]."'");
+									// 	if( mysql_num_rows($valida)>0 ) {
 
-										if( mysql_affected_rows()==1 ) {
+									// 		$_datos = "
+									// 			SELECT id, click_to, cost
+									// 			FROM cost_publicity
+									// 			WHERE '".factorPublicity(2, $monto_inversion)."' BETWEEN click_from AND click_to";
 
-											if( $_POST['do'] ) {
-												$GLOBALS['cn']->query("DELETE FROM users_publicity WHERE md5(id) = '".$_POST['do']."'");
-											}
+									// 	} elseif( mysql_num_rows($valida)==0 ) {
 
-											$insert = $GLOBALS['cn']->query("
-													INSERT INTO users_publicity
-													SET	id_tag				= '',
-														id_type_publicity	= '2',
-														id_cost				= '".$id_points[id]."',
-														id_user				= '".$_SESSION['ws-tags']['ws-user'][id]."',
-														id_currency			= '".$payment_type."',
-														title				= '".$_POST[publi_title]."',
-														message				= '".$_POST[publi_msg]."',
-														link				= '".$_POST[publi_link]."',
-														picture				= '".$photo."',
-														picture_title_tag	= '',
-														cost_investment		= '".$_POST[number_of_points]."',
-														click_max			= '".intval($_POST[showedClicks])."',
-														click_current		= '0',
-														status				= '1'");
+									// 		$_datos = "
+									// 			SELECT MAX(cost) AS cost, id, click_to
+									// 			FROM cost_publicity
+									// 			WHERE id_typepublicity = '2'
+									// 			GROUP BY cost
+									// 			LIMIT 0,1";
+									// 	}
+									// 	$costos = $GLOBALS['cn']->query($_datos);
+									// 	$costo  = mysql_fetch_assoc($costos);
+									// 	// $monto_inversion = $_POST[number_of_points];
+
+									// 	// $id_points	= $GLOBALS['cn']->query("
+									// 	// 			SELECT	id
+									// 	// 			FROM	points_publicity
+									// 	// 			WHERE	id_typepublicity = '2' AND '"
+									// 	// 					.$_POST[number_of_points]."' BETWEEN min_points AND max_points");
+
+									// 	// //if used points are aout of range, the clicks are calculated with the lowest factor
+									// 	// if( mysql_num_rows($id_points)!=1 ) {
+
+									// 	// 	$id_points	= $GLOBALS['cn']->query("
+									// 	// 			SELECT	id
+									// 	// 			FROM	points_publicity
+									// 	// 			WHERE	id_typepublicity = '2' AND
+									// 	// 					factor = (	SELECT	MIN(factor)
+									// 	// 								FROM	points_publicity
+									// 	// 								WHERE	id_typepublicity = '2')");
+									// 	// }
+									// 	// $id_points	= mysql_fetch_assoc($id_points);
+
+									// 	// //updating user points
+									// 	// $GLOBALS['cn']->query("
+									// 	// 			UPDATE	users
+									// 	// 			SET		current_points = current_points - '".$_POST[number_of_points]."'
+									// 	// 			WHERE	id = '".$_SESSION['ws-tags']['ws-user'][id]."'");
+
+									// 	//if( mysql_affected_rows()==1 ) {
+
+									// 		// if( $_POST['do'] ) {
+									// 		// 	$GLOBALS['cn']->query("DELETE FROM users_publicity WHERE md5(id) = '".$_POST['do']."'");
+									// 		// }
+
+									// 	$insert = $GLOBALS['cn']->query("
+									// 			INSERT INTO users_publicity
+									// 			SET	id_tag				= '',
+									// 				id_type_publicity	= '".$_POST[type_p]."',
+									// 				id_cost				= '".$$costo[id]."',
+									// 				id_user				= '".$_SESSION['ws-tags']['ws-user'][id]."',
+									// 				id_currency			= '".$payment_type."',
+									// 				title				= '".$_POST[publi_title]."',
+									// 				message				= '".$_POST[publi_msg]."',
+									// 				link				= '".$_POST[publi_link]."',
+									// 				picture				= '".$photo."',
+									// 				picture_title_tag	= '',
+									// 				cost_investment		= '".$monto_inversion."',
+									// 				click_max			= '".intval($monto_inversion/$costo[cost])."',
+									// 				click_current		= '0',
+									// 				status				= '1'");
 
 
-										} else {
-											echo "CAN'T UPDATE users TABLE";
-											die();
-										}
-										redirect(RELPATH."publicity");
-									break;//END - payment = points case "3":
+									// 	// } else {
+									// 	// 	echo "CAN'T UPDATE users TABLE";
+									// 	// 	die();
+									// 	// }
+									// 	redirect(RELPATH."publicity");
+									// break;//END - payment = points case "3":
 
 
 									//payment = $
@@ -380,7 +410,7 @@
 										$insert = $GLOBALS['cn']->query("
 											INSERT INTO users_publicity
 											SET id_tag				= '',
-												id_type_publicity	= 2,
+												id_type_publicity	= '".$_POST[type_p]."',
 												id_cost				= '".$costo[id]."',
 												id_user				= '".$_SESSION['ws-tags']['ws-user'][id]."',
 												id_currency			= '".$payment_type."',
@@ -392,7 +422,55 @@
 												cost_investment		= '".$monto_inversion."',
 												click_max			= '".intval($monto_inversion/$costo[cost])."',
 												click_current		= 0,
-												status				= ".($_SESSION['ws-tags']['ws-user'][super_user]=='0' ? '2' : '1'));
+												status				= '1'");
+
+										// ".($_SESSION['ws-tags']['ws-user'][super_user]=='0' ? '2' : '1')
+
+										if ($_POST[type_p]==5) {
+											$GLOBALS['cn']->query("INSERT INTO banners SET 
+												id_type = '3',
+												title = '".$_POST[publi_title]."',
+												link = '".$_POST[publi_link]."',
+												status = '1'
+											");
+
+											$id_banner = mysql_insert_id();
+											define (_PATH_, RELPATH."img/publicity/banners/");
+											$imagesAllowed = array('jpg','jpeg','png','PNG');
+											$parts = explode('.', $_FILES['publi_img']['name']);
+											$ext = strtolower(end($parts));
+										
+											if (in_array($ext,$imagesAllowed)){
+												$path  = _PATH_.$id_banner."/";
+												$photo = md5(str_replace(' ', '', $_FILES['publi_img']['name']).microtime()).'.'.$ext;
+												
+												//existencia de la folder
+												if (!is_dir ($path)){	
+													$old = umask(0);
+													mkdir($path,0777);
+													umask($old);
+													$fp=fopen($path.'index.html',"w");
+													fclose($fp);
+												}// is_dir
+												
+												// if (copy($_FILES['publi_img']['tmp_name'], $path.$photo)){
+
+												if(redimensionar($_FILES['publi_img']['tmp_name'], $path.$photo, 700)){
+													//echo $_FILES[photo][tmp_name].'<br>';
+													//redimensionar($path.$photo, $path.$photo, 650);
+													//insert
+													$GLOBALS['cn']->query("
+														INSERT INTO banners_picture SET
+															id_banner = '".$id_banner."',
+															picture = '".$id_banner.'/'.$photo."',
+															`order` = '1',
+															status = '1'
+													");
+													FTPupload('publicity/banners/'.$photo);
+												}//redimensionar
+											}//in_array	
+										}
+										
 
 										//si no es SU, entonces tiene que pagar
 										//( en el INSERT se le asigna el estado a la publicidad, míralo, si tu  )
@@ -405,7 +483,7 @@
 											// include ('../../views/pay.view.php');
 											@header('Location: ../../views/pay.view.php?payAcc=publicity&uid='.$id_publicity);
 										} else {
-												redirect("../../publicity");
+												redirect(RELPATH."publicity");
 										}
 									break;//END - payment = $ case "1":
 								}
