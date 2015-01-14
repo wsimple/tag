@@ -627,7 +627,7 @@ function showTag(tag){
 	}
 	var btn=tag['btn']||{};
 	var btnSponsor='',paypal='<?=$lang["PAYPAL_PAYMENTS"]?$lang["PAYPAL_PAYMENTS"]:''?>';
-	if(paypal!='')
+	// if(paypal!='')
 		btnSponsor= (btn['sponsor']?'<li id="sponsors" action="sponsor,'+tag['id']+'" title="<?=$lang["MNUTAG_TITLESPONSOR"]?>"><span><?=$lang["MNUTAG_TITLESPONSOR"]?></span></li>':'');
 	var video='',videomini='';
 	if(tag['typeVideo']){
@@ -1899,6 +1899,7 @@ function sellPublicity(url_vista,titulo,edit){
 						if( valor("publi_title") && valor("publi_link") && valor("publi_msg") ) {
 							//validamos que se un enlace valido
 							if( validateForm("publi_link") ) {
+								// alert($('#publi_amount_1').val()+'--'+$('#showBuyedClicks').val());
 								$("#sell_publi").submit();
 //								redir('myPubli');
 
