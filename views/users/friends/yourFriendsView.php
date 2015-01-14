@@ -75,9 +75,16 @@ $(document).ready(function(){
 	}
 	opc.find=find;
 	$('#titleFriends').html(title[opc.mod]);
-
-	
 	friendsAndF(opc);
+	// if (opc.mod=='friends' || opc.mod=='unfollow') {
+	if (opc.mod=='friends') {
+		$('#tab').on('click', '.divYourFriends.thisPeople input[type="button"]', function() {
+			if ($('.divYourFriends.thisPeople').length==1) {
+				opc.mod='suggest';
+				friendsAndF(opc);
+			}
+		});
+	}
 	$('#tab').html('').on('click','#seemore',function(){
 		$(this).remove().next('div.clearfix').remove();
 		opc.get="&limit="+$("#tab .thisPeople ").length;
