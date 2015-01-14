@@ -58,7 +58,11 @@ if( $_GET['uid']!='' && md5($myId)!=$_GET['uid']) {
 				<tr><td colspan="4">&nbsp;</td></tr>
 			</table>';
 			if( !LOCAL ){
-				sendMail(formatMail($body,600), EMAIL_NO_RESPONDA, formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), MAILFALLOWFRIENDS_SUBJECT, $users['email'], '../../');
+				//verificar si el usuario tiene inactivo el envio de correo
+				$notifiUser=CON::getRow('SELECT md5(id_user) id_user FROM users_config_notifications WHERE md5(id_user)=? and id_notification=?',array($_GET['uid'],$admirer?5:11));
+				if($_GET['uid']!=$notifiUser['id_user']){
+					sendMail(formatMail($body,600), EMAIL_NO_RESPONDA, formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), MAILFALLOWFRIENDS_SUBJECT, $users['email'], '../../');
+				}
 			}//fin envio de email
 		}else{#dejar de seguir a un usuario
 			CON::delete('users_links','id_user=? AND id_friend=?',array($myId,$users['id']));

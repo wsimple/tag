@@ -1,6 +1,5 @@
 <?php 
-	$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";'); 
-	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
+	$wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
 	$trendings = get_trending(5);
 ?>
 <article class="side-box menu">
@@ -36,7 +35,7 @@
 			<a href="<?=base_url('store')?>"><span><?=STORE?></span></a>
 			<ul>
 				<li><a href="<?=base_url('store')?>"><?=PRODUCT_TITLE?></a></li>
-				<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']==$wid){ ?>
+				<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0){ ?>
 				<li><a href="<?=base_url('newproduct')?>"><?=PRODUCTS_ADD?></a></li>
 				<li><a href="<?=base_url('mypublications')?>"><?=STORE_MISPUBLICATION?></a></li>
 				<?php } ?>
@@ -48,7 +47,7 @@
 				<li id="menu-l-li-wishList" ><a href="<?=base_url('wishList')?>"><?=STORE_WISH_LIST?></a></li>
 				<li><a href="<?=base_url('freeproducts')?>"><?=PRODUCTS_RAFFLE?></a></li>
 				<li class="menu-l-youOrders"><a href="<?=base_url('orders')?>"><?=STORE_YOURORDES?></a></li>
-				<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']==$wid){ ?>
+				<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0){ ?>
 				<li class="menu-l-youSales" style="display: none;"><a href="<?=base_url('sales')?>"><?=STORE_SALES?></a></li>
 				<?php } ?>
 

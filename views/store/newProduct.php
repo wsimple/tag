@@ -1,8 +1,7 @@
 <?php
 //_imprimir($_SESSION['ws-tags']['ws-user']);
 //_imprimir($_REQUEST);
-$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
-if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
+$wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
 if(($_SESSION['ws-tags']['ws-user']['home_phone']==""&&$_SESSION['ws-tags']['ws-user']['mobile_phone']==""&&$_SESSION['ws-tags']['ws-user']['work_phone']=="")
 	||($_SESSION['ws-tags']['ws-user']['home_phone']=="-"&&$_SESSION['ws-tags']['ws-user']['mobile_phone']=="-"&&$_SESSION['ws-tags']['ws-user']['work_phone']=="-"))
 	$noTele=1;
@@ -517,3 +516,4 @@ $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 	<?php } ?>
 	});
 </script>
+

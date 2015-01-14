@@ -13,28 +13,27 @@
 <icon platform="ios" src="app-icon/60.png" width="60" height="60"/>
 <icon platform="ios" src="app-icon/152.png" width="152" height="152"/>
 <icon platform="ios" src="app-icon/76.png" width="76" height="76"/>
+<icon platform="ios" src="app-icon/180.png" width="180" height="180"/>
 <splash platform="ios" src="app-splash/640.png" width="640" height="1136" orientation="portrait"/>
 <splash platform="ios" src="app-splash/640_2.png" width="640" height="960" orientation="portrait"/>
 <splash platform="ios" src="app-splash/320.png" width="320" height="480" orientation="portrait"/>
 <splash platform="ios" src="app-splash/1536.png" width="1536" height="2008" orientation="portrait"/>
 <splash platform="ios" src="app-splash/768.png" width="768" height="1004" orientation="portrait"/>
+<splash platform="ios" src="app-splash/750.png" width="750" height="1334" orientation="portrait"/>
+<splash platform="ios" src="app-splash/1242.png" width="1242" height="2208" orientation="portrait"/>
 <intelxdk:plugin intelxdk:name="Cache" intelxdk:value="intel.xdk.cache"/>
 <intelxdk:plugin intelxdk:name="Camera" intelxdk:value="intel.xdk.camera"/>
 <intelxdk:plugin intelxdk:name="Device" intelxdk:value="intel.xdk.device"/>
 <intelxdk:plugin intelxdk:name="Display" intelxdk:value="intel.xdk.display"/>
-<intelxdk:plugin intelxdk:name="File" intelxdk:value="intel.xdk.file"/>
 <intelxdk:plugin intelxdk:name="Geolocation" intelxdk:value="intel.xdk.geolocation"/>
 <intelxdk:plugin intelxdk:name="Player" intelxdk:value="intel.xdk.player"/>
 <intelxdk:plugin intelxdk:name="Connection" intelxdk:value="org.apache.cordova.network-information" intelxdk:version="0.2.8"/>
 <intelxdk:plugin intelxdk:name="Contacts" intelxdk:value="org.apache.cordova.contacts" intelxdk:version="0.2.10"/>
-<intelxdk:plugin intelxdk:name="File" intelxdk:value="org.apache.cordova.file" intelxdk:version="1.1.0"/>
-<intelxdk:plugin intelxdk:name="File Transfer" intelxdk:value="org.apache.cordova.file-transfer" intelxdk:version="0.4.3"/>
 <intelxdk:plugin intelxdk:name="Geolocation" intelxdk:value="org.apache.cordova.geolocation" intelxdk:version="0.3.7"/>
 <intelxdk:plugin intelxdk:name="Globalization" intelxdk:value="org.apache.cordova.globalization" intelxdk:version="0.2.7"/>
 <intelxdk:plugin intelxdk:name="In App Browser" intelxdk:value="org.apache.cordova.inappbrowser" intelxdk:version="0.4.0"/>
 <intelxdk:plugin intelxdk:name="Dialogs (notification)" intelxdk:value="org.apache.cordova.dialogs" intelxdk:version="0.2.6"/>
 <intelxdk:plugin intelxdk:name="SplashScreen" intelxdk:value="org.apache.cordova.splashscreen" intelxdk:version="0.3.0"/>
-<intelxdk:plugin intelxdk:name="Device" intelxdk:value="org.apache.cordova.device" intelxdk:version="0.2.9"/>
 <intelxdk:plugin intelxdk:name="Camera" intelxdk:value="org.apache.cordova.camera" intelxdk:version="0.2.9"/>
 <intelxdk:plugin intelxdk:name="Capture" intelxdk:value="org.apache.cordova.media-capture" intelxdk:version="0.3.0"/>
 <intelxdk:plugin intelxdk:name="StatusBar" intelxdk:value="org.apache.cordova.statusbar" intelxdk:version="0.1.7"/>
@@ -45,9 +44,6 @@
 <preference name="Orientation" value="portrait"/>
 <intelxdk:provisioning intelxdk:src="tagbumTest.mobileprovision" intelxdk:type="adhoc"/>
 <!--creationInfo:{"src":"","projectTypeName":"com.intel.xdk.projecttype.jsapp"}-->
-<icon platform="ios" src="app-icon/180.png" width="180" height="180"/>
-<splash platform="ios" src="app-splash/1242.png" width="1242" height="2208" orientation="portrait"/>
-<splash platform="ios" src="app-splash/750.png" width="750" height="1334" orientation="portrait"/>
 <splash platform="ios" src="app-splash/2208.png" width="2208" height="1242" orientation="landscape"/>
 <splash platform="ios" src="app-splash/2048.png" width="2048" height="1496" orientation="landscape"/>
 <splash platform="ios" src="app-splash/1334.png" width="1334" height="750" orientation="landscape"/>
