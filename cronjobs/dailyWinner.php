@@ -9,6 +9,7 @@
     include $path.'includes/functions.php';
     include $path.'class/wconecta.class.php';
     include $path.'includes/languages.config.php';
+    //$wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
 	$uid=current($GLOBALS['cn']->queryRow('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";'));
     if (!$uid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
 	$date=current($GLOBALS['cn']->queryRow('SELECT NOW();'));

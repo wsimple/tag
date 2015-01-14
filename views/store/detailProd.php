@@ -1,6 +1,5 @@
 <?php
-	$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
-	if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
+	$wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
 	$select='';$join='';
 	//valida el menu left
 	$numIt=createSessionCar('','','count');
@@ -124,7 +123,7 @@
 					<?php
 					}else{
 						if ($_GET['rfl']!='1'){ 
-                            if ($_SESSION['ws-tags']['ws-user']['id']==$wid){ ?>
+                            if ($wid>0){ ?>
                             <input id="newRafle" type="button" title="<?=PRODUCTS_NEW_RAFFLE?>" value="<?=PRODUCTS_NEW_RAFFLE?>"/><br>
                             <?php } 
                             if ($product['stock']>0){ ?>

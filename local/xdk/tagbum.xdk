@@ -6,7 +6,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "",
       "projectGuid": "3e7392ed-1357-44e6-8d6c-63451713a92e",
-      "lastModifiedDate": 1418223647494,
+      "lastModifiedDate": 1419896227463,
       "creationDate": 1415392955499
     },
     "sourceDirectory": "",
@@ -56,12 +56,6 @@
         "paramvals": {}
       },
       {
-        "id": "intel.xdk.file",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
         "id": "intel.xdk.geolocation",
         "selectedState": "Included",
         "data": {},
@@ -83,20 +77,6 @@
       {
         "id": "org.apache.cordova.contacts",
         "version": "0.2.10",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.file",
-        "version": "1.1.0",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.file-transfer",
-        "version": "0.4.3",
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
@@ -281,6 +261,11 @@
             "relPath": "app-icon/76.png",
             "height": 76,
             "width": 76
+          },
+          {
+            "relPath": "app-icon/180.png",
+            "height": 180,
+            "width": 180
           }
         ],
         "splashes_": [
@@ -312,6 +297,18 @@
             "relPath": "app-splash/768.png",
             "height": 1004,
             "width": 768,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "app-splash/750.png",
+            "height": 1334,
+            "width": 750,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "app-splash/1242.png",
+            "height": 2208,
+            "width": 1242,
             "orientation": "portrait"
           }
         ],
@@ -364,6 +361,9 @@
         "cordovaCLIVersion_": "3.3",
         "appVersion_": "0.0.0.1"
       }
-    }
+    },
+    "gameAssetDirectory": "asset",
+    "gameMetadata": {},
+    "projectTags": []
   }
 }

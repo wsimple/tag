@@ -57,6 +57,7 @@ if($data->tipo){
 
 		$data->imgserver='http://68.109.244.201/';
 		$data->main_server='http://tagbum.com/';
+		$data->app_server='http://app.tagbum.com/';
 		$data->img_server='http://i.tagbum.com/';
 		$data->video_server='http://v.tagbum.com/';
 		$data->img_server_path='http://192.168.57.16/';
@@ -72,6 +73,7 @@ if($data->tipo){
 
 		$data->imgserver=$data->dominio;
 		$data->main_server=$data->dominio;
+		$data->app_server='app_server/';
 		$data->img_server='img_server/';
 		$data->video_server='video_server/';
 		$data->img_server_path=$data->img_server;
