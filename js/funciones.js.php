@@ -2189,26 +2189,24 @@ function actionGroup(id,action,get,obje){
 					}
 				break;
 				case 8:
-					console.log('users '+data['cug']);
-
 					if (data['insert']=='insert'){
-						if (data['cug']!=0) {
-							if ($('#membersGroups div[h="active"]').length){
-								obje.parents('.membersGroupsWindows').appendTo('#membersGroups div[h="active"]');
-								obje.parents('div[h="3"]').css('display','none');
-							}else{ obje.parents('.membersGroupsWindows').remove(); }
-						}else{
-							//$(this).dialog('close');
-							$('.ui-dialog .ui-dialog-content').dialog('close');
-						};
-					}else{
-						obje.parents('.membersGroupsWindows').remove();
+						// if (data['cug']!=0) {
+						if ($('#membersGroups div[h="active"]').length){
+							obje.parents('.divYourFriends.thisPeople').appendTo('#membersGroups div[h="active"]');
+							obje.parents('div[h="3"]').css('display','none');
+						}else{ obje.parents('.divYourFriends.thisPeople').remove(); }
+						// }
+						// else{
+						// 	$('#default-dialog,.ui-dialog .ui-dialog-content').dialog('close');
+						// };
+					}else{ //.divYourFriends.thisPeople
+						obje.parents('.divYourFriends.thisPeople').remove();
 						var actual=$('.titlesGroups span').html();
 						$('.titlesGroups span').html(+actual-1);
 					}
 					if (data['num']=='0'){
 						if ($('#membersGroups div[h="active"]').length){ $('#membersGroups div[h="resque"]').remove();
-						}else{ $('#btnCloseMembers').click(); }
+						}else{ $('.ui-dialog-buttonset button').click(); }
 					}
 				break;
 			}
