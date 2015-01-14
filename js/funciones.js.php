@@ -1312,7 +1312,7 @@ function searchAll(dato){
 }
 
 function linkUser(id_user,objet,action){
-	action=action*1;
+	action=action*1;//Obliga action a tipo int
 	$.ajax({
 		type	:'GET',
 		url		:'controls/users/follow.json.php?uid='+id_user,
@@ -1468,9 +1468,9 @@ function tagsUser(titulo,get){
 }
 
 function showPublicityWb(p){
-console.log('showPublicityWb '+p);
+	console.log('showPublicityWb '+p);
 	$.ajax({
-		type:'GET',
+		type:'POST',
 		url:'controls/publicity/sellPublicity.controls.php?op=1&ajax=1&p='+p,
 		dataType:'html',
 		success:function(result){
