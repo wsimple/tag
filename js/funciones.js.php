@@ -359,15 +359,17 @@ function valida(form){//requerido=" label", opcional(tamanio="tamanio")
 	return true;
 }
 
-function validateForm(Input,value){
-	var regex,tipo_reporte;
-	if(value!==undefined) tipo=Input;
-	else{
-		if( typeof Input==='string' ) Input=$('#'+Input)[0];
-		tipo=$(Input).attr('tipo');
-		value=Input.value;
-	}
+function validateForm(Input){
+	var tipo,value;
+	if( typeof Input==='string' ) Input=$('#'+Input)[0];
+	tipo=Input.dataset.tipo||Input.dataset.type||$(Input).attr('tipo')||'';
+	value=Input.value||'';
+	return validaText(tipo,value);
+}
+
+function validaText(tipo,value){
 	value=value||'';
+	var regex=/./;
 	switch(tipo){
 		case 'string':		regex=/^[a-zA-Z]/;break;
 		case 'words':		regex=/^([a-zA-Z]+\s*)+$/;break;
@@ -1096,7 +1098,7 @@ function shareTag(titulo,get){
 					console.log(mails.length);
 					for(var i=0;i<mails.length;i++){
 						if (band && mails[i]!=""){
-							if (!validateForm('email',mails[i]) && !validateForm('md5',mails[i])) band=false;
+							if (!validaText('email',mails[i]) && !validaText('md5',mails[i])) band=false;
 						}
 					}
 				}else band=false;
