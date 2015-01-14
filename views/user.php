@@ -25,4 +25,3 @@ else{
 				include('users/account/profile.view.php');
 	}
 }
-?>

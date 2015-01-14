@@ -1,5 +1,5 @@
 <?php
-if(strpos($_SESSION['ws-tags']['ws-user']['pic'],FILESERVER)!==false){
+if(@strpos($_SESSION['ws-tags']['ws-user']['pic'],FILESERVER)!==false){
 	$_SESSION['ws-tags']['ws-user']['pic']=getUserPicture('img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo'],'img/users/default.png');
 }
 //$fot_=FILESERVER.generateThumbPath('img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']).'?'.time();

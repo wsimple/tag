@@ -359,15 +359,17 @@ function valida(form){//requerido=" label", opcional(tamanio="tamanio")
 	return true;
 }
 
-function validateForm(Input,value){
-	var regex,tipo_reporte;
-	if(value!==undefined) tipo=Input;
-	else{
-		if( typeof Input==='string' ) Input=$('#'+Input)[0];
-		tipo=$(Input).attr('tipo');
-		value=Input.value;
-	}
+function validateForm(Input){
+	var tipo,value;
+	if( typeof Input==='string' ) Input=$('#'+Input)[0];
+	tipo=Input.dataset.tipo||Input.dataset.type||$(Input).attr('tipo')||'';
+	value=Input.value||'';
+	return validaText(tipo,value);
+}
+
+function validaText(tipo,value){
 	value=value||'';
+	var regex=/./;
 	switch(tipo){
 		case 'string':		regex=/^[a-zA-Z]/;break;
 		case 'words':		regex=/^([a-zA-Z]+\s*)+$/;break;
@@ -1096,7 +1098,7 @@ function shareTag(titulo,get){
 					console.log(mails.length);
 					for(var i=0;i<mails.length;i++){
 						if (band && mails[i]!=""){
-							if (!validateForm('email',mails[i]) && !validateForm('md5',mails[i])) band=false;
+							if (!validaText('email',mails[i]) && !validaText('md5',mails[i])) band=false;
 						}
 					}
 				}else band=false;
@@ -2190,26 +2192,24 @@ function actionGroup(id,action,get,obje){
 					}
 				break;
 				case 8:
-					console.log('users '+data['cug']);
-
 					if (data['insert']=='insert'){
-						if (data['cug']!=0) {
-							if ($('#membersGroups div[h="active"]').length){
-								obje.parents('.membersGroupsWindows').appendTo('#membersGroups div[h="active"]');
-								obje.parents('div[h="3"]').css('display','none');
-							}else{ obje.parents('.membersGroupsWindows').remove(); }
-						}else{
-							//$(this).dialog('close');
-							$('.ui-dialog .ui-dialog-content').dialog('close');
-						};
-					}else{
-						obje.parents('.membersGroupsWindows').remove();
+						// if (data['cug']!=0) {
+						if ($('#membersGroups div[h="active"]').length){
+							obje.parents('.divYourFriends.thisPeople').appendTo('#membersGroups div[h="active"]');
+							obje.parents('div[h="3"]').css('display','none');
+						}else{ obje.parents('.divYourFriends.thisPeople').remove(); }
+						// }
+						// else{
+						// 	$('#default-dialog,.ui-dialog .ui-dialog-content').dialog('close');
+						// };
+					}else{ //.divYourFriends.thisPeople
+						obje.parents('.divYourFriends.thisPeople').remove();
 						var actual=$('.titlesGroups span').html();
 						$('.titlesGroups span').html(+actual-1);
 					}
 					if (data['num']=='0'){
 						if ($('#membersGroups div[h="active"]').length){ $('#membersGroups div[h="resque"]').remove();
-						}else{ $('#btnCloseMembers').click(); }
+						}else{ $('.ui-dialog-buttonset button').click(); }
 					}
 				break;
 			}
