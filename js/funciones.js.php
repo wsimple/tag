@@ -385,9 +385,9 @@ function validaText(tipo,value){
 		case 'todo':		regex=/./;break;
 		case 'md5': 		regex=/^[0-9a-fA-F]{32}$/; break;
 		case 'Alphanumeric':regex=/^[a-zA-Z0-9]+/;break;
-		case 'video':		if(Input.value=='http://') return true;
-							//regex=<?=regex('youtubelong')?>;	if(Input.value.match(regex))Input.value=Input.value.replace(regex,'http://youtu.be/$7');
-							regex=<?=regex('video')?>;	//if(Input.value.match(regex))Input.value=Input.value.replace(regex,'http://$1');
+		case 'video':		if(value=='http://') return true;
+							//regex=<?=regex('youtubelong')?>;	if(value.match(regex))value=value.replace(regex,'http://youtu.be/$7');
+							regex=<?=regex('video')?>;	//if(value.match(regex))value=value.replace(regex,'http://$1');
 		break;
 	}
 	return value.match(regex);
