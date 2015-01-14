@@ -249,6 +249,7 @@
 	if ($wid>0)	$res['adtb']=1;
 	die(jsonp($res));
 	function consulListProd($array){
+		global $config;
 		if (!PAYPAL_PAYMENTS && !isset($_GET['categoryJSON'])){ 
 			$importantWhere.=' AND p.formPayment=0 ';
 		}else $importantWhere='';
@@ -312,8 +313,8 @@
 					$row['category'] = formatoCadena(lan($row['category']));
 					$row['subCategory'] = formatoCadena(lan($row['subCategory']));
 					$row['name'] = formatoCadena($row['name']);
-					$photo = FILESERVER.'img/'.$row['photo'];
-					if(fileExistsRemote($photo)){ $row['photo'] = $photo; }
+					$photo = ($config->local?DOMINIO:FILESERVER).'img/'.$row['photo'];
+					if(fileExists($photo)){ $row['photo'] = $photo; }
 					else{ $row['photo'] = DOMINIO.'imgs/defaultAvatar.png'; }
 					if($_GET['source']=='mobile'){
 						$row['description'] = formatoCadena((strlen($row['description'])>300) ? substr($row['description'], 0,55)." ..." : $row['description']);
