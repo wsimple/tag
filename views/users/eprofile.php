@@ -1,18 +1,18 @@
 <?php
 global $section,$params;
 
+$myId=$_SESSION['ws-tags']['ws-user']['id']!=''?$_SESSION['ws-tags']['ws-user']['id']:0;
 if(isset($_GET['sc']) && $_GET['sc']=='6'){
 	if(isset($_GET['userIdExternalProfile'])) $where="md5(u.id)='".$_GET['userIdExternalProfile']."'";
-	else $where = "u.id = ".$_SESSION['ws-tags']['ws-user']['id'];
+	else $where = "u.id = $myId";
 }elseif($_GET['uid']!=''){ $where="md5(u.id)='".intToMd5($_GET['uid'])."'"; }
 elseif($_GET['userIdExternalProfile']!='') { $where="md5(u.id)='".$_GET['userIdExternalProfile']."'"; }
 elseif(isset($_GET['usr'])){ $where="u.username LIKE '".$_GET['usr']."'"; }
 elseif($section=='user'||$section=='profile'){
 	if($params[0]!='' && strlen($params[0])==32) $where="md5(u.id)='".$params[0]."'";
-	else $where='id='.$_SESSION['ws-tags']['ws-user']['id'];
+	else $where="id=$myId";
 }elseif($section!='') $where="u.username!='' AND u.username LIKE '$section'";
-else{ $where='id='.$_SESSION['ws-tags']['ws-user']['id']; }
-$myId=$_SESSION['ws-tags']['ws-user']['id']!=''?$_SESSION['ws-tags']['ws-user']['id']:0;
+else{ $where="id=$myId"; }
 
 //echo $myId.'--'.$_SESSION['ws-tags']['ws-user']['id'];
 $query=CON::query("
