@@ -32,7 +32,7 @@ $precios = priceList();
 				<div id="sponsor_msgerror1"><?=SPONSORTAG_SPANERROR3?></div>
 		  </td>
 		</tr>
-		<?php if($_SESSION['ws-tags']['ws-user'][super_user]=='0') {?>
+		<?php //if($_SESSION['ws-tags']['ws-user'][super_user]=='0') {?>
 			<tr>
 				<td <?php if ($_GET[p]!="" && $_GET[resend]==''){?> style="display:none" <?php } ?> >
 					(*)&nbsp;<?=SPONSORTAG_LBLINVESTMENT?>:&nbsp;<span>(<?=SPONSORTAG_LBLINVESTMENTHELP?>)</span>
@@ -71,7 +71,7 @@ $precios = priceList();
 					</table>
 				</td>
 			</tr>
-		<?php } ?>
+		<?php// } ?>
 		<tr>
 		  <td>
 			  <div class="text_content" align="center"> <?=REQUIRED?> </div>
