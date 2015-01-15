@@ -49,7 +49,7 @@ if($_COOKIE['_DEBUG_']=='section') echo "section:$section - params:".implode(','
 		define('PATH_SITE',$config->path);//ruta de la carpeta de trabajo
 		define('DOMINIO',$config->dominio);
 		define('DOMINIOSTORE',$config->dominio);
-		define('FILESERVER',$config->local?'':$config->img_server);
+		define('FILESERVER',$config->local?RELPATH:$config->img_server);
 	}else{
 		die('Not configured server.');
 	}

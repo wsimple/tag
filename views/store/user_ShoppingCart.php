@@ -213,14 +213,16 @@
                             var a=$('#setCitys select#city option').val();
                             if (a){
                                 var b=$('#setCitys select#city option').html();
-                                if (a!=b) $('#user_Shopping').submit();
-                                else{
-                                    $.dialog({
-                                        title	: 'Alert',
-                                        content	: '<?=CITY_INVALID?>',
-                                        focus	: '#setCitys ul.holder li input'
-                                    });
-                                }
+                                //console.log("a="+a+" b="+b);
+                                $('#user_Shopping').submit();
+                                // if (a!=b) $('#user_Shopping').submit();
+                                // else{
+                                //     $.dialog({
+                                //         title	: 'Alert',
+                                //         content	: '<?=CITY_INVALID?>',
+                                //         focus	: '#setCitys ul.holder li input'
+                                //     });
+                                // }
                             }else{
                                 $.dialog({
                                     title	: 'Alert',
