@@ -122,9 +122,9 @@ function getFriendsList($userid,$time) {
 	if ((defined('MEMCACHE') && MEMCACHE <> 0) || DISPLAY_ALL_USERS == 1) {
 		$offlinecondition = '';
 		if ($hideOffline) {
-			$offlinecondition = "where $where AND ((cometchat_status.lastactivity > (".mysqli_real_escape_string($GLOBALS['dbh'],$time)."-".((ONLINE_TIMEOUT)*2).")) OR cometchat_status.isdevice = 1) and (cometchat_status.status IS NULL OR cometchat_status.status <> 'invisible' OR cometchat_status.status <> 'offline')";
+			$offlinecondition = "AND ((cometchat_status.lastactivity > (".mysqli_real_escape_string($GLOBALS['dbh'],$time)."-".((ONLINE_TIMEOUT)*2).")) OR cometchat_status.isdevice = 1) and (cometchat_status.status IS NULL OR cometchat_status.status <> 'invisible' OR cometchat_status.status <> 'offline')";
 		}
-		$sql = ("select $values from $user_table $join $offlinecondition $order");
+		$sql = ("select DISTINCT $values from $user_table $join where $where $offlinecondition $order");
 	}
 	return $sql;
 }
