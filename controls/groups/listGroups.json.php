@@ -134,10 +134,10 @@
                     $res['msg']='<div class="messageAdver">'.NOT_MY_GROUP.'</div>';
                 }
         		while($row=CON::fetchAssoc($results)){
-                    $row['photo2']=FILESERVER.'img/groups/'.$row['photo'];
+                    $row['photo2']=($config->local?DOMINIO:FILESERVER).'img/groups/'.$row['photo'];
                     if (isset($_GET['infoG'])){ $row['photothis']=$row['photo']; }
-                    $photo=FILESERVER.'img/groups/'.$row['photo'];
-                    $photo=fileExistsRemote($photo)?$photo:'';
+                    $photo=($config->local?DOMINIO:FILESERVER).'img/groups/'.$row['photo'];
+                    $photo=fileExists($photo)?$photo:'';
                     $row['photo']= $photo!=''? 'style="background-image:url(\''.$photo.'\');"':'';
                     $row['cname']=formatoCadena(lan($row['cname']));
                     $row['photoi']= $photo!=''? 'src="'.$photo.'" ':'src="'.DOMINIO.'css/smt/groups_default.png"';
