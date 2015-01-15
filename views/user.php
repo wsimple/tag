@@ -1,7 +1,6 @@
 <?php
 global $section,$params;
 $numPanels=2;
-
 if(!$section) include('users/account.php');
 else{
 	switch($params[0]){
