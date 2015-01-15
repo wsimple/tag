@@ -1895,6 +1895,7 @@ function sellPublicity(url_vista,titulo,edit){
 			{
 				text: lang.JS_CONTINUE,
 				click: function() {
+
 					//validamos el formato de la imagen
 					if (validaImputPictureFile("#publi_img") || (edit && valor("picture")) ) {
 						//validamos que todos los campos este llenos
