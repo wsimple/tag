@@ -6,7 +6,7 @@
 	include ("../../includes/languages.config.php");
 
 	$user_points = campo("users", "id", $_SESSION['ws-tags']['ws-user'][id], "current_points");
-
+	
 	if( $_GET[p] ) {
 
 		$datos = $GLOBALS['cn']->query("SELECT	id,
@@ -43,7 +43,48 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$('#imgTop').css('display', 'none');
 		
+	    $("#type_p").change(function() {
+	    	 // console.log($("#type_p").val());
+	    	if ($("#type_p").val()==5) {
+	    		 // console.log('dentro '+$("#type_p").val());
+	    		 $('#detailImg').show();
+		    	 function readURL(input) {
+			        if (input.files && input.files[0]) {
+			            var reader = new FileReader();
+			            reader.onload = function (e) {
+			            	console.log(e);
+			                $('#imgTop').attr('src', e.target.result);
+			            }
+			            reader.readAsDataURL(input.files[0]);
+			        }
+			    }
+			    
+			    $("#publi_img").change(function() {
+			    	 readURL(this);
+			    });
+
+			    $('#imgTop').load(function(){
+
+			    	w=this.naturalWidth;
+			    	h=this.naturalHeight;
+			    	if ($("#type_p").val()==5) {
+				    	console.log(w+'--'+h);
+				    	$('#width').attr('value', w);
+				    	$('#height').attr('value', h);
+				    }
+			    });
+			}else{
+				$('#detailImg').hide();
+				$('#width').removeAttr('value');
+	    		$('#height').removeAttr('value');
+			};
+	    });
+	   
+	    ($("#type_p").val()==5)?$('#detailImg').show():$('#detailImg').hide();
+
+	    // console.log($("#type_p").val());
 		//contador de caracteres del title
 		$('#theCountertitle').textCounter({
 			target: '#publi_title', // required: string
@@ -140,9 +181,23 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
+		$('#imgTop').css('display', 'none');
 		$("#sendPubliData").click(function(){
-
-			if (valida('sell_publi')) $('#sell_publi').submit();
+			// console.log($("#width").val()+'---'+$("#height").val());
+			var h=''; w='';
+			if (($("#width").val()=='')&&($("#height").val()=='')) {
+				h=1;w=1;
+			}else{
+				w = (($("#width").val()>830) && ($("#width").val()<850))?1:0;
+				h = (($("#height").val()>180) && ($("#height").val()<200))?1:0;
+			}
+			// console.log('h: '+h+' w: '+w);
+			
+			if ((h==1)&&(w==1)) {
+				if (valida('sell_publi')) $('#sell_publi').submit();
+			}else{
+				showAndHide('sponsor_msgerror4', 'sponsor_msgerror4', 2500, true);
+			}
 		});
 
 		$("#cancelPubliData").click(function(){
@@ -152,8 +207,7 @@
 
 		var options = {
 			success: function(data){ // post-submit callback
-				//alert(data);
-
+				// alert(data);
 				if(data=='1'){
 					showAndHide('sponsor_msgerror', 'sponsor_msgerror', 1500, true);
 				}else{
@@ -185,13 +239,14 @@
 <div id="addSellPublicity">
 
 <!--<div id="send_mail">-->
-	<form id="sell_publi" name="sell_publi" action="controls/publicity/sellPublicity.controls.php" method="post" enctype="multipart/form-data">
+	<form id="sell_publi" name="sell_publi" action="controls/publicity/sellPublicity.controls.php" method="post" enctype="multipart/form-data" runat="server">
 		<table border="0" align="center" cellpadding="1" cellspacing="1">
 			<tr>
 				<td colspan="2" id="cellErrorPublicity">
 					<div id="sponsor_msgerror">	<?=SPONSORTAG_SPANERROR?>	</div>
 					<div id="sponsor_msgerror2"><?=SPONSORTAG_SPANERROR2?>	</div>
 					<div id="sponsor_msgerror3"><?=SPONSORTAG_SPANERROR3?>	</div>
+					<div id="sponsor_msgerror4">dimensiones malas</div>
 				</td>
 			</tr>
 			<tr>
@@ -220,6 +275,34 @@
 					<input name="publi_link" type="text" id="publi_link" value="<?=(($dato["link"]!="")?$dato["link"]:'http://')?>" tipo="url" />
 				</td>
 			</tr>
+			<?php
+			
+			
+			$type = $GLOBALS['cn']->query("SELECT id, name, status FROM type_publicity");
+
+			$where = (isset($dato['type']))? " WHERE id = '".$dato['type']."' ":" ";
+			$type_Se = $GLOBALS['cn']->query("SELECT id, name, status FROM type_publicity $where");
+			$type_S = mysql_fetch_assoc($type_Se)
+
+			?>
+			<tr>
+				<td colspan="2">
+					(*)&nbsp;<?=PUBLICITY_TYPE?>:&nbsp;<span>(ubicacion de la publicidad en el sitio)</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<select name="type_p" id="type_p">
+						<?php while ($typeP = mysql_fetch_assoc($type)) { 
+							$select = ($typeP['name']==$type_S['name']) ? 'selected' : '' ;
+							?>
+							<option value="<?=$typeP['id']?>" <?=$select?>><?=$typeP['name']?></option>
+						<?php }?>
+							
+					</select>
+				</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
 			<tr>
 				<td id="cost_tittle" colspan="2" <?php if ($_GET[p]!="" && $_GET[resend]==''){?> class="displayNone" <?php } ?> >
 					(*)&nbsp;<?=PUBLICITY_LBLINVESTMENT?>:&nbsp;<span>(<?php echo (!PAYPAL_PAYMENTS) ? USERPUBLICITY_POINTS_INVESTMENT_TITTLE : SPONSORTAG_LBLINVESTMENTHELP ; ?>)</span>
@@ -279,13 +362,16 @@
 				<td>
 					<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1) { $dato[picture] = 'prueba';?>
 						<div  id="photoDIV"  class="invisible">
-							<input name="publi_img" type="file" id="publi_img" value="<?=$dato[picture]?>" style="width:0px;height: 10px">
+							<input name="publi_img" type="file" id="publi_img"  value="<?=$dato[picture]?>" style="width:0px;height: 10px">
 						</div>
 						<input name="publi_img" type="button" id="buttonPubli" value="<?=NEWTAG_UPLOADBACKGROUND?>" style="width:150px;" />
 						<span id="text_photo"></span>
+						<div id="detailImg" style="display:none; padding: 9px 10px 9px 10px; color: #999;">Las dimensiones del banner son de 840px de ancho y 190px de alto</div>
 					<?php } else {
 						echo "&nbsp;";
 					} ?>
+					<img id="imgTop" src="#"/>
+					<input type="hidden" id="width"><input type="hidden" id="height">
 				</td>
 				<td>&nbsp;</td>
 			</tr>
@@ -321,7 +407,7 @@
 					<div class="textRequiredPublicity" align="center"> <?=REQUIRED?> </div>
 					<input type="hidden" name="id_p" id="id_p" value="<?=$_GET[p]?>" />
 					<input type="hidden" name="n" id="n" value="<?=$_GET[n]?>" />
-					<input type="hidden" name="type_p" id="type_p" value="<?=$dato[type]?>" />
+					
 					<input type="hidden" name="op" id="op" value="<?=($_GET[p] && !$_GET[resend] ? 2 : '')?>" />
 					<input type="hidden" name="resend" id="resend" value="<?=$_GET[resend]?>" />
 					<?=(isset($_GET[again]) ? '<input type="hidden" name="do" id="do" value="'.$_GET[p].'"/>' : '')?>

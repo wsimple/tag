@@ -1,8 +1,8 @@
 <?php
 	$banners=$GLOBALS['cn']->queryArray('
-		SELECT b.id,b.link,b.title
+		SELECT b.id,b.link,b.title, b.id_publi
 		FROM banners b
-		WHERE b.id_type=1 AND b.status=1
+		WHERE b.id_type=3 AND b.status=1
 		ORDER BY RAND()
 	');
 	if(count($banners)>0){
@@ -14,15 +14,15 @@
 				$pictures=$GLOBALS['cn']->queryArray('
 					SELECT bp.text, bp.class, bp.picture
 					FROM banners_picture bp
-					WHERE bp.id_banner='.$banner['id'].'
+					WHERE bp.id_banner='.$banner['id'].' AND bp.status=1
 					ORDER BY bp.order ASC
 				');
 				foreach ($pictures as $bp) {
 					if(fileExistsRemote('img/publicity/banners/'.$bp['picture'])){
 						list($widthImg,$heightImg,$tipoImagen,$atributesImagen)=getimagesize('img/publicity/banners/'.$bp['picture']);
-						if($widthImg>650) $widthImg=650;
-						if($heightImg>80) $heightImg=80;
-						echo '<div style="background-image:url(img/publicity/banners/'.$bp['picture'].');background-size:'.$widthImg.'px '.$heightImg.'px;" action="banner,'.$banner['link'].'">&nbsp;</div>';
+						if($widthImg>850) $widthImg=840;
+						if($heightImg>200) $heightImg=190;
+						echo '<div style="background-image:url(img/publicity/banners/'.$bp['picture'].');background-size:'.$widthImg.'px '.$heightImg.'px;" action="banner,'.$banner['link'].','.md5($banner['id_publi']).'">&nbsp;</div>';
 					}elseif( $bp['text'] != '' ){
 						echo '<div class="'.$bp['class'].' font-b bold" action="banner,'.$banner['link'].'">'.$bp['text'].'</div>';
 					}
