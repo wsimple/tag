@@ -37,15 +37,20 @@
 				$id_banner = mysql_insert_id();
 				
 				if ($_REQUEST['place'] == '3') {
-					$pieces = explode(";", $_REQUEST['text']);
-					foreach ($pieces as $order => $piece) {
-						mysql_query("INSERT INTO banners_picture SET
-								id_banner = '".$id_banner."',
-								order = '$order',
-								text = '$piece',
-								status = '1'	
-						") or die ('Insert text (41): '.mysql_error());
-					}
+					
+					// $pieces = explode(";", $_REQUEST['text']);
+					
+					// if ($_REQUEST['text']) {
+					// 	foreach ($pieces as $order => $piece) {
+					// 		mysql_query("INSERT INTO banners_picture SET
+					// 				id_banner = '".$id_banner."',
+					// 				order = '$order',
+					// 				text = '$piece',
+					// 				status = '1'	
+					// 		") or die ('Insert text (41): '.mysql_error());
+					// 	}
+					// }
+					
 				}else{
 					for($i=0;$i<NUMBOXES;$i++){
 						$parts = explode('.', $_FILES['photo'.$i]['name']);
@@ -205,7 +210,7 @@
 							id AS valor, 
 							name AS descripcion 
 						FROM type_banners 
-						WHERE status = '1'
+						WHERE status = '1' AND id IN ('3')
 					";
 					$status = "
 						SELECT 

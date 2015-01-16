@@ -124,53 +124,55 @@
 							$photo			= "";
 							$save			= 1;
 							$picture_bd	= "";
+							if ($_POST[type_p]!=5) {
+								if( $_FILES[publi_img][error]==0 ) {
+									$imagesAllowed = array('jpg','jpeg','png','gif');
+									$parts         = explode('.', $_FILES[publi_img][name]);
+									$ext           = strtolower(end($parts));
 
-							if( $_FILES[publi_img][error]==0 ) {
-								$imagesAllowed = array('jpg','jpeg','png','gif');
-								$parts         = explode('.', $_FILES[publi_img][name]);
-								$ext           = strtolower(end($parts));
+									if (in_array($ext,$imagesAllowed)){
+										//@unlink("../../img/publicity/".$dato[picture]); //borrado de la foto existente
 
-								if (in_array($ext,$imagesAllowed)){
-									//@unlink("../../img/publicity/".$dato[picture]); //borrado de la foto existente
+										$path  = RELPATH."img/publicity/".$_SESSION['ws-tags']['ws-user'][code].'/';       //ruta para crear dir
 
-									$path  = RELPATH."img/publicity/".$_SESSION['ws-tags']['ws-user'][code].'/';       //ruta para crear dir
+										$photo = $_SESSION['ws-tags']['ws-user'][code].'/'.md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
 
-									$photo = $_SESSION['ws-tags']['ws-user'][code].'/'.md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
+										// $photo_= md5($_FILES[publi_img][name]).'.jpg';
 
-									// $photo_= md5($_FILES[publi_img][name]).'.jpg';
+										$picture_bd = " ,picture = '".$photo."' ";
 
-									$picture_bd = " ,picture = '".$photo."' ";
+										//existencia de la folder
+										if (!is_dir ($path)){
+											$old = umask(0);
+											mkdir($path,0777);
+											umask($old);
+											$fp=fopen($path.'index.html',"w");
+											fclose($fp);
+										}// is_dir
 
-									//existencia de la folder
-									if (!is_dir ($path)){
-										$old = umask(0);
-										mkdir($path,0777);
-										umask($old);
-										$fp=fopen($path.'index.html',"w");
-										fclose($fp);
-									}// is_dir
+										// echo $photo;
+										if (redimensionar($_FILES[publi_img][tmp_name], RELPATH."img/publicity/".$photo, 200)){
+											//echo $_FILES[photo][tmp_name].'<br>';
 
-									if (redimensionar($_FILES[publi_img][tmp_name], RELPATH."img/publicity/".$photo, 200)){
-										//echo $_FILES[photo][tmp_name].'<br>';
+											// uploadFTP($photo_,"publicity", '../../');
+											FTPupload('publicity/'.$photo);
+											deleteFTP( str_replace($_SESSION['ws-tags']['ws-user'][code].'/','',$dato[picture]),'publicity');
 
-										// uploadFTP($photo_,"publicity", '../../');
-										FTPupload('publicity/'.$photo);
-										deleteFTP( str_replace($_SESSION['ws-tags']['ws-user'][code].'/','',$dato[picture]),'publicity');
+										}else{
+											echo "2";
+	//										redirect("../../?publicity=error");
+	//										exit();
+											$save  = 0;
+										}//copy
 
-									}else{
+									}else{//extension
 										echo "2";
-//										redirect("../../?publicity=error");
-//										exit();
+	//									redirect("../../?publicity=error");
+	//									exit();
 										$save  = 0;
-									}//copy
-
-								}else{//extension
-									echo "2";
-//									redirect("../../?publicity=error");
-//									exit();
-									$save  = 0;
-								}
-							}//$_FILES
+									}
+								}//$_FILES
+							}
 						//END - image validation
 
 						//if image OK
@@ -186,7 +188,7 @@
 
 									}else{
 
-
+									// echo 'post '.$_POST[id_p].' get: '.$_GET[id_p];
 									$GLOBALS['cn']->query("
 										UPDATE	users_publicity
 										SET	title			= '".$_POST[publi_title]."',
@@ -196,9 +198,59 @@
 										WHERE	md5(id) = '".$_POST[id_p]."'");
 
 									// adPreference($_POST[publi_title]);
-									echo "update";
+									
+									if ($_POST[type_p]==5) {
+										$GLOBALS['cn']->query("
+											UPDATE banners 
+											SET title = '".$_POST[publi_title]."',	
+											link = '".$_POST[publi_link]."'
+											WHERE	md5(id_publi) = '".$_POST[id_p]."'
+										");
 
+										$id_banner = campo('banners','md5(id_publi)',$_POST[id_p],'id');
+
+										$picture_banner = campo('banners_picture','id_banner',$id_banner,'picture');
+											
+										if ($_FILES['publi_img']['name']!='') {
+
+											define (_PATH_, RELPATH."img/publicity/banners/");
+											$imagesAllowed = array('jpg','jpeg','png','PNG');
+											$parts = explode('.', $_FILES['publi_img']['name']);
+											$ext = strtolower(end($parts));
+
+											unlink(_PATH_.$picture_banner);
+											
+											if (in_array($ext,$imagesAllowed)){
+												$path  = _PATH_.$id_banner."/";
+												$photo = md5(str_replace(' ', '', $_FILES['publi_img']['name']).microtime()).'.'.$ext;
+												
+												//existencia de la folder
+												if (!is_dir ($path)){	
+													$old = umask(0);
+													mkdir($path,0777);
+													umask($old);
+													$fp=fopen($path.'index.html',"w");
+													fclose($fp);
+												}// is_dir
+													
+												if(redimensionar($_FILES['publi_img']['tmp_name'], $path.$photo, 800)){
+													
+													//update
+													$GLOBALS['cn']->query("
+														UPDATE banners_picture SET
+															picture = '".$id_banner.'/'.$photo."'
+														WHERE id_banner = '".$id_banner."'
+													");
+
+													FTPupload('publicity/banners/'.$photo);
+													// echo  'bien';
+												}//redimensionar
+											}//in_array	
+										}
 									}
+								echo "update";
+
+								}
 							}// save == 1
 						//END - if image OK
 					break;
@@ -215,41 +267,43 @@
 							$save          = 1;
 
 							if( !$_POST[picture] ) {
-								if( $_FILES[publi_img][error]==0 ) {
-									$imagesAllowed = array('jpg','jpeg','png','gif');
-									$parts         = explode('.', $_FILES[publi_img][name]);
-									$ext           = strtolower(end($parts));
+								if ($_POST[type_p]==5) {
+									if( $_FILES[publi_img][error]==0 ) {
+										$imagesAllowed = array('jpg','jpeg','png','gif');
+										$parts         = explode('.', $_FILES[publi_img][name]);
+										$ext           = strtolower(end($parts));
 
-									if( in_array($ext, $imagesAllowed) ) {
-										$path  = RELPATH."img/publicity/".$_SESSION['ws-tags']['ws-user'][code].'/';       //ruta para crear dir
-										$photo = $_SESSION['ws-tags']['ws-user'][code].'/'.md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
-										//$photo_= md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
+										if( in_array($ext, $imagesAllowed) ) {
+											$path  = RELPATH."img/publicity/".$_SESSION['ws-tags']['ws-user'][code].'/';       //ruta para crear dir
+											$photo = $_SESSION['ws-tags']['ws-user'][code].'/'.md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
+											//$photo_= md5(str_replace(' ', '', $_FILES[publi_img][name])).'.jpg';
 
-										//existencia de la folder
-										if( !is_dir ($path) ) {
-											$old = umask(0);
-											mkdir($path,0777);
-											umask($old);
-											$fp=fopen($path.'index.html',"w");
-											fclose($fp);
-										}// is_dir
+											//existencia de la folder
+											if( !is_dir ($path) ) {
+												$old = umask(0);
+												mkdir($path,0777);
+												umask($old);
+												$fp=fopen($path.'index.html',"w");
+												fclose($fp);
+											}// is_dir
 
-										if( redimensionar($_FILES[publi_img][tmp_name], RELPATH."img/publicity/".$photo, 200) ) {
-											//echo $_FILES[photo][tmp_name].'<br>';
-											FTPupload('publicity/'.$photo);
+											if( redimensionar($_FILES[publi_img][tmp_name], RELPATH."img/publicity/".$photo, 300) ) {
+												//echo $_FILES[photo][tmp_name].'<br>';
+												FTPupload('publicity/'.$photo);
 
-										}else{
+											}else{
+												redirect("../../?publicity=error");
+												exit();
+												$save  = 0;
+											}//copy
+
+										} else {//extension
 											redirect("../../?publicity=error");
 											exit();
 											$save  = 0;
-										}//copy
-
-									} else {//extension
-										redirect("../../?publicity=error");
-										exit();
-										$save  = 0;
-									}
-								}//$_FILES
+										}
+									}//$_FILES
+								}
 							} else {//picture is not empty, product to publicity
 
 								$path  = RELPATH.'img/publicity/'.$_SESSION['ws-tags']['ws-user'][code].'/';
@@ -420,11 +474,14 @@
 
 										// ".($_SESSION['ws-tags']['ws-user'][super_user]=='0' ? '2' : '1')
 
+										$id_publi = mysql_insert_id();
+
 										if ($_POST[type_p]==5) {
 											$GLOBALS['cn']->query("INSERT INTO banners SET 
 												id_type = '3',
 												title = '".$_POST[publi_title]."',
 												link = '".$_POST[publi_link]."',
+												id_publi = '".$id_publi."',
 												status = '1'
 											");
 
@@ -447,11 +504,8 @@
 													fclose($fp);
 												}// is_dir
 												
-												// if (copy($_FILES['publi_img']['tmp_name'], $path.$photo)){
-
-												if(redimensionar($_FILES['publi_img']['tmp_name'], $path.$photo, 700)){
-													//echo $_FILES[photo][tmp_name].'<br>';
-													//redimensionar($path.$photo, $path.$photo, 650);
+												if(redimensionar($_FILES['publi_img']['tmp_name'], $path.$photo, 800)){
+													
 													//insert
 													$GLOBALS['cn']->query("
 														INSERT INTO banners_picture SET
@@ -465,6 +519,7 @@
 											}//in_array	
 										}
 										
+										redirect(RELPATH."publicity");
 
 										//si no es SU, entonces tiene que pagar
 										//( en el INSERT se le asigna el estado a la publicidad, míralo, si tu  )
@@ -475,7 +530,7 @@
 											// adPreference($_POST[publi_title]);
 
 											// include ('../../views/pay.view.php');
-											@header('Location: ../../views/pay.view.php?payAcc=publicity&uid='.$id_publicity);
+											// @header('Location: ../../views/pay.view.php?payAcc=publicity&uid='.$id_publicity);
 										} else {
 												redirect(RELPATH."publicity");
 										}
