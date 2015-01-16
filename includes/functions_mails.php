@@ -292,7 +292,8 @@ function formatShowFriendsMail($type){
 		$nameExternal="<a style='color:#999999; text-decoration: none' href='".DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."' onFocus='this.blur();' target='_blank'>".formatoCadena($_SESSION['ws-tags']['ws-user']['full_name'])." (".$_SESSION['ws-tags']['ws-user']['screen_name'].")</a>";
 		$ip = DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id']);
 	}
-	$imgPhoto = '<a href="'.$ip.'" onFocus="this.blur();" target="_blank"><img src="'.FILESERVER.generateThumbPath("img/users/".$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']).'" width="60" height="60" style="float:right; border:1px #ccc solid;border-radius: 50%;" /></a>';
+	$imgPhoto=($GLOBALS['config']->local?DOMINIO:FILESERVER).getUserPicture("img/users/".$_SESSION['ws-tags']['ws-user']['code']."/".$_SESSION['ws-tags']['ws-user']['photo'],'img/users/default.png');
+	$imgPhoto = '<a href="'.$ip.'" onFocus="this.blur();" target="_blank"><img src="'.$imgPhoto.'" width="60" height="60" style="float:right; border:1px #ccc solid;border-radius: 50%;" /></a>';
 	$body = '<table width="500" border="0" align="center" cellpadding="2" cellspacing="0" style="font-family:Verdana, Geneva, sans-serif; font-size:12px; text-align:left">
 		<tr><td colspan="4" style="text-align:left; font-size:18px; padding:0"><strong>'.$nameExternal.'</strong> '.($type==5?NEWS_FRIENDTAGMSJUSERSENT:MAILFALLOWFRIENDS_SUBJECT).'</td></tr>
 		<tr><td colspan="4">&nbsp;</td></tr>
