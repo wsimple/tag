@@ -312,8 +312,8 @@ include ('../../class/class.phpmailer.php');
 															FROM users a
 															WHERE id = '".$id_comprador."'");
 					$pointsUsers = mysql_fetch_assoc($pointsUser);
+					$bandPoints=false;
 					if($pointsUsers['current_points']>$totalprice) $bandPoints=true;
-					else $bandPoints=false;
 //					$GLOBALS['cn']->query("UPDATE users SET description = 'entrando 1-".$payment_status." 2-".(string)$bandDollar." 3-".(string)$bandPoints." 4-".$ordeId." 5-".$comprador."' WHERE id ='".($id_comprador)."'");
 					if($bandDollar || $bandPoints){
 						$id_order = $car['order']['order'];
@@ -471,7 +471,6 @@ include ('../../class/class.phpmailer.php');
 													WHERE id = '".$id_comprador."'
 												");
 						}
-						storeCarMail($car);
 						$datosCar = 'checked';
 						$price = $totalprice;
 						$nproduct = $nproductUp;
@@ -479,7 +478,7 @@ include ('../../class/class.phpmailer.php');
 						if ($payment_status) $GLOBALS['cn']->query('DELETE FROM `users_notifications` WHERE id_type="17" AND id_user="427" AND id_friend="'.$car['order']['comprador'].'" AND id_source="'.$car['order']['order'].'"');
 						$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
 						if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
-						notifications($car['order']['comprador'],$car['order']['order'],16,'',$wid);
+						notifications($car['order']['comprador'],$car['order']['order'],16,'',$wid,$car);
 						unset($_SESSION['car']);
 					}else{
 						 $datosCar = 'noCredit';
@@ -1190,11 +1189,11 @@ include ('../../class/class.phpmailer.php');
                     $array['noId']=''; 
                     $band=true;
                 }
-                $temp=consulWishList($array,$lang);
-                if (!isset($temp['body'])){ 
-                    $array['tipo']  ='aso';
-                    $temp=consulWishList($array,$lang);
-                }
+                // $temp=consulWishList($array,$lang);
+                // if (!isset($temp['body'])){ 
+                //     $array['tipo']  ='aso';
+                //     $temp=consulWishList($array,$lang);
+                // }
                 if (isset($temp['body'])){
                     if (isset($wishList['body']) && $wishList['body']!='') $wishList['body'].=$temp['body'];
                     else $wishList['body']=$temp['body'];

@@ -4,7 +4,7 @@
 	//variables necesarias para armar el select
 	$where='';$from='';$limit='LIMIT '.$_GET['limit'].',9';$select='';$order='';$array['tipo']='prod';
 	if(isset($_GET['scc'])){//si viene este get es porque son mis productos 
-		if ($_SESSION['ws-tags']['ws-user']['type']!='1') die(jsonp(array('noB'=>true)));
+		if ($_SESSION['ws-tags']['ws-user']['type']!='1' && !isset($_GET["myplays"])) die(jsonp(array('noB'=>true)));
 		$where="p.id_user=".$_SESSION['ws-tags']['ws-user']['id']." ";
         if (isset($_GET['allProducts'])) $where.=" AND p.id_status=1 AND p.stock>0";
 	}elseif(isset($_GET['srh']) && (strpos($_GET['srh'],',')!='')){ //busqueda general del sitio

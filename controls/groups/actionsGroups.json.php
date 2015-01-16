@@ -131,12 +131,11 @@
 						//agregar los nuevos miembros
 						if(count($miembrosNuevos)>0){
 							foreach ($miembrosNuevos as $newMem) {
-								$idMem= CON::getVal('SELECT id FROM users WHERE md5(id)=?',array($newMem));
-								if ($idMem && !CON::getVal('SELECT id_user FROM users_groups WHERE id_group=? AND id_user=?',array($id_group,$newMem))){
+								$idMem= CON::getRow('SELECT id,email FROM users WHERE md5(id)=?',array($newMem));
+								if (count($idMem)>0 && !CON::getVal('SELECT id_user FROM users_groups WHERE id_group=? AND id_user=?',array($id_group,$newMem))){
 									CON::insert("users_groups","id_group=?,id_user=?,date_update = now(),status = '2'",
-										array($id_group,$idMem));
-									//se envia la notificaciones
-									notifications($idMem,$id_group,6);
+										array($id_group,$idMem['id']));
+									notifications($idMem['id'],$id_group,6,false,false,$idMem);
 								}
 							}
 						}
@@ -168,12 +167,12 @@
 						//agregar los nuevos administradores
 						if ( count($adminsNuevos) > 0 ) {
 							foreach ($adminsNuevos as $newMem) {
-								$idMem= CON::getVal("SELECT id FROM users WHERE md5(id)=?",array($newMem));
-								if ($idMem && !CON::getVal("SELECT id_user FROM users_groups WHERE id_user=? AND id_group = ?",array($newMem,$id_group))){
+								$idMem= CON::getRow("SELECT id,email FROM users WHERE md5(id)=?",array($newMem));
+								if (count($idMem)>0 && !CON::getVal("SELECT id_user FROM users_groups WHERE id_user=? AND id_group = ?",array($newMem,$id_group))){
 									CON::insert("users_groups","id_group=?,id_user = ?, is_admin = '1', date_update = now(), status = '2'",array($id_group,$idMem));
 									//se envia la notificaciones
-									//notifications($idMem,$id_group,14);
-									notifications($idMem,$id_group,6);
+									//notifications($idMem['id'],$id_group,14,false,false,$idMem);
+									notifications($idMem['id'],$id_group,6,false,false,$idMem);
 								}else{ CON::update("users_groups ","is_admin ='1'","id_group=? AND id_user!=? AND id_user =?;",array($id_group,$_SESSION['ws-tags']['ws-user']['id'],$idMem)); }
 							}
 						}
@@ -221,7 +220,8 @@
 							}elseif($result['id_privacy']=='2'){
 								if (!existe('users_groups', 'id', 'WHERE id_group = "'.$result['id'].'" AND id_user = "'.$_SESSION['ws-tags']['ws-user']['id'].'"')){
 									//notificación
-									notifications($result['id_creator'],$result['id'],12);
+									$row=CON::getRow("SELECT email FROM users WHERE id=?",array($result['id_creator']));
+									notifications($result['id_creator'],$result['id'],12,false,false,$row);
 									$GLOBALS['cn']->query("
 									INSERT INTO users_groups SET
 										id_group = '".$result['id']."',
@@ -238,10 +238,10 @@
                     $id_group = CON::getVal("SELECT id FROM groups WHERE md5(id)=?",array($_GET['grp']));
                     if (!$id_group){ $res['leave'] ='no-group'; break; }
                     //control de nuevos miembros
-                    $admins  = CON::getRow("SELECT (SELECT COUNT(id) FROM users_groups WHERE id_group=?) AS numA,
+                    $admins  = CON::getRow("SELECT (SELECT COUNT(id) FROM users_groups WHERE id_group=? AND is_admin=1) AS numA,
                     								 is_admin AS admin
                     						FROM users_groups 
-                    						WHERE id_group=? ",array($id_group,$id_group,$myId));
+                    						WHERE id_group=? AND id_user=?",array($id_group,$id_group,$myId));
                     $res['tes']=$admins;
 					if(!isset($_GET['force']) && ($admins['numA']==1 && $admins['admin']=='1')) $res['leave']= 'leave';
 					else{
@@ -271,7 +271,7 @@
 								 CON::update("groups","id_creator=(SELECT id_user
 																	FROM users_groups
 																	WHERE id_group = ? AND is_admin = '1' LIMIT 1)",
-								 				"id=?",array($id_group));
+								 				"id=?",array($id_group,$id_group));
 						}
 						$res['leave'] ='true';
 					}
@@ -282,8 +282,8 @@
                     $id_group = CON::getVal("SELECT id FROM groups WHERE md5(id)=?",array($_POST['grp']));
                     if (!$id_group){ $res['mensj'] ='no-group'; break; }
                     //control de nuevos miembros
+                    $array=array();
                     $array['newSelect']='md5(ul.id_friend) AS id_friend,ul.id_friend AS id,u.email';
-					$array['join']=' JOIN users_links ul ON ul.id_friend=u.id';
 					$array['where']=safe_sql('ul.id_user=? AND ul.is_friend=1',array($myId));
 					$array['where'].=safe_sql(" AND ul.id_friend NOT IN ((SELECT id_user FROM users_groups WHERE id_group=?))",array($id_group));
 					$query=peoples($array);
@@ -293,16 +293,16 @@
                            if (isset($_POST['chkLstUsersBroswer_'.$row['id_friend']])){
                                 $id=CON::insert('users_groups','id_group=?,id_user=?,date_update = now(),status="2"',array($id_group,$row['id']));
                                 if ($id){
-	                                notifications($row['id'],$id_group,6);
-	                            	$typeBox = true;
+                                	notifications($row['id'],$id_group,6,false,false,$row);
+	                                $typeBox = true;
                                 } 
                            }
                			}elseif (isset($_POST['friends'])) { //invitar amigos app (esta debe ser la invitacion general o usar mismo esquema)
                            if (in_array($row['email'],$_POST['friends'])){
                                 $id=CON::insert('users_groups','id_group=?,id_user=?,date_update = now(),status="2"',array($id_group,$row['id']));
                                 if ($id){
-	                                notifications($row['id'],$id_group,6);
-	                            	$typeBox = true;
+                                	notifications($row['id'],$id_group,6,false,false,$row);
+	                                $typeBox = true;
                                 } 
                            }               				
                			}
@@ -322,10 +322,11 @@
 						$where="email IN ('".implode("','",$_POST['uemails'])."')";
 					}else{ $res['asig']='false'; break; }
 					$ultId='';
-					$query=CON::query("SELECT id FROM users WHERE $where");
+					$query=CON::query("SELECT id,email FROM users WHERE $where");
 					while ($row=CON::fetchAssoc($query)){
 						CON::insert_or_update("users_groups","is_admin='1',date_update=now(),status='1'","id_group=?,id_user=?","id_group=? AND id_user=?",array($id_group,$row['id'],$id_group,$row['id']));
-						notifications($row['id'],$id_group, 14); $ultId=$row['id'];
+						notifications($row['id'],$id_group,14,false,false,$row);
+						$ultId=$row['id'];
 					}
 					CON::delete("users_groups","id_group=? AND id_user=?",array($id_group,$myId));
 					CON::update("groups","id_creator=?","id=?",array($ultId,$id_group));
@@ -355,33 +356,29 @@
 				}else{ $res['group']='noG'; }
 			break;
 			case 8:
-				$res['get']=$_GET;
-				$idGroup=  campo('groups', 'md5(id)', $_GET['grp'], 'id');
-				$_GET['id']=  campo('users', 'md5(id)', $_GET['id'], 'id');
+				$row=CON::getRow("SELECT u.id,u.email,g.id_group 
+								FROM users_groups g JOIN users u ON u.id=g.id_user
+								WHERE md5(g.id_group)=? AND md5(g.id_user)=?",array($_GET['grp'],$_GET['id']));
 				
-				if($_GET['accept']==1){//acepta usuario
-					//aceptamos la solicitud del usuario en el grupo
-					$GLOBALS['cn']->query("UPDATE users_groups SET date_update = now(), status = '1' WHERE id_group = '".$idGroup."' AND id_user = '".$_GET['id']."';");
-					//enviamos notificacion al usuario que es aceptado en el grupo
-					notifications($_GET['id'],$idGroup,13); 
+				if($_GET['accept']==1 && count($row)>0){//acepta usuario
+					CON::update("users_groups","date_update=now(),status ='1'","id_group=? AND id_user=?",array($row['id_group'],$row['id']));
+					notifications($row['id'],$row['id_group'],13,false,false,$row); 
 					$res['insert']='insert';
-				}else{//rechaza usuario
+				}elseif(count($row)>0){ //rechaza usuario
 					//aceptamos la solicitud del usuario en el grupo
-					$GLOBALS['cn']->query("DELETE FROM users_groups WHERE id_group = '".$idGroup."' AND id_user = '".$_GET['id']."';");
+					CON::delete("users_groups","id_group=? AND id_user=?",array($row['id_group'],$row['id']));
 					$res['insert']='false';
 				}
 
 				//contamos la cantidad de usuario status 5
-				$res['cug']=  campo('users_groups', 'status', 5, 'COUNT(*)');
+				$res['cug']=CON::getVal("SELECT COUNT(*) FROM users_groups WHERE status=5");
 				//eliminamos la notificacion que posee el administrador del grupo
-				notifications($_SESSION['ws-tags']['ws-user']['id'],$idGroup,12,1,$_GET['id']);
+				notifications($_SESSION['ws-tags']['ws-user']['id'],$row['id_group'],12,1,$row['id']);
 				//verficar cuantas notificaciones de solicitud de grupo estan activas
-				$userGroups = $GLOBALS['cn']->query("SELECT id_user
-											   FROM users_notifications
-											   WHERE id_type = '12' AND id_source = '".$idGroup."'");
-				$res['num'] = mysql_num_rows($userGroups);
+				$res['num'] = CON::getVal("SELECT COUNT(id_user)
+											FROM users_notifications
+											WHERE id_type = '12' AND id_source=?",array($row['id_group']));
 			break;
-			case 42: echo htmlentities(replaceCaraterSpecial($_GET['hola'])).'<br><br>';
 		}// fin switch
 		die(jsonp($res));
 	}

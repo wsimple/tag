@@ -1212,58 +1212,6 @@ function getUserProfile(&$user_id){
 		return true;
 	}
 }
-
-function formatMail($body, $width="600"){
-
-	     return  '
-					<table width="100%" height="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-family:Verdana, Geneva, sans-serif;margin:0; padding:0;">
-					<tr>
-					<td bgcolor="#F4F4F4" align="center">
-						<table width="'.$width.'" border="0" align="'.$pos.'" cellpadding="0" cellspacing="0" style="font-family:Verdana, Geneva, sans-serif">
-						<tr>
-							<td width="35" height="35" background="'.DOMINIO.'img/mails/top_izq.png">&nbsp;</td>
-							<td height="35" background="'.DOMINIO.'img/mails/top.png">&nbsp;</td>
-							<td width="35" height="35" background="'.DOMINIO.'img/mails/top_der.png">&nbsp;</td>
-						</tr>
-						<tr>
-							<td width="35" background="'.DOMINIO.'img/mails/izq.png">&nbsp;</td>
-							<td style="background-color:#FFF; text-align:left"><img src="'.DOMINIO.'img/mails/logo.png" width="200" height="77" border="0" alt="Tagbum" /></td>
-							<td width="35" background="'.DOMINIO.'img/mails/der.png">&nbsp;</td>
-						</tr>
-						<tr>
-							<td width="35" background="'.DOMINIO.'img/mails/izq.png">&nbsp;</td>
-							<td style="background-color:#FFF; font-size:11px; text-align:left; color:#666;" valign="top">'.$body.'</td>
-							<td width="35" background="'.DOMINIO.'img/mails/der.png">&nbsp;</td>
-						</tr>
-						<tr>
-							<td width="35" background="'.DOMINIO.'img/mails/izq.png">&nbsp;</td>
-							<td style="background-color:#FFF; font-size:11px; text-align:left; color:#666;" valign="top">&nbsp;</td>
-							<td width="35" background="'.DOMINIO.'img/mails/der.png">&nbsp;</td>
-						</tr>
-						<tr>
-							<td width="35" background="'.DOMINIO.'img/mails/izq.png">&nbsp;</td>
-							<td style="font-size:9px; color:#999; text-align:left; background-color:#FFF; border-top:1px solid #F4F4F4;">
-								'.COPYFOOTER.'&nbsp;/&nbsp;
-
-								<a href="'.base_url('?viewDialog=terms').'" onFocus="this.blur();">'.FOOTMENU_TERMS.'</a>&nbsp;/&nbsp;
-
-								<a href="'.base_url('?viewDialog=privacity').'" onFocus="this.blur();">'.FOOTMENU_PRIVACY.'</a>
-
-						    </td>
-							<td width="35" background="'.DOMINIO.'img/mails/der.png">&nbsp;</td>
-						</tr>
-						<tr>
-							<td width="35" height="35"><img src="'.DOMINIO.'img/mails/dow_izq.png" width="35" height="35" border="0" /></td>
-							<td height="35"><img src="'.DOMINIO.'img/mails/dow.png" width="100%" height="35" border="0" /></td>
-							<td width="35" height="35"><img src="'.DOMINIO.'img/mails/dow_der.png" width="35" height="35" border="0" /></td>
-						</tr>
-						</table>
-					</td>
-					</tr>
-					</table>
-			     ';
-}
-
 function arrayBackgroundsBlocked($id_user=''){
 	$backgrounds=$GLOBALS['cn']->query('
 		SELECT background
