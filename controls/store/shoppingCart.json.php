@@ -312,8 +312,8 @@ include ('../../class/class.phpmailer.php');
 															FROM users a
 															WHERE id = '".$id_comprador."'");
 					$pointsUsers = mysql_fetch_assoc($pointsUser);
+					$bandPoints=false;
 					if($pointsUsers['current_points']>$totalprice) $bandPoints=true;
-					else $bandPoints=false;
 //					$GLOBALS['cn']->query("UPDATE users SET description = 'entrando 1-".$payment_status." 2-".(string)$bandDollar." 3-".(string)$bandPoints." 4-".$ordeId." 5-".$comprador."' WHERE id ='".($id_comprador)."'");
 					if($bandDollar || $bandPoints){
 						$id_order = $car['order']['order'];
@@ -1190,11 +1190,11 @@ include ('../../class/class.phpmailer.php');
                     $array['noId']=''; 
                     $band=true;
                 }
-                $temp=consulWishList($array,$lang);
-                if (!isset($temp['body'])){ 
-                    $array['tipo']  ='aso';
-                    $temp=consulWishList($array,$lang);
-                }
+                // $temp=consulWishList($array,$lang);
+                // if (!isset($temp['body'])){ 
+                //     $array['tipo']  ='aso';
+                //     $temp=consulWishList($array,$lang);
+                // }
                 if (isset($temp['body'])){
                     if (isset($wishList['body']) && $wishList['body']!='') $wishList['body'].=$temp['body'];
                     else $wishList['body']=$temp['body'];
