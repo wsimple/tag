@@ -62,7 +62,7 @@ include ('../../class/class.phpmailer.php');
 						$_SESSION['car'][$producto]['paypal'] = $product['paypal_account'];
 
 						//Para saber si tiene que pagar productos en paypal
-						// if( $product['formPayment'] == 1 ) $_SESSION['havePaypalPayment'] = true;
+						if (PAYPAL_PAYMENTS && $product['formPayment']==1) $_SESSION['havePaypalPayment'] = true;
 
 						$price = 0;
 						$nproduct = 0;

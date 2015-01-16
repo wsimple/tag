@@ -38,8 +38,9 @@ function formatMail ($body,$width=800){
 								'.$body.'
 							</td>
 						</tr>
+						<tr><td></td><td style="width:100%;border-top:1px #f4f4f4 solid;"></td></tr>
 						<tr>
-							<td></td><td style="width:100%;border:1px #f4f4f4 solid;"></td>
+							<td></td><td style="width:100%;border:1px #f4f4f4 solid;text-align: center;height: 40px;">'.USERS_DNOTRECEIVEEMAILS.' <a href="'.DOMINIO.base_url('setting?sc=1').'" target="_blank" style="color:#ff8a28;">'.SIGNUP_H5TITLE1.'</a></td>
 						</tr>
 						<tr>
 							<td></td>
@@ -364,7 +365,7 @@ function formatShowGroupsMail($id_group,$tipe,$msj='',$tag=false){
                         </tr>
                         <tr>
 	                        <td colspan="3" style="padding-top: 25px;">
-	                          	<div style="background-image:url(\''.$groupPhoto.'\'); float:left;width:120px;height:80px;border-radius: 8px;-moz-border-radius: 8px; -ms-border-radius: 8px; -o-border-radius: 8px;background-repeat: no-repeat;background-size: 100% auto;background-position: 50% 50%;overflow: hidden;"></div>
+	                          	<img src="'.$groupPhoto.'" style="float:left;width:120px;height:80px;border-radius: 8px;-moz-border-radius: 8px; -ms-border-radius: 8px; -o-border-radius: 8px;overflow: hidden;"/>
 	                          	<div style="float:left;margin-left:15px;">
 	                          		<div><strong>
 		                          		<img src="'.$GLOBALS['config']->main_server.'css/smt/menu_left/groups.png" alt="Group Icons" width="30" height="30">
@@ -431,7 +432,7 @@ function formatShowProductMail($id_product,$tipe,$msj=''){
                         </tr>
                         <tr>
 	                        <td colspan="3" style="padding-top: 25px;">
-	                          	<div style="background-image:url(\''.$productPhoto.'\'); float:left;width: 150px;height: 130px;margin: 10px 10px;background-repeat: no-repeat;background-size: 100% auto;background-position: 50% 50%;"></div>
+	                          	<img src="'.$productPhoto.'" style="float:left;width: 150px;height: 130px;margin: 10px 10px;">
 	                          	<div style="float:left;margin-left:15px;">
 	                          		<div style="font-weight: bold;font-size: 16px;">'.PRODUCTS_NAME.': <span style="color: #f57b1a;">'.$product['name'].'</span></div>
 	                          		<div style="font-size: 12px;">'.PRODUCTS_DESCRIPTION.': '.$product['des'].'</div>
@@ -460,9 +461,7 @@ function formatShowProductMail($id_product,$tipe,$msj=''){
 	return $body;
 }
 
-function storeCarMail($car){
-
-	
+function storeCarMail($car,$type=16){
 //*********************************************** PREPARACION PARA LOS EMAILS ********************************************************************
 	//VARIABLES NECESARIAS
 	//array devuelto
@@ -597,12 +596,15 @@ function storeCarMail($car){
 	if (trim($array['username'])!=''){
 		$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".base_url($array['username'])."' target='_blank'>".$GLOBALS['config']->main_server.$array['username']."</a><br>";
 	}else{ $external=formatoCadena($array['name_user']); }
-
+	$pay="";
+	if ($type==17) 
+		$pay='<td style="width:100%;border:1px #f4f4f4 solid;text-align: center;height: 40px;">
+				<a href="'.DOMINIO.base_url('orders').'" target="_blank" style="color:#ff8a28;">'.SEARCHALL_SEEMORECLKHERE.'</a> '.STORE_TIME_END_ORDER.'</td>';
 	//cabecera del email para el comprador
 	$emailComprador='<table align="center" width="650" border="0" cellpadding="0" cellspacing="0" style="font-family:Verdana,Geneva,sans-serif;font-size:12px;border-radius:7px;background:#fff;padding-top:25px;">
 						<tr>
-							<td style="height:30px;font-size:20px;color:#999;font-weight:bold;text-align:center;">'.STORE_PURCHASETITLENEW.' <br><br></td>
-						</tr>';
+							<td style="height:30px;font-size:20px;color:#999;font-weight:bold;text-align:center;">'.($type==16?STORE_PURCHASETITLENEW:NOTIFICATIONS_TITLE_STORE_ORDERS_NO_COMPLETE).' <br><br></td>
+						</tr>'.$pay;
 	//variables necesarias para el email del comprador
 	$bodyEmail='';$totalPuntosAcumulados=0;$totalDolaresAcumulados=0;$countS=0;
 	foreach ($acumulado_pedido as $acumulado){
@@ -858,16 +860,222 @@ function storeCarMail($car){
 								<td style="padding:5px;"><span style="font-weight:bold;color:black;margin-left:20px;">'.TYPEPRICEMONEY.': </span>$'.number_format($totalDolaresAcumulados,2,'.',',').'</td>
 							</tr>';
 		}
-		$emailComprador.='</table>';
+		$emailComprador.=$pay.'</table>';
 		$return['puto']=$acumulado_pedido;
 		$return['buyer']['html']=formatMail($emailComprador,'790');
 		$return['buyer']['email']=$array['email'];
 		$return['buyer']['name']=$array['name_user'];
-//fin del envio del correo electronico
+//fin del envio del correo electronico 
 //*************************************************************************************************************************************
 	return $return;		
 }
 
+function storeEndFreeProducts($winner,$id_raffle){
+		//seleccionamos el ganador
+		// $selectWinner = $GLOBALS['cn']->query("
+		// 			SELECT
+		// 				a.id_user as id_user,
+		// 				u.email as email,
+		// 				md5(CONCAT(u.id, '_', u.email, '_', u.id)) AS code,
+		// 				CONCAT(u.name, ' ', u.last_name) AS name_user,
+		// 				u.username AS username,
+		// 				u.profile_image_url AS profile_image_url,
+		// 				(SELECT a.name FROM countries a WHERE a.id=u.country) AS pais,
+		// 				u.followers_count AS followers,
+		// 				u.friends_count AS friends
+
+		// 			FROM store_raffle_join a
+		// 			INNER JOIN users u ON u.id=a.id_user
+		// 			WHERE id_raffle = '".$idRaffle."'
+		// 			ORDER BY RAND()
+		// 			LIMIT 1");
+		// $Winner = mysql_fetch_assoc($selectWinner);
+		//seleccionamos el dueno de la rifa y seleccionamos el producto concursante en la rifa
+		// $selectOwner = $GLOBALS['cn']->query("
+		// 	SELECT 
+		// 		a.id_user AS id_user, 
+		// 		a.id_product AS id_product, 
+		// 		b.email AS email,
+		// 		p.name AS name,
+		// 		p.photo AS photo,
+		// 		p.description AS description,
+		// 		p.place AS place
+		//   FROM store_raffle a
+		//   INNER JOIN store_products p ON p.id=a.id_product
+		//   INNER JOIN users b ON b.id = a.id_user
+		//   WHERE a.id =  '".$idRaffle."';
+		// 		");
+		// $Owner = mysql_fetch_assoc($selectOwner);
+		// //detalles del correo
+		// //seleccionamos todos los usuarios de la rifa
+		// $selectAll = $GLOBALS['cn']->query("
+		// 			SELECT a.id_user as id_user,
+		// 				   b.email as email
+		// 			FROM store_raffle_join a
+		// 			INNER JOIN users b ON b.id=a.id_user
+		// 			WHERE id_raffle = '".$idRaffle."'
+		// 			");
+
+		// $backg=FILESERVER.'img/'.$Owner['photo'];
+		// $foto_remitente	=FILESERVER.getUserPicture($Winner['code'].'/'.$Winner['profile_image_url'],'img/users/default.png');
+		// if (trim($Winner['username'])!=''){
+		// 		$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".base_url($Winner['username'])."' onFocus='this.blur();' target='_blank'>".DOMINIO.$Winner['username']."</a><br>";
+		// }else { $external=  formatoCadena($Winner['name_user']); }
+		// if (trim($Winner['pais'])!=''){
+		// 		$pais=USERS_BROWSERFRIENDSLABELCOUNTRY.":&nbsp;<span style='color:#999999'>".$Winner['pais']."</span><br/>";
+		// }
+		// $winnerData='<tr>
+		// 				<td style="padding: 4px 0; color:#F82; font-weight: bold">'.STORE_RAFFLEWINNER.':</td>
+		// 				<td style="color:#888">
+		// 					<table style="width:100%;">
+		// 						<tr>
+		// 							<td style="padding-left:5px; font-size:14px; text-align:left">
+		// 								<img  src="'.$foto_remitente.'" border="0" width="60" height="60" style="border:3px solid #CCCCCC">
+		// 							</td>
+		// 							<td width="569" style="padding-left:5px; padding-bottom:20px; font-size:12px; text-align:left;">
+		// 									<div>
+		// 											'.$external.'
+		// 											'.$pais.'
+		// 											<strong>'.USERS_BROWSERFRIENDSLABELFRIENDS.'('.$Winner[friends].'),&nbsp;'.USERS_BROWSERFRIENDSLABELADMIRERS.'('.$Winner['followers'].')</strong>
+		// 									</div>
+		// 							</td>
+		// 						 </tr>
+		// 					</table>
+		// 				</td>
+		// 			</tr>';
+
+		$winnerData='<tr><td style="height:30px;font-size:20px;color:#999;font-weight:bold;text-align:center;">'.STORE_RAFFLEWINNER.' <br><br></td></tr>'
+		.showInfoUser($winner);
+		$raffle=CON::getRow("SELECT 
+						 		a.id_user AS id_user, 
+						 		a.id_product AS id_product, 
+						 		u.email AS email,
+						 		p.name AS name,
+						 		p.photo AS photo,
+						 		p.description AS description,
+						 		p.place AS place
+						   FROM store_raffle a
+						   INNER JOIN store_products p ON p.id=a.id_product
+						   INNER JOIN users u ON u.id = a.id_user
+						   WHERE a.id=?;",array($id_raffle));
+		$body='<table border="0" align="center" width="700">
+					<tr>
+						<td style="height:30px; font-size: 20px; color:#F82; font-weight:bold; border-bottom:1px dotted #CCC;text-align:center;">
+						'.STORE_THANKYOUREFFLEEMAIL.'<br><br><div style="font-size:14px; color:#888;">'.STORE_FINALRESULTMAIL.'</div></td>
+					</tr>
+					<tr><td style="border-top:1px dotted #CCC;">
+						<table border="0" width="600" align="center">
+						<tr><td colspan="2" style="padding: 10px 0">&nbsp;</td></tr>
+						'.$winnerData.'
+						<tr>
+							<td style="padding: 10px 0 0 0; color:#F82; font-weight: bold;text-align:left;">'.STORE_RAFFLEPRODUCTEMAIL.':</td>
+							<td style="color:#888; padding: 10px 0 0 10px;text-align:left;">'.$raffle['name'].'</td>
+						</tr>
+									<tr>
+										<td style="padding: 4px 0 0 0; color:#F82; font-weight: bold;  vertical-align: top;text-align:left;">'.STORE_DESCRIPTIONEMAIL.':</td>
+										<td style="padding: 0 0 0 10px;color:#888;text-align:justify;">'.$Owner['description'].'</td>
+									</tr>
+									<tr>
+										<td colspan="2" align="center" style="padding: 20px 0" ><img src="'.$backg.'"></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td align="center" style="font-size: 12px;padding: 10px 0; color:#777">'.STORE_FOOTERMESAAGESMAIL.' <a target="_blank" href="'.base_url('store?sc=5').'">'.PRODUCTS_RAFFLE.'</a></td>
+						</tr>
+					</table>';
+
+
+
+
+
+
+
+
+		// while($All = mysql_fetch_assoc($selectAll)){
+
+		// 	$body = '
+		// 			<table border="0" align="center" width="700">
+		// 				<tr>
+		// 					<td style="height:30px; font-size: 20px; color:#F82; font-weight:bold; border-bottom:1px dotted #CCC;text-align:center;">
+		// 					'.STORE_THANKYOUREFFLEEMAIL.'<br><br><div style="font-size:14px; color:#888;">'.STORE_FINALRESULTMAIL.'</div>
+		// 					</td>
+		// 				</tr>
+		// 				<tr>
+		// 					<td style="border-top:1px dotted #CCC;">
+		// 						<table border="0" width="600" align="center">
+		// 							<tr>
+		// 								<td colspan="2" style="padding: 10px 0">&nbsp;</td>
+		// 							</tr>
+		// 							'.$winnerData.'
+		// 							<tr>
+		// 								<td style="padding: 10px 0 0 0; color:#F82; font-weight: bold;text-align:left;">'.STORE_RAFFLEPRODUCTEMAIL.':</td>
+		// 								<td style="color:#888; padding: 10px 0 0 10px;text-align:left;">'.$Owner['name'].'</td>
+		// 							</tr>
+		// 							<tr>
+		// 								<td style="padding: 4px 0 0 0; color:#F82; font-weight: bold;  vertical-align: top;text-align:left;">'.STORE_DESCRIPTIONEMAIL.':</td>
+		// 								<td style="padding: 0 0 0 10px;color:#888;text-align:justify;">'.$Owner['description'].'</td>
+		// 							</tr>
+		// 							<tr>
+		// 								<td colspan="2" align="center" style="padding: 20px 0" ><img src="'.$backg.'"></td>
+		// 							</tr>
+		// 						</table>
+		// 					</td>
+		// 				</tr>
+		// 				<tr>
+		// 					<td align="center" style="font-size: 12px;padding: 10px 0; color:#777">'.STORE_FOOTERMESAAGESMAIL.' <a target="_blank" href="'.base_url('store?sc=5').'">'.PRODUCTS_RAFFLE.'</a></td>
+		// 				</tr>
+		// 			</table>';
+
+		// 	// Envia notificacion a participantes y a ganador con informacion e la rifa
+		// 	if($All['id_user'] != $Winner['id_user']){
+		// 		notifications($All['id_user'],$idRaffle,18,'',$Winner['id_user']); //Participante
+		// 	}else{
+		// 		notifications($Winner['id_user'],$idRaffle,19,'',427); //Ganador
+		// 	}
+
+		// 	if(sendMail(formatMail($body, '790'), EMAIL_NO_RESPONDA, 'Tagbum.com', STORE_RAFFLEEMAILMESSAGE, $All['email'], '../../'))
+		// 		$emailSendAll = '1';
+		// 	else
+		// 		$emailSendAll = '0';
+
+		// }//fin while usuarios participantes
+
+		//correo dueno
+		$bodyOwner = '
+			<table border="0" align="center" width="700">
+				<tr>
+					<td style="height:30px; font-size: 20px; color:#F82; font-weight:bold; border-bottom:1px dotted #CCC;text-align:center;">
+					'.STORE_RAFFLEENDMESSAGE.'<br><br><div style="font-size:14px; color:#888;">'.STORE_FINALRESULTMAIL.'</div>
+					</td>
+				</tr>
+				<tr>
+					<td style="border-top:1px dotted #CCC;">
+						<table border="0" width="600" align="center">
+							<tr>
+								<td colspan="2" style="padding: 20px 0; font-weight: bold; color:#888;">'.STORE_WINNERPRODUCT.' '.$Owner['name'].' '.STORE_WINNERPRODUCTES.':</td>
+							</tr>
+							'.$winnerData.'
+							<tr>
+								<td style="padding: 15px 0 0 0; color:#F82; font-weight: bold;  vertical-align: top" colspan="2" align="center">'.STORE_RAFFLEPRODUCTEMAIL.':</td>
+							</tr>
+
+							<tr>
+								<td colspan="2" align="center" style="padding: 20px 0" ><img src="'.$backg.'"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" style="font-size: 12px;padding: 10px 0; color:#777">'.STORE_FOOTERMESAAGESMAIL.' <a target="_blank" href="'.base_url('store?sc=5').'">'.PRODUCTS_RAFFLE.'</a></td>
+				</tr>
+			</table>';
+
+			sendMail(formatMail($bodyOwner, '790'), EMAIL_NO_RESPONDA, 'Tagbum.com', STORE_RAFFLEEMAILMESSAGE, $Owner['email'], '../../');
+		//correo dueno
+	//fin detalles del correo
+}
 function showTagMail($backg,$placa,$_texto1,$_texto2,$_texto3,$coloCode,$coloCode2,$coloCode3,$foto_usuario,$nameUser,$video='http://'){
 	// if($video!='http://'){
 	// 	$videoLink ='

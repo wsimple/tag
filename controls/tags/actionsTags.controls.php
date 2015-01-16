@@ -4,7 +4,6 @@
 	include $config->relpath.'class/class.phpmailer.php';
 
 	if (quitar_inyect()){
-		include('../../includes/functions_mails.php');
 		$myId=$myId?$myId:$_SESSION['ws-tags']['ws-user']['id'];
 		$tag=CON::getRow("SELECT id,id_user,status FROM tags WHERE md5(id)=?",array(intToMd5($_GET['tag'])));
 		switch($_GET['action']){
