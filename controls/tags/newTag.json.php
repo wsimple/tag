@@ -71,7 +71,7 @@ function newTag_json($data,$mobile=false){
 		$_users=array();
 		$_mails=array();
 		$friends=$data['people'];
-		if(!is_array($friends))	$friends=split(',',$friends);
+		// if(!is_array($friends))	$friends=split(',',$friends);
 		foreach($friends as $friend){
 			if($friend!=''){
 				if(!preg_match('/\D/',$friend)){//si es un id (numerico)
@@ -337,25 +337,19 @@ function newTag_json($data,$mobile=false){
 			updateUserCounters($myId,'accumulated_points',$points,'+');
 			updateUserCounters($myId,'current_points',$points,'+');
 		}
-		if($data['people']){//notificacion de tag privada
-			foreach($data['people']['users'] as $friend){//amigos de Tagbum
-				$insert=$GLOBALS['cn']->query('
-					INSERT INTO tags_privates SET
-						id_user		="'.$myId.'",
-						id_friend	="'.$friend.'",
-						id_tag		="'.$tagId.'",
-						status_tag	="'.($data['status']==4?4:0).'"
-				');
+		if($data['people']){ //notificacion de tag privada
+			foreach($data['people']['users'] as $friend){ //amigos de Tagbum
+				$insert=CON::insert(' tags_privates','id_user=?,id_friend=?,id_tag=?,status_tag=?',
+					array($myId,$friend,$tagId,($data['status']==4?4:0)));
 				notifications($friend,$tagId,1);
-				$usersMail.=md5($friend).',';
-			}//foreach
-			tagToMail($tagId,implode(',',$data['people']['emails']),'css/smt/email/tags.png');//emails
-			tagToMail($tagId,rtrim($usersMail,','),'css/smt/email/tags.png');//usuarios registrados
+			}
+			notifications(false,$tagId,1,false,false,$data['people']['emails']);
 		}
 		if($data['group']!=''){//notificacion para usuarios de grupo
-			$users=$GLOBALS['cn']->query('SELECT u.id FROM users u JOIN users_groups g ON u.id=g.id_user WHERE g.id_group="'.$data['group'].'" AND u.id!="'.$myId.'" AND g.status="1"');
+			$users=$GLOBALS['cn']->query('SELECT u.id,email FROM users u JOIN users_groups g ON u.id=g.id_user WHERE g.id_group="'.$data['group'].'" AND u.id!="'.$myId.'" AND g.status="1"');
 			while($user=mysql_fetch_assoc($users)){
-				notifications($user['id'],$tagId,10);
+				$user['grupo']=$data['group'];
+				notifications($user['id'],$tagId,10,false,false,$user);
 			}
 		}//if group
 		$res['done']=true;

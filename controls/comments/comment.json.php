@@ -55,7 +55,6 @@ if($action=='del'){//si es eliminar
 		
 		//Usado para trending toping
 		set_trending_topings($_POST['txt'],true);
-
 		$res['_sql_'][]=CON::lastSql();
 		if(CON::error()) $res['_sqlerror_'][]=CON::errorMsg();
 		if($res['inserted']){
@@ -66,20 +65,20 @@ if($action=='del'){//si es eliminar
 			// if($usr!=$myId&&$usr!=$user_to)//se notifica al propietario
 			// 	notifications($usr,$_source['id'],$type);
 			//buscamos a los demas usuarios que hayan comentado
-			$query=CON::query('
-				SELECT id_user_from AS id
-				FROM comments
-				WHERE id_source=?
-					AND id_type=?
-					AND id_user_from NOT IN(?,?)
-				GROUP BY id_user_from
+			$query=CON::query('	SELECT c.id_user_from AS id, u.email
+								FROM users u 
+								JOIN comments c ON u.id=c.id_user_from
+								WHERE c.id_source=?
+									AND c.id_type=?
+									AND c.id_user_from NOT IN(?,?)
+								GROUP BY c.id_user_from
 			',array(
 				$_source['id'],
 				$type,$user_to,$myId
 			));
 			$res['_sql_'][]=CON::lastSql();
 			while($user=CON::fetchAssoc($query)){//se les notifica que alguien ha escrito
-				notifications($user['id'],$_source['id'],$type2);
+				notifications($user['id'],$_source['id'],$type2,false,false,$user);
 			}
 		}
 	}
