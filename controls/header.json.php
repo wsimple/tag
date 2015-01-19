@@ -34,6 +34,7 @@ if(!$_header_json){
 	include_once($path.'includes/config.php');
 	include $config->relpath.'includes/session.php';
 	include $config->relpath.'includes/functions.php';
+	include $config->relpath.'includes/functions_mails.php';
 	include $config->relpath.'class/wconecta.class.php';
 
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
