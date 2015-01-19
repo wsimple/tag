@@ -76,6 +76,7 @@ if (isset($_REQUEST['status'])) {
 
 	if (isset($_GET['callback'])) {
 		header('content-type: application/json; charset=utf-8');
+		header('Access-Control-Allow-Credentials: true');
 		echo $_GET['callback'].'(1)';
 	} else {
 		echo "1";
@@ -96,6 +97,7 @@ if (isset($_GET['guestname']) && $userid > 0) {
 
 	if (isset($_GET['callback'])) {
 		header('content-type: application/json; charset=utf-8');
+		header('Access-Control-Allow-Credentials: true');
 		echo $_GET['callback'].'(1)';
 	} else {
 		echo "1";
@@ -121,6 +123,7 @@ if (isset($_REQUEST['statusmessage'])) {
 
 	if (isset($_GET['callback'])) {
 		header('content-type: application/json; charset=utf-8');
+		header('Access-Control-Allow-Credentials: true');
 		echo $_GET['callback'].'(1)';
 	} else {
 		echo "1";
@@ -163,6 +166,7 @@ if (isset($_REQUEST['to']) && isset($_REQUEST['message'])) {
             }
    			if (isset($_GET['callback'])) {
 				header('content-type: application/json; charset=utf-8');
+				header('Access-Control-Allow-Credentials: true');
 				sendCCResponse($_GET['callback'].'('.json_encode($response).')');
    			} else {
 				sendCCResponse(json_encode($response));
@@ -182,6 +186,7 @@ if (isset($_REQUEST['to']) && isset($_REQUEST['message'])) {
 
 			if (isset($_GET['callback'])) {
 				header('content-type: application/json; charset=utf-8');
+				header('Access-Control-Allow-Credentials: true');
 				echo $_GET['callback'].'()';
 			}
 		}

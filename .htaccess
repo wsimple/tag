@@ -13,12 +13,6 @@ RewriteCond %{SERVER_NAME} \.com$
 #RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^app(\/?.*)$ http://app.tagbum.com$1 [L]
 
-RewriteCond %{SERVER_NAME} !^app\.
-RewriteCond %{SERVER_NAME} \.com$
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^cometchat\/(.*)$ cometchat.old/$1 [L]
-
 #main
 RewriteCond %{SERVER_NAME} !^app\.
 RewriteCond %{REQUEST_FILENAME} !-f

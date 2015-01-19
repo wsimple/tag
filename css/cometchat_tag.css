@@ -1,0 +1,8 @@
+.cometchat_userscontentavatarimage{
+	border-radius:50%;
+}
+
+.cometchat_chatboxmessagefrom a > img,
+.cometchat_self_avatar a > img{
+	border-radius:50% !important;
+}
