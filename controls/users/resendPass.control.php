@@ -3,6 +3,7 @@
 	include "../../includes/session.php";
 	include "../../includes/config.php";
 	include "../../includes/functions.php";
+	include "../../includes/functions_mails.php";
 	include "../../class/wconecta.class.php";
 	include "../../includes/languages.config.php";
 	include "../../class/forms.class.php";
