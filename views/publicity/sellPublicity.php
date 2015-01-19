@@ -277,7 +277,6 @@
 			</tr>
 			<?php
 			
-			
 			$type = $GLOBALS['cn']->query("SELECT id, name, status FROM type_publicity");
 
 			$where = (isset($dato['type']))? " WHERE id = '".$dato['type']."' ":" ";
@@ -287,7 +286,7 @@
 			?>
 			<tr>
 				<td colspan="2">
-					(*)&nbsp;<?=PUBLICITY_TYPE?>:&nbsp;<span>(ubicacion de la publicidad en el sitio)</span>
+					(*)&nbsp;<?=PUBLICITY_TYPE?>:&nbsp;<span>(<?=PUBLICITY_TYPELOCATIONPUBLICITY?>)</span>
 				</td>
 			</tr>
 			<tr>
@@ -366,7 +365,7 @@
 						</div>
 						<input name="publi_img" type="button" id="buttonPubli" value="<?=NEWTAG_UPLOADBACKGROUND?>" style="width:150px;" />
 						<span id="text_photo"></span>
-						<div id="detailImg" style="display:none; padding: 9px 10px 9px 10px; color: #999;">Las dimensiones del banner son de 840px de ancho y 190px de alto</div>
+						<div id="detailImg" style="display:none; padding: 9px 10px 9px 10px; color: #999;"><?=PUBLICITY_TYPEDIMENSION?></div>
 					<?php } else {
 						echo "&nbsp;";
 					} ?>
