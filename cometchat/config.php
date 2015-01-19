@@ -64,7 +64,7 @@ $trayicon[] = array('scrolltotop','Scroll To Top','javascript:jqcc.cometchat.scr
 
 /* PLUGINS START */
 
-$plugins = array('smilies','clearconversation','chattime','games');
+$plugins = array('smilies','clearconversation','chattime','games','filetransfer','handwrite','chathistory');
 
 /* PLUGINS END */
 
@@ -153,7 +153,7 @@ $bannedMessage = 'Sorry, you have been banned from using this service. Your mess
 /* ADMIN START */
 
 define('ADMIN_USER','cometchat');
-define('ADMIN_PASS','cometchat');
+define('ADMIN_PASS','w3bs@rr0110');
 
 /* ADMIN END */
 
@@ -161,7 +161,7 @@ define('ADMIN_PASS','cometchat');
 
 /* SETTINGS START */
 
-$hideOffline = '1';			// Hide offline users in Whos Online list?
+$hideOffline = '0';			// Hide offline users in Who's Online list?
 $autoPopupChatbox = '1';			// Auto-open chatbox when a new message arrives
 $messageBeep = '1';			// Beep on arrival of message from new user?
 $beepOnAllMessages = '1';			// Beep on arrival of all messages?
@@ -180,16 +180,16 @@ $announcementTime = '15000';			// The number of milliseconds for which an announ
 $scrollTime = '1';			// Can be set to 800 for smooth scrolling when moving from one chatbox to another
 $armyTime = '0';			// If set to yes, show time plugin will use 24-hour clock format
 $disableForIE6 = '0';			// If set to yes, CometChat will be hidden in IE6
-$hideBar = '0';			// Hide bar for non-logged in users?
-$disableForMobileDevices = '1';			// If set to yes, CometChat will be hidden in mobile devices
+$hideBar = '1';			// Hide bar for non-logged in users?
+$disableForMobileDevices = '1';			// If set to yes, CometChat bar will be hidden in mobile devices
 $startOffline = '0';			// Load bar in offline mode for all first time users?
 $fixFlash = '0';			// Set to yes, if Adobe Flash animations/ads are appearing on top of the bar (experimental)
 $lightboxWindows = '1';			// Set to yes, if you want to use the lightbox style popups
 $sleekScroller = '1';			// Set to yes, if you want to use the new sleek scroller
-$desktopNotifications = '1';			// If yes, desktop notifications will be enabled for Google Chrome
-$windowTitleNotify = '1';               //If yes, notify new incoming messages by changing the browser title
-$floodControl = '0';                    //If set to 0, Users will be allowed to spam in chat (milliseconds)
-$windowFavicon = '1';			// If yes, Update favicon with number of messages (Works on Chrome, Firefox, Opera)
+$desktopNotifications = '1';			// If yes, Google desktop notifications will be enabled for Google Chrome
+$windowTitleNotify = '1';			// If yes, notify new incoming messages by changing the browser title
+$floodControl = '0';			// Chat spam control in milliseconds (Disabled if set to 0)
+$windowFavicon = '1';			// If yes, Update favicon with number of messages (Supported on Chrome, Firefox, Opera)
 
 
 /* SETTINGS END */
@@ -227,7 +227,7 @@ define('MC_NAME','files');			// Set name of caching method if 0 : '', 1 : memcac
 
 /* COLOR START */
 
-$color = 'hangout';
+$color = 'tagbum';
 
 /* COLOR END */
 

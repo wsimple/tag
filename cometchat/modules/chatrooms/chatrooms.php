@@ -85,6 +85,7 @@ if (!empty($_GET['embed']) && $_GET['embed'] == 'desktop') {
 if ($userid == 0 || in_array($userid,$bannedUserIDs)) {
 	$response['logout'] = 1;
 	header('Content-type: application/json; charset=utf-8');
+	header('Access-Control-Allow-Credentials: true');
 	echo json_encode($response);
 	exit;
 }
@@ -296,6 +297,7 @@ function heartbeat() {
 	}
 
 	header('Content-type: application/json; charset=utf-8');
+	header('Access-Control-Allow-Credentials: true');
 	$json_response = json_encode($response);
 	if(!empty($_REQUEST['v3'])){
 		$json_response = str_replace('"chatrooms":[]','"chatrooms":{}',$json_response);
@@ -348,6 +350,7 @@ function checkpassword() {
 		$password = $_POST['password'];
 	}
 	header('Content-type: application/json; charset=utf-8');
+	header('Access-Control-Allow-Credentials: true');
 	$sql = ("select * from cometchat_chatrooms_users where userid ='".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."' and chatroomid = '".mysqli_real_escape_string($GLOBALS['dbh'],$id)."' and isbanned = '1'");
 	$query = mysqli_query($GLOBALS['dbh'],$sql);
 	if(mysqli_num_rows($query) == 1){
