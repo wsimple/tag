@@ -54,7 +54,7 @@ if(isset($_GET['payAcc'])){
                     $GLOBALS['cn']->query("UPDATE store_orders SET id_status = '11', date=NOW() WHERE id_user = '".$_SESSION['car']['order']['comprador']."' AND id='".$_SESSION['car']['order']['order']."'");
                 }
                 if (!existe('users_notifications', 'id', 'WHERE id_type =17 AND id_source ="'.$_SESSION['car']['order']['order'].'" AND  id_user =427 AND id_friend="'.$_SESSION['car']['order']['comprador'].'"'))
-                    notifications($_SESSION['ws-tags']['ws-user']['id'],$_SESSION['car']['order']['order'],17,'',$wid);
+                    notifications($_SESSION['ws-tags']['ws-user']['id'],$_SESSION['car']['order']['order'],17,false,$wid,$_SESSION['car']);
                 //Datos para paypal, pago carrito de compras
                 $custom        = '0|'.$_SESSION['ws-tags']['ws-user']['id'].'|'.$_SESSION['ws-tags']['ws-user']['email'].'|'.md5($_SESSION['car']['order']['order']);
                 $return        = DOMINIO."#orders";

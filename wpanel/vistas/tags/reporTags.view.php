@@ -10,7 +10,9 @@ if ($_REQUEST['action']!=''){
 $_pagi_sql='SELECT r.id_tag, COUNT(r.id_tag) as cant FROM tags t JOIN  tags_report r ON r.id_tag = t.id where r.`status` = 1 GROUP BY r.id_tag ORDER BY COUNT(r.id_tag) DESC';
 
 //cantidad de resultados por página (opcional, por defecto 20) 
-$_pagi_cuantos = 10; 
+$_pagi_cuantos = 3; 
+
+$rp = 1;
 
 //Incluimos el script de paginación. Éste ya ejecuta la consulta automáticamente 
 include("includes/paginator.inc.php"); 
@@ -101,8 +103,11 @@ include("includes/paginator.inc.php");
         <table width="680" border="1" align="center" cellpadding="2" cellspacing="0" style="font-size:11px; font-weight:normal; text-align:left; border:1px solid #FBCBA4;">
 			<?php 
 			$ntag=mysql_num_rows($_pagi_result);
+			// $tagsA=mysql_fetch_assoc($_pagi_result);
+			// echo print_r($tagsA);
 			if ($ntag>0) {
 				while($tag=mysql_fetch_assoc($_pagi_result)){
+
 				$infoTags=$GLOBALS['cn']->query('
 				SELECT
 					r.id_tag,
