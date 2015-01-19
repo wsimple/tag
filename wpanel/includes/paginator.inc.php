@@ -172,6 +172,12 @@
 	$_pagi_nav_ultima = ">>";
  } 
  
+ if (isset($rp)){
+	// Si no se ha hecho click a ninguna página específica
+	// O sea si es la primera vez que se ejecuta el script
+    	// $_pagi_actual es la pagina actual-->será por defecto la primera.
+	$rp = 1;
+ }
 //------------------------------------------------------------------------
 
 
@@ -206,7 +212,10 @@
  	if($_pagi_result2 == false && $_pagi_mostrar_errores == true){
 		die (" Error en la consulta de conteo de registros: $_pagi_sqlConta. Mysql dijo: <b>".mysql_error()."</b>");
  	}
- 	$_pagi_totalReg = mysql_result($_pagi_result2,0,0);//total de registros
+
+ 	$_pagi_totalReg = ($rp==1) ? mysql_num_rows($_pagi_result2) : mysql_result($_pagi_result2,0,0) ;
+
+ 	// $_pagi_totalReg = mysql_result($_pagi_result2,0,0);//total de registros
  }else{
 	$_pagi_result3 = mysql_query($_pagi_sql);
 	// Si ocurrió error y mostrar errores está activado
