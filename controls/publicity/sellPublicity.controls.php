@@ -8,6 +8,7 @@
 		 
 		 require_once '../../class/wconecta.class.php';
 		 require_once '../../includes/languages.config.php';
+		 require_once '../../includes/functions_mails.php';
 		 require_once '../../class/class.phpmailer.php';
 
 	 if ($_GET['ajax']=='1' && $_GET['op']=='1') {

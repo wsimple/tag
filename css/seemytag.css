@@ -4963,10 +4963,13 @@ container.wrapper .left-panel #adsListPubli td[tipo="3"]{
 }
 container #mailSettings div.list div.row div[tipo="4"],
 container #mailSettings div.list div.row div[tipo="15"],
+container #mailSettings div.list div.row div[tipo="29"],
 container.wrapper .left-panel #adsListPubli td[tipo="4"],
 container.wrapper .left-panel #adsListPubli td[tipo="15"],
+container.wrapper .left-panel #adsListPubli td[tipo="29"],
 container #pageNews .news-wrapper #news-here div[tipo="4"],
-container #pageNews .news-wrapper #news-here div[tipo="15"]{
+container #pageNews .news-wrapper #news-here div[tipo="15"],
+container #pageNews .news-wrapper #news-here div[tipo="29"]{
     background-image:url(tbum/news/comment.png);
 }
 container #mailSettings div.list div.row div[tipo="5"],
@@ -5009,13 +5012,13 @@ container #mailSettings div.list div.row div[tipo="16"],
 container #mailSettings div.list div.row div[tipo="17"],
 container #mailSettings div.list div.row div[tipo="18"],
 container #mailSettings div.list div.row div[tipo="19"],
-container #mailSettings div.list div.row div[tipo="29"],
+container #mailSettings div.list div.row div[tipo="30"],
 container.wrapper .left-panel #adsListPubli td[tipo="16"],
 container.wrapper .left-panel #adsListPubli td[tipo="17"],
-container.wrapper .left-panel #adsListPubli td[tipo="29"],
+container.wrapper .left-panel #adsListPubli td[tipo="30"],
 container #pageNews .news-wrapper #news-here div[tipo="16"],
 container #pageNews .news-wrapper #news-here div[tipo="17"],
-container #pageNews .news-wrapper #news-here div[tipo="29"]{
+container #pageNews .news-wrapper #news-here div[tipo="30"]{
     background-image:url(tbum/news/store.png);
 }
 .divYourFriendsSuggestSeparator{

@@ -1037,7 +1037,7 @@ function CreateThumb($original,$img_nueva,$tamanio,$x,$y,$ancho,$alto){
 
 function sendMail($body,$from,$fromName,$subject,$address,$path='',$ssl=false){
 	global $config;
-	// if(LOCAL) return;
+	if(LOCAL) return;
 	$mail=new phpmailer();
 	$mail->PluginDir=$path.'class/';
 	$mail->Mailer	='smtp';
@@ -2098,7 +2098,7 @@ function emailRegistered($email){
 * @return void
 */
 function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=false,$data=false){
-	require_once('../../includes/functions_mails.php');
+	require_once(RELPATH.'includes/functions_mails.php');
 	if ($GLOBALS['config']->local && !isset($_SESSION['ws-tags']['email'])) $_SESSION['ws-tags']['email']='';
 	$id_type*=1; //asegurando que sea numerico
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
@@ -2114,8 +2114,8 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 			if ($id_friend)	//verificar si el usuario tiene inactivo el envio de correo
 				$noEmail=CON::getVal('SELECT id FROM users_config_notifications WHERE id_user=? AND id_notification=?',array($id_friend,$id_type));
 			else $noEmail=false;
-			if (!$noEmail){
-				if(in_array($id_type,array(2,4,8,9))){
+			if (!$noEmail || $id_type==19){
+				if(in_array($id_type,array(2,4,8,9,20))){
 					$userEmailAllTag=CON::getRow('
 						SELECT t.id_creator AS idCreator, u.email AS email
 						FROM tags t JOIN users u ON t.id_creator=u.id
@@ -2139,7 +2139,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 								}
 						}
 					break;
-					case 2: case 4: case 8: case 9: //2 email de favorito, 4 email de comentario tag (4- dueño), 8 email de redistribucion, 9 email de patrocinio
+					case 2: case 4: case 8: case 9: case 20: //2 email de favorito, 4 email de comentario tag (4- dueño), 8 email de redistribucion, 9 email de patrocinio, 20 dislike
 						if($id_friend && isValidEmail($userEmailAllTag['email'])){
 							$msjLink=NOTIFICATIONS_COMMENTSTAGMSJUSERLINK;
 							$iconoTipo=$GLOBALS['config']->main_server.'css/smt/tag/';
@@ -2156,6 +2156,10 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 								break;
 								case 9: $iconoTipo.='sponsor.png';
 									$msjBody=NOTIFICATIONS_SPONSORTAGMSJUSERSENT; $msjHead=MENUTAG_MSJASUNTOSPONSORED;
+								break;
+								case 20: $iconoTipo.='dislike.png';
+									$msjBody=NOTIFICATIONS_DISLIKETAGMSJUSERSENT; 
+									$msjHead=formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.NOTIFICATIONS_DISLIKETAGMSJUSERSENT.' '.NOTIFICATIONS_COMMENTSTAGMSJUSERLINK;
 								break;
 							}
 							$body=''.formatShowTagMail($id_source,$iconoTipo,$msjBody,$msjLink).'';
@@ -2208,6 +2212,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 									if(!CON::exist("tags_share_mails","id_tag=? AND referee_number=? AND email_destiny =?",array($id_source,$_SESSION['ws-tags']['ws-user']['code'],$per)))
 										CON::insert("tags_share_mails","id_tag = ?,referee_number =?,email_destiny =?,view = '0'",
 											array($tag['id'],$_SESSION['ws-tags']['ws-user']['code'],$per));
+									return $data; 
 								}
 							}
 						}
@@ -2231,15 +2236,36 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 							}
 						}
 					break;
-					case 16: //orden procesada exitosamente
+					case 16: case 17: //orden procesada exitosamente, orden pendiente por pagar
 						if($id_friend){ 
-							$array=storeCarMail($data);
-							foreach ($array['seller'] as $row) {
-								if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$row['email'].$row['html'];
-								else sendMail($row['html'],EMAIL_NO_RESPONDA,formatoCadena($array['buyer']['name']),$row['buyer']['name'].' '.STORE_EMAILMESSAGE,$row['email'],'../../');
-							} 
+							$array=storeCarMail($data,$id_type);
+							if ($id_type==16)
+								foreach ($array['seller'] as $row) {
+									if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$row['email'].$row['html'];
+									else sendMail($row['html'],EMAIL_NO_RESPONDA,formatoCadena($array['buyer']['name']),$row['buyer']['name'].' '.STORE_EMAILMESSAGE,$row['email'],'../../');
+								} 
 							if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$array['buyer']['email'].$array['buyer']['html'];
 							else sendMail($array['buyer']['html'],EMAIL_NO_RESPONDA,'Tagbum.com',STORE_PURCHASETITLENEW,$array['buyer']['email'],'../../');
+						}
+					break;
+					case 19: //ganador de la rifa
+						if($id_friend){
+							$array=storeEndFreeProducts($id_friend,$id_source);
+							$html=formatMail($array['email'],'790');
+							$htmlOwner=formatMail($array['emailOwner'],'790');
+							foreach ($data as $row) {
+								if ($row['id']==$id_friend){
+									if (!CON::getVal('SELECT id FROM users_config_notifications WHERE id_user=? AND id_notification=?',array($row['id'],19)))
+										if (!$GLOBALS['config']->local) sendMail($html, EMAIL_NO_RESPONDA,'Tagbum',STORE_RAFFLEWINNER,$row['email'],"../../");
+										else $htmlEmail.='<br><strong>Send To:</strong> '.$row['email'].$html;
+								}else{
+									if (!CON::getVal('SELECT id FROM users_config_notifications WHERE id_user=? AND id_notification=?',array($row['id'],18)))
+										if (!$GLOBALS['config']->local) sendMail($html, EMAIL_NO_RESPONDA,'Tagbum',STORE_RAFFLEEMAILMESSAGE,$row['email'],"../../");
+										else $htmlEmail.='<br><strong>Send To:</strong> '.$row['email'].$html;
+								}
+							}							
+							if (!$GLOBALS['config']->local) sendMail($htmlOwner, EMAIL_NO_RESPONDA,'Tagbum',STORE_RAFFLEEMAILMESSAGE,$array['owner'],"../../");
+							else $htmlEmail.='<br><strong>Send To:</strong> '.$array['owner'].$htmlOwner;
 						}
 					break;
 					case 21: // report tag, esta no guarda ninguna notificacion
@@ -2253,8 +2279,32 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 							foreach($data['emails'] as $per){
 								if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$per;
 								$htmlEmail.=$body;
-								if (!$GLOBALS['config']->local) sendMail($htmlEmail, EMAIL_NO_RESPONDA,'Tagbum','Report Tags',$per,"../../");	
+								if (!$GLOBALS['config']->local) sendMail($htmlEmail, EMAIL_NO_RESPONDA,'Tagbum','Report Tags',$per,"../../");
 							}
+						}
+					break;
+					case 22:  case 25: case 26: case 27: 
+						$email=CON::getVal("SELECT email FROM users WHERE id=?",array($id_friend));
+						if($id_friend && isValidEmail($email)){
+							switch ($id_type) {
+								case 22: $titulo=NOTIFICATIONS_TOPTAG_DAY; break;
+								case 25: $titulo=NOTIFICATIONS_TOPTAG_WEEK; break;
+								case 26: $titulo=NOTIFICATIONS_TOPTAG_MONTH; break;
+								case 27: $titulo=NOTIFICATIONS_TOPTAG_YEAR; break;
+							}
+							$linkTag=$GLOBALS['config']->main_server.'tag?id='.$id_source;
+							$imgTag=tagURL($id_source);
+							$body ='<table align="center" width="650" border="0" cellpadding="0" cellspacing="0" style="font-family:Verdana,Geneva,sans-serif;font-size:12px">
+									<tr>
+										<td style="height:30px;font-size:20px;color:#999;font-weight:bold;text-align:center;">
+										<img src="'.$GLOBALS['config']->main_server.'css/smt/icon.png" style="height: 80px;"/>
+										'.CONGRATULATIONS.' '.$titulo.' <br><br></td>
+									</tr>
+									<tr><td colspan="2"><br><p><a href="'.$linkTag.'" target="_blank"><img src="'.$imgTag.'" alt="tag"></a></p><br></td></tr>
+									</table>';
+							if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$email;
+							$htmlEmail.=formatMail($body,'790');
+							if (!$GLOBALS['config']->local) sendMail($htmlEmail,EMAIL_NO_RESPONDA,TOPTAG_TITLE,CONGRATULATIONS,$email,'../../');						
 						}
 					break;
 					case 28: // comentarios tag (28- otros usuarios que han comentado la tag)
