@@ -155,7 +155,7 @@ include("includes/paginator.inc.php");
 				echo '<tr><td colspan="7">No records to show</td></tr>';
 			}
 		?>
-	</table><?php echo  $_pagi_totalReg; ?>
+	</table>
 	<div><?="<p>".$_pagi_navegacion."</p>"?></div>
 </fieldset>
 <script type="text/javascript">
