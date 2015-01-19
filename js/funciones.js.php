@@ -19,7 +19,7 @@ function pageAction(action,data){
 			if (!opc[1]) opc[1]=0;
 			linkUser(opc[0],this,opc[1]);
 		break;
-		case 'banner'	:window.open(data,'_blank');break;
+		case 'banner'	:showPublicityWb(opc[1]); window.open(opc[0],'_blank');break;
 		case 'logout'	:if(isLogged()) logout();break;
 		case 'profile'	:userProfile(opc[1]||'<?=js_string($lang["USERPROFILE_PERSONALINFO"])?>',opc[0]);break;
 		case 'tag/comment':case 'comment':
@@ -1864,11 +1864,12 @@ function sellPublicityUpdate(url_vista, titulo, edit) {
 		title:titulo,
 		resizable:false,
 		width:500,
-		height:550,
+		height:500,
 		modal:true,
 		open:function(){
 			$(this).load(url_vista);
-		}
+		},
+		buttons: []
 	});
 }
 
@@ -1895,32 +1896,51 @@ function sellPublicity(url_vista,titulo,edit){
 			{
 				text: lang.JS_CONTINUE,
 				click: function() {
+					console.log($("#width").val()+'---'+$("#height").val());
+					var h=''; w='';
+					if (($("#width").val()=='')&&($("#height").val()=='')) {
+						h=1;w=1;
+					}else{
+						w = (($("#width").val()>830) && ($("#width").val()<850))?1:0;
+						h = (($("#height").val()>180) && ($("#height").val()<200))?1:0;
+					}
 
+					console.log('h: '+h+' w: '+w);
 					//validamos el formato de la imagen
 					if (validaImputPictureFile("#publi_img") || (edit && valor("picture")) ) {
+						if ((h==1)&&(w==1)) {
 						//validamos que todos los campos este llenos
-						if( valor("publi_title") && valor("publi_link") && valor("publi_msg") ) {
-							//validamos que se un enlace valido
-							if( validateForm("publi_link") ) {
-								// alert($('#publi_amount_1').val()+'--'+$('#showBuyedClicks').val());
-								$("#sell_publi").submit();
-//								redir('myPubli');
+							if( valor("publi_title") && valor("publi_link") && valor("publi_msg") ) {
+								//validamos que se un enlace valido
+								if( validateForm("publi_link") ) {
+									// alert($('#publi_amount_1').val()+'--'+$('#showBuyedClicks').val());
+									$("#sell_publi").submit();
+	//								redir('myPubli');
 
-							} else {
-								$("#sponsor_msgerror").fadeOut(600);
-								$("#sponsor_msgerror2").fadeOut(600);
-								showAndHide('sponsor_msgerror3', 'sponsor_msgerror3', 2500, true);
-								//$("#sponsor_msgerror3").fadeIn(600);
+								} else {
+									// $("#sponsor_msgerror").fadeOut(600);
+									// $("#sponsor_msgerror2").fadeOut(600);
+									// $("#sponsor_msgerror4").fadeOut(600);
+									showAndHide('sponsor_msgerror3', 'sponsor_msgerror3', 2500, true);
+									//$("#sponsor_msgerror3").fadeIn(600);
+								}
+							} else {//campos llenos
+								// $("#sponsor_msgerror2").fadeOut(600);
+								// $("#sponsor_msgerror3").fadeOut(600);
+								// $("#sponsor_msgerror4").fadeOut(600);
+								showAndHide('sponsor_msgerror', 'sponsor_msgerror', 2500, true);
+								//$("#sponsor_msgerror").fadeIn(600);
 							}
-						} else {//campos llenos
-							$("#sponsor_msgerror2").fadeOut(600);
-							$("#sponsor_msgerror3").fadeOut(600);
-							showAndHide('sponsor_msgerror', 'sponsor_msgerror', 2500, true);
-							//$("#sponsor_msgerror").fadeIn(600);
+						} else{
+							// $("#sponsor_msgerror").fadeOut(600);
+							// $("#sponsor_msgerror2").fadeOut(600);
+							// $("#sponsor_msgerror3").fadeOut(600);
+							showAndHide('sponsor_msgerror4', 'sponsor_msgerror4', 2500, true);
 						}
 					}else{//formato de imagen
-						$("#sponsor_msgerror3").fadeOut(600);
-						$("#sponsor_msgerror").fadeOut(600);
+						// $("#sponsor_msgerror4").fadeOut(600);
+						// $("#sponsor_msgerror3").fadeOut(600);
+						// $("#sponsor_msgerror").fadeOut(600);
 						showAndHide('sponsor_msgerror2', 'sponsor_msgerror2', 2500, true);
 						//$("#sponsor_msgerror2").fadeIn(600);
 					}
