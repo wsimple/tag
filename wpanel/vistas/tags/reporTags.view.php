@@ -7,7 +7,7 @@ if ($_REQUEST['action']!=''){
  }
 
 //Sentencia sql (sin limit) 
-$_pagi_sql='select DISTINCT tags.id FROM tags, tags_report WHERE tags.id = tags_report.id_tag AND tags_report.status = 1 ORDER BY tags.id DESC';
+$_pagi_sql='SELECT r.id_tag, COUNT(r.id_tag) as cant FROM tags t JOIN  tags_report r ON r.id_tag = t.id where r.`status` = 1 GROUP BY r.id_tag ORDER BY COUNT(r.id_tag) DESC';
 
 //cantidad de resultados por página (opcional, por defecto 20) 
 $_pagi_cuantos = 10; 
@@ -114,13 +114,13 @@ include("includes/paginator.inc.php");
 				JOIN users u ON r.id_user_creator = u.id
 				JOIN users w ON r.id_user_report = w.id
 				JOIN tags ta ON r.id_tag = ta.id
-				WHERE r.id_tag = "'.$tag[id].'" AND r.status = 1');
+				WHERE r.id_tag = "'.$tag[id_tag].'" AND r.status = 1 ');
 				
 				$infoT=mysql_fetch_assoc($infoTags);
 				
 				//cantidad de reportes por tags
-				$Nreport=$GLOBALS['cn']->query('SELECT COUNT(id_tag) as cantidad FROM tags_report WHERE id_tag ="'.$tag[id].'"');
-				$Nreports=mysql_fetch_assoc($Nreport);
+				// $Nreport=$GLOBALS['cn']->query('SELECT COUNT(id_tag) as cantidad FROM tags_report WHERE id_tag ="'.$tag[id_tag].'"');
+				// $Nreports=mysql_fetch_assoc($Nreport);
 				?>
 				<tr style="background-color:#FDE2CC; color:#000000; font-weight:bold">
 	                <td style="border-bottom:1px solid #FBCBA4; border-right:1px solid #FBCBA4" width="160">
@@ -134,7 +134,7 @@ include("includes/paginator.inc.php");
 	            </tr> 
 				<tr>
 					<td onclick="my(<?=$infoT['id_tag']?>,<?=$infoT['creator']?>)" style="cursor: pointer;">Users</td>
-					<td style="text-align: center"><?=$Nreports['cantidad']?></td>
+					<td style="text-align: center"><?=$tag['cant']?></td>
 					<td><?=$infoT['owner']?></td>
 					<td><?=$infoT['descrip']?></td>
 					<td><img src="<?=tagURL($infoT['id_tag'],true)?>"></td>
