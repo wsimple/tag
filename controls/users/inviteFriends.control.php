@@ -6,6 +6,7 @@
 		 include ("../../includes/config.php");
 		 include ("../../class/wconecta.class.php");
 		 include ("../../includes/languages.config.php");
+		 include ("../../includes/functions_mails.php");
 		 include ("../../class/class.phpmailer.php");
 
 		 //_imprimir($_POST);
