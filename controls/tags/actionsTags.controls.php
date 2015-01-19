@@ -92,7 +92,7 @@
                 $mails=explode(',',$_POST['mails']);
 				if(count($mails)>0){
 					$array=array('correos'=>'','per'=>$mails,'msj'=>$_POST['msj']);
-					notifications(false,$tag['idTag'],7,false,false,$array);
+					$array=notifications(false,$tag['idTag'],7,false,false,$array);
 				}
 				$msgBox='<div class="div_exito"><strong>'.$lang['MENUTAG_CTRSHAREMAILEXITO'].":</strong></div><br><br> ".$array['correos'];
 				if ($array['correos']==="") $msgBox=$_GET['device']? '<div class="div_error">'.$_GET['device'].'<br>'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>':'<div class="div_error">'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>';
@@ -306,29 +306,30 @@
 					////////
 					//echo PUBLICITY_MSGSUCCESSFULLY;
 			   break;//case 10
-			   case 11://add dislikes
-					if (!CON::getVal("SELECT id FROM dislikes WHERE id_source=? AND id_user=?",array($tag['id'],$myId))){
-							CON::insert("dislikes","id_user=?,id_source=?,date=NOW()",array($myId,$tag['id']));
-							CON::delete("likes","id_user=? AND id_source=?",array($myId,$tag['id']));
-							incPoints(20,$tag['id'],$tag['id_user'],$myId); //incremento de hits a la tag que se recibe
-							incHitsTag($tag['id']);
-					}
-					//salidas WEB o APP
-					$likes=CON::count('likes','id_source=?',array($tag['id'])); $dislikes=CON::count('dislikes','id_source=?',array($tag['id']));
+		   case 11://add dislikes
+				if (!CON::getVal("SELECT id FROM dislikes WHERE id_source=? AND id_user=?",array($tag['id'],$myId))){
+					CON::insert("dislikes","id_user=?,id_source=?,date=NOW()",array($myId,$tag['id']));
+					CON::delete("likes","id_user=? AND id_source=?",array($myId,$tag['id']));
+					incPoints(20,$tag['id'],$tag['id_user'],$myId); //incremento de hits a la tag que se recibe
+					incHitsTag($tag['id']);
+					notifications($tag['id_user'],$tag['id'],20);
+				}
+				//salidas WEB o APP
+				$likes=CON::count('likes','id_source=?',array($tag['id'])); $dislikes=CON::count('dislikes','id_source=?',array($tag['id']));
 
-					if (isset($_GET['this_is_app'])){ //app
-						die(jsonp(array('success'=>'dislikes','likes'=>$likes,'dislikes'=>$dislikes)));
-					}else{ //la web
-						//se valida el tipo de salida
-						$msgBox='<img src="img/star.png" title="'.$lang["TAGS_OPTIONUNLIKE"].'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');" />';
-						if ($_GET['isComment']==1) //si el like es desde un ventana de comentarios
-							$msgBox = '<a href="javascript:void(0);" onfocus="this.blur();" title="'.$lang["COMMENTS_FLOATHELPLINKLIKES"].'" action="UserLikedOrRaffle,d,'.$tag['id'].'" style="color:#F58220;font-weight:bold;">'.$likes.'</a>';
-						else
-							$msgBox = '<img src="img/star.png" title="'.$lang["TAGS_OPTIONUNLIKE"].'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
-						////salida alterna para News
-						if($_GET['news']==1) $msgBox = $dislikes.'|'.$likes;	
-					}
-				break;
+				if (isset($_GET['this_is_app'])){ //app
+					die(jsonp(array('success'=>'dislikes','likes'=>$likes,'dislikes'=>$dislikes)));
+				}else{ //la web
+					//se valida el tipo de salida
+					$msgBox='<img src="img/star.png" title="'.$lang["TAGS_OPTIONUNLIKE"].'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');" />';
+					if ($_GET['isComment']==1) //si el like es desde un ventana de comentarios
+						$msgBox = '<a href="javascript:void(0);" onfocus="this.blur();" title="'.$lang["COMMENTS_FLOATHELPLINKLIKES"].'" action="UserLikedOrRaffle,d,'.$tag['id'].'" style="color:#F58220;font-weight:bold;">'.$likes.'</a>';
+					else
+						$msgBox = '<img src="img/star.png" title="'.$lang["TAGS_OPTIONUNLIKE"].'" width="29" height="29" border="0" style="border:0px; cursor:pointer; margin:0" onclick="send_ajax(\'controls/tags/actionsTags.controls.php?action=4&tag='.$tag['id'].'\', \'#start_favorite'.$_GET["current"].'_'.$tag['id'].'\', 0, \'html\');"  />';
+					////salida alterna para News
+					if($_GET['news']==1) $msgBox = $dislikes.'|'.$likes;	
+				}
+			break;
 			// END - dislikes (10)
 			// get likes and dislikes (12)
 				case 12:
