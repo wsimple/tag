@@ -23,8 +23,10 @@ function formatMail ($body,$width=800){
 						<tr>
 							<td></td>
 							<td background="'.$GLOBALS['config']->main_server.'css/tbum/email/bg_logo.png" id="head-logo" style="text-align:right;padding-top:15px;padding-right:15px;">
-								<a href="'.$GLOBALS['config']->main_server.'" target="blank"><img src="'.$GLOBALS['config']->main_server.'css/tbum/email/tagbumlogo_1.png" style="float:left;border:none; margin: 40px; max-height:100px;min-height: 100px;height: 100px;" alt="tagbum.com"></a>
-								<a href="'.$GLOBALS['config']->main_server.'" target="blank"><img src="'.$GLOBALS['config']->main_server.'css/tbum/email/tagbumlogo_2.png" style="float:right;border:none; margin: 40px;max-height:100px;min-height: 100px;height: 100px;" alt="tagbum.com"></a>
+								<table style="width: 100%;"><tr>
+									<td><a href="'.$GLOBALS['config']->main_server.'" target="blank"><img src="'.$GLOBALS['config']->main_server.'css/tbum/email/tagbumlogo_1.png" style="border:none; margin: 40px;height:100px;width:85px;" alt="tagbum.com"></a></td>
+									<td align="right"><a href="'.$GLOBALS['config']->main_server.'" target="blank"><img src="'.$GLOBALS['config']->main_server.'css/tbum/email/tagbumlogo_2.png" style="border:none;margin:40px;height:100px;width:180px" alt="tagbum.com"></a></td>
+								</tr></table>
 							</td>
 						</tr>
 						<tr>
@@ -40,7 +42,7 @@ function formatMail ($body,$width=800){
 						</tr>
 						<tr><td></td><td style="width:100%;border-top:1px #f4f4f4 solid;"></td></tr>
 						<tr>
-							<td></td><td style="width:100%;border:1px #f4f4f4 solid;text-align: center;height: 40px;">'.USERS_DNOTRECEIVEEMAILS.' <a href="'.DOMINIO.base_url('setting?sc=1').'" target="_blank" style="color:#ff8a28;">'.SIGNUP_H5TITLE1.'</a></td>
+							<td></td><td style="width:100%;border:1px #f4f4f4 solid;text-align: center;height: 40px;">'.ucfirst(USERS_DNOTRECEIVEEMAILS).' <a href="'.DOMINIO.base_url('setting?sc=1').'" target="_blank" style="color:#ff8a28;">'.SIGNUP_H5TITLE1.'</a></td>
 						</tr>
 						<tr>
 							<td></td>
@@ -255,7 +257,7 @@ function formatShowTagMail($tagId,$iconoTipo,$msj_sent,$msj_link,$msj=''){
 							<td style="text-align:left;width:450px;">
 								<strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).'</strong>&nbsp;'.formatoCadena($msj_sent).' '.$msj_link.'
 							</td>
-							<td style="background-image:url(\''.$GLOBALS['config']->main_server.'css/smt/email/yellowbutton_get_started2.png\');width:145px;height:40px;display:inline-block;background-repeat:no-repeat;">
+							<td background="'.$GLOBALS['config']->main_server.'css/smt/email/yellowbutton_get_started2.png" style="width: 150px; height: 40px;  display: inline-block; background-repeat: no-repeat;padding-top: 10px;">
 								<a style="font-weight:bold;color:#2d2d2d;font-size:12px;text-decoration:none;margin-left: 40px;" href="'.$linkTag.'">'.MENUTAG_CTRSHAREMAILTITLE2.'</a>
 							</td>
 						</tr>
@@ -361,20 +363,22 @@ function formatShowGroupsMail($id_group,$tipe,$msj='',$tag=false){
                             <td style="text-align: left; width:450px;">
                                 <strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).'</strong>'.$textAction.'
                             </td>
-                            <td background="'.DOMINIO.'css/smt/email/yellowbutton_get_started2.png" style="width: 145px; height: 40px;  display: inline-block; background-repeat: no-repeat;">
+                            <td background="'.$GLOBALS['config']->main_server.'css/smt/email/yellowbutton_get_started2.png" style="width: 150px; height: 40px;  display: inline-block; background-repeat: no-repeat;padding-top: 10px;">
                                 <a style="font-weight: bold; color: #2d2d2d; font-size:12px; text-decoration: none;margin-left: 20px;" href="'.$linkGroup.'">'.GROUP_SHAREMAILTITLE2.'</a>
                             </td>
                         </tr>
                         <tr>
 	                        <td colspan="3" style="padding-top: 25px;">
-	                          	<img src="'.$groupPhoto.'" style="float:left;width:120px;height:80px;border-radius: 8px;-moz-border-radius: 8px; -ms-border-radius: 8px; -o-border-radius: 8px;overflow: hidden;"/>
-	                          	<div style="float:left;margin-left:15px;">
-	                          		<div><strong>
+	                          	<table style="width:100%;"><tr>
+	                          	<td style="width: 130px;"><img src="'.$groupPhoto.'" style="width:120px;height:80px;border-radius: 8px;-moz-border-radius: 8px; -ms-border-radius: 8px; -o-border-radius: 8px;overflow: hidden;"/></td>
+	                          	<td>
+									<div><strong>
 		                          		<img src="'.$GLOBALS['config']->main_server.'css/smt/menu_left/groups.png" alt="Group Icons" width="30" height="30">
 		                          		'.$group['name'].'</strong>
 	                          		</div>
 	                          		<div style="font-size: 10px;">'.$group['des'].'</div>
-	                          	</div>
+	                          	</td>
+	                          	</tr></table>	                          	
 	                        </td>
 	                    </tr>
                     </table></td>
@@ -428,17 +432,19 @@ function formatShowProductMail($id_product,$tipe,$msj=''){
                             <td style="text-align: left; width:450px;">
                                 <strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).'</strong>'.$textAction.'
                             </td>
-                            <td background="'.DOMINIO.'css/smt/email/yellowbutton_get_started2.png" style="width: 145px; height: 40px;  display: inline-block; background-repeat: no-repeat;">
+                            <td background="'.$GLOBALS['config']->main_server.'css/smt/email/yellowbutton_get_started2.png" style="width: 150px; height: 40px;  display: inline-block; background-repeat: no-repeat;padding-top: 10px;">
                                 <a style="font-weight: bold; color: #2d2d2d; font-size:12px; text-decoration: none;margin-left: 20px;" href="'.$linkGroup.'">'.GROUP_SHAREMAILTITLE2.'</a>
                             </td>
                         </tr>
                         <tr>
 	                        <td colspan="3" style="padding-top: 25px;">
-	                          	<img src="'.$productPhoto.'" style="float:left;width: 150px;height: 130px;margin: 10px 10px;">
-	                          	<div style="float:left;margin-left:15px;">
-	                          		<div style="font-weight: bold;font-size: 16px;">'.PRODUCTS_NAME.': <span style="color: #f57b1a;">'.$product['name'].'</span></div>
+	                          	<table style="width:100%;"><tr>
+	                          	<td style="width: 130px;"><img src="'.$productPhoto.'" style="float:left;width: 150px;height: 130px;margin: 10px 10px;"></td>
+	                          	<td valign="top">
+									<div style="font-weight: bold;font-size: 16px;">'.PRODUCTS_NAME.': <span style="color: #f57b1a;">'.$product['name'].'</span></div>
 	                          		<div style="font-size: 12px;">'.PRODUCTS_DESCRIPTION.': '.$product['des'].'</div>
-	                          	</div>
+	                          	</td>
+	                          	</tr></table>	                          	
 	                        </td>
 	                    </tr>
                     </table></td>
@@ -936,43 +942,7 @@ function storeEndFreeProducts($winner,$id_raffle){
 					</table>';
 		return array('email'=>$body,'emailOwner'=>$bodyOwner,'owner'=>$raffle['email']);
 }
-function showTagMail($backg,$placa,$_texto1,$_texto2,$_texto3,$coloCode,$coloCode2,$coloCode3,$foto_usuario,$nameUser,$video='http://'){
-	// if($video!='http://'){
-	// 	$videoLink ='
-	// 		<div id="videoLink" style="width:20px;height:20px;margin-left:10px;margin-bottom:20px;background:none">
-	// 			<a href="'.$video.'" target="_blank"><img src="'.$GLOBALS['config']->main_server.'img/iconvideo.png" alt="video" title="'.WATCH_VIDEO.'" border="0" style="border:0px;margin:0;" /></a>
-	// 		</div>
-	// 	';
-	// }
-	// $cad='
-	// 	<table width="650" height="300" border="0" align="center" background="'.$backg.'" style="border-radius:30px;behavior:url(border-radius.htc);-moz-border-radius:30px;-webkit-border-radius:30px;font-family:Verdana,Geneva,sans-serif;background-position:left top;">
-	// 		<tr>
-	// 			<td background="'.$placa .'" style="background-position:left top" valign="top">
-	// 				<table width="605" border="0" align="center" style="margin-top:52px;color:#FFFFFF;margin-left:25px;text-shadow:2px 2px 2px #000;filter:progid:DXImageTransform.Microsoft.Shadow(color=\'#000000\',Direction=135,Strength=4);">
-	// 					<tr>
-	// 						<td colspan="3" style="color:'.(($coloCode!=' ')?$coloCode:'#FFFFFF').'"><h5 style="font-size:20px;padding:0;width:100%;text-align:center;padding:0;margin:0;">'.$_texto1.'</h5></td>
-	// 					</tr>
-	// 					<tr>
-	// 						<td colspan="3" style="color:'.(($coloCode2!=' ')?$coloCode2:'#FFFFFF').';padding:0;"><p style="padding:0;margin:0;margin-top:-15px;font-size:110px;letter-spacing:-10px;text-transform:uppercase;text-align:center;">'.$_texto2.'</p></td>
-	// 					</tr>
-	// 					<tr>
-	// 						<td colspan="3"><p style="padding:0;margin:0;">&nbsp;</p></td>
-	// 					</tr>
-	// 					<tr>
-	// 						<td width="60" rowspan="2" valign="top" style="padding-top:3px;"><img src="'.$foto_usuario.'" alt="users" border="0" width="60" height="60" style="border:1px solid #FFFFFF" /></td>
-	// 						<td width="445"><h4 style="font-size:20px;margin:0;margin-top:-15px;">'.$nameUser.'</h4></td>
-	// 						<td width="78" rowspan="2" >'.(($videoLink!='')?$videoLink:'&nbsp;').'</td>
-	// 					</tr>
-	// 					<tr>
-	// 						<td style="color:'.(($coloCode3!=' ')?$coloCode3:'#FFFFFF').'" valign="top"><h6 style="font-size:12px;padding:0;margin:0px;">'.$_texto3.'</h6></td>
-	// 					</tr>
-	// 				</table>
-	// 			</td>
-	// 		</tr>
-	// 	</table>
-	// ';
-	// return $cad;
-}
+
 
 function showPreferencesMail($data){
 	// 	if(is_numeric($data)){
@@ -1325,500 +1295,4 @@ function showPreferencesMailOthers($data){
 
 	// }
 }
-
-function tagToMail($tag,$emails,$actionIcon,$pathMail='../../',$msj='',$share=false){
-	// $tags=$GLOBALS['cn']->query('
-	// 	SELECT
-	// 		u.screen_name AS nameUsr,
-	// 		(SELECT screen_name FROM users WHERE id=t.id_user) AS nameUsr2,
-	// 		md5(CONCAT(u.id,"_",u.email,"_",u.id)) AS code,
-	// 		u.profile_image_url	 AS photoUser,
-	// 		t.id AS idTag,
-	// 		t.id_user AS idUser,
-	// 		t.id_creator AS idCreator,
-	// 		t.code_number AS code_number,
-	// 		t.color_code AS color_code,
-	// 		t.color_code2 AS color_code2,
-	// 		t.color_code3 AS color_code3,
-	// 		t.text AS texto,
-	// 		t.text2 AS texto2,
-	// 		t.date AS fechaTag,
-	// 		t.background AS fondoTag,
-	// 		t.video_url AS video_url,
-	// 		u.email AS email,
-	// 		u.referee_number AS referee_number
-	// 	FROM tags t JOIN users u ON t.id_creator=u.id
-	// 	WHERE t.id="'.$tag.'"
-	// ');
-	// $tag=mysql_fetch_assoc($tags);
-	// incHitsTag($tag['idTag']);		//incremento de hits a la tag que se recibe
-	// $mails=explode(',',$emails);	//destinatarios
-	// if (count($mails)>0){
-	// 	$correos="";
-	// 	foreach ($mails as $per){
-	// 		if ($per!=''){
-	// 			//verificar si es usuario de tagbum
-	// 			$query=$GLOBALS['cn']->query('
-	// 				SELECT
-	// 					u.id AS id,
-	// 					u.email AS email
-	// 				FROM users u
-	// 				WHERE u.email LIKE "'.$per.'" OR md5(u.id)="'.$per.'"
-	// 			');
-	// 			if (mysql_num_rows($query)>0){
-	// 				$emailUserSend=mysql_fetch_assoc($query);
-	// 				$per=$emailUserSend['email'];
-	// 			}
-	// 			$sendDataPublicity=$tag['idTag'];
-	// 			//echo '- '.$per.'<br>';
-	// 			//imagenes del email
-	// 			$backg=(strpos(' '.$tag['fondoTag'],'default')?$GLOBALS['config']->main_server:FILESERVER).'img/templates/'.$tag['fondoTag'];
-	// 			$placa=$GLOBALS['config']->main_server.'img/placaFondo.png';
-	// 			$imgTag=$GLOBALS['config']->main_server.'includes/tag.php?tag='.md5($tag['idTag']);
-	// 			$linkTag=$GLOBALS['config']->main_server.'#&tag='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'];
-	// 			$iconoSpon=$GLOBALS['config']->main_server.'/img/menu_users/publicidad.png';
-	// 			$foto_usuario=($tag['photoUser']!='')?(FILESERVER."img/users/".$tag['code']."/".$tag['photoUser']):($GLOBALS['config']->main_server."img/users/default.png");
-	// 			$foto_remitente=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']);
-	// 			$actionIcon=$GLOBALS['config']->main_server.'/'.$actionIcon;
-	// 			//product tags
-	// 			if($product=isProductTag($tag['idTag'])){
-	// 				$foto_usuario=FILESERVER."img/products/".$product['picture'];
-	// 				$tag['nameUsr']=$product['name'];
-	// 			}
-	// 			if ($msj!=''){
-	// 				$trMsj='<tr><td><table align="center" style="width:100%;">'.$trMsj.'</table></td></tr>';
-	// 			}else{
-	// 				$trMsj='';
-	// 			}
-	// 			//datos de la tag
-	// 			$_texto1=($tag['texto']!='&nbsp')?$tag['texto']:'<br/>';
-	// 			$_texto2=(trim($tag['code_number'])!='&nbsp')?$tag['code_number']:'<br/>';
-	// 			$_texto3=(trim($tag['texto2'])!='&nbsp')?$tag['texto2']:'<br/>';
-	// 			//Cabecera del correo del usuario
-	// 			$query=$GLOBALS['cn']->query('
-	// 				SELECT
-	// 					CONCAT(u.name," ",u.last_name) AS name_user,
-	// 					u.username AS username,
-	// 					(SELECT a.name FROM countries a WHERE a.id=u.country) AS pais,
-	// 					u.followers_count AS followers,
-	// 					u.friends_count AS friends
-	// 				FROM users u
-	// 				WHERE u.id="'.$_SESSION['ws-tags']['ws-user']['id'].'"
-	// 			');
-	// 			$array=mysql_fetch_assoc($query);
-	// 			if (trim($array['username'])!=''){
-	// 				$external='<strong>'.USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":</strong>&nbsp;<span ><a style='color:#999999' href='".base_url($array['username'])."' onFocus='this.blur();' target='_blank'>".$GLOBALS['config']->main_server.$array['username']."</a><br>";
-	// 			}else{
-	// 				$external='<strong>'.USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":</strong>&nbsp;".formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']);
-	// 			}
-	// 			$pais='';
-	// 			if (trim($array[pais])!=''){
-	// 				$pais='<strong>'.USERS_BROWSERFRIENDSLABELCOUNTRY.":</strong>&nbsp;<span style='color:#999999'>".$array['pais']."</span><br/>";
-	// 			}
-	// 			//seleccion de etiquetas
-	// 			//$labelTag=MENUTAG_CTRSHAREMAILTITLE1;
-	// 			$labelTag=LABELTAGSPRIVATE;
-	// 			//cuerpo del email
-	// 			$body='
-	// 				<table align="center" width="650" border="0" cellpadding="0" cellspacing="0" style="font-family:Verdana,Geneva,sans-serif;font-size:12px;border-radius:7px;background:#fff;padding-top:25px;">
-	// 					<tr>
-	// 						<td>
-	// 							<table style="width:100%;">
-	// 								<tr>
-	// 									<td style="padding-left:5px;font-size:14px;text-align:left">
-	// 										<img src="'.$foto_remitente.'" border="0" width="60" height="60" style="border:3px solid #CCCCCC" alt="user">
-	// 									</td>
-	// 									<td width="569" style="padding-left:5px;padding-bottom:20px;font-size:12px;text-align:left;">
-	// 											<div>
-	// 												'.$external.'<br>
-	// 												'.($pais!=''?$pais.'<br>':'').'
-	// 												'.USERS_BROWSERFRIENDSLABELFRIENDS.'(<strong>'.$array['friends'].'</strong>),&nbsp;'.USERS_BROWSERFRIENDSLABELADMIRERS.'(<strong>'.$array['followers'].'</strong>)
-	// 											</div>
-	// 									</td>
-	// 									</tr>
-	// 							</table>
-	// 						</td>
-	// 					</tr>
-	// 					<tr>
-	// 						<td colspan="2" style="color:#000;padding-left:5px;font-size:14px">
-	// 							<table style="width:100%;">
-	// 								<tr>
-	// 									<td style="width:20px;">
-	// 										<img src="'.$actionIcon.'" width="16" height="16" border="0" alt="user">
-	// 									</td>
-	// 									<td style="text-align:left;width:450px;">
-	// 										<strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).'</strong>&nbsp;'.$labelTag.'
-	// 									</td>
-	// 									<td background="'.$GLOBALS['config']->main_server.'css/smt/email/yellowbutton_get_started2.png" style="width:140px;height:22px;display:inline-block;background-repeat:no-repeat;padding:10px 14px 5px 5px;">
-	// 										<a style="font-weight:bold;color:#2d2d2d;font-size:12px;text-decoration:none" href="'.$linkTag.'">'.MENUTAG_CTRSHAREMAILTITLE2.'</a>
-	// 									</td>
-	// 								</tr>
-	// 							</table>
-	// 						</td>
-	// 					</tr>
-
-	// 					'.$trMsj.'
-
-	// 					<tr>
-	// 						<td colspan="2">
-	// 							<br>
-	// 								<p><a href="'.$linkTag.'" target="_blank"><img src="'.$imgTag.'" alt="tagbum.com"></a></p>
-	// 							<br>
-	// 						</td>
-	// 					</tr>
-	// 					<tr>
-	// 						<td colspan="2" valign="top">
-	// 							<center><table style="width:100%;">
-	// 								<tr>
-	// 									<td colspan="2" valign="top" style="border-bottom:1px #f4f4f4 solid;border-top:1px #f4f4f4 solid;padding:8px 0px 0px 0px;">
-	// 										<img src="'.$GLOBALS['config']->main_server.'/css/smt/email/publicidad3.png" alt="tagbum.com">
-	// 										&nbsp;
-	// 										'.USERPUBLICITY_PAYMENT.'
-	// 									</td>
-	// 								</tr>
-	// 								<tr>
-	// 									<td colspan="2" valign="top" style="padding:70px 0px 0px 0px;font-size:13px;text-align:center;height:70px;">
-	// 										'.PUBLICITYSPACETEXT.'
-	// 									</td>
-	// 								</tr>
-	// 							</table></center>
-	// 						</td>
-	// 					</tr>
-	// 						<tr>
-	// 							<td>
-	// 								<center><table>
-	// 									<tr>
-	// 										<td align="center" style="padding-left:5px;text-align:center;width:100%;">
-	// 											'.(isset($device)?'This tag have been sent using my '.$device:'').'<br>'.
-	// 											MENUTAG_CTRSHAREMAILTITLE3.':<a href="'.$linkTag.'">Tagbum.com</a>
-	// 										</td>
-	// 									</tr>
-	// 								</table></center>
-	// 							</td>
-	// 						</tr>
-	// 				</table>
-	// 			';
-	// 			//envio del correo
-	// 			if (sendMail(formatMail($body,'790'),EMAIL_NO_RESPONDA,formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']),formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.$labelTag,$per,$pathMail)){
-	// 				$correos.="-&nbsp;".$per.".<br/>";
-	// 				//insert tabla verificacion
-	// 				if($share&&!existe("tags_share_mails","id_tag"," WHERE id_tag='".$tag['idTag']."' AND referee_number='".$_SESSION['ws-tags']['ws-user']['code']."' AND email_destiny='".$per."' ")){
-	// 					$insert=$GLOBALS['cn']->query("
-	// 						INSERT INTO tags_share_mails SET
-	// 							id_tag='".$_GET['tag']."',
-	// 							referee_number='".$_SESSION['ws-tags']['ws-user']['code']."',
-	// 							email_destiny='".$per."',
-	// 							view='0'
-	// 					");
-	// 				}
-	// 			}//end if envio de correo
-
-	// 		}//if per
-	// 	}//foreach
-	// }//if (count($mails)>0)
-	// if ($share){
-	// 	return $correos;
-	// }
-}
-
-function formatEmailStore($body,$mens){
-	// 	$foto_remitente=FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']);
-	// 	//datos de la cabecera del correo del usuario
-	// 	$query=$GLOBALS['cn']->query('
-	// 		SELECT
-	// 			CONCAT(u.name," ",u.last_name) AS name_user,
-	// 			u.username AS username,
-	// 			(SELECT a.name FROM countries a WHERE a.id=u.country) AS pais,
-	// 			u.followers_count AS followers,
-	// 			u.friends_count AS friends
-	// 		FROM users u
-	// 		WHERE u.id="'.$_SESSION['ws-tags']['ws-user']['id'].'"
-	// 	');
-	// 	$array=mysql_fetch_assoc($query);
-	// 	if (trim($array['username'])!=''){
-	// 		$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".base_url($array['username'])."' onFocus='this.blur();' target='_blank'>".$GLOBALS['config']->main_server.$array['username']."</a><br>";
-	// 	}
-	// 	if (trim($array['pais'])!=''){
-	// 		$pais=USERS_BROWSERFRIENDSLABELCOUNTRY.":&nbsp;<span style='color:#999999'>".$array['pais']."</span><br/>";
-	// 	}
-	// 	$cadCom='
-	// 		<div style="border-radius:7px;background:#fff;padding-top:25px">
-	// 		<table align="center" width="650" border="0" cellpadding="0" cellspacing="0" style="font-family:Verdana,Geneva,sans-serif;font-size:12px">
-	// 			<tr>
-	// 				<td width="78" style="padding-left:5px;font-size:14px;text-align:left">
-	// 					<img src="'.$foto_remitente.'" border="0" width="60" height="60" style="border:1px solid #CCCCCC;margin-left:15px;" alt="purchaser" />
-	// 				</td>
-	// 				<td width="559" style="padding-left:15px;font-size:12px;text-align:left;">
-	// 					<div>
-	// 						'.$external.'
-	// 						'.$pais.'
-	// 						'.USERS_BROWSERFRIENDSLABELFRIENDS.'('.$array['friends'].'),&nbsp;'.USERS_BROWSERFRIENDSLABELADMIRERS.'('.$array['followers'].')
-	// 					</div>
-	// 				</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td colspan="2" >&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td colspan="2" style="color:#000;padding-left:5px;font-size:14px" >
-	// 					<div >
-	// 						<div style="float:left;margin-right:5px;">
-	// 						</div>
-	// 						<div style=" float:left"><strong>'.$_SESSION['ws-tags']['ws-user']['full_name'].' '.$mens.'</div>
-	// 					</div>
-	// 				</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td colspan="2" style="color:#999;text-align:center;font-size:14px;font-weight:bold">&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td colspan="2" valign="top">
-	// 					<br>
-	// 					'.$body.'
-	// 					<br>
-	// 				</td>
-	// 			</tr>
-	// 		</table>
-	// 		</div>
-	// 		<br><br>
-	// 	';
-	// 	return $cadCom;
-}
-
-function formatMail_old($body,$width='600'){
-	// return '
-	// 	<table width="100%" height="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-family:Verdana,Geneva,sans-serif;margin:0;padding:0;">
-	// 		<tr>
-	// 		<td bgcolor="#F4F4F4" align="center">
-	// 			<table width="'.$width.'" border="0" align="" cellpadding="0" cellspacing="0" bgcolor="#F4F4F4" style="font-family:Verdana,Geneva,sans-serif;background-image:url('.$GLOBALS['config']->main_server.'img/bgFormatEmails.jpg);">
-	// 			<tr>
-	// 				<td width="35" height="35" background="'.$GLOBALS['config']->main_server.'img/mails/top_izq.png">&nbsp;</td>
-	// 				<td height="35" background="'.$GLOBALS['config']->main_server.'img/mails/top.png">&nbsp;</td>
-	// 				<td width="35" height="35" background="'.$GLOBALS['config']->main_server.'img/mails/top_der.png">&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td width="35" background="'.$GLOBALS['config']->main_server.'img/mails/izq.png">&nbsp;</td>
-	// 				<td bgcolor="#FFFFFF" style="text-align:left"><a href="http://tagbum.com" target="_blank"><img src="'.$GLOBALS['config']->main_server.'img/mails/logo.png" width="176" height="77" border="0" alt="Tagbum.com" alt="logo"/></a></td>
-	// 				<td width="35" background="'.$GLOBALS['config']->main_server.'img/mails/der.png">&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td width="35" background="'.$GLOBALS['config']->main_server.'img/mails/izq.png">&nbsp;</td>
-	// 				<td bgcolor="#FFFFFF" style="font-size:11px;text-align:left;color:#666;" valign="top">'.$body.'</td>
-	// 				<td width="35" background="'.$GLOBALS['config']->main_server.'img/mails/der.png">&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td width="35" background="'.$GLOBALS['config']->main_server.'img/mails/izq.png">&nbsp;</td>
-	// 				<td bgcolor="#FFFFFF" style="font-size:11px;text-align:left;color:#666;" valign="top">&nbsp;</td>
-	// 				<td width="35" background="'.$GLOBALS['config']->main_server.'img/mails/der.png">&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td width="35" background="'.$GLOBALS['config']->main_server.'img/mails/izq.png">&nbsp;</td>
-	// 				<td bgcolor="#FFFFFF" style="font-size:9px;color:#999;text-align:left;border-top:1px solid #F4F4F4;">
-	// 					'.COPYFOOTER.'&nbsp;/&nbsp;
-	// 					<a href="'.base_url('?viewDialog=terms').'" onFocus="this.blur();">'.FOOTMENU_TERMS.'</a>&nbsp;/&nbsp;
-	// 					<a href="'.base_url('?viewDialog=privacity').'" onFocus="this.blur();">'.FOOTMENU_PRIVACY.'</a>
-	// 				</td>
-	// 				<td width="35" background="'.$GLOBALS['config']->main_server.'img/mails/der.png">&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td width="35" height="35"><img src="'.$GLOBALS['config']->main_server.'img/mails/dow_izq.png" width="35" height="35" border="0" /></td>
-	// 				<td height="35"><img src="'.$GLOBALS['config']->main_server.'img/mails/dow.png" width="100%" height="35" border="0" /></td>
-	// 				<td width="35" height="35"><img src="'.$GLOBALS['config']->main_server.'img/mails/dow_der.png" width="35" height="35" border="0" /></td>
-	// 			</tr>
-	// 			</table>
-	// 		</td>
-	// 		</tr>
-	// 	</table>
-	// ';
-}
-
-function formatMail_old_fondoazul($body,$width='600'){
-	// return '
-	// 	<table width="100%" height="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-family:Verdana,Geneva,sans-serif;margin:0;padding:0;">
-	// 		<tr>
-	// 		<td background="'.$GLOBALS['config']->main_server.'img/mails/fondo_correos.png" align="center">
-	// 			<table width="'.$width.'" border="0" align="" cellpadding="0" cellspacing="0" style="font-family:Verdana,Geneva,sans-serif;">
-	// 			<tr>
-	// 				<td width="35" height="35" >&nbsp;</td>
-	// 				<td height="35">&nbsp;</td>
-	// 				<td width="35" height="35" >&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td width="35" >&nbsp;</td>
-	// 				<td style="text-align:left"><a href="http://tagbum.com" target="_blank"><img src="'.$GLOBALS['config']->main_server.'img/logo.png" width="176" height="77" border="0" alt="Tagbum.com" /></a></td>
-	// 				<td width="35" >&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td width="35" >&nbsp;</td>
-	// 				<td style="font-size:11px;text-align:left;color:#666;" valign="top">
-	// 				'.$body.'
-	// 				</td>
-	// 				<td width="35">&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td width="35" >&nbsp;</td>
-	// 				<td style="font-size:11px;text-align:left;color:#666;" valign="top">&nbsp;</td>
-	// 				<td width="35" >&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td width="35">&nbsp;</td>
-	// 				<td style="font-size:9px;color:#fff;text-align:left;border-top:1px solid #F4F4F4;">
-	// 					'.COPYFOOTER.'&nbsp;/&nbsp;
-	// 					<a style="color:#fff" href="'.base_url('?viewDialog=terms').'" onFocus="this.blur();">'.FOOTMENU_TERMS.'</a>&nbsp;/&nbsp;
-	// 					<a style="color:#fff" href="'.base_url('?viewDialog=privacity').'" onFocus="this.blur();">'.FOOTMENU_PRIVACY.'</a>
-	// 				</td>
-	// 				<td width="35">&nbsp;</td>
-	// 			</tr>
-	// 			<tr>
-	// 				<td width="35" height="35">&nbsp;</td>
-	// 				<td height="35" >&nbsp;</td>
-	// 				<td width="35" height="35"	>&nbsp;</td>
-	// 			</tr>
-	// 			</table>
-	// 		</td>
-	// 		</tr>
-	// 	</table>
-	// ';
-}
-
-function mailTag($tagId,$mails,$msj, $device){
- //    $tags = $GLOBALS['cn']->query('
-	// 	SELECT
-	// 		u.screen_name										AS nameUsr,
-	// 		(SELECT screen_name FROM users WHERE id=t.id_user)	AS nameUsr2,
-	// 		md5(CONCAT(u.id, "_", u.email, "_", u.id))			AS code,
-	// 		u.profile_image_url									AS photoUser,
-	// 		t.id							AS idTag,
-	// 		t.id_user						AS idUser,
-	// 		t.id_creator					AS idCreator,
-	// 		t.code_number,
-	// 		t.color_code,
-	// 		t.color_code2,
-	// 		t.color_code3,
-	// 		t.text							AS texto,
-	// 		t.text2							AS texto2,
-	// 		t.date							AS fechaTag,
-	// 		t.background					AS fondoTag,
-	// 		t.video_url,
-	// 		u.email,
-	// 		u.referee_number
-	// 	FROM tags t JOIN users u ON t.id_creator=u.id
-	// 	WHERE md5(t.id)="'.intToMd5($tagId).'"
-	// ');
-	// $tag=mysql_fetch_assoc($tags);
-	// incHitsTag($tag['idTag']); //incremento de hits a la tag que se recibe
-	// //obtenemos los email
-	// if ($mails!=""){
-	// 	$personas = trim(trim($mails,','));
-	// 	$persona  = explode(',', $personas);
-	// 	$correos  = "";
-	// 	foreach ($persona as $per){
-	// 		if ($per!='' && valid::isEmail($per)) {
-	// 			//verificar si el correo esta registrado o no en tagbum
-	// 			$query = $GLOBALS['cn']->query('
-	// 				SELECT
-	// 					u.id AS id,
-	// 					u.email AS email
-	// 				FROM users u
-	// 				WHERE u.email = "'.$per.'"
-	// 			');
-	// 			$emailUserSend = mysql_fetch_assoc($query);
-
-	// 			if($emailUserSend['email']!=''){
-	// 				$sendDataPublicity = $emailUserSend['id'];
-	// 			}else{
-	// 				$sendDataPublicity = $emailUserSend['email'].'|'.$tag['idTag'];
-	// 			}
-	// 			//imagenes del email
-	// 			$backg			= (strpos(' '.$tag['fondoTag'],'default') ? DOMINIO : FILESERVER).'img/templates/'.$tag['fondoTag'];
-	// 			$placa			= DOMINIO.'img/placaFondo.png';
-	// 			$linkTag		= DOMINIO.'?current=viewTag&tag='.md5($tag['idTag']).'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($per);
-	// 			$imgTag			= DOMINIO.'includes/tag.php?tag='.md5($tag[idTag]);
-	// 			$iconoSpon		= DOMINIO.'/img/menu_users/publicidad.png';
-	// 			$foto_usuario   = FILESERVER.getUserPicture($tag['code'].'/'.$tag['photoUser']);
-	// 			$foto_remitente	= FILESERVER.getUserPicture($_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']);
-	// 			//product tags
-	// 			if( $product=isProductTag($tag['idTag']) ) {
-	// 				$foto_usuario = FILESERVER."img/products/".$product['picture'];
-	// 				$tag[nameUsr] = $product['name'];
-	// 			}
-	// 			//insert tabla verificacion
-	// 			if( !existe("tags_share_mails", "id_tag", " WHERE id_tag = '".$tagId."' AND referee_number = '".$_SESSION['ws-tags']['ws-user']['code']."' AND email_destiny = '".$per."' ") ) {
-	// 				$insert  = $GLOBALS['cn']->query("INSERT INTO tags_share_mails SET
-	// 														id_tag		  = '".$tagId."',
-	// 														referee_number  = '".$_SESSION['ws-tags']['ws-user']['code']."',
-	// 														email_destiny   = '".$per."',
-	// 														view			= '0';");
-	// 			}
-	// 			if ($msj!=""){
-	// 				$trMsj='
-	// 					<tr>
-	// 						<td style="padding:5px; font-size:12px; color:#000; text-align:justify">'.$msj.'</td>
-	// 					</tr>
-	// 				 ';
-	// 			} else {
-	// 				$trMsj = '';
-	// 			}
-	// 			//datos de la tag
-	// 			$_texto1 = ($tag['texto']!='&nbsp') ? $tag['texto'] : '<br/>';
-	// 			$_texto2 = (trim($tag['code_number'])!='&nbsp') ? $tag['code_number'] : '<br/>';
-	// 			$_texto3 = (trim($tag['texto2'])!='&nbsp') ? $tag['texto2'] : '<br/>';
-	// 			//cuerpo del email
-	// 			$body  = '
-	// 				<div style="border-radius:7px; background: #fff; padding-top:25px">
-	// 				<table align="center" width="650" border="0" cellpadding="0" cellspacing="0" style="font-family:Verdana, Geneva, sans-serif; font-size:12px">
-	// 					<tr>
-	// 						<td style="padding-left:5px; font-size:14px; text-align:left">
-	// 							<img  src="'.$foto_remitente.'" border="0" width="60" height="60" style="border:1px solid #CCCCCC" />
-	// 						</td>
-	// 					</tr>
-	// 					<tr>
-	// 						<td colspan="2" style="color:#000; padding-left:5px; font-size:14px">
-	// 							<strong>'.$_SESSION['ws-tags']['ws-user']['full_name'].'</strong>, '.MENUTAG_CTRSHAREMAILTITLE1.'.
-	// 							<div style="padding-left: 50px; padding-top: 3px; float: right;width: 155px; color: #075C7F; height: 22px; border: 1px solid #075C7F; border-radius: 5px; background-color: #AFE6FD">
-	// 									<a style="font-weight: bold; color:#075C7F; font-size:12px; text-decoration: none" href="'.$linkTag.'">'.MENUTAG_CTRSHAREMAILTITLE2.'</a>.
-	// 							</div>
-	// 						</td>
-	// 					</tr>
-	// 					'.$trMsj.'
-	// 					<tr>
-	// 					<td>&nbsp;</td>
-
-	// 					</tr>
-	// 					<tr>
-	// 						<td valign="top">
-	// 							<p>&nbsp;</p>
-	// 							<p>&nbsp;</p>
-	// 							<p><a href="'.$linkTag.'" target="_blank"><img src="'.$imgTag.'"></a></p>
-	// 							<p>&nbsp;</p>
-	// 							<p>&nbsp;</p>
-	// 						</td>
-	// 					<tr>
-	// 						<td><img src="'.$iconoSpon.'" width="16" height="16" border="0" />&nbsp;'.SPONSORTAG_TITLELISPRICEPUBLICITY.'</td>
-	// 					</tr>
-	// 					<tr>
-	// 						<td>
-	// 							<p>&nbsp;</p>
-	// 							'.showPreferencesMailOthers($sendDataPublicity).'
-	// 							<p>&nbsp;</p>
-	// 						</td>
-	// 					</tr>
-	// 				</table>
-	// 				</div>
-	// 				<br/><br/>
-	// 				<div align="center"style="color:#fff; padding-left:5px; text-align:center">'.
-	// 					(isset($device) ? 'This tag have been sent using my '.$device : '').'<br/>'.
-	// 					MENUTAG_CTRSHAREMAILTITLE3.': <a style="color:#fff" href="'.$linkTag.'">'.DOMINIO.'</a>'.
-	// 				'</div>
-	// 			';
-	// 			//envio del correo
-	// 			sendMail(formatMail($body, "790"), EMAIL_NO_RESPONDA, "Tagbum.com", MENUTAG_CTRSHAREMAILASUNTO, $per, "../../");
-	// 			$correos .= "-&nbsp;".$per.".<br/>";
-	// 		}//if per
-	// 	}//foreach
-	// }
-	// //echo $body;
-	// echo (($correos!="")?'<div class="div_exito"><strong>'.MENUTAG_CTRSHAREMAILEXITO.":</strong></div><br><br> ".$correos : '<div class="div_error">'.MENUTAG_CTRSHAREMAILERROR.'</div>');
-}
-
 ?>
