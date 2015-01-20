@@ -1121,7 +1121,7 @@ function shareTag(titulo,get){
 					console.log('aqui');
 					for(var i=0;i<mails.length;i++){
 						if (band && mails[i]!=""){console.log(i)
-							if (!validaText('email',mails[i]) && !validaText('md5',mails[i])) band=false;
+							if (!validaText('md5',mails[i]) && !validaText('email',mails[i])) band=false;
 							// if (validaText('md5',mails[i])) {
 								console.log('good '+i+' - '+mails[i]);	
 							
