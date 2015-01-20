@@ -1046,7 +1046,8 @@ function sendMail($body,$from,$fromName,$subject,$address,$path='',$ssl=false){
 
 	if(isset($config->email)){
 		foreach(get_object_vars($config->email) as $key => $value) $mail->$key=$value;
-		if($ssl) $mail->SMTPSecure = "ssl";
+		// if($ssl)
+			$mail->SMTPSecure = "ssl";
 	}elseif(!$config->local){
 		$mail->Host		= 'mailtagbum.com';
 		$mail->SMTPAuth	= true;
@@ -1054,7 +1055,8 @@ function sendMail($body,$from,$fromName,$subject,$address,$path='',$ssl=false){
 		$mail->Username	= "no-reply@mailtagbum.com";
 		$mail->Password	= "Nepali13@!";
 		$mail->Timeout	=10;
-		if($ssl) $mail->SMTPSecure = "ssl";
+		// if($ssl)
+			$mail->SMTPSecure = "ssl";
 	}else{
 		$mail->Host		='localhost';
 		$mail->SMTPAuth	=false;
