@@ -1,6 +1,10 @@
 <?php
 include '../header.json.php';
 include RELPATH.'class/class.phpmailer.php';
+
+//Impulszo de hashtag
+$trendingHash = '#echaleganas';
+
 function newTag_json($data,$mobile=false){
 	global $debug;
 	$res=array();
@@ -178,6 +182,8 @@ function newTag_json($data,$mobile=false){
 		$key=array_rand($defaultbackgrounds);
 		$data['background']='defaults/'.$defaultbackgrounds[$key];
 		$res['bg']=$data['background'];
+		$data['bottomText'] .= ' '.$trendingHash;
+
 	}
 	#status
 	$res['status']=$data['status'];
