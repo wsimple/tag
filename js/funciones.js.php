@@ -110,7 +110,19 @@ function pageAction(action,data){
 			//console.log(opc[1]);
 			if(!opc[1]) $hide.add(this);
 			capa=[$loader,$hide,$show,$tag];
-			console.log(capa);
+			var $dislikes=capa[3].find('#numDislikes'),$likes=capa[3].find('#numLikes');
+			//console.log([$dislikes[0],$likes[0]]);
+			// capa[3].find('.tag-counts #dislikeIcon+span').html(data.split('|')[0]);
+			// capa[3].find('.tag-counts #likeIcon+span').html(data.split('|')[1]);
+
+			// if($dislikes.length>0) $dislikes.html(data.split('|')[0]);
+			// if($likes.length>0) $likes.html(data.split('|')[1]);
+			if(capa[0].length>0) $(capa[0]).hide();
+			if(capa[1].length>0)
+				$(capa[1]).fadeOut('slow',function(){
+					if(capa[2].length>0) $(capa[2]).css('display','');
+				});
+			else if(capa[2].length>0) $(capa[2]).css('display','');
 			send_ajax('controls/tags/actionsTags.controls.php?action=4&news=1&tag='+opc[0]+'&current=timeLine',capa,8,'html');
 			$('[tag="'+opc[0]+'"] #dislike').prop('disabled',false);
 		break;
@@ -123,7 +135,12 @@ function pageAction(action,data){
 			$tag=$('[tag="'+opc[0]+'"]');
 			if(!opc[1])$hide.add(this);
 			capa=[$loader,$hide,$show,$tag];
-			//console.log(capa);
+			if(capa[0].length>0) $(capa[0]).hide();
+			if(capa[1].length>0)
+				$(capa[1]).fadeOut('slow',function(){
+					if(capa[2].length>0) $(capa[2]).css('display','');
+				});
+			else if(capa[2].length>0) $(capa[2]).css('display','');
 			send_ajax('controls/tags/actionsTags.controls.php?action=11&news=1&tag='+opc[0]+'&current=timeLine',capa,8,'html');
 			$('[tag="'+opc[0]+'"] #like').prop('disabled',false);
 		break;
@@ -1166,15 +1183,15 @@ function send_ajax(url,capa,mode,data_type){
 					capa[3].find('.tag-counts #dislikeIcon+span').html(data.split('|')[0]);
 					capa[3].find('.tag-counts #likeIcon+span').html(data.split('|')[1]);
 
-					if($dislikes.length>0) $dislikes.html(data.split('|')[0]);
-					if($likes.length>0) $likes.html(data.split('|')[1]);
-					if(capa[0].length>0) $(capa[0]).hide();
-					if(capa[1].length>0)
-						$(capa[1]).fadeOut('slow',function(){
-							if(capa[2].length>0) $(capa[2]).css('display','');//.fadeIn('slow');
-						});
-					else
-						if(capa[2].length>0) $(capa[2]).css('display','');//.fadeIn('slow');
+					// if($dislikes.length>0) $dislikes.html(data.split('|')[0]);
+					// if($likes.length>0) $likes.html(data.split('|')[1]);
+					// if(capa[0].length>0) $(capa[0]).hide();
+					// if(capa[1].length>0)
+					// 	$(capa[1]).fadeOut('slow',function(){
+					// 		if(capa[2].length>0) $(capa[2]).css('display','');//.fadeIn('slow');
+					// 	});
+					// else
+					// 	if(capa[2].length>0) $(capa[2]).css('display','');//.fadeIn('slow');
 				break;
 				case 10://0-inmediate hide (loader), 1-fadeout, 2-fadein
 					$(capa[0]).hide();
