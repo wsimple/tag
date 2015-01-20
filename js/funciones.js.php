@@ -385,6 +385,7 @@ function validateForm(Input){
 }
 
 function validaText(tipo,value){
+	$.debug().log('validatext: tipo=',tipo,',valor=',value);
 	value=value||'';
 	var regex=/./;
 	switch(tipo){
@@ -407,7 +408,10 @@ function validaText(tipo,value){
 							regex=<?=regex('video')?>;	//if(value.match(regex))value=value.replace(regex,'http://$1');
 		break;
 	}
-	return value.match(regex);
+	$.debug().log('regex:',regex);
+	var valid=!!value.match(regex);
+	$.debug().log('valido:',valid);
+	return valid;
 }
 
 function validaImagen(imagen){
