@@ -247,7 +247,7 @@
 					<div id="sponsor_msgerror">	<?=SPONSORTAG_SPANERROR?>	</div>
 					<div id="sponsor_msgerror2"><?=SPONSORTAG_SPANERROR2?>	</div>
 					<div id="sponsor_msgerror3"><?=SPONSORTAG_SPANERROR3?>	</div>
-					<div id="sponsor_msgerror4">dimensiones malas</div>
+					<div id="sponsor_msgerror4"><?=SPONSORTAG_IMGTOPSBANNERS?></div>
 				</td>
 			</tr>
 			<tr>
