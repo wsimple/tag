@@ -24,7 +24,7 @@ function formatMail ($body,$width=800){
 							<td></td>
 							<td background="'.$GLOBALS['config']->main_server.'css/tbum/email/bg_logo.png" id="head-logo" style="text-align:right;padding-top:15px;padding-right:15px;">
 								<table style="width: 100%;"><tr>
-									<td><a href="'.$GLOBALS['config']->main_server.'" target="blank"><img src="'.$GLOBALS['config']->main_server.'css/tbum/email/tagbumlogo_1.png" style="border:none; margin: 40px;height:100px;width:85px;" alt="tagbum.com"></a></td>
+									<td align="left"><a href="'.$GLOBALS['config']->main_server.'" target="blank"><img src="'.$GLOBALS['config']->main_server.'css/tbum/email/tagbumlogo_1.png" style="border:none; margin: 40px;height:100px;width:85px;" alt="tagbum.com"></a></td>
 									<td align="right"><a href="'.$GLOBALS['config']->main_server.'" target="blank"><img src="'.$GLOBALS['config']->main_server.'css/tbum/email/tagbumlogo_2.png" style="border:none;margin:40px;height:100px;width:180px" alt="tagbum.com"></a></td>
 								</tr></table>
 							</td>
@@ -189,10 +189,10 @@ function showInfoUser($id=''){
 	}
 	$foto_remitente=FILESERVER.getUserPicture("img/users/".$array['code']."/".$array['photo'],'img/users/default.png');
     if (trim($array['username'])!='') 
-    	$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.':&nbsp;<a href="'.$GLOBALS['config']->main_server.$array['username'].'"  target="_blank">'.$GLOBALS['config']->main_server.formatoCadena($array['username']).'</a><br>';
-    else $external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.':&nbsp;<a href="'.$GLOBALS['config']->main_server.'user/'.md5($array['id']).'" target="_blank">'.$GLOBALS['config']->main_server.'user/'.md5($array['id']).'</a><br>';
+    	$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.':&nbsp;<a href="'.$GLOBALS['config']->main_server.$array['username'].'"  target="_blank">'.$GLOBALS['config']->main_server.formatoCadena($array['username']).'</a>';
+    else $external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.':&nbsp;<a href="'.$GLOBALS['config']->main_server.'user/'.md5($array['id']).'" target="_blank">'.$GLOBALS['config']->main_server.'user/'.md5($array['id']).'</a>';
     
-    if (trim($array['pais'])!='') $pais=USERS_BROWSERFRIENDSLABELCOUNTRY.':&nbsp;<span>'.$array['pais'].'</span><br/>';
+    if (trim($array['pais'])!='') $pais=USERS_BROWSERFRIENDSLABELCOUNTRY.':&nbsp;<span>'.$array['pais'].'</span>';
     else $pais='';
 	return ('<tr><td><table style="width:100%;">
 				<tr>
@@ -371,7 +371,7 @@ function formatShowGroupsMail($id_group,$tipe,$msj='',$tag=false){
 	                        <td colspan="3" style="padding-top: 25px;">
 	                          	<table style="width:100%;"><tr>
 	                          	<td style="width: 130px;"><img src="'.$groupPhoto.'" style="width:120px;height:80px;border-radius: 8px;-moz-border-radius: 8px; -ms-border-radius: 8px; -o-border-radius: 8px;overflow: hidden;"/></td>
-	                          	<td>
+	                          	<td valign="top" align="left">
 									<div><strong>
 		                          		<img src="'.$GLOBALS['config']->main_server.'css/smt/menu_left/groups.png" alt="Group Icons" width="30" height="30">
 		                          		'.$group['name'].'</strong>
@@ -440,7 +440,7 @@ function formatShowProductMail($id_product,$tipe,$msj=''){
 	                        <td colspan="3" style="padding-top: 25px;">
 	                          	<table style="width:100%;"><tr>
 	                          	<td style="width: 130px;"><img src="'.$productPhoto.'" style="float:left;width: 150px;height: 130px;margin: 10px 10px;"></td>
-	                          	<td valign="top">
+	                          	<td valign="top" align="left">
 									<div style="font-weight: bold;font-size: 16px;">'.PRODUCTS_NAME.': <span style="color: #f57b1a;">'.$product['name'].'</span></div>
 	                          		<div style="font-size: 12px;">'.PRODUCTS_DESCRIPTION.': '.$product['des'].'</div>
 	                          	</td>
