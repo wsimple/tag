@@ -1335,6 +1335,8 @@ function searchAll(dato){
 }
 
 function linkUser(id_user,objet,action){
+	if ($(objet).hasClass('btn-disabled')) $(objet).hide().prev('input[type="button"]').show();
+	else $(objet).hide().next('input[type="button"]').show();
 	action=action*1;//Obliga action a tipo int
 	$.ajax({
 		type	:'GET',
