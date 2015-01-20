@@ -1116,15 +1116,18 @@ function shareTag(titulo,get){
 					console.log(mails.length);
 					console.log('aqui');
 					for(var i=0;i<mails.length;i++){
-						if (band && mails[i]!=""){
+						if (band && mails[i]!=""){console.log(i)
 							if (!validaText('email',mails[i]) && !validaText('md5',mails[i])) band=false;
-							console.log(mails);
+							// if (validaText('md5',mails[i])) {
+								console.log('good '+i+' - '+mails[i]);	
+							
+							
 						}
 					}
 				}else band=false;
 				if (band){
 					var $this=$(this);
-					console.log(mails);
+					console.log('aqui dent');
 					// $.ajax({
 					// 	type:'POST',
 					// 	url:'controls/tags/actionsTags.controls.php?'+get+'&action=5',
