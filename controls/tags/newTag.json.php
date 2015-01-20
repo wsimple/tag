@@ -2,11 +2,11 @@
 include '../header.json.php';
 include RELPATH.'class/class.phpmailer.php';
 
-//Impulszo de hashtag
-$trendingHash = '#echaleganas';
-
 function newTag_json($data,$mobile=false){
 	global $debug;
+	//Impulszo de hashtag
+	$trendingHash = '#echaleganas';
+
 	$res=array();
 	if($debug){
 		$res['_data_']=$data;
