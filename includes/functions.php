@@ -2120,7 +2120,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 				if(in_array($id_type,array(2,4,8,9,20))){
 					$userEmailAllTag=CON::getRow('
 						SELECT t.id_creator AS idCreator, u.email AS email
-						FROM tags t JOIN users u ON t.id_creator=u.id
+						FROM tags t JOIN users u ON t.id_user=u.id
 						WHERE t.id=?',array($id_source));
 				}
 				switch($id_type){
