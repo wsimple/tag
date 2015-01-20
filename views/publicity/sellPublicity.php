@@ -43,10 +43,10 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#imgTop').css('display', 'none');
+		// $('#imgTop').css('display', 'none');
 		
 	    $("#type_p").change(function() {
-	    	 // console.log($("#type_p").val());
+	    	console.log($("#type_p").val());
 	    	if ($("#type_p").val()==5) {
 	    		 // console.log('dentro '+$("#type_p").val());
 	    		 $('#detailImg').show();
@@ -181,7 +181,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-		$('#imgTop').css('display', 'none');
 		$("#sendPubliData").click(function(){
 			// console.log($("#width").val()+'---'+$("#height").val());
 			var h=''; w='';
@@ -201,8 +200,10 @@
 		});
 
 		$("#cancelPubliData").click(function(){
-			$("#sellpubliUpdate").dialog( "destroy" );
-			$("#sellpubliUpdate").dialog( "close" );
+			// $("#sellpubliUpdate").dialog( "destroy" );
+			// $("#sellpubliUpdate").dialog( "close" );
+			// console.log('aqui close');
+			$(this).parents('.ui-dialog-content').dialog( "close" );
 		});
 
 		var options = {
@@ -217,8 +218,8 @@
 						if(data=='3'){
 							showAndHide('sponsor_msgerror3', 'sponsor_msgerror3', 1500, true);
 						}else{
-							$("#sellpubliUpdate").dialog( "destroy" );
-							setTimeout(function(){$("#sellpubliUpdate").dialog("close");}, 500);
+							var close = this;
+							setTimeout(function(){$(close).parents('.ui-dialog-content').dialog( "close" );}, 500);
 							redir('publicity?'+Math.random());
 						}
 
@@ -369,7 +370,7 @@
 					<?php } else {
 						echo "&nbsp;";
 					} ?>
-					<img id="imgTop" src="#"/>
+					<img id="imgTop" src="#" style="display:none;"/>
 					<input type="hidden" id="width"><input type="hidden" id="height">
 				</td>
 				<td>&nbsp;</td>
