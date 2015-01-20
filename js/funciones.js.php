@@ -1092,31 +1092,35 @@ function shareTag(titulo,get){
 		},{
 			text:lang.JS_SEND,
 			click:function(){
+
 				var mails=$('#txtEmails').val(),band=true;
 				if (mails!=""){
 					mails=mails.split(',');
 					console.log(mails.length);
+					console.log('aqui');
 					for(var i=0;i<mails.length;i++){
 						if (band && mails[i]!=""){
 							if (!validaText('email',mails[i]) && !validaText('md5',mails[i])) band=false;
+							console.log(mails);
 						}
 					}
 				}else band=false;
 				if (band){
 					var $this=$(this);
-					$.ajax({
-						type:'POST',
-						url:'controls/tags/actionsTags.controls.php?'+get+'&action=5',
-						data:{mails:mails.join(),msj:$('#txtMsgMail').val()},
-						dataType:'text',
-						success:function(data){
-							$('button').hide();
-							$('#share_tag').html(data);
-							setTimeout(function(){//alert(data);
-								$this.dialog('close');
-							},1500);
-						}
-					});
+					console.log(mails);
+					// $.ajax({
+					// 	type:'POST',
+					// 	url:'controls/tags/actionsTags.controls.php?'+get+'&action=5',
+					// 	data:{mails:mails.join(),msj:$('#txtMsgMail').val()},
+					// 	dataType:'text',
+					// 	success:function(data){
+					// 		$('button').hide();
+					// 		$('#share_tag').html(data);
+					// 		setTimeout(function(){//alert(data);
+					// 			$this.dialog('close');
+					// 		},1500);
+					// 	}
+					// });
 				}else message('nouserprivate', '<?=$lang["PUBLICITY_LBLMESAGGE"]?>', '<?=$lang["NEWTAG_MSGERRORPRIVATETAG"]?>');
 			}
 		}]
@@ -1860,7 +1864,6 @@ function UserLikedOrRaffle(obj,act,sou){
 
 function sellPublicityUpdate(url_vista, titulo, edit) {
 	$.dialog({
-		id:"sellpubliUpdate",
 		title:titulo,
 		resizable:false,
 		width:500,
@@ -1876,7 +1879,6 @@ function sellPublicityUpdate(url_vista, titulo, edit) {
 
 function sellPublicity(url_vista,titulo,edit){
 	$.dialog({
-		id:"messages",
 		title: titulo,
 		resizable: false,
 		width: 500,
