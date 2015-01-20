@@ -107,7 +107,8 @@ function getFriendsList($userid,$time) {
 	$user_table=TABLE_PREFIX.DB_USERTABLE;
 	$friends=TABLE_PREFIX.'friends';
 	$values="$user_table.".DB_USERTABLE_USERID." userid, $user_table.".DB_USERTABLE_NAME." username, ".DB_USERTABLE_USERLINK." link, ".DB_AVATARFIELD." avatar, cometchat_status.lastactivity lastactivity, cometchat_status.status, cometchat_status.message, cometchat_status.isdevice";
-	$order='order by username asc';
+	$order='order by status, lastactivity, username asc';
+	$limit='limit 50';
 	$join="left join cometchat_status on $user_table.".DB_USERTABLE_USERID." = cometchat_status.userid ".DB_AVATARTABLE;
 	$sql = ("select DISTINCT $values
 		from $friends join $user_table on $friends.toid = $user_table.".DB_USERTABLE_USERID." $join
@@ -117,14 +118,14 @@ function getFriendsList($userid,$time) {
 	$friends=TABLE_PREFIX.'users_links';
 	$join=" join $friends f on f.id_user=$user_table.id $join ";
 	$where="f.is_friend AND f.id_friend = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'";
-	$sql = ("select DISTINCT $values from $user_table $join where $where $order");
+	$sql = ("select DISTINCT $values from $user_table $join where $where $order $limit");
 	#end tag
 	if ((defined('MEMCACHE') && MEMCACHE <> 0) || DISPLAY_ALL_USERS == 1) {
 		$offlinecondition = '';
 		if ($hideOffline) {
 			$offlinecondition = "AND ((cometchat_status.lastactivity > (".mysqli_real_escape_string($GLOBALS['dbh'],$time)."-".((ONLINE_TIMEOUT)*2).")) OR cometchat_status.isdevice = 1) and (cometchat_status.status IS NULL OR cometchat_status.status <> 'invisible' OR cometchat_status.status <> 'offline')";
 		}
-		$sql = ("select DISTINCT $values from $user_table $join where $where $offlinecondition $order");
+		$sql = ("select DISTINCT $values from $user_table $join where $where $offlinecondition $order $limit");
 	}
 	return $sql;
 }
