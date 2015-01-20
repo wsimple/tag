@@ -1114,37 +1114,37 @@ function shareTag(titulo,get){
 			text:lang.JS_SEND,
 			click:function(){
 
-				var mails=$('#txtEmails').val(),band=true;
+				var mails=$('#txtEmails').val(),band=true, gc='',gcf='';
 				if (mails!=""){
 					mails=mails.split(',');
 					console.log(mails.length);
 					console.log('aqui');
 					for(var i=0;i<mails.length;i++){
-						if (band && mails[i]!=""){console.log(i)
-							if (!validaText('md5',mails[i]) && !validaText('email',mails[i])) band=false;
-							// if (validaText('md5',mails[i])) {
-								console.log('good '+i+' - '+mails[i]);	
-							
-							
+						if (band && mails[i]!=""){
+							if (validaText('md5',mails[i]) || validaText('email',mails[i])){
+								gc+=mails[i]+',';
+							} 
 						}
 					}
+					if(gc==''){band=false;}else{gcf=gc.substring(0, gc.length-1);console.log('emails buenos '+gcf);};
 				}else band=false;
 				if (band){
 					var $this=$(this);
-					console.log('aqui dent');
-					// $.ajax({
-					// 	type:'POST',
-					// 	url:'controls/tags/actionsTags.controls.php?'+get+'&action=5',
-					// 	data:{mails:mails.join(),msj:$('#txtMsgMail').val()},
-					// 	dataType:'text',
-					// 	success:function(data){
-					// 		$('button').hide();
-					// 		$('#share_tag').html(data);
-					// 		setTimeout(function(){//alert(data);
-					// 			$this.dialog('close');
-					// 		},1500);
-					// 	}
-					// });
+					console.log('true');
+					$$.ajax({
+						type:'POST',
+						url:'controls/tags/actionsTags.controls.php?'+get+'&action=5',
+						data:{mails:gcf,msj:$('#txtMsgMail').val()},
+						dataType:'text',
+						success:function(data){
+							console.log(data);
+							$('button').hide();
+							$('#share_tag').html(data);
+							setTimeout(function(){//alert(data);
+								$this.dialog('close');
+							},1500);
+						}
+					});
 				}else message('nouserprivate', '<?=$lang["PUBLICITY_LBLMESAGGE"]?>', '<?=$lang["NEWTAG_MSGERRORPRIVATETAG"]?>');
 			}
 		}]
