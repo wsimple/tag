@@ -45,6 +45,13 @@
 	-o-background-size:100% 100%;
 	background-size:100% 100%;
 }
+.ui-page .ui-header .home.left{
+	right: auto;
+	left: 0px;
+	border:none;
+	margin-top:0;
+	box-shadow:0 0 0;
+}
 .ui-page .ui-header .creation{
 	position:absolute;
 	cursor:pointer;
@@ -517,7 +524,7 @@
 }
 .tag-comments li div{ text-align:left; }
 .tag-comments li .text{ height:auto;overflow:hidden; }
-.tag-comments li .seemore{
+.tag-comments li .this_seemore{
 	display:none;
 	/*color:#F58220;*/
 	font-size:11px;
@@ -529,7 +536,7 @@
 .tag-comments li.more div p:not(.short){display:none;}
 .tag-comments li:not(.more) div p.short{display:none;}
 .tag-comments li.more .text{ height:55px; }
-.tag-comments li.more .seemore{ display:block; }
+.tag-comments li.more .this_seemore{ display:block; }
 .tag-comments .ui-li-heading{ margin:5px 0px; }
 .tag-comments .ui-li-desc{
 	width:100%;
@@ -566,7 +573,7 @@
 	height:32px;
 	margin:2px 3px;
 	font-weight:bold;
-	color:#F82;
+	color:#F57133;
 	background-position:50% 50%;
 	background-repeat:no-repeat !important;
 	
@@ -1103,7 +1110,7 @@ loader.s32,.loader.s32{
 .needed,.single,.enterp,.pullDownLabel,.pullUpLabel,.is-logged{}
 
 #userPoints{
-	background:#77c574;
+	background:#03A993;
 	height:15px;
 	font-size:13px;
 	padding: 3px 10px;
@@ -1128,7 +1135,7 @@ loader.s32,.loader.s32{
 
 .ui-box-login .title{
 	/*background-color:#F5CD37;*/
-	background-color: #f82;
+	background-color: #F57133;
 	color:#fff;
 	font-size:11px;
 	font-weight:normal;
@@ -1217,7 +1224,7 @@ loader.s32,.loader.s32{
 	padding:10px 0 0 8px;
 	font-size:14px;
 	font-weight:bold;
-	color:#f82;
+	color:#F57133;
 }
 
 #infoList #descripProduct{
@@ -1257,7 +1264,7 @@ loader.s32,.loader.s32{
 	word-wrap:break-word;
 	float:left;
 	padding:0 0 0 10px;
-	color:#F82;
+	color:#F57133;
 }
 
 #infoListShopping li #content #midleDescription #trashShoppingCart{
@@ -1380,7 +1387,7 @@ loader.s32,.loader.s32{
 #infoDetails #idProductContent div{ font-weight:bold; }
 #infoDetails #idProductContent #title{
 	font-size:18px;
-	color:#F82;
+	color:#F57133;
 }
 #infoDetails #idProductContent #CateSub{
 	font-size:12px;
@@ -1394,7 +1401,7 @@ loader.s32,.loader.s32{
 #infoDetails #idProductContent #priceApp #points{
 	font-weight:bold;
 	padding-left:5px;
-	color:#F82;
+	color:#F57133;
 }
 #infoDetails #idProductContent #seller{
 	font-weight:bold;
@@ -1404,7 +1411,7 @@ loader.s32,.loader.s32{
 
 }
 #infoDetails #idProductContent #user{
-	color:#F82;
+	color:#F57133;
 	float:right;
 	margin-bottom:15px;
 	width:100%;
@@ -1637,7 +1644,7 @@ input.password-field {
 	text-overflow:ellipsis;
 	overflow:hidden;
 	font-size:11px;
-	color:#f82;
+	color:#F57133;
 	-webkit-border-radius:0.3085em;
 	-moz-border-radius:0.3085em;
 	border-radius:0.3085em;
@@ -1658,7 +1665,7 @@ input.password-field {
 
 .tag-container [tag] menu div#hashTashMenu span a{
 	text-decoration:none;
-	color:#f82;
+	color:#F57133;
 	background:none
 }
 .tag-container [tag] menu div#hashTashMenu span a:hover{
@@ -1856,7 +1863,7 @@ input.password-field {
 	text-align: center;
 	font-weight: bold;
 	margin: 5px auto;
-	background: #77c574;
+	background: #03A993;
 	color: #fff;
 	padding: 4px 0;
 }
