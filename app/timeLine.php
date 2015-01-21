@@ -87,7 +87,7 @@
 				$('.ui-page-active .ui-title').html(lang.TIMELINE_TITLE);
 
 				actionsTags(opc.layer);
-				
+				$(opc.layer)
                 $wrapper.ptrScroll({
 					onPullDown:function(){
 						updateTags('reload',opc);

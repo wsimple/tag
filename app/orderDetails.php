@@ -50,9 +50,9 @@
 								outDeTitle ='<div>'+lang.STORE_SHOPPING_DETAILS+'<div>';
 								details = data['datosOrder'][0];
 
-								outDeOrder ='<div>'+lang.STORE_SHOPPING_NUMORDER+': <span style="color:#F82">'+details['id_order']+'</span> <span style="float:right; padding-right:15px">Fecha: <span style="color:#F82">'+data['orderDate']+'</span></span><div>'+
-											'<div>'+lang.STORE_SHOPPING_TOTAL+' <span style="color:#F82">'+data['nproduct']+'</span><div>'+
-											'<div>'+lang.STORE_SHOPPING_TOTAL_PRODUCTS+' <span style="color:#F82">'+data['total']+'</span><div><br>';
+								outDeOrder ='<div>'+lang.STORE_SHOPPING_NUMORDER+': <span style="color:#F57133">'+details['id_order']+'</span> <span style="float:right; padding-right:15px">Fecha: <span style="color:#F57133">'+data['orderDate']+'</span></span><div>'+
+											'<div>'+lang.STORE_SHOPPING_TOTAL+' <span style="color:#F57133">'+data['nproduct']+'</span><div>'+
+											'<div>'+lang.STORE_SHOPPING_TOTAL_PRODUCTS+' <span style="color:#F57133">'+data['total']+'</span><div><br>';
 
 								$(detailstitle).html(outDeTitle);
 								$(detailsOrder).html(outDeOrder);

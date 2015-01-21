@@ -1113,29 +1113,36 @@ function shareTag(titulo,get){
 		},{
 			text:lang.JS_SEND,
 			click:function(){
-				var mails=$('#txtEmails').val(),band=true;
+
+				var mails=$('#txtEmails').val(),band=true, gc='',gcf='';
 				if (mails!=""){
 					mails=mails.split(',');
 					console.log(mails.length);
+					console.log('aqui');
 					for(var i=0;i<mails.length;i++){
 						if (band && mails[i]!=""){
-							if (!validaText('email',mails[i]) && !validaText('md5',mails[i])) band=false;
+							if (validaText('md5',mails[i]) || validaText('email',mails[i])){
+								gc+=mails[i]+',';
+							} 
 						}
 					}
+					if(gc==''){band=false;}else{gcf=gc.substring(0, gc.length-1);console.log('emails buenos '+gcf);};
 				}else band=false;
 				if (band){
 					var $this=$(this);
-					$.ajax({
+					console.log('true');
+					$$.ajax({
 						type:'POST',
 						url:'controls/tags/actionsTags.controls.php?'+get+'&action=5',
-						data:{mails:mails.join(),msj:$('#txtMsgMail').val()},
+						data:{mails:gcf,msj:$('#txtMsgMail').val()},
 						dataType:'text',
 						success:function(data){
+							console.log(data);
 							$('button').hide();
 							$('#share_tag').html(data);
 							setTimeout(function(){//alert(data);
 								$this.dialog('close');
-							},1500);
+							},2000);
 						}
 					});
 				}else message('nouserprivate', '<?=$lang["PUBLICITY_LBLMESAGGE"]?>', '<?=$lang["NEWTAG_MSGERRORPRIVATETAG"]?>');
@@ -1335,6 +1342,8 @@ function searchAll(dato){
 }
 
 function linkUser(id_user,objet,action){
+	if ($(objet).hasClass('btn-disabled')) $(objet).hide().prev('input[type="button"]').show();
+	else $(objet).hide().next('input[type="button"]').show();
 	action=action*1;//Obliga action a tipo int
 	$.ajax({
 		type	:'GET',
@@ -1881,7 +1890,6 @@ function UserLikedOrRaffle(obj,act,sou){
 
 function sellPublicityUpdate(url_vista, titulo, edit) {
 	$.dialog({
-		id:"sellpubliUpdate",
 		title:titulo,
 		resizable:false,
 		width:500,
@@ -1897,7 +1905,6 @@ function sellPublicityUpdate(url_vista, titulo, edit) {
 
 function sellPublicity(url_vista,titulo,edit){
 	$.dialog({
-		id:"messages",
 		title: titulo,
 		resizable: false,
 		width: 500,

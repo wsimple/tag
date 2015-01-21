@@ -39,7 +39,7 @@
 			'navigationPosition':'right',
 			'navigationColor':'#000',
 			'navigationTooltips':[],
-			'controlArrowColor':'#f82',
+			'controlArrowColor':'#F57133',
 			'controlArrowUrl':'url("tbum/orange_arrow_left.png") no-repeat',
 			'loopBottom':false,
 			'loopTop':false,
