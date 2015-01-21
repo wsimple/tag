@@ -4799,9 +4799,10 @@ input:focus+span.help_info+div{
 	-o-border-radius:5px;
 	-ms-border-radius:5px;
 	-webkit-border-radius:5px;
-	top:-24PX;
+	top:-24px;
 	left:295px;
 	float:left;
+	background-color: #fff;
 }
 #frmProfile_ .messageHelp{
 	top:-25PX;
