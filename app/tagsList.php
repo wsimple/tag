@@ -1,8 +1,6 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-tagsList" data-role="page" data-cache="false" class="smt-no-scroll no-footer">
-	<div data-role="header" data-position="fixed" data-theme="f">
-		<a id="buttonBack" data-icon="arrow-l"></a>
-		<h1 id="pageTitle"></h1>
+	<div data-role="header" data-position="fixed" data-theme="f"><h1 id="pageTitle"></h1>
 		<a id="btnAddTag" data-icon="check" style="display:none;">&nbsp;</a>
 	</div>
 	<div data-role="content" style="background-color:#fff;">
@@ -45,6 +43,7 @@
 	<script>
 		pageShow({
 			id:'#page-tagsList',
+			buttons:{homeLeft:true},
 			before:function(){
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);

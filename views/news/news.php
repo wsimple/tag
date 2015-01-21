@@ -71,7 +71,7 @@ $(function() {
 	                    else {action=''; }
 						if(usr[i]['photo']) 
 							imgs=imgs||('<div'+action+'  class="usr-pic" style="background-image:url('+usr[i]['photo']+');width:30px;height:30px;"'+'"></div>');
-						usrs+='<span'+(action?action+' style="color: #77c574;"':'')+' >'+usr[i]['name']+'</span>';
+						usrs+='<span'+(action?action+' style="color: #03A993;"':'')+' >'+usr[i]['name']+'</span>';
 					}
 					action=null;
 				}
@@ -129,7 +129,7 @@ $(function() {
 	                                                friends:friends[1],
 													num:info['num_friends'],
 													txt:data['txt'],
-													tag:'<span'+(ac?ac+' style="color: #77c574;"':'')+'>[_TAG_]</span>'
+													tag:'<span'+(ac?ac+' style="color: #03A993;"':'')+'>[_TAG_]</span>'
 												});
 												out+=newsFormat(d);										
 										break;
@@ -152,7 +152,7 @@ $(function() {
 												people:people[1],
 												num:info['num_friends'],
 												txt:data['txt'],
-												prod:'<span '+ac+' style="color: #77c574;">[_PROD_]</span>'
+												prod:'<span '+ac+' style="color: #03A993;">[_PROD_]</span>'
 											});
 											out+=newsFormat(d);
 										break;

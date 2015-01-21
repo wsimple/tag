@@ -54,9 +54,9 @@ if ($acceso){  ?>
 		<!-- mensaje superior -->
 		<div id="inputShortMessage" style="position: absolute; top: 41px; left: 115px; z-index: 999999;">
 			<div>
-				<input name="txtMsg" id="txtMsg" type="text" class="tag-text" placeholder="<?=NEWTAG_LBLTEXT?>" value="<?=$tag['text']?>" style="border: dashed #222 1px; color:#F82"/>
+				<input name="txtMsg" id="txtMsg" type="text" class="tag-text" placeholder="<?=NEWTAG_LBLTEXT?>" value="<?=$tag['text']?>" style="border: dashed #222 1px; color:#F57133"/>
 					<div class="colorpickerDiv" style="position: absolute;top: 6px;left: 410px;">
-						<input style="width: 33px;border: none;height: 28px;" type="text" id="hiddenColor" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor" value="<?=$tag['color_code']?$tag['color_code']:'#F82'?>" class="colorBG" />
+						<input style="width: 33px;border: none;height: 28px;" type="text" id="hiddenColor" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor" value="<?=$tag['color_code']?$tag['color_code']:'#F57133'?>" class="colorBG" />
 						<div id="hiddenColorDiv"></div>
 					</div>
 			</div>
@@ -68,9 +68,9 @@ if ($acceso){  ?>
 		<!-- mensaje corto -->
 		<div id="inputCode" style="position: absolute; top: 96px; left: 43px; z-index: 999989;">
 			<div>
-				<input name="txtCodeNumber" id="txtCodeNumber" type="text" class="tag-text" value="<?=$tag['code_number']?>" placeholder="<?=NEWTAG_LBLCODENUMBER?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?> style="border: dashed #222 1px;color:#77c574;font-size: 71px;height:71px;width: 524px;font-weight: normal;"/>
+				<input name="txtCodeNumber" id="txtCodeNumber" type="text" class="tag-text" value="<?=$tag['code_number']?>" placeholder="<?=NEWTAG_LBLCODENUMBER?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?> style="border: dashed #222 1px;color:#03A993;font-size: 71px;height:71px;width: 524px;font-weight: normal;"/>
 				<div class="colorpickerDiv" style="position: absolute;top: -4px;left: 485px;">
-					<input style="border: none" type="text" id="hiddenColor2" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor2" value="<?=$tag['color_code2']?$tag['color_code2']:'#77c574'?>" class="colorBG" />
+					<input style="border: none" type="text" id="hiddenColor2" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor2" value="<?=$tag['color_code2']?$tag['color_code2']:'#03A993'?>" class="colorBG" />
 					<div id="hiddenColorDiv2"></div>
 				</div>
 			</div>
