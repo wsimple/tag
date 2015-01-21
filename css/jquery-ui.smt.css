@@ -81,7 +81,7 @@ button.smt-button::-moz-focus-inner{ border:0;padding:0; }/*reset extra padding 
 .ui-widget-header{
 	border:1px solid #EE6403;
 	background:#f6a828 url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
-	background:#f82;
+	background:#F57133;
 	color:#fff;
 	font-weight:bold;
 }

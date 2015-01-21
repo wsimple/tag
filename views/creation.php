@@ -54,9 +54,9 @@ if ($acceso){  ?>
 		<!-- mensaje superior -->
 		<div id="inputShortMessage" style="position: absolute; top: 41px; left: 115px; z-index: 999999;">
 			<div>
-				<input name="txtMsg" id="txtMsg" type="text" class="tag-text" placeholder="<?=NEWTAG_LBLTEXT?>" value="<?=$tag['text']?>" style="border: dashed #222 1px; color:#F82"/>
+				<input name="txtMsg" id="txtMsg" type="text" class="tag-text" placeholder="<?=NEWTAG_LBLTEXT?>" value="<?=$tag['text']?>" style="border: dashed #222 1px; color:#F57133"/>
 					<div class="colorpickerDiv" style="position: absolute;top: 6px;left: 410px;">
-						<input style="width: 33px;border: none;height: 28px;" type="text" id="hiddenColor" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor" value="<?=$tag['color_code']?$tag['color_code']:'#F82'?>" class="colorBG" />
+						<input style="width: 33px;border: none;height: 28px;" type="text" id="hiddenColor" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor" value="<?=$tag['color_code']?$tag['color_code']:'#F57133'?>" class="colorBG" />
 						<div id="hiddenColorDiv"></div>
 					</div>
 			</div>

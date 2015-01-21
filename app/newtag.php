@@ -245,7 +245,7 @@
 				};
 				//top message
 				$('#divColorPickerTop').colourPicker($.extend({},cpOpc,{
-					color:'#F82',
+					color:'#F57133',
 					colorChange:function(color){
 						$('#topText').css('color',color);
 						$('#topColor').val(color);

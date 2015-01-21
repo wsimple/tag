@@ -335,7 +335,7 @@ page wrapper button,page wrapper input[type="submit"],page wrapper input[type="r
 .btn.btn-success:hover{ background-color:#55a352; }
 .btn.btn-primary{ background-color:#8286c2; }
 .btn.btn-primary:hover{ background-color:#6064a0; }
-.btn.btn-warning{ background-color:#f82; }
+.btn.btn-warning{ background-color:#F57133; }
 .btn.btn-warning:hover{ background-color:#d60; }
 .btn.btn-danger{ background-color:#f32; }
 .btn.btn-danger:hover{ background-color:#d10; }
@@ -1267,7 +1267,7 @@ content.resendEmailPassword input[type='button']{
 	text-overflow:ellipsis;
 	overflow:hidden;
 	font-size:11px;
-	color:#f82;
+	color:#F57133;
 	-webkit-border-radius:0.3085em;
 	-moz-border-radius:0.3085em;
 	border-radius:0.3085em;
@@ -1364,7 +1364,7 @@ content.resendEmailPassword input[type='button']{
 	display:none;
 	font-weight:bold;
 	font-size:13px;
-	border:1px solid #f82;
+	border:1px solid #F57133;
 	-webkit-border-radius:6px;
 	-moz-border-radius:6px;
 	-ms-border-radius:6px;
@@ -1388,7 +1388,7 @@ content.resendEmailPassword input[type='button']{
 
 .tag-container [tag] menu div#hashTashMenu span a{
 	text-decoration:none;
-	color:#f82;
+	color:#F57133;
 	background:none
 }
 .tag-container [tag] menu div#hashTashMenu span a:hover{
@@ -4592,11 +4592,11 @@ height: 150px;}
 }
 #store .detail-box #detailsProduct-Radio .msgParticipa{
 	border-radius:5px;
-	border:1px solid #f82;
+	border:1px solid #F57133;
 	padding:3px 3px;
 	font-size:12px;
 	margin-top:10px;
-	background:#eaeaea;color:#f82
+	background:#eaeaea;color:#F57133
 }
 #store .detail-box.raffle{
 	min-height:250px;
@@ -5134,7 +5134,7 @@ container #pageNews .news-wrapper #news-here div[tipo="30"]{
 #seeMoreSuggest a,#inviteSuggest a{
 	font-size:11px;
 	text-decoration:none;
-	color:#f82;
+	color:#F57133;
 }
 #seeMoreSuggest a:hover,#inviteSuggest a:hover{
 	text-decoration:underline
@@ -5300,7 +5300,7 @@ container #pageNews .news-wrapper #news-here div[tipo="30"]{
 	display:none;
 	font-weight:bold;
 	font-size:13px;
-	border:1px solid #f82;
+	border:1px solid #F57133;
 	border-radius:6px;
 	-moz-border-radius:6px;
 	-o-border-radius:6px;
@@ -5346,7 +5346,7 @@ container #pageNews .news-wrapper #news-here div[tipo="30"]{
 	margin:5px 0;padding:9px 0;font-size:11px;
 }
 #searchAll #msghashclick .hashClick{
-	color:#f82;
+	color:#F57133;
 	text-decoration:underline;
 	cursor:pointer
 }
@@ -5365,7 +5365,7 @@ container #pageNews .news-wrapper #news-here div[tipo="30"]{
 	margin:0 0 0 0
 }
 
-.seemoreSearch{float:right;font-size:12px;color:#f82;cursor:pointer;text-decoration:underline}
+.seemoreSearch{float:right;font-size:12px;color:#F57133;cursor:pointer;text-decoration:underline}
 .seemoreSearch:hover{text-decoration:none;}
 
 #searchAll .group_info .bkgGroup,#tabs-5  .group_info .bkgGroup{
@@ -5886,7 +5886,7 @@ container #pageNews .news-wrapper #news-here div[tipo="30"]{
 .signUpInput .ui-state-hover,.ui-widget-content .ui-state-hover,.ui-widget-header .ui-state-hover{ background:#f72;font-weight:bold;color:#000; }
 
 /*tabs busqueda*/
-#tabs .ui-state-default,.ui-widget-content .ui-state-default,.ui-widget-header .ui-state-default { border:1px solid #fff;font-weight:normal;color:#444444;background-color:#f82; }
+#tabs .ui-state-default,.ui-widget-content .ui-state-default,.ui-widget-header .ui-state-default { border:1px solid #fff;font-weight:normal;color:#444444;background-color:#F57133; }
 #tabs .ui-state-hover a,.ui-state-hover a:hover,.ui-state-hover a:link,.ui-state-hover a:visited { color:#444;text-decoration:none;background-color:#FCB273 }
 #tabs .ui-state-active,.ui-widget-content .ui-state-active,.ui-widget-header .ui-state-active { border:1px solid #fff;background-color:#FFF;font-weight:normal;color:#444; }
 #tabs .ui-state-active a,.ui-state-active a:link,.ui-state-active a:visited { color:#444;text-decoration:none;font-weight:bold}
