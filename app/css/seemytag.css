@@ -1103,7 +1103,7 @@ loader.s32,.loader.s32{
 .needed,.single,.enterp,.pullDownLabel,.pullUpLabel,.is-logged{}
 
 #userPoints{
-	background:#77c574;
+	background:#03A993;
 	height:15px;
 	font-size:13px;
 	padding: 3px 10px;
@@ -1856,7 +1856,7 @@ input.password-field {
 	text-align: center;
 	font-weight: bold;
 	margin: 5px auto;
-	background: #77c574;
+	background: #03A993;
 	color: #fff;
 	padding: 4px 0;
 }
