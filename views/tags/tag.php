@@ -39,7 +39,7 @@
 	</div>
 	<p id="msgTagNologged" <?=!$logged?'style="display:block;"':''?>>
 		<?=TAGS_MSGTAGNOLOGGED?>
-		<strong><a href="<?=base_url('signup')?>" style="color: #f82"><?=SIGNUP_BTNNEXT?></a></strong> o <strong><a href="#" style="color: #f82"><?=MNUUSER_TITLEHOME?></a></strong>.
+		<strong><a href="<?=base_url('signup')?>" style="color: #F57133"><?=SIGNUP_BTNNEXT?></a></strong> o <strong><a href="#" style="color: #F57133"><?=MNUUSER_TITLEHOME?></a></strong>.
 		<?=TAGS_MSGTAGNOLOGGED2?>
 	</p>
 </div>
