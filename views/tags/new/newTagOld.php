@@ -68,7 +68,7 @@ if ($acceso){ ?>
 			<div>
 				<input name="txtMsg" id="txtMsg" type="text" class="tag-text" placeholder="<?=NEWTAG_LBLTEXT?>" value="<?=$tag['text']?>" />
 				<div class="colorpickerDiv">
-					<input type="text" id="hiddenColor" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor" value="<?=$tag['color_code']?$tag['color_code']:'#F82'?>" class="colorBG" />
+					<input type="text" id="hiddenColor" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor" value="<?=$tag['color_code']?$tag['color_code']:'#F57133'?>" class="colorBG" />
 					<div id="hiddenColorDiv"></div>
 					<div class="text font-size3 color-d paddingTop"><?=NEWTAG_FONTCOLOR?></div>
 				</div>

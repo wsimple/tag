@@ -566,7 +566,7 @@
 	height:32px;
 	margin:2px 3px;
 	font-weight:bold;
-	color:#F82;
+	color:#F57133;
 	background-position:50% 50%;
 	background-repeat:no-repeat !important;
 	
@@ -1128,7 +1128,7 @@ loader.s32,.loader.s32{
 
 .ui-box-login .title{
 	/*background-color:#F5CD37;*/
-	background-color: #f82;
+	background-color: #F57133;
 	color:#fff;
 	font-size:11px;
 	font-weight:normal;
@@ -1217,7 +1217,7 @@ loader.s32,.loader.s32{
 	padding:10px 0 0 8px;
 	font-size:14px;
 	font-weight:bold;
-	color:#f82;
+	color:#F57133;
 }
 
 #infoList #descripProduct{
@@ -1257,7 +1257,7 @@ loader.s32,.loader.s32{
 	word-wrap:break-word;
 	float:left;
 	padding:0 0 0 10px;
-	color:#F82;
+	color:#F57133;
 }
 
 #infoListShopping li #content #midleDescription #trashShoppingCart{
@@ -1380,7 +1380,7 @@ loader.s32,.loader.s32{
 #infoDetails #idProductContent div{ font-weight:bold; }
 #infoDetails #idProductContent #title{
 	font-size:18px;
-	color:#F82;
+	color:#F57133;
 }
 #infoDetails #idProductContent #CateSub{
 	font-size:12px;
@@ -1394,7 +1394,7 @@ loader.s32,.loader.s32{
 #infoDetails #idProductContent #priceApp #points{
 	font-weight:bold;
 	padding-left:5px;
-	color:#F82;
+	color:#F57133;
 }
 #infoDetails #idProductContent #seller{
 	font-weight:bold;
@@ -1404,7 +1404,7 @@ loader.s32,.loader.s32{
 
 }
 #infoDetails #idProductContent #user{
-	color:#F82;
+	color:#F57133;
 	float:right;
 	margin-bottom:15px;
 	width:100%;
@@ -1637,7 +1637,7 @@ input.password-field {
 	text-overflow:ellipsis;
 	overflow:hidden;
 	font-size:11px;
-	color:#f82;
+	color:#F57133;
 	-webkit-border-radius:0.3085em;
 	-moz-border-radius:0.3085em;
 	border-radius:0.3085em;
@@ -1658,7 +1658,7 @@ input.password-field {
 
 .tag-container [tag] menu div#hashTashMenu span a{
 	text-decoration:none;
-	color:#f82;
+	color:#F57133;
 	background:none
 }
 .tag-container [tag] menu div#hashTashMenu span a:hover{
