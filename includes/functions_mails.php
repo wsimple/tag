@@ -42,7 +42,7 @@ function formatMail ($body,$width=800){
 						</tr>
 						<tr><td></td><td style="width:100%;border-top:1px #f4f4f4 solid;"></td></tr>
 						<tr>
-							<td></td><td style="width:100%;border:1px #f4f4f4 solid;text-align: center;height: 40px;">'.ucfirst(USERS_DNOTRECEIVEEMAILS).' <a href="'.DOMINIO.base_url('setting?sc=1').'" target="_blank" style="color:#ff8a28;">'.SIGNUP_H5TITLE1.'</a></td>
+							<td></td><td style="width:100%;border:1px #f4f4f4 solid;text-align: center;height: 40px;">'.ucfirst(USERS_DNOTRECEIVEEMAILS).' <a href="'.$GLOBALS['config']->main_server.base_url('setting?sc=1').'" target="_blank" style="color:#ff8a28;">'.SIGNUP_H5TITLE1.'</a></td>
 						</tr>
 						<tr>
 							<td></td>
