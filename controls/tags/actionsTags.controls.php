@@ -94,7 +94,20 @@
 					$array=array('correos'=>'','per'=>$mails,'msj'=>$_POST['msj']);
 					$array=notifications(false,$tag['idTag'],7,false,false,$array);
 				}
-				$msgBox='<div class="div_exito"><strong>'.$lang['MENUTAG_CTRSHAREMAILEXITO'].":</strong></div><br><br> ".$array['correos'];
+				$res = '';
+				for ($i=0; $i < count($mails); $i++) {
+					if (!filter_var($mails[$i], FILTER_VALIDATE_EMAIL)) {
+					   $tag = CON::getRow("SELECT 
+					   							id, email 
+					   					   FROM users 
+					   					   WHERE MD5(id) = ?",$mails[$i]);
+					   $res.= '- '.$tag['email'].'<br>';
+					}else{
+						$res.= '- '.$mails[$i].'<br>';
+					}					
+				}
+				// $msgBox = implode($mails);
+				$msgBox='<div class="div_exito"><strong>'.$lang['MENUTAG_CTRSHAREMAILEXITO'].":</strong></div><br><br> ".$res;
 				if ($array['correos']==="") $msgBox=$_GET['device']? '<div class="div_error">'.$_GET['device'].'<br>'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>':'<div class="div_error">'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>';
 				if (isset($_GET['this_is_app'])){ 
 					if ($array['correos']==="") $pass=false;
