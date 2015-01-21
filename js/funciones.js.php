@@ -1142,7 +1142,7 @@ function shareTag(titulo,get){
 							$('#share_tag').html(data);
 							setTimeout(function(){//alert(data);
 								$this.dialog('close');
-							},1500);
+							},2000);
 						}
 					});
 				}else message('nouserprivate', '<?=$lang["PUBLICITY_LBLMESAGGE"]?>', '<?=$lang["NEWTAG_MSGERRORPRIVATETAG"]?>');
