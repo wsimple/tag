@@ -1,18 +1,8 @@
 <?php
-	include '../includes/config.php';
-	include RELPATH.'includes/session.php';
-	include RELPATH.'includes/functions.php';
-if(!( #validamos si el usuario tiene permitido ingresar a la app
-	preg_match('/ipad|android|ipod|iphone/i',$_SERVER['HTTP_USER_AGENT'])||
-	$_SERVER['SERVER_NAME']=='localhost'||
-	isset($_GET['minify'])||
-	is_debug()
-)){
-	header('Location: ..');
-	die();
-}
-	include RELPATH.'class/wconecta.class.php';
-	include RELPATH.'includes/languages.config.php';
+	if(isset($_COOKIE['_DEBUG_']))
+		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+	else
+		error_reporting(0);
 	//<meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width,height=device-height,target-densitydpi=device-dpi" />
 ?><!DOCTYPE html>
 <html><head>
@@ -20,7 +10,7 @@ if(!( #validamos si el usuario tiene permitido ingresar a la app
 	<link rel="apple-touch-icon" href="css/smt/screen-icon.png"/>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0"/>
 	<meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Tagbum Mobile</title>
 	<link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
 	<link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
@@ -72,6 +62,12 @@ if(!( #validamos si el usuario tiene permitido ingresar a la app
 	<!---------- End facebook ---------->
 	<script src="js/path.js"></script>
 	<script src="js/console.js"></script>
+<?php if(isset($_GET['console'])){ ?>
+	<script>(function(){
+		var console=window.<?=$_GET['console']?>Console||function(){};
+		console();
+	})();</script>
+<?php } ?>
 	<script src="js/device.js"></script>
 	<script src="js/base.js" charset="UTF-8"></script>
 	<script src="js/funciones.js" charset="UTF-8"></script>
