@@ -277,12 +277,12 @@
 				</td>
 			</tr>
 			<?php
-			
-			$type = $GLOBALS['cn']->query("SELECT id, name, status FROM type_publicity");
-
 			$where = (isset($dato['type']))? " WHERE id = '".$dato['type']."' ":" ";
-			$type_Se = $GLOBALS['cn']->query("SELECT id, name, status FROM type_publicity $where");
-			$type_S = mysql_fetch_assoc($type_Se)
+			$type = $GLOBALS['cn']->query("SELECT id, name, status FROM type_publicity $where");
+
+			
+			// $type_Se = $GLOBALS['cn']->query("SELECT id, name, status FROM type_publicity $where");
+			// $type_S = mysql_fetch_assoc($type_Se)
 
 			?>
 			<tr>
@@ -290,13 +290,14 @@
 					(*)&nbsp;<?=PUBLICITY_TYPE?>:&nbsp;<span>(<?=PUBLICITY_TYPELOCATIONPUBLICITY?>)</span>
 				</td>
 			</tr>
+
 			<tr>
 				<td colspan="2">
 					<select name="type_p" id="type_p">
 						<?php while ($typeP = mysql_fetch_assoc($type)) { 
-							$select = ($typeP['name']==$type_S['name']) ? 'selected' : '' ;
+							// $select = ($typeP['name']==$type_S['name']) ? 'selected' : '' ;
 							?>
-							<option value="<?=$typeP['id']?>" <?=$select?>><?=$typeP['name']?></option>
+							<option value="<?=$typeP['id']?>"><?=$typeP['name']?></option>
 						<?php }?>
 							
 					</select>
