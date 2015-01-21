@@ -133,6 +133,8 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 					$('[data-role="header"]',opc.id).last().prepend('<a href="#" data-icon="arrow-l" onclick="goBack()">'+lan('Back')+'</a>');
 				if(opc.homeButton||(opc.buttons&&opc.buttons.home))
 					$('[data-role="header"]',opc.id).last().append('<div class="home" onclick="redir(PAGE[\'home\'])"></div>');
+				if(opc.homeButton||(opc.buttons&&opc.buttons.homeLeft))
+					$('[data-role="header"]',opc.id).last().prepend('<a href="#" class="home left" onclick="redir(PAGE[\'home\'])"></a>');
 				if(opc.creationButton||(opc.buttons&&opc.buttons.creation))
 					$('[data-role="header"]',opc.id).last().append('<div class="creation" onclick="redir(PAGE[\'newtag\'])"></div>');
 				if(typeof opc.before === 'function') opc.before.call(opc);

@@ -45,6 +45,13 @@
 	-o-background-size:100% 100%;
 	background-size:100% 100%;
 }
+.ui-page .ui-header .home.left{
+	right: auto;
+	left: 0px;
+	border:none;
+	margin-top:0;
+	box-shadow:0 0 0;
+}
 .ui-page .ui-header .creation{
 	position:absolute;
 	cursor:pointer;
