@@ -517,7 +517,7 @@
 }
 .tag-comments li div{ text-align:left; }
 .tag-comments li .text{ height:auto;overflow:hidden; }
-.tag-comments li .seemore{
+.tag-comments li .this_seemore{
 	display:none;
 	/*color:#F58220;*/
 	font-size:11px;
@@ -529,7 +529,7 @@
 .tag-comments li.more div p:not(.short){display:none;}
 .tag-comments li:not(.more) div p.short{display:none;}
 .tag-comments li.more .text{ height:55px; }
-.tag-comments li.more .seemore{ display:block; }
+.tag-comments li.more .this_seemore{ display:block; }
 .tag-comments .ui-li-heading{ margin:5px 0px; }
 .tag-comments .ui-li-desc{
 	width:100%;
