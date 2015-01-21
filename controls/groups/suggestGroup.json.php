@@ -89,7 +89,6 @@ if ( quitar_inyect() ){
         						</td>
                             </tr>
                         </table>';
-                $_SESSION['ws-tags']['email']=formatMail($body, "790");
 				//envio del correo
 				if (sendMail(formatMail($body, "790"),EMAIL_NO_RESPONDA,formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.GROUP_EMAILASUNTOSUGGEST, $per, "../../")){
 					$correos .= "-&nbsp;".$per.".<br/>";
