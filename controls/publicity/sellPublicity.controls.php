@@ -268,7 +268,7 @@
 							$save          = 1;
 
 							if( !$_POST[picture] ) {
-								if ($_POST[type_p]==5) {
+								if ($_POST[type_p]!=5) {
 									if( $_FILES[publi_img][error]==0 ) {
 										$imagesAllowed = array('jpg','jpeg','png','gif');
 										$parts         = explode('.', $_FILES[publi_img][name]);
@@ -471,7 +471,7 @@
 												cost_investment		= '".$monto_inversion."',
 												click_max			= '".intval($monto_inversion/$costo[cost])."',
 												click_current		= 0,
-												status				= '1'");
+												status				= '".($_SESSION['ws-tags']['ws-user'][id]=='0' ? '2' : '1')."'");
 
 										// ".($_SESSION['ws-tags']['ws-user'][super_user]=='0' ? '2' : '1')
 
@@ -520,7 +520,7 @@
 											}//in_array	
 										}
 										
-										redirect(RELPATH."publicity");
+										// redirect(RELPATH."publicity");
 
 										//si no es SU, entonces tiene que pagar
 										//( en el INSERT se le asigna el estado a la publicidad, míralo, si tu  )
@@ -530,8 +530,8 @@
 
 											// adPreference($_POST[publi_title]);
 
-											// include ('../../views/pay.view.php');
-											// @header('Location: ../../views/pay.view.php?payAcc=publicity&uid='.$id_publicity);
+											include ('../../views/pay.view.php');
+											@header('Location: ../../views/pay.view.php?payAcc=publicity&uid='.$id_publicity);
 										} else {
 												redirect(RELPATH."publicity");
 										}

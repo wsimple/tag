@@ -20,8 +20,8 @@
 				foreach ($pictures as $bp) {
 					if(fileExistsRemote('img/publicity/banners/'.$bp['picture'])){
 						list($widthImg,$heightImg,$tipoImagen,$atributesImagen)=getimagesize('img/publicity/banners/'.$bp['picture']);
-						if($widthImg>850) $widthImg=840;
-						if($heightImg>200) $heightImg=190;
+						if($widthImg>840) $widthImg=830;
+						if($heightImg>91) $heightImg=90;
 						echo '<div style="background-image:url(img/publicity/banners/'.$bp['picture'].');background-size:'.$widthImg.'px '.$heightImg.'px;" action="banner,'.$banner['link'].','.md5($banner['id_publi']).'">&nbsp;</div>';
 					}elseif( $bp['text'] != '' ){
 						echo '<div class="'.$bp['class'].' font-b bold" action="banner,'.$banner['link'].'">'.$bp['text'].'</div>';
