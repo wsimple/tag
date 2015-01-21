@@ -172,6 +172,10 @@
 						setFollowButton(data['follow']);
 						$follow.fadeIn('slow').click(function(){
 							setFriendsButtons({});
+							$follow.fadeOut('slow', function () {
+								setFollowButton($follow.attr('data-theme')=="e");
+								$follow.fadeIn('slow');
+							});
 							myAjax({
 								type:'GET',
 								url:DOMINIO+'controls/users/follow.json.php?uid='+md5(data['id']),
@@ -181,8 +185,13 @@
 								success:function(data){
 									if(!data['error']){
 										setFriendsButtons(data['friend']);
+										// $follow.fadeOut('slow', function () {
+											// setFollowButton(!data['unlink']);
+											// $follow.fadeIn('slow');
+										// });
+									}else{
 										$follow.fadeOut('slow', function () {
-											setFollowButton(!data['unlink']);//si get esta vacio, se hizo seguidos
+											setFollowButton($follow.attr('data-theme')=="e");
 											$follow.fadeIn('slow');
 										});
 									}
