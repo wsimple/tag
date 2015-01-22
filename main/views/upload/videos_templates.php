@@ -150,6 +150,27 @@
 		background-size: 100% auto;
 		background-position: 0 0;
 	}
+	.upload-panel.tag [role="presentation"] .download.loader{
+		display: block;
+		margin: 5px 300px;
+	}
+	.upload-panel.tag [role="presentation"] .download.loader:after{
+		content: "<?=$lang->get('Loading')?>";
+		margin: 4px 35px;
+		display: inline-block;
+	}
+	.upload-panel.tag [role="presentation"] .download.img.empty,
+	.upload-panel.tag [role="presentation"] .download.video.empty{
+		display: block;
+		text-align:center;
+		margin: 5px auto;
+	}
+	.upload-panel.tag [role="presentation"] .download.video.empty:after{
+		content:"<?=$lang->get('No videos uploaded')?>";
+	}
+	.upload-panel.tag [role="presentation"] .download.img.empty:after{
+		content:"<?=$lang->get('No images uploaded')?>";
+	}
 	.upload-panel .tag-container [tag] button{ padding: 20px 25px; }
 	.displayUpload div[image]{
 		background-image: url('css/tbum/file.png');
@@ -273,11 +294,15 @@
 	</div>
 	<form id="imageList" class="dnone"  method="POST" enctype="multipart/form-data">
 		<!-- The table listing the files available for upload/download -->
-		<div role="presentation" class="files"></div>
+		<div role="presentation" class="files">
+			<div class="template-download template download tag loader tmp"></div>
+		</div>
 	</form>
 	<form id="videoList" class="dnone"  method="POST" enctype="multipart/form-data">
 		<!-- The table listing the files available for upload/download -->
-		<div role="presentation" class="files"></div>
+		<div role="presentation" class="files">
+			<div class="template-download template download tag loader tmp"></div>
+		</div>
 	</form>
 	<!-- <form id="pendingVideoList" class="dnone" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data"> -->
 		<!-- <h3><?=$lang->get('Pending Videos')?></h3> -->
@@ -377,6 +402,9 @@ $(function(){
 		data:img.data
 	}).always(function(){
 		$(this).removeClass('fileupload-processing');
+		$('.files .tmp',this).remove();
+		if($('.files',this).children().length==0)
+			$('#preVideTags .option-cap').first().click();
 	}).done(function(result){
 		$(this).fileupload('option','done')
 			.call(this,$.Event('done'),{result:result});
@@ -391,6 +419,9 @@ $(function(){
 		data:video.data
 	}).always(function(){
 		$(this).removeClass('fileupload-processing');
+		$('.files .tmp',this).remove();
+		if($('.files',this).children().length==0)
+			$('#preVideTags .option-cap').first().click();
 	}).done(function(result){
 		$(this).fileupload('option','done')
 			.call(this,$.Event('done'),{result:result});
@@ -412,11 +443,7 @@ $(function(){
 		cv_running=true;
 		$.ajax({
 			disablebuttons:true,
-<?php if($control->is_debug('convert2')){ ?>
-			url:"<?=$setting->local?'video/test/1':$setting->video_server.'?convert2'?>",
-<?php }else{ ?>
 			url:"<?=$setting->local?'video/test/1':$setting->video_server.'?convert'?>",
-<?php } ?>
 			dataType:'json',
 			type:'post',
 			xhrFields:{withCredentials:true},
@@ -609,8 +636,9 @@ o.get=function(name){
 		return '&code=<?=$client->code?>';
 	}
 };
-
-if(o.files) for(var i=0,file;file=o.files[i];i++){
+if(!o.files||!o.files.length){ %}
+	<div class="template-download template download {%=file.type%} empty"></div>
+{% }else for(var i=0,file;file=o.files[i];i++){
 	file.type=file.name.match(window.img_supported)?'img':(
 		file.name.match(window.vid_supported)?'video':''
 	);
