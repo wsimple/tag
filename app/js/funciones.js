@@ -776,6 +776,9 @@ function actionsTags(layer, forceComments){
 			}
 		});
 	}
+	$(layer).on('click','.this_seemore',function(){
+		$(this).parents('li.more').removeClass('more');
+	});
 }
 function afterAjaxTags(data, tagId, toHide,toShow){
 	//console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
@@ -2170,7 +2173,7 @@ function checkOutShoppingCart(get){
 				'<p>'+comment.comment+'</p>'+
 				(comment.short?'<p class="short">'+comment.short+'</p>':'')+
 			'</div>'+
-			(comment.short?'<div class="seemore">'+lan('see more','ucf')+'</div>':'')+
+			(comment.short?'<div class="this_seemore">'+lan('see more','ucf')+'</div>':'')+
 			'<div class="clearfix"></div>'+
 		'</li>'
 	);}
@@ -2209,7 +2212,7 @@ function checkOutShoppingCart(get){
 					});
 					return;
 				}
-				var head='<li data-role="list-divider">'+lan('Comments')+
+				var head='<li data-role="list-divider" class="a">'+lan('Comments')+
 							'<div id="numDislikes">'+(data.dislikes||0)+'</div>'+
 							'<div id="numLikes">'+(data.likes||0)+'</div>'+
 						'</li>'+
@@ -2230,7 +2233,8 @@ function checkOutShoppingCart(get){
 				opc.date=data.date;
 				opc.start+=len-rep;
 //				console.log(list);
-				$list.find('.ui-li-divider').remove();
+				if(action=='more') $list.find('.ui-li-divider').remove();
+				else $list.find('.ui-li-divider.a').remove();
 				if(action=='reload'){
 					$list.html(list+
 						'<li id="comment-line"><form>'+

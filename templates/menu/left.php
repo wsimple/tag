@@ -75,11 +75,11 @@
 	<header><span><?=MAINMNU_NEWS_TITLE?></span></header>
 	<table width="155" border="0" align="left" cellpadding="0" cellspacing="0" class="tableNews" id="info-container">
 		<tr id="noticeInsertTop" style="display:none;"><td><div class="clearfix"></div></td></tr>
-		<tr id="news-loader" style="font-size:11px;color:#f82;"><td>&nbsp;&nbsp;&nbsp;<?=NEWS_RIGHTSIDE_LOADING?></td></tr>
-		<tr id="NewsInfo" style="font-size:11px;color:#f82;display:none;"><td></td>
-			<td style="padding:10px;"><a style="color: #77c574;" href="<?=base_url('news')?>"><?=INVITEUSERS_LBLVIEWALLSENDTAG?></a></td>
+		<tr id="news-loader" style="font-size:11px;color:#F57133;"><td>&nbsp;&nbsp;&nbsp;<?=NEWS_RIGHTSIDE_LOADING?></td></tr>
+		<tr id="NewsInfo" style="font-size:11px;color:#F57133;display:none;"><td></td>
+			<td style="padding:10px;"><a style="color: #03A993;" href="<?=base_url('news')?>"><?=INVITEUSERS_LBLVIEWALLSENDTAG?></a></td>
 		</tr>
-		<tr id="waitNewsInfo" style="font-size:11px;color:#f82;display:none;text-align: center;">
+		<tr id="waitNewsInfo" style="font-size:11px;color:#F57133;display:none;text-align: center;">
 			<td  colspan="2" style="padding:10px;">&nbsp;&nbsp;&nbsp;<?=NEWS_WAITMESSAGEFRIENDS?></td>
 		</tr>
 	</table>

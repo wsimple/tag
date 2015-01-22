@@ -10,17 +10,18 @@ if(false){ ?><script><?php } ?>
  * SERVERS: contiene los otros servidores (actualmente principal, de imagenes y de videos)
  */
 (function(window){
+	SERVERS={
+		main:'http://tagbum.com/',
+		app:'http://app.tagbum.com/',
+		img:'http://i.tagbum.com',
+		video:'http://v.tagbum.com'
+	};
 <?php if(isset($_GET['minify'])){ ?>
 	LOCAL=true;
 	PRODUCCION=true;
 	// DOMINIO=$.local('host')||'http://tagbum.com/';
 	DOMINIO='http://tagbum.com/';
 	FILESERVER='http://i.tagbum.com/';
-	SERVERS={
-		main:'http://tagbum.com/',
-		img:'http://i.tagbum.com',
-		video:'http://v.tagbum.com'
-	};
 	CORDOVA=true;
 <?php }else{ ?>
 	if(window.location.href.match(/cometchat|chat\.html/i)){
@@ -33,22 +34,17 @@ if(false){ ?><script><?php } ?>
 	}
 	var regex	=/(tagbum)\.com/i,
 		pruebas	='',
-		d		=CORDOVA||window.location.host=='localhost'||(($.local('host')||'').match(regex)),
-		dom		=d?'http://tagbum.com/'+pruebas:'../',
+		d		=window.location.host=='localhost'||(($.local('host')||'').match(regex)),
+		dom		=d?'http://tagbum.com/':'../',
 		prod	=!!(dom.match(regex)||window.location.host.match(regex));
 	LOCAL=dom.match(regex)&&!window.location.host.match(regex);
 	PRODUCCION=prod;
 	DOMINIO=dom;
 	FILESERVER=prod?'http://i.tagbum.com/':'http://68.109.244.201/';
-	SERVERS={
-			main:'http://tagbum.com/',
-			img:'http://i.tagbum.com',
-			video:'http://v.tagbum.com'
-		};
 <?php } ?>
 	PAGE={
 		ini:'index.html',
-		chat:'chat.html',
+		chat:'<?=is_dir('cometchat/extensions')?'cometchat/extensions/mobilewebapp/':'chat.html'?>',
 		detailsproduct:'detailsProduct.html',
 		home:'timeLine.html',
 		findfriends:'findFriends.html',
@@ -81,4 +77,9 @@ if(false){ ?><script><?php } ?>
 		landding:'landding.html',
 		search:'search.html'
 	};
+<?php if(preg_match('/^app\./i',$_SERVER['SERVER_NAME'])){ ?>
+	for(var i in PAGE){
+		PAGE[i]='/'+PAGE[i];
+	}
+<?php } ?>
 })(window);

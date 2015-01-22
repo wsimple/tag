@@ -5,7 +5,10 @@ class TAG_controller extends TAG_functions{
 		$client,$lang;
 	private $echo_data='',$no_method;
 	function __construct($params=array()){
-		include('includes/security/security.php');
+		if(is_file('.security/security.php'))
+			include('.security/security.php');
+		else 
+			include('includes/security/security.php');
 		$this->setting=$config;
 		$this->lib=new stdClass();
 		$this->model=new stdClass();

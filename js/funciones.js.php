@@ -768,7 +768,7 @@ function showCarousel(array,layer){
 (function(window){
 	var on={};
 	window.updateTags=function(action,opc,loader){
-		console.log(opc)
+		$.debug('tag,updateTags').log('updatetags',opc);
 		var act,pBox=(opc.current=='privateTags')?opc.pBox:'',
 			current=opc.current,
 			idsearch=opc.idsearch||'',
@@ -780,10 +780,10 @@ function showCarousel(array,layer){
 			cancel=function(){return !opc.force&&(current==''||opc.current!=current||(action!='reload'&&on['reload']));},//cancel action
 			onca=function(val){if(val!==undefined)on[action]=val;return !opc.force&&on[action];};//on current action
 		if(loader!==false) loader=$(layer).next()[0];
-		$.debug('tag').log('cancel:',cancel(),'onca:',onca());
+		$.debug('tag,updateTags').log('cancel:',cancel(),'onca:',onca());
 		if(cancel()||onca()) return false;
-		$.debug('tag').log('runing updateTags. '+action);
-		$.debug('tag').log(current);
+		$.debug('tag,updateTags').log('runing updateTags. '+action);
+		$.debug('tag,updateTags').log(current);
 		onca(true);
 		if(!opc.actions||action=='reload'){
 			opc.actions={refresh:{},more:{}};
@@ -803,7 +803,7 @@ function showCarousel(array,layer){
 			url:'controls/tags/tagsList.json.php?limit='+limit+'&current='+current+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 			success:function(data){
 				if(cancel()){
-					console.log('Cancelada carga de '+current+'.');
+					$.debug('tag,updateTags').log('Cancelada carga de '+current+'.');
 					return;
 				}
 				if(current=='privateTags'){
@@ -871,7 +871,7 @@ function commentTag(titulo,tag,old){
 			var $this=$(this);
 			$this.load('dialog?pageid=comment&tag='+tag);
 			$this.on('click','[tag] menu [action]',function(){
-				console.log(this.id);
+				$.debug('tag,commentTag').log(this.id);
 				if(this.id!='like'&&this.id!='dislike'&&this.id!='redistr'&&this.id!='trash'){
 					$this.dialog('close');
 				}

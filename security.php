@@ -32,6 +32,8 @@ if($_GET['tipo']!='') $data->tipo=$_GET['tipo'];
 elseif(isset($_GET['main'])) $data->tipo='main';
 elseif(isset($_GET['sec'])) $data->tipo='sec';
 elseif(isset($_GET['local'])) $data->tipo='local';
+
+$data->site_name='Tagbum';
 if($data->tipo){
 	$data->local=($data->tipo=='local');
 	if(isset($_GET['access'])) $data->access=($_GET['access']==''?'tb.php':$_GET['access']).'/';
@@ -54,6 +56,12 @@ if($data->tipo){
 		$data->paypal['pass']='1370289012';
 		$data->paypal['signature']='AFcWxV21C7fd0v3bYYYRCpSSRl31AnHjJMUATq-eeXv1ffnS7Is.Qqg6';
 		$data->paypal['endpoint']='https://api-3t.sandbox.paypal.com/nvp';
+		$data->email['Port']=465;
+		$data->email['Host']='mailtagbum.com';
+		$data->email['Timeout']=10;
+		$data->email['Username']='no-reply@mailtagbum.com';
+		$data->email['Password']="Nepali13@!";
+		$data->email['SMTPAuth']=true;
 
 		$data->imgserver='http://68.109.244.201/';
 		$data->main_server='http://tagbum.com/';

@@ -10,7 +10,6 @@
 <div id="page-timeLine" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
 		<div style="position:absolute;top:0px;left:0;padding:5px 5px;">
-			<!--<a href="<?=base_url('myMenu')?>" style="position:relative;"><span class="btn-menu"></span><span class="push-notifications button" style="display:none;">0</span></a>-->
 			<a href="#" class="showMenu" style="position:relative;"><span class="btn-menu showMenu"></span><span class="push-notifications button" style="display:none;">0</span></a>
 			
 		</div>
@@ -88,7 +87,7 @@
 				$('.ui-page-active .ui-title').html(lang.TIMELINE_TITLE);
 
 				actionsTags(opc.layer);
-				
+				$(opc.layer)
                 $wrapper.ptrScroll({
 					onPullDown:function(){
 						updateTags('reload',opc);
