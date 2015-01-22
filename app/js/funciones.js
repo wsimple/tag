@@ -222,7 +222,7 @@ function readTxt(url){
 			// Menu actions
 			$('body')
 				.on('pagebeforeshow','.ui-page',function(){console.log('beforeshow');hideMenu();})
-				.on('swiperight','.ui-page-active .ui-header',function(){console.log('swipe right');showMenu();})
+				.on('swiperight','.ui-page-active .ui-header',function(){console.log('swipe right');if(isLogged()){showMenu();}})
 				.on('swiperight','.myDialog',function(){console.log('swipe right in dialog');return false;})
 				.on('swipeleft','#menu .overPage',function(){console.log('swipe left');hideMenu();})
 				.on('click','#menu .overPage',function(){console.log('click to hide');hideMenu();})
