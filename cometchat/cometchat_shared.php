@@ -138,7 +138,7 @@ function cometchatMemcacheConnect(){
 		$memcache->addServer(MC_SERVER,MC_PORT);
 		$memcache->setSaslAuthData(MC_USERNAME,MC_PASSWORD);
 	}elseif(MEMCACHE!=0){
-		phpFastCache::setup("path",dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'cache');
+		phpFastCache::setup("path",dirname(__FILE__).DIRECTORY_SEPARATOR.'cache');
 		phpFastCache::setup("storage",MC_NAME);
 		$memcache = phpFastCache();
 	}
@@ -645,7 +645,7 @@ function sendCCResponse($response){
 	ignore_user_abort();
 
 	$useragent = (isset($_SERVER["HTTP_USER_AGENT"])) ? $_SERVER["HTTP_USER_AGENT"] : '';
-	if(phpversion()>='4.0.4pl1'&&(strstr($useragent,'compatible')||strstr($useragent,'Gecko'))){
+	/*if(phpversion()>='4.0.4pl1'&&(strstr($useragent,'compatible')||strstr($useragent,'Gecko'))){
 		if(extension_loaded('zlib')&&GZIP_ENABLED==1 && !in_array('ob_gzhandler', ob_list_handlers())){
 			ob_start('ob_gzhandler');
 		}else{
@@ -653,7 +653,8 @@ function sendCCResponse($response){
 		}
 	}else{
 		ob_start();
-	}
+	}*/
+	ob_start();
 	echo $response;
 
 	$size = ob_get_length();
