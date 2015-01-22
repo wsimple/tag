@@ -124,7 +124,7 @@ switch ($_GET['action']) {
 		}
 		if(!isset($res['num'])) $res['num']=CON::numRows(CON::query("SELECT ul2.id_user FROM users_links ul2 WHERE ".$array['where']));
 		$html='';
-		if($res['num']>0 && !isset($assoc)){ $query=peoples($array); $res['sql']=CON::lastSql(); }
+		if($res['num']>0 && !isset($assoc)){ $query=peoples($array); }
 		elseif(!isset($_GET['nosugg']) && (!isset($_GET['limit'])) && !isset($assoc)){
 			$array['order']='ORDER BY RAND()';
 			$array['join']='';
