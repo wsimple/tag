@@ -14,8 +14,7 @@ switch ($_GET['action']) {
 		$offset = ( isset( $_GET['offset'] ) ) ? $_GET['offset'] : 50;
 		if (!isset($_GET['nolimit'])) $array['limit']=' LIMIT '.$limit.",$offset";
 		else $array['limit']="";
-		$array['select']=',IF(u.id='.$myId.',1,0) AS iAm,
-						ul.id_user AS conocido';
+		$array['select']=',IF(u.id='.$myId.',1,0) AS iAm';
 		$array['order']='ORDER BY u.name, u.last_name';
 		switch ($_GET['mod']) {
 			case 'friends':
@@ -56,11 +55,10 @@ switch ($_GET['action']) {
 			break;
 			case 'find'://encontrar amigos
 				$numAction=3;
-				$array['join']='';
-				$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
-						IF(u.id='.$myId.',1,0) AS iAm,
-						ul.id_user AS conocido';
 				if (isset($_GET['search'])){
+					$array['join']='';
+					$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
+						IF(u.id='.$myId.',1,0) AS iAm';
 					$searches = explode(' ',$_GET['search']);$where='';
 					foreach ($searches as $word) {
 						// AND g.name LIKE ?",array('%'.$hash[0].'%'));
@@ -69,12 +67,16 @@ switch ($_GET['action']) {
 					$array['where']="u.id!=$uid $where";
 					$array['order']='ORDER BY u.username';
 				}else{
-					$array['order']='ORDER BY u.followers_count DESC';
-					$array['where']="u.id!=$uid AND ul.id_friend IS NULL ";
-					if (isset($_POST['no_id_s']) && $_POST['no_id_s']!=''){
-						$array['where'].=' AND u.id NOT IN ('.CON::cleanStrings($_POST['no_id_s']).')';
-						$array['limit']='LIMIT 0,20';
-					}
+					$noId='';$limit=25;
+					if (isset($_POST['no_id_s']) && $_POST['no_id_s']!='') $noId=$_POST['no_id_s'];
+					else $limit=$array['limit'];
+					$assoc=suggestionFriends($noId,$limit);
+					// $array['order']='ORDER BY u.followers_count DESC';
+					// $array['where']="u.id!=$uid AND ul.id_friend IS NULL ";
+					// if (isset($_POST['no_id_s']) && $_POST['no_id_s']!=''){
+					// 	$array['where'].=' AND u.id NOT IN ('.CON::cleanStrings($_POST['no_id_s']).')';
+					// 	$array['limit']='LIMIT 0,20';
+					// }
 				}
 				$filter='';
 				if($_POST['in']){#filtrar inclusion
@@ -122,24 +124,33 @@ switch ($_GET['action']) {
 		}
 		if(!isset($res['num'])) $res['num']=CON::numRows(CON::query("SELECT ul2.id_user FROM users_links ul2 WHERE ".$array['where']));
 		$html='';
-		if($res['num']>0){ $query=peoples($array); }
-		elseif(!isset($_GET['nosugg']) && (!isset($_GET['limit']))){
+		if($res['num']>0 && !isset($assoc)){ $query=peoples($array); }
+		elseif(!isset($_GET['nosugg']) && (!isset($_GET['limit'])) && !isset($assoc)){
 			$array['order']='ORDER BY RAND()';
 			$array['join']='';
 			$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
-						IF(u.id='.$myId.',1,0) AS iAm,
-						ul.id_user AS conocido';
+						IF(u.id='.$myId.',1,0) AS iAm';
 			$array['where']="u.id!=$uid AND u.id NOT IN ((SELECT id_friend FROM users_links WHERE id_user=$uid)) AND u.id NOT IN ((SELECT id_user FROM users_links WHERE id_friend=$uid))";
 			$query=peoples($array);
 			if (CON::numRows($query)>0) $html='<div class="ui-single-box-title">'.HOME_SUGGESTFRIENDS.'</div>';
 		}
 		$info=array();
-		while ($row=CON::fetchAssoc($query)){
-			$row['name_user']=formatoCadena($row['name_user']);
-			$row['photo_friend']=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend'],'img/users/default.png');
-			$info[]=$row;
-			if (isset($_GET['withHtml'])) $html.=htmlfriends($row,$numAction);
-		}
+		if (!isset($assoc))
+			while ($row=CON::fetchAssoc($query)){
+				$row['name_user']=formatoCadena($row['name_user']);
+				$row['photo_friend']=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend'],'img/users/default.png');
+				$info[]=$row;
+				if (isset($_GET['withHtml'])) $html.=htmlfriends($row,$numAction);
+			}
+		else
+			foreach ($assoc as $row) {
+				$row['name_user']=formatoCadena($row['name_user']);
+				$row['photo_friend']=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend'],'img/users/default.png');
+				$row['iAm']='0'; $row['follower']=NULL; 
+				$row['id']=$row['id_user']; $row['id_user']=md5($row['id_user']); $row['id_friend']=md5($row['id_friend']);
+				$info[]=$row;
+				if (isset($_GET['withHtml'])) $html.=htmlfriends($row,$numAction);
+			}
 		$res['datos']=$info;
 		if ($html!='') $res['html']=$html;
 	break;
@@ -147,8 +158,7 @@ switch ($_GET['action']) {
 		if (!isset($_GET['t']) || !isset($_GET['s'])) die(jsonp(array()));
 		$numAction=3;$html='';
 		$array['select']=",md5(u.id) AS id_user, md5(u.id) AS id_friend,
-						IF(u.id=$myId,1,0) AS iAm,
-						ul.id_user AS conocido";
+						IF(u.id=$myId,1,0) AS iAm";
 		switch ($_GET['t']) {
 			case 'l': //likes
 				$array['join']=' JOIN likes lk ON lk.id_user=u.id';
@@ -177,7 +187,6 @@ switch ($_GET['action']) {
 	case 'groupMembers': //group members
 		if (!isset($_GET['idGroup'])) die(jsonp(array()));	
 		$array['select']=safe_sql(",md5(u.id) AS id_user,g.is_admin,g.status,IF(u.id=$myId,1,0) AS iAm,
-						ul.id_user AS conocido,
 						(SELECT COUNT(t.id) FROM tags t WHERE md5(t.id_group)=? AND t.id_creator=g.id_user) AS numTags",array($_GET['idGroup']));
 		$array['join']=' JOIN users_groups g ON g.id_user=u.id';
 		$array['order']='ORDER BY g.status,g.date DESC';
@@ -267,7 +276,7 @@ function htmlfriends($row,$numAction=1){
 	$width=!isset($_GET['w'])?'width:450px;':'width:'.$_GET['w'].'px;';
 	$body='<div class="divYourFriends thisPeople">
 		<div style="float:left; width:80px; cursor:pointer;">
-	        <img onclick="userProfile(\''.$row['name_user'].'\',Close,\''.$row['id_friend'].'\')" src="'.$foto.'" border="0"  width="62" height="62" style="border: 1px solid #ccc" />
+	        <img onclick="userProfile(\''.$row['name_user'].'\',\'Close\',\''.$row['id_friend'].'\')" src="'.$foto.'" border="0"  width="62" height="62" style="border: 1px solid #ccc" />
 	    </div>
 	    <div style="float:left;'.$width.'">
 	        <div style="'.$width.' float: left;">
@@ -310,8 +319,8 @@ function infoextra($row){
 }
 function linkAndUnlink($row,$numAction){
 	return ('<div style="height:70px; width:0px;float: right; text-align: right;">
-	            <input type="button" value="'.USER_BTNLINK.'" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['conocido']?'style="display:none"':'').'/>					
-				<input type="button" value="'.USER_BTNUNLINK.'" class="btn btn-disabled" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['conocido']?'':'style="display:none"').' />
+	            <input type="button" value="'.USER_BTNLINK.'" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['follower']?'style="display:none"':'').'/>					
+				<input type="button" value="'.USER_BTNUNLINK.'" class="btn btn-disabled" action="linkUser,'.$row['id_friend'].','.$numAction.'" '.($row['follower']?'':'style="display:none"').' />
 	        </div>');
 }
 function actionGroupMembers($row){
