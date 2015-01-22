@@ -325,7 +325,7 @@
 					CON::delete("likes","id_user=? AND id_source=?",array($myId,$tag['id']));
 					incPoints(20,$tag['id'],$tag['id_user'],$myId); //incremento de hits a la tag que se recibe
 					incHitsTag($tag['id']);
-					notifications($tag['id_user'],$tag['id'],20);
+					
 				}
 				//salidas WEB o APP
 				$likes=CON::count('likes','id_source=?',array($tag['id'])); $dislikes=CON::count('dislikes','id_source=?',array($tag['id']));
