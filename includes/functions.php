@@ -2143,7 +2143,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 								}
 						}
 					break;
-					case 2: case 4: case 8: case 9: case 20: //2 email de favorito, 4 email de comentario tag (4- dueño), 8 email de redistribucion, 9 email de patrocinio, 20 dislike
+					case 2: case 4: case 8: case 9: case 20: //2 email de favorito, 4 email de comentario tag (4- dueño), 8 email de redistribucion, 9 email de patrocinio, 20 dislike (desactivado)
 						if($id_friend && isValidEmail($userEmailAllTag['email'])){
 							$msjLink=NOTIFICATIONS_COMMENTSTAGMSJUSERLINK;
 							$iconoTipo=$GLOBALS['config']->main_server.'css/smt/tag/';
