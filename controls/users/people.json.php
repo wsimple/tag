@@ -276,7 +276,7 @@ function htmlfriends($row,$numAction=1){
 	$width=!isset($_GET['w'])?'width:450px;':'width:'.$_GET['w'].'px;';
 	$body='<div class="divYourFriends thisPeople">
 		<div style="float:left; width:80px; cursor:pointer;">
-	        <img onclick="userProfile(\''.$row['name_user'].'\',Close,\''.$row['id_friend'].'\')" src="'.$foto.'" border="0"  width="62" height="62" style="border: 1px solid #ccc" />
+	        <img onclick="userProfile(\''.$row['name_user'].'\',\'Close\',\''.$row['id_friend'].'\')" src="'.$foto.'" border="0"  width="62" height="62" style="border: 1px solid #ccc" />
 	    </div>
 	    <div style="float:left;'.$width.'">
 	        <div style="'.$width.' float: left;">
