@@ -42,7 +42,7 @@ function formatMail ($body,$width=800){
 						</tr>
 						<tr><td></td><td style="width:100%;border-top:1px #f4f4f4 solid;"></td></tr>
 						<tr>
-							<td></td><td style="width:100%;border:1px #f4f4f4 solid;text-align: center;height: 40px;">'.ucfirst(USERS_DNOTRECEIVEEMAILS).' <a href="'.DOMINIO.base_url('setting?sc=1').'" target="_blank" style="color:#ff8a28;">'.SIGNUP_H5TITLE1.'</a></td>
+							<td></td><td style="width:100%;border:1px #f4f4f4 solid;text-align: center;height: 40px;">'.ucfirst(USERS_DNOTRECEIVEEMAILS).' <a href="'.$GLOBALS['config']->main_server.base_url('setting?sc=1').'" target="_blank" style="color:#ff8a28;">'.SIGNUP_H5TITLE1.'</a></td>
 						</tr>
 						<tr>
 							<td></td>
@@ -899,7 +899,7 @@ function storeEndFreeProducts($winner,$id_raffle){
 
 		$body='<table border="0" align="center" width="700">
 					<tr>
-						<td style="height:30px; font-size: 20px; color:#F82; font-weight:bold; border-bottom:1px dotted #CCC;text-align:center;">
+						<td style="height:30px; font-size: 20px; color:#F57133; font-weight:bold; border-bottom:1px dotted #CCC;text-align:center;">
 						'.STORE_THANKYOUREFFLEEMAIL.'<br><br><div style="font-size:14px; color:#888;">'.STORE_FINALRESULTMAIL.'</div></td>
 					</tr>
 					<tr><td style="border-top:1px dotted #CCC;">
@@ -907,11 +907,11 @@ function storeEndFreeProducts($winner,$id_raffle){
 							<tr><td colspan="2" style="padding: 10px 0">&nbsp;</td></tr>
 							'.$winnerData.'
 							<tr>
-								<td style="padding: 10px 0 0 0; color:#F82; font-weight: bold;text-align:left;">'.STORE_RAFFLEPRODUCTEMAIL.':</td>
+								<td style="padding: 10px 0 0 0; color:#F57133; font-weight: bold;text-align:left;">'.STORE_RAFFLEPRODUCTEMAIL.':</td>
 								<td style="color:#888; padding: 10px 0 0 10px;text-align:left;">'.formatoCadena($raffle['name']).'</td>
 							</tr>
 							<tr>
-								<td style="padding: 4px 0 0 0; color:#F82; font-weight: bold;  vertical-align: top;text-align:left;">'.STORE_DESCRIPTIONEMAIL.':</td>
+								<td style="padding: 4px 0 0 0; color:#F57133; font-weight: bold;  vertical-align: top;text-align:left;">'.STORE_DESCRIPTIONEMAIL.':</td>
 								<td style="padding: 0 0 0 10px;color:#888;text-align:justify;">'.$raffle['description'].'</td>
 							</tr>
 							<tr>
@@ -925,14 +925,14 @@ function storeEndFreeProducts($winner,$id_raffle){
 				</table>';
 		//correo dueno
 		$bodyOwner = '<table border="0" align="center" width="700"><tr>
-							<td style="height:30px; font-size: 20px; color:#F82; font-weight:bold; border-bottom:1px dotted #CCC;text-align:center;">
+							<td style="height:30px; font-size: 20px; color:#F57133; font-weight:bold; border-bottom:1px dotted #CCC;text-align:center;">
 							'.STORE_RAFFLEENDMESSAGE.'<br><br><div style="font-size:14px; color:#888;">'.STORE_FINALRESULTMAIL.'</div>
 						</td></tr>
 						<tr><td style="border-top:1px dotted #CCC;">
 							<table border="0" width="600" align="center">
 								<tr><td colspan="2" style="padding: 20px 0; font-weight: bold; color:#888;">'.STORE_WINNERPRODUCT.' '.formatoCadena($raffle['name']).' '.STORE_WINNERPRODUCTES.':</td></tr>
 								'.$winnerData.'
-								<tr><td style="padding: 15px 0 0 0; color:#F82; font-weight: bold;  vertical-align: top" colspan="2" align="center">'.STORE_RAFFLEPRODUCTEMAIL.':</td></tr>
+								<tr><td style="padding: 15px 0 0 0; color:#F57133; font-weight: bold;  vertical-align: top" colspan="2" align="center">'.STORE_RAFFLEPRODUCTEMAIL.':</td></tr>
 								<tr><td colspan="2" align="center" style="padding: 20px 0" ><img src="'.$backg.'" style="width: 150px;height: 130px;margin: 10px 10px;"></td></tr>
 							</table>
 						</td></tr>

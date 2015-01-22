@@ -350,6 +350,9 @@ $(function(){
 		}
 		$('.displayUpload').hide();
 	}).bind('fileuploaddone',function(e,data){
+		var json=JSON.parse(data.jqXHR.responseText);
+		if(json.files[0].error)
+			$('#fileupload').prepend('<div class="error_message" style="width: 455px; margin: 0px auto;display:block;text-align:center;"><img src="imgs/message_error.png" width="12" height="12"> <?=$lang->get("ERRORFILEINFO")?></div>');
 		var that=this,$content=$(this).parents('.ui-dialog-content');
 		setTimeout(function(){
 			if($content.length) $content.dialog('option','closeOnEscape',true).dialog('option','closeOnClickOutside',true);

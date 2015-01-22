@@ -16,11 +16,11 @@ define('FORCE_MAGIC_QUOTES','0');
 // DO NOT EDIT DATABASE VALUES BELOW
 // DO NOT EDIT DATABASE VALUES BELOW
 
-define('DB_SERVER',					$config->db->host		);
+define('DB_SERVER',					'192.168.57.15'			);
 define('DB_PORT',					'3306'					);
-define('DB_USERNAME',				$config->db->user		);
-define('DB_PASSWORD',				$config->db->pass		);
-define('DB_NAME',					$config->db->data		);
+define('DB_USERNAME',				'cometchatTest'			);
+define('DB_PASSWORD',				'cometchatTest'			);
+define('DB_NAME',					'cometchatTest'			);
 define('TABLE_PREFIX',				''						);
 define('DB_USERTABLE',				'users'					);
 define('DB_USERTABLE_USERID',		'id'					);
@@ -30,7 +30,7 @@ define('DB_AVATARTABLE',			" "						);
 $usr_table=TABLE_PREFIX.DB_USERTABLE;
 // define('DB_USERTABLE_LASTACTIVITY',	'lastChatActivity'		);#old
 define('DB_AVATARFIELD',			" CONCAT(md5(CONCAT($usr_table.id,'_',$usr_table.email,'_',$usr_table.id)),'/',$usr_table.profile_image_url) ");
-define('DB_USERTABLE_USERLINK',		" IFNULL($usr_table.username,CONCAT('user/',MD5($usr_table.id)))");
+define('DB_USERTABLE_USERLINK',		" CONCAT('user/',MD5($usr_table.id))");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -38,7 +38,7 @@ define('DB_USERTABLE_USERLINK',		" IFNULL($usr_table.username,CONCAT('user/',MD5
 
 function getUserID() {
 	$userid = 0;
-	#tag
+	#tag use
 	if (!empty($_SESSION['ws-tags']['ws-user']['id'])) {
 		$userid=intval($_SESSION['ws-tags']['ws-user']['id']);
 	}
@@ -73,7 +73,7 @@ function getUserID() {
 
 function chatLogin($userName,$userPass) {
 	return getUserID();
-	#desactivado login por chat
+	#login disabled
 	$userid = 0;
 	if (filter_var($userName, FILTER_VALIDATE_EMAIL)) {
 		$sql = ("SELECT * FROM `".TABLE_PREFIX.DB_USERTABLE."` WHERE email ='".$userName."'");
@@ -102,8 +102,8 @@ function chatLogin($userName,$userPass) {
 }
 
 function getFriendsList($userid,$time) {
+	#original edited and rearmed
 	global $hideOffline;
-	#original retocado
 	$user_table=TABLE_PREFIX.DB_USERTABLE;
 	$friends=TABLE_PREFIX.'friends';
 	$values="$user_table.".DB_USERTABLE_USERID." userid, $user_table.".DB_USERTABLE_NAME." username, ".DB_USERTABLE_USERLINK." link, ".DB_AVATARFIELD." avatar, cometchat_status.lastactivity lastactivity, cometchat_status.status, cometchat_status.message, cometchat_status.isdevice";
@@ -114,7 +114,7 @@ function getFriendsList($userid,$time) {
 		from $friends join $user_table on $friends.toid = $user_table.".DB_USERTABLE_USERID." $join
 		where $friends.fromid = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'
 		$order");
-	#tag
+	#tag personalised
 	$friends=TABLE_PREFIX.'users_links';
 	$join=" join $friends f on f.id_user=$user_table.id $join ";
 	$where="f.is_friend AND f.id_friend = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'";
@@ -131,7 +131,6 @@ function getFriendsList($userid,$time) {
 }
 
 function getFriendsIds($userid) {
-
 	$sql = ("SELECT toid as friendid FROM `friends` WHERE status =1 and fromid = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."' union SELECT fromid as myfrndids FROM `friends` WHERE status =1 and toid = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'");
 
 	return $sql;
