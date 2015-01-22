@@ -52,13 +52,13 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 <script type="text/javascript" src="<?=$minify?"min/?f=":""?>js/jquery.tipsy.js"></script>
 <?php	}
 		if(@$_SESSION['ws-tags']['ws-user']['id']!=''){
-			if(true){ ?>
+			if(URI::section()=='chat_test'){ ?>
+<link type="text/css" href="cometchat_test/cometchatcss.php" rel="stylesheet" charset="utf-8" />
+<script type="text/javascript" src="cometchat_test/cometchatjs.php" charset="utf-8"></script>
+<?php		}else{ ?>
 <link type="text/css" href="cometchat/cometchatcss.php" rel="stylesheet" charset="utf-8" />
 <link type="text/css" href="css/cometchat_tag.css" rel="stylesheet" charset="utf-8" />
 <script type="text/javascript" src="cometchat/cometchatjs.php" charset="utf-8"></script>
-<?php		}else{ ?>
-<link type="text/css" href="cometchat.old/cometchatcss.php" rel="stylesheet" charset="utf-8" />
-<script type="text/javascript" src="cometchat.old/cometchatjs.php" charset="utf-8"></script>
 <?php		}
 		}
 ?>
