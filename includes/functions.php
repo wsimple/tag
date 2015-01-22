@@ -592,6 +592,7 @@ function suggestionFriends($not_ids,$limit=10){
 	#se buscan los usuarios más populares y se retornan al azar
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
 	$criterio=($not_ids!='')?"u.id NOT IN ($not_ids) AND":'';
+	if (is_int($limit)) $limit="LIMIT 0,".($limit*2);
 	$friends=CON::getAssoc("
 		SELECT
 			u.id AS id_user,
@@ -613,9 +614,10 @@ function suggestionFriends($not_ids,$limit=10){
 			u.id!=$myId AND
 			ul.id_friend IS NULL
 		ORDER BY avg DESC
-		LIMIT 0,".($limit*2));
+		$limit");
 	shuffle($friends);
-	return array_slice($friends,0,$limit);
+	// return array_slice($friends,0,$limit);
+	return $friends;
 }
 
 function groups($where='',$limit=10,$ini=0, $suggest=false){
