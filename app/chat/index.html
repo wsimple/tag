@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en" class=" js touch svg inlinesvg svgclippaths no-ie8compat"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="user-scalable=0,width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0">
+		<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+		
+		<title>Chat</title>
+		
+		<link type="text/css" href="./css.css" rel="stylesheet" charset="utf-8">
+		<script>
+		var BASE_URL='http://tagbum.com/cometchat/';
+		var PAGE={
+			ini:'../timeLine.html'
+		};
+		</script>
+		<script src="./files/jquery.min.js"></script>		
+		<script type="text/javascript" charset="utf-8" src="./files/js.js"></script>
+		<script type="text/javascript" charset="utf-8" src="./files/js(1).js"></script>	
+		<script>
+            var isPhoneTouched = 0;
+            document.addEventListener('touchstart', function() { 
+                if (isPhoneTouched == 0) {
+                    document.getElementsByTagName('audio')[0].play();
+                    document.getElementsByTagName('audio')[0].pause();
+                    isPhoneTouched = 1;
+                }
+            });
+			
+			$("#buddy_link").live('click,touchstart', function() {
+				$('.chatlink_icon').html('<span class="notifier">0</span>');
+				$("#footer #footerbtns .button-group li").find('#buddy_link').addClass('btn-active');
+				$("#footer #footerbtns .button-group li").find('#chatroomlink').removeClass('btn-active');
+				jqcc.mobilewebapp.pathRedirect('#buddy');
+			});
+			$("#chatroomlink").live('click,touchstart', function() {
+				$("#footer #footerbtns .button-group li").find("#chatroomlink").addClass('btn-active');
+				$("#footer #footerbtns .button-group li").find('#buddy_link').removeClass('btn-active');
+				jqcc.mobilewebapp.pathRedirect('#lobby');
+			});
+			 
+			$(document).ready(function() { 	 	
+				var enableType = '0';		
+				$('#options').on('click,touchstart', function() {
+					$('#cometchat_container_report .cometchat_container_title .cometchat_closebox').click();
+					if($("#opt").is(':visible')) {
+						$('#opt').css('display','none');						
+					} else { 
+						$('#opt').css('display','block');											
+					}	
+				});				
+				$('#chatcontent').on('click,touchstart', function() {
+					$('#opt').css('display','none');							
+				});				
+				$("#chatroommessage").on('click,touchstart', function() {	
+					setTimeout(function () {jqcc.mobilewebapp.crscrollToBottom();},700);
+				});				
+				$("#chatmessage").on('click,touchstart', function() {
+					setTimeout(function () {jqcc.mobilewebapp.scrollToBottom();},700);
+				});		
+				$("#chatroommessage").keyup(function(event) { 
+					if($("#chatroommessage").val() !== '' && event.keyCode == 13 && event.shiftKey == 0) { 
+						$("#chatroom_send").click();
+					}	
+				});
+			});
+        </script>
+	</head>
+
+	<body style="height: 600px; min-height: 600px; max-height: 600px; width: 100%;">
+		        <div id="buddy" style="width: 100% !important; display: block; background: inherit;" class="displaynone">
+            <nav class="top-bar" id="header">
+				<div class="small-3 columns" id="home">
+					<a id="buddyhome" style="display: block;">				
+					<div class="home_icon">
+						<div class="arrow-up"></div>
+						<div class="rect1"></div>
+						<div class="rect2"></div>
+					</div>
+					</a>
+				</div>
+				<div class="small-6 columns" id="createheader">
+					<h1>Chat</h1>
+					<audio style="display:none">
+						<source src="mp3/beep.mp3" type="audio/mpeg">
+					</audio>
+				</div>	
+				<div class="small-3 columns">&nbsp;</div>
+            </nav>
+			<div id="wocontent" style="bottom: 65px; height: 493px; min-height: 493px; max-height: 493px;">
+                <div id="woscroll">
+					<div class="row" id="search">
+						<input type="text" id="searchtxt" onkeyup="jqcc.mobilewebapp.get_user();" placeholder="Search User">
+					</div>
+					<div class="row" id="userlist">
+						<ul id="wolist" class="small-12 columns"><li id="onlinelist_2" class="row userlists" onclick="javascript:jqcc.chatmobilewebapp.loadPanel(&#39;2&#39;)" data-filtertext="miPapitoRico"><div class="small-7 columns"><img src="./files/cleardot.gif" class=" status status-offline "><span class="longname search_name">miPapitoRico</span></div><div class="small-5 columns"><img src="./files/default.png" class=" avatarimage"><span class="newmessages">0</span></div></li><li id="onlinelist_184" class="row userlists" onclick="javascript:jqcc.chatmobilewebapp.loadPanel(&#39;184&#39;)" data-filtertext="ramon"><div class="small-7 columns"><img src="./files/cleardot.gif" class=" status status-offline "><span class="longname search_name">ramon</span></div><div class="small-5 columns"><img src="./files/default.png" class=" avatarimage"><span class="newmessages">0</span></div></li><li id="onlinelist_103" class="row userlists" onclick="javascript:jqcc.chatmobilewebapp.loadPanel(&#39;103&#39;)" data-filtertext="Rastashe I"><div class="small-7 columns"><img src="./files/cleardot.gif" class=" status status-offline "><span class="longname search_name">Rastashe I</span></div><div class="small-5 columns"><img src="./files/default.png" class=" avatarimage"><span class="newmessages">0</span></div></li><li id="onlinelist_101" class="row userlists" onclick="javascript:jqcc.chatmobilewebapp.loadPanel(&#39;101&#39;)" data-filtertext="YoElPipe"><div class="small-7 columns"><img src="./files/cleardot.gif" class=" status status-offline "><span class="longname search_name">YoElPipe</span></div><div class="small-5 columns"><img src="./files/default.png" class=" avatarimage"><span class="newmessages">0</span></div></li><li class="onlinelist row" id="wolast" style="background:none !important;"></li></ul>
+						<div id="endoftext"></div>
+					</div>	
+                </div>
+            </div>
+						<div id="footer" class="row">
+				<div class="small-12 columns" id="footerbtns">
+					<ul class="button-group">
+						<li><a href="./files/Chat.html" id="buddy_link" class="small button chatlink btn-active"><div class="chatlink_icon" style="height: 30px; top: -1px;"><span class="notifier" style="display: none;">0</span></div><div class="chatlink_txt" style="display: block;">One-on-One Chat</div></a></li>
+						<li><a href="http://localhost/tag/cometchat/extensions/mobilewebapp/#lobby" id="chatroomlink" class="small button chatroomlink"><div class="chatroomlink_icon" style="height: 30px; top: -1px;"></div><div class="chatroomlink_txt" style="display: block;">Chatrooms</div></a></li>
+					</ul>
+				</div>
+			</div>
+			        </div>
+				
+	
+		<div id="chat" style="width: 100% !important; display: none; background: inherit;" class="displaynone">
+			<div id="cheader" style="top: 0px; height: 42px; width: 100%;">
+				<div class="row" id="chatheader">
+					<div class="small-3 columns">
+						<a id="backbtnChat" onclick="javascript:jqcc.mobilewebapp.loadChatboxReverse()">
+							<div class="back_icon">
+								<div class="arrow-left"></div>
+								<div class="rectangle"></div>
+							</div>
+						</a>
+					</div>
+					<div class="small-6 columns" id="createheader">
+						<h1></h1>
+					</div>	
+					<div class="small-3 columns chatoptions">						
+						<a id="options">
+						<div class="option_icon">
+							<div class="bar1"></div>
+							<div class="bar2"></div>
+							<div class="bar3"></div>
+						</div>					
+						</a>	
+					</div>	
+				</div>		
+			</div>
+			<div id="opt" style="height: 35px;">
+				<div id="clear"><img src="./files/clearconversation.png">&nbsp;&nbsp;&nbsp;Clear Conversation</div>
+				<div id="report" style="display: none;"><img src="./files/report.png">&nbsp;&nbsp;Report Conversation</div>
+			</div>
+			<div id="chatcontent" style="overflow-y: scroll; height: 508px; width: 100%; bottom: 50px; min-height: 508px; max-height: 508px;">
+				<div id="scroller">
+				</div>
+				<div id="endoftext"></div>
+			</div>
+			<div id="chatfooter" style="bottom: 0px; height: 50px; width: 100%;">
+				<div id="chatmessageForm" onclick="" data-ajax="false">
+					<div class="small-9 columns" id="chattxt">
+						<input id="chatmessage" type="text" name="chatmessage" onfocus="jqcc.mobilewebapp.txtfocus();" placeholder="Type your message">
+					</div>
+					<div class="small-3 columns" id="chatsendbutton">
+						<a id="chat_send" class="mobile_send small alert button">Send</a>
+					</div>	
+				</div>
+			</div>
+		</div>
+		
+		        <div id="lobby" style="width: 100% !important; display: none; background: inherit;" class="displaynone">
+			<nav class="top-bar" id="header">
+				<div class="row">
+					<div class="small-3 columns" id="home">
+						<a id="lobbyhome" style="display: block;">
+						<div class="home_icon">
+							<div class="arrow-up"></div>
+							<div class="rect1"></div>
+							<div class="rect2"></div>
+						</div>
+						</a>
+					</div>
+					<div class="small-6 columns" id="crheader">
+						<h1>Chatroom</h1>
+					</div>	
+					<div class="small-3 columns" id="adddiv">
+													<a id="addchatroom" href="javascript:void(0);" onclick="javascript:jqcc.mobilewebapp.createChatroom()">
+							<div class="add_icon">
+								<div class="vertrect"></div>
+								<div class="horirect"></div>
+							</div>
+							</a>
+						 
+					</div>	
+				</div>
+			</nav>
+			<div id="lobbycontent" style="bottom: 65px; height: 493px; min-height: 493px; max-height: 493px;">
+                <div id="lobbyscroller">
+					<div class="row" id="search">
+						<input type="text" id="searchtxtCR" onkeyup="jqcc.mobilewebapp.get_chatroom();" placeholder="Search Chatroom">
+					</div>
+					<div class="row" id="chatroomlist">
+						<ul id="lobbylist" class="small-12 columns">
+						</ul>
+					</div>	
+                </div>
+            </div>
+						<div id="footer" class="row">
+				<div class="small-12 columns" id="footerbtns">
+					<ul class="button-group">
+						<li><a href="./files/Chat.html" id="buddy_link" class="small button chatlink btn-active"><div class="chatlink_icon" style="height: 30px; top: -1px;"><span class="notifier" style="display: none;">0</span></div><div class="chatlink_txt" style="display: block;">One-on-One Chat</div></a></li>
+						<li><a href="http://localhost/tag/cometchat/extensions/mobilewebapp/#lobby" id="chatroomlink" class="small button chatroomlink"><div class="chatroomlink_icon" style="height: 30px; top: -1px;"></div><div class="chatroomlink_txt" style="display: block;">Chatrooms</div></a></li>
+					</ul>
+				</div>
+			</div>
+			        </div>
+				
+		
+		<div id="chatroom" style="width: 100% !important; display: none; height: 600px; min-height: 600px; max-height: 600px; background: inherit;" class="displaynone">
+ 			<div id="crheadertop" style="top: 0px; height: 42px; width: 100%;">
+				<div class="row" id="chatroomheader">
+					<div class="small-3 columns">
+						<a id="backbtnChatroom" onclick="javascript:jqcc.mobilewebapp.mobileleaveChatroom();jqcc.mobilewebapp.loadLobbyReverse();" class="small alert button bck">
+						<div class="back_icon">
+							<div class="arrow-left"></div>
+							<div class="rectangle"></div>	
+						</div>
+							
+						</a>
+					</div>
+					<div class="small-6 columns" id="createheader">
+						<span id="chatroomName"></span>
+					</div>	
+					<div class="small-3 columns">
+						<a id="showUserButton" onclick="javascript:jqcc.mobilewebapp.showChatroomUser();">					
+						<div class="user_icon">
+							<div class="user_right">	
+								<div class="circleBase3 type3"></div>
+								<div class="circleBase4 type4"></div>
+							</div>	
+							<div class="user_left">	
+								<div class="circleBase5 type5"></div>
+								<div class="circleBase6 type6"></div>
+							</div>
+							<div class="user_main">
+								<div class="circleBase1 type1"></div>
+								<div class="circleBase2 type2"></div>
+							</div>								
+						</div>						
+						</a>
+					</div>	
+				</div>
+			</div>
+            <div id="chatroomcontent" style="overflow-y: scroll; height: 508px; width: 100%; bottom: 50px; min-height: 508px; max-height: 508px;">
+                <div id="crscroller">
+                </div>
+                <div id="endoftext"></div>
+            </div>
+  			<div id="chatroomfooter" class="row" style="bottom: 0px; height: 50px; width: 100%;">
+                <div id="chatroommessageForm" onsubmit="#" data-ajax="false">
+					<div class="small-9 columns" id="chattxt">
+						<input id="chatroommessage" type="text" name="chatmessage" placeholder="Type your message">
+					</div>
+					<div class="small-3 columns" id="chatsendbutton">
+						<a id="chatroom_send" class="mobile_send small alert button" onclick="javascript:jqcc.mobilewebapp.sendchatroommessage($(&#39;#chatroommessage&#39;));">Send</a>
+					</div>	
+                </div>
+            </div>
+        </div>
+
+
+        <div id="chatroomuser" style="width: 100% !important; display: none; background: inherit;" class="displaynone">
+			<nav class="top-bar" id="header">
+				<div class="row" id="chatroomuserheader">
+					<div class="small-3 columns">
+						<a id="backbtnChatroomuser" onclick="javascript:jqcc.mobilewebapp.loadChatroomReverse();jqcc.mobilewebapp.crscrollToBottom();">
+							<div class="back_icon">
+							<div class="arrow-left"></div>
+							<div class="rectangle"></div>
+							</div>
+						</a>
+					</div>
+					<div class="small-6 columns" id="createheader">
+						<span id="chatroomUserName" style="margin:0 auto;padding:0 10px;height:inherit;display:inline-block;"></span>
+					</div>	
+					<div class="small-3 columns">&nbsp;</div>	
+				</div>
+			</nav>
+			<div class="row" id="chatroomusercontent" style="overflow-y: auto; width: 100%; bottom: 1px;">
+				<div id="cruserScroll">
+					<ul id="currentroom_users" class="small-12 columns">
+					</ul>
+				</div>	
+			</div>
+        </div>		
+
+	
+        <div id="createChatroom" style="width: 100% !important; display: none; background: inherit;" class="displaynone">
+			<nav id="header">
+				<div class="row">
+					<div class="small-3 columns">
+						<a id="backbtnCreateChatroom" onclick="javascript:jqcc.mobilewebapp.loadLobbyReverse()" class="small alert button bck">
+						<div class="back_icon">
+							<div class="arrow-left"></div>
+							<div class="rectangle"></div>
+						</div>
+						</a>
+					</div>
+					<div class="small-6 columns" id="createheader">
+						<h1>Create Chatroom</h1>
+					</div>	
+					<div class="small-3 columns">&nbsp;</div>	
+				</div>
+			</nav>			
+            <div style="font-size:13px;">
+                <form id="createChatroomForm" onsubmit="return false" data-ajax="false">
+                    <div class="row" id="crname">
+						<div class="small-4 columns" id="labelname">
+							<label class="chatroomedit" for="name">Name</label>
+						</div>	
+                        <div class="small-8 columns">
+							<input type="text" name="name" id="name" value="">
+						</div>
+                    </div>
+                    <div class="row" id="crtype">
+                        <div class="small-4 columns">
+							<label class="chatroomedit" for="type">Type</label>
+						</div>	
+						<div class="small-8 columns">
+							<select name="type" id="type" onchange="javascript:jqcc.mobilewebapp.checkDropDown(this)">
+								<option value="0">Public room</option>
+								<option value="1">Password-protected room</option>
+							</select>
+						</div>
+                    </div>                    			
+					<div class="row" id="chatroomPassword">
+						<div class="small-4 columns" id="labelname">
+							<label for="password">Password</label>
+						</div>	
+                        <div class="small-8 columns">
+							<input type="password" name="password" id="password" value="">
+						</div>
+                    </div>
+					<div class="row" id="createbtn">
+						<div id="createChatroomField" class="small-12 columns">
+							<a id="createChatroomButton" class="small button success radius" onclick="javascript:jqcc.mobilewebapp.mobilecreateChatroomSubmit()">Create room</a>
+						</div>
+					</div>	
+                </form>
+            </div>
+        </div>		
+	
+	
+	<script type="text/javascript">
+		var reportPlugin = 0;
+		var clearPlugin = 0;
+		var plugins = ["smilies","clearconversation","chattime","games"];
+		if(plugins.indexOf("report") != -1) {
+			reportPlugin = 1;
+		}		
+		if(plugins.indexOf("clearconversation") != -1) {
+			clearPlugin = 1;
+		}		
+		if(clearPlugin == 0 && reportPlugin == 0) {
+			$("#options").css('display','none');
+		}
+		if(clearPlugin == 1 && reportPlugin == 0) {
+			$("#report").css('display','none')
+			$("#opt").css('height','35px');
+		}
+		if(clearPlugin == 0 && reportPlugin == 1) {
+			$("#clear").css('display','none')
+			$("#opt").css('height','35px');
+		}	
+		var path = $(location).attr('href');
+                $('#buddyhome').css('display','block');
+                $('#lobbyhome').css('display','block');
+                $('#buddyhome').click(function() { window.location.href = PAGE.ini;});
+                $('#lobbyhome').click(function() { $('#buddyhome').click();});
+                var arr = path.split('/chat/')[1];
+		var showdiv = arr;		
+		if(enableType == 2 || enableType == 0){
+			jqcc.mobilewebapp.pathRedirect(showdiv);
+		} else if(enableType == 1){
+			jqcc.mobilewebapp.pathRedirect('#lobby');
+		}		
+		jqcc.mobilewebapp.addscroll();	
+	</script>
+</body></html>
