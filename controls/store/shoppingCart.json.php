@@ -492,18 +492,20 @@ include ('../../class/class.phpmailer.php');
 			endif;
 		break;
 		case 6: //completando los datos necesarios del usario para el shippin
-        $jsonResponse['data']=$_POST;
             foreach ($_POST as $nameVar => $valueVar) ${$nameVar} = "$valueVar";
-            if (!is_array($_POST['city'])){
-                $cities=$GLOBALS['cn']->query("SELECT c.id AS idCities
-        	       						FROM  cities c WHERE name LIKE '".$_POST['city']."' LIMIT 1");
-                if(mysql_num_rows($cities)==0){ $jsonResponse['rescity']=utf8_encode(CITY_INVALID);  die(jsonp($jsonResponse)); }
-                else { 
-                    $city=mysql_fetch_assoc($cities);
-                    $city=$city['idCities']; 
-                }
-            }else{ $city=$_POST['city'][0];}
-			
+            // if (!is_array($_POST['city'])){
+            //     $cities=$GLOBALS['cn']->query("SELECT c.id AS idCities
+        	   //     						FROM  cities c WHERE name LIKE '".$_POST['city']."' LIMIT 1");
+            //     if(mysql_num_rows($cities)==0){ $jsonResponse['rescity']=utf8_encode(CITY_INVALID);  die(jsonp($jsonResponse)); }
+            //     else { 
+            //         $city=mysql_fetch_assoc($cities);
+            //         $city=$city['idCities']; 
+            //     }
+            // }else{ $city=$_POST['city'][0];}
+			if (is_array($_POST['city'])){
+				$city=$_POST['city'][0];
+				if (is_numeric($city)) $city=CON::getVal("SELECT name FROM cities WHERE id=?",array($city));
+			}else $city=$_POST['city'];
 
 			//actualizando variable session
 			$home_code=explode('---',$home_code);
@@ -750,11 +752,16 @@ include ('../../class/class.phpmailer.php');
 					$salida.=json_encode($array);
 				}
 			}else{
-				$cities=$GLOBALS['cn']->query("SELECT c.id AS 'idCities', c.name AS 'city'
-								FROM  `cities` c WHERE id='".$_POST['data']."'");
-				$array=  mysql_fetch_assoc($cities);
-				$datosCar['idCities']=$array['idCities'];
-				$datosCar['city']=utf8_encode($array['city']);		
+				if (is_numeric($_POST['data'])){
+					$cities=$GLOBALS['cn']->query("SELECT c.id AS 'idCities', c.name AS 'city'
+									FROM  `cities` c WHERE id='".$_POST['data']."'");
+					$array=  mysql_fetch_assoc($cities);				
+					$datosCar['idCities']=$array['city'];
+					$datosCar['city']=$array['city'];		
+				}else{
+					$datosCar['idCities']=$_POST['data'];
+					$datosCar['city']=$_POST['data'];		
+				}
 			}
 			break;
 		case 12: //consultas de las ventas que he realizado en el store de tagbum
@@ -979,9 +986,9 @@ include ('../../class/class.phpmailer.php');
 		break;
         case 16: //consulta para el shipping  
             $jsonResponse['exitSC']=(isset($_SESSION['car']) && count($_SESSION['car'])>0?true:false);
-            $cities=$GLOBALS['cn']->query("SELECT c.id AS 'idCities', c.name AS 'city'
-        	       						FROM  `cities` c WHERE id='".$_SESSION['ws-tags']['ws-user']['city']."'");
-        	$array=  mysql_fetch_assoc($cities);    
+            if (is_numeric($_SESSION['ws-tags']['ws-user']['city']))
+            	$_SESSION['ws-tags']['ws-user']['city']=CON::getVal("SELECT name FROM cities WHERE id=?",array($_SESSION['ws-tags']['ws-user']['city']));
+            $city=$_SESSION['ws-tags']['ws-user']['city'];
 			if (!isset($_GET['noEditS'])){
                     $_SESSION['ws-tags']['ws-user']['yaShipp']='1';
                     $numIt=createSessionCar('','','count');
@@ -1018,14 +1025,11 @@ include ('../../class/class.phpmailer.php');
                 			'.$country['country'].'&nbsp;<span>('.$country['code_area'].')<span>
                 		</option>';
                 	}
-                	
-        			//$datosCar['idCities']=$array['idCities'];
-        			
                     $datosCar['zipCode']=$_SESSION['ws-tags']['ws-user']['zip_code'];
                     $datosCar['address']=$_SESSION['ws-tags']['ws-user']['address'];
                     
                     $datosCar['option']=$options;
-                    $datosCar['city2']=utf8_encode($array['city']);
+                    $datosCar['city2']=$city;
                     if($_SESSION['ws-tags']['ws-user']['type']=='0'){
                         $datosCar['thome']=$tele_home;
                         $datosCar['nhome']=$numberh[1];  
@@ -1053,7 +1057,7 @@ include ('../../class/class.phpmailer.php');
                                             <strong>'.utf8_encode(STORE_SHIPPING).'</strong>
                                             <p>
                                                 '.utf8_encode(USERS_BROWSERFRIENDSLABELCOUNTRY).': '.utf8_encode($country['country']).'<br/>
-                                                '.utf8_encode(BUSINESSCARD_LBLCITY).': '.utf8_encode($array['city']).'<br/>
+                                                '.utf8_encode(BUSINESSCARD_LBLCITY).': '.$city.'<br/>
                                                 '.utf8_encode(BUSINESSCARD_LBLZIPCODE).': '.$_SESSION['ws-tags']['ws-user']['zip_code'].'<br/>
                                                 '.utf8_encode(BUSINESSCARD_LBLZIPCODE).': '.$_SESSION['ws-tags']['ws-user']['address'].'<br/>
                                                 '.utf8_encode(ADDRESSBOOK_LBLMOBILEPHOME).': '.$_SESSION['ws-tags']['ws-user']['mobile_phone'].'<br/>
