@@ -59,6 +59,7 @@ is.limited= !is.webkit||is.android;
 		'inactive'	:'inactivo',
 		'soon'		:'pronto',
 		'exit'		:'salir',
+		'hot'		:'caliente',
 
 		//'':'mover a',
 
