@@ -491,11 +491,10 @@ function storeCarMail($car,$type=16){
 			u.type,
 			u.email AS email';
 	$pais=' ,p.name AS pais,
-			c.name AS ciudad,
+			u.city AS ciudad,
 			u.zip_code,
 			u.address AS direccion';
-	$join='INNER JOIN countries p ON p.id=u.country
-			INNER JOIN cities c ON c.id=u.city';
+	$join='INNER JOIN countries p ON p.id=u.country';
 	$where=' id IN (';
 	$limit=0;
 //*******************************************************************************************************************************************************

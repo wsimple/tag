@@ -307,14 +307,17 @@
 	width:650px;
 	margin:auto;
 }
-.tag-solo-hash{
+.tag-solo-hash,
+.tag-hash{
 	text-overflow: ellipsis;
 	overflow: hidden;
 	background-color: #f9f9f9;
+	font-size: 0.6em;
+	text-align: center;
 }
-.tag-solo-hash a{
-	color: #f0516c;
-}
+.tag-hash a,
+.tag-solo-hash a{ color: #f0516c; }
+.tag-hash-complete,
 .tag-solo-hash-complete{
 	text-overflow: inherit;
 	overflow: visible;
@@ -1445,7 +1448,7 @@ loader.s32,.loader.s32{
 #infoDetails #idProductContent #titleDescription,
 #infoDetails #idProductContent #titleVideo,
 #infoDetails #idProductContent #titleHash{ margin-top:4px; }
-#infoDetails #idProductContent #titleHash + .tag-solo-hash{ margin:10px 0px; width: 100%; }
+#infoDetails #idProductContent #titleHash + .tag-solo-hash,.tag-hash{ margin:10px 0px; width: 100%; }
 #infoDetails #idProductContent #description{
 	text-align:justify;
 	font-weight:normal;

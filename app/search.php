@@ -14,7 +14,7 @@
 		pageShow({
 			id:'#page-search',
 			title:lang.searchtitle,
-			buttons:{back:true,home:true},
+			buttons:{showmenu:true,home:true},
 			before:function(){
 				$('#seek').html(lang.seek);
 				//$('#searchFooter').html('<li><a href="#" opc="store">'+lan('All')+'</a></li>');

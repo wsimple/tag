@@ -576,8 +576,13 @@ function colorSelector(picker,inputField){
 
 function showTag(tag){//individual tag
 	var btn=tag['btn']||{};
-	var btnSponsor='',paypal='prueba';
-	console.log(tag);
+	var btnSponsor='',hash='',paypal='prueba';
+	if(tag['hashTag']){
+		var i,hashS='';
+		for(i=0;i<tag['hashTag'].length;i++)
+			hashS+='<a href="#" hashT="'+tag['hashTag'][i]+'">'+tag['hashTag'][i]+'</a>&nbsp;&nbsp;';
+		hash='<div class="clearfix"></div><div class="tag-hash">'+hashS+'</div>';
+	}
 	return(
 	'<div tag="'+tag['id']+'" udate="'+tag['udate']+'">'+
 		'<div class="minitag" style="background-image:url('+tag['imgmini']+')"></div>'+
@@ -606,7 +611,7 @@ function showTag(tag){//individual tag
 				:'')+(tag['product']?
 					'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
 				:'')+
-			'</ul>'+
+			'</ul>'+hash+
 		'<div class="clearfix"></div></menu></div>'
 		:'<div id="menuTagnoLogged"></div>')+
 		'<div class="tag-icons">'+
@@ -774,11 +779,18 @@ function actionsTags(layer, forceComments){
 				case 'users': redir(PAGE['profile']+'?id='+$(e.target).attr('users')); break;
 				case 'qrcode': redir(PAGE['detailsproduct']+'?id='+$(e.target).attr('p')); break;
 			}
-		});
+		}).on('click','.this_seemore',function(){
+			$(this).parents('li.more').removeClass('more');
+		}).on('click','div.tag-hash',function(){
+			$(this).addClass('tag-hash-complete');
+			var vector=$('a[hashT]',this);
+			$.each(vector,function(key,value){
+				$(this).attr('hash',$(this).attr('hashT')).removeAttr('hashT');
+			});
+		}).on('click','a[hash]',function(){//tag-hash-complete
+			redir(PAGE['search']+'?srh='+$(this).attr('hash').replace('#','%23').replace('<br>',' '));
+		})
 	}
-	$(layer).on('click','.this_seemore',function(){
-		$(this).parents('li.more').removeClass('more');
-	});
 }
 function afterAjaxTags(data, tagId, toHide,toShow){
 	//console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
