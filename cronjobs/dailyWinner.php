@@ -1,4 +1,10 @@
 <?php
+//*******************************************DailyWinner********************************************************
+//
+//aqui podras generar el sql que te dara como resultado la tag ganador del dia con la cantidad de like recibidos
+//
+//**************************************************************************************************************
+
     header('Cache-Control: no-cache, must-revalidate');
     header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
     header('Content-type: application/json');
@@ -104,6 +110,11 @@
 			LIMIT 1
 		';
         echo '<div><pre>'.$sql.'</pre></div>';
-		return $GLOBALS['cn']->queryRow($sql);
+        if (isset($_GET['seeres'])) {
+            $var =  $GLOBALS['cn']->queryRow($sql);
+            print_r($var);
+        }
+
+        return $GLOBALS['cn']->queryRow($sql);
     }
 ?>

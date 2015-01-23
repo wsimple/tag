@@ -1,4 +1,10 @@
 <?php
+//*******************************************Newsletters********************************************************
+//
+//cronjob para el envio de correos a traves del wpanel
+//
+//**************************************************************************************************************
+
 $_cronjob=true;
 include '../includes/config.php';
 include '../class/wconecta.class.php';
@@ -6,11 +12,6 @@ include '../includes/conexion.php';
 include '../class/class.phpmailer.php';
 include '../includes/functions.php';
 include ("../includes/languages.config.php");
-
-
-
-
-
 
 
 // ******************** SOME MAIL DATA *************************************************************************************
@@ -21,20 +22,10 @@ $formatMailWidth = "750";
 // ******************** END - SOME MAIL DATA *******************************************************************************
 
 
-
-
-
-
-
 // ******************** GETTING NEWSLETTERS BATCH FROM SYSTEM **************************************************************
 $queryBatch = mysql_query("SELECT newsletters_batch AS batch FROM config_system;");
 $queryBatch = mysql_fetch_assoc($queryBatch);
 // ******************** END- GETTING NEWSLETTERS BATCH FROM SYSTEM *********************************************************
-
-
-
-
-
 
 
 // ******************** SENDING ACTIVE NEWSLETTERS *************************************************************************

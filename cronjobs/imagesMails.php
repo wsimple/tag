@@ -1,4 +1,10 @@
 <?php
+//*********************************************ImagesMails****************************************************
+//
+//este archivo se conectaba al servidor de correos y mostraba lo informacion de correos del usuario especificado. buzon de entrada,salida, enviados, entre otros.
+//
+//***********************************************************************************************************
+
 set_time_limit(1000);
 //include('../includes/config.php');
 include('functions.php');
