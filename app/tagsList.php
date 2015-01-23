@@ -43,7 +43,7 @@
 	<script>
 		pageShow({
 			id:'#page-tagsList',
-			buttons:{homeLeft:true},
+			buttons:{showmenu:true},
 			before:function(){
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);
