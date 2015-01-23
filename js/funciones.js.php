@@ -3172,18 +3172,6 @@ function getCategorysStore(get,cate){
 		}
 	});
 }
-function getCitys(layer,id){
-	var da={'data':id};
-	$.ajax({
-		type: 'POST',
-		url: 'controls/store/shoppingCart.json.php?action=11',
-		data:da,
-		dataType: 'json',
-		success: function(data){
-			$(layer).trigger("addItem",[{"title": data['datosCar']['city'], "value": data['datosCar']['idCities']}]);
-		}
-	});
-}
 function chooseProducts(tag){
 	var get='?scc=2&allProducts=1&';
 	$.dialog({

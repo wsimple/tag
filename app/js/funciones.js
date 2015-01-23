@@ -85,7 +85,7 @@ function readTxt(url){
 		// console.log(data);
 		var func,$this=data.that;
 		switch(data.opc){
-			case 'home':case 'timeline':case 'news':
+			case 'home':case 'timeline':case 'news': case 'trendings':
 				func=function(){redir(PAGE[data.opc]);};
 			break;
 			case 'toptags'		:func=function(){redir(PAGE.toptags);};break;
@@ -123,6 +123,7 @@ function readTxt(url){
 				'<li opc="timeline" onlyif="!window.location.href.match(/[\\/=]timeline/i)"><img src="css/smt/home_.png"/><div>'+lan('TIMELINE_TITLE')+'</div><arrow/></li>'+
 				'<li opc="toptags" onlyif="!window.location.href.match(/[\\/=]toptags/i)"><img src="css/smt/topTags.png"/><div>'+lan('TOPTAGS_TITLE')+'</div><arrow/></li>'+
 				'<li opc="news" onlyif="!window.location.href.match(/[\\/=]news/i)"><img src="css/smt/news.png"/><div>'+lan('NEWS')+'</div><arrow/></li>'+
+				'<li opc="trendings" onlyif="!window.location.href.match(/[\\/=]trendings/i)"><img src="css/smt/on-fire.png"/><div>'+lan('hot','ucw')+'</div><arrow/></li>'+
 				'<li opc="notif" onlyif="!window.location.href.match(/[\\/=]notif/i)"><img src="css/smt/notifications.png"/><div>'+lan('NOTIFICATIONS')+'</div><span class="push-notifications"></span><arrow/></li>'+
 				//'<li class="separator"></li>'+
 				'<li opc="friends"><img src="css/smt/friends.png"/><div>'+lan('friends','ucw')+'</div><arrow/></li>'+
@@ -576,8 +577,13 @@ function colorSelector(picker,inputField){
 
 function showTag(tag){//individual tag
 	var btn=tag['btn']||{};
-	var btnSponsor='',paypal='prueba';
-	console.log(tag);
+	var btnSponsor='',hash='',paypal='prueba';
+	if(tag['hashTag']){
+		var i,hashS='';
+		for(i=0;i<tag['hashTag'].length;i++)
+			hashS+='<a href="#" hashT="'+tag['hashTag'][i]+'">'+tag['hashTag'][i]+'</a>&nbsp;&nbsp;';
+		hash='<div class="clearfix"></div><div class="tag-hash">'+hashS+'</div>';
+	}
 	return(
 	'<div tag="'+tag['id']+'" udate="'+tag['udate']+'">'+
 		'<div class="minitag" style="background-image:url('+tag['imgmini']+')"></div>'+
@@ -606,7 +612,7 @@ function showTag(tag){//individual tag
 				:'')+(tag['product']?
 					'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
 				:'')+
-			'</ul>'+
+			'</ul>'+hash+
 		'<div class="clearfix"></div></menu></div>'
 		:'<div id="menuTagnoLogged"></div>')+
 		'<div class="tag-icons">'+
@@ -774,11 +780,18 @@ function actionsTags(layer, forceComments){
 				case 'users': redir(PAGE['profile']+'?id='+$(e.target).attr('users')); break;
 				case 'qrcode': redir(PAGE['detailsproduct']+'?id='+$(e.target).attr('p')); break;
 			}
-		});
+		}).on('click','.this_seemore',function(){
+			$(this).parents('li.more').removeClass('more');
+		}).on('click','div.tag-hash',function(){
+			$(this).addClass('tag-hash-complete');
+			var vector=$('a[hashT]',this);
+			$.each(vector,function(key,value){
+				$(this).attr('hash',$(this).attr('hashT')).removeAttr('hashT');
+			});
+		}).on('click','a[hash]',function(){//tag-hash-complete
+			redir(PAGE['search']+'?srh='+$(this).attr('hash').replace('#','%23').replace('<br>',' '));
+		})
 	}
-	$(layer).on('click','.this_seemore',function(){
-		$(this).parents('li.more').removeClass('more');
-	});
 }
 function afterAjaxTags(data, tagId, toHide,toShow){
 	//console.log('tagID:'+tagId+'--'+toHide+'--'+toShow);
