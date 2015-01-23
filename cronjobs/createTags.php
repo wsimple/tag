@@ -1,4 +1,10 @@
 <?php
+//**********************************************Create Tag ***************************************************
+//
+//Sirve para crear todas las tags que no existan o actualizarlas mediante los datos de la tabla Tags 
+//
+//***********************************************************************************************************
+
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 define('RELPATH','../');

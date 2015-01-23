@@ -10,7 +10,7 @@
 			<div id="scroller">
 				<div id="noLoggedEmail" class="logoBackEmail" style="display:none;"></div>
 				<div class="tag-solo"><div id="tag" class="tag-container"></div></div>
-				<div class="tag-solo-hash smt-tag-content"></div>
+				<!-- <div class="tag-solo-hash smt-tag-content"></div> -->
 				<div class="is-logged tag-comments-window smt-tag-content dnone">
 					<ul id="comments" data-role="listview" data-inset="true" class="tag-comments ui-listview list" data-divider-theme="e"></ul>
 				</div>
@@ -51,16 +51,6 @@
 					$('.not-logged').fadeIn('slow');
 				}
 				$('.fs-wrapper').jScroll({hScroll:false});
-				$('div.tag-solo-hash').on('click',function(){
-					$(this).addClass('tag-solo-hash-complete');
-					//$('a[hashT]',this).attr('hash',$('a[hashT]',this).attr('hashT')).removeAttr('hashT');
-					var vector=$('a[hashT]',this);
-					$.each(vector,function(key,value){
-						$(this).attr('hash',$(this).attr('hashT')).removeAttr('hashT');
-					});
-				}).on('click','a[hash]',function(){//tag-solo-hash-complete
-					redir(PAGE['search']+'?srh='+$(this).attr('hash').replace('#','%23').replace('<br>',' '));
-				});
 				var test='';
 				// actionsTags(layer);
 				myAjax({
@@ -83,13 +73,13 @@
 						//(tag['status']=='')?alert('vacio'):alert(tag['status']);
 						var tag=data&&data['tags']&&data['tags'][0];
 						if(tag&&(tag['status']!='2')){
-							if(tag['hashTag']){
-								var jj,hashS='';
-								for(jj=0;jj<tag['hashTag'].length;jj++){
-									hashS+='<a href="#" hashT="'+tag['hashTag'][jj]+'">'+tag['hashTag'][jj]+'</a>&nbsp;&nbsp;';
-								}
-								$('div.tag-solo-hash').html(hashS);
-							}
+							// if(tag['hashTag']){
+							// 	var jj,hashS='';
+							// 	for(jj=0;jj<tag['hashTag'].length;jj++){
+							// 		hashS+='<a href="#" hashT="'+tag['hashTag'][jj]+'">'+tag['hashTag'][jj]+'</a>&nbsp;&nbsp;';
+							// 	}
+							// 	$('div.tag-solo-hash').html(hashS);
+							// }
 							$('.tag-title').html(tag['rid']?tag['rname']+lang.TXT_REDIST:tag['uname']);
 							delete tag['uname'];
 							$('#tag').html(showTag(tag));
