@@ -75,6 +75,7 @@ if(false){ ?><script><?php } ?>
 		toptags:'topTags.html',
 		userfriends:'userFriends.html',
 		landding:'landding.html',
+		trendings:'trendings.html',
 		search:'search.html'
 	};
 <?php if(preg_match('/^app\./i',$_SERVER['SERVER_NAME'])){ ?>
