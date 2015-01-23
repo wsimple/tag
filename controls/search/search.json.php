@@ -5,9 +5,18 @@ include '../header.json.php';
 
 if (quitar_inyect()){
     $res=array();$myId=$myId?$myId:$_SESSION['ws-tags']['ws-user']['id'];
+    if (isset($_POST['trendings'])){
+        $res['trendings']=true;
+        $trendings = get_trending(10);
+        while($trending = mysql_fetch_assoc($trendings)){
+            $res['datos'][]=$trending['word'];  
+        }
+        die(jsonp($res));
+    }
     if (isset($_REQUEST['search'])){ $srh = $_REQUEST['search']; }
     else{ $srh =''; }
     if (!isset($_GET['type'])) $_GET['type']='';
+    if ($srh!='') set_trending_topings($srh);
     /*AMIGOS*/
     if($_GET['type']==''||$_GET['type']=='friends'){
         if (isset($_GET['limit'])){
