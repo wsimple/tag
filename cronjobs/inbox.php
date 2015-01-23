@@ -1,4 +1,11 @@
 <?php
+//*********************************************Inbox*********************************************************
+//
+//este archivo se conectaba al servidor de correos y mostraba lo informacion de correos del usuario especificado. buzon de entrada,salida, enviados, entre otros.
+//
+//***********************************************************************************************************
+
+
 include("../class/receivemail.class.php");
 //defaul values
 //receiveMail($username,$password,$EmailAddress,$mailserver='localhost',$servertype='pop',$port='110',$ssl=false)

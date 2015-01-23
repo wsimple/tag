@@ -1,3 +1,10 @@
+<!-- 
+//*********************************************Newsletters***************************************************
+//
+//restaura los puntos del usuario cuando le pasas el id por el get y la variable debug, si no pasas ninguna variable, actualiza los puntos de todos los usuarios
+//
+//*********************************************************************************************************** 
+-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,6 +79,7 @@
         if (!isset($_GET['no_update']))
             CON::update('users',"accumulated_points=$puntos,current_points=$puntos",'id=?',array($id));
     }
+    echo  $row=CON::numRows($query);
 ?>
 </pre>
 </body>

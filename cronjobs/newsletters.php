@@ -1,4 +1,12 @@
 <?php
+//*********************************************Newsletters***************************************************
+//
+//cronjob para el envio de correos a traves del wpanel
+//
+//***********************************************************************************************************
+
+
+
 // ******************** SOME MAIL DATA *************************************************************************************
 		$from = EMAIL_NO_RESPONDA;
 		$fromName = 'tagbum.com';
@@ -17,6 +25,7 @@ if( isset($_GET[send_one_mail]) ) {
 		include '../includes/conexion.php';
 		include '../class/class.phpmailer.php';
 		include '../includes/functions.php';
+		include '../includes/functions_mails.php';
 		include '../includes/languages.config.php';
 
 		$_GET[send_one_mail] = explode('|', $_GET[send_one_mail]);
@@ -42,6 +51,7 @@ if( isset($_GET[send_one_mail]) ) {
 		include '../includes/conexion.php';
 		include '../class/class.phpmailer.php';
 		include '../includes/functions.php';
+		include '../includes/functions_mails.php';
 		include '../includes/languages.config.php';
 
 
