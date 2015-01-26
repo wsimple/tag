@@ -1236,6 +1236,13 @@ loader.s32,.loader.s32{
 	padding-left:8px;
 	height:30px;
 }
+
+#infoList .costProduct{
+	font-size:12px;
+	word-wrap:break-word;
+	padding-left:8px;
+	font-weight:bold;
+}
 /*#infoListShopping li{ height:62px; }
 #infoListShopping li #nameProduct{
 	padding:0 0 0 10px;
