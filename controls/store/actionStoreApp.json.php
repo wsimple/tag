@@ -3,28 +3,25 @@ include '../header.json.php';
 
 $arrayCate = array();
 $arrayPhotos = array();
-
+$myId=$_SESSION['ws-tags']['ws-user']['id'];
 switch ($_GET['action']){
 	//category	
 	case 1:
-		$category = $GLOBALS['cn']->query("
-			SELECT 
-				md5(a.id) AS id, 
-				a.name AS name,
-				a.photo	
-			FROM store_category a 
-			INNER JOIN store_sub_category b ON a.id = b.id_category 
-			INNER JOIN store_products c ON c.id_category = a.id
-			WHERE 
-				c.id_user != '".$_SESSION['ws-tags']['ws-user']['id']."' 
-				AND c.formPayment=0 
-				AND (   SELECT SUM(p.id) 
-						FROM store_products AS p
-						WHERE p.id_category=a.id AND p.id_status=1 AND p.stock>0 AND p.id_user!='".$_SESSION['ws-tags']['ws-user']['id']."') > 0
-			GROUP BY a.id
-		");
+		$category = CON::query("SELECT 
+									md5(a.id) AS id, 
+									a.name AS name,
+									a.photo	
+								FROM store_category a 
+								INNER JOIN store_sub_category b ON a.id = b.id_category 
+								INNER JOIN store_products c ON c.id_category = a.id
+								WHERE c.id_user !=? 
+								AND c.formPayment=0 
+								AND (   SELECT SUM(p.id) 
+										FROM store_products AS p
+										WHERE p.id_category=a.id AND p.id_status=1 AND p.stock>0 AND p.id_user!=?) > 0
+								GROUP BY a.id",array($myId,$myId));
 		$i=0;
-		while($categorys=mysql_fetch_assoc($category)){
+		while($categorys=CON::fetchAssoc($category)){
 			$arrayCate[$i]['id'] = $categorys['id'];
 			// if ($categorys['photo']) $arrayCate[$i]['photo'] = $config->img_server.'css/tbum/storeCategory/'.$categorys['photo'];
 			// else
@@ -34,28 +31,23 @@ switch ($_GET['action']){
 	break;
 	//sub-category
 	case 2:
-		$category = $GLOBALS['cn']->query("
-			SELECT 
-				md5(a.id) AS id, 
-				a.name AS name, 
-				(	
-					SELECT COUNT(x.id)
-					FROM store_products x
-					WHERE x.id_sub_category = a.id AND x.id_user != '".$_SESSION['ws-tags']['ws-user']['id']."' AND x.formPayment=0
-				) AS cant
-			FROM store_sub_category a 
-			INNER JOIN store_products b ON b.id_sub_category = a.id
-			WHERE
-				md5(a.id_category) = '".$_GET['id']."' 
-				AND b.id_user != '".$_SESSION['ws-tags']['ws-user']['id']."' 
-				AND b.formPayment=0
-				AND (   SELECT SUM(p.id) 
-						FROM store_products AS p
-						WHERE p.id_sub_category=a.id AND p.id_status=1 AND p.stock>0 AND p.id_user!='".$_SESSION['ws-tags']['ws-user']['id']."') > 0
-			GROUP BY a.id
-		");
+		$category = CON::query("SELECT 
+									md5(a.id) AS id, 
+									a.name AS name, 
+									(SELECT COUNT(x.id)
+									FROM store_products x
+									WHERE x.id_sub_category = a.id AND x.id_user != ? AND x.formPayment=0
+									) AS cant
+								FROM store_sub_category a 
+								INNER JOIN store_products b ON b.id_sub_category = a.id
+								WHERE md5(a.id_category) = ? 
+								AND b.id_user != ? 
+								AND b.formPayment=0
+								AND (SELECT SUM(p.id) FROM store_products AS p
+									WHERE p.id_sub_category=a.id AND p.id_status=1 AND p.stock>0 AND p.id_user!=?) > 0
+								GROUP BY a.id",array($myId,$_GET['id'],$myId,$myId));
 		$i = 0;
-		while($categorys  = mysql_fetch_assoc($category)){
+		while($categorys=CON::fetchAssoc($category)){
 			$arrayCate[$i]['id'] = $categorys['id'];
 			$arrayCate[$i]['name'] = formatoCadena(lan($categorys['name']));
 			$arrayCate[$i++]['cant'] = $categorys['cant'];
