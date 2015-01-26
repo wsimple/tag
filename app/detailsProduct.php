@@ -24,6 +24,7 @@
 			title:lang['STORE_DETAILS'],
 			backButton:true,
 			before:function(){
+                 
 				//languaje
 				$('#category').html(lang.STORE_CATEGORY);
 				$('#buttonShopping').html(lang.STORE_SHOPPING_ADD);
@@ -43,7 +44,7 @@
 				$('.list-wrapper').jScroll('refresh');
 				viewProductDetails(4,$_GET['id'],info);
 				
-                
+               
                 $(info).on('click','div.tag-solo-hash',function(){ //
                     $(this).addClass('tag-solo-hash-complete');
                     var vector=$('a[hashT]',this);
@@ -54,6 +55,13 @@
                     openVideo($(this).attr('nohref'),'#popupVideo');
                 });
 				
+                // $('#points').formatCurrency({symbol:''}); //Formato de moneda
+                // var forp='<?=$product['formPayment']?>';
+                // if(forp=='0'){
+                // var cost=$('#points').html();
+                // var aux=cost.split('.');
+                // $('#points').html(aux[0]);
+
                 function viewProductDetails(action,id,layer){//aquiiiii
                 	myAjax({
                 		type	:'GET',
@@ -63,6 +71,7 @@
                 			myDialog('#singleDialog',lang.conectionFail);
                 		},
                 		success	:function(data){
+
                 		  if (data['prod']){
                     			var i,photo,product,outLi='',category,idcategory,hashS='',video='';
                     			product=data['prod'][0];
@@ -145,12 +154,18 @@
                                 $('#buttonShopping').click(function(){
                 					addProductShoppingCart($_GET['id']);
                 				});
+
+                                $('#points').formatCurrency({symbol:''}); //Formato de moneda
+                                var cost=$('#points').html();
+                                var aux=cost.split('.');
+                                $('#points').html(aux[0]+' '+lang.STORE_SHOPPING_POINTS);
+                            
                             }else{
                                 
                                 myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE);
                             }
                 		}
-                	});
+                	}); 
                 }
 			}
 		});
