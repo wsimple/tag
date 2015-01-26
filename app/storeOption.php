@@ -40,7 +40,7 @@
                                                         '<select name="country" id="country">'+
                                                             '<option value="">'+lang.STORE_COUNTRY+'</option>'+
                                                         '</select>'+
-                                                        '<input type="text" name="city" id="city" placeholder="'+lang.BUSINESSCARD_LBLCITY+' USA" value="">'+
+                                                        '<input type="text" name="city" id="city" placeholder="'+lang.BUSINESSCARD_LBLCITY+'" value="">'+
                                                         '<input type="text" name="zipCode" id="zipCode" placeholder="'+lang.SIGNUP_ZIPCODE+'" value="">'+
                                                         '<textarea cols="40" rows="8" name="address" id="address" placeholder="'+lang.BUSINESSCARD_LBLADDRESS+'"></textarea>'+
                                                         '<select name="home_code" id="home_code" >'+
@@ -149,8 +149,8 @@
                                 		},
                                 		success: function(data){
                                             console.log(data);
-                                            if (data['rescity']){ myDialog('#singleDialog',data['rescity']);
-                                            }else{
+                                            // if (data['rescity']){ myDialog('#singleDialog',data['rescity']);
+                                            // }else{
                                                 if (data['havePaypalPayment']){
                                                     myDialog({
                                             			id:'defaultDialog',
@@ -161,7 +161,7 @@
                                                     		}]
                                             		});
                                                 }else{  checkOutShoppingCart();  }
-                                            }
+                                            // }
                                         }
                                 	});
                                 }   
