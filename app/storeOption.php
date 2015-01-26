@@ -2,7 +2,7 @@
 <div id="page-lstStoreOption" data-role="page" data-cache="false" class="no-footer">
 	<div data-role="header" data-position="fixed" data-theme="f">
 		<h1></h1>
-		<a id="buttonCheckOutOption" href="#" data-icon="arrow-l" style="display: none;">&nbsp;</a>
+        <a id="buttonCheckOutOption" href="#" data-icon="arrow-r" style="display: none;">&nbsp;</a>
 	</div><!-- header -->
 	<div data-role="content" class="list-content">
 			<div id="storeOption"></div>
@@ -69,7 +69,7 @@
                 }
 			},
 			after:function(){
-                $('#page-lstStoreOption .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
+                // $('#page-lstStoreOption .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
                 $('#footer').on('click','li a',function(){
 					switch($(this).attr('id')){
                         case 'gotoStore':   redir(PAGE['storeCat']); break;
