@@ -2118,7 +2118,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 			if ($id_friend)	//verificar si el usuario tiene inactivo el envio de correo
 				$noEmail=CON::getVal('SELECT id FROM users_config_notifications WHERE id_user=? AND id_notification=?',array($id_friend,$id_type));
 			else $noEmail=false;
-			if (!$noEmail || $id_type==19){
+			if (!$noEmail || $id_type==19 || $id_type==16){
 				if(in_array($id_type,array(2,4,8,9,20))){
 					$userEmailAllTag=CON::getRow('
 						SELECT t.id_creator AS idCreator, u.email AS email
@@ -2248,8 +2248,9 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 									if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$row['email'].$row['html'];
 									else sendMail($row['html'],EMAIL_NO_RESPONDA,formatoCadena($array['buyer']['name']),$row['buyer']['name'].' '.STORE_EMAILMESSAGE,$row['email'],'../../');
 								} 
-							if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$array['buyer']['email'].$array['buyer']['html'];
-							else sendMail($array['buyer']['html'],EMAIL_NO_RESPONDA,'Tagbum.com',STORE_PURCHASETITLENEW,$array['buyer']['email'],'../../');
+							if (!$noEmail)
+								if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$array['buyer']['email'].$array['buyer']['html'];
+								else sendMail($array['buyer']['html'],EMAIL_NO_RESPONDA,'Tagbum.com',STORE_PURCHASETITLENEW,$array['buyer']['email'],'../../');
 						}
 					break;
 					case 19: //ganador de la rifa
