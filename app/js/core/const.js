@@ -84,7 +84,6 @@ is.limited= !is.webkit||is.android;
 		'september'			:'septiembre',
 		'october'			:'octubre',
 		'december'			:'diciembre',
-
 		//'':'mover a',
 
 		//Traducciones al estilo antiguo
@@ -192,6 +191,7 @@ is.limited= !is.webkit||is.android;
 		MNUTAGREPORT_SELECTONEFIRST		:'Seleccione uno',
 		MNUTAGREPORT_TEXT1				:'Gracias por su ayuda',
 		MNUTAGREPORT_TEXT2				:'Sus comentarios y quejas pueden ayudar a que no haya spam en la sección del Timeline.',
+		MODULE_NOT_AVAILABLE			:'Disculpe, pero actualmente este modulo no está disponible en versiones móviles, solo está disponible en la version web (desktop o laptop).',
 		MSG_PAYPAL_HELP					:'Su cuenta está bloqueada temporalmente, para seguir disfrutando de nuestros servicios usted debe cancelar su cuota a través de paypal.',
 		MSG_PAYPAL_HELP_APP				:'En este momento esta opción sólo se encuentra disponible en la versión web',
 		MSGGROUPS_CLOSE					:'Si quieres entrar en él, debe ser invitado por un miembro.',
@@ -436,6 +436,7 @@ is.limited= !is.webkit||is.android;
 		LINK_DOWNLOADAPP				:'Download our app and enjoy all the benefits of our social network',
 		MNU_LOSTPASS					:'Forgot It?',
 		MAINSMNU_PASSWORD				:'Change Password',
+		MODULE_NOT_AVAILABLE			:'Sorry, but right now this module is not available in mobile version, only available in the web version (desktop/laptop).',
 		RESET_MESSAGEPRINCIPAL			:'We will send you an email to verify your email address. Click the link in the email to finish your password reset.',
 		RESET_BTNRESETPASS				:'Reset Password',
 		RESET_PLEASECHECKEMAIL			:'Please check your email.',
