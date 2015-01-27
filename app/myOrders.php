@@ -168,7 +168,7 @@
                                         });
                                     });
                                 }
-                            }else myDialog('#singleDialog',lang.conectionFail);                                    
+                            }else myDialog('#singleDialog',lang.STORE_NO_AVAILABLE_ORDERS);                                    
                     	}
                 	});   
                 }
