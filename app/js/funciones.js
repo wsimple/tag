@@ -2172,7 +2172,7 @@ function checkOutShoppingCart(get){
 						style:{'min-height':80},
 						content:lan('PUBLICITY_MSGSUCCESSFULLY')+'. '+lan('RESET_PLEASECHECKEMAIL'),
 						scroll:true,
-						buttons:{ok:function(){redir(PAGE.storeCat);}}
+						buttons:{ok:function(){ redir(PAGE["myOrders"]); }}
 					});
 					//redir(PAGE.orderdetails+'?nOrden='+data.nOrden);
 				}
