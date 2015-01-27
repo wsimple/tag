@@ -24,7 +24,7 @@ if(false){ ?><script><?php } ?>
 	FILESERVER='http://i.tagbum.com/';
 	CORDOVA=true;
 <?php }else{ ?>
-	if(window.location.href.match(/cometchat|chat\.html/i)){
+	if(window.location.href.match(/chat/i)){
 		var $={local:function(){},session:function(){}};
 		CORDOVA=true;
 	}else{
@@ -44,7 +44,7 @@ if(false){ ?><script><?php } ?>
 <?php } ?>
 	PAGE={
 		ini:'index.html',
-		chat:'<?=is_dir('cometchat/extensions')?'cometchat/extensions/mobilewebapp/':'chat.html'?>',
+		chat:'<?=is_dir('../cometchat/extensions')?'cometchat/extensions/mobilewebapp/':'chat'?>',
 		detailsproduct:'detailsProduct.html',
 		home:'timeLine.html',
 		findfriends:'findFriends.html',
