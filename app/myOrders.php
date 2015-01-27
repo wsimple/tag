@@ -100,7 +100,6 @@
                                         costFormated = $(tempEle).formatCurrency({symbol:''});
                                         totalMoney = costFormated.html(); 
                                     }
-                                    console.log(totalMoney,totalPoints);
                                     $('#myOrders-footer .summary').click(function(){
                                         myDialog({
                                             content:'<div style="text-align: left;padding: 10px;">'+
