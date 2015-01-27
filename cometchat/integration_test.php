@@ -28,9 +28,8 @@ define('DB_USERTABLE_NAME',			'screen_name'			);
 define('DB_AVATARTABLE',			" "						);
 #personalizados
 $usr_table=TABLE_PREFIX.DB_USERTABLE;
-// define('DB_USERTABLE_LASTACTIVITY',	'lastChatActivity'		);#old
-define('DB_AVATARFIELD',			" CONCAT(md5(CONCAT($usr_table.id,'_',$usr_table.email,'_',$usr_table.id)),'/',$usr_table.profile_image_url) ");
-define('DB_USERTABLE_USERLINK',		" CONCAT('user/',MD5($usr_table.id))");
+define('DB_AVATARFIELD'," CONCAT(md5(CONCAT($usr_table.id,'_',$usr_table.email,'_',$usr_table.id)),'/',$usr_table.profile_image_url) ");
+define('DB_USERTABLE_USERLINK'," IF(TRIM(IFNULL($usr_table.username,''))!='',$usr_table.username,$usr_table.id) ");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -150,11 +149,12 @@ function updateLastActivity($userid) {
 function getUserStatus($userid) {
 	 $sql = ("select cometchat_status.message, cometchat_status.status from cometchat_status where userid = '".mysqli_real_escape_string($GLOBALS['dbh'],$userid)."'");
 
-	 return $sql;
+	return $sql;
 }
 
 function fetchLink($link) {
-        return '';
+	$link=trim($link);
+	return preg_match('/\D/',$link)?$link:'user/'.md5($link);
 }
 
 function fileExistsRemote($path){
