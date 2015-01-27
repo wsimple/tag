@@ -133,8 +133,8 @@
                             				outS+=
                             					'<li date="'+prod[i]['join_date']+'" idPro="'+prod[i]['id']+'">'+
                             						'<a><img src="'+prod[i]['photo']+'" style="width:100px;height:60px;margin:20px 0 0 8px;border-radius:10px">'+
-                            							'<p id="nameProduct">'+prod[i]['name']+'</p>'+
-                            							'<p id="descripProduct">'+prod[i]['description']+'</p>'+
+                            							'<p class="nameProduct">'+prod[i]['name']+'</p>'+
+                            							'<p class="descripProduct">'+prod[i]['description']+'</p>'+
                             							'<p class="date"><strong>Published:</strong> '+prod[i]['join_date']+'</p>'+
                             						'</a>'+
                             					'</li>';

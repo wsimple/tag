@@ -85,7 +85,7 @@ function readTxt(url){
 		// console.log(data);
 		var func,$this=data.that;
 		switch(data.opc){
-			case 'home':case 'timeline':case 'news': case 'trendings':
+			case 'home':case 'timeline':case 'news': case 'trendings': case 'myOrders':
 				func=function(){redir(PAGE[data.opc]);};
 			break;
 			case 'toptags'		:func=function(){redir(PAGE.toptags);};break;
@@ -142,9 +142,10 @@ function readTxt(url){
 			'<ul id="store">'+
 				'<li goback="main"><div>back to main</div><arrow/></li>'+
 				'<li opc="store"><div>'+lan('store','ucw')+'</div><arrow/></li>'+
+				'<li opc="myPubli"><div>'+lan('My publications','ucw')+'</div><arrow/></li>'+
 				'<li opc="cart"><div>'+lan('shopping cart','ucw')+'</div><arrow/></li>'+
 				'<li opc="wish"><div>'+lan('wish list','ucw')+'</div><arrow/></li>'+
-				'<li opc="myPubli"><div>'+lan('My publications','ucw')+'</div><arrow/></li>'+
+				'<li opc="myOrders"><div>'+lan('my orders','ucw')+'</div><arrow/></li>'+
 			'</ul>'+
 			//'<ul id="test">'+
 			//	'<li goback="main"><div>back to main</div><arrow/></li>'+
