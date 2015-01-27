@@ -39,6 +39,7 @@
 	<script src="js/core/jScroll.js"></script>
 	<script src="js/core/farbtastic.js"></script>
 	<script src="js/core/colorPicker.js"></script>
+	<script src="js/core/currency/jquery.formatCurrency-1.4.0.js"></script>
 <?php if(isset($_GET['minify'])){
 ?>	<script src="js/min.js" charset="UTF-8"></script>
 

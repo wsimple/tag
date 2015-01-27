@@ -1223,76 +1223,28 @@ loader.s32,.loader.s32{
 	margin-top:-10px;
 }
 
-#infoList #nameProduct{
+#infoList #nameProduct,
+.nameProduct{
 	padding:10px 0 0 8px;
 	font-size:14px;
 	font-weight:bold;
 	color:#F57133;
 }
 
-#infoList #descripProduct{
+#infoList #descripProduct,
+#infoList .descripProduct{
 	font-size:12px;
 	word-wrap:break-word;
 	padding-left:8px;
 	height:30px;
 }
-/*#infoListShopping li{ height:62px; }
-#infoListShopping li #nameProduct{
-	padding:0 0 0 10px;
-	font-size:16px;
-	font-weight:bold;
-	float:left;
-	width:100%;
-	text-overflow:ellipsis;
-	word-wrap:normal;
-	white-space:nowrap;
-	overflow:hidden;
-}
-#infoListShopping li #img{ float:left; }
-#infoListShopping li #img img{
-	width:70px;
-	height:60px;
-	float:left;
-}
-#infoListShopping li #content{
-	float:right;
-	width:74%;
-}
-#infoListShopping li #content #midleDescription{
-	height:30px;
-	width:100%;
-}
-#infoListShopping li #content #midleDescription #descripProduct{
+
+#infoList .costProduct{
 	font-size:12px;
 	word-wrap:break-word;
-	float:left;
-	padding:0 0 0 10px;
-	color:#F57133;
-}
-
-#infoListShopping li #content #midleDescription #trashShoppingCart{
-	background-image:url('smt/trash.png');
-	background-repeat:no-repeat;
-	background-position:0 5px;
-	width:25px;
-	height:31px;
-	float:right;
-}
-#infoListShopping li #pointsProduct{
-	font-size:12px;
+	padding-left:8px;
 	font-weight:bold;
-	text-align:left;
-	padding-top:3px;
 }
-#page-lstStoreShopping #detailsShoppingCart{
-	margin:45px 0 0 0px;
-	padding:12px 0 0 7px;
-	height:35px;
-	font-size:14px;
-	font-weight:bold;
-	background:#4e89c5;
-	color:#fff;
-}*/
 #lstStoreOption .contentItem:after{
 	visibility: hidden;
 	display: block;

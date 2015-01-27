@@ -333,8 +333,12 @@ $(function() {
                             if(data['datosCar2']['new']=='si'){
                                 if (!data['datosCar2']['order']){
                                     numIt=parseFloat(numIt)+1;
-                                    $('#menu-lshoppingCart').empty().html(numIt);
-                                    $('div.shoppingCart div.numCart span').empty().html(numIt);
+                                    $('#menu-lshoppingCart').addClass('scale');
+                                    setTimeout(function(){ 
+                                    	$('#menu-lshoppingCart').empty().html(numIt);
+	                                    $('div.shoppingCart div.numCart span').empty().html(numIt);
+                                    	$('#menu-lshoppingCart').removeClass('scale');
+                                    }, 500);
                                 }else{
                                     numIt=1;
                                     $('#menu-lshoppingCart').empty().html('1').css('display','block');

@@ -1626,7 +1626,7 @@ function createSessionCar($id_user='',$code='',$count='',$idproduct='',$idOrder=
 	$carrito=array();
 	//en mysql, si utiliza el nombre del campo se puede omitir el AS, y el INNER fue deprecado (INNER JOIN = JOIN)
 	if ($count!=''){
-		$select='COUNT(p.id) AS num';
+		$select='SUM(od.cant) AS num';
 	}else{
 		$select='
 			p.id,
@@ -1688,7 +1688,7 @@ function createSessionCar($id_user='',$code='',$count='',$idproduct='',$idOrder=
 function createSessionStore(){
 	$id_user=$_SESSION['ws-tags']['ws-user']['id'];
 	$sql="
-		SELECT COUNT(od.id_status) AS cant, o.id_status AS status,o.id
+		SELECT SUM(od.cant) AS cant, o.id_status AS status,o.id
 		FROM store_orders o
 		JOIN store_orders_detail od ON od.id_order=o.id
 		WHERE o.id_user='".$id_user."'
