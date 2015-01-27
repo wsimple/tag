@@ -694,7 +694,7 @@ include ('../../class/class.phpmailer.php');
 				$datosCar[$a]['product_id']=$array['id'];
 				$datosCar[$a]['product_id']=$array['id'];
 				$datosCar[$a]['product_name']=utf8_encode(formatoCadena($array['name']));
-				$photo	= FILESERVER.'img/'.$array['photo'];
+				$photo	= ($GLOBALS['config']->local?DOMINIO:FILESERVER).'img/'.$array['photo'];
 				if(fileExistsRemote($photo)){ $datosCar[$a]['product_photo'] = $photo; }
                 else{ $datosCar[$a]['product_photo'] = DOMINIO.'imgs/defaultAvatar.png';}
 				$datosCar[$a]['product_place']=$array['place'];
@@ -729,17 +729,16 @@ include ('../../class/class.phpmailer.php');
 				}
             }
 			//consulta para obtener todas las fechas para el filtro
-			$sql=$GLOBALS['cn']->query('SELECT DISTINCT	
-											YEAR(o.date) AS year,
-											MONTH(o.date) AS month
-										FROM store_orders o
-										'.$inner.'
-										WHERE '.$filtro.' '.$filter.' '.$group.'
-										ORDER BY o.date DESC;');
-			while($array=  mysql_fetch_assoc($sql)){
-				$datosCar[$i]['year']=$array['year'];
-				$datosCar[$i]['month']=$array['month'];
-				$datosCar[$i++]['monthL']=  getMonth((int)$array['month']);
+			$sql=CON::query("SELECT DISTINCT
+								YEAR(o.date) AS year,
+								MONTH(o.date) AS month
+							FROM store_orders o $inner
+							WHERE $filtro $filter $group
+							ORDER BY o.date DESC;");
+			while($row=CON::fetchAssoc($sql)){
+				$datosCar[$i]['year']=$row['year'];
+				$datosCar[$i]['month']=$row['month'];
+				$datosCar[$i++]['monthL']=  getMonth((int)$row['month']);
 			}
 			break;
 		case 11: //consultas de las ciudades de la tabla ciudad... se llama por ajax para que no cuelgue la vista de users_shoppingCart

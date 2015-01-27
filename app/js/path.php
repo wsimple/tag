@@ -63,6 +63,7 @@ if(false){ ?><script><?php } ?>
 		seekpreferences:'seekPreferences.html',
 		sharetag:'shareTag.html',
 		shoppingCart:'storeCartList.html',
+		myOrders:'myOrders.html',
 		signup:'signUp.html',
 		storePorduct:'store.html',
 		storeCat:'storeCategory.html',
