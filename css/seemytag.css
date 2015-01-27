@@ -4274,6 +4274,19 @@ height: 150px;}
 	border-radius: 50%;
 	text-indent: initial;
 }
+.zoom{
+	transition: 1s ease;
+	-moz-transition: 1s ease; /* Firefox */
+	-webkit-transition: 1s ease; /* Chrome - Safari */
+	-o-transition: 1s ease; /* Opera */
+}
+.zoom.scale,.zoom:hover{
+	transform : scale(2);
+	-moz-transform : scale(2); /* Firefox */
+	-webkit-transform : scale(2); /* Chrome - Safari */
+	-o-transform : scale(2); /* Opera */
+	-ms-transform : scale(2); /* IE9 */
+}
 #frmProducts h6{
 	margin:0;
 	padding:0;
@@ -4486,13 +4499,16 @@ height: 150px;}
 #headerStoreCar div span#totalPrice,#headerStoreCar div span#totalPriceMoney{
 	color:#990000;
 }
+#second-panel-shopping .totalPointsSC{ 
+	display: inline-block; 
+	float: right;
+}
+#second-panel-shopping .totalPointsSC input{
+	font-size: 14px;
+}
 
-.tcAlert{
-	color:#bb0;
-}
-.tcWarn{
-	color:#BE2E17;
-}
+.tcAlert{ color:#bb0; }
+.tcWarn{ color:#BE2E17; }
 
 #makeSugesStoreProducts{
 	background-color:white;

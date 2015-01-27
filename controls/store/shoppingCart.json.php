@@ -98,7 +98,7 @@ include ('../../class/class.phpmailer.php');
 					}else{
 						if ($product['id_category']=='1'){ $jsonResponse['datosCar2']['msg']='backg'; $jsonResponse['datosCar2']['add'] = 'no';}
                         else{
-                            $jsonResponse['datosCar2']['new']='no';
+                            $jsonResponse['datosCar2']['new']='si';
 							$_SESSION['car'][$producto]['cant'] = campo('store_orders_detail', 'id_order', $idOrder, 'cant','AND id_product="'.$producto.'"')+1;
 							if ($product['stock']>=$_SESSION['car'][$producto]['cant']){
 								$GLOBALS['cn']->query('	UPDATE store_orders_detail SET cant="'.$_SESSION['car'][$producto]['cant'].'" 

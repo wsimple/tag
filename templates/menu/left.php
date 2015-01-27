@@ -41,7 +41,7 @@
 				<?php } ?>
 				<li id="menu-l-li-shoppingCart" >
 					<a href="<?=base_url('shoppingcart')?>"><?=STORE_SHOPPINGCART?></a>
-					<div id="menu-lshoppingCart" class="menu-l-shoppingCart" style="display: none;"></div>
+					<div id="menu-lshoppingCart" class="menu-l-shoppingCart zoom" style="display: none;"></div>
 					<div class="clearfix"></div>
 				</li>
 				<li id="menu-l-li-wishList" ><a href="<?=base_url('wishList')?>"><?=STORE_WISH_LIST?></a></li>
