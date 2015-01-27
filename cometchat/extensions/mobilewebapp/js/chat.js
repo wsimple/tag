@@ -19,6 +19,7 @@ var initializeMobileWebapp = 1;
         var landscapeMode = 0;
         var buddyListName = {};
         var buddyListAvatar = {};
+        var buddyListStatus = {};
         var buddyListMessages = {};
         var detectTimer;
         var enableType = '<?php echo $enableType ?>';
@@ -65,11 +66,12 @@ var initializeMobileWebapp = 1;
                     longname = buddy.n;
                     buddyListName[buddy.id] = buddy.n;
                     buddyListAvatar[buddy.id] = buddy.a;
+                    buddyListStatus[buddy.id] = buddy.s;
                     if(!buddyListMessages[buddy.id]){
                         buddyListMessages[buddy.id] = 0;
                     }
-                    var imgTag = displaythumbnail?'<img src="'+buddy.a+'" class=" avatarimage"/>':'';
-                    buddylisttemp[buddy.s] += '<li id="onlinelist_'+buddy.id+'" class="row userlists" onclick="javascript:jqcc.chatmobilewebapp.loadPanel(\''+buddy.id+'\')" data-filtertext="'+longname+'"><div class="small-7 columns"><img src="images/cleardot.gif" class=" status status-'+buddy.s+' "><span class="longname search_name">'+longname+'</span></div><div class="small-5 columns">'+imgTag+'<span class="newmessages">'+buddyListMessages[buddy.id]+'</span></div></li>';
+                    var imgTag = displaythumbnail?'<img src="'+buddy.a+'" class="'+buddy.s+' avatarimage"/>':'';
+                    buddylisttemp[buddy.s] += '<li id="onlinelist_'+buddy.id+'" class="row userlists" onclick="javascript:jqcc.chatmobilewebapp.loadPanel(\''+buddy.id+'\')" data-filtertext="'+longname+'"><div class="small-9 columns name">'+imgTag+'<span class="longname search_name">'+longname+'</span></div><div class="small-3 columns"><span class="newmessages">'+buddyListMessages[buddy.id]+'</span></div></li>';
                     $('#onlinelist_'+buddy.id).remove();
                 });
                 buddylist = buddylisttemp['available']+buddylisttemp['busy']+buddylisttemp['away']+buddylisttemp['offline'];
@@ -232,6 +234,8 @@ var initializeMobileWebapp = 1;
                     jqcc.cookie(cookie_prefix+'state', cc_state, {path: '/'});
                 }
                 var userName = buddyListName[id];
+                var userAvatar = buddyListAvatar[id];
+                var userStatus = buddyListStatus[id];
                 var flag = 0;
                 if(userName===undefined){
                     if(!isNaN(id)){
@@ -246,6 +250,9 @@ var initializeMobileWebapp = 1;
                     if(flag==1){
                         clearInterval(refreshIntervalId);
                         $('#chatheader').find("h1").html(userName);
+                        var chatTitle=userAvatar?'<img src="'+userAvatar+'" class="avatarimage"/>':'';
+                        $('#chatheader').find('.avatar').html(chatTitle);
+                        $('#chatheader').find('#status').html('<div class="'+userStatus+'"></div>');
                         $('#scroller').html('<ul id="cwlist"></ul>');
                         $("#chatmessage").keyup(function(event){
                             if($("#chatmessage").val()!==''&&event.keyCode==13&&event.shiftKey==0)
