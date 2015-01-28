@@ -85,7 +85,7 @@ function readTxt(url){
 		// console.log(data);
 		var func,$this=data.that;
 		switch(data.opc){
-			case 'home':case 'timeline':case 'news': case 'trendings':
+			case 'home':case 'timeline':case 'news': case 'trendings': case 'myOrders':
 				func=function(){redir(PAGE[data.opc]);};
 			break;
 			case 'toptags'		:func=function(){redir(PAGE.toptags);};break;
@@ -142,9 +142,10 @@ function readTxt(url){
 			'<ul id="store">'+
 				'<li goback="main"><div>back to main</div><arrow/></li>'+
 				'<li opc="store"><div>'+lan('store','ucw')+'</div><arrow/></li>'+
+				'<li opc="myPubli"><div>'+lan('My publications','ucw')+'</div><arrow/></li>'+
 				'<li opc="cart"><div>'+lan('shopping cart','ucw')+'</div><arrow/></li>'+
 				'<li opc="wish"><div>'+lan('wish list','ucw')+'</div><arrow/></li>'+
-				'<li opc="myPubli"><div>'+lan('My publications','ucw')+'</div><arrow/></li>'+
+				'<li opc="myOrders"><div>'+lan('my orders','ucw')+'</div><arrow/></li>'+
 			'</ul>'+
 			//'<ul id="test">'+
 			//	'<li goback="main"><div>back to main</div><arrow/></li>'+
@@ -1827,17 +1828,21 @@ function viewCategories(action,idLayer,id){
 		success:function(data){
 			var out='',cate;
 			if (data.data.length>0){
-				for(var i in data.data){
-					cate=data.data[i];
-					out+=
-						'<li class="categorylist">'+
-							'<a code='+cate.id+' data-theme="e">'+
-								(cate.photo?'<img src="'+cate.photo+'" style="width:80px;height:50px;margin:20px 0 0 8px;">':'')+
-								'<p><h3 class="ui-li-heading">'+cate.name+'</h3>'+
-								(cate.cant?'<span class="ui-li-count">'+cate.cant+'</span>':'')+
-							'</p></a>'+
-						'</li>';
-				}
+				if (data.data.length==1){
+					if (action==1) redir(PAGE['storeSubCate']+'?id='+data.data[0].id);
+					else if (action==2) redir(PAGE['storePorduct']+'?sc='+data.data[0].id+'&c='+id);
+				}else
+					for(var i in data.data){
+						cate=data.data[i];
+						out+=
+							'<li class="categorylist">'+
+								'<a code='+cate.id+' data-theme="e">'+
+									(cate.photo?'<img src="'+cate.photo+'" style="width:80px;height:50px;margin:20px 0 0 8px;">':'')+
+									'<p><h3 class="ui-li-heading">'+cate.name+'</h3>'+
+									(cate.cant?'<span class="ui-li-count">'+cate.cant+'</span>':'')+
+								'</p></a>'+
+							'</li>';
+					}
 			}else{
 				myDialog({
 					id:'#idDontStore',
@@ -2167,7 +2172,7 @@ function checkOutShoppingCart(get){
 						style:{'min-height':80},
 						content:lan('PUBLICITY_MSGSUCCESSFULLY')+'. '+lan('RESET_PLEASECHECKEMAIL'),
 						scroll:true,
-						buttons:{ok:function(){redir(PAGE.storeCat);}}
+						buttons:{ok:function(){ redir(PAGE["myOrders"]); }}
 					});
 					//redir(PAGE.orderdetails+'?nOrden='+data.nOrden);
 				}

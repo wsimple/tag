@@ -2,7 +2,7 @@
 <div id="page-lstStoreOption" data-role="page" data-cache="false" class="no-footer">
 	<div data-role="header" data-position="fixed" data-theme="f">
 		<h1></h1>
-		<a id="buttonCheckOutOption" href="#" data-icon="arrow-l" style="display: none;">&nbsp;</a>
+        <a id="buttonCheckOutOption" href="#" data-icon="arrow-r" style="display: none;">&nbsp;</a>
 	</div><!-- header -->
 	<div data-role="content" class="list-content">
 			<div id="storeOption"></div>
@@ -40,7 +40,7 @@
                                                         '<select name="country" id="country">'+
                                                             '<option value="">'+lang.STORE_COUNTRY+'</option>'+
                                                         '</select>'+
-                                                        '<input type="text" name="city" id="city" placeholder="'+lang.BUSINESSCARD_LBLCITY+' USA" value="">'+
+                                                        '<input type="text" name="city" id="city" placeholder="'+lang.BUSINESSCARD_LBLCITY+'" value="">'+
                                                         '<input type="text" name="zipCode" id="zipCode" placeholder="'+lang.SIGNUP_ZIPCODE+'" value="">'+
                                                         '<textarea cols="40" rows="8" name="address" id="address" placeholder="'+lang.BUSINESSCARD_LBLADDRESS+'"></textarea>'+
                                                         '<select name="home_code" id="home_code" >'+
@@ -69,7 +69,7 @@
                 }
 			},
 			after:function(){
-                $('#page-lstStoreOption .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
+                // $('#page-lstStoreOption .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
                 $('#footer').on('click','li a',function(){
 					switch($(this).attr('id')){
                         case 'gotoStore':   redir(PAGE['storeCat']); break;
@@ -149,8 +149,8 @@
                                 		},
                                 		success: function(data){
                                             console.log(data);
-                                            if (data['rescity']){ myDialog('#singleDialog',data['rescity']);
-                                            }else{
+                                            // if (data['rescity']){ myDialog('#singleDialog',data['rescity']);
+                                            // }else{
                                                 if (data['havePaypalPayment']){
                                                     myDialog({
                                             			id:'defaultDialog',
@@ -161,7 +161,7 @@
                                                     		}]
                                             		});
                                                 }else{  checkOutShoppingCart();  }
-                                            }
+                                            // }
                                         }
                                 	});
                                 }   
