@@ -23,22 +23,22 @@ if(!(in_array('mobilewebapp',$extensions))){
 		<link rel="apple-touch-icon" href="images/apple-touch-icon.png"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title><?php echo $mobilewebapp_language[0]; ?></title>
-		
+
 		<link type="text/css" href="../../css.php?type=extension&name=mobilewebapp" rel="stylesheet" charset="utf-8">
-	   
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>		
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" charset="utf-8" src="../../js.php?type=extension&name=mobilewebapp&callbackfn=mobilewebapp"></script>
-		<script type="text/javascript" charset="utf-8" src="../../js.php?type=module&name=chatrooms&callbackfn=mobilewebapp"></script>	
+		<script type="text/javascript" charset="utf-8" src="../../js.php?type=module&name=chatrooms&callbackfn=mobilewebapp"></script>
 		<script>
-            var isPhoneTouched = 0;
-            document.addEventListener('touchstart', function() { 
-                if (isPhoneTouched == 0) {
-                    document.getElementsByTagName('audio')[0].play();
-                    document.getElementsByTagName('audio')[0].pause();
-                    isPhoneTouched = 1;
-                }
-            });
-			
+			var isPhoneTouched = 0;
+			document.addEventListener('touchstart', function() {
+				if (isPhoneTouched == 0) {
+					document.getElementsByTagName('audio')[0].play();
+					document.getElementsByTagName('audio')[0].pause();
+					isPhoneTouched = 1;
+				}
+			});
+
 			$("#buddy_link").live('click', function() {
 				$('.chatlink_icon').html('<span class="notifier">0</span>');
 				$("#footer #footerbtns .button-group li").find('#buddy_link').addClass('btn-active');
@@ -50,41 +50,41 @@ if(!(in_array('mobilewebapp',$extensions))){
 				$("#footer #footerbtns .button-group li").find('#buddy_link').removeClass('btn-active');
 				jqcc.mobilewebapp.pathRedirect('#lobby');
 			});
-			 
-			$(document).ready(function() { 	 	
-				var enableType = '<?php echo $enableType ?>';		
+
+			$(document).ready(function() {
+				var enableType = '<?php echo $enableType ?>';
 				$('#options').on('click', function() {
 					$('#cometchat_container_report .cometchat_container_title .cometchat_closebox').click();
 					if($("#opt").is(':visible')) {
-						$('#opt').css('display','none');						
-					} else { 
-						$('#opt').css('display','block');											
-					}	
-				});				
+						$('#opt').css('display','none');
+					} else {
+						$('#opt').css('display','block');
+					}
+				});
 				$('#chatcontent').on('click', function() {
-					$('#opt').css('display','none');							
-				});				
-				$("#chatroommessage").on('click', function() {	
+					$('#opt').css('display','none');
+				});
+				$("#chatroommessage").on('click', function() {
 					setTimeout(function () {jqcc.mobilewebapp.crscrollToBottom();},700);
-				});				
+				});
 				$("#chatmessage").on('click', function() {
 					setTimeout(function () {jqcc.mobilewebapp.scrollToBottom();},700);
-				});		
-				$("#chatroommessage").keyup(function(event) { 
-					if($("#chatroommessage").val() !== '' && event.keyCode == 13 && event.shiftKey == 0) { 
+				});
+				$("#chatroommessage").keyup(function(event) {
+					if($("#chatroommessage").val() !== '' && event.keyCode == 13 && event.shiftKey == 0) {
 						$("#chatroom_send").click();
-					}	
+					}
 				});
 			});
-        </script>
+		</script>
 	</head>
 
 	<body>
 		<?php if($enableType == 0 OR $enableType == 2):?>
-        <div id="buddy" style="background:inherit;width:100% !important;" class="displaynone">
-            <nav class="top-bar" id="header">
+		<div id="buddy" style="background:inherit;width:100% !important;" class="displaynone">
+			<nav class="top-bar" id="header">
 				<div class="small-3 columns" id="home">
-					<a id="buddyhome">				
+					<a id="buddyhome">
 					<div class="home_icon">
 						<div class="arrow-up"></div>
 						<div class="rect1"></div>
@@ -97,21 +97,21 @@ if(!(in_array('mobilewebapp',$extensions))){
 					<audio style="display:none">
 						<source src="mp3/beep.mp3" type="audio/mpeg">
 					</audio>
-				</div>	
+				</div>
 				<div class="small-3 columns">&nbsp;</div>
-            </nav>
+			</nav>
 			<div id="wocontent">
-                <div id="woscroll">
+				<div id="woscroll">
 					<div class="row" id="search">
-						<input  type="text" id="searchtxt" onKeyup="jqcc.mobilewebapp.get_user();" placeholder="<?php echo $mobilewebapp_language[15]; ?>">
+						<input type="text" id="searchtxt" onKeyup="jqcc.mobilewebapp.get_user();" placeholder="<?php echo $mobilewebapp_language[15]; ?>">
 					</div>
 					<div class="row" id="userlist">
 						<ul id="wolist" class="small-12 columns">
 						</ul>
 						<div id="endoftext"></div>
-					</div>	
-                </div>
-            </div>
+					</div>
+				</div>
+			</div>
 			<?php if($enableType == 0):?>
 			<div id="footer" class="row">
 				<div class="small-12 columns" id="footerbtns">
@@ -122,10 +122,10 @@ if(!(in_array('mobilewebapp',$extensions))){
 				</div>
 			</div>
 			<?php endif;?>
-        </div>
+		</div>
 		<?php endif;?>
-		
-	
+
+
 		<div id="chat" style="background:inherit;width:100% !important;" class="displaynone">
 			<div id="cheader">
 				<div class="row" id="chatheader">
@@ -139,17 +139,22 @@ if(!(in_array('mobilewebapp',$extensions))){
 					</div>
 					<div class="small-6 columns" id="createheader">
 						<h1></h1>
-					</div>	
-					<div class="small-3 columns chatoptions">						
-						<a id="options">
-						<div class="option_icon">
-							<div class="bar1"></div>
-							<div class="bar2"></div>
-							<div class="bar3"></div>
-						</div>					
-						</a>	
-					</div>	
-				</div>		
+					</div>
+					<div class="small-3 columns">
+						<div class="avatar">
+						</div>
+						<div class="chatoptions">
+							<a id="options">
+							<div class="option_icon">
+								<div class="bar1"></div>
+								<div class="bar2"></div>
+								<div class="bar3"></div>
+							</div>
+							</a>
+						</div>
+					</div>
+					<div id="status" class="small-12 columns"></div>
+				</div>
 			</div>
 			<div id="opt">
 				<div id="clear"><img src="images/clearconversation.png"/>&nbsp;&nbsp;&nbsp;<?php echo $mobilewebapp_language[30]; ?></div>
@@ -167,13 +172,13 @@ if(!(in_array('mobilewebapp',$extensions))){
 					</div>
 					<div class="small-3 columns" id="chatsendbutton">
 						<a id="chat_send" class="mobile_send small alert button"><?php echo $mobilewebapp_language[25]; ?></a>
-					</div>	
+					</div>
 				</div>
 			</div>
 		</div>
-		
+
 		<?php if($enableType == 0 OR $enableType == 1):?>
-        <div id="lobby" style="background:inherit;width:100% !important;" class="displaynone">
+		<div id="lobby" style="background:inherit;width:100% !important;" class="displaynone">
 			<nav class="top-bar" id="header">
 				<div class="row">
 					<div class="small-3 columns" id="home">
@@ -187,7 +192,7 @@ if(!(in_array('mobilewebapp',$extensions))){
 					</div>
 					<div class="small-6 columns" id="crheader">
 						<h1><?php echo $mobilewebapp_language[19]; ?></h1>
-					</div>	
+					</div>
 					<div class="small-3 columns" id="adddiv">
 						<?php if ($allowUsers == '1'): ?>
 							<a id="addchatroom" href="javascript:void(0);" onclick="javascript:jqcc.mobilewebapp.createChatroom()">
@@ -196,21 +201,21 @@ if(!(in_array('mobilewebapp',$extensions))){
 								<div class="horirect"></div>
 							</div>
 							</a>
-						<?php endif; ?> 
-					</div>	
+						<?php endif; ?>
+					</div>
 				</div>
 			</nav>
 			<div id="lobbycontent">
-                <div id="lobbyscroller">
+				<div id="lobbyscroller">
 					<div class="row" id="search">
 						<input type="text" id="searchtxtCR" onKeyup="jqcc.mobilewebapp.get_chatroom();" placeholder="<?php echo $mobilewebapp_language[16]; ?>">
 					</div>
 					<div class="row" id="chatroomlist">
 						<ul id="lobbylist" class="small-12 columns">
 						</ul>
-					</div>	
-                </div>
-            </div>
+					</div>
+				</div>
+			</div>
 			<?php if($enableType == 0):?>
 			<div id="footer" class="row">
 				<div class="small-12 columns" id="footerbtns">
@@ -221,10 +226,10 @@ if(!(in_array('mobilewebapp',$extensions))){
 				</div>
 			</div>
 			<?php endif;?>
-        </div>
+		</div>
 		<?php endif;?>
-		
-		
+
+
 		<div id="chatroom" style="background:inherit;width:100% !important;" class="displaynone">
  			<div id="crheadertop">
 				<div class="row" id="chatroomheader">
@@ -232,53 +237,53 @@ if(!(in_array('mobilewebapp',$extensions))){
 						<a id="backbtnChatroom" onclick="javascript:jqcc.mobilewebapp.mobileleaveChatroom();jqcc.mobilewebapp.loadLobbyReverse();" class="small alert button bck">
 						<div class="back_icon">
 							<div class="arrow-left"></div>
-							<div class="rectangle"></div>	
+							<div class="rectangle"></div>
 						</div>
-							
+
 						</a>
 					</div>
 					<div class="small-6 columns" id="createheader">
 						<span id="chatroomName"></span>
-					</div>	
+					</div>
 					<div class="small-3 columns">
-						<a id="showUserButton" onclick="javascript:jqcc.mobilewebapp.showChatroomUser();">					
+						<a id="showUserButton" onclick="javascript:jqcc.mobilewebapp.showChatroomUser();">
 						<div class="user_icon">
-							<div class="user_right">	
+							<div class="user_right">
 								<div class="circleBase3 type3"></div>
 								<div class="circleBase4 type4"></div>
-							</div>	
-							<div class="user_left">	
+							</div>
+							<div class="user_left">
 								<div class="circleBase5 type5"></div>
 								<div class="circleBase6 type6"></div>
 							</div>
 							<div class="user_main">
 								<div class="circleBase1 type1"></div>
 								<div class="circleBase2 type2"></div>
-							</div>								
-						</div>						
+							</div>
+						</div>
 						</a>
-					</div>	
+					</div>
 				</div>
 			</div>
-            <div id="chatroomcontent" >
-                <div id="crscroller">
-                </div>
-                <div id="endoftext"></div>
-            </div>
-  			<div id="chatroomfooter" class="row">
-                <div id="chatroommessageForm" onsubmit="#" data-ajax="false">
+			<div id="chatroomcontent" >
+				<div id="crscroller">
+				</div>
+				<div id="endoftext"></div>
+			</div>
+			<div id="chatroomfooter" class="row">
+				<div id="chatroommessageForm" onsubmit="#" data-ajax="false">
 					<div class="small-9 columns" id="chattxt">
 						<input id="chatroommessage" type="text" name="chatmessage" placeholder="<?php echo $mobilewebapp_language[9]; ?>"/>
 					</div>
 					<div class="small-3 columns" id="chatsendbutton">
 						<a id="chatroom_send" class="mobile_send small alert button" onclick="javascript:jqcc.mobilewebapp.sendchatroommessage($('#chatroommessage'));"><?php echo $mobilewebapp_language[25]; ?></a>
-					</div>	
-                </div>
-            </div>
-        </div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 
-        <div id="chatroomuser" style="background:inherit;width:100% !important;" class="displaynone">
+		<div id="chatroomuser" style="background:inherit;width:100% !important;" class="displaynone">
 			<nav class="top-bar" id="header">
 				<div class="row" id="chatroomuserheader">
 					<div class="small-3 columns">
@@ -291,21 +296,21 @@ if(!(in_array('mobilewebapp',$extensions))){
 					</div>
 					<div class="small-6 columns" id="createheader">
 						<span id="chatroomUserName" style="margin:0 auto;padding:0 10px;height:inherit;display:inline-block;"></span>
-					</div>	
-					<div class="small-3 columns">&nbsp;</div>	
+					</div>
+					<div class="small-3 columns">&nbsp;</div>
 				</div>
 			</nav>
 			<div class="row" id="chatroomusercontent">
 				<div id="cruserScroll">
 					<ul id="currentroom_users" class="small-12 columns">
 					</ul>
-				</div>	
+				</div>
 			</div>
-        </div>		
+		</div>
 
-	
-        <div id="createChatroom" style="background:inherit;width:100% !important;" class="displaynone">
-			<nav  id="header">
+
+		<div id="createChatroom" style="background:inherit;width:100% !important;" class="displaynone">
+			<nav id="header">
 				<div class="row">
 					<div class="small-3 columns">
 						<a id="backbtnCreateChatroom" onclick="javascript:jqcc.mobilewebapp.loadLobbyReverse()" class="small alert button bck">
@@ -317,59 +322,59 @@ if(!(in_array('mobilewebapp',$extensions))){
 					</div>
 					<div class="small-6 columns" id="createheader">
 						<h1><?php echo $mobilewebapp_language[22]; ?></h1>
-					</div>	
-					<div class="small-3 columns">&nbsp;</div>	
+					</div>
+					<div class="small-3 columns">&nbsp;</div>
 				</div>
-			</nav>			
-            <div style="font-size:13px;">
-                <form id="createChatroomForm"  onsubmit="return false" data-ajax="false">
-                    <div class="row" id="crname" >
+			</nav>
+			<div style="font-size:13px;">
+				<form id="createChatroomForm" onsubmit="return false" data-ajax="false">
+					<div class="row" id="crname" >
 						<div class="small-4 columns" id="labelname">
 							<label class="chatroomedit" for="name"><?php echo $chatrooms_language[27]; ?></label>
-						</div>	
-                        <div class="small-8 columns">
+						</div>
+						<div class="small-8 columns">
 							<input type="text" name="name" id="name" value="" />
 						</div>
-                    </div>
-                    <div class="row" id="crtype" >
-                        <div class="small-4 columns">
+					</div>
+					<div class="row" id="crtype" >
+						<div class="small-4 columns">
 							<label class="chatroomedit" for="type" class="select"><?php echo $chatrooms_language[28]; ?></label>
-						</div>	
+						</div>
 						<div class="small-8 columns">
 							<select name="type" id="type" onchange="javascript:jqcc.mobilewebapp.checkDropDown(this)">
 								<option value="0"><?php echo $chatrooms_language[29]; ?></option>
 								<option value="1"><?php echo $chatrooms_language[30]; ?></option>
 							</select>
 						</div>
-                    </div>                    			
+					</div>
 					<div class="row" id="chatroomPassword">
 						<div class="small-4 columns" id="labelname">
 							<label for="password"><?php echo $chatrooms_language[32]; ?></label>
-						</div>	
-                        <div class="small-8 columns">
+						</div>
+						<div class="small-8 columns">
 							<input type="password" name="password" id="password" value="" />
 						</div>
-                    </div>
+					</div>
 					<div class="row" id="createbtn">
 						<div id="createChatroomField" class="small-12 columns">
 							<a id="createChatroomButton" class="small button success radius" onclick="javascript:jqcc.mobilewebapp.mobilecreateChatroomSubmit()"><?php echo $chatrooms_language[33]; ?></a>
 						</div>
-					</div>	
-                </form>
-            </div>
-        </div>		
+					</div>
+				</form>
+			</div>
+		</div>
 	</body>
-	
+
 	<script type="text/javascript">
 		var reportPlugin = 0;
 		var clearPlugin = 0;
 		var plugins = <?php echo json_encode($plugins); ?>;
 		if(plugins.indexOf("report") != -1) {
 			reportPlugin = 1;
-		}		
+		}
 		if(plugins.indexOf("clearconversation") != -1) {
 			clearPlugin = 1;
-		}		
+		}
 		if(clearPlugin == 0 && reportPlugin == 0) {
 			$("#options").css('display','none');
 		}
@@ -380,19 +385,19 @@ if(!(in_array('mobilewebapp',$extensions))){
 		if(clearPlugin == 0 && reportPlugin == 1) {
 			$("#clear").css('display','none')
 			$("#opt").css('height','35px');
-		}	
+		}
 		var path = $(location).attr('href');
-                $('#buddyhome').css('display','block');
-                $('#lobbyhome').css('display','block');
-                $('#buddyhome').click(function() { window.location.href = '<?php echo $_SERVER['HTTP_REFERER'];?>';});
-                $('#lobbyhome').click(function() { $('#buddyhome').click();});
-                var arr = path.split('/extensions/mobilewebapp/')[1];
-		var showdiv = arr;		
+				$('#buddyhome').css('display','block');
+				$('#lobbyhome').css('display','block');
+				$('#buddyhome').click(function() { window.location.href = '<?php echo $_SERVER['HTTP_REFERER'];?>';});
+				$('#lobbyhome').click(function() { $('#buddyhome').click();});
+				var arr = path.split('/extensions/mobilewebapp/')[1];
+		var showdiv = arr;
 		if(enableType == 2 || enableType == 0){
 			jqcc.mobilewebapp.pathRedirect(showdiv);
 		} else if(enableType == 1){
 			jqcc.mobilewebapp.pathRedirect('#lobby');
-		}		
-		jqcc.mobilewebapp.addscroll();	
+		}
+		jqcc.mobilewebapp.addscroll();
 	</script>
 </html>

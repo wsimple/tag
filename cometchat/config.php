@@ -54,7 +54,6 @@ $trayicon = array();
 $trayicon[] = array('home','Home','/','','','','','','');
 $trayicon[] = array('chatrooms','Chatrooms','modules/chatrooms/index.php','_popup','600','300','','1','1');
 $trayicon[] = array('announcements','Announcements','modules/announcements/index.php','_popup','280','300','','1','');
-$trayicon[] = array('games','Single Player Games','modules/games/index.php','_popup','465','300','','1','');
 $trayicon[] = array('share','Share This Page','modules/share/index.php','_popup','350','50','','1','');
 $trayicon[] = array('scrolltotop','Scroll To Top','javascript:jqcc.cometchat.scrollToTop();','','','','','','');
 
@@ -214,12 +213,12 @@ $guestsUsersList = '3';
 
 /* MEMCACHE START */
 
-define('MEMCACHE','1');				// Set to 0 if you want to disable caching and 1 to enable it.
+define('MEMCACHE','0');
 define('MC_SERVER','localhost');	// Set name of your memcache  server
 define('MC_PORT','11211');			// Set port of your memcache  server
-define('MC_USERNAME','');           // Set username of memcachier  server
-define('MC_PASSWORD','');           // Set password your memcachier  server
-define('MC_NAME','files');			// Set name of caching method if 0 : '', 1 : memcache, 2 : files, 3 : memcachier, 4 : apc, 5 : wincache, 6 : sqlite & 7 : memcached
+define('MC_USERNAME','');							// Set username of memcachier  server
+define('MC_PASSWORD','');			// Set password your memcachier  server
+define('MC_NAME','');			// Set name of caching method if 0 : '', 1 : memcache, 2 : files, 3 : memcachier, 4 : apc, 5 : wincache, 6 : sqlite & 7 : memcached
 
 /* MEMCACHE END */
 

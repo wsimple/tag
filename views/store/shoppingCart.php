@@ -19,9 +19,17 @@
 		<span id="storeTitle"></span>
 	</div>
 	<div>
-            <div id="list_orderProduct"></div>
-            <div id="list_orderProduct_wish" ></div>
+        <div id="list_orderProduct"></div>
+        <div class="clearfix"></div>
+        <div id="second-panel-shopping" style="display:none;">
+            <div class="totalPointsSC">
+                <input id="buyOrder2" type="button" value="<?=$lang['STORE_PROCEED']?>"/>
+            </div>
             <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+        <div id="list_orderProduct_wish" ></div>
+        <div class="clearfix"></div>
 	</div>
 </div>
 <script>
@@ -185,7 +193,7 @@
 					break;
 //*****************************************************************shopping cart**********************************************//
 					default:
-						$('#storeTitle').html('<?=STORE_SHOPPINGCART?>');
+						$('#storeTitle').html('<?=STORE_SHOPPINGCART?>'); 
 						makeShopingCar();
 						$('#shoppingCId').on('change','select.cant-product',function(){
 							var cantAct=$(this).val(),tipo=$(this).attr('fr'),totalAnt=$(this).attr('cantAct'),
@@ -354,6 +362,7 @@
                                 }
                             });
                         });
+                        $('#buyOrder2').click(function(){ $('#buyOrder').click(); });
 						$('.right-panel #totalANDsugestProduct').on('click','#buyOrder',function(){
 							//	$(this).button('disable');
 								var vector=$('.cant-product');
@@ -432,6 +441,7 @@
 					$('select.cant-product').chosen({width: 60,disableSearch:true });
 					$('.active-result').css('float','none').css('height','inherit').css('border-bottom','none');
 					$('.chzn-results').css('width','inherit');
+                    $("#second-panel-shopping").show();
 					sumaryShopingCar(data);
 					if ($('div#actionItems').length>0){
 						$('div#actionItems .deleteToCar').click(function(){
