@@ -26,8 +26,15 @@ function view($url='',$data=array()){
 }
 
 function lan($text='',$format=false){
-	global $lang;
-	return (isset($lang[$text])?$lang[$text]:$text);
+	$txt=strtolower(__($text));
+	switch($format){
+		case 'lc':break;
+		case 'uc':$txt=strtoupper($txt);break;
+		case 'ucf':$txt=ucfirst($txt);break;
+		case 'ucw':$txt=ucwords($txt);break;
+		default: $txt=__($text);
+	}
+	return $txt;
 }
 function __($text='',$format=false){
 	global $lang;
