@@ -5,36 +5,24 @@
 	//opciones de muestra de la fecha de nacimiento
 	$shows_birthday=$GLOBALS['cn']->query("SELECT * FROM users_profile_showbirthday ORDER BY id ASC");
 	//codigos de area por pais
-	$countries = $GLOBALS['cn']->query("SELECT id,code,code_area,name FROM countries ORDER BY name ASC");
+	$countries = CON::getArray("SELECT id,code,code_area,name FROM countries ORDER BY name ASC");
 	//codigos de area por pais
-	$sex = $GLOBALS['cn']->query("SELECT * FROM sex ORDER BY id ASC");
 	if(isset($_GET['showUploadError'])){
 		mensajes(UPLOAD_IMAGE_ERROR,PUBLICITY_TITLEMSGSUCCfrmProfileBackgroundESS." ..!","");
 	}
-	$all='frmProfile_btnSend';
 	//to fill language list
 	$languages = CON::query("SELECT cod,id, name FROM languages");
-	//to fill countries list
-	$froms = $GLOBALS['cn']->query('SELECT id, name FROM countries');
+	$sex=$_SESSION['ws-tags']['ws-user']['sex']!=''?$_SESSION['ws-tags']['ws-user']['sex']:1;
 ?>
 <div id="frmProfile_View" class="ui-single-box clearfix">
 	<?php //user messages (top) ?>
-		<?=generateDivMessaje('divSuccess',			'250',NEWTAG_CTRMSGDATASAVE					)?>
-		<?=generateDivMessaje('divErroZip',			'300',SIGNUP_CTRMSJERRORZIPCODE,			false)?>
-		<?=generateDivMessaje('divErroImagen',		'200',ERROR_UPLOADING_PROFILE_PICTURE,		false)?>
-		<?=generateDivMessaje('divErroBirthDate',	'200',SIGNUP_CTRERRORBIRTHDATE,				false)?>
-		<?=generateDivMessaje('divErrorUsernameF',	'400',USERPROFILE_CTRERRORUSERNAMENOFORMAT,	false)?>
-		<?=generateDivMessaje('divErrorUsernameD',	'300',USERPROFILE_CTRERRORUSERNAMEDUPLICATE,false)?>
-		<?=generateDivMessaje('divErroUploadingPP',	'300',USERPROFILE_CTRERRORUSERBIGIMAGE,		false)?>
-		<?=generateDivMessaje('divErroPhone',		'300',USERPROFILE_ERRORNUMBERSPHONE,		false)?>
-		<?=generateDivMessaje('divErroPhoneCode',	'300',USERPROFILE_ERRORCODENUMBERS,			false)?>
-		<?=generateDivMessaje('divError',			'300',USERPROFILE_ERROR_SAVING,				false)?>
+		<?=generateDivMessaje('divSuccess','250',NEWTAG_CTRMSGDATASAVE)?>
+		<?=generateDivMessaje('divError','300',USERPROFILE_ERROR_SAVING,false)?>
 	<!-- BARRA TITULO Y BUSQUEDA DE AMIGO -->
 	<h3 class="ui-single-box-title">
 		&nbsp;<?=USERPROFILE_TITLEFIELDSET?>
 	</h3>
-	<form action="?current=updateProfile" id="frmProfile_" name="frmProfile_" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
-	<input type="hidden" id="actionAjax" name="actionAjax"/>
+	<form action="controls/users/profile.json.php" id="frmProfile_" name="frmProfile_" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
 	<input type="hidden" id="validaActionAjax" name="validaActionAjax" value="save"/>
 	<div id="frmProfilePhotoContainer">
 		<?php //profile picture, change button, business card button
@@ -144,7 +132,7 @@
 				<label><strong><?=USERPROFILE_LBLLANGUAGE?>:</strong></label>
 				<select name="frmProfile_cboLanguageUsr" id="frmProfile_cboLanguageUsr" w="150">
 					<?php while($language=CON::fetchObject($languages)){ ?>
-						<option value="<?=$language->cod?>" <?=($_SESSION['ws-tags']['ws-user'][language]!=$language->cod?'':'selected')?>><?=$language->name?></option>
+						<option value="<?=$language->cod?>" <?=($_SESSION['ws-tags']['ws-user']['language']!=$language->cod?'':'selected')?>><?=$language->name?></option>
 					<?php } ?>
 				</select>
 			</div>
@@ -152,9 +140,9 @@
 				<label><strong><?=BUSINESSCARD_LBLCOUNTRY?>:</strong></label>
 				<select name="frmProfile_cboFrom" id="cbo_from_search" w="150">
 					<option value="" ></option>
-					<?php while( $from = mysql_fetch_assoc($froms) ) { ?>
-						<option value="<?=$from[id]?>" <?=($_SESSION['ws-tags']['ws-user'][country]==$from[id] ? "selected" : '')?>>
-							<?=$from[name]?>
+					<?php foreach ($countries as $row) { ?>
+						<option value="<?=$row['id']?>" <?=($_SESSION['ws-tags']['ws-user']['country']==$row['id'] ? "selected" : '')?>>
+							<?=$row['name']?>
 						</option>
 					<?php } ?>
 				</select>
@@ -164,20 +152,23 @@
 				<input name="frmProfile_zipCode" type="text" id="frmProfile_zipCode" value="<?=$_SESSION['ws-tags']['ws-user']['zip_code']?>"/>
 			</div>
 		</div>
+		<div class="clearfix">
+			<div id="setCitys">
+				<label ><strong>(*)&nbsp;<?=BUSINESSCARD_LBLCITY?>:</strong></label>
+				<select name="city" id="city" requerido="<?=BUSINESSCARD_LBLCITY?>"></select>
+			</div>
+		</div>
 		<?php if($_SESSION['ws-tags']['ws-user']['type']==0){ ?>
 		<div><?php //home phone ?>
 			<label><strong><?=USERPROFILE_LBLHOMEPHONE?>:</strong></label>
 			<select id="home_code_search" name="frmProfile_home_code" w="150">
 				<option value=""><?=USERPROFILE_LBLCBOAREASCODE?></option>
-				<?php
-				$number=explode('-',$_SESSION['ws-tags']['ws-user']['home_phone']);
-				while($country=mysql_fetch_assoc($countries)) { ?>
-					<option value="<?=$country['id']?>" <?=($number[0]==$country['code_area']?'selected="1"':'')?>>
-						<?=$country[name].'&nbsp;('.$country[code_area].')'?>
+				<?php $number=explode('-',$_SESSION['ws-tags']['ws-user']['home_phone']);
+				foreach ($countries as $row) { ?>
+					<option value="<?=$row['id']?>" <?=($number[0]==$row['code_area']?'selected="1"':'')?>>
+						<?=$row['name'].'&nbsp;('.$row['code_area'].')'?>
 					</option>
-				<?php }
-				mysql_data_seek($countries, 0);
-				?>
+				<?php } ?>
 			</select>
 			<input name="frmProfile_home" type="text" id="frmProfile_home" value="<?=$number[1]?>" tipo="integer"/>
 			<em class="font-size3 color-d"><?=PROFILE_PHONELEYEND?></em>
@@ -187,15 +178,12 @@
 			<label><strong><?=USERPROFILE_LBLWORKPHONE?>:</strong></label>
 			<select name="frmProfile_work_code" id="work_code_search" w="150">
 				<option value=""><?=USERPROFILE_LBLCBOAREASCODE?></option>
-				<?php
-				$number=explode('-',$_SESSION['ws-tags']['ws-user']['work_phone']);
-				while ($country=mysql_fetch_assoc($countries)){ ?>
-					<option value="<?=$country[id]?>" <?=($number[0]==$country['code_area']?'selected="1"':'')?>>
-						<?=$country['name'].'&nbsp;('.$country['code_area'].')'?>
+				<?php $number=explode('-',$_SESSION['ws-tags']['ws-user']['work_phone']);
+				foreach ($countries as $row) { ?>
+					<option value="<?=$row['id']?>" <?=($number[0]==$row['code_area']?'selected="1"':'')?>>
+						<?=$row['name'].'&nbsp;('.$row['code_area'].')'?>
 					</option>
-				<?php }
-				mysql_data_seek($countries,0);
-				?>
+				<?php } ?>
 			</select>
 			<input name="frmProfile_work" type="text" id="frmProfile_work" value="<?=$number[1]?>" tipo="integer"/>
 			<em class="font-size3 color-d "><?=PROFILE_PHONELEYEND?></em>
@@ -204,15 +192,12 @@
 			<label><strong><?=USERPROFILE_LBLMOBILEPHONE?>:</strong></label>
 			<select name="frmProfile_mobile_code" id="mobile_code_search" w="150">
 				<option value=""><?=USERPROFILE_LBLCBOAREASCODE?></option>
-				<?php
-				$number=explode('-',$_SESSION['ws-tags']['ws-user']['mobile_phone']);
-				while($country=mysql_fetch_assoc($countries)){ ?>
-					<option value="<?=$country['id']?>" <?=($number[0]==$country['code_area'] ? 'selected="1"' : '') ?> >
-						<?=$country['name'].'&nbsp;('.$country['code_area'].')'?>
+				<?php $number=explode('-',$_SESSION['ws-tags']['ws-user']['mobile_phone']);
+				foreach ($countries as $row) { ?>
+					<option value="<?=$row['id']?>" <?=($number[0]==$row['code_area'] ? 'selected="1"' : '') ?> >
+						<?=$row['name'].'&nbsp;('.$row['code_area'].')'?>
 					</option>
-				<?php }
-				mysql_data_seek($countries,0);
-				?>
+				<?php } ?>
 			</select>
 			<input name="frmProfile_mobile" type="text" id="frmProfile_mobile" value="<?=$number[1]?>" tipo="integer" />
 			<em class="font-size3 color-d"><?=PROFILE_PHONELEYEND?></em>
@@ -221,14 +206,28 @@
 		<div><?php //sexo ?>
 			<label><strong><?=SEX_TITLE?>:</strong></label>
 			<select name="frmProfile_sex" id="frmProfile_sex" w="150">
-			<?php if($_SESSION['ws-tags']['ws-user']['sex']==''){ ?>
-				<option value="" selected>...</option>
-			<?php }
-			while($sexo=mysql_fetch_assoc($sex)){ ?>
-				<option value="<?=$sexo['id']?>" <?=($_SESSION['ws-tags']['ws-user']['sex']==$sexo['id']?"selected":'')?>>
-					<?=lan($sexo['label'])?>
-				</option>
-			<?php } ?>
+				<option value="" >...</option>
+				<option value="1" <?=($sex==1?"selected":'')?>><?=lan('SEX_MALE')?></option>
+				<option value="2" <?=($sex==2?"selected":'')?>><?=lan('SEX_FEMALE')?></option>
+			</select>
+		</div>
+		<div><?php //interes ?>
+			<label><strong><?=lan('INTERESTED_IN')?>:</strong></label>
+			<select name="frmProfile_interest" id="frmProfile_interest" w="150">
+				<option value="" >...</option>
+				<option value="1" <?=($_SESSION['ws-tags']['ws-user']['interest']==1?"selected":'')?>><?=lan('men')?></option>
+				<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']==2?"selected":'')?>><?=lan('women')?></option>
+				<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']===0?"selected":'')?>><?=lan('both')?></option>
+			</select>
+		</div>
+		<div><?php //interes 
+		//LOVING_RELATIONSHIP relacion amorosa
+		//OPEN_RELATIONSHIP relacion abierta
+		?>
+			<label><strong><?=lan('Relationship')?>:</strong></label>
+			<select name="frmProfile_relationship" id="frmProfile_relationship" w="150">
+				<option value="" >...</option>
+				<option value="1" >0</option>
 			</select>
 		</div>
 		<?php }
@@ -257,7 +256,6 @@
 					<label><strong><?=USERPROFILE_SELCUSTOMBACKGROUND?></strong></label>
 					<div id="profileChangeBgButtonDiv" class="left" style="width:225px"><?php // background image chooser?>
 						<input type="button" value="<?=USERPROFILE_UPLOADBGTITTLE?>"/>
-						<input id="user_background_url" name="user_background_url" style="display:none" type="text"/>
 					</div>
 					<div id="setDefaultBgDiv" name="setDefaultBgDiv" class="left">
 						<input id="setDefaultBgButton" type="button" value="<?=USERPROFILE_USEDEFAULTBG?>"/>
@@ -279,7 +277,7 @@
 		<div>
 			<div id="facebook-dialog" style="display:none;"><?=FACEBOOK_NOTMATCHEMAIL?></div>
 			<div class="frmProfileBotones">
-				<input name="frmProfile_btnSend" type="button" id="frmProfile_btnSend" onclick="disableButtons('<?=$all?>');" value="<?=USERPROFILE_SAVE?>" />
+				<input name="frmProfile_btnSend" type="button" id="frmProfile_btnSend" value="<?=USERPROFILE_SAVE?>" />
 				<input type="button" class="fb-buttom" name="btnFacebook" id="btnFacebook" value="<?=USERPROFILE_ASSOCFB?>">
 				<div id="fb-root"></div>
 			</div>
@@ -305,18 +303,6 @@
 
 	$('[title]').tipsy({html:true,gravity:'n'});
 	var band=false, typeUser=<?=$_SESSION['ws-tags']['ws-user']['type']?>;
-	function disableButtons(id) {
-		id = id.split(',');
-		for(var i=0;i<id.length;i++){
-//			$('#'+id[i]).button('disable');
-		}
-	}
-	function enableButtons(id) {
-		id = id.split(',');
-		for(i=0; i<id.length; i++) {
-//			$('#'+id[i]).button('enable');
-		}
-	}
 
 	//Para login con facebook
 	window.fbAsyncInit = function() {
@@ -343,7 +329,6 @@
 			type:'POST',
 			dataType:'json',
 			success:function(data){
-				console.log(data);
 				if(data['success']==1){
 					showAndHide('divSuccess','divSuccess',1500,true);
 				}else if(data['success']===0 && !forced){
@@ -369,87 +354,50 @@
 		FB.login(function(response){
 			if(response.authResponse){
 				FB.api('/me', function(response) {
-					console.log(response);
 					callFbApi();
 				});
 			} else {
-				// console.log('No has logueado correcatmente con fbb.');
+				console.log('No has logueado correcatmente con fbb.');
 			}
 		}, {scope: 'email'});
 	});
-
 	$('#frmProfile_').ajaxForm({
+		dataType:'json',
+		beforeSend:function(){
+			pub=false;
+		},
 		success:function(data){
-			//alert(data);
 			console.log(data);
-			if(data){
-				if(data.indexOf('UUNN')>=0){
-					data=data.substr(4);
-					if(data){
-						$("#showedUserName_<?=$_SESSION['ws-tags']['ws-user']['code']?>").html("<strong> "+data+" </strong>");
-					}
-					frmProfileSuccess();
+			$('loader.page',PAGE).hide();
+			if (!data['error']){
+				switch(data['success']){
+					case 'updateLanguage': location.reload(); break;
+					case 'filePhoto': redir('user/mini?ep'); break;
+					case 'backg': $('body').css('background',data['backg']); break;
+					case 'pbackg':  
+						$('#profileHiddenColor').val('#fff');
+						<?php if ($config->local){ ?>
+						$('body').css('background','')
+						.css('background-image', 'url('+(DOMINIO)+'img/users_backgrounds/'+data['backg']+')');
+						<?php }else{ ?>
+						$('body').css('background','')
+						.css('background-image', 'url('+(SERVERS.img)+'img/users_backgrounds/'+data['backg']+')');
+						<?php } ?>
+					break;
+					default: 
+						showAndHide('divSuccess','divSuccess',1500,true); 
+						var getStore="<?=isset($_GET['store'])?'store':''?>",idUser="<?=$_SESSION['ws-tags']['ws-user']['id']?>",here='<?=$wid?>';
+						if (band && getStore!='' && (typeUser=='1' || idUser==here)){
+							redir('newproduct');
+						}
+					break;
 				}
-				if(data.indexOf('ERROR_USERNAME_FORMAT')>=0){//invalid username
-					showAndHide('divErrorUsernameF','divErrorUsernameF',1500,true);
-					showAndHide('divErrorUsernameFf','divErrorUsernameFf',1500,true);
-					enableButtons('<?=$all?>');
-				}else if(data.indexOf('ERROR_USERNAME_DUPLICATE')>=0){//duplicated username
-					showAndHide('divErrorUsernameD','divErrorUsernameD',1500,true);
-					showAndHide('divErrorUsernameDd','divErrorUsernameDd',1500,true);
-					enableButtons('<?=$all?>');
-				}else if(data.indexOf('WRONG_ZIP')>=0){//invalid zipcode
-					showAndHide('divErroZip','divErroZip',1500,true);
-					showAndHide('divErroZipp','divErroZipp',1500,true);
-					enableButtons('<?=$all?>');
-				}else if(data.indexOf('CROP')>=0){// going crop before changing profile picture
-					$('loader.page',PAGE).hide();
-					redir('user/mini');
-				}else if(data.indexOf('ERROR_UPLOADING_PROFILE_PICTURE')>=0){//el error
-					showAndHide('divErroImagen','divErroImagen',2500,true);
-					enableButtons('<?=$all?>');
-					$('loader.page',PAGE).hide();
-				}else if(data.indexOf('SIGNUP_CTRERRORBIRTHDATE')>=0){
-					showAndHide('divErroBirthDate','divErroBirthDate',2500,true);
-					enableButtons('<?=$all?>');
-					$('loader.page',PAGE).hide();
-				}else if(data.indexOf('BBGG#')>=0){//changing BG color
-					data=data.substr(4);
-					$('body').css('background-image','url(<?=md5(rand(0,100))?>)');
-					$('body').css('background-color',data);
-					frmProfileSuccess();
-				}else if( data.indexOf('BBGG')>=0 ){//changing BG picture
-					console.log('asdasd');
-					data=data.substr(4);
-					$('body').css('background', '');
-					$('#profileHiddenColor').val('#fff');
-					servidor=data!='bg.png'?'<?=FILESERVER?>':'';
-					if(data!='bg.png')
-						$('body').css('background-image', 'url('+servidor+'img/users_backgrounds/'+data+')');
-					if(data!='bg.png'){
-						$('body').css('background-repeat','repeat');
-					}
-					frmProfileSuccess();
-				}else if(data.indexOf('updateLanguage')>=0){//changing languaje -> refresh page
-					document.location.reload();
-				}
-			}else{
-				frmProfileSuccess();
+			}else{ 
+				$('#divError').html(data['error']);
+				showAndHide('divError','divError',1500,true);
 			}
 		}
 	});
-
-	function frmProfileSuccess() {
-		$('loader.page',PAGE).hide();
-		showAndHide('setDefaultBgDiv,profileChangeBgButtonDiv', 'profileChangeBgDiv', 600);
-		showAndHide('divSuccess',	'divSuccess',	1500, true);
-		showAndHide('divSuccesss',	'divSuccesss',	1500, true);
-		enableButtons('<?=$all?>');
-		var getStore='<?=isset($_GET['store'])?'store':''?>',idUser='<?=$_SESSION['ws-tags']['ws-user']['id']?>',here='<?=$wid?>';
-		if (band && getStore!='' && (typeUser=='1' || idUser==here)){
-			redir('newproduct?');
-		}
-	}
 	//patron tax id
 	var patron = new Array(3,2,4);
 		$(function(){
@@ -476,10 +424,8 @@
 						n = val.indexOf(" ");
 
 						if (n<0) {
-							$('loader.page',PAGE).show();console.log('is in there');
-							console.log($('#validaActionAjax').val());
+							$('loader.page',PAGE).show();
 							$("#validaActionAjax").val('save');
-							console.log($('#validaActionAjax').val());
 							$('#frmProfile_').submit();	
 						}else{
 							$.dialog({
@@ -491,98 +437,80 @@
 					}else{
 						band=false;
 						if(select!=''){
-							console.log(select);
 							$('div#divErroPhoneCode span').html(select);
 							showAndHide('divErroPhoneCode','divErroPhoneCode',1500,true);
 						}else{
 							$('div#divErroPhone span').prepend(stri);
 							showAndHide('divErroPhone',	'divErroPhone',	1500, true);
 						}
-						enableButtons('<?=$all?>');
 					}
 				}
-				enableButtons('<?=$all?>');
 				$.loader('hide');
 		});
-		console.log($("#validaActionAjax").val());
 		//FIN control de los botones send y back
 		//control del formulario perfil
 		//calendario
 		$('select').each(function(){
-			var w=$(this).attr('w'),opc={};
-			if(w) opc['menuWidth']=opc['width']=w;
-			if(!this.id.match('_search')) opc['disableSearch']=true;
-			$(this).chosen(opc);
+			if (this.id!="city"){
+				var w=$(this).attr('w'),opc={};
+				if(w) opc['menuWidth']=opc['width']=w;
+				if(!this.id.match('_search')) opc['disableSearch']=true;
+				$(this).chosen(opc);
+			}
 		});
+		var city="<?=$_SESSION['ws-tags']['ws-user']['city']?>";
+        $('#city').fcbkcomplete({
+	        json_url: 'controls/store/shoppingCart.json.php?action=11',
+	        newel:true,
+	        filter_selected:true,
+	        firstselected: true,
+	        addontab : false,
+	        filter_hide: true,
+	        maxitems:1
+	    });
+	    $('#setCitys').on('keydown','ul.holder li input',function(e){
+	        var a=$('#setCitys select#city option').val();
+	        if ((a)&&(!validaKeyCode('del',e.heyCode)))
+	            e.preventDefault();
+	    });
+	    if (city && city!=''){ getCitys('#city',city); }
+
 		<?php if( $_SESSION['ws-tags']['ws-user']['fullversion']!=1 ) { ?>
+			$("#frmProfile_changePhotoButton").click(function() {
+				$('#frmProfile_filePhoto').click();
+			});
 			$('#frmProfile_filePhoto').bind('change',function(){
-				disableButtons('<?=$all?>');
-				$("#actionAjax").val("UPLOADING-PROFILE-PICTURE");
+				console.log($('#frmProfile_filePhoto').val());
 				$("#validaActionAjax").val("filePhoto");
 				$('loader.page',PAGE).show();
 				$("#frmProfile_").submit();
 			});
-			$('#profile_background_file').bind('change',function(){
-				disableButtons('<?=$all?>');
-				$("#actionAjax").val("UPLOADING-BG");
-				$("#validaActionAjax").val("backgroundFile");
-				$('#user_background_url').val("---");
-				$('loader.page',PAGE).show();
-				$("#frmProfile_").submit();
-			});
-			//this is for showing and hiding the file chooser
-			$("#frmProfile_changePhotoButton").click(function() {
-//				$('#frmProfile_changePhotoButton').fadeOut('slow');
-//				$('#frmProfile_businessCardDiv').fadeOut('slow');
-				$('#frmProfile_filePhoto').click();
-//				$('#frmProfile_businessCardDiv').fadeOut('slow', function() {
-//					$('#frmProfile_changePhotoDiv').fadeIn('slow');
-//				});
-			});
 			$("#profileHiddenColor").click(function() {
 				$("#profile_background_file").val('');
 			});
-			$("#profile_background_file, #profileChangeBgButtonDiv").click(function() {
-				$("#profileHiddenColor").val('');
-			});
 			$("#profileChangeBgButtonDiv").click(function() {
 				$('#profile_background_file').click();
-				//showAndHide('profileChangeBgDiv', 'setDefaultBgDiv,profileChangeBgButtonDiv', 500);
+				$("#profileHiddenColor").val('');
+			});
+			$('#profile_background_file').bind('change',function(){
+				$("#validaActionAjax").val("backgroundFile");
+				$('loader.page',PAGE).show();
+				$("#frmProfile_").submit();
 			});
 			$("#setDefaultBgDiv").click(function() {
-				$("#actionAjax").val("DEFAULT-BG");
-				$('#user_background_url').val("setDefault");
+				$("#validaActionAjax").val("HiddenColor");
+				$("#profileHiddenColor").val("#fff").css({
+					background: "#fff",color:'#000'
+				});
 				$('loader.page',PAGE).show();
 				$("#frmProfile_").submit();
 			});
-			//Paypal INFO
-			// $('.paypal_info').click(function(){
-			// 	message('msgPaypal','<?=JS_PAYPALTITLE?>', "<?=$paypalMsg?>");
-			// 	return false;
-			// });
-			//background color selector
 			colorSelector('profileHiddenColorDiv','profileHiddenColor');
 			$('#profileHiddenColor').blur(function() {
-				disableButtons('<?=$all?>');
-				$("#actionAjax").val("COLOR-BG");
 				$("#validaActionAjax").val("HiddenColor");
-				$('#user_background_url').val('---');
 				$('loader.page',PAGE).show();
-				console.log($("#validaActionAjax").val());
 				$("#frmProfile_").submit();
 			});
-			/*
-			VALIDANDO EL USERNAME
-			$('#frmProfile_userName').blur(function() {
-				disableButtons('< ?=$all?>');
-				$('#divCheckingUsername').fadeIn(2000, function() {
-					$('#divCheckingUsername').fadeOut(2000, function() {
-						showAndHide('divValidUsername', 'divValidUsername', 2000, true)
-					});
-				});
-				alert('chekear si el username es valido');
-				enableButtons('< ?=$all?>');
-			});*/
 		<?php } ?>
 		});
 </script>
