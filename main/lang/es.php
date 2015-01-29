@@ -3,10 +3,12 @@ $lang=array(
 	#Basicas
 	'Cancel' => 'Cancelar',
 	'Delete' => 'Borrar',
+	'Save'	=> 'Guardar',
 	'Help' => 'Ayuda',
 	'Retry' => 'Reintentar',
 	'Category' => 'Categoría',
 	'fb_lang'=>'es_LA',
+	'to'=>'a',
 	#Menu superior logeado
 	'About' => 'Acerca de',
 	'Carousel' => 'Carrusel',
@@ -44,6 +46,17 @@ $lang=array(
 	#js
 	'JS_CONFIRM_REMOVE_TAG_ITEM' => "Remover el elemento dañará todas las tags que lo esten utilizando.\n ¿Está seguro de que quiere eliminarlo?",
 	#Otros
+	'age' => 'edad',
+	'all' => 'todos',
+	'chat' => 'chatear',
+	'date' => 'citas',
 	'example' => 'ejemplo',
+	'females' => 'mujeres',
+	'filter' => 'filtrar',
+	'friendship' => 'amistad',
+	'INTERESTED_IN' => 'Interes en',
+	'none' => 'ninguno',
+	'males' => 'hombres',
+	'sex' => 'sexo',
 );
 return $lang;
