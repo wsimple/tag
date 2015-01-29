@@ -233,7 +233,13 @@ window._fbq.push(['track', '6018767308743', {'value':'0.00','currency':'USD'}]);
 <!-----------------------------End facebook ---------------------------->
 <meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
 </head>
-<body lang="<?=$_SESSION['ws-tags']['language']?>" <?= ($_SESSION['ws-tags']['ws-user']['user_background']==''?'' : ($_SESSION['ws-tags']['ws-user']['user_background'][0]!='#' ? 'style="background-image:url('.FILESERVER.'img/users_backgrounds/'.$_SESSION['ws-tags']['ws-user']['user_background'].')"':''))?>>
+<?php
+	$background='';
+	if ($_SESSION['ws-tags']['ws-user']['user_background']!='')
+		if ($_SESSION['ws-tags']['ws-user']['user_background'][0]!='#')	$background='style="background-image:url('.($config->local?$config->main_server:$config->img_server).'img/users_backgrounds/'.$_SESSION['ws-tags']['ws-user']['user_background'].')"';
+		else $background='style="background:'.$_SESSION['ws-tags']['ws-user']['user_background'].';"';
+?>
+<body lang="<?=$_SESSION['ws-tags']['language']?>" <?=$background?>>
 <?php include_once("analyticstracking.php") ?>
 <?php if(is_debug()){//Debugger: imprime variables para verificarlas ?>
 	<div id="debug" style="position:absolute;z-index:1000000;top:0;background:#fff;display:none;">

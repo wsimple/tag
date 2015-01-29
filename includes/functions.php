@@ -3273,3 +3273,29 @@ function set_trending_topings($s, $by_hash=false){
 
 	return false;
 }
+
+function calculateProgress(){
+	if ($_SESSION['ws-tags']['ws-user']['id']!=''){
+		/*porcentaje del progreso del perfil*/
+		$cant=3; $complete=3;
+		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['username']) && $_SESSION['ws-tags']['ws-user']['username']!='') $complete++;
+		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['personal_messages']) && $_SESSION['ws-tags']['ws-user']['personal_messages']!='') $complete++;
+		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['profile_image_url']) && $_SESSION['ws-tags']['ws-user']['profile_image_url']!='') $complete++;
+		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['country']) && $_SESSION['ws-tags']['ws-user']['country']!='' && $_SESSION['ws-tags']['ws-user']['country']!='0') $complete++;
+		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['city']) && $_SESSION['ws-tags']['ws-user']['city']!='') $complete++;
+		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['sex']) && $_SESSION['ws-tags']['ws-user']['sex']!='') $complete++;
+		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['interest']) && $_SESSION['ws-tags']['ws-user']['interest']!='') $complete++;
+		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['relationship']) && $_SESSION['ws-tags']['ws-user']['relationship']!='') $complete++;
+		//$cant++;  if (!isset($_SESSION['ws-tags']['ws-user']['']) && $_SESSION['ws-tags']['ws-user']['']!='') $complete++;
+		$porcentajePerfil=($complete*100)/$cant;
+		/*porcentaje del progreso de las preferencias*/
+		$complete=CON::getVal("	SELECT COUNT(id_preference) AS num
+								FROM users_preferences
+								WHERE id_user=? 
+								AND preference!='' 
+								AND preference IS NOT NULL;",array($_SESSION['ws-tags']['ws-user']['id']));
+		if ($complete>0) $porcentajePrefe=($complete*100)/3;
+		else $porcentajePrefe=0;
+		return array('profile'=>$porcentajePerfil,'preferences'=>$porcentajePrefe);
+	}else return false;
+}
