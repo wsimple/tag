@@ -19,9 +19,9 @@
 <!-- 		<li id="friends">
 			<span><?=USER_FINDFRIENDSTITLELINKS?></span>
 			<ul>
-				<li><a href="<?=base_url('friends?sc=1')?>"><?=MAINMNU_FINDFRIENDS?></a></li>
-				<li><a href="<?=base_url('friends?sc=2')?>"><?=EDITFRIEND_VIEWTAB1?></a></li>
-				<li><a href="<?=base_url('friends?sc=3')?>"><?=EDITFRIEND_VIEWTAB2?></a></li>
+				<li><a href="<?=base_url('friends')?>"><?=MAINMNU_FINDFRIENDS?></a></li>
+				<li><a href="<?=base_url('friends/find')?>"><?=EDITFRIEND_VIEWTAB1?></a></li>
+				<li><a href="<?=base_url('friends/invite')?>"><?=EDITFRIEND_VIEWTAB2?></a></li>
 			</ul>
 		</li> -->
 		<li id="groups">

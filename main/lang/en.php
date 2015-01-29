@@ -23,6 +23,7 @@ $lang=array(
 	'hide_privacy' => 'Hide Privacy',
 	#otras variables
 	'HREF_DEFAULT' => 'javascript:void(0)',
+	'INTERESTED_IN' => 'Interested in',
 	'TITLE' => "Tagbum.com - It's Time",
 	'PENDING_VIDEO_INFO' => 'Videos in that list was uploaded, but the system should process & convert it to a standard format before you can use them in a tag.',
 	'ERRORFILEINFO' => 'Sorry, this file can not be processed, please try again with a different file.',
