@@ -55,8 +55,7 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 	<div id="coverExpro" style="background-image: url('<?=FILESERVER?>img/users_cover/<?=$obj->user_cover?>');height:196px;width:846px;position:absolute;top:0;left:0;">
 		<div class="ui-single-box-title">
 			<div class="photoProfile" id="photoProfileChange"><?=$edit?$edit:''?>
-				<form action="?current=updateProfile" id="frmChangePhoto" name="frmChangePhoto" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
-					<input type="hidden" id="actionAjax" name="actionAjax"/>
+				<form action="controls/users/profile.json.php" id="frmChangePhoto" name="frmChangePhoto" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
 					<input type="hidden" id="validaActionAjax" name="validaActionAjax" value="save"/>
 					<div id="frmProfile_changePhotoDiv">
 						<input name="frmProfile_filePhoto" type="file" id="frmProfile_filePhoto"/>
@@ -86,7 +85,7 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 			<?php } ?>
 			<div id="coverExternalProfile">
 				<?=$edit?$edit:''?>
-				<form action="?current=updateProfile" id="frmChangeCover" name="frmChangeCover" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
+				<form action="controls/users/profile.json.php" id="frmChangeCover" name="frmChangeCover" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
 					<input type="hidden" id="validaActionAjax" name="validaActionAjax" value="fileCover"/>
 					<div id="frmProfile_changeCoverDiv">
 						<input name="frmProfile_fileCover" type="file" id="frmProfile_fileCover"/>
@@ -95,6 +94,8 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 			</div>
 		</div>
 	</div>
+	<?=generateDivMessaje('divSuccess','250',lan('NEWTAG_CTRMSGDATASAVE'))?>
+	<?=generateDivMessaje('divError','300',lan('USERPROFILE_ERROR_SAVING'),false)?>
 	<div id="eProfileInfo">
 		<div style="float:left;width:380px;">
 			<article id="externalProfileInfo" class="side-box imagenSug">
@@ -232,41 +233,46 @@ $(function(){
 	});
 
 	$('#frmProfile_filePhoto').bind('change',function(){
-		$("#actionAjax").val("UPLOADING-PROFILE-PICTURE");
-		$("#validaActionAjax").val("filePhoto");
-		$('loader.page',PAGE).show();
-		$("#frmChangePhoto").submit();
+		if ($(this).val()!=''){
+			$("#validaActionAjax").val("filePhoto");
+			$('loader.page',PAGE).show();
+			$("#frmChangePhoto").submit();
+		}
 	});
 
 	$('#frmProfile_fileCover').bind('change',function(){
-		$('loader.page',PAGE).show();
-		$("#frmChangeCover").submit();
+		if ($(this).val()!=''){
+			$('loader.page',PAGE).show();
+			$("#frmChangeCover").submit();
+		}
 	});
 
 	$('#frmChangePhoto,#frmChangeCover').ajaxForm({
+		dataType:'json',
 		success:function(data){
-			if(data.indexOf('CROP')>=0){// going crop before changing profile picture
-				redir('user/mini?ep');
-			}else if (data!=0) {
-				console.log(data);
-				$('loader.page',PAGE).hide();
-				$('#coverExpro').css('background-image', 'url("<?=FILESERVER?>img/users_cover/'+data+'")');
-			}else{
-				$.dialog({
-					title:'<?=$lang["ERROR_COVER"]?>',
-					content:'<?=$lang["ERROR_UPLOADING_PROFILE_PICTURE"]?>',
-					close:function(){
-						$(this).off();
-					},
-					width:350,
-					height:200,
-					modal:true,
-					buttons:{
-						Ok:function(){
-							$(this).dialog('close');
-						}
-					}
-				});
+			$('loader.page',PAGE).hide();
+			if (!data['error']){
+				console.log(data['success']);
+				switch(data['success']){
+					// case 'updateLanguage': location.reload(); break;
+					case 'filePhoto': redir('user/mini?ep'); break;
+					// case 'backg': $('body').css('background',data['backg']); break;
+					case 'cover': $('#coverExpro').css('background-image', 'url("<?=FILESERVER?>img/users_cover/'+data['cover']+'")'); break;
+					// case 'pbackg':  
+					// 	$('#profileHiddenColor').val('#fff');
+					// 	<?php if ($config->local){ ?>
+					// 	$('body').css('background','')
+					// 	.css('background-image', 'url('+(DOMINIO)+'img/users_backgrounds/'+data['backg']+')');
+					// 	<?php }else{ ?>
+					// 	$('body').css('background','')
+					// 	.css('background-image', 'url('+(SERVERS.img)+'img/users_backgrounds/'+data['backg']+')');
+					// 	<?php } ?>
+					// break;
+					default: showAndHide('divSuccess','divSuccess',1500,true); break;
+				}
+			}else{ 
+				$('#divError').html(data['error']);
+				showAndHide('divError','divError',1500,true);
 			}
 		}
 	});
