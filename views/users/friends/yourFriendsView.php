@@ -28,9 +28,6 @@
 			$pref=$default_pref;
 	?>
 	<style>
-		#filters{
-			background-color:rgba(245,113,51,0.1);
-		}
 		#filters > *{
 			margin:10px;
 		}
@@ -47,13 +44,16 @@
 		#filters .row > *{
 			float:left;
 		}
+		#filters .row > .divisor{
+			min-height:15px;
+			width:15px;
+		}
 		#age .ui-slider{
 			width:70%;
 			margin:0 20px;
 			border-color:#ccc;
 		}
 		#age .ui-widget-content .ui-state-active{
-			/*border-color:#c83b0b;*/
 			background-color:#FF9D7B;
 		}
 		#filters > button{
@@ -68,17 +68,16 @@
 		<h3 class="ui-single-box-title">
 			<div style="margin-bottom:30px;"><?=lan('filter','ucw')?></div>
 		</h3>
-		<div class="row">Preferences:<?=json_encode($pref)?></div>
-		<div id="sex_preferences" class="row">
+		<div style="display:none;" class="row">Preferences:<?=json_encode($pref)?></div>
+		<div class="row">
 			<div class="text"><?=lan('sex','ucw')?>:</div>
 			<select name="" id="">
 				<?php foreach ($sex_preferences as $el) {?>
 					<option value="<?=$el->id?>" <?=$el->id==$pref->sex_preference?'selected':''?>><?=lan($el->label,'ucw')?></option>
 				<?php } ?>
 			</select>
-		</div>
-		<div id="interests" class="row">
-			<div class="text"><?=lan('interests','ucw')?>:</div>
+			<div class="divisor"></div>
+			<div class="text"><?=lan('INTERESTED_IN')?>:</div>
 			<select name="" id="">
 				<?php foreach ($interests as $el) {?>
 					<option value="<?=$el->id?>" <?=$el->id==$pref->interest?'selected':''?>><?=lan($el->label,'ucw')?></option>
@@ -223,6 +222,6 @@ $(document).ready(function(){
 });
 
 // console.log('<?=$numFriends?>');
-if (('<?=$sc?>'==2)&&('<?=$numFriends?>'==0)) { tour(SECTION); };
+if (<?=$find?1:0?>&&('<?=$numFriends?>'==0)) { tour(SECTION); };
 
 </script>

@@ -28,12 +28,12 @@ unset($detect);
 			<div id="tourProfile"></div>
 		</li>
 		<li>
-			<a class="fNiv <?=$ma?>" href="<?=base_url('friends?sc=1')?>"><?=USER_FINDFRIENDSTITLELINKS?></a>
+			<a class="fNiv <?=$ma?>" href="<?=base_url('friends')?>"><?=USER_FINDFRIENDSTITLELINKS?></a>
 			<ul>
 				<li class="arrow"></li>
-				<li><a href="<?=base_url('friends?sc=1')?>"><?=USER_FINDFRIENDSTITLELINKS?></a></li>
-				<li><a href="<?=base_url('friends?sc=2')?>"><?=FRIENDS_FINDFRIEND_MENUMAIN?></a></li>
-				<li><a href="<?=base_url('friends?sc=3')?>"><?=USERS_BROWSERFRIENDSLABELBTNINVITE?></a></li>
+				<li><a href="<?=base_url('friends')?>"><?=USER_FINDFRIENDSTITLELINKS?></a></li>
+				<li><a href="<?=base_url('friends/find')?>"><?=FRIENDS_FINDFRIEND_MENUMAIN?></a></li>
+				<li><a href="<?=base_url('friends/invite')?>"><?=USERS_BROWSERFRIENDSLABELBTNINVITE?></a></li>
 			</ul>
 			<div id="tourFriends"></div>
 		</li>
