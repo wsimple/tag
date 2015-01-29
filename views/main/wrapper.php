@@ -26,9 +26,7 @@ if($logged){
 		<div class="mid-pannel" data-view="<?=$bodyPage?>">
 			<?php if($numPanels==3&&$logged){?>
 				<div class="ui-single-box topBanner"><?php include('templates/banner.box.php'); ?></div>
-				<?php 
-					// include('views/users/progress.php'); 
-				?>
+				<?php include('views/users/progress.php'); ?>
 			<?php }
 				if($content) echo $content;
 				else @include('views/'.$bodyPage);

@@ -3,6 +3,10 @@ include '../header.json.php';
 include RELPATH.'includes/funciones_upload.php';
 include RELPATH.'class/validation.class.php';
 
+if (isset($_GET['skipProgress'])){
+	$_SESSION['ws-tags']['ws-user']['progress']['omitir']=1;
+	die();
+}else unset($_SESSION['ws-tags']['ws-user']['progress']);
 $myId=$_SESSION['ws-tags']['ws-user']['id'];
 $code=$_SESSION['ws-tags']['ws-user']['code'];
 #ini
@@ -52,8 +56,9 @@ if(isset($_FILES['background']))
 	$data['background']=$_FILES['background'];
 if(isset($_FILES['profile_background_file']))
 	$data['background']=$_FILES['profile_background_file'];
+if(isset($_FILES['frmProfile_fileCover']))
+	$data['cover']=$_FILES['frmProfile_fileCover'];
 
-$res['dData']=$data;
 #si se estan guardando datos
 if($data['action']=='save'||$data['action']=='picture'||$data['action']=='filePhoto'){
 	#imagen en base64 - se transforma a imagen regular
@@ -293,7 +298,32 @@ if (($data['action']=='save')||($data['action']=='backgroundFile')||($data['acti
 		$_SESSION['ws-tags']['ws-user']['user_background']=$data['bg_color'];
 	}
 }
-
+//cambiando el cover del external rofile
+if ($data['action']=='fileCover'){
+	if( $data['cover']['error']==0 ) {
+		$imagesAllowed = array('jpg','jpeg','png','gif');
+		$parts         = explode('.', $data['cover']['name']);
+		$ext           = strtolower(end($parts));
+		if( in_array($ext, $imagesAllowed) ) {
+			$path  = RELPATH."img/users_cover/".$_SESSION['ws-tags']['ws-user']['code'].'/';//ruta para crear dir
+			$photo = $_SESSION['ws-tags']['ws-user']['code'].'/'.md5(str_replace(' ', '', $data['cover']['name'])).'.jpg';
+			//existencia de la folder
+			if( !is_dir ($path) ) {
+				$old = umask(0);
+				mkdir($path,0777);
+				umask($old);
+				$fp=fopen($path.'index.html',"w");
+				fclose($fp);
+			}// is_dir
+			if(redimensionar($data['cover']['tmp_name'], RELPATH."img/users_cover/".$photo, 845) ) {
+				FTPupload('users_cover/'.$photo);
+				$res['success']='cover';
+				$res['cover']=$photo;
+				$_SESSION['ws-tags']['ws-user']['user_cover'] = $photo;
+			}else{ $res['error']=lan('ERROR_UPLOADING_PROFILE_PICTURE'); }
+		}else{ $res['error']=lan('ERROR_UPLOADING_PROFILE_PICTURE'); }
+	}else{ $res['error']=lan('ERROR_UPLOADING_PROFILE_PICTURE'); }
+}
 $user=$_SESSION['ws-tags']['ws-user'];
 
 switch ($data['action']){
@@ -326,6 +356,9 @@ switch ($data['action']){
 	break;
 	case 'filePhoto':#actualizamos solo la imagen
 		CON::update("users","profile_image_url=?","id=?",array($user['photo'],$user['id']));
+	break;
+	case 'fileCover':#actualizamos solo la imagen
+		CON::update("users","user_cover=?","id=?",array($user['user_cover'],$user['id']));
 	break;
 	case 'backgroundFile': case 'backgroundDefault': case 'HiddenColor':
 		CON::update("users","user_background=?","id=?",array($user['user_background'],$user['id']));

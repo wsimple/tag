@@ -345,7 +345,7 @@ page wrapper button,page wrapper input[type="submit"],page wrapper input[type="r
 .ui-dialog input[type="reset"][disabled],.ui-dialog input[type="button"][disabled],
 page wrapper button[disabled],page wrapper input[type="submit"][disabled],
 page wrapper input[type="reset"][disabled],page wrapper input[type="button"][disabled],.button[disabled]{
-    background-color:#aaa;
+    background-color:#aaa !important;
 }
 .ui-single-search{
     background-color:white;
@@ -3174,7 +3174,8 @@ text-shadow:4px 4px 7px #000; color:#fff;display: inline-block;
 #externalProfile .imgWithMouseOverEfect,#externalProfile .edit{
 	position:relative;
 	cursor:pointer;
-	border:2px solid #CCC;
+	/*border:2px solid #CCC;*/
+	border:2px solid transparent;
 	float:right;
 	top:0;
 }
@@ -3489,7 +3490,56 @@ height: 150px;}
 	width:630px;
 	margin:auto;
 }
-
+.progress{
+	color: #F57133;
+	font-size: 12px;
+	height:auto;
+	background-color:#fff;
+	font-weight:bold;
+	-webkit-text-shadow:initial;
+	-moz-text-shadow:initial;
+	-ms-text-shadow:initial;
+	-o-text-shadow:initial;
+	text-shadow:initial;
+}
+.progress>div{ margin: 10px 0; }
+.progress .s{
+	display: inline-block;
+	width: 85%;
+	margin: 0 20px;
+	border-color: #ccc;
+}
+.progress>a{
+	float: right;
+	color: #F57133;
+	text-decoration: none;
+}
+#frmProfile_businessCardDiv .no-complete{ color: #F57133; }
+/*progress{
+	width: 90%;
+	-webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    overflow:hidden;
+    height: 15px;
+    border:1px inset #666;
+	background-color:#f3f3f3;
+	border-radius : 20px ;
+}
+progress::-webkit-progress-bar {
+	background-color:#D8D8D8;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset; 
+	border-radius : 20px ; 			
+}
+progress::-webkit-progress-value { 
+	background: #FF8000;
+	border-radius : 20px; 	
+}
+progress::-moz-progress-bar {
+    background: #FF8000;
+	border-radius : 20px;
+}*/
 .banners{
 	height:80px;
 }
