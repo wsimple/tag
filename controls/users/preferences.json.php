@@ -1,5 +1,6 @@
 <?php 
 include '../header.json.php';
+unset($_SESSION['ws-tags']['ws-user']['progress']);
 if (($myId=='' && !isset($_GET['eprofi'])) || !isset($_GET['action'])) die(jsonp(array()));
 $res=array();
 switch ($_GET['action']) {

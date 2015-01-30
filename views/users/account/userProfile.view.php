@@ -29,22 +29,22 @@ $friend = CON::getRow("SELECT
 	<div data-role="content" id="userProfile" class="userProfileStyle">
 		<img src="<?=FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['profile_image_url'], 'img/users/default.png')?>" width="60" height="60" style="float:right;border-radius:50%;" />
 		<ul class="list_inline">
-			<li style="margin-bottom:10px;"><strong><?=USER_LBLNAME?>:</strong> <?=$friend['nameUsr']?></li>
-			<li style="margin-bottom:10px;"><strong><?=SIGNUP_LBLSCREENNAME?>: </strong> <?=$friend['screen_name']?></li>
+			<li style="margin-bottom:10px;"><strong><?=lan('USER_LBLNAME')?>:</strong> <?=formatoCadena($friend['nameUsr'])?></li>
+			<li style="margin-bottom:10px;"><strong><?=lan('SIGNUP_LBLSCREENNAME')?>: </strong> <?=formatoCadena($friend['screen_name'])?></li>
 			<li style="margin-bottom:10px;">
-				<strong><?=USER_LBLBIRTHDATE?>: </strong> <?=maskBirthday($friend['date_birth'],$friend['show_my_birthday'])?>
+				<strong><?=lan('USER_LBLBIRTHDATE')?>: </strong> <?=maskBirthday($friend['date_birth'],$friend['show_my_birthday'])?>
 			</li>
 			<li style="margin-bottom:10px;">
-				<strong><?=USER_LBLFOLLOWERS?>: </strong>
+				<strong><?=lan('USER_LBLFOLLOWERS')?>: </strong>
 				<input userF="follow" type="button" id="followers" value="<?=mskPoints($friend['followers_count'])?>"/>
-				<strong><?=USER_LBLFRIENDS?>: </strong>
+				<strong><?=lan('USER_LBLFRIENDS')?>: </strong>
 				<input userF="unfollow" type="button" id="friends" value="<?=mskPoints($friend['following_count'])?>"/>
-				<strong><?=MAINMNU_HOME?>: </strong>
-				<input type="button" id="tags" action="tagsUser,<?=$friend['nTags']?>,<?=$friend['screen_name']?>:Tags,<?=md5($friend['id'])?>" value="<?=$friend['nTags']?>"/>
+				<strong><?=lan('MAINMNU_HOME')?>: </strong>
+				<input type="button" id="tags" action="tagsUser,<?=$friend['nTags']?>,<?=formatoCadena($friend['screen_name'])?>:Tags,<?=md5($friend['id'])?>" value="<?=$friend['nTags']?>"/>
 			</li>
 			<li style="padding-top:10px;margin-bottom:10px;text-align:center;">
 				<?php if ($friend['nPTags']> 0){ ?>
-					<input type="button" id="Mytag" action="tagsUser,1,1,<?=md5($friend['id'])?>" value="<?=MAINMNU_MYTAGS?>"/>
+					<input type="button" id="Mytag" action="tagsUser,1,1,<?=md5($friend['id'])?>" value="<?=lan('MAINMNU_MYTAGS')?>"/>
 				<?php }
 				//IF HAS PAID AND DEFINED PERSONAL BUSINESS CARD -> SHOW BUTTON ON PROFILE
 				if ($friend['nBCar']> 0 && !isset($_GET['calledProfile'])) {?>
@@ -55,8 +55,8 @@ $friend = CON::getRow("SELECT
 		<br/>
 <?php if ($_SESSION['ws-tags']['ws-user']['id'] != $friend['id']) { ?>
 		<div style="width:100%; text-align:center;">
-			<input type="button" style="<?=$friend['follower']?'display:none;':''?> margin-right: 20px;color: white;"  action="linkUser,<?=md5($friend['id'])?>,2" value="<?=USER_BTNLINK?>"/>
-			<input type="button" style="<?=$friend['follower']?'':'display:none;'?> margin-right: 20px;color: white;" action="linkUser,<?=md5($friend['id'])?>,2" value="<?=USER_BTNUNLINK?>" class="btn btn-disabled"/>
+			<input type="button" style="<?=$friend['follower']?'display:none;':''?> margin-right: 20px;color: white;"  action="linkUser,<?=md5($friend['id'])?>,2" value="<?=lan('USER_BTNLINK')?>"/>
+			<input type="button" style="<?=$friend['follower']?'':'display:none;'?> margin-right: 20px;color: white;" action="linkUser,<?=md5($friend['id'])?>,2" value="<?=lan('USER_BTNUNLINK')?>" class="btn btn-disabled"/>
 	<?php
 	if ($friend['username'] != '') $externalProfileId = $friend['username'];
 	else $externalProfileId = "user/".md5($friend['id']);
