@@ -186,7 +186,7 @@ switch ($_GET['action']) {
 	break;
 	case 'groupMembers': //group members
 		if (!isset($_GET['idGroup'])) die(jsonp(array()));	
-		$array['select']=safe_sql(",md5(u.id) AS id_user,g.is_admin,g.status,IF(u.id=$myId,1,0) AS iAm,
+		$array['select']=safe_sql(",md5(u.id) AS id_user,md5(u.id) AS id_friend,g.is_admin,g.status,IF(u.id=$myId,1,0) AS iAm,
 						(SELECT COUNT(t.id) FROM tags t WHERE md5(t.id_group)=? AND t.id_creator=g.id_user) AS numTags",array($_GET['idGroup']));
 		$array['join']=' JOIN users_groups g ON g.id_user=u.id';
 		$array['order']='ORDER BY g.status,g.date DESC';
@@ -195,16 +195,19 @@ switch ($_GET['action']) {
 		if (isset($_GET['noMy'])) $array['where'].=safe_sql('AND g.id_user!=?',array($myId));
 		$num=CON::query("SELECT g.id FROM users_groups g WHERE ".$array['where']);
 		$res['num']=CON::numRows($num);
+		if (isset($_GET['start'])) $array['limit']='LIMIT '.$_GET['start'].',50';
+		$ns=!isset($_GET['ns'])?'':$_GET['ns'];
 		$query=peoples($array); 
-		$info=array(); $status=0;$html='';$numAction=3;
+		$info=array(); $status=0;$html='';
 		$creador=CON::getVal("SELECT md5(id_creator) FROM groups WHERE md5(id)=?",array($_GET['idGroup']));
 		while ($row=CON::fetchAssoc($query)){
 			$row['photo_friend']=FILESERVER.getUserPicture($row['code_friend'].'/'.$row['photo_friend'],'img/users/default.png');
 			$row['creador']=$creador;
 			$info[]=$row;
 			if (isset($_GET['withHtml'])){
-				if($status!=$row['status']){
+				if($status!=$row['status'] && strpos($ns,$row['status'])===false){
 					$status=$row['status'];
+					$ns.=($ns!=''?'-':'').$status;
 					switch($row['status']){
 						case '1':$html.='<div h="active"><div class="title">'.GROUPS_MEMBER_ACTIVE.'</div>'; break;
 						case '2':$html.='</div><div h="standBy"><div class="title">'.GROUPS_MEMBER_STANDBY.'</div>'; break;
@@ -219,10 +222,11 @@ switch ($_GET['action']) {
 							}//valido de que el usuario sea el creador
 					}
 				}
-				$html.=htmlfriends($row,$numAction);
+				$html.=htmlfriends($row,3);
 			}
 		}
 		$res['datos']=$info;
+		$res['ns']=$ns;
 		if ($html!='') $res['html']=$html;
 	break;
 	case 'specific': //info specific user
