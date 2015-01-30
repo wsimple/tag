@@ -2209,9 +2209,10 @@ container#creation input[type="text"],container#update input[type="text"]{
 input[type="search"]{
 	border:none;
 	background:url('smt/search_box.png') no-repeat;
-	width:188px;
+	width:188px !important;
 	height:23px;
 	padding:0 22px 0 10px;
+	color: black;
 }
 
 input[type="search"]:hover,input[type="search"]:focus{

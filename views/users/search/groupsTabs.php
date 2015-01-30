@@ -56,7 +56,7 @@ if ($groups_count == 0) {
 					WHERE id_group = '".$group['id']."' AND id_user = '".$_SESSION['ws-tags']['ws-user']['id']."'");
 				if (mysql_num_rows($validate)>0 || $group['creator'] == $_SESSION['ws-tags']['ws-user']['id']){ ?>
 				<div class="group_info">
-					<div class="bckOvergroup"  title="<?=$privacyGrp?>">
+					<div class="bckOvergroup"  action="groupsDetails,<?=$idGroup?>" title="<?=$privacyGrp?>">
 						<div class="bkgGroup" <?=$group['photo']?>></div>
 						<div class="DescripGroupType">
 							<div class="TitleTypeGruop">
@@ -82,9 +82,15 @@ if ($groups_count == 0) {
 				</div>
 				<div class="clearfix"></div>
 		<?php	}//if mysql_num_rows
-			}else{ ?>
+			}else{  
+				$atc='';
+				if($userInGroup==0){
+					if($buttonGroup==0) $atc = 'action="groupsAction,'.$idGroup.'"'; 
+					elseif($buttonGroup==1) $atc = 'action="groupsDetails,'.$idGroup.'"';
+					elseif($buttonGroup==2) $atc = 'action="acceptInv,'.$idGroup.',list"';
+				} ?>
 				<div class="group_info">
-					<div class="bckOvergroup" title="<?=$privacyGrp?>">
+					<div class="bckOvergroup" <?=$atc?>  title="<?=$privacyGrp?>">
 						<div class="bkgGroup" <?=$group['photo']?>></div>
 						<div class="DescripGroupType">
 							<div class="TitleTypeGruop">
