@@ -2245,6 +2245,10 @@ li.ui-autocomplete-person .info-quick-search{
 	width:224px;
 }
 
+.quick-search-container span .user{
+	border-radius: 50%;
+}
+
 /* ESTILOS PARA EL MODULO FIRENDS*/
 form#frmInvite.fondo_secciones_tabs textarea{
 	width:97%;

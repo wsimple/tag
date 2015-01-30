@@ -214,7 +214,7 @@ unset($detect);
 									'</div>'+
 									'<div class="titleSearch">'+item.email+'</div>'+
 								'</span>'+
-								'<span><img src="'+item.photo+'" alt="User" width="50" height="50"></span>'+
+								'<span><img src="'+item.photo+'" alt="User" class="user" width="50" height="50"></span>'+
 							'</div>'+
 						'</a>');
 			}else if(item.category==='<?=SEARCHALL_GROUPS?>'){
