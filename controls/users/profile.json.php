@@ -374,7 +374,7 @@ switch ($data['action']){
 	}elseif($updateLanguage){
 		$res['success']='updateLanguage';
 	}elseif($url){
-		if(!file_exists(($config->local?RELPATH:$config->imgserver)."img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'])){
+		if(!fileExists(($config->local?RELPATH:$config->imgserver)."img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'])){
 			$_SESSION['ws-tags']['ws-user']['updatePicture']=0;
 			$_SESSION['ws-tags']['ws-user']['photo']='';
 			CON::update("users","updatePicture='0'","id=?",array($myId));
