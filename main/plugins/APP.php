@@ -6,7 +6,7 @@ class APP
 		@header('Location:'.$url);
 		die();
 	}
-	public static function detect(){
+	public static function detect($redir=true){
 		global $config;
 		$detect=new Mobile_Detect;
 		if($detect->isMobile()){
@@ -14,15 +14,16 @@ class APP
 			$mobile=false;
 			if(isset($_GET['mobileVersion'])){
 				setcookie('__FV__',NULL,NULL,'/',NULL,false,false);
-				self::redir($config->app_server);
+				if($redir) self::redir($config->app_server);
 			}
 			if(isset($_GET['fullVersion'])){
 				setcookie('__FV__','1',time()+60*60*24*30,'/',NULL,false,false);
-				self::redir('.');
+				if($redir) self::redir('.');
 			}
 			if(!$detect->isTablet()||!$_COOKIE['__FV__'])
-				self::uri_analice();
+				if($redir) self::uri_analice();
 		}
+		return $detect->isMobile();
 	}
 	public static function uri_analice(){
 		global $config;
