@@ -1,31 +1,25 @@
 <script type="text/javascript">
-
 	$(function(){
-//		$("button, input:submit, input:reset, input:button").button();
-		
+		// $("button, input:submit, input:reset, input:button").button();
 		$("#frmInvite").submit(function(){
-						 
-			 $("#sendInvite").html("<img src=\"img/loader.gif\" width=\"16\" height=\"16\" border=\"0\"  />");
-			 
-			 dataString = $("#frmInvite").serialize();
-			 console.log(dataString);
-			 $.ajax({
-					  type    : "POST",
-					  url     : "controls/users/inviteFriends.control.php",
-					  data    : dataString,
-					  dataType: "html",
-					  success : function (data) {
-										$("#sendInvite").html(data);
-										$("#emails").val('');
-										$("#message").val('');
-										setTimeout(function(){ $("#sendInvite").html("&nbsp;"); }, 3500);
-								}
-			 });
-			 
-			 return false;           
+			$("#sendInvite").html("<img src=\"img/loader.gif\" width=\"16\" height=\"16\" border=\"0\"  />");
+			dataString = $("#frmInvite").serialize();
+			console.log(dataString);
+			$.ajax({
+				type    : "POST",
+				url     : "controls/users/inviteFriends.control.php",
+				data    : dataString,
+				dataType: "html",
+				success : function (data) {
+					$("#sendInvite").html(data);
+					$("#emails").val('');
+					$("#message").val('');
+					setTimeout(function(){ $("#sendInvite").html("&nbsp;"); }, 3500);
+				}
+			});
+			return false;
 		});
 	});
-	
 </script>
 <div id="inviteFriendsView" class="ui-single-box">
 	<!-- BARRA TITULO Y BUSQUEDA DE AMIGO -->
