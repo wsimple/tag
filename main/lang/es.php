@@ -1,6 +1,8 @@
 <?php
 $lang=array(
 	#Basicas
+	'ALL_S' => 'todo',
+	'ALL_P' => 'todos',
 	'Cancel' => 'Cancelar',
 	'Delete' => 'Borrar',
 	'Save'	=> 'Guardar',
@@ -47,7 +49,6 @@ $lang=array(
 	'JS_CONFIRM_REMOVE_TAG_ITEM' => "Remover el elemento dañará todas las tags que lo esten utilizando.\n ¿Está seguro de que quiere eliminarlo?",
 	#Otros
 	'age' => 'edad',
-	'all' => 'todos',
 	'chat' => 'chatear',
 	'date' => 'citas',
 	'example' => 'ejemplo',

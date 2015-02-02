@@ -1,6 +1,8 @@
 <?php
 $lang=array(
 	#Basicas
+	'ALL_S'=>'all',
+	'ALL_P'=>'all',
 	'OK'=>'Ok',
 	'fb_lang'=>'en_US',
 	#variables de la web
