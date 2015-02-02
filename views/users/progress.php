@@ -1,4 +1,4 @@
-<?php if ($_SESSION['ws-tags']['ws-user']['id']!=''){
+<?php if ($_SESSION['ws-tags']['ws-user']['id']!=''&&is_debug()){
 	if (!isset($_SESSION['ws-tags']['ws-user']['progress']) 
 		|| (isset($_SESSION['ws-tags']['ws-user']['progress']) && !isset($_SESSION['ws-tags']['ws-user']['progress']['omitir']))){
 		if (!isset($_SESSION['ws-tags']['ws-user']['progress']['value']) 
@@ -22,6 +22,13 @@
 			<strong><?=lan('INCONPLETE_INFORMATION_PROFILE')?></strong>
 			<a href="<?=base_url('profile')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a>
 		</div>
+		<div>
+			<div id="p-profile2" class="s"></div><span>%<?=round($value['profile'])?></span>
+			<!-- <progress id="p-profile" value="0" max="100"></progress><span></span><br/> -->
+			<!-- <progress id="p-profile" value="<?=$value['profile']?>" max="100"></progress> -->
+			<strong><?=lan('INCONPLETE_INFORMATION_PROFILE')?></strong>
+			<a href="<?=base_url('profile')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a>
+		</div>
 	<?php endif; ?>
 	<?php if ($value['preferences']<100): ?>
 		<div>
@@ -31,8 +38,15 @@
 			<strong><?=lan('USER_PREFERENCES_INCOMPLETE')?></strong>
 			<a href="<?=base_url('user/preferences')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a>
 		</div>
+		<div>
+			<div id="p-preferences2" class="s"></div><span>%<?=round($value['preferences'])?></span>
+			<!-- <progress id="p-preferences" value="0" max="100"></progress><span></span><br/> -->
+			<!-- <progress id="p-preferences" value="<?=$value['preferences']?>" max="100"></progress> -->
+			<strong><?=lan('USER_PREFERENCES_INCOMPLETE')?></strong>
+			<a href="<?=base_url('user/preferences')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a>
+		</div>
 	<?php endif; ?>
-	<a href="<?=DOMINIO?>" ><?=lan('skip')?></a>
+	<a href="<?=DOMINIO?>" class="skip"><?=lan('skip')?></a>
 	<div class="clearfix"></div>
 </div>
 <?php endif; ?>
@@ -57,7 +71,13 @@
 				values:[0,preferences],
 				disabled:true
 			});
-			$('.ui-single-box.topBanner.progress a').click(function(event){
+			$("#p-profile2").progressbar({
+				value:profile
+			});
+			$("#p-preferences2").progressbar({
+				value:preferences
+			});
+			$('.ui-single-box.topBanner.progress a.skip').click(function(event){
 				event.preventDefault();
 				$(this).parents('.ui-single-box.topBanner.progress').remove();
 				$.ajax({
