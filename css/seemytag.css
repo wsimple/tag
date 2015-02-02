@@ -3496,7 +3496,6 @@ height: 150px;}
 	margin:auto;
 }
 .progress{
-	color: #F57133;
 	font-size: 12px;
 	height:auto;
 	background-color:#fff;
@@ -3507,12 +3506,15 @@ height: 150px;}
 	-o-text-shadow:initial;
 	text-shadow:initial;
 }
+.progress span,.progress a{ color:#F57133; }
+.progress strong{ color: #71cbe9; }
 .progress>div{ margin: 10px 0; }
 .progress .s{
 	display: inline-block;
 	width: 85%;
 	margin: 0 20px;
 	border-color: #ccc;
+	height: 10px;
 }
 .progress>a{
 	float: right;

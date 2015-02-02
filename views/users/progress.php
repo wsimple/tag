@@ -15,6 +15,13 @@
 <?php if ($active): ?>
 <div class="ui-single-box topBanner progress">
 	<?php if ($value['profile']<100): ?>
+		<!-- <div> -->
+			<!-- <div id="p-profile" class="s"></div><span>%<?=round($value['profile'])?></span> -->
+			<!-- <progress id="p-profile" value="0" max="100"></progress><span></span><br/> -->
+			<!-- <progress id="p-profile" value="<?=$value['profile']?>" max="100"></progress> -->
+			<!-- <strong><?=lan('INCONPLETE_INFORMATION_PROFILE')?></strong> -->
+			<!-- <a href="<?=base_url('profile')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a> -->
+		<!-- </div> -->
 		<div>
 			<div id="p-profile" class="s"></div><span>%<?=round($value['profile'])?></span>
 			<!-- <progress id="p-profile" value="0" max="100"></progress><span></span><br/> -->
@@ -22,24 +29,17 @@
 			<strong><?=lan('INCONPLETE_INFORMATION_PROFILE')?></strong>
 			<a href="<?=base_url('profile')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a>
 		</div>
-		<div>
-			<div id="p-profile2" class="s"></div><span>%<?=round($value['profile'])?></span>
-			<!-- <progress id="p-profile" value="0" max="100"></progress><span></span><br/> -->
-			<!-- <progress id="p-profile" value="<?=$value['profile']?>" max="100"></progress> -->
-			<strong><?=lan('INCONPLETE_INFORMATION_PROFILE')?></strong>
-			<a href="<?=base_url('profile')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a>
-		</div>
 	<?php endif; ?>
 	<?php if ($value['preferences']<100): ?>
-		<div>
-			<div id="p-preferences" class="s"></div><span>%<?=round($value['preferences'])?></span>
+		<!-- <div> -->
+			<!-- <div id="p-preferences" class="s"></div><span>%<?=round($value['preferences'])?></span> -->
 			<!-- <progress id="p-preferences" value="0" max="100"></progress><span></span><br/> -->
 			<!-- <progress id="p-preferences" value="<?=$value['preferences']?>" max="100"></progress> -->
-			<strong><?=lan('USER_PREFERENCES_INCOMPLETE')?></strong>
-			<a href="<?=base_url('user/preferences')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a>
-		</div>
+			<!-- <strong><?=lan('USER_PREFERENCES_INCOMPLETE')?></strong> -->
+			<!-- <a href="<?=base_url('user/preferences')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a> -->
+		<!-- </div> -->
 		<div>
-			<div id="p-preferences2" class="s"></div><span>%<?=round($value['preferences'])?></span>
+			<div id="p-preferences" class="s"></div><span>%<?=round($value['preferences'])?></span>
 			<!-- <progress id="p-preferences" value="0" max="100"></progress><span></span><br/> -->
 			<!-- <progress id="p-preferences" value="<?=$value['preferences']?>" max="100"></progress> -->
 			<strong><?=lan('USER_PREFERENCES_INCOMPLETE')?></strong>
@@ -55,26 +55,26 @@
 		var active=('<?=$active?>')*1;
 		if (active==1){
 			var profile=("<?=$value['profile']?>")*1,preferences=("<?=$value['preferences']?>")*1;
-			$("#p-profile").slider({
-				min:0,
-				max:100,
-				range:true,
-				step:1,
-				values:[0,profile],
-				disabled:true
-			});
-			$("#p-preferences").slider({
-				min:0,
-				max:100,
-				range:true,
-				step:1,
-				values:[0,preferences],
-				disabled:true
-			});
-			$("#p-profile2").progressbar({
+			// $("#p-profile").slider({
+			// 	min:0,
+			// 	max:100,
+			// 	range:true,
+			// 	step:1,
+			// 	values:[0,profile],
+			// 	disabled:true
+			// });
+			// $("#p-preferences").slider({
+			// 	min:0,
+			// 	max:100,
+			// 	range:true,
+			// 	step:1,
+			// 	values:[0,preferences],
+			// 	disabled:true
+			// });
+			$("#p-profile").progressbar({
 				value:profile
 			});
-			$("#p-preferences2").progressbar({
+			$("#p-preferences").progressbar({
 				value:preferences
 			});
 			$('.ui-single-box.topBanner.progress a.skip').click(function(event){
