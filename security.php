@@ -81,9 +81,9 @@ if($data->tipo){
 
 		$data->imgserver=$data->dominio;
 		$data->main_server=$data->dominio;
-		$data->app_server='app_server/';
-		$data->img_server='img_server/';
-		$data->video_server='video_server/';
+		$data->app_server=$data->path.'app_server/';
+		$data->img_server=$data->path.'img_server/';
+		$data->video_server=$data->path.'video_server/';
 		$data->img_server_path=$data->img_server;
 		$data->video_server_path=$data->video_server;
 		$data->allow_origin='/^https?:\\/\\/(localhost|192\\\.168\\\.)/i';
