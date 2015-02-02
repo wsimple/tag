@@ -13,10 +13,7 @@
 		<div id="nf"></div>
 	</h3>
 	<?php if($find){ ?>
-	<input name="txtSearchFriend" id="txtSearchFriend" type="text" class="txt_box_seekFriendsBrowsers" style="width:200px;position:relative;left:430px;top:-72px;background-repeat:no-repeat;z-index:200;" placeholder="<?=USERS_BROWSERFRIENDSLABELTXT1?>"/>
-	<h6 style="top:-10px;">
-		<?=FINDFRIENDS_LEGENDOFSEARCHBAR?>
-	</h6>
+	<input name="txtSearchFriend" id="txtSearchFriend" type="text" class="txt_box_seekFriendsBrowsers" style="width:200px;position:absolute;right:10px;top:10px;background-repeat:no-repeat;" placeholder="<?=USERS_BROWSERFRIENDSLABELTXT1?>"/>
 	<!-- Filters -->
 	<?php
 	if(is_debug()){
@@ -27,12 +24,12 @@
 		if($pref->id!=$myId||$myId==0)
 			$pref=$default_pref;
 	?>
+	<script>
+		var search_filter=<?=json_encode($pref)?>;
+	</script>
 	<style>
 		#filters > *{
 			margin:10px;
-		}
-		#filters > button{
-			margin:0 10px;
 		}
 		#filters .row{
 			float:left;
@@ -56,29 +53,30 @@
 		#age .ui-widget-content .ui-state-active{
 			background-color:#FF9D7B;
 		}
-		#filters > button{
+		#filters > #save{
 			float:right;
+			margin:0 10px;
 		}
 		#filters .chzn-container{
 			margin:-6px 5px 0;
 		}
 	</style>
-	<div id="filters" class="ui-single-box clearfix">
-		<button><?=lan('Save')?></button>
+	<form id="form-filter" action="controls/users/search_filters.json.php?insert" method="post"><div id="filters" class="ui-single-box clearfix">
+		<input id="save" type="submit" value="<?=lan('Save')?>"/>
 		<h3 class="ui-single-box-title">
 			<div style="margin-bottom:30px;"><?=lan('filter','ucw')?></div>
 		</h3>
 		<div style="display:none;" class="row">Preferences:<?=json_encode($pref)?></div>
 		<div class="row">
 			<div class="text"><?=lan('sex','ucw')?>:</div>
-			<select name="" id="">
+			<select name="sex_preference">
 				<?php foreach ($sex_preferences as $el) {?>
 					<option value="<?=$el->id?>" <?=$el->id==$pref->sex_preference?'selected':''?>><?=lan($el->label,'ucw')?></option>
 				<?php } ?>
 			</select>
 			<div class="divisor"></div>
 			<div class="text"><?=lan('INTERESTED_IN')?>:</div>
-			<select name="" id="">
+			<select name="interest">
 				<?php foreach ($interests as $el) {?>
 					<option value="<?=$el->id?>" <?=$el->id==$pref->interest?'selected':''?>><?=lan($el->label,'ucw')?></option>
 				<?php } ?>
@@ -88,10 +86,13 @@
 			<div class="text"><?=lan('age','ucw')?>:</div>
 			<div id="age-slider"></div>
 			<div id="age-values" class="text"></div>
+			<input id="min_age" name="min_age" type="hidden" value="<?=$pref->min_age?>"/>
+			<input id="max_age" name="max_age" type="hidden" value="<?=$pref->max_age?>"/>
 		</div>
-	</div>
+	</div></form> &nbsp;
 	<script>(function(){
-		var values=[<?=empty($pref->min_age)?18:$pref->min_age?>,<?=empty($pref->max_age)?40:$pref->max_age?>],
+		var f=search_filter,
+			values=[f.min_age,f.max_age],
 			update=function(val){
 				if(val) values=val;
 				$('#age-values').html('['+values.join(' <?=lan('to')?> ')+']')
@@ -116,9 +117,31 @@
 			if(!this.id.match('_search')) opc['disableSearch']=true;
 			$(this).chosen(opc);
 		});
+		$('#filters #save').click(function(){
+			console.log('save filters');
+			$('#filters #min_age').val(values[0]);
+			$('#filters #max_age').val(values[1]);
+			// $('form#form-filter').submit();
+		})
+		$('form#form-filter').ajaxForm({
+			dataType:'json',
+			success:function(data){//post-submit callback
+				console.log('filter save success.',data);
+				search_filter=data;
+			},
+			error:function(){
+				console.log('filter save error.');
+			},
+			complete:function(){
+				console.log('filter save complete.');
+			}
+		});
 	})();</script>
 	<?php } ?>
 	<!-- END: Filters -->
+	<h6 style="top:-10px;">
+		<?=FINDFRIENDS_LEGENDOFSEARCHBAR?>
+	</h6>
 	<?php }else{ ?>
 	<!-- RADIO BUTTONS NAV -->
 	<form style="position: relative; float: right; top: -41px; display: inline-block;">
@@ -141,7 +164,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){
+$(function(){
 	var title=new Array(),opc={mod:'friends',get:""},find=('<?=$find?0:1?>')*1,mod='<?=$_GET[mod]?>';
 
 	title['friends'] = '<?=USER_FINDFRIENDSTITLELINKS?>';
@@ -167,13 +190,13 @@ $(document).ready(function(){
 		$( "#radio-buttons input#"+opc.mod).click();
 
 	}else{
-		opc.mod='find';$('#tab').html("");
+		opc.mod='find';
+		$('#tab').html("");
 		$('#txtSearchFriend').keyup(function() {
 			opc.get = $.trim($(this).val());
-
 			if (opc.get!="" && $(this).val().length>2)	{
-				opc.get="&search="+opc.get;$('#tab').html("");
-
+				opc.get="&search="+opc.get;
+				$('#tab').html("");
 				friendsAndF(opc);
 			}
 		});
@@ -201,9 +224,10 @@ $(document).ready(function(){
 			url: 'controls/users/people.json.php?action=friendsAndFollow&withHtml&mod='+opc.mod+opc.get,
 			type: 'POST',
 			dataType: 'json',
+			data:search_filter||{},
 			success:function(data){
 				$('#loader').remove();
-				if (data['html']){
+				if(data['html']){
 					$('#tab').append(data['html']);
 					if (opc.find!=0 && opc.get.indexOf("limit")==-1) $('#nf').html('('+data['num']+')');
 					if (data['datos'].length>=50) $('#tab').append('<a class="plus" id="seemore"><?=$lang["USER_BTNSEEMORE"]?></a><div class="clearfix"></div>');
@@ -217,8 +241,10 @@ $(document).ready(function(){
 				opc.get="";
 			}
 		});
-		
 	}
+	window.reloadFriendList=function(){
+		friendsAndF(opc);
+	};
 });
 
 // console.log('<?=$numFriends?>');
