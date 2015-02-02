@@ -45,6 +45,8 @@ class APP
 				else
 					$tid=isset($_GET['tag'])?$_GET['tag']:$_GET['id'];
 				self::redir($config->app_server."tag.html?id=$tid");
+			case 'setting':
+				self::redir($config->app_server."setting.html");
 			case 'home': default:
 				self::redir($config->app_server);
 		}
