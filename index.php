@@ -14,6 +14,57 @@ else
 	error_reporting(0);
 #precarga de mvc
 include('autoload.php');
+
+
+########## validaciones especiales ##########
+#confirmacion del correo
+if($_GET['keyusr']!=''){
+	//se busca el usuario
+	$keyUserEmail=CON::getRow('
+		SELECT id,email,password_user,type
+		FROM users
+		WHERE md5(md5(CONCAT(id,"+",email,"+",id)))=?
+	',array($_GET['keyusr']));
+	if($keyUserEmail['type']==0){ $typeUserStatus=1; }
+	elseif($keyUserEmail['type']==1){ $typeUserStatus=3; }
+	//se actualiza el status del usuario
+	$query=CON::update('users','status=?','id=?',array($typeUserStatus,$keyUserEmail['id']));
+	//echo CON::lastSql();
+	//se asignan el login y el password para iniciar sesion automaticamente
+	//$_POST['txtLogin'] = $keyUserEmails[email];
+	//$_POST['txtPass'] = $keyUserEmails[password_user];
+	if(false){//si se hace login, se omiten ya que se realiza por ajax.
+		include('controls/users/login.json.php');
+		$data=array();
+		$data['keep']=isset($_GET['keep'])||isset($_POST['keep'])||isset($_GET['keepLogin'])||isset($_POST['keepLogin']);
+		$data['login']=$_POST['login']!=''?$_POST['login']:$_POST['txtLogin'];
+		$data['pwd']=$_POST['pwd']!=''?$_POST['pwd']:($_POST['pass']!=''?$_POST['pass']:$_POST['txtPass']);
+		$data['mobile']=APP::detect(false);
+		echo 'data:';
+		_imprimir($data);
+		$res=login_json($data);
+		if($res['logged']){
+			/*?><script>
+				var cookies=<?=json_encode($res['cookies'])?>;
+				console.log('cookies');
+				console.log(cookies);
+				setAllCookies(cookies);
+				<?=$_POST['hash']==''?'':'$.cookie("hash","'.$_POST['hash'].'");'?>
+				redir('.');
+			</script><?php /**/
+			@header('Location:.');
+			die();
+		}else{
+			?><script>
+				$(function(){
+					message('messages','Error<?=$res['from']?>','<?=$res['msg']?>','',350,200,'','');
+				});
+			</script><?php
+		}
+	}
+}
+########## fin de validaciones especiales ##########
+
 #mobile detection
 APP::detect();
 
