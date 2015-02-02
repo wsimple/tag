@@ -62,7 +62,7 @@
 					(($_SESSION['ws-tags']['ws-user']['type']==1)?lan('SIGNUP_LBLADVERTISERNAME'):lan('SIGNUP_LBLFIRSTNAME')).'|string|3')
 				?>
 			</div>
-			<?php if( $_SESSION['ws-tags']['ws-user']['type']==0 ) { ?>
+			<?php if( $_SESSION['ws-tags']['ws-user']['type']=='0') { ?>
 			<div class="left"><?php //last name ?>
 				<label ><strong>(*)&nbsp;<?=lan('SIGNUP_LBLLASTNAME_FIELD')?>:</strong></label>
 				<?=$frmProfile->imput('frmProfile_lastName', $_SESSION['ws-tags']['ws-user']['last_name'],$anchoImput,'text','','imputs_wrap_register',lan('SIGNUP_LBLLASTNAME').'|string|3')?>
@@ -158,7 +158,7 @@
 				<select name="city" id="city" requerido="<?=lan('BUSINESSCARD_LBLCITY')?>"></select>
 			</div>
 		</div>
-		<?php if($_SESSION['ws-tags']['ws-user']['type']==0){ ?>
+		<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
 		<div><?php //home phone ?>
 			<label><strong><?=lan('USERPROFILE_LBLHOMEPHONE')?>:</strong></label>
 			<select id="home_code_search" name="frmProfile_home_code" w="150">

@@ -2426,9 +2426,9 @@ function dialog_info(data){
         	'<div class="clearfix"></div></div>';
     message('#default','<?=$lang["NOTIFICATIONS_GROUPSTAGMSJUSERLINK"]?>',conten,'',500,400);
 }
-function membersGroups(id,status){
+function membersGroups(id,opc,status){
     status=status?'&status='+status:'';
-    var	opc={ actual:'',total:'',layer: '',grupo: id,status: status }
+    if (!opc) opc={ actual:'',total:'',layer: '',grupo: id,status: status };
     $.dialog({
 		title: '<?=$lang["GROUPS_MEMBERSTITLE"]?>',
 		resizable: false,
@@ -2437,30 +2437,41 @@ function membersGroups(id,status){
 		modal: true,
 		open: function() {
             opc.layer=$(this);
-			$.ajax({
-				type	:	"GET",
-				url		:	"controls/users/people.json.php?action=groupMembers&withHtml&idGroup="+opc.grupo+"&actual''"+status,
-				dataType:	"json",
-				success	:	function (data) {
-					if (opc.actual==''){
-						opc.total=data['num'];
-						if (data['html']){
-							opc.actual=data['actual'];
-							$(opc.layer).html('<div id="member-list"><div id="membersGroups">'+data['html']+'</div></div>');
-							if(data['totalP']) opc.total=data['total']-data['totalP'];
-								
-                            $('.ui-dialog-title').html('('+opc.total+') <?=$lang["GROUPS_MEMBERSTITLE"]?>')
-						}else{
-							$(opc.layer).html('<div class="messageAdver"><?=$lang["SEARCHALL_NORESULT"]?></div>');
-						}
-					}else{
-						opc.actual=opc.actual+data['actual'];
-						$('#membersGroups',opc.layer).append(data['html']);
-					}
-				}
-			});
+            ajaxMembersGroups(id,opc,status);
 		}
 	});
+	$(opc.layer).on('click','#seemore',function(){
+		ajaxMembersGroups(id,opc,status);
+		$(this).remove();
+	});
+	function ajaxMembersGroups(id,opc,status){
+		$.ajax({
+			type	:	"GET",
+			url		:	"controls/users/people.json.php?action=groupMembers&withHtml&idGroup="+opc.grupo+"&start="+opc.actual+status+(opc.ns?'&ns='+opc.ns:''),
+			dataType:	"json",
+			success	:	function (data) {
+				if (opc.actual==''){
+					opc.total=data['num'];
+					if (data['html']){
+						opc.actual=data['datos'].length;
+						opc.ns=data['ns'];
+						$(opc.layer).html('<div id="member-list"><div id="membersGroups">'+data['html']+'</div></div>');
+						if(data['totalP']) opc.total=data['total']-data['totalP'];
+                        $('.ui-dialog-title').html('('+opc.total+') <?=$lang["GROUPS_MEMBERSTITLE"]?>')
+						if (opc.actual<opc.total) $(opc.layer).append('<a class="plus" id="seemore"><?=$lang["USER_BTNSEEMORE"]?></a><div class="clearfix"></div>');
+					}else{
+						$(opc.layer).html('<div class="messageAdver"><?=$lang["SEARCHALL_NORESULT"]?></div>');
+					}
+				}else{
+					if (data['html']){
+						opc.actual=opc.actual+data['datos'].length;
+						$('#membersGroups',opc.layer).append(data['html']);
+						if (opc.actual<opc.total) $(opc.layer).append('<a class="plus" id="seemore"><?=$lang["USER_BTNSEEMORE"]?></a><div class="clearfix"></div>');
+					}
+				}
+			}
+		});
+	}
 }
 (function(window,$,console){
 	var band;
