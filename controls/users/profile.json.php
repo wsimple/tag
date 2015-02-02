@@ -95,7 +95,7 @@ if($data['action']=='save'||$data['action']=='picture'||$data['action']=='filePh
 			$res['upload']='error uploading';
 		}
 	}
-	// $res['img']=$data['img'];
+	$res['img']=$data['img'];
 	#destruir imagen temporal (si fue creada desde un base64)
 //	if($data['img64']!=''&&isset($data['img']['tmp_name']))
 //		unlink($data['img']['tmp_name']);
@@ -374,7 +374,7 @@ switch ($data['action']){
 	}elseif($updateLanguage){
 		$res['success']='updateLanguage';
 	}elseif($url){
-		if(!file_exists(RELPATH."img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'])){
+		if(!file_exists(($config->local?RELPATH:$config->imgserver)."img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'])){
 			$_SESSION['ws-tags']['ws-user']['updatePicture']=0;
 			$_SESSION['ws-tags']['ws-user']['photo']='';
 			CON::update("users","updatePicture='0'","id=?",array($myId));

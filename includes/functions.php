@@ -3290,9 +3290,11 @@ function calculateProgress(){
 		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['profile_image_url']) && $_SESSION['ws-tags']['ws-user']['profile_image_url']!='') $complete++;
 		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['country']) && $_SESSION['ws-tags']['ws-user']['country']!='' && $_SESSION['ws-tags']['ws-user']['country']!='0') $complete++;
 		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['city']) && $_SESSION['ws-tags']['ws-user']['city']!='') $complete++;
-		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['sex']) && $_SESSION['ws-tags']['ws-user']['sex']!='') $complete++;
-		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['interest']) && $_SESSION['ws-tags']['ws-user']['interest']!='') $complete++;
-		$cant++; if (isset($_SESSION['ws-tags']['ws-user']['relationship']) && $_SESSION['ws-tags']['ws-user']['relationship']!='') $complete++;
+		if ($_SESSION['ws-tags']['ws-user']['type']!='1'){
+			$cant++; if (isset($_SESSION['ws-tags']['ws-user']['sex']) && $_SESSION['ws-tags']['ws-user']['sex']!='') $complete++;
+			$cant++; if (isset($_SESSION['ws-tags']['ws-user']['interest']) && $_SESSION['ws-tags']['ws-user']['interest']!='') $complete++;
+			$cant++; if (isset($_SESSION['ws-tags']['ws-user']['relationship']) && $_SESSION['ws-tags']['ws-user']['relationship']!='') $complete++;	
+		}
 		//$cant++;  if (!isset($_SESSION['ws-tags']['ws-user']['']) && $_SESSION['ws-tags']['ws-user']['']!='') $complete++;
 		$porcentajePerfil=($complete*100)/$cant;
 		/*porcentaje del progreso de las preferencias*/

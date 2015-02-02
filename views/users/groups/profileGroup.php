@@ -63,7 +63,8 @@
 							}
 							tagsListGroups();
 							if ((data['list'][0]['salicitud']) && (data['list'][0]['salicitud']!='no-creador')){
-								membersGroups("<?=$_GET['grp']?>",5);
+								var	opc={ actual:0,total:'',layer: '',grupo: "<?=$_GET['grp']?>",status: status }
+								membersGroups("<?=$_GET['grp']?>",opc,5);
 							}
 							$('#btnNewGroup').click(function(){
 								addNewGroup('<?=GROUPS_TITLEWINDOWSNEW?>','');
@@ -75,7 +76,8 @@
 							});
 							//Accion del boton ver miembros
 							$('#btnShowMembers').click(function(){
-								membersGroups("<?=$_GET['grp']?>");
+								var	opc={ actual:0,total:'',layer: '',grupo: "<?=$_GET['grp']?>",status: status }
+								membersGroups("<?=$_GET['grp']?>",opc);
 								return false;
 							});
 							$('#btnInviteFriends').click(function(){
@@ -85,7 +87,10 @@
                             $('#info-top-groups').html(det_info(data['list'][0]));
                             $('#info-top-groups a').click(function(){
                                 if ($(this).parents('article').hasClass('info')){ dialog_info(data['list'][0]); }
-                                else if ($(this).parents('article').hasClass('member')){ membersGroups("<?=$_GET['grp']?>");  }
+                                else if ($(this).parents('article').hasClass('member')){ 
+                                	var	opc={ actual:0,total:'',layer: '',grupo: "<?=$_GET['grp']?>",status: status }
+                                	membersGroups("<?=$_GET['grp']?>",opc);  
+                                }
                                 return false;
                             });
 						}else{
