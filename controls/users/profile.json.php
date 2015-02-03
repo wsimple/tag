@@ -28,6 +28,7 @@ $data['country']=isset($_POST['country'])?$_POST['country']:$_POST['frmProfile_c
 $data['sex']=isset($_POST['sex'])?$_POST['sex']:$_POST['frmProfile_sex'];
 $data['interest']=isset($_POST['interest'])?$_POST['interest']:$_POST['frmProfile_interest'];
 $data['relationship']=isset($_POST['relationship'])?$_POST['relationship']:$_POST['frmProfile_relationship'];
+$data['wish_to']=isset($_POST['wish_to'])?$_POST['wish_to']:$_POST['frmProfile_wish_to'];
 $data['taxid']=isset($_POST['taxid'])?$_POST['taxid']:$_POST['frmProfile_taxId'];
 $data['zipcode']=isset($_POST['zipcode'])?$_POST['zipcode']:$_POST['frmProfile_zipCode'];
 $data['paypal']=isset($_POST['paypal'])?$_POST['paypal']:$_POST['frmProfile_paypal'];
@@ -80,6 +81,7 @@ if($data['action']=='save'||$data['action']=='picture'||$data['action']=='filePh
 		}
 		unset($imgData,$path,$photo);
 	}
+	if (isset($data['img']) && $data['img']['error']==4) unset($data['img']);
 	#se esta subiendo una imagen
 	if(isset($data['img'])){
 		if($data['img']['error']==0||!is_array($data['img'])){
@@ -202,6 +204,8 @@ if($data['action']=='save'){
 		$updateLanguage=true;
 		$_SESSION['ws-tags']['ws-user']['language']=$data['lang'];
 	}
+	if (isset($data['wish_to'])) $data['wish_to']=array_sum($data['wish_to']);
+	$res['aqui']=$data['wish_to'];
 	$_SESSION['ws-tags']['ws-user']['screen_name']=$data['screenname'];
 	$_SESSION['ws-tags']['ws-user']['date_birth']=$bdate;
 	$_SESSION['ws-tags']['ws-user']['show_birthday']=$data['showbday'];
@@ -212,6 +216,7 @@ if($data['action']=='save'){
 	$_SESSION['ws-tags']['ws-user']['paypal']=$data['paypal'];
 	$_SESSION['ws-tags']['ws-user']['interest']=$data['interest'];
 	$_SESSION['ws-tags']['ws-user']['relationship']=$data['relationship'];
+	$_SESSION['ws-tags']['ws-user']['wish_to']=$data['wish_to'];
 
 	#telefonos
 	$home_area=$data['home_code']?current($GLOBALS['cn']->queryRow('SELECT code_area FROM countries WHERE id="'.$data['home_code'].'"')):'';
@@ -346,13 +351,15 @@ switch ($data['action']){
 							zip_code			= ?,
 							interest			= ?,
 							relationship		= ?,
+							wish_to				= ?,
 							taxId				= ?
 							$sql_pais
 							$sql_userName","id=?",
 				array($user['screen_name'],$user['name'],$user['last_name'],$user['date_birth'],$user['photo'],
 				$user['show_birthday'],$user['home_phone'],$user['mobile_phone'],$user['work_phone'],
 				$user['language'],$user['user_background'],$user['country'],$user['city'],$user['sex'],
-				$user['paypal'],$user['zip_code'],$user['interest'],$user['relationship'],$user['taxId'],$myId));
+				$user['paypal'],$user['zip_code'],$user['interest'],$user['relationship'],$user['wish_to'],
+				$user['taxId'],$myId));
 	break;
 	case 'filePhoto':#actualizamos solo la imagen
 		CON::update("users","profile_image_url=?","id=?",array($user['photo'],$user['id']));
@@ -385,6 +392,8 @@ switch ($data['action']){
 	}elseif($user_background){
 		$res['success']=$user_background=='backgroundFile'?'pbackg':'backg';
 		$res['backg']=$user['user_background'];
+	}elseif($data['action']=='save'){
+		$res['success']='save';		
 	}
 
 $_SESSION['ws-tags']['ws-user']['pic']="img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'];
