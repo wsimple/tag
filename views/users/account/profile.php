@@ -12,7 +12,8 @@
 	//to fill language list
 	$languages = CON::query("SELECT cod,id, name FROM languages");
 	$sex=$_SESSION['ws-tags']['ws-user']['sex']!=''?$_SESSION['ws-tags']['ws-user']['sex']:1;
-	$relationship=CON::getArray("SELECT id,label FROM users_relations WHERE id>0");
+	$relationship=CON::getArray("SELECT id,label FROM users_relations");
+	$wish=CON::getArray("SELECT id,label FROM users_wish_to WHERE id>0");
 	if (!isset($_SESSION['ws-tags']['ws-user']['progress'])) $_SESSION['ws-tags']['ws-user']['progress']['value']=calculateProgress();
 	$value=$_SESSION['ws-tags']['ws-user']['progress']['value']['preferences'];
 ?>
@@ -215,19 +216,28 @@
 			<label><strong><?=lan('INTERESTED_IN')?>:</strong></label>
 			<select name="frmProfile_interest" id="frmProfile_interest" w="150">
 				<option value="" >...</option>
-				<option value="1" <?=($_SESSION['ws-tags']['ws-user']['interest']==1?"selected":'')?>><?=lan('men')?></option>
-				<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']==2?"selected":'')?>><?=lan('women')?></option>
-				<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']===0?"selected":'')?>><?=lan('both')?></option>
+				<option value="1" <?=($_SESSION['ws-tags']['ws-user']['interest']==1?"selected":'')?>><?=lan('men','ucw')?></option>
+				<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']==2?"selected":'')?>><?=lan('women','ucw')?></option>
+				<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']===0?"selected":'')?>><?=lan('both','ucw')?></option>
 			</select>
 		</div>
-		<div><?php //interes  ?>
+		<div><?php //relations  ?>
 			<label><strong><?=lan('Relationship')?>:</strong></label>
 			<select name="frmProfile_relationship" id="frmProfile_relationship" w="150">
 				<option value="" >...</option>
 				<?php foreach ($relationship as $row) { ?>
-					<option value="<?=$row['id']?>" <?=($_SESSION['ws-tags']['ws-user']['relationship']==$row['id']?'selected':'')?>><?=lan($row['label'])?></option>
+					<option value="<?=$row['id']?>" <?=($_SESSION['ws-tags']['ws-user']['relationship']==$row['id']?'selected':'')?>><?=lan($row['label'],'ucw')?></option>
 				<?php } ?>
 			</select>
+		</div>
+		<div class="row"><?php //wish  ?>
+			<label><strong><?=lan('wish')?>:</strong></label>
+			<div id="wish_to">
+				<?php foreach ($wish as $row) {?>
+					<input type="checkbox" id="check<?=$row['id']?>" name="frmProfile_wish_to[]" value="<?=$row['id']?>" <?=($row['id']&$_SESSION['ws-tags']['ws-user']['wish_to'])?'checked':''?> />
+					<label for="check<?=$row['id']?>"><?=lan($row['label'],'ucw')?></label>
+				<?php } ?>
+			</div>
 		</div>
 		<?php }
 		if($_SESSION['ws-tags']['ws-user']['type']=='1'){ ?>
@@ -446,7 +456,7 @@
 		//control del formulario perfil
 		//calendario
 		$('select').each(function(){
-			if (this.id!="city"){
+			if (this.id!="city" && this.id!="frmProfile_wish"){
 				var w=$(this).attr('w'),opc={};
 				if(w) opc['menuWidth']=opc['width']=w;
 				if(!this.id.match('_search')) opc['disableSearch']=true;
@@ -469,7 +479,8 @@
 	            e.preventDefault();
 	    });
 	    if (city && city!=''){ getCitys('#city',city); }
-
+		$( "#wish_to" ).buttonset();
+	   
 		<?php if( $_SESSION['ws-tags']['ws-user']['fullversion']!=1 ) { ?>
 			$("#frmProfile_changePhotoButton").click(function() {
 				$('#frmProfile_filePhoto').click();

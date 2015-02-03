@@ -21,6 +21,6 @@ else{
 			if(preg_match('/^[0-9a-f]{32}$/i',$params[0]))
 				include('users/eprofile.php');
 			else
-				include('users/account/profile.view.php');
+				include('users/account/profile.php');
 	}
 }

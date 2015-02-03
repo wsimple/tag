@@ -12,7 +12,7 @@ if(!$logged&&$sc!=6){
 		case 3:include('account/business_card/beginning.php');break;
 		case 2:include('account/preferences.php');break;
 		case 1:
-		default:include('account/profile.view.php');
+		default:include('account/profile.php');
 	}
 }
 ?>

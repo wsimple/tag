@@ -2495,6 +2495,10 @@ form #frmProfileFormContainer>div{
 	padding:0px;
 }
 
+#frmProfile_ #wish_to label{
+	width: 50px;
+	display: inline-block;
+}
 /*defaults font size */
 .font_size1{
 	font-size:12px;
@@ -3523,6 +3527,7 @@ height: 150px;}
 	text-decoration: none;
 }
 #frmProfile_businessCardDiv .no-complete{ color: #F57133; }
+
 /*progress{
 	width: 90%;
 	-webkit-appearance: none;
