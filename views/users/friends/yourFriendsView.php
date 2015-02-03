@@ -15,31 +15,34 @@
 	<?php if($find){ ?>
 	<input name="txtSearchFriend" id="txtSearchFriend" type="text" class="txt_box_seekFriendsBrowsers" style="width:200px;position:absolute;right:10px;top:10px;background-repeat:no-repeat;" placeholder="<?=USERS_BROWSERFRIENDSLABELTXT1?>"/>
 	<!-- Filters -->
+	<script> var search_filter={};</script>
 	<?php
 	if(is_debug()){
-		$default_pref=json_decode('{"sex_preference":0,"interest":0,"min_age":18,"max_age":40}');
+		$default_pref=json_decode('{"sex_preference":0,"wish_to":1,"min_age":18,"max_age":40}');
 		$sex_preferences=CON::getObject('select id,label from users_sex_preferences');
-		$interests=CON::getObject('select id,label from users_interests');
-		$pref=CON::getRowObject('select * from users_search_preferences where id=?',array($myId));
+		$wishes_to=CON::getObject('select id,label from users_wish_to where id>0');
+		$pref=CON::getRowObject('select * from users_search_preferences where id>0 and id=?',array($myId));
 		if($pref->id!=$myId||$myId==0)
 			$pref=$default_pref;
+		unset($pref->id);
 	?>
-	<script>
-		var search_filter=<?=json_encode($pref)?>;
-	</script>
+	<script>search_filter=<?=json_encode($pref)?>;</script>
 	<style>
 		#filters > *{
 			margin:10px;
 		}
-		#filters .row{
+		#filters .row,
+		#filters .row > *{
 			float:left;
+		}
+		#filters .row{
 			width:100%;
 		}
 		#filters .row > .text{
 			margin-top:-4px;
 		}
-		#filters .row > *{
-			float:left;
+		#wish_to{
+			margin:-7px 5px 0;
 		}
 		#filters .row > .divisor{
 			min-height:15px;
@@ -74,13 +77,15 @@
 					<option value="<?=$el->id?>" <?=$el->id==$pref->sex_preference?'selected':''?>><?=lan($el->label,'ucw')?></option>
 				<?php } ?>
 			</select>
-			<div class="divisor"></div>
-			<div class="text"><?=lan('INTERESTED_IN')?>:</div>
-			<select name="interest">
-				<?php foreach ($interests as $el) {?>
-					<option value="<?=$el->id?>" <?=$el->id==$pref->interest?'selected':''?>><?=lan($el->label,'ucw')?></option>
+		</div>
+		<div class="row">
+			<div class="text"><?=lan('wish to','ucf')?>:</div>
+			<div id="wish_to">
+				<?php foreach ($wishes_to as $el) {?>
+					<input type="checkbox" id="check<?=$el->id?>" name="wish_to[]" value="<?=$el->id?>" <?=($el->id&$pref->wish_to)?'checked':''?> />
+					<label for="check<?=$el->id?>"><?=lan($el->label,'ucw')?></label>
 				<?php } ?>
-			</select>
+			</div>
 		</div>
 		<div id="age" class="row">
 			<div class="text"><?=lan('age','ucw')?>:</div>
@@ -91,6 +96,7 @@
 		</div>
 	</div></form> &nbsp;
 	<script>(function(){
+		$( "#wish_to" ).buttonset();
 		var f=search_filter,
 			values=[f.min_age,f.max_age],
 			update=function(val){
@@ -127,6 +133,7 @@
 			dataType:'json',
 			success:function(data){//post-submit callback
 				console.log('filter save success.',data);
+				delete data.id;
 				search_filter=data;
 			},
 			error:function(){
@@ -222,7 +229,7 @@ $(function(){
 		$('#tab').append('<img src="css/smt/loader.gif" id="loader" width="32" height="32" class="loader" style="margin: 0 auto;display:block;">');
 		$.ajax({
 			url: 'controls/users/people.json.php?action=friendsAndFollow&withHtml&mod='+opc.mod+opc.get,
-			type: 'POST',
+			type:'POST',
 			dataType: 'json',
 			data:search_filter||{},
 			success:function(data){

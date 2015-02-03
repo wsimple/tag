@@ -78,6 +78,22 @@ switch ($_GET['action']) {
 					// 	$array['limit']='LIMIT 0,20';
 					// }
 				}
+				#####filtrado por preferencias de busqueda
+				$pref='';
+				if(!empty($_POST['sex_preference'])){#sexo
+					$pref.=CON::escape_string(' AND u.sex=? ',array($_POST['sex_preference']));
+				}
+				if(!empty($_POST['wish_to'])){#deseos
+					$wish=intval($_POST['wish_to']);
+					$pref.=" AND (u.wish_to&$wish) ";
+				}
+				if(!empty($_POST['min_age'])){#edad minima
+				}
+				if(!empty($_POST['max_age'])){#edad maxima
+				}
+				if(!empty($pref)) $array['where'].=$pref;
+				$res['where']=$array['where'];
+				#####fin - filtrado por preferencias de busqueda
 				$filter='';
 				if($_POST['in']){#filtrar inclusion
 					$data=$_POST['in'];
