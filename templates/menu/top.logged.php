@@ -33,6 +33,9 @@ unset($detect);
 				<li class="arrow"></li>
 				<li><a href="<?=base_url('friends')?>"><?=USER_FINDFRIENDSTITLELINKS?></a></li>
 				<li><a href="<?=base_url('friends/find')?>"><?=FRIENDS_FINDFRIEND_MENUMAIN?></a></li>
+				<?php if($_SESSION['ws-tags']['ws-user']['type']==0){?>
+					<li><a href="<?=base_url('friends/dates')?>"><?=lan('dates','ucw')?></a></li>
+				<?php } ?>
 				<li><a href="<?=base_url('friends/invite')?>"><?=USERS_BROWSERFRIENDSLABELBTNINVITE?></a></li>
 			</ul>
 			<div id="tourFriends"></div>

@@ -2,7 +2,8 @@
 	global $section,$params;
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
 	if(empty($myId)) $myId=0;
-	$find=$sc=='2'||$sc=='find'?true:false;
+	$find=$sc=='2'||$sc=='find'||$sc=='dates'?true:false;
+	$mod=isset($_GET['mod'])?$_GET['mod']:$sc;
 	$numFriends=CON::getVal('SELECT COUNT(id_user) as num from users_links where id_user = ?',array($myId));
 ?>
 <div id="tourSearchFriends"></div>
@@ -17,7 +18,7 @@
 	<!-- Filters -->
 	<script> var search_filter={};</script>
 	<?php
-	if(is_debug()){
+	if($sc=='dates'&&$_SESSION['ws-tags']['ws-user']['type']==0){
 		$default_pref=json_decode('{"sex_preference":0,"wish_to":1,"min_age":18,"max_age":40}');
 		$sex_preferences=CON::getObject('select id,label from users_sex_preferences');
 		$wishes_to=CON::getObject('select id,label from users_wish_to where id>0');
@@ -81,6 +82,7 @@
 		<div class="row">
 			<div class="text"><?=lan('wish to','ucf')?>:</div>
 			<div id="wish_to">
+				<input name="wish_to[]" type="hidden" value="0"/>
 				<?php foreach ($wishes_to as $el) {?>
 					<input type="checkbox" id="check<?=$el->id?>" name="wish_to[]" value="<?=$el->id?>" <?=($el->id&$pref->wish_to)?'checked':''?> />
 					<label for="check<?=$el->id?>"><?=lan($el->label,'ucw')?></label>
@@ -172,8 +174,8 @@
 </div>
 <script type="text/javascript">
 $(function(){
-	var title=new Array(),opc={mod:'friends',get:""},find=('<?=$find?0:1?>')*1,mod='<?=$_GET[mod]?>';
-
+	var title=new Array(),opc={mod:'friends',get:""},find=<?=$find?0:1?>,mod='<?=$sc?>';
+dates
 	title['friends'] = '<?=USER_FINDFRIENDSTITLELINKS?>';
 	title['follow'] = '<?=USER_LBLFOLLOWERS?>';
 	title['unfollow'] = '<?=USER_LBLFRIENDS?>';

@@ -51,6 +51,7 @@ $lang=array(
 	'age' => 'edad',
 	'chat' => 'chatear',
 	'date' => 'citas',
+	'dates' => 'citas',
 	'example' => 'ejemplo',
 	'females' => 'mujeres',
 	'filter' => 'filtrar',

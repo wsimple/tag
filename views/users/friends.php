@@ -5,7 +5,7 @@ $sc = $_GET['sc'];
 if($params[0]!='') $sc=$params[0];
 
 switch ($sc) {
-	case 1: case 2: case 'find':
+	case 1: case 2: case 'find':case 'dates':
 		include("friends/yourFriendsView.php"); break;
 	// case 2:
 	// 	include("friends/findFriendsView.php");
