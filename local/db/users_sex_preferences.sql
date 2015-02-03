@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50614
 File Encoding         : 65001
 
-Date: 2015-01-29 14:09:43
+Date: 2015-02-03 14:51:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,6 +29,6 @@ CREATE TABLE `users_sex_preferences` (
 -- ----------------------------
 -- Records of users_sex_preferences
 -- ----------------------------
-INSERT INTO `users_sex_preferences` VALUES ('0', 'all', 'all / todos');
+INSERT INTO `users_sex_preferences` VALUES ('0', 'ALL_P', 'all / todos');
 INSERT INTO `users_sex_preferences` VALUES ('1', 'males', 'males / hombres');
 INSERT INTO `users_sex_preferences` VALUES ('2', 'females', 'females / mujeres');
