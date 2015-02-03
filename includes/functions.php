@@ -699,7 +699,8 @@ function users($where='',$limit=10,$ini=0,$suggest=false){
 function peoples($array=''){
 	$order='';$limit='LIMIT 0,50';$where='1';
 	$uid=$_SESSION['ws-tags']['ws-user']['id'];
-	$from='users u';
+	// $from='users u';
+	$from='(select *, TIMESTAMPDIFF(YEAR, date_birth, CURDATE()) AS age from users) u';
 	$select=' DISTINCT
 		u.id AS id,
 		CONCAT(u.`name`," ",u.last_name) AS name_user,
@@ -709,6 +710,7 @@ function peoples($array=''){
 		u.country as id_country,
 		u.profile_image_url AS photo_friend,
 		md5(CONCAT(u.id,"_",u.email,"_",u.id)) AS code_friend,
+		if(u.show_my_birthday<2,u.age,0) AS age,
 		c.name AS country,
 		u.friends_count,
 		u.following_count,
