@@ -59,5 +59,13 @@ $lang=array(
 	'none' => 'ninguno',
 	'males' => 'hombres',
 	'sex' => 'sexo',
+	'single' => 'soltero / soltera',
+	'dating' => 'buscando pareja',
+	'OPEN_RELATIONSHIP' => 'relación abierta',
+	'CLOSED_RELATIONSHIP' => 'relación cerrada',
+	'married' => 'casado / casada',
+	'separated' => 'separado / separado',
+	'divorced' => 'divorciado / divorciada',
+	'widow' => 'viudo / viuda',
 );
 return $lang;
