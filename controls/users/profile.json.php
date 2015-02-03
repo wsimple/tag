@@ -185,10 +185,12 @@ if($data['action']=='save'){
 	}
 	#si cambia nombre o apellido editamos nombre completo
 	if ($_SESSION['ws-tags']['ws-user']['type']!='1'){
-		if(!valid::isAlpha($data['firstname']) || $data['firstname']==''){
+		if($data['firstname']==''){
+		// if(!valid::isAlpha($data['firstname']) || $data['firstname']==''){
 			$res['error']=lan('SIGNUP_CTRERRORNAME'); die(jsonp($res));			
 		}
-		if(!valid::isAlpha($data['lastname']) || $data['lastname']==''){
+		if($data['lastname']==''){
+		// if(!valid::isAlpha($data['lastname']) || $data['lastname']==''){
 			$res['error']=lan('SIGNUP_CTRERRORLASTNAME'); die(jsonp($res));			
 		}
 	}

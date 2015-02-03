@@ -2496,7 +2496,8 @@ form #frmProfileFormContainer>div{
 }
 
 #frmProfile_ #wish_to label{
-	width: 50px;
+	font-size: 13px;
+	width: 85px;
 	display: inline-block;
 }
 /*defaults font size */
