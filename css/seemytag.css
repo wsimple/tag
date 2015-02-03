@@ -2219,12 +2219,13 @@ input[type="search"]:hover,input[type="search"]:focus{
 	outline:none;/*FIXED GOOGLE CHROME*/
 }
 
-input[type="checkbox"]+label.ui-state-default{
+/*input[type="checkbox"]+label.ui-state-default{
 	background-color:#ddd;
 }
 input[type="checkbox"]+label.ui-state-active{
 	background-color:#3DB5E8;
 }
+*/
 
 li.ui-autocomplete-person a.ui-state-focus{
 	height:50px;

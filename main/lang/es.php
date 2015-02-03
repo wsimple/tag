@@ -67,5 +67,6 @@ $lang=array(
 	'separated' => 'separado / separado',
 	'divorced' => 'divorciado / divorciada',
 	'widow' => 'viudo / viuda',
+	'wish to' => 'deseos',
 );
 return $lang;
