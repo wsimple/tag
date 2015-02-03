@@ -222,7 +222,7 @@
 			</select>
 		</div>
 		<div><?php //relations  ?>
-			<label><strong><?=lan('Relationship')?>:</strong></label>
+			<label><strong><?=lan('relationship','ucw')?>:</strong></label>
 			<select name="frmProfile_relationship" id="frmProfile_relationship" w="150">
 				<option value="" >...</option>
 				<?php foreach ($relationship as $row) { ?>
@@ -231,7 +231,7 @@
 			</select>
 		</div>
 		<div class="row"><?php //wish  ?>
-			<label><strong><?=lan('wish')?>:</strong></label>
+			<label><strong><?=lan('wish to','ucw')?>:</strong></label>
 			<div id="wish_to">
 				<?php foreach ($wish as $row) {?>
 					<input type="checkbox" id="check<?=$row['id']?>" name="frmProfile_wish_to[]" value="<?=$row['id']?>" <?=($row['id']&$_SESSION['ws-tags']['ws-user']['wish_to'])?'checked':''?> />

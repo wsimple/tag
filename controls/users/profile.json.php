@@ -61,7 +61,7 @@ if(isset($_FILES['frmProfile_fileCover']))
 	$data['cover']=$_FILES['frmProfile_fileCover'];
 
 #si se estan guardando datos
-if($data['action']=='save'||$data['action']=='picture'||$data['action']=='filePhoto'){
+if($data['action']=='picture'||$data['action']=='filePhoto'){
 	#imagen en base64 - se transforma a imagen regular
 	if($data['img64']!=''){
 		$imgData=base64_decode(preg_replace('/^data:image\/\w*;base64,/i','',$data['img64']));
