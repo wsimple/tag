@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50614
 File Encoding         : 65001
 
-Date: 2015-01-29 14:09:20
+Date: 2015-02-03 14:59:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,7 +29,6 @@ CREATE TABLE `users_relations` (
 -- ----------------------------
 -- Records of users_relations
 -- ----------------------------
-INSERT INTO `users_relations` VALUES ('0', 'unspecified', 'unspecified / sin especificar');
 INSERT INTO `users_relations` VALUES ('1', 'single', 'single / soltero');
 INSERT INTO `users_relations` VALUES ('2', 'dating', 'dating / buscando pareja');
 INSERT INTO `users_relations` VALUES ('3', 'OPEN_RELATIONSHIP', 'open relatipnship . relacion abierta');
