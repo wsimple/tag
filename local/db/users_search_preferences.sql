@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50614
 File Encoding         : 65001
 
-Date: 2015-02-03 11:17:31
+Date: 2015-02-03 14:51:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,8 +27,3 @@ CREATE TABLE `users_search_preferences` (
   `max_age` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of users_search_preferences
--- ----------------------------
-INSERT INTO `users_search_preferences` VALUES ('124', '2', '0', '18', '38');
