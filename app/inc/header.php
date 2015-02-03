@@ -21,6 +21,7 @@
 	<link rel="stylesheet" href="css/farbtastic.css"/>
 	<link rel="stylesheet" href="css/seemytag.css"/>
 	<link rel="stylesheet" href="css/colorPicker.css"/>
+	<link rel="stylesheet" href="css/newV2.css"/>
 <?php if(isset($_GET['minify'])){
 ?>	<script src="<?=isset($_GET['steroids'])?'http://localhost/cordova.js':'cordova.js'?>"></script>
 	<!--<script src="http://debug.build.phonegap.com/target/target-script-min.js#82ad4bcc-195f-11e3-af04-22000a98b3d6"></script><!-- -->

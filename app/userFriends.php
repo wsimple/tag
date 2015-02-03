@@ -5,12 +5,27 @@
 	}
 </style>
 <div id="page-friendUser" data-role="page" data-cache="false">
-	<div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
+	<div  data-role="header" data-theme="f" data-position="fixed">
+		<div id="profile" style="position:absolute;top:0px;left:0;padding:0 5px;">
+			<span class="photo"></span> 
+			<span class="full-name"></span>
+		</div>
+		<div id="sub-menu">
+			<ul class="ui-grid-a">
+				<li class="ui-block-a">
+					<a href="timeLine.html">back</a>
+				</li>
+				<li class="ui-block-b">
+					<a href="newtag.html">forward</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 	<div data-role="content" class="list-content">
 		<div class="list-wrapper">
 			<div id="scroller">
 				<div id="friends" class="list">
-					<ul data-role="listview" data-filter="true" data-divider-theme="e" class="list-friends"></ul>
+					<ul class="list-friends ui-grid-b"></ul>
 				</div>
 				<div id="follow" class="list">
 					<ul data-role="listview" data-filter="true" data-divider-theme="e" class="list-friends"></ul>

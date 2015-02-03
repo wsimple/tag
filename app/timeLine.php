@@ -6,17 +6,17 @@
 		window.location.reload();
 	}
 </script>
-<div id="singleRedirDialog" class="myDialog" style="display: none;"><div class="table"><div class="cell"><div class="window" style="max-height: 272px; display: block;"><div class="container" style="max-height: 272px;"><div id="scroller" class="content">Está seguro que quiere eliminar esta tag?</div></div><div class="buttons"><a action="0" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Sí</span></span></a><a action="1" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">No</span></span></a></div></div></div></div><div class="closedialog" style="display:none"></div></div>
+<div id="singleRedirDialog" class="myDialog" style="display: none;"><div class="table"><div class="cell"><div class="window" style="max-height: 272px; display: block;"><div class="container" style="max-height: 272px;"><div id="scroller" class="content"></div></div><div class="buttons"><a action="0" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Sí</span></span></a><a action="1" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">No</span></span></a></div></div></div></div><div class="closedialog" style="display:none"></div></div>
 <div id="page-timeLine" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
-		<div style="position:absolute;top:0px;left:0;padding:5px 5px;">
-			<a href="#" class="showMenu" style="position:relative;"><span class="btn-menu showMenu"></span><span class="push-notifications button" style="display:none;">0</span></a>
-			
+		<div id="profile" style="position:absolute;top:0px;left:0;padding:0 5px;">
+			<span class="photo"></span> 
+			<span class="full-name"></span>
 		</div>
-		<h1><span class="loader"></span></h1>
-		<div class="creation" id="creationTag">
-			<!-- <a href="#" onclick="redir(PAGE['newtag'])"></a> -->
+		<div class="notificacion-area" id="notifications">
+			<span class="notification-num">4</span>
 		</div>
+		<?php include 'inc/submenu.php'; ?>
 		<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
 			<span class="loader"></span>
 		</div> -->
@@ -34,6 +34,20 @@
 			</div>
 		</div>
 	</div>
+	<div id="bottom-menu">
+		<ul>
+				<li class="toptags"><a href="topTags.html">top tags</a></li>
+				<li class="news"><a href="news.html">news</a></li>
+				<li class="notifications"><a href="notifications.html">notifications</a></li>
+				<li class="groups"><a href="#">groups</a></li>
+				<li class="chat"><a href="cometchat/i.html">chat</a></li>
+				<li class="profile"><a href="#">profile</a></li>
+				<li class="friends"><a href="#">friends</a></li>
+				<li class="createtag"><a href="newtag.html">create tag</a></li>
+				<li class="store"><a href="#">store</a></li>
+				<li class="logout"><a href="#">logout</a></li>
+			</ul>	
+	</div>
 	<div id="tl-footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar"><ul></ul></div>
 	</div>
@@ -42,11 +56,28 @@
 		var active_tab = 'timeLine';
 		if (page) active_tab = page.last_tab;
 		//if(navigator.app) navigator.app.clearHistory();
+		function get_profile(code, callback){
+			myAjax({
+				url:DOMINIO+'controls/users/people.json.php?action=specific&code',
+				data:{uid:code},
+				success:function(response){
+					if (!response['error']){
+						if (typeof callback == 'function') {
+							callback(response);
+						}
+					}
+				},
+				error:function(){
+					console.log('error');
+				}
+			});
+		}
 
 		pageShow({
 			id:'page-timeLine',
 			title:'Time Line',
 			before:function(){
+				$('#singleRedirDialog #scroller').html(lan('JS_DELETETAG'));
 				$('.pullDownLabel').html(lan('SCROLL_PULLDOWN'));
 				$('.pullUpLabel').html(lan('SCROLL_PULLUP'));
 				$('#singleRedirDialog #scroller.content').html(lan('JS_DELETETAG'));
@@ -63,7 +94,18 @@
 				);
 			},
 			after:function(){
-
+				//V2
+				$('#bottom-menu').on('swipedown',function(){
+					$(this).animate({bottom: -114},500);
+				}).on('swipeup',function(){
+					$(this).animate({bottom: 0},500);
+				});
+				get_profile($.local('code'), function(data){
+					$('#profile span.full-name').html($.local('full_name'));
+					$('#profile .photo').html('<img src="'+data.datos[0].photo_friend+'">');
+				});
+				//END V2
+				
 				$('#creationTag').click(function(){
 					redir(PAGE['newtag']);
 				});

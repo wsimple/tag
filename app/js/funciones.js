@@ -293,7 +293,7 @@ function readTxt(url){
 							datos=pts[0]+' M';
 						else
 							datos=data;
-						$('#userPoints b').html(datos);
+						$('#userPoints b,.points span').html(datos);
 					}
 				});
 			}
@@ -595,8 +595,8 @@ function showTag(tag){//individual tag
 				(tag['uid']?
 					'<li id="users" users="'+tag['uid']+'"><span>profile</span></li>'
 				:'')+
-				'<li id="like" '+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
-				'<li id="dislike" '+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
+				'<li id="like" title="Like">'+tag.num_likes+'</li>'+
+				'<li id="dislike" title="Dislike">'+tag.num_disLikes+'</li>'+
 				(!tag['popup']?
 					'<li id="comment" title="Comment"><span>Comment</span></li>'
 				:'')+(btn['redist']?
@@ -621,10 +621,10 @@ function showTag(tag){//individual tag
 			'<div id="likeIcon" '+(tag['likeIt']>0?'':'style="display:none;"')+'></div>'+
 			'<div id="dislikeIcon" '+(tag['likeIt']<0?'':'style="display:none;"')+'></div>'+
 		'</div>'+
-		'<div class="tag-counts">'+
-			'<div id="likeIcon"></div><span>'+tag.num_likes+'</span>'+
-			'<div id="dislikeIcon"></div><span>'+tag.num_disLikes+'</span>'+
-		'</div>'+
+		// '<div class="tag-counts">'+
+		// 	'<div id="likeIcon"></div><span>'+tag.num_likes+'</span>'+
+		// 	'<div id="dislikeIcon"></div><span>'+tag.num_disLikes+'</span>'+
+		// '</div>'+
 		(tag['rid']?'<div class="redist"><div>'+lan('TXT_REDISTBY')+tag['name_redist']+'</div></div>':'')+
 		((tag['product']||tag['typeVideo'])?
 			'<div class="extras"><div>'+
@@ -809,10 +809,11 @@ function playLike(tagtId,that,show,comment){
 		dataType:'json',
 		loader: false,
 		success:function(data){
-			if (data['success']=='likes') afterAjaxTags(data['success'], tagtId, 'menu #like', 'menu #dislike');
-			else afterAjaxTags(data['success'], tagtId,'menu #dislike', 'menu #like');
+			// if (data['success']=='likes') afterAjaxTags(data['success'], tagtId, 'menu #like', 'menu #dislike');
+			// else afterAjaxTags(data['success'], tagtId,'menu #dislike', 'menu #like');
 			$('#numDislikes').html(data['dislikes']); $('#numLikes').html(data['likes']);
-			$('[tag='+tagtId+'] .tag-counts').find('#dislikeIcon+span').html(data['dislikes']); $('[tag='+tagtId+'] .tag-counts').find('#likeIcon+span').html(data['likes']);
+			// $('[tag='+tagtId+'] .tag-counts').find('#dislikeIcon+span').html(data['dislikes']); $('[tag='+tagtId+'] .tag-counts').find('#likeIcon+span').html(data['likes']);
+			$('[tag='+tagtId+'] menu').find('#dislike').html(data['dislikes']); $('[tag='+tagtId+'] menu').find('#like').html(data['likes']);
 			if (!comment && $('[tag='+tagtId+']').find('#comments').length == 0 ) {
 				playComment(tagtId);
 			}
@@ -1036,18 +1037,19 @@ function playComment(tagtId, opc){
 	};
 })(window,jQuery,console);
 
-function bodyFriendsList(friend){
+function bodyFriendsList(friend, temp){
+	temp = temp || 'a';
 	if (friend.conocido) var te="a",text=lan('unfollow');
 	else var te="e",text=lan('follow'); 
-	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain">'+
+	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-role="fieldcontain">'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
-			'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
+			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/>'+
 			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
-			'<p class="ui-li-desc">'+
-				lan('friends','ucw')+' <span class="ufriends">('+(friend.friends_count||0)+'),</span>  '+
-				lan('admirers','ucw')+' <span class="ufollowers">('+(friend.followers_count||0)+'),</span>  '+
-				lan('admired','ucw')+' <span class="ufollowing">('+(friend.following_count||0)+')</span> '+
-			'</p>'+
+			// '<p class="ui-li-desc">'+
+			// 	lan('friends','ucw')+' <span class="ufriends">('+(friend.friends_count||0)+'),</span>  '+
+			// 	lan('admirers','ucw')+' <span class="ufollowers">('+(friend.followers_count||0)+'),</span>  '+
+			// 	lan('admired','ucw')+' <span class="ufollowing">('+(friend.following_count||0)+')</span> '+
+			// '</p>'+
 		'</a>'+
 	'</li>'+ //la maquetacion de este li se hizo con el jquerymobile ya cargado
 	(friend.iAm=="0"?'<li class="ui-body ui-body-b" style="display: none;">'+
@@ -1103,9 +1105,13 @@ function viewFriends(method, opc){
 			divider=!opc.noCount?'<li data-role="list-divider">'+divider+(count!=''?' ('+count+')':'')+'</li>':'';
 
 			if (data.datos.length>0){
+				var char = ['a','b','c'], count = -1;
 				for(i=0;i<data.datos.length;i++){
+					if (i % 3 == 0) count = -1;
+					console.log(count);
+					count++;
 					friend=data.datos[i];
-					out+=bodyFriendsList(friend);
+					out+=bodyFriendsList(friend, char[count]);
 				}
 			}else{
 				var mens='';
@@ -1122,11 +1128,12 @@ function viewFriends(method, opc){
 			if (method=='refresh') {
 				var seemore='';
 				if (opc.perpag && data.datos.length>=opc.perpag) seemore='<li data-theme="f" data-icon="false" id="seemore"><a style="text-align:center;" href="#">'+lan('see more','ucw')+'</a></li>';
-				$(opc.layer).html(divider+out+seemore).listview('refresh');
+				//$(opc.layer).html(divider+out+seemore).listview('refresh');
+				$(opc.layer).html(divider+out+seemore);
 			}else if(method=='more'){
 				if ($('#findFriends').length == 0) {
 					$(opc.layer+' #seemore').before(out);
-					$(opc.layer).listview('refresh');
+					//$(opc.layer).listview('refresh');
 				}
 				$('#findFriends').click(function(event){
 					redir(PAGE['findfriends']);
