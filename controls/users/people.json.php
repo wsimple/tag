@@ -36,7 +36,7 @@ switch ($_GET['action']) {
 				$array['join']=' JOIN users_links ul2 ON ul2.id_friend=u.id';
 				if (isset($_GET['like'])){
 					$searches = explode(' ',$_GET['like']);$where='';
-					foreach ($searches as $word) 
+					foreach ($searches as $word)
 						$array['where'].=safe_sql(' AND  CONCAT_WS(" ",u.username,u.last_name,u.screen_name,u.name,u.email) LIKE "%??%"',array($word));
 					$res['num']=1;
 				}
@@ -46,13 +46,37 @@ switch ($_GET['action']) {
 				$array['select'].=',md5(ul2.id_user) AS id_friend, md5(ul2.id_friend) AS id_user';
 				$array['join']=' JOIN users_links ul2 ON ul2.id_user=u.id';
 				$array['where']="ul2.id_friend=$uid";
-				if (isset($_GET['like'])){
+				if(isset($_GET['like'])){
 					$searches = explode(' ',$_GET['like']);$where='';
-					foreach ($searches as $word) 
+					foreach($searches as $word) 
 						$array['where'].=safe_sql(' AND  CONCAT_WS(" ",u.username,u.last_name,u.screen_name,u.name,u.email) LIKE "%??%"',array($word));
 					$res['num']=1;
 				}
 			break;
+			case 'dates'://encontrar amigos
+				#agregar lo que haga falta de la busqueda
+				#####filtrado por preferencias de busqueda (solo para usuarios tipo 0)
+				if($_SESSION['ws-tags']['ws-user']['type']==0){
+					$pref='';
+					if(!empty($_POST['sex_preference'])){#sexo
+						$pref.=CON::escape_string(' AND u.sex=? ',array($_POST['sex_preference']));
+					}
+					if(!empty($_POST['wish_to'])){#deseos
+						$wish=intval($_POST['wish_to']);
+						$pref.=" AND (u.wish_to&$wish) ";
+					}
+					if(!empty($_POST['min_age'])){#edad minima
+						$pref.=CON::escape_string(' AND u.age>=? ',array($_POST['min_age']));
+					}
+					if(!empty($_POST['max_age'])){#edad maxima
+						$pref.=CON::escape_string(' AND u.age<=? ',array($_POST['max_age']));
+					}
+					if(!empty($_POST['min_age'])||!empty($_POST['max_age'])){#solo si la persona permite ver su edad
+						$pref.=' AND u.show_my_birthday<2 ';
+					}
+					if(!empty($pref)) $array['where'].=' AND u.type=0'.$pref;
+				}
+				#####fin - filtrado por preferencias de busqueda
 			case 'find'://encontrar amigos
 				$numAction=3;
 				if (isset($_GET['search'])){
@@ -78,22 +102,6 @@ switch ($_GET['action']) {
 					// 	$array['limit']='LIMIT 0,20';
 					// }
 				}
-				#####filtrado por preferencias de busqueda
-				$pref='';
-				if(!empty($_POST['sex_preference'])){#sexo
-					$pref.=CON::escape_string(' AND u.sex=? ',array($_POST['sex_preference']));
-				}
-				if(!empty($_POST['wish_to'])){#deseos
-					$wish=intval($_POST['wish_to']);
-					$pref.=" AND (u.wish_to&$wish) ";
-				}
-				if(!empty($_POST['min_age'])){#edad minima
-				}
-				if(!empty($_POST['max_age'])){#edad maxima
-				}
-				if(!empty($pref)) $array['where'].=$pref;
-				$res['where']=$array['where'];
-				#####fin - filtrado por preferencias de busqueda
 				$filter='';
 				if($_POST['in']){#filtrar inclusion
 					$data=$_POST['in'];
