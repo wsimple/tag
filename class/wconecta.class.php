@@ -258,6 +258,6 @@ class wconecta{
 		return $row;
 	}
 }
+
 global $cn;
 $cn=new wconecta(HOST,USER,PASS,DATA);
-?>
