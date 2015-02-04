@@ -1,5 +1,6 @@
 <?php
 	include '../header.json.php';
+    global $config;
 	//UPDATE groups SET id_category=1;
 		$fecha=explode('-',$_SESSION['ws-tags']['ws-user']['date_birth']);
 		if (isset($_GET['infoG'])){
@@ -84,7 +85,7 @@
 				$info='';
 				while ($row=CON::fetchAssoc($category)){
 					$row['name']=formatoCadena(lan($row['name']));
-					$row['cphoto']=$row['cphoto']!=''?DOMINIO.'img/groups/category/'.$row['cphoto']:DOMINIO.'css/smt/menu_left/groups.png';
+					$row['cphoto']=$row['cphoto']!=''?$config->main_server.'img/groups/category/'.$row['cphoto']:DOMINIO.'css/smt/menu_left/groups.png';
 					$info[]=$row;
 				}
 				$res['category']=$info;
