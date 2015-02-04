@@ -1103,7 +1103,7 @@ function viewFriends(method, opc){
 			}
 			// }
 			divider=!opc.noCount?'<li data-role="list-divider">'+divider+(count!=''?' ('+count+')':'')+'</li>':'';
-
+			divider = ''; //DesignV2 o comentar desde la linea 1091 hastas 1105
 			if (data.datos.length>0){
 				var char = ['a','b','c'], count = -1;
 				for(i=0;i<data.datos.length;i++){

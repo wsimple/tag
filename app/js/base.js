@@ -74,7 +74,7 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 				success	:function(data){
 					val=data.push;
 					if(val&&val>0)
-						$('.push-notifications').text(val).show();
+						$('.push-notifications, #notifications .notification-num').text(val).show();
 					else
 						$('.push-notifications').hide();
 				},

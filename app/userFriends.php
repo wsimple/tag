@@ -1,26 +1,14 @@
 <?php include 'inc/header.php'; ?>
 <style>
 	.ui-page .ui-content{
-		margin: 8px 0;
+		margin: 4px 0;
 	}
 </style>
 <div id="page-friendUser" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
-		<div id="profile" style="position:absolute;top:0px;left:0;padding:0 5px;">
-			<span class="photo"></span> 
-			<span class="full-name"></span>
-		</div>
-		<div id="sub-menu">
-			<ul class="ui-grid-a">
-				<li class="ui-block-a">
-					<a href="timeLine.html">back</a>
-				</li>
-				<li class="ui-block-b">
-					<a href="newtag.html">forward</a>
-				</li>
-			</ul>
-		</div>
+		<div id="menu" class="ui-grid-c" style="top:0px;left:0;padding:0 5px;"></div>
 	</div>
+	<?php include 'inc/mainmenu.php'; ?>
 	<div data-role="content" class="list-content">
 		<div class="list-wrapper">
 			<div id="scroller">
@@ -48,9 +36,15 @@
 	pageShow({
 		id:'#page-friendUser',
 		title:lan('friends','ucw'),
-		buttons:{showmenu:true,creation:true},
+		buttons:{showmenu:false,creation:false},
 		before:function(){
 			$('#seek').html(lang.seek);
+			$('#menu').html(
+				'<span class="ui-block-a menu-button"><a href="#"><img src="css/newdesign/friends.png"><br>'+lan('friends','ucw')+'</a></span>'+
+				'<span class="ui-block-b"></span>'+
+				'<span class="ui-block-c menu-button">'+lan('Suggest','ucw')+'</span>'+
+				'<span class="ui-block-d menu-button"><a href="#" title="Search"><img src="css/newdesign/search.png"><br>'+lan('search','ucw')+'</a></span>'
+			);
 			$('#friendsFooter').html(
 				'<li><a href="#" opc="friends">'+lan('friends','ucw')+'</a></li>'+
 				'<li><a href="#" opc="follow">'+lan('admirers','ucw')+'</a></li>'+

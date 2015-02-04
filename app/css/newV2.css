@@ -22,7 +22,6 @@
 	background-size: 1.033em !important;
 	text-align: right;
 	color: white;
-	/*padding: 0;*/
 }
 .tag-container [tag] menu li#like{
 	background-image:url('newdesign/tag/like.png?1');
@@ -156,6 +155,27 @@
 	width: 40%;;
 }
 /*Friends*/
+#menu{
+	display: block;
+}
+#menu .menu-button{
+	font-weight: normal;
+	font-size: 12px;
+	text-align: center;
+}
+#menu .menu-button a{
+	width: 100%;
+	height: 100%;
+	color: #FFF;
+	font-weight: normal;
+}
+#menu .menu-button:active{
+	background-color: #f4bb3a;
+}
+#menu .menu-button img{
+	width: 30px;
+	height: 30px;
+}
 #page-friendUser #scroller{
 	background-color: #edeef0;
 }

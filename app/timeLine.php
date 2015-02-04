@@ -14,9 +14,9 @@
 			<span class="full-name"></span>
 		</div>
 		<div class="notificacion-area" id="notifications">
-			<span class="notification-num">4</span>
+			<span class="notification-num">0</span>
 		</div>
-		<?php include 'inc/submenu.php'; ?>
+		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
 		<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
 			<span class="loader"></span>
 		</div> -->
@@ -34,20 +34,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="bottom-menu">
-		<ul>
-				<li class="toptags"><a href="topTags.html">top tags</a></li>
-				<li class="news"><a href="news.html">news</a></li>
-				<li class="notifications"><a href="notifications.html">notifications</a></li>
-				<li class="groups"><a href="#">groups</a></li>
-				<li class="chat"><a href="cometchat/i.html">chat</a></li>
-				<li class="profile"><a href="#">profile</a></li>
-				<li class="friends"><a href="#">friends</a></li>
-				<li class="createtag"><a href="newtag.html">create tag</a></li>
-				<li class="store"><a href="#">store</a></li>
-				<li class="logout"><a href="#">logout</a></li>
-			</ul>	
-	</div>
+	<?php include 'inc/mainmenu.php'; ?>
 	<div id="tl-footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar"><ul></ul></div>
 	</div>
@@ -77,6 +64,13 @@
 			id:'page-timeLine',
 			title:'Time Line',
 			before:function(){
+				$('#sub-menu ul').html(
+					'<li class="ui-block-a timeline"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
+					'<li class="ui-block-b newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'+
+					'<li class="ui-block-c store"><a href="#">'+lan('store','ucw')+'</a></li>'+
+					'<li class="ui-block-d points"><!-- <span></span> --><a href="#">'+lan('rewards','ucw')+'</a></li>'
+				);
+
 				$('#singleRedirDialog #scroller').html(lan('JS_DELETETAG'));
 				$('.pullDownLabel').html(lan('SCROLL_PULLDOWN'));
 				$('.pullUpLabel').html(lan('SCROLL_PULLUP'));
