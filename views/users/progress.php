@@ -16,16 +16,20 @@
 <div class="ui-single-box topBanner progress">
 	<?php if ($value['profile']<100): ?>
 		<div>
-			<div id="p-profile" class="s"></div><span>%<?=round($value['profile'])?></span>
-			<strong><?=lan('INCONPLETE_INFORMATION_PROFILE')?></strong>
-			<a href="<?=base_url('profile')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a>
+			<div id="p-profile" class="s"></div><em>%<?=round($value['profile'])?></em>
+			<div>
+				<span><?=lan('INCONPLETE_INFORMATION_PROFILE')?></span>
+				<a href="<?=base_url('profile')?>" class="color-pro"><?=lan('TO_COMPLETE','ucw').' '.lan('SIGNUP_H5TITLE1')?></a>
+			</div>
 		</div>
 	<?php endif; ?>
 	<?php if ($value['preferences']<100): ?>
 		<div>
-			<div id="p-preferences" class="s"></div><span>%<?=round($value['preferences'])?></span>
-			<strong><?=lan('USER_PREFERENCES_INCOMPLETE')?></strong>
-			<a href="<?=base_url('user/preferences')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a>
+			<div id="p-preferences" class="s"></div><em>%<?=round($value['preferences'])?></em>
+			<div>
+				<span><?=lan('USER_PREFERENCES_INCOMPLETE')?></span>
+				<a href="<?=base_url('user/preferences')?>" class="color-pro"><?=lan('TO_COMPLETE').' '.lan('SIGNUP_H5TITLE1')?></a>
+			</div>
 		</div>
 	<?php endif; ?>
 	<a href="<?=DOMINIO?>" class="skip"><?=lan('skip')?></a>
