@@ -19,8 +19,9 @@ include('autoload.php');
 ########## validaciones especiales ##########
 #confirmacion del correo
 if($_GET['keyusr']!=''){
+	$db=new DB_sql($config->db);
 	//se busca el usuario
-	$keyUserEmail=CON::getRow('
+	$keyUserEmail=$db->getRow('
 		SELECT id,email,password_user,type
 		FROM users
 		WHERE md5(md5(CONCAT(id,"+",email,"+",id)))=?
@@ -28,11 +29,13 @@ if($_GET['keyusr']!=''){
 	if($keyUserEmail['type']==0){ $typeUserStatus=1; }
 	elseif($keyUserEmail['type']==1){ $typeUserStatus=3; }
 	//se actualiza el status del usuario
-	$query=CON::update('users','status=?','id=?',array($typeUserStatus,$keyUserEmail['id']));
-	//echo CON::lastSql();
+	$query=$db->update('users','status=?','id=?',array($typeUserStatus,$keyUserEmail['id']));
+	//echo $db->lastSql();
 	//se asignan el login y el password para iniciar sesion automaticamente
 	//$_POST['txtLogin'] = $keyUserEmails[email];
 	//$_POST['txtPass'] = $keyUserEmails[password_user];
+	$db->close();
+	unset($db);
 	if(false){//si se hace login, se omiten ya que se realiza por ajax.
 		include('controls/users/login.json.php');
 		$data=array();
@@ -54,6 +57,9 @@ if($_GET['keyusr']!=''){
 			</script><?php /**/
 			@header('Location:.');
 			die();
+		}elseif(APP::detect(false)){
+			@header('Location:.');
+			die();
 		}else{
 			?><script>
 				$(function(){
@@ -61,6 +67,8 @@ if($_GET['keyusr']!=''){
 				});
 			</script><?php
 		}
+	}else{
+		@header('Location:.');
 	}
 }
 ########## fin de validaciones especiales ##########

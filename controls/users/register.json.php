@@ -2,6 +2,7 @@
 include '../header.json.php';
 
 function register_json($data){
+	global $config;
 	$res=array();
 	$defaultTag='defaults/346f3ee097c010b4ed71ce0fb08bbaf2.jpg';
 	include(RELPATH.'class/validation.class.php');
@@ -108,7 +109,7 @@ function register_json($data){
 				</tr>
 				'.$fb_mail.'
 				<tr>
-					<td><a href="'.DOMINIO.'?keyusr='.$key.'">'.DOMINIO.'?keyusr='.$key.'</a></td>
+					<td><a href="'.$config->main_server.'?keyusr='.$key.'">'.$config->main_server.'?keyusr='.$key.'</a></td>
 				</tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr>
