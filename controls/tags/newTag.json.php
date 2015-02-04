@@ -342,6 +342,27 @@ function newTag_json($data,$mobile=false){
 			updateUserCounters($myId,'tags_count','1','+');
 			updateUserCounters($myId,'accumulated_points',$points,'+');
 			updateUserCounters($myId,'current_points',$points,'+');
+
+			//tagbum sponsors tags automatically 
+			if ($myId == '1373'){
+				$_tagbumsponsor = $GLOBALS['cn']->query("
+					INSERT INTO users_publicity SET 
+						id_tag = '".$tagId."',
+						id_type_publicity = '4',
+						id_cost = '4',
+						id_user = '".$myId."',
+						id_currency = '1',
+						title = '',
+						message = '',
+						link = 'http://tagbum.com',
+						picture = '',
+						picture_title_tag = '',
+						cost_investment = '10000000000.000',
+						click_max = '10000000000',
+						click_current = '0',
+						status = '1'
+				");
+			}
 		}
 		if($data['people']){ //notificacion de tag privada
 			foreach($data['people']['users'] as $friend){ //amigos de Tagbum
