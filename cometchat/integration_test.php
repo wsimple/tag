@@ -28,7 +28,7 @@ define('DB_USERTABLE_NAME',			'screen_name'			);
 define('DB_AVATARTABLE',			" "						);
 #personalizados
 $usr_table=TABLE_PREFIX.DB_USERTABLE;
-define('DB_AVATARFIELD'," CONCAT(md5(CONCAT($usr_table.id,'_',$usr_table.email,'_',$usr_table.id)),'/',$usr_table.profile_image_url) ");
+define('DB_AVATARFIELD'," CONCAT($usr_table.code,'/',$usr_table.profile_image_url) ");
 define('DB_USERTABLE_USERLINK'," IF(TRIM(IFNULL($usr_table.username,''))!='',$usr_table.username,$usr_table.id) ");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
