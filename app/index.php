@@ -1,4 +1,11 @@
 <?php include 'inc/header.php'; ?>
+<?php #si es confirmacion de registro lo redirigimos a la web
+	if(isset($_GET['keyusr'])){
+		include 'includes/config.php';
+		@header("Location:$config->main_server".substr($_SERVER['REQUEST_URI'],1));
+		die();
+	}
+?>
 <div id="page-start" data-role="page" class="no-header no-footer">
 	<div data-role="content" class="smt-bg smt-center"><div class="_tt">
 <?php if(false&&isset($_GET['xdk'])){ ?>
