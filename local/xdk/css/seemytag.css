@@ -45,6 +45,13 @@
 	-o-background-size:100% 100%;
 	background-size:100% 100%;
 }
+.ui-page .ui-header .home.left{
+	right: auto;
+	left: 0px;
+	border:none;
+	margin-top:0;
+	box-shadow:0 0 0;
+}
 .ui-page .ui-header .creation{
 	position:absolute;
 	cursor:pointer;
@@ -300,14 +307,17 @@
 	width:650px;
 	margin:auto;
 }
-.tag-solo-hash{
+.tag-solo-hash,
+.tag-hash{
 	text-overflow: ellipsis;
 	overflow: hidden;
 	background-color: #f9f9f9;
+	font-size: 0.6em;
+	text-align: center;
 }
-.tag-solo-hash a{
-	color: #f0516c;
-}
+.tag-hash a,
+.tag-solo-hash a{ color: #f0516c; }
+.tag-hash-complete,
 .tag-solo-hash-complete{
 	text-overflow: inherit;
 	overflow: visible;
@@ -517,7 +527,7 @@
 }
 .tag-comments li div{ text-align:left; }
 .tag-comments li .text{ height:auto;overflow:hidden; }
-.tag-comments li .seemore{
+.tag-comments li .this_seemore{
 	display:none;
 	/*color:#F58220;*/
 	font-size:11px;
@@ -529,7 +539,7 @@
 .tag-comments li.more div p:not(.short){display:none;}
 .tag-comments li:not(.more) div p.short{display:none;}
 .tag-comments li.more .text{ height:55px; }
-.tag-comments li.more .seemore{ display:block; }
+.tag-comments li.more .this_seemore{ display:block; }
 .tag-comments .ui-li-heading{ margin:5px 0px; }
 .tag-comments .ui-li-desc{
 	width:100%;
@@ -566,7 +576,7 @@
 	height:32px;
 	margin:2px 3px;
 	font-weight:bold;
-	color:#F82;
+	color:#F57133;
 	background-position:50% 50%;
 	background-repeat:no-repeat !important;
 	
@@ -1103,7 +1113,7 @@ loader.s32,.loader.s32{
 .needed,.single,.enterp,.pullDownLabel,.pullUpLabel,.is-logged{}
 
 #userPoints{
-	background:#77c574;
+	background:#03A993;
 	height:15px;
 	font-size:13px;
 	padding: 3px 10px;
@@ -1128,7 +1138,7 @@ loader.s32,.loader.s32{
 
 .ui-box-login .title{
 	/*background-color:#F5CD37;*/
-	background-color: #f82;
+	background-color: #F57133;
 	color:#fff;
 	font-size:11px;
 	font-weight:normal;
@@ -1213,76 +1223,28 @@ loader.s32,.loader.s32{
 	margin-top:-10px;
 }
 
-#infoList #nameProduct{
+#infoList #nameProduct,
+.nameProduct{
 	padding:10px 0 0 8px;
 	font-size:14px;
 	font-weight:bold;
-	color:#f82;
+	color:#F57133;
 }
 
-#infoList #descripProduct{
+#infoList #descripProduct,
+#infoList .descripProduct{
 	font-size:12px;
 	word-wrap:break-word;
 	padding-left:8px;
 	height:30px;
 }
-/*#infoListShopping li{ height:62px; }
-#infoListShopping li #nameProduct{
-	padding:0 0 0 10px;
-	font-size:16px;
-	font-weight:bold;
-	float:left;
-	width:100%;
-	text-overflow:ellipsis;
-	word-wrap:normal;
-	white-space:nowrap;
-	overflow:hidden;
-}
-#infoListShopping li #img{ float:left; }
-#infoListShopping li #img img{
-	width:70px;
-	height:60px;
-	float:left;
-}
-#infoListShopping li #content{
-	float:right;
-	width:74%;
-}
-#infoListShopping li #content #midleDescription{
-	height:30px;
-	width:100%;
-}
-#infoListShopping li #content #midleDescription #descripProduct{
+
+#infoList .costProduct{
 	font-size:12px;
 	word-wrap:break-word;
-	float:left;
-	padding:0 0 0 10px;
-	color:#F82;
-}
-
-#infoListShopping li #content #midleDescription #trashShoppingCart{
-	background-image:url('smt/trash.png');
-	background-repeat:no-repeat;
-	background-position:0 5px;
-	width:25px;
-	height:31px;
-	float:right;
-}
-#infoListShopping li #pointsProduct{
-	font-size:12px;
+	padding-left:8px;
 	font-weight:bold;
-	text-align:left;
-	padding-top:3px;
 }
-#page-lstStoreShopping #detailsShoppingCart{
-	margin:45px 0 0 0px;
-	padding:12px 0 0 7px;
-	height:35px;
-	font-size:14px;
-	font-weight:bold;
-	background:#4e89c5;
-	color:#fff;
-}*/
 #lstStoreOption .contentItem:after{
 	visibility: hidden;
 	display: block;
@@ -1380,7 +1342,7 @@ loader.s32,.loader.s32{
 #infoDetails #idProductContent div{ font-weight:bold; }
 #infoDetails #idProductContent #title{
 	font-size:18px;
-	color:#F82;
+	color:#F57133;
 }
 #infoDetails #idProductContent #CateSub{
 	font-size:12px;
@@ -1394,7 +1356,7 @@ loader.s32,.loader.s32{
 #infoDetails #idProductContent #priceApp #points{
 	font-weight:bold;
 	padding-left:5px;
-	color:#F82;
+	color:#F57133;
 }
 #infoDetails #idProductContent #seller{
 	font-weight:bold;
@@ -1404,7 +1366,7 @@ loader.s32,.loader.s32{
 
 }
 #infoDetails #idProductContent #user{
-	color:#F82;
+	color:#F57133;
 	float:right;
 	margin-bottom:15px;
 	width:100%;
@@ -1438,7 +1400,7 @@ loader.s32,.loader.s32{
 #infoDetails #idProductContent #titleDescription,
 #infoDetails #idProductContent #titleVideo,
 #infoDetails #idProductContent #titleHash{ margin-top:4px; }
-#infoDetails #idProductContent #titleHash + .tag-solo-hash{ margin:10px 0px; width: 100%; }
+#infoDetails #idProductContent #titleHash + .tag-solo-hash,.tag-hash{ margin:10px 0px; width: 100%; }
 #infoDetails #idProductContent #description{
 	text-align:justify;
 	font-weight:normal;
@@ -1637,7 +1599,7 @@ input.password-field {
 	text-overflow:ellipsis;
 	overflow:hidden;
 	font-size:11px;
-	color:#f82;
+	color:#F57133;
 	-webkit-border-radius:0.3085em;
 	-moz-border-radius:0.3085em;
 	border-radius:0.3085em;
@@ -1658,7 +1620,7 @@ input.password-field {
 
 .tag-container [tag] menu div#hashTashMenu span a{
 	text-decoration:none;
-	color:#f82;
+	color:#F57133;
 	background:none
 }
 .tag-container [tag] menu div#hashTashMenu span a:hover{
@@ -1856,7 +1818,7 @@ input.password-field {
 	text-align: center;
 	font-weight: bold;
 	margin: 5px auto;
-	background: #77c574;
+	background: #03A993;
 	color: #fff;
 	padding: 4px 0;
 }
