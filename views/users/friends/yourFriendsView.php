@@ -28,43 +28,6 @@
 		unset($pref->id);
 	?>
 	<script>search_filter=<?=json_encode($pref)?>;</script>
-	<style>
-		#filters > *{
-			margin:10px;
-		}
-		#filters .row,
-		#filters .row > *{
-			float:left;
-		}
-		#filters .row{
-			width:100%;
-		}
-		#filters .row > .text{
-			margin-top:-4px;
-		}
-		#wish_to{
-			margin:-7px 5px 0;
-		}
-		#filters .row > .divisor{
-			min-height:15px;
-			width:15px;
-		}
-		#age .ui-slider{
-			width:70%;
-			margin:0 20px;
-			border-color:#ccc;
-		}
-		#age .ui-widget-content .ui-state-active{
-			background-color:#FF9D7B;
-		}
-		#filters > #save{
-			float:right;
-			margin:0 10px;
-		}
-		#filters .chzn-container{
-			margin:-6px 5px 0;
-		}
-	</style>
 	<form id="form-filter" action="controls/users/search_filters.json.php?insert" method="post"><div id="filters" class="ui-single-box clearfix">
 		<input id="save" type="submit" value="<?=lan('Save')?>"/>
 		<h3 class="ui-single-box-title">
@@ -97,55 +60,6 @@
 			<input id="max_age" name="max_age" type="hidden" value="<?=$pref->max_age?>"/>
 		</div>
 	</div></form> &nbsp;
-	<script>(function(){
-		$( "#wish_to" ).buttonset();
-		var f=search_filter,
-			values=[f.min_age,f.max_age],
-			update=function(val){
-				if(val) values=val;
-				$('#age-values').html('['+values.join(' <?=lan('to')?> ')+']')
-			},
-			update_ui=function(e,ui){
-				update(ui.values);
-			};
-		if($("#age-slider .ui-slider").length) $("#age-slider").slider('destroy');
-		update();
-		$("#age-slider").slider({
-			min:10,
-			max:80,
-			range:true,
-			step:1,
-			values:values,
-			change:update_ui,
-			slide:update_ui
-		});
-		$('select').each(function(){
-			var w=$(this).attr('w'),opc={};
-			if(w) opc['menuWidth']=opc['width']=w;
-			if(!this.id.match('_search')) opc['disableSearch']=true;
-			$(this).chosen(opc);
-		});
-		$('#filters #save').click(function(){
-			console.log('save filters');
-			$('#filters #min_age').val(values[0]);
-			$('#filters #max_age').val(values[1]);
-			// $('form#form-filter').submit();
-		})
-		$('form#form-filter').ajaxForm({
-			dataType:'json',
-			success:function(data){//post-submit callback
-				console.log('filter save success.',data);
-				delete data.id;
-				search_filter=data;
-			},
-			error:function(){
-				console.log('filter save error.');
-			},
-			complete:function(){
-				console.log('filter save complete.');
-			}
-		});
-	})();</script>
 	<?php } ?>
 	<!-- END: Filters -->
 	<h6 style="top:-10px;">
@@ -175,22 +89,21 @@
 <script type="text/javascript">
 $(function(){
 	var title=new Array(),opc={mod:'friends',get:""},find=<?=$find?0:1?>,mod='<?=$sc?>';
-dates
+	// dates
 	title['friends'] = '<?=USER_FINDFRIENDSTITLELINKS?>';
 	title['follow'] = '<?=USER_LBLFOLLOWERS?>';
 	title['unfollow'] = '<?=USER_LBLFRIENDS?>';
 	title['find'] = '<?=EDITFRIEND_VIEWLABELSEARCH?>';
+	title['dates'] = '<?=EDITFRIEND_VIEWLABELSEARCH?>';
 	if (find!=0){
 		//Acción botones para navegación
 		$( "#radio-buttons" ).buttonset();
 		$( "#radio-buttons label" ).click( function(){
-
 			opc.mod = $(this).attr('for');$('#tab').html("");
 			redir('friends?sc=1&mod='+opc.mod);
 			$('#yourFriendsView div#tab').removeAttr('class').addClass(opc.mod);
 			$('#titleFriends').html(title[opc.mod]);
 			// friendsAndF(opc);
-
 		});
 
 		$('#yourFriendsView div#tab').removeAttr('class').addClass(opc.mod);
@@ -199,12 +112,16 @@ dates
 		$( "#radio-buttons input#"+opc.mod).click();
 
 	}else{
-		opc.mod='find';
+		opc.mod=mod=='2'?'find':mod;
 		$('#tab').html("");
 		$('#txtSearchFriend').keyup(function() {
 			opc.get = $.trim($(this).val());
 			if (opc.get!="" && $(this).val().length>2)	{
 				opc.get="&search="+opc.get;
+				$('#tab').html("");
+				friendsAndF(opc);
+			}else if($(this).val().length==0){
+				opc.get="";
 				$('#tab').html("");
 				friendsAndF(opc);
 			}
@@ -224,8 +141,57 @@ dates
 	}
 	$('#tab').html('').on('click','#seemore',function(){
 		$(this).remove().next('div.clearfix').remove();
-		opc.get="&limit="+$("#tab .thisPeople ").length;
+		opc.get=(opc.get!=""?opc.get:"")+"&limit="+$("#tab .thisPeople ").length;
 		friendsAndF(opc);
+	});
+	$( "#wish_to" ).buttonset();
+	var f=search_filter,
+		values=[f.min_age,f.max_age],
+		update=function(val){
+			if(val) values=val;
+			$('#age-values').html('['+values.join(' <?=lan('to')?> ')+']')
+		},
+		update_ui=function(e,ui){
+			update(ui.values);
+		};
+	if($("#age-slider .ui-slider").length) $("#age-slider").slider('destroy');
+	update();
+	$("#age-slider").slider({
+		min:10,
+		max:80,
+		range:true,
+		step:1,
+		values:values,
+		change:update_ui,
+		slide:update_ui
+	});
+	$('select').each(function(){
+		var w=$(this).attr('w'),opc={};
+		if(w) opc['menuWidth']=opc['width']=w;
+		if(!this.id.match('_search')) opc['disableSearch']=true;
+		$(this).chosen(opc);
+	});
+	$('#filters #save').click(function(){
+		// console.log('save filters');
+		$('#filters #min_age').val(values[0]);
+		$('#filters #max_age').val(values[1]);
+		// $('form#form-filter').submit();
+	})
+	$('form#form-filter').ajaxForm({
+		dataType:'json',
+		success:function(data){//post-submit callback
+			// console.log('filter save success.',data);
+			delete data.id;
+			search_filter=data;
+			$('#tab').html("");
+			friendsAndF(opc);
+		},
+		error:function(){
+			console.log('filter save error.');
+		},
+		complete:function(){
+			// console.log('filter save complete.');
+		}
 	});
 	function friendsAndF(opc){
 		$('#tab').append('<img src="css/smt/loader.gif" id="loader" width="32" height="32" class="loader" style="margin: 0 auto;display:block;">');
