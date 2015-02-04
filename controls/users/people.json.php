@@ -55,6 +55,11 @@ switch ($_GET['action']) {
 			break;
 			case 'dates'://encontrar amigos
 				#agregar lo que haga falta de la busqueda
+				$array['join']='';
+				$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
+					IF(u.id='.$myId.',1,0) AS iAm';
+				// $array['where']="u.id!=$uid AND ul.id_friend IS NULL ";
+				$array['where']="u.id!=$uid";
 				#####filtrado por preferencias de busqueda (solo para usuarios tipo 0)
 				if($_SESSION['ws-tags']['ws-user']['type']==0){
 					$pref='';
@@ -77,6 +82,20 @@ switch ($_GET['action']) {
 					if(!empty($pref)) $array['where'].=' AND u.type=0'.$pref;
 				}
 				#####fin - filtrado por preferencias de busqueda
+				if (isset($_GET['search'])){
+					$array['join']='';
+					$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
+						IF(u.id='.$myId.',1,0) AS iAm';
+					$searches = explode(' ',$_GET['search']);$where='';
+					foreach ($searches as $word) {
+						// AND g.name LIKE ?",array('%'.$hash[0].'%'));
+						$where.=safe_sql('AND  CONCAT_WS(" ",u.username,u.last_name,u.screen_name,u.name,u.email) LIKE "%??%"',array($word));
+					}
+					$array['where'].=$where;
+					$array['order']='ORDER BY u.username';
+				}
+				$res['num']=1;
+			break;
 			case 'find'://encontrar amigos
 				$numAction=3;
 				if (isset($_GET['search'])){
@@ -142,14 +161,14 @@ switch ($_GET['action']) {
 				}
 				$res['num']=1;
 			break;
-			case 'suggest':
-				$res['num'] = 0;
-			break;
+			case 'suggest': $res['num'] = 0; break;
 		}
 		if(!isset($res['num'])) $res['num']=CON::numRows(CON::query("SELECT ul2.id_user FROM users_links ul2 WHERE ".$array['where']));
 		$html='';
-		if($res['num']>0 && !isset($assoc)){ $query=peoples($array); }
-		elseif(!isset($_GET['nosugg']) && (!isset($_GET['limit'])) && !isset($assoc)){
+		if($res['num']>0 && !isset($assoc)){ 
+			$query=peoples($array); 
+			// $res['sql']=CON::lastSql();
+		}elseif(!isset($_GET['nosugg']) && (!isset($_GET['limit'])) && !isset($assoc)){
 			$array['order']='ORDER BY RAND()';
 			$array['join']='';
 			$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
