@@ -12,9 +12,14 @@
 	<h3 class="ui-single-box-title" style="background-size:50% 32px;">
 		<div id="titleFriends" style="float:left;margin-right:5px;"></div>
 		<div id="nf"></div>
+		<?php if($find){ ?> 
+			<?php if($sc=='dates'&&$_SESSION['ws-tags']['ws-user']['type']==0){ ?>
+			<input  id="settings" type="button"/>
+			<?php } ?>
+		<input  id="txtSearchFriend" type="text" class="search" placeholder="<?=lan('USERS_BROWSERFRIENDSLABELTXT1')?>"/>
+		<?php } ?>
 	</h3>
 	<?php if($find){ ?>
-	<input name="txtSearchFriend" id="txtSearchFriend" type="text" class="txt_box_seekFriendsBrowsers" style="width:200px;position:absolute;right:10px;top:10px;background-repeat:no-repeat;" placeholder="<?=USERS_BROWSERFRIENDSLABELTXT1?>"/>
 	<!-- Filters -->
 	<script> var search_filter={};</script>
 	<?php
@@ -28,21 +33,23 @@
 		unset($pref->id);
 	?>
 	<script>search_filter=<?=json_encode($pref)?>;</script>
-	<form id="form-filter" action="controls/users/search_filters.json.php?insert" method="post"><div id="filters" class="ui-single-box clearfix">
-		<input id="save" type="submit" value="<?=lan('Save')?>"/>
+	<form id="form-filter" action="controls/users/search_filters.json.php?insert" method="post" style="display:none;"><div id="filters" class="ui-single-box clearfix">
+		<input id="save" type="submit" value="<?=lan('Save')?>" style="display:none;"/>
 		<h3 class="ui-single-box-title">
-			<div style="margin-bottom:30px;"><?=lan('filter','ucw')?></div>
+			<!-- <div style="margin-bottom:30px;"><?=lan('filter','ucw')?></div> -->
+			<input  id="back-settings" type="button"/>
+			<input id="txtSearchFriend2" type="text" class="search" placeholder="<?=lan('USERS_BROWSERFRIENDSLABELTXT1')?>" style="width:90%;"/>
 		</h3>
 		<div style="display:none;" class="row">Preferences:<?=json_encode($pref)?></div>
-		<div class="row">
+		<div class="row" style="width:40%">
 			<div class="text"><?=lan('sex','ucw')?>:</div>
-			<select name="sex_preference">
+			<select name="sex_preference" style="width:80%;">
 				<?php foreach ($sex_preferences as $el) {?>
 					<option value="<?=$el->id?>" <?=$el->id==$pref->sex_preference?'selected':''?>><?=lan($el->label,'ucw')?></option>
 				<?php } ?>
 			</select>
 		</div>
-		<div class="row">
+		<div class="row" style="width:40%">
 			<div class="text"><?=lan('wish to','ucf')?>:</div>
 			<div id="wish_to">
 				<input name="wish_to[]" type="hidden" value="0"/>
@@ -114,7 +121,7 @@ $(function(){
 	}else{
 		opc.mod=mod=='2'?'find':mod;
 		$('#tab').html("");
-		$('#txtSearchFriend').keyup(function() {
+		$('#txtSearchFriend,#txtSearchFriend2').keyup(function() {
 			opc.get = $.trim($(this).val());
 			if (opc.get!="" && $(this).val().length>2)	{
 				opc.get="&search="+opc.get;
@@ -126,6 +133,72 @@ $(function(){
 				friendsAndF(opc);
 			}
 		});
+		if (opc.mod=="dates"){
+			$( "#wish_to" ).buttonset();
+			var f=search_filter,sto,
+				values=[f.min_age,f.max_age],
+				update=function(val){
+					if(val) values=val;
+					$('#age-values').html('['+values.join(' <?=lan('to')?> ')+']');
+					if(sto) clearTimeout(sto);
+					sto=setTimeout(function(){
+						$('#filters #save').click();
+					},1000);
+				},
+				update_ui=function(e,ui){
+					update(ui.values);
+				};
+			if($("#age-slider .ui-slider").length) $("#age-slider").slider('destroy');
+			update();
+			$("#age-slider").slider({
+				min:13,
+				max:80,
+				range:true,
+				step:1,
+				values:values,
+				change:update_ui,
+				slide:update_ui
+			});
+			$('select').each(function(){
+				var w=$(this).attr('w'),opc={};
+				if(w) opc['menuWidth']=opc['width']=w;
+				if(!this.id.match('_search')) opc['disableSearch']=true;
+				$(this).chosen(opc);
+			});
+			$('#settings').click(function(){
+				$('#back-settings').next('input').val($(this).next('input').val());
+				$(this).hide().next('input').val('').hide();
+				$('#form-filter').show();
+			});
+			$('#back-settings').click(function(){
+				$('#form-filter').hide();
+				$('#settings').show().next('input').val($(this).next('input').val()).show();
+				$(this).next('input').val('');
+			});
+			$('form#form-filter select,form#form-filter input[type="checkbox"]').change(function(){
+				$('#filters #save').click();	
+			});
+			$('#filters #save').click(function(){
+				$('#filters #min_age').val(values[0]);
+				$('#filters #max_age').val(values[1]);
+			})
+			$('form#form-filter').ajaxForm({
+				dataType:'json',
+				success:function(data){//post-submit callback
+					// console.log('filter save success.',data);
+					delete data.id;
+					search_filter=data;
+					$('#tab').html("");
+					friendsAndF(opc);
+				},
+				error:function(){
+					console.log('filter save error.');
+				},
+				complete:function(){
+					// console.log('filter save complete.');
+				}
+			});
+		}
 	}
 	opc.find=find;
 	$('#titleFriends').html(title[opc.mod]);
@@ -143,55 +216,6 @@ $(function(){
 		$(this).remove().next('div.clearfix').remove();
 		opc.get=(opc.get!=""?opc.get:"")+"&limit="+$("#tab .thisPeople ").length;
 		friendsAndF(opc);
-	});
-	$( "#wish_to" ).buttonset();
-	var f=search_filter,
-		values=[f.min_age,f.max_age],
-		update=function(val){
-			if(val) values=val;
-			$('#age-values').html('['+values.join(' <?=lan('to')?> ')+']')
-		},
-		update_ui=function(e,ui){
-			update(ui.values);
-		};
-	if($("#age-slider .ui-slider").length) $("#age-slider").slider('destroy');
-	update();
-	$("#age-slider").slider({
-		min:10,
-		max:80,
-		range:true,
-		step:1,
-		values:values,
-		change:update_ui,
-		slide:update_ui
-	});
-	$('select').each(function(){
-		var w=$(this).attr('w'),opc={};
-		if(w) opc['menuWidth']=opc['width']=w;
-		if(!this.id.match('_search')) opc['disableSearch']=true;
-		$(this).chosen(opc);
-	});
-	$('#filters #save').click(function(){
-		// console.log('save filters');
-		$('#filters #min_age').val(values[0]);
-		$('#filters #max_age').val(values[1]);
-		// $('form#form-filter').submit();
-	})
-	$('form#form-filter').ajaxForm({
-		dataType:'json',
-		success:function(data){//post-submit callback
-			// console.log('filter save success.',data);
-			delete data.id;
-			search_filter=data;
-			$('#tab').html("");
-			friendsAndF(opc);
-		},
-		error:function(){
-			console.log('filter save error.');
-		},
-		complete:function(){
-			// console.log('filter save complete.');
-		}
 	});
 	function friendsAndF(opc){
 		$('#tab').append('<img src="css/smt/loader.gif" id="loader" width="32" height="32" class="loader" style="margin: 0 auto;display:block;">');
