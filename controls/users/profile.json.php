@@ -23,6 +23,7 @@ $data['firstname']=isset($_POST['firstname'])?$_POST['firstname']:$_POST['frmPro
 $data['lastname']=isset($_POST['lastname'])?$_POST['lastname']:$_POST['frmProfile_lastName'];
 $data['lang']=isset($_POST['lang'])?$_POST['lang']:$_POST['frmProfile_cboLanguageUsr'];
 $data['screenname']=isset($_POST['screenname'])?$_POST['screenname']:$_POST['frmProfile_screenName'];
+$data['personal_messages']=isset($_POST['personal_messages'])?$_POST['personal_messages']:$_POST['frmProfile_messagePersonal'];
 $data['showbday']=isset($_POST['showbday'])?$_POST['showbday']:$_POST['frmProfile_showbirthday'];
 $data['country']=isset($_POST['country'])?$_POST['country']:$_POST['frmProfile_cboFrom'];
 $data['sex']=isset($_POST['sex'])?$_POST['sex']:$_POST['frmProfile_sex'];
@@ -207,7 +208,7 @@ if($data['action']=='save'){
 		$_SESSION['ws-tags']['ws-user']['language']=$data['lang'];
 	}
 	if (isset($data['wish_to'])) $data['wish_to']=array_sum($data['wish_to']);
-	$res['aqui']=$data['wish_to'];
+	
 	$_SESSION['ws-tags']['ws-user']['screen_name']=$data['screenname'];
 	$_SESSION['ws-tags']['ws-user']['date_birth']=$bdate;
 	$_SESSION['ws-tags']['ws-user']['show_birthday']=$data['showbday'];
@@ -219,6 +220,7 @@ if($data['action']=='save'){
 	$_SESSION['ws-tags']['ws-user']['interest']=$data['interest'];
 	$_SESSION['ws-tags']['ws-user']['relationship']=$data['relationship'];
 	$_SESSION['ws-tags']['ws-user']['wish_to']=$data['wish_to'];
+	$_SESSION['ws-tags']['ws-user']['personal_messages']=$data['personal_messages'];
 
 	#telefonos
 	$home_area=$data['home_code']?current($GLOBALS['cn']->queryRow('SELECT code_area FROM countries WHERE id="'.$data['home_code'].'"')):'';
@@ -354,6 +356,7 @@ switch ($data['action']){
 							interest			= ?,
 							relationship		= ?,
 							wish_to				= ?,
+							personal_messages	= ?,
 							taxId				= ?
 							$sql_pais
 							$sql_userName","id=?",
@@ -361,7 +364,7 @@ switch ($data['action']){
 				$user['show_birthday'],$user['home_phone'],$user['mobile_phone'],$user['work_phone'],
 				$user['language'],$user['user_background'],$user['country'],$user['city'],$user['sex'],
 				$user['paypal'],$user['zip_code'],$user['interest'],$user['relationship'],$user['wish_to'],
-				$user['taxId'],$myId));
+				$user['taxId'],$user['personal_messages'],$myId));
 	break;
 	case 'filePhoto':#actualizamos solo la imagen
 		CON::update("users","profile_image_url=?","id=?",array($user['photo'],$user['id']));
