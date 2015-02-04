@@ -10,7 +10,7 @@ function pageAction(action,data){
 			if (!opc[1]) opc[1]=0;
 			linkUser(opc[0],this,opc[1]);
 		break;
-		case 'banner'	:window.open(data,'_blank');break;
+		case 'banner'	:showPublicityWb(opc[1]); window.open(opc[0],'_blank');break;
 		case 'logout'	:if(isLogged()) logout();break;
 		case 'profile'	:userProfile(opc[1]||'Perfil',opc[0]);break;
 		case 'tag/comment':case 'comment':
@@ -94,27 +94,44 @@ function pageAction(action,data){
 		break;
 		case 'like':
 			var $tag=$('[tag="'+opc[0]+'"]'),
-				$hide=$tag.find('#dislikeIcon,menu #like'),
-				$show=$tag.find('#likeIcon,menu #dislike'),
+				$hide=$tag.find('.tag-icons #dislikeIcon,menu #like'),
+				$show=$tag.find('.tag-icons #likeIcon,menu #dislike'),
 				$loader=$tag.find('.tag-icons #loader');
 			$('[tag="'+opc[0]+'"] #like').prop('disabled',true);
 			//console.log(opc[1]);
 			if(!opc[1]) $hide.add(this);
 			capa=[$loader,$hide,$show,$tag];
-			console.log(capa);
+			var $dislikes=capa[3].find('#numDislikes'),$likes=capa[3].find('#numLikes');
+			//console.log([$dislikes[0],$likes[0]]);
+			// capa[3].find('.tag-counts #dislikeIcon+span').html(data.split('|')[0]);
+			// capa[3].find('.tag-counts #likeIcon+span').html(data.split('|')[1]);
+
+			// if($dislikes.length>0) $dislikes.html(data.split('|')[0]);
+			// if($likes.length>0) $likes.html(data.split('|')[1]);
+			if(capa[0].length>0) $(capa[0]).hide();
+			if(capa[1].length>0)
+				$(capa[1]).fadeOut('slow',function(){
+					if(capa[2].length>0) $(capa[2]).css('display','');
+				});
+			else if(capa[2].length>0) $(capa[2]).css('display','');
 			send_ajax('controls/tags/actionsTags.controls.php?action=4&news=1&tag='+opc[0]+'&current=timeLine',capa,8,'html');
 			$('[tag="'+opc[0]+'"] #dislike').prop('disabled',false);
 		break;
 		case 'dislike':
 			var $tag=$('[tag="'+opc[0]+'"]'),
-				$hide=$tag.find('#likeIcon,menu #dislike'),
-				$show=$tag.find('#dislikeIcon,menu #like'),
+				$hide=$tag.find('.tag-icons #likeIcon,menu #dislike'),
+				$show=$tag.find('.tag-icons #dislikeIcon,menu #like'),
 				$loader=$tag.find('.tag-icons #loader');
 			$('[tag="'+opc[0]+'"] #dislike').prop('disabled',true);
 			$tag=$('[tag="'+opc[0]+'"]');
 			if(!opc[1])$hide.add(this);
 			capa=[$loader,$hide,$show,$tag];
-			//console.log(capa);
+			if(capa[0].length>0) $(capa[0]).hide();
+			if(capa[1].length>0)
+				$(capa[1]).fadeOut('slow',function(){
+					if(capa[2].length>0) $(capa[2]).css('display','');
+				});
+			else if(capa[2].length>0) $(capa[2]).css('display','');
 			send_ajax('controls/tags/actionsTags.controls.php?action=11&news=1&tag='+opc[0]+'&current=timeLine',capa,8,'html');
 			$('[tag="'+opc[0]+'"] #like').prop('disabled',false);
 		break;
@@ -350,15 +367,18 @@ function valida(form){//requerido=" label", opcional(tamanio="tamanio")
 	return true;
 }
 
-function validateForm(Input,value){
-	var regex,tipo_reporte;
-	if(value!==undefined) tipo=Input;
-	else{
-		if( typeof Input==='string' ) Input=$('#'+Input)[0];
-		tipo=$(Input).attr('tipo');
-		value=Input.value;
-	}
+function validateForm(Input){
+	var tipo,value;
+	if( typeof Input==='string' ) Input=$('#'+Input)[0];
+	tipo=Input.dataset.tipo||Input.dataset.type||$(Input).attr('tipo')||'';
+	value=Input.value||'';
+	return validaText(tipo,value);
+}
+
+function validaText(tipo,value){
+	$.debug('validatext').log('validatext: tipo=',tipo,',valor=',value);
 	value=value||'';
+	var regex=/./;
 	switch(tipo){
 		case 'string':		regex=/^[a-zA-Z]/;break;
 		case 'words':		regex=/^([a-zA-Z]+\s*)+$/;break;
@@ -374,12 +394,15 @@ function validateForm(Input,value){
 		case 'todo':		regex=/./;break;
 		case 'md5': 		regex=/^[0-9a-fA-F]{32}$/; break;
 		case 'Alphanumeric':regex=/^[a-zA-Z0-9]+/;break;
-		case 'video':		if(Input.value=='http://') return true;
-							//regex=/\bhttps?:\/\/((m\.|www\.)?(youtube\.com\/)(embed\/|watch\?(.*&)*(v=))(.{11}).*)\b/i;	if(Input.value.match(regex))Input.value=Input.value.replace(regex,'http://youtu.be/$7');
-							regex=/\bhttps?:\/\/(vimeo\.com\/.{8,}|youtu\.be\/.{11}.*|(m\.|www\.)?youtube\.com\/(.+)(v=.{11}).*)?\b/i;	//if(Input.value.match(regex))Input.value=Input.value.replace(regex,'http://$1');
+		case 'video':		if(value=='http://') return true;
+							//regex=/\bhttps?:\/\/((m\.|www\.)?(youtube\.com\/)(embed\/|watch\?(.*&)*(v=))(.{11}).*)\b/i;	if(value.match(regex))value=value.replace(regex,'http://youtu.be/$7');
+							regex=/\bhttps?:\/\/(vimeo\.com\/.{8,}|youtu\.be\/.{11}.*|(m\.|www\.)?youtube\.com\/(.+)(v=.{11}).*)?\b/i;	//if(value.match(regex))value=value.replace(regex,'http://$1');
 		break;
 	}
-	return value.match(regex);
+	$.debug('validatext').log('regex:',regex);
+	var valid=!!value.match(regex);
+	$.debug('validatext').log('valido:',valid);
+	return valid;
 }
 
 function validaImagen(imagen){
@@ -618,13 +641,17 @@ function showTag(tag){
 	}
 	var btn=tag['btn']||{};
 	var btnSponsor='',paypal='';
-	if(paypal!='')
+	// if(paypal!='')
 		btnSponsor= (btn['sponsor']?'<li id="sponsors" action="sponsor,'+tag['id']+'" title="Tag patrocinada"><span>Tag patrocinada</span></li>':'');
 	var video='',videomini='';
 	if(tag['typeVideo']){
 		if (!window.players){ window.players=[]; }
-		video=htmlVideo(tag['video'],tag['typeVideo']);
-		if (video!=''){
+		video=htmlVideo({
+			video:tag['video'],
+			video2:tag['video'].replace(/\.mp4$/i,'.ogg'),
+			type:tag['typeVideo']
+		});
+		if(video){
 			if (tag['imgmini'])
 				videomini='<div class="videominitag '+tag['typeVideo']+'"  action="videoc" style="background-image:url('+tag['imgmini']+')"></div>';
 			else videomini='<div class="videominitag '+tag['typeVideo']+'" action="videoc" style="background-image:url('+tag['img']+')"></div>';
@@ -648,6 +675,10 @@ function showTag(tag){
 			'<span id="likeIcon" '+(tag['likeIt']>0?'':'style="display:none;"')+'></span>'+
 			'<span id="dislikeIcon" '+(tag['likeIt']<0?'':'style="display:none;"')+'></span>'+
 			videomini+
+		'</div>'+
+		'<div class="tag-counts">'+
+			'<div id="likeIcon"></div><span>'+tag.num_likes+'</span>'+
+			'<div id="dislikeIcon"></div><span>'+tag.num_disLikes+'</span>'+
 		'</div>'+
 		'<div class="profilepic" action="profile,'+tag['uid']+'" title="Perfil"></div>'+
 		'<div class="profile" action="profile,'+tag['uid']+'" title="Perfil"></div>'+
@@ -679,14 +710,14 @@ function showTag(tag){
 					'<li id="redistr" action="redist,'+tag['id']+'" title="Re Distribuci&#x00f3;n"><span>Re Distribuci&#x00f3;n</span></li>'
 				:'')+(btn['share']?
 					'<li id="share" action="share,'+tag['id']+'" title="Compartir Tag"><span>Compartir Tag</span></li>'
-				:'')+btnSponsor+(btn['trash']?
+				:'')+btnSponsor+(btn['trash'] && tag.type != 'out'?
 					'<li id="trash" action="trash,'+tag['id']+'" title="Eliminar tag"><span>Eliminar tag</span></li>'
 				:'')+((tag['product'])?(btn['edit']?
 					'<li id="edit" action="editProductTag,'+tag['id']+','+tag['product']['id']+'" title="Editar tag"><span>Editar tag</span></li>'
 				:''):(btn['edit']?
 					'<li id="edit" action="editTag,'+tag['id']+'" title="Editar tag"><span>Editar tag</span></li>'
 				:''))+(btn['report']?
-					'<li id="report" action="report,'+tag['id']+'" title="Ocultar o reportar una tag"><span>Ocultar o reportar una tag</span></li>'
+					'<li id="report" action="report,'+tag['source']+'" title="Ocultar o reportar una tag"><span>Ocultar o reportar una tag</span></li>'
 				:'')+
 			'</ul>'+
 		'<div class="clearfix"></div></menu>'
@@ -695,9 +726,10 @@ function showTag(tag){
 	);
 }
 
-function showTags(array){//tag list
+function showTags(array, type){//tag list
 	var i,tags='';
 	for(i=0;i<array.length;i++){
+		array[i].type = type;
 		tags+=showTag(array[i]);
 	}
 	return tags;
@@ -727,9 +759,9 @@ function showCarousel(array,layer){
 (function(window){
 	var on={};
 	window.updateTags=function(action,opc,loader){
+		$.debug('tag,updateTags').log('updatetags',opc);
 		var act,pBox=(opc.current=='privateTags')?opc.pBox:'',
 			current=opc.current,
-			btncretagG=opc.btncretagG,
 			idsearch=opc.idsearch||'',
 			search=opc.search||'',
 			radiobtn=opc.radiobtn||'',
@@ -739,10 +771,10 @@ function showCarousel(array,layer){
 			cancel=function(){return !opc.force&&(current==''||opc.current!=current||(action!='reload'&&on['reload']));},//cancel action
 			onca=function(val){if(val!==undefined)on[action]=val;return !opc.force&&on[action];};//on current action
 		if(loader!==false) loader=$(layer).next()[0];
-		$.debug('tag').log('cancel:',cancel(),'onca:',onca());
+		$.debug('tag,updateTags').log('cancel:',cancel(),'onca:',onca());
 		if(cancel()||onca()) return false;
-		$.debug('tag').log('runing updateTags. '+action);
-		$.debug('tag').log(current);
+		$.debug('tag,updateTags').log('runing updateTags. '+action);
+		$.debug('tag,updateTags').log(current);
 		onca(true);
 		if(!opc.actions||action=='reload'){
 			opc.actions={refresh:{},more:{}};
@@ -762,7 +794,7 @@ function showCarousel(array,layer){
 			url:'controls/tags/tagsList.json.php?limit='+limit+'&current='+current+'&action='+action+(opc.date?'&date='+opc.date:'')+get,
 			success:function(data){
 				if(cancel()){
-					console.log('Cancelada carga de '+current+'.');
+					$.debug('tag,updateTags').log('Cancelada carga de '+current+'.');
 					return;
 				}
 				if(current=='privateTags'){
@@ -770,7 +802,7 @@ function showCarousel(array,layer){
 					if(opc.pBox!=pBox) return;
 				}
 				if(action=='more'&&(!data['tags']||data['tags'].length<1)) act.more=false;
-				if(data['tags']&&data['tags'].length>0){ $(btncretagG).show().addClass('divctg');
+				if(data['tags']&&data['tags'].length>0){
 					tour(SECTION);
 					opc.date=data['date'];
 					if(data['sp']) act.sp=data['sp'];
@@ -786,7 +818,7 @@ function showCarousel(array,layer){
 							if($rep) $rep.add($el);else $rep=$el;
 					}
 					if($rep) $rep.remove();
-					tags=showTags(data['tags']);
+					tags=showTags(data['tags'], opc.type);
 					if(action=='more')
 						$(layer).append(tags);
 					else
@@ -796,7 +828,6 @@ function showCarousel(array,layer){
 				}else if(action=='reload'){
 					act.more=false;
 					if(current=='group'){
-						$(btncretagG).hide();
 						$(layer).html('<div class="messageAdver">No hay tags creadas.&nbsp;Para crear una tag, haz clic aqui<a href="'+BASEURL+'creation?group='+opc['grupo']+'">A&#x00f1;adir Tag</a></div>');
 					}else{
 						if(idsearch=='1'){
@@ -831,7 +862,7 @@ function commentTag(titulo,tag,old){
 			var $this=$(this);
 			$this.load('dialog?pageid=comment&tag='+tag);
 			$this.on('click','[tag] menu [action]',function(){
-				console.log(this.id);
+				$.debug('tag,commentTag').log(this.id);
 				if(this.id!='like'&&this.id!='dislike'&&this.id!='redistr'&&this.id!='trash'){
 					$this.dialog('close');
 				}
@@ -881,29 +912,28 @@ function trash(tag){
 			}
 		}
 	});
-	//actionsTags(6,opc+'|0',,'|timeLine');
 }
 
 var tourHash,dataHash;
 function tour(hashActive,force){
 	function struct(data,id){
-		var ort='';
+		var ort='', path = '/tag/';
 		if(id=='home'){
 			ort=id;
 		}else{
-			// if(NOHASH)
-				ort=window.location.pathname.split(BASEURL)[1].split('/')[0];
-			// else{
-			// 	ort=window.location.hash.substr(1);
-			// 	var hashVerify=ort.match(/\?/);
-			// 	ort=hashVerify?ort.split('?')[0]:ort;
-			// }
+			if (path=='/') {
+				ort=window.location.pathname.substr(1).split('/')[0];
+			}else{
+				ort=window.location.pathname.split(path)[1].split('/')[0];
+			};
+			console.log('baseurl '+ort);
+		
 		}
-		//console.log('ori: '+window.location.hash+'---- hashdb: '+id+'----- comp: '+ort);
+		console.log('ori: '+window.location.hash+'---- hashdb: '+id+'----- comp: '+ort);
 		if(id==ort){
 			guidely.clear();
 			$('html,body').scrollTop(0);
-			$.each(data,function(id,tour){
+			$.each(data,function(id,tour){ 
 			if($(tour['id_div']).length>0&&$(tour['id_div']).is(':visible')){
 					guidely.add ({
 						attachTo:tour['id_div'],
@@ -926,13 +956,16 @@ function tour(hashActive,force){
 		hashActive=hashVerify?hashActive.split('?')[0]:hashActive;
 	}
 	$.debug('tour').log('tour: '+hashActive);
-	if(tourHash!=hashActive){
+	
+
+	if(tourHash!=hashActive){ 
 		$.ajax({
 			type:'GET',
 			url:'controls/tour/tour.php?hash='+md5(hashActive),
 			dataType:'json',
 			debug:'tour',
-			success:function (data){
+			success:function (data){ 
+			console.log(data);
 			tourHash=hashActive;
 			dataHash=data;
 			//console.log(data['liTour'].length);
@@ -964,114 +997,6 @@ function valor(id){
 	if( typeof id==='string'&&id.charAt(0)!='#' ) id='#'+id;
 	return $(id).val();
 }
-
-//message(id,titulo,contenido,id_control,width,height,url)
-function actionsTags(op,dato,uri,more){
-	var tmpDato=dato.split('|');
-	var tag=(tmpDato[1]==1)?valor(tmpDato[0]) :tmpDato[0];//si [1]==1 (id), sino (dato)
-	var valores=more.split('|');
-
-	switch (op){
-		//refresh
-		case 1:
-			redir('home');
-		break;
-		//coment
-		case 2:
-			commentTag(valores[0],tag);
-		break;
-		//re-send
-		case 3:
-			send_ajax(uri+"?action="+op+"&tag="+tag+"&current="+valores[1],"#re_distribuirTag"+valores[1]+"_"+tag,0,"html");
-		break;
-		//Like
-		case 4:
-			send_ajax(uri+"?action="+op+"&tag="+tag+"&current="+valores[1],"#start_favorite"+valores[1]+"_"+tag,0,"html");
-			if (valores[2]=='1'){
-				send_ajax("controls/tags/numLikes.cotrol.php?tag="+tag,"#tdNumLikes",0,"html");
-			}
-		break;
-
-		//share
-		case 5:
-			shareTag(valores[0],"tag="+tag);
-		break;
-
-		//remove
-		case 6:
-			$.dialog({
-				id:'messages',
-				title:'Deleting Tag',
-				resizable:false,width:400,height:200,modal:true,show:'fade',hide:'fade',
-				content:lang.JS_DELETETAG,
-				buttons:{
-					'Si':function(){
-						var delprivate=(valores[1]=="privateTags")?"&delprivate=1":"",
-						$this=$(this);
-						$.ajax	({
-							type:'GET',
-							url:uri+'?action='+op+'&tag='+tag+delprivate,
-							dataType:'html',
-							success:function(result){
-								if(result==1){
-									$.all('[tag="'+tag+'"]').fadeOut(600).remove();
-								}else{
-									$this.html(result);
-								}
-							},
-							complete:function(){
-								setTimeout(function(){
-									$this.dialog('close').remove();
-								},1000);
-							}
-						});
-					},
-					'No':function(){
-						$(this).dialog('close').remove();
-					}
-				}
-			});
-		break;
-
-		//contruction
-		case 7:alert("Sponsor, Tag: "+tag);break;
-
-		//denuncia
-		case 8:
-			bryTag(uri,op,tag,valores[0],valores[1]);//url,tag,titulo,pestania
-		break;
-
-		//sponsor
-		case 9://alert(op+" | "+dato+" | "+uri+" | "+more);
-			sponsorTag("views/tags/sponsorTags.view.php?type=4&tag="+tag,valores[0],tag);
-		break;
-
-		//editar
-		case 10://alert("controls/tags/isMyTag.controls.php?code="+valores[0]+"&tag="+tag);
-
-			$.ajax({
-				type:"POST",
-				url:"controls/tags/isMyTag.controls.php?code="+valores[0]+"&tag="+tag,
-				dataType:"html",
-				success:function(data){
-					if(data==1)
-						$.ajax({url:'views/tags/update.view.php?asyn&tag='+tag,success:function(){
-							$("#previewTag").dialog("close");
-							$('body #previewTag').remove();
-							redir('update');
-						}});
-					else
-						message("messages","Error",valores[1]);
-				}
-			});
-
-		break;
-		case 12:
-			alert(tmpDato[0]);
-		break;
-	}
-}
-
 function sponsorTag(url_vista,titulo,tag,edit){
 	$.dialog({
 		id:"messages",
@@ -1179,29 +1104,36 @@ function shareTag(titulo,get){
 		},{
 			text:lang.JS_SEND,
 			click:function(){
-				var mails=$('#txtEmails').val(),band=true;
+
+				var mails=$('#txtEmails').val(),band=true, gc='',gcf='';
 				if (mails!=""){
 					mails=mails.split(',');
 					console.log(mails.length);
+					console.log('aqui');
 					for(var i=0;i<mails.length;i++){
 						if (band && mails[i]!=""){
-							if (!validateForm('email',mails[i]) && !validateForm('md5',mails[i])) band=false;
+							if (validaText('md5',mails[i]) || validaText('email',mails[i])){
+								gc+=mails[i]+',';
+							} 
 						}
 					}
+					if(gc==''){band=false;}else{gcf=gc.substring(0, gc.length-1);console.log('emails buenos '+gcf);};
 				}else band=false;
 				if (band){
 					var $this=$(this);
-					$.ajax({
+					console.log('true');
+					$$.ajax({
 						type:'POST',
 						url:'controls/tags/actionsTags.controls.php?'+get+'&action=5',
-						data:{mails:mails.join(),msj:$('#txtMsgMail').val()},
+						data:{mails:gcf,msj:$('#txtMsgMail').val()},
 						dataType:'text',
 						success:function(data){
+							console.log(data);
 							$('button').hide();
 							$('#share_tag').html(data);
 							setTimeout(function(){//alert(data);
 								$this.dialog('close');
-							},1500);
+							},2000);
 						}
 					});
 				}else message('nouserprivate', 'Mensaje', 'Puedes escoger unos de tus amigos o indicar un correo externos a tagbum para enviar esta tag');
@@ -1250,15 +1182,18 @@ function send_ajax(url,capa,mode,data_type){
 				case 8://like-dislike coment
 					var $dislikes=capa[3].find('#numDislikes'),$likes=capa[3].find('#numLikes');
 					//console.log([$dislikes[0],$likes[0]]);
-					if($dislikes.length>0) $dislikes.html(data.split('|')[0]);
-					if($likes.length>0) $likes.html(data.split('|')[1]);
-					if(capa[0].length>0) $(capa[0]).hide();
-					if(capa[1].length>0)
-						$(capa[1]).fadeOut('slow',function(){
-							if(capa[2].length>0) $(capa[2]).css('display','');//.fadeIn('slow');
-						});
-					else
-						if(capa[2].length>0) $(capa[2]).css('display','');//.fadeIn('slow');
+					capa[3].find('.tag-counts #dislikeIcon+span').html(data.split('|')[0]);
+					capa[3].find('.tag-counts #likeIcon+span').html(data.split('|')[1]);
+
+					// if($dislikes.length>0) $dislikes.html(data.split('|')[0]);
+					// if($likes.length>0) $likes.html(data.split('|')[1]);
+					// if(capa[0].length>0) $(capa[0]).hide();
+					// if(capa[1].length>0)
+					// 	$(capa[1]).fadeOut('slow',function(){
+					// 		if(capa[2].length>0) $(capa[2]).css('display','');//.fadeIn('slow');
+					// 	});
+					// else
+					// 	if(capa[2].length>0) $(capa[2]).css('display','');//.fadeIn('slow');
 				break;
 				case 10://0-inmediate hide (loader), 1-fadeout, 2-fadein
 					$(capa[0]).hide();
@@ -1306,47 +1241,6 @@ function check_in_Notifications(source,type,objeto){
 			///codeNotiUp=source;//esta variable grobla no se para que es
 		}
 	});
-}
-
-var seeUp=0;
-function seeMore(mobile,url,capa_prin,capa_word,capa_loading,size,width,opc){//alert(cant);
-	if(opc&&!opc.on) opc.on={};
-	var on=opc&&opc.on,
-		action='refresh',
-		cancel=function(){return (action!='new'&&on['new']);},//cancel action
-		onca=function(val){if(val!==undefined)on[action]=val;return on[action];};//on current action
-
-	$(capa_word).hide();
-	$(capa_loading).html('<img src="css/smt/loader.gif" width="'+size+'" height="'+size+'" />');
-	//alert(opc.srh);
-	seeUp=1;
-
-	if(!opc||(!cancel()&&!onca())){
-		if (opc) onca(true);
-		//alert(opc.srh+'--'+opc.seemore)
-		$$.ajax({
-			type:"POST",
-			data:$.extend({},opc.data||{},{seemore:opc&&opc.seemore}),
-			url:url,
-			dataType:"text",
-			success:function(data){
-						data=data.split("|");
-						if (opc) opc.seemore=data[0];
-						if(data[2]!=0){
-							$(capa_loading).html('');
-							$(capa_prin).append('<div style="width:'+width+';" id="div_'+data[0]+'" >'+data[1]+'</div>');
-							//$('button,input:submit,input:reset,input:button,#group-box .group_info a,#groupTabs .group_info a').button();
-							$(capa_word).show();
-						}else{
-							$(capa_word).hide();
-							$(capa_loading).html('');
-						}
-					},
-			complete:function(){
-				if(opc) onca(false);
-			}
-		});
-	}
 }
 
 var seeUp=0;
@@ -1438,52 +1332,10 @@ function searchAll(dato){
 	}
 }
 
-function addSuggestFriends(id_capa,content){
-	var capa=[];
-	if(content){
-		$('input[user]',content).each(function(){
-			capa.push($(this).attr('user'));
-		});
-	}
-	$$.ajax({
-		type	:"POST",
-		url		:"controls/users/addSuggestFriend.json.php",
-		dataType:"json",
-		data	:{user:capa},
-		success	:function(data){
-			var dato='', out='';
-			dato=data['friend'][0];
-			console.log(data['cad']);
-			console.log(id_capa);
-			if(dato){
-				out+='<div class="divYourFriendsSuggestPhoto">'+
-						'<img action="profile,'+dato['id_friend']+','+dato['name_user']+'" src="'+dato['photo_friend']+'" border="0"  width="50" height="50">'+
-					'</div>'+
-					'<div class="divYourFriendsSuggestInfo">'+
-						'<div class="left">'+
-							'<a href="javascript:void(0);" action="profile,'+dato['id_friend']+','+dato['name_user']+'">'+
-								dato['name_user']+
-							'</a>'+
-						'</div>'+
-						'<div class="right">'+
-							'<input user="'+dato['id_friend']+'" class="ui-button ui-widget ui-state-default ui-corner-all" style="font-size: 9px; padding: 2px 5px; margin-left: 3px;" type="button" value="Link"  action="linkUser,'+id_capa+','+dato['id_friend']+',,.contentSuggestFriends">'+
-					'</div>'+
-					'<div class="clearfix"></div>';
-					$(id_capa).html(out).show().css('border-bottom','1px solid #f8f8f8');
-			}else{
-				if(data['cad']!=''){
-					$(id_capa).css('height','0').css('border-bottom','0').css('display','none');
-				}else{
-					$('#seeMoreSuggest').fadeOut('400',function(){ $('#inviteSuggest').show(); });
-					$(id_capa).html('<div class="messageInviteSuggest">Invita a tus amigos para que disfruten junto a ti en tagbum.com</div>');
-				}
-			}
-		}
-	});
-}
-
 function linkUser(id_user,objet,action){
-	action=action*1;
+	if ($(objet).hasClass('btn-disabled')) $(objet).hide().prev('input[type="button"]').show();
+	else $(objet).hide().next('input[type="button"]').show();
+	action=action*1;//Obliga action a tipo int
 	$.ajax({
 		type	:'GET',
 		url		:'controls/users/follow.json.php?uid='+id_user,
@@ -1514,11 +1366,58 @@ function linkUser(id_user,objet,action){
 				if ($('#nf').length>0 && $('#tab .ui-single-box-title').length==0){
 					$('#nf').html('('+$('#tab .divYourFriends').length+')');
 				}
+				check_suggestion_of_friends();
 			}
 		}
 	});
 }
-
+function check_suggestion_of_friends(){
+	if (!$("#title-news-suggest .suggest-friends").length) return false;
+	var numDiv=$("#title-news-suggest .contentSuggestFriends").length;
+	if (numDiv<8){
+		if (numDiv<4){
+			$("#title-news-suggest .suggest-friends").css('height','auto');
+			if (numDiv==0){
+				$("#title-news-suggest .messageInviteSuggest,#title-news-suggest #inviteSuggest").css('display','block');
+				$("#title-news-suggest #seeMoreSuggest").css('display','none');
+			}
+		}else{
+			var noid=$('#title-news-suggest .suggest-friends input[name="no_id_s"]').val();
+			$.ajax({
+				type	:'POST',
+				url		:'controls/users/people.json.php?action=friendsAndFollow&mod=find',
+				dataType:'json',
+				data:{no_id_s:noid},
+				success	:function(data){
+					if (data['datos'].length>0){
+						var html='',i,coma=(noid!=''?',':'');
+						for(i=0;i<data['datos'].length;i++){
+							var datos=data['datos'][i];
+							noid+=coma+datos['id']; coma=",";
+							html+='<div class="contentSuggestFriends thisPeople">'+
+									'<div class="divYourFriendsSuggest" >'+
+										'<div class="divYourFriendsSuggestPhoto">'+
+											'<img action="profile,'+datos['id_friend']+','+datos['name_user']+'" border="0" src="'+datos['photo_friend']+'"/>'+
+										'</div>'+
+										'<div class="divYourFriendsSuggestInfo">'+
+											'<div class="left">'+
+												'<a href="javascript:void(0);" action="profile,'+datos['id_friend']+','+datos['name_user']+'">'+datos['name_user']+'</a>'+
+											'</div>'+
+											'<div class="left" style="width:100%;"></div>'+
+											'<input class="left" type="button" value="Link" action="linkUser,'+datos['id_friend']+',2" style="padding: 5px 8px; margin-top: 5px;float: none;margin-left: 30%;"/>'+
+										'</div>'+
+										'<div class="clearfix"></div>'+
+									'</div>'+
+								'</div>';
+						}
+						$("#title-news-suggest .suggest-friends").append(html);
+						$('#title-news-suggest .suggest-friends input[name="no_id_s"]').val(noid);
+					}
+				}
+			});
+		}
+	}
+}
 function userProfile(titulo,id,close){
 	if(close){
 	//close eliminado, conservado solo por compatibilidad. Si se incluyen todos los parametros, se desplaza el ultimo elemento al anterior
@@ -1591,111 +1490,15 @@ function tagsUser(titulo,get){
 	});
 }
 
-var PUBLISH;
-function previewTag(titulo,get,wedit,update){
-	PUBLISH=false;
-	$.dialog({
-		title: titulo,
-		resizable: false,
-		width:720,
-		height:460,
-		modal:true,
-		show:'fade',
-		hide:'fade',
-		open:function(){
-			$(this).load('views/tags/new/viewTag.php'+get);
-		},
-		close:function(/*ui*/){
-			if(wedit==1){
-				redir('timeline?current=timeLine');
-			}else{
-				if(!PUBLISH){
-					$.ajax({
-						type:'POST',
-						url:'controls/tags/actionsTags.controls.php'+get+'&action=6',
-						dataType:'text'
-					});//ajax
-				}
-			}
-		},//close
-		buttons:{
-			'Cancelar':function(){
-				$(this).dialog('close');
-				redir('timeline?current=timeLine');
-			},
-			'Cambiar':function(){
-				PUBLISH=true;
-				redir('update'+get);
-			},
-			'Publicar':function(){
-				//wedit es uno cuando se esta modificanto un tag
-				if(wedit==1){
-					//delete old tag
-					$.ajax({
-						type:'POST',
-						url:'controls/tags/actionsTags.controls.php?tag="+update+"&action=6',
-						dataType:'text'
-					});
-				}
-				//activar new tag
-				$.ajax({
-					type:'POST',
-					url:'controls/tags/actionsTags.controls.php'+get+'&action=9',
-					dataType:'text',
-					success:function(data){
-						$('loader.page',PAGE).hide();
-						PUBLISH=true;
-						switch(data.split('|')[0]){
-							case '7':redir('groupsDetails?grp='+data.split('|')[1]);break;
-							case '9':
-								if(data.split("|")[2]!=0){
-									redir('profile?sc=3');
-								}else{
-									redir('taglist?current=personal');
-								}
-							break;
-							case '10':redir('wpanel/?url=vistas/viewTagWpanel.php');break;
-							default: redir('timeline?current=timeLine');
-						}
-					}
-				});//ajax
-
-			}//click publish
-		}
-	});
-}
-
 function showPublicityWb(p){
-console.log('publiRight '+p);
+	console.log('showPublicityWb '+p);
 	$.ajax({
-		type:'GET',
+		type:'POST',
 		url:'controls/publicity/sellPublicity.controls.php?op=1&ajax=1&p='+p,
 		dataType:'html',
 		success:function(result){
 			return true;
 		}
-	});
-}
-
-function viewPublicity(){
-	$.dialog({
-		id:'messages',
-		title: titulo,
-		resizable: false,
-		width:400,
-		height:200,
-		modal:true,
-		open:function(){
-			$(this).html(conte);
-		},
-		buttons:[{
-			text:lang.JS_YES,
-			click:function(){redirect(url);}
-		},
-		{
-			text:lang.JS_NO,
-			click:function(){$(this).dialog('close');}
-		}]
 	});
 }
 function str_replace(inChar,outChar,conversionString){
@@ -1721,6 +1524,7 @@ function actionCheckbox_listFriends(chk) {
 }
 
 function shareTag_friendsList(url, titulo,share){
+	console.log('shareTag_friendsList');
 	$.dialog({
 		id:"shareTag_friendsList",
 		title:titulo,
@@ -1779,50 +1583,6 @@ function compareValues(val_01, val_02, msj){
 		message("messages", "Error", msj);
 		return false;
 	}
-}
-
-function payMorePersonalTag(titulo, msj_send){
-	$.dialog({
-		id:'payNewPersonalTag',
-		title:titulo,
-		resizable:false,
-		width:450,
-		height:250,
-		modal:true,
-		open:function(){
-			$(this).load('views/tags/payMorePersonalTag.view.php');
-		},
-		buttons:[{
-			text:lang.JS_CANCEL,
-			click:function(){$( this ).dialog('close');}
-		},{
-			text:lang.JS_PAY,
-			click:function(){
-				$('#content_blok #loading strong').html(msj_send);
-				$.ajax({
-					type	:'POST',
-					url		:'views/tags/payMorePersonalTag.view.php?pay=1',
-					dataType:'text',
-					success	:function(data){
-						$('#content_blok').append(data);
-						$(this).dialog('close');
-					}
-				});
-			}
-		}]
-	});
-}
-
-//refrescar
-function loadOtherSocialNetworks() {
-	$.ajax({
-		type	: "POST",
-		url		: "views/othersSocialNetworks.view.php",
-		dataType: "text",
-		success	: function (data){
-			$("#table_footer").prepend(data);
-		}
-	});
 }
 
 //precarga de imagenes
@@ -1957,19 +1717,6 @@ function showAndHide(toShow,toHide,speed,order){
 		$(toHide).fadeIn(speed,function(){$(toShow).fadeOut(speed);});
 	}
 }
-
-function actionComments(post,func){
-	var URL='controls/comments/comment.json.php';
-	$.ajax({
-		type:'POST',
-		url:URL,
-		data:post,
-		success:function(){
-			if($.isFunction(func)) func.call();
-		}
-	});
-}
-
 (function(window){//funciones de comentarios
 	function showComments(comments){
 		if(!comments||!comments.length) return '';
@@ -2134,22 +1881,21 @@ function UserLikedOrRaffle(obj,act,sou){
 
 function sellPublicityUpdate(url_vista, titulo, edit) {
 	$.dialog({
-		id:"sellpubliUpdate",
 		title:titulo,
 		resizable:false,
 		width:500,
-		height:550,
+		height:500,
 		modal:true,
 		open:function(){
 			$(this).load(url_vista);
-		}
+		},
+		buttons: []
 	});
 }
 
 
 function sellPublicity(url_vista,titulo,edit){
 	$.dialog({
-		id:"messages",
 		title: titulo,
 		resizable: false,
 		width: 500,
@@ -2169,91 +1915,57 @@ function sellPublicity(url_vista,titulo,edit){
 			{
 				text: lang.JS_CONTINUE,
 				click: function() {
+					console.log($("#width").val()+'---'+$("#height").val());
+					var h=''; w='';
+					if (($("#width").val()=='')&&($("#height").val()=='')) {
+						h=1;w=1;
+					}else{
+						w = (($("#width").val()>830) && ($("#width").val()<850))?1:0;
+						h = (($("#height").val()>180) && ($("#height").val()<200))?1:0;
+					}
+
+					console.log('h: '+h+' w: '+w);
 					//validamos el formato de la imagen
 					if (validaImputPictureFile("#publi_img") || (edit && valor("picture")) ) {
+						if ((h==1)&&(w==1)) {
 						//validamos que todos los campos este llenos
-						if( valor("publi_title") && valor("publi_link") && valor("publi_msg") ) {
-							//validamos que se un enlace valido
-							if( validateForm("publi_link") ) {
-								$("#sell_publi").submit();
-//								redir('myPubli');
+							if( valor("publi_title") && valor("publi_link") && valor("publi_msg") ) {
+								//validamos que se un enlace valido
+								if( validateForm("publi_link") ) {
+									// alert($('#publi_amount_1').val()+'--'+$('#showBuyedClicks').val());
+									$("#sell_publi").submit();
+	//								redir('myPubli');
 
-							} else {
-								$("#sponsor_msgerror").fadeOut(600);
-								$("#sponsor_msgerror2").fadeOut(600);
-								showAndHide('sponsor_msgerror3', 'sponsor_msgerror3', 2500, true);
-								//$("#sponsor_msgerror3").fadeIn(600);
+								} else {
+									// $("#sponsor_msgerror").fadeOut(600);
+									// $("#sponsor_msgerror2").fadeOut(600);
+									// $("#sponsor_msgerror4").fadeOut(600);
+									showAndHide('sponsor_msgerror3', 'sponsor_msgerror3', 2500, true);
+									//$("#sponsor_msgerror3").fadeIn(600);
+								}
+							} else {//campos llenos
+								// $("#sponsor_msgerror2").fadeOut(600);
+								// $("#sponsor_msgerror3").fadeOut(600);
+								// $("#sponsor_msgerror4").fadeOut(600);
+								showAndHide('sponsor_msgerror', 'sponsor_msgerror', 2500, true);
+								//$("#sponsor_msgerror").fadeIn(600);
 							}
-						} else {//campos llenos
-							$("#sponsor_msgerror2").fadeOut(600);
-							$("#sponsor_msgerror3").fadeOut(600);
-							showAndHide('sponsor_msgerror', 'sponsor_msgerror', 2500, true);
-							//$("#sponsor_msgerror").fadeIn(600);
+						} else{
+							// $("#sponsor_msgerror").fadeOut(600);
+							// $("#sponsor_msgerror2").fadeOut(600);
+							// $("#sponsor_msgerror3").fadeOut(600);
+							showAndHide('sponsor_msgerror4', 'sponsor_msgerror4', 2500, true);
 						}
 					}else{//formato de imagen
-						$("#sponsor_msgerror3").fadeOut(600);
-						$("#sponsor_msgerror").fadeOut(600);
+						// $("#sponsor_msgerror4").fadeOut(600);
+						// $("#sponsor_msgerror3").fadeOut(600);
+						// $("#sponsor_msgerror").fadeOut(600);
 						showAndHide('sponsor_msgerror2', 'sponsor_msgerror2', 2500, true);
 						//$("#sponsor_msgerror2").fadeIn(600);
 					}
 				}// boton confirm
 			}
 		]
-	});
-}//FIN sellPublicity
-
-function sellPublicityProducts(url_vista,titulo,edit){
-	$.dialog({
-		id:"sellPublicityProducts",
-		title:titulo,
-		resizable:false,
-		width:500,
-		height:570,
-		modal:true,
-		show:"fade",
-		hide:"fade",
-		open:function(){
-			$(this).load(url_vista);
-		},
-		buttons:[{
-			text:lang.JS_CANCEL,
-			click:function(){
-				//$(this).dialog("destroy");
-				$(this).dialog("close");
-			}
-		},{
-			text:lang.JS_CONFIG,
-			click:function(){
-				//validamos el formato de la imagen
-				if(validaImputPictureFile("#publi_img")||(edit&&valor("picture"))){
-					//validamos que todos los campos este llenos
-					if(valor("publi_title")&&valor("publi_link")&&valor("publi_msg")){
-						//validamos que se un enlace valido
-						//alert($("#publi_link").val());
-						if(validateForm("#sell_publi")){
-							$("#sell_publi").submit();
-//								redir('myPubli');
-
-						}else{
-							$("#sponsor_msgerror").fadeOut(600);
-							$("#sponsor_msgerror2").fadeOut(600);
-							showAndHide('sponsor_msgerror3','sponsor_msgerror3',2500,true);
-							//$("#sponsor_msgerror3").fadeIn(600);
-						}
-					}else{//campos llenos
-						$("#sponsor_msgerror2").fadeOut(600);
-						$("#sponsor_msgerror3").fadeOut(600);
-						showAndHide('sponsor_msgerror','sponsor_msgerror',2500,true);
-						//$("#sponsor_msgerror").fadeIn(600);
-					}
-				}else{//formato de imagen
-					$("#sponsor_msgerror3").fadeOut(600);
-					$("#sponsor_msgerror").fadeOut(600);
-					showAndHide('sponsor_msgerror2','sponsor_msgerror2',2500,true);
-					//$("#sponsor_msgerror2").fadeIn(600);
-				}
-			}// boton confirm
-		}]
 	});
 }//FIN sellPublicity
 
@@ -2520,26 +2232,24 @@ function actionGroup(id,action,get,obje){
 					}
 				break;
 				case 8:
-					console.log('users '+data['cug']);
-
 					if (data['insert']=='insert'){
-						if (data['cug']!=0) {
-							if ($('#membersGroups div[h="active"]').length){
-								obje.parents('.membersGroupsWindows').appendTo('#membersGroups div[h="active"]');
-								obje.parents('div[h="3"]').css('display','none');
-							}else{ obje.parents('.membersGroupsWindows').remove(); }
-						}else{
-							//$(this).dialog('close');
-							$('.ui-dialog .ui-dialog-content').dialog('close');
-						};
-					}else{
-						obje.parents('.membersGroupsWindows').remove();
+						// if (data['cug']!=0) {
+						if ($('#membersGroups div[h="active"]').length){
+							obje.parents('.divYourFriends.thisPeople').appendTo('#membersGroups div[h="active"]');
+							obje.parents('div[h="3"]').css('display','none');
+						}else{ obje.parents('.divYourFriends.thisPeople').remove(); }
+						// }
+						// else{
+						// 	$('#default-dialog,.ui-dialog .ui-dialog-content').dialog('close');
+						// };
+					}else{ //.divYourFriends.thisPeople
+						obje.parents('.divYourFriends.thisPeople').remove();
 						var actual=$('.titlesGroups span').html();
 						$('.titlesGroups span').html(+actual-1);
 					}
 					if (data['num']=='0'){
 						if ($('#membersGroups div[h="active"]').length){ $('#membersGroups div[h="resque"]').remove();
-						}else{ $('#btnCloseMembers').click(); }
+						}else{ $('.ui-dialog-buttonset button').click(); }
 					}
 				break;
 			}
@@ -2707,9 +2417,9 @@ function dialog_info(data){
         	'<div class="clearfix"></div></div>';
     message('#default','Grupo',conten,'',500,400);
 }
-function membersGroups(id,status){
+function membersGroups(id,opc,status){
     status=status?'&status='+status:'';
-    var	opc={ actual:'',total:'',layer: '',grupo: id,status: status }
+    if (!opc) opc={ actual:'',total:'',layer: '',grupo: id,status: status };
     $.dialog({
 		title: 'Miembros',
 		resizable: false,
@@ -2718,30 +2428,41 @@ function membersGroups(id,status){
 		modal: true,
 		open: function() {
             opc.layer=$(this);
-			$.ajax({
-				type	:	"GET",
-				url		:	"controls/users/people.json.php?action=groupMembers&withHtml&idGroup="+opc.grupo+"&actual''"+status,
-				dataType:	"json",
-				success	:	function (data) {
-					if (opc.actual==''){
-						opc.total=data['num'];
-						if (data['html']){
-							opc.actual=data['actual'];
-							$(opc.layer).html('<div id="member-list"><div id="membersGroups">'+data['html']+'</div></div>');
-							if(data['totalP']) opc.total=data['total']-data['totalP'];
-								
-                            $('.ui-dialog-title').html('('+opc.total+') Miembros')
-						}else{
-							$(opc.layer).html('<div class="messageAdver">Disculpe, no hay resultados para</div>');
-						}
-					}else{
-						opc.actual=opc.actual+data['actual'];
-						$('#membersGroups',opc.layer).append(data['html']);
-					}
-				}
-			});
+            ajaxMembersGroups(id,opc,status);
 		}
 	});
+	$(opc.layer).on('click','#seemore',function(){
+		ajaxMembersGroups(id,opc,status);
+		$(this).remove();
+	});
+	function ajaxMembersGroups(id,opc,status){
+		$.ajax({
+			type	:	"GET",
+			url		:	"controls/users/people.json.php?action=groupMembers&withHtml&idGroup="+opc.grupo+"&start="+opc.actual+status+(opc.ns?'&ns='+opc.ns:''),
+			dataType:	"json",
+			success	:	function (data) {
+				if (opc.actual==''){
+					opc.total=data['num'];
+					if (data['html']){
+						opc.actual=data['datos'].length;
+						opc.ns=data['ns'];
+						$(opc.layer).html('<div id="member-list"><div id="membersGroups">'+data['html']+'</div></div>');
+						if(data['totalP']) opc.total=data['total']-data['totalP'];
+                        $('.ui-dialog-title').html('('+opc.total+') Miembros')
+						if (opc.actual<opc.total) $(opc.layer).append('<a class="plus" id="seemore">Ver m&#x00e1;s</a><div class="clearfix"></div>');
+					}else{
+						$(opc.layer).html('<div class="messageAdver">Disculpe, no hay resultados para</div>');
+					}
+				}else{
+					if (data['html']){
+						opc.actual=opc.actual+data['datos'].length;
+						$('#membersGroups',opc.layer).append(data['html']);
+						if (opc.actual<opc.total) $(opc.layer).append('<a class="plus" id="seemore">Ver m&#x00e1;s</a><div class="clearfix"></div>');
+					}
+				}
+			}
+		});
+	}
 }
 (function(window,$,console){
 	var band;
@@ -3004,7 +2725,7 @@ function storeRaffle(layer,get){
 				lst += '</ul>';
 			}else{
 				if (layer!='.product-list .product-list'){
-					lst='<div class="noStoreProductsList messageAdver"><span>No hay productos gratis disponibles</span>'+(data['empre']?', Si desea agregar <span id="clickNewRaffle">click aqui</span>':'')+'<div class="product-list"></div>';
+					lst='<div class="noStoreProductsList messageAdver"><span>No hay productos gratis disponibles</span>'+(data['adtb']?', Si desea agregar <span id="clickNewRaffle">click aqui</span>':'')+'<div class="product-list"></div>';
 				}
 			}
 			$(layer).html(lst);
@@ -3453,18 +3174,6 @@ function getCategorysStore(get,cate){
 		}
 	});
 }
-function getCitys(layer,id){
-	var da={'data':id};
-	$.ajax({
-		type: 'POST',
-		url: 'controls/store/shoppingCart.json.php?action=11',
-		data:da,
-		dataType: 'json',
-		success: function(data){
-			$(layer).trigger("addItem",[{"title": data['datosCar']['city'], "value": data['datosCar']['idCities']}]);
-		}
-	});
-}
 function chooseProducts(tag){
 	var get='?scc=2&allProducts=1&';
 	$.dialog({
@@ -3494,7 +3203,18 @@ function chooseProducts(tag){
 		}]
 	});
 }
-
+function getCitys(layer,id){
+    var da={'data':id};
+    $.ajax({
+        type: 'POST',
+        url: 'controls/store/shoppingCart.json.php?action=11',
+        data:da,
+        dataType: 'json',
+        success: function(data){
+            $(layer).trigger("addItem",[{"title": data['datosCar']['city'], "value": data['datosCar']['idCities']}]);
+        }
+    });
+}
 function buyPoints(){
 	$.dialog({
 		title:'Comprar Puntos',
@@ -3570,7 +3290,7 @@ function bodyfriends(friends,Link,unLink){
 		+		'</div>'
 		+		'<div style="height:70px; width:0px; float: right; text-align: right;">'
 		+			'<input style="margin-top: 20px;font-size:10px;'+Link+'" type="button" value="Link" action="linkUser,'+md5(friends['id_friend'])+',2" />'
-		+			'<input style="margin-top: 20px;font-size:10px;'+unLink+'" type="button" value="Unlink" action="linkUser,'+md5(friends['id_friend'])+',2" />'
+		+			'<input style="margin-top: 20px;font-size:10px;'+unLink+'" type="button" value="Unlink" action="linkUser,'+md5(friends['id_friend'])+',2" class="btn btn-disabled" />'
 		+		'</div>'
 		+	'</div>'
 		+	'<div class="clearfix"></div>'
@@ -3655,8 +3375,6 @@ function hashJson(id,loading,num,search,seemoreButton){
 				if(data['cant']>0){
 					out+='<div style="padding: 10px 0; width: 100%;">';
 					for(var i=0;i<data['cant'];i++){
-						console.log(data['hash'][i]);
-						console.log('esto:'+search);
 						(data['hash'][i])?out+=bodyhash(data['hash'][i],search):'';
 					}
 					out+='<div class="clearfix"></div></div>';
