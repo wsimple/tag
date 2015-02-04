@@ -1,4 +1,4 @@
-<?php if ($_SESSION['ws-tags']['ws-user']['id']!=''&&is_debug()){
+<?php if ($_SESSION['ws-tags']['ws-user']['id']!=''){
 	if (!isset($_SESSION['ws-tags']['ws-user']['progress']) 
 		|| (isset($_SESSION['ws-tags']['ws-user']['progress']) && !isset($_SESSION['ws-tags']['ws-user']['progress']['omitir']))){
 		if (!isset($_SESSION['ws-tags']['ws-user']['progress']['value']) 
