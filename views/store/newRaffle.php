@@ -130,8 +130,7 @@
 			success:function(data){ // post-submit callback
                 switch(data['action']){
                     case 'rifa':  
-                        if (window.location.hash='#myfreeproducts') location.reload();
-    					else redir('myfreeproducts');
+                  		redir('myfreeproducts');
     					$('#default-dialog').dialog( "close" );
                     break;
                     case 'exist': showAndHide('fields_error_repeat', 'fields_error_repeat', 2500, true); break;
