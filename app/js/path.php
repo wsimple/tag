@@ -75,6 +75,7 @@ if(false){ ?><script><?php } ?>
 		timeline:'timeLine.html',
 		toptags:'topTags.html',
 		userfriends:'userFriends.html',
+		videoUpload:'videoUpload.html',
 		landding:'landding.html',
 		trendings:'trendings.html',
 		search:'search.html'
