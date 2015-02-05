@@ -97,6 +97,7 @@ function readTxt(url){
 			case 'friends'		:func=function(){redir(PAGE.userfriends+'?type=friends&id_user='+$.local('code'));};break;
 			case 'friendsSearch':func=function(){redir(PAGE.findfriends);};break;
 			case 'chat'			:func=function(){redir(PAGE.chat);};break;
+			case 'videoUpload'	:func=function(){redir(PAGE.videoUpload);};break;
 			case 'profile'		:func=function(){redir(PAGE.profile+'?id='+$.local('code'));};break;
 			case 'profilepic'	:func=function(){redir(PAGE.profilepic);};break;
 			case 'myGroup'		:func=function(){redir(PAGE.tagslist+'?current=group&id='+(data.group||$this.attr('group')));};break;
@@ -120,6 +121,7 @@ function readTxt(url){
 						'</form>'+
 					'</div>'+
 				'</li>'+
+				'<li opc="video" onlyif="CORDOVA"><div>'+lan('video upload','ucw')+'</div><arrow/></li>'+
 				'<li opc="timeline" onlyif="!window.location.href.match(/[\\/=]timeline/i)"><img src="css/smt/home_.png"/><div>'+lan('TIMELINE_TITLE')+'</div><arrow/></li>'+
 				'<li opc="toptags" onlyif="!window.location.href.match(/[\\/=]toptags/i)"><img src="css/smt/topTags.png"/><div>'+lan('TOPTAGS_TITLE')+'</div><arrow/></li>'+
 				'<li opc="news" onlyif="!window.location.href.match(/[\\/=]news/i)"><img src="css/smt/news.png"/><div>'+lan('NEWS')+'</div><arrow/></li>'+
