@@ -232,7 +232,7 @@
 		</div>
 		<div class="row"><?php //wish  ?>
 			<label><strong><?=lan('wish to','ucw')?>:</strong></label>
-			<div id="wish_to">
+			<div id="wish_to" style="margin: 0px 5px;">
 				<?php foreach ($wish as $row) {?>
 					<input type="checkbox" id="check<?=$row['id']?>" name="frmProfile_wish_to[]" value="<?=$row['id']?>" <?=($row['id']&$_SESSION['ws-tags']['ws-user']['wish_to'])?'checked':''?> />
 					<label for="check<?=$row['id']?>"><?=lan($row['label'],'ucw')?></label>
