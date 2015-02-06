@@ -77,7 +77,7 @@ switch ($_GET['action']) {
 						$pref.=CON::escape_string(' AND u.age<=? ',array($_POST['max_age']));
 					}
 					if(!empty($_POST['min_age'])||!empty($_POST['max_age'])){#solo si la persona permite ver su edad
-						$pref.=' AND u.show_my_birthday<2 ';
+						// $pref.=' AND u.show_my_birthday<2 ';
 					}
 					if(!empty($pref)) $array['where'].=' AND u.type=0'.$pref;
 				}
