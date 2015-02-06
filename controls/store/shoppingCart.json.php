@@ -743,18 +743,16 @@ include ('../../class/class.phpmailer.php');
 			break;
 		case 11: //consultas de las ciudades de la tabla ciudad... se llama por ajax para que no cuelgue la vista de users_shoppingCart
 			if (!isset($_POST['data'])){
-				$cities=$GLOBALS['cn']->query("SELECT c.id AS 'value', c.name AS 'key'
+				$cities=CON::query("SELECT c.id AS 'value', c.name AS 'key'
 								FROM  `cities` c WHERE name LIKE '%".$_GET['tag']."%' LIMIT 40");
 				$salida='[';
-				while($array=  mysql_fetch_assoc($cities)){
-					$array['key']=  htmlentities($array['key']);
+				while($array=  CON::fetchAssoc($cities)){
 					$salida.=json_encode($array);
 				}
 			}else{
 				if (is_numeric($_POST['data'])){
-					$cities=$GLOBALS['cn']->query("SELECT c.id AS 'idCities', c.name AS 'city'
-									FROM  `cities` c WHERE id='".$_POST['data']."'");
-					$array=  mysql_fetch_assoc($cities);				
+					$array=CON::getRow("SELECT c.id AS 'idCities', c.name AS 'city'
+									FROM  `cities` c WHERE id=?",array($_POST['data']));
 					$datosCar['idCities']=$array['city'];
 					$datosCar['city']=$array['city'];		
 				}else{
