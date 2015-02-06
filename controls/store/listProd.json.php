@@ -40,8 +40,12 @@
 		$from='store_products p INNER JOIN store_raffle c ON c.id_product=p.id';
 		$select='   ,c.points AS points,
 					c.start_date AS start_date,
+					c.end_date AS end_date,
 					c.cant_users AS cant_users';
-		if(isset ($_GET['my'])){
+		if(isset($_GET['idp'])) 
+			$select.=',md5(c.id) as rid,
+			(SELECT id FROM store_raffle_join WHERE id_raffle=c.id AND id_user="'.$_SESSION['ws-tags']['ws-user']['id'].'") AS joined';
+		elseif(isset ($_GET['my'])){
 			$select.=',md5(c.id) AS id_raffle,c.end_date AS end_date';
 			$where.= "AND c.id_user=".$_SESSION['ws-tags']['ws-user']['id']."";
 		}else{ $where.= "AND c.status=1 AND c.id_user!=".$_SESSION['ws-tags']['ws-user']['id'].""; }

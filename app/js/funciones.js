@@ -93,6 +93,8 @@ function readTxt(url){
 			case 'cart'			:func=function(){redir(PAGE.shoppingCart);};break;
 			case 'wish'			:func=function(){redir(PAGE.storeOption);};break;
 			case 'myPubli'		:func=function(){redir(PAGE.storeMypubli);};break;
+			case 'freeP'		:func=function(){redir(PAGE.storeFreeProducts);};break;
+			case 'myPartFreeP'	:func=function(){redir(PAGE.storeFreeProducts+'?module=myPartiFp');};break;
 			case 'notif'		:func=function(){redir(PAGE.notify);};break;
 			case 'friends'		:func=function(){redir(PAGE.userfriends+'?type=friends&id_user='+$.local('code'));};break;
 			case 'friendsSearch':func=function(){redir(PAGE.findfriends);};break;
@@ -145,6 +147,8 @@ function readTxt(url){
 				'<li opc="myPubli"><div>'+lan('My publications','ucw')+'</div><arrow/></li>'+
 				'<li opc="cart"><div>'+lan('shopping cart','ucw')+'</div><arrow/></li>'+
 				'<li opc="wish"><div>'+lan('wish list','ucw')+'</div><arrow/></li>'+
+				'<li opc="freeP"><div>'+lan('STORE_FREE_PRODUCTS')+'</div><arrow/></li>'+
+				'<li opc="myPartFreeP"><div>'+lan('STORE_RAFFLES_PLAYS')+'</div><arrow/></li>'+
 				'<li opc="myOrders"><div>'+lan('my orders','ucw')+'</div><arrow/></li>'+
 			'</ul>'+
 			//'<ul id="test">'+

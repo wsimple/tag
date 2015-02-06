@@ -6,11 +6,6 @@
 			<ul data-role="listview" id="infoList" data-inset="false" data-divider-theme="b" class="list-info"></ul>
 		</div>
 	</div><!-- content -->
-	<div id="cart-footer" data-role="footer" data-position="fixed" data-theme="f" style="display: none">
-		<div data-role="navbar">
-			<ul></ul>
-		</div>
-	</div>
     <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="storeNav">
@@ -23,19 +18,8 @@
 		pageShow({
 			id:'#page-lstMyStore',
 			title:lang['STORE_MYPUBLICATIONS'],
-			backButton:true,
+			showmenuButton:true,
 			before:function(){
-				//languaje
-//				$('#category').html(lang.STORE_CATEGORY);
-//				$('#btnGroupCreated').html(lang.GROUPS_TITLEWINDOWSNEW);
-//				$('#searchPreferences').attr('placeholder',lang.PREFERENCES_HOLDERSEARCH);
-				$('#cart-footer ul').html(
-					'<li>'+
-						'<a class="ui-btn-active">'+
-							lang.STORE_VIEWORDERINCART+
-						'</a>'+
-					'</li>'
-				);
                 $('#storeNav #goBack').html(lang.goback+' '+lang.store);
 			},
 			after:function(){
@@ -49,10 +33,7 @@
 					redir(PAGE['detailsproduct']+'?id='+$(this).attr('idPro'));
 				});				
                 $('#storeNav').on('click','li a[opc]',function(){
-					switch($(this).attr('opc')){
-                        case '1': redir(PAGE['storeCat']); break;
-//                        case '2': redir(PAGE['storeSubCate']+'?id='+$(this).attr('code')); break;
-                    }
+                	redir(PAGE['storeCat']); 
 				});
 				getMypublication(layer);
 			}
