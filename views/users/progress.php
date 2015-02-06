@@ -6,7 +6,7 @@
 			$_SESSION['ws-tags']['ws-user']['progress']['value']=calculateProgress();
 		$value=$_SESSION['ws-tags']['ws-user']['progress']['value'];
 		if (($value['profile']<100) || ($value['preferences']<100)) $active=true;
-		$active=false;
+		else $active=false;
 	}else $active=false;
 	if (isset($_SESSION['ws-tags']['ws-user']['progress']['omitir'])){
 		$_SESSION['ws-tags']['ws-user']['progress']['omitir']++;

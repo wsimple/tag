@@ -156,7 +156,7 @@
 		<div class="clearfix">
 			<div id="setCitys">
 				<label ><strong>(*)&nbsp;<?=lan('BUSINESSCARD_LBLCITY')?>:</strong></label>
-				<select name="city" id="city" requerido="<?=lan('BUSINESSCARD_LBLCITY')?>"></select>
+				<select name="city" id="city" requerido="<?=lan('BUSINESSCARD_LBLCITY')?>" autocomplete="off"></select>
 			</div>
 		</div>
 		<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
