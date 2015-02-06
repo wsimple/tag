@@ -70,6 +70,7 @@ if(false){ ?><script><?php } ?>
 		storeOption:'storeOption.html',
 		storeSubCate:'storeSubCategory.html',
 		storeMypubli:'storeMypublication.html',
+		storeFreeProducts:'storeFreeProducts.html',
 		tag:'tag.html',
 		tagslist:'tagsList.html',
 		timeline:'timeLine.html',
