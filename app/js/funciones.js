@@ -121,7 +121,7 @@ function readTxt(url){
 						'</form>'+
 					'</div>'+
 				'</li>'+
-				'<li opc="video" onlyif="CORDOVA"><div>'+lan('video upload','ucw')+'</div><arrow/></li>'+
+				'<li opc="videoUpload" onlyif="CORDOVA"><div>'+lan('video upload','ucw')+'</div><arrow/></li>'+
 				'<li opc="timeline" onlyif="!window.location.href.match(/[\\/=]timeline/i)"><img src="css/smt/home_.png"/><div>'+lan('TIMELINE_TITLE')+'</div><arrow/></li>'+
 				'<li opc="toptags" onlyif="!window.location.href.match(/[\\/=]toptags/i)"><img src="css/smt/topTags.png"/><div>'+lan('TOPTAGS_TITLE')+'</div><arrow/></li>'+
 				'<li opc="news" onlyif="!window.location.href.match(/[\\/=]news/i)"><img src="css/smt/news.png"/><div>'+lan('NEWS')+'</div><arrow/></li>'+

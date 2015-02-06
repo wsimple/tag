@@ -72,7 +72,7 @@
 							Log('galery error',true);
 						},
 						captureError=function(error){
-							navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+							navigator.notification.alert('Error code: '+error.code,null,'Capture Error');
 							Log('capture error',true);
 						};
 					$('#galeryVideo').click(function(){
@@ -81,7 +81,7 @@
 								quality:50,
 								destinationType:cam.DestinationType.FILE_URI,
 								sourceType:cam.PictureSourceType.PHOTOLIBRARY,
-								mediaType:cam.MediaType.ALLMEDIA
+								mediaType:cam.MediaType.VIDEO
 							});
 						}catch(e){
 							myDialog('Error: '+e);
@@ -89,9 +89,7 @@
 					});
 					$('#uploadVideo').click(function(){
 						try{
-							navigator.device.capture.captureVideo(captureSuccess,captureError,{
-								limit:1
-							});
+							navigator.device.capture.captureVideo(captureSuccess,captureError,{limit:1});
 						}catch(e){
 							myDialog('Error: '+e);
 						}
