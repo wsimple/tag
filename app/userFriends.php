@@ -6,9 +6,8 @@
 </style>
 <div id="page-friendUser" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
-		<div id="menu" class="ui-grid-c" style="top:0px;left:0;padding:0 5px;"></div>
+		<div id="menu" class="ui-grid-d" style="top:0px;left:0;padding:0 5px;"></div>
 	</div>
-	<?php include 'inc/mainmenu.php'; ?>
 	<div data-role="content" class="list-content">
 		<div class="list-wrapper">
 			<div id="scroller">
@@ -24,6 +23,7 @@
 			</div>
 		</div>
 	</div>
+	<?php include 'inc/mainmenu.php'; ?>
 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="friendsFooter">
@@ -42,8 +42,9 @@
 			$('#menu').html(
 				'<span class="ui-block-a menu-button"><a href="#"><img src="css/newdesign/friends.png"><br>'+lan('friends','ucw')+'</a></span>'+
 				'<span class="ui-block-b"></span>'+
-				'<span class="ui-block-c menu-button">'+lan('Suggest','ucw')+'</span>'+
-				'<span class="ui-block-d menu-button"><a href="#" title="Search"><img src="css/newdesign/search.png"><br>'+lan('search','ucw')+'</a></span>'
+				'<span class="ui-block-c"></span>'+
+				'<span class="ui-block-d"></span>'+
+				'<span class="ui-block-e menu-button"><a href="findFriends.html" title="Search"><img src="css/newdesign/search.png"><br>'+lan('search','ucw')+'</a></span>'
 			);
 			$('#friendsFooter').html(
 				'<li><a href="#" opc="friends">'+lan('friends','ucw')+'</a></li>'+
@@ -57,7 +58,6 @@
 				type=$_GET['type']||'friends',
 				opc={wrapper: $wrapper,get:'&offset='+perpag,user:$_GET['id_user']||'',perpag:20},
 				modaux='',layeraux=null;
-
 			$('#friendsFooter li a[opc='+$_GET['type']+']').addClass('ui-btn-active'); //Estilo de li activo
 			// $(opc.layer).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
 			$('.list-wrapper').jScroll({hScroll:false});
@@ -89,8 +89,8 @@
 			viewFriends('refresh',$.extend({mod:'friends',layer:'#friends ul'},opc));
 			viewFriends('refresh',$.extend({mod:'follow',layer:'#follow ul'},opc));
 			viewFriends('refresh',$.extend({mod:'unfollow',layer:'#unfollow ul'},opc));
-
-			$(this.id).on('click','[code]',function(){
+			//Acciones dialog user
+			$('body').on('click','[code]',function(){
 				redir(PAGE['profile']+'?id='+$(this).attr('code'));
 			});
 			linkUser(this.id, $wrapper);

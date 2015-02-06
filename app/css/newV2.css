@@ -137,6 +137,7 @@
 	color: #384e63;
 	border-right: 1px solid #a1afb0;
 	vertical-align: bottom;
+	font-size: small;
 }
 #sub-menu li.timeline{
 	background: #c4c9cd url('newdesign/submenu/timeline.png') no-repeat center 4px;
@@ -155,7 +156,7 @@
 	width: 40%;;
 }
 /*Friends*/
-#menu{
+#page-friendUser #menu{
 	display: block;
 }
 #menu .menu-button{

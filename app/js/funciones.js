@@ -1039,9 +1039,9 @@ function playComment(tagtId, opc){
 
 function bodyFriendsList(friend, temp){
 	temp = temp || 'a';
-	if (friend.conocido) var te="a",text=lan('unfollow');
-	else var te="e",text=lan('follow'); 
-	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-role="fieldcontain">'+
+	// if (friend.conocido) var te="a",text=lan('unfollow');
+	// else var te="e",text=lan('follow'); 
+	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+friend.conocido+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain">'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
 			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/>'+
 			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
@@ -1051,23 +1051,23 @@ function bodyFriendsList(friend, temp){
 			// 	lan('admired','ucw')+' <span class="ufollowing">('+(friend.following_count||0)+')</span> '+
 			// '</p>'+
 		'</a>'+
-	'</li>'+ //la maquetacion de este li se hizo con el jquerymobile ya cargado
-	(friend.iAm=="0"?'<li class="ui-body ui-body-b" style="display: none;">'+
-		'<fieldset class="ui-grid-a">'+
-			'<div class="ui-block-a">'+
-				'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
-					'<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('USER_PROFILE')+'</span></span>'+
-					'<button code="'+friend.code_friend+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lan('USER_PROFILE')+'</button>'+
-				'</div>'+
-			'</div>'+
-			'<div class="ui-block-b">'+
-				'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="'+te+'" data-disabled="false" class="ui-submit ui-btn ui-shadow ui-btn-corner-all ui-btn-up-'+te+'" aria-disabled="false">'+
-					'<span class="ui-btn-inner"><span class="ui-btn-text">'+text+'</span></span>'+
-					'<button type="b" data-theme="'+te+'" userlink="'+md5(friend.id)+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
-				'</div>'+
-			'</div>'+
-		'</fieldset>'+
-	'</li>':'');
+	'</li>'; //la maquetacion de este li se hizo con el jquerymobile ya cargado
+	// (friend.iAm=="0"?'<div class="" style="display: none;">'+
+	// 	'<fieldset class="ui-grid-a">'+
+	// 		'<div class="ui-block-a">'+
+	// 			'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
+	// 				'<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('USER_PROFILE')+'</span></span>'+
+	// 				'<button code="'+friend.code_friend+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lan('USER_PROFILE')+'</button>'+
+	// 			'</div>'+
+	// 		'</div>'+
+	// 		'<div class="ui-block-b">'+
+	// 			'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="'+te+'" data-disabled="false" class="ui-submit ui-btn ui-shadow ui-btn-corner-all ui-btn-up-'+te+'" aria-disabled="false">'+
+	// 				'<span class="ui-btn-inner"><span class="ui-btn-text">'+text+'</span></span>'+
+	// 				'<button type="b" data-theme="'+te+'" userlink="'+md5(friend.id)+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
+	// 			'</div>'+
+	// 		'</div>'+
+	// 	'</fieldset>'+
+	// '</div>':'');
 	return out;
 }
 function viewFriends(method, opc){
@@ -1104,7 +1104,7 @@ function viewFriends(method, opc){
 			// }
 			divider=!opc.noCount?'<li data-role="list-divider">'+divider+(count!=''?' ('+count+')':'')+'</li>':'';
 			divider = ''; //DesignV2 o comentar desde la linea 1091 hastas 1105
-			if (data.datos.length>0){
+			if(data.datos.length>0){
 				var char = ['a','b','c'], count = -1;
 				for(i=0;i<data.datos.length;i++){
 					if (i % 3 == 0) count = -1;
@@ -1184,9 +1184,33 @@ function linkUser(layer,$wrapper){
 			}
 		});
 	}).on('click','[thisshow]',function(e){
-		$('[thishide]',layer).removeAttr("thishide").attr("thisshow","1").next('li').hide();
-		$(this).removeAttr("thisshow").attr("thishide","1").next("li").show();
+		// $('[thishide]',layer).removeAttr("thishide").attr("thisshow","1").next('li').hide();
+		// $(this).removeAttr("thisshow").attr("thishide","1").next("li").show();
 		//console.log('Posicion del click:'+e.pageY)
+		var te="e",text=lan('follow'); 
+		if (this.dataset.known) te="a",text=lan('unfollow');
+		myDialog({
+			id:'#friend-options',
+			content:
+			'<fieldset class="ui-grid-a">'+
+				'<div class="ui-block-a">'+
+					'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
+						'<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('USER_PROFILE')+'</span></span>'+
+						'<button code="'+this.dataset.link+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lan('USER_PROFILE')+'</button>'+
+					'</div>'+
+				'</div>'+
+				'<div class="ui-block-b">'+
+					'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="'+te+'" data-disabled="false" class="ui-submit ui-btn ui-shadow ui-btn-corner-all ui-btn-up-'+te+'" aria-disabled="false">'+
+						'<span class="ui-btn-inner"><span class="ui-btn-text">'+text+'</span></span>'+
+						'<button type="b" data-theme="'+te+'" userlink="'+this.dataset.unlink+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
+					'</div>'+
+				'</div>'+
+			'</fieldset>',
+			style:{'padding-right':5},
+			buttons:{},
+			backgroundClose: true
+		});
+
 		if ($wrapper) {
 			var eleHeight = $(this).height();
 			var broHeight = $(this).next().height();
@@ -1471,6 +1495,9 @@ function myDialog(){
 				$d.fadeOut('fast');
 		});
 	};
+	if(o.backgroundClose){
+		$(o.id+'.myDialog>.table').one('click',o.close);
+	}
 	$('.closedialog',$d).one('click',o.close);
 	if(!o.buttons){
 		o.buttons={Ok:o.close};
