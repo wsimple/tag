@@ -30,16 +30,52 @@
 	}
 })();
 //-- cordova checkout --//
-$.cordova=function(fn){
+$.cordova=function(listener,fn,fn2){
+	if(typeof listener==='function')
+		$.cordova.listener('deviceready',listener);
+	else
+		$.cordova.listener(listener,fn);
+};
+$.cordova.timeout=6000;
+$.cordova.ready=false;
+$.cordova.fail=[];
+$.cordova.listener=function(listener,fn,fn2){
+	if(typeof listener==='function'){
+		fn2=fn;
+		fn=listener;
+		listener='deviceready';
+	}
 	document.addEventListener('deviceready',function(){
-		fn();
+		if(listener==='deviceready') fn();
+		else document.addEventListener(listener,function(){
+			fn();
+		},false);
 	},false);
+	if(typeof fn2==='function') $.cordova.fail.push(fn2);
 };
 document.addEventListener('deviceready',function(){
-	$.cordova=function(fn){
-		fn();
+	$.cordova=function(listener,fn){
+		if(typeof listener==='function')
+			listener();
+		else 
+			$.cordova.listener(listener,fn);
+	};
+	$.cordova.ready=true;
+	$.cordova.listener=function(listener,fn){
+		if(listener==='deviceready') fn();
+		else document.addEventListener(listener,function(){
+			fn();
+		},false);
 	};
 },false);
+setTimeout(function(){
+	if($.cordova.ready) return;
+	console.log("Cordova plugin can't load or loading too slowly.");
+	$.cordova.fail.forEach(function(el,i){ el(); });
+	var tmp=$.cordova;
+	$.cordova=$.cordova;
+},$.cordova.timeout);
+
 //-- get --//
 var $_GET;
 function arrayGet(get){
@@ -68,7 +104,7 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 				type	:'POST',
 				url		:DOMINIO+'controls/notifications/notifications.json.php?action=push',
 				dataType:'json',
-				data	: defaultNotificationTypes,
+				data	:defaultNotificationTypes,
 				log		:false,
 				loader	:false,
 				success	:function(data){
@@ -86,15 +122,15 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 	};
 	$(function(){
 		push();
-		setInterval(push, 30000);
+		setInterval(push,30000);
 	});
 })(document,window,jQuery,console);
 //-- check notifications --//
 (function(document,window,$,console){
-    if ($.session('notif')){
-        var data=$.session('notif');
-        $(function(){
-            myAjax({
+	if($.session('notif')){
+		var data=$.session('notif');
+		$(function(){
+			myAjax({
 				type	:'POST',
 				url		: DOMINIO+'controls/notifications/notifications.json.php?check='+data.source+'&type='+data.type+'&action=push',
 				dataType:'json',
@@ -104,10 +140,9 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 					$.session('notif',null);
 				}
 			});
-    	});
-    }
+		});
+	}
 })(document,window,jQuery,console);
-
 
 //-- pageshow --//
 (function(document,window,$,console){
@@ -233,7 +268,6 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 			listview.refresh();
 			list.bind( 'listviewafterrefresh', afterListviewRefresh );
 		};
-
 		afterListviewRefresh();
 	});
 });})(jQuery);
@@ -284,38 +318,35 @@ test(3,4);
 */
 
 (function($){
- 
+
 var hasTouch = /android|iphone|ipad/i.test(navigator.userAgent.toLowerCase()),
-    eventName = hasTouch ? 'touchend' : 'click';
- 
+	eventName = hasTouch ? 'touchend' : 'click';
+
 /**
  * Bind an event handler to the "double tap" JavaScript event.
  * @param {function} doubleTapHandler
  * @param {number} [delay=300]
  */
 $.fn.doubletap = function(container, doubleTapHandler, singleTapHandler, delay){
-    delay = (!delay && delay!==0) ? 300 : delay;
- 
-    this.on(eventName, container, function(event){
-        var now = new Date().getTime();
- 
-        // the first time this will make delta a negative number
-        var lastTouch = $(this).data('lastTouch') || now + 1;
-        var delta = now - lastTouch;
-        if(delta < delay && 0 < delta){
-            // After we detct a doubletap, start over
-            $(this).data('lastTouch', null);
- 
-            if(doubleTapHandler !== null && typeof doubleTapHandler === 'function'){
-                doubleTapHandler(event);
-            }
-        }else{
-            $(this).data('lastTouch', now);
-            if(singleTapHandler !== null && typeof singleTapHandler === 'function'){
-                singleTapHandler(event);
-            }
-        }
-    });
+	delay = (!delay && delay!==0) ? 300 : delay;
+	this.on(eventName,container,function(event){
+		var now = new Date().getTime();
+		// the first time this will make delta a negative number
+		var lastTouch = $(this).data('lastTouch') || now + 1;
+		var delta = now - lastTouch;
+		if(delta < delay && 0 < delta){
+			// After we detct a doubletap, start over
+			$(this).data('lastTouch', null);
+			if(doubleTapHandler !== null && typeof doubleTapHandler === 'function'){
+				doubleTapHandler(event);
+			}
+		}else{
+			$(this).data('lastTouch',now);
+			if(singleTapHandler !== null && typeof singleTapHandler === 'function'){
+				singleTapHandler(event);
+			}
+		}
+	});
 };
- 
+
 })(jQuery);
