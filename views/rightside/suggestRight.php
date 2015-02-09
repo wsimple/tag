@@ -27,7 +27,7 @@
 	<?php } ?>
 	<input type="hidden" name="no_id_s" value="<?=$ids?>">
 	</div>
-	<div id="seeMoreSuggest" ><a href="<?=base_url('friends?sc=2')?>"><?=$lang["USER_BTNSEEMORE"].'...'?></a></div>
+	<div id="seeMoreSuggest" ><a href="<?=base_url('friends/dates')?>"><?=$lang["USER_BTNSEEMORE"].'...'?></a></div>
 	<?php } ?>
 	<div class="messageInviteSuggest" <?=$display?> ><?=$lang["INVITED_SUGGETSFRIENDS"]?></div>
 	<div id="inviteSuggest" <?=$display?>><a href="<?=base_url('friends?sc=3')?>"><?=$lang["GROUPS_MENUINVITEFRIENDS"]?></a></div>

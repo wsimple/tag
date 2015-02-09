@@ -99,8 +99,7 @@
 	var title=new Array(),
 		opc={mod:'friends',get:"",find:<?=$find?0:1?>},
 		find=<?=$find?0:1?>,
-		mod='<?=$sc?>',
-		sto;
+		mod='<?=$sc?>';
 	opc.mod=mod=='2'?'find':mod;
 	// dates
 	title['friends'] = '<?=USER_FINDFRIENDSTITLELINKS?>';
@@ -112,6 +111,7 @@
 <?php if($sc=='dates'){ ?>
 	var f=search_filter,
 		values=[f.min_age,f.max_age],
+		sto,
 		update=function(val,save){
 			if(val) values=val;
 			$('#age-values').html('['+values.join(' <?=lan('to')?> ')+']');
@@ -148,23 +148,21 @@
 		$('#filters #min_age').val(values[0]);
 		$('#filters #max_age').val(values[1]);
 	})
-	$(function(){
-		$('form#form-filter').ajaxForm({
-			dataType:'json',
-			success:function(data){//post-submit callback
-				// console.log('filter save success.',data);
-				delete data.id;
-				search_filter=data;
-				$('#tab').html("");
-				friendsAndF(opc);
-			},
-			error:function(){
-				console.log('filter save error.');
-			},
-			complete:function(){
-				// console.log('filter save complete.');
-			}
-		});
+	$('form#form-filter').ajaxForm({
+		dataType:'json',
+		success:function(data){//post-submit callback
+			// console.log('filter save success.',data);
+			delete data.id;
+			search_filter=data;
+			$('#tab').html("");
+			friendsAndF(opc);
+		},
+		error:function(){
+			console.log('filter save error.');
+		},
+		complete:function(){
+			// console.log('filter save complete.');
+		}
 	});
 <?php }elseif($sc=='find'){ ?>
 	$("#radio-buttons").buttonset();
@@ -194,7 +192,6 @@
 			opc.get="";
 			$('#tab').html("");
 			friendsAndF(opc);
-		}
 	});
 <?php } ?>
 	$('#titleFriends').html(title[opc.mod]);
