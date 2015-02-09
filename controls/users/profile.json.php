@@ -183,7 +183,7 @@ if($data['action']=='save'){
 			$res['error']=lan('USERPROFILE_CTRERRORUSERNAMEDUPLICATE'); die(jsonp($res));
 		}
 		$_SESSION['ws-tags']['ws-user']['username']=$data['username'];
-	}
+	}else $_SESSION['ws-tags']['ws-user']['username']='';
 	#si cambia nombre o apellido editamos nombre completo
 	if ($_SESSION['ws-tags']['ws-user']['type']!='1'){
 		if($data['firstname']==''){
@@ -365,6 +365,8 @@ switch ($data['action']){
 				$user['language'],$user['user_background'],$user['country'],$user['city'],$user['sex'],
 				$user['paypal'],$user['zip_code'],$user['interest'],$user['relationship'],$user['wish_to'],
 				$user['taxId'],$user['personal_messages'],$myId));
+		$_SESSION['ws-tags']['ws-user']['progress']['value']=calculateProgress();
+		$res['noFails']=$_SESSION['ws-tags']['ws-user']['progress']['value']['noFails'];
 	break;
 	case 'filePhoto':#actualizamos solo la imagen
 		CON::update("users","profile_image_url=?","id=?",array($user['photo'],$user['id']));
