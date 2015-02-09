@@ -11,11 +11,12 @@
 	}
 	//to fill language list
 	$languages = CON::query("SELECT cod,id, name FROM languages");
-	$sex=$_SESSION['ws-tags']['ws-user']['sex']!=''?$_SESSION['ws-tags']['ws-user']['sex']:1;
+	$sex=$_SESSION['ws-tags']['ws-user']['sex'];
 	$relationship=CON::getArray("SELECT id,label FROM users_relations");
 	$wish=CON::getArray("SELECT id,label FROM users_wish_to WHERE id>0");
 	if (!isset($_SESSION['ws-tags']['ws-user']['progress'])) $_SESSION['ws-tags']['ws-user']['progress']['value']=calculateProgress();
 	$value=$_SESSION['ws-tags']['ws-user']['progress']['value']['preferences'];
+	$noFails=$_SESSION['ws-tags']['ws-user']['progress']['value']['noFails'];
 ?>
 <div id="frmProfile_View" class="ui-single-box clearfix">
 	<?php //user messages (top) ?>
@@ -33,7 +34,7 @@
 		<?php /* BUTTON CHANGE - BUSINESS CARD - VIEW PROFILE */?>
 		<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
 			<div id="frmProfile_changePhotoButton" >
-				<a href="javascript:void(0);" class="color-pro" <?php if(lan('RESETPASS_BTN1_TITLE')!=""){?> title="<?=lan('RESETPASS_BTN1_TITLE')?>"<?php }?>><?=lan('RESETPASS_BTN1')?></a><br><br>
+				<a href="javascript:void(0);" class="color-pro <?=!isset($noFails['photo'])?'no-complete':''?>" <?php if(lan('RESETPASS_BTN1_TITLE')!=""){?> title="<?=lan('RESETPASS_BTN1_TITLE')?>"<?php }?>><?=lan('RESETPASS_BTN1')?></a><br><br>
 			</div>
 			<div id="frmProfile_changePhotoDiv">
 				<input name="frmProfile_filePhoto" type="file" id="frmProfile_filePhoto"/>
@@ -55,7 +56,7 @@
 		<div>
 			<div class="left">
 				<?php //first name OR Company Name ?>
-				<label><strong>(*)&nbsp;<?=(($_SESSION['ws-tags']['ws-user']['type']=='1')?lan('SIGNUP_LBLADVERTISERNAME_FIELD'):lan('SIGNUP_LBLFIRSTNAME_FIELD'))?>:</strong></label>
+				<label <?=!isset($noFails['name'])?'class="no-complete"':''?>><strong>(*)&nbsp;<?=(($_SESSION['ws-tags']['ws-user']['type']=='1')?lan('SIGNUP_LBLADVERTISERNAME_FIELD'):lan('SIGNUP_LBLFIRSTNAME_FIELD'))?>:</strong></label>
 				<?=$frmProfile->imput(
 					'frmProfile_firstName',
 					$_SESSION['ws-tags']['ws-user']['name'],
@@ -65,33 +66,31 @@
 			</div>
 			<?php if( $_SESSION['ws-tags']['ws-user']['type']=='0') { ?>
 			<div class="left"><?php //last name ?>
-				<label ><strong>(*)&nbsp;<?=lan('SIGNUP_LBLLASTNAME_FIELD')?>:</strong></label>
+				<label <?=!isset($noFails['lname'])?'class="no-complete"':''?>><strong>(*)&nbsp;<?=lan('SIGNUP_LBLLASTNAME_FIELD')?>:</strong></label>
 				<?=$frmProfile->imput('frmProfile_lastName', $_SESSION['ws-tags']['ws-user']['last_name'],$anchoImput,'text','','imputs_wrap_register',lan('SIGNUP_LBLLASTNAME').'|string|3')?>
 			</div>
 			<?php } ?>
 			<div class="left"><?php //nick name ?>
-				<label><strong>(*)&nbsp;<?=lan('SIGNUP_LBLSCREENNAME_FIELD')?>:</strong></label>
+				<label <?=!isset($noFails['sname'])?'class="no-complete"':''?>><strong>(*)&nbsp;<?=lan('SIGNUP_LBLSCREENNAME_FIELD')?>:</strong></label>
 				<?=$frmProfile->imput("frmProfile_screenName", $_SESSION['ws-tags']['ws-user']['screen_name'],$anchoImput, "text", "", "imputs_wrap_register", lan('SIGNUP_LBLSCREENNAME')."|string")?>
 			</div>
 			<div class="clearfix"></div>
 		</div>
 		<div>
-			<label><strong><?=lan('USERPROFILE_LBLPROFILEUSERNAME')?>:</strong></label>
+			<label id="uname" <?=!isset($noFails['uname'])?'class="no-complete"':''?>><strong><?=lan('USERPROFILE_LBLPROFILEUSERNAME')?>:</strong></label>
 			<div><?php //username ?>
 				<input type="text" tipo="string" value="<?=$_SESSION['ws-tags']['ws-user']['username']?>" id="frmProfile_userName" name="frmProfile_userName"/>
-				<?=generateDivMessaje('divCheckingUsername','250', 'revisando el username', 'left')?>
-				<?=generateDivMessaje('divValidUsername',	'250', 'username disponible', 'left')?>
 				<em class="font-size3 color-d">(<?=lan('USERPROFILE_LBLHELPUSERNAME1')?>)</em>
 			</div>
 			<em class="font-size3 color-d "><?=(($_SESSION['ws-tags']['ws-user']['username']!='') ? str_replace('*', $_SESSION['ws-tags']['ws-user']['username'], lan('USERPROFILE_LBLHELPUSERNAME2')) : str_replace('*', lan('USER_PROFILE'), lan('USERPROFILE_LBLHELPUSERNAME2')))?></em>
-			<label style="margin-top: 10px;"><strong><?=lan('BIOMESSAGE')?>:</strong></label>
+			<label id="msg-personal" <?=!isset($noFails['msg'])?'class="no-complete"':''?> style="margin-top: 10px;"><strong><?=lan('BIOMESSAGE')?>:</strong></label>
 			<div style="font-size: 10px"><?php //message personal ?>
 				<input type="text" tipo="string" size="100" value="<?=$_SESSION['ws-tags']['ws-user']['personal_messages']?>" id="frmProfile_messagePersonal" name="frmProfile_messagePersonal"/>
 				<span id="theCounter" ></span>&nbsp;max
 			</div>
 		</div>
 		<div><?php //birth day ?>
-			<label>
+			<label <?=!isset($noFails['dateb'])?'class="no-complete"':''?> id="dateb">
 				<strong>(*)&nbsp;<?=($_SESSION['ws-tags']['ws-user']['type']=='1')?lan('SIGNUP_LBLBUSINESSSINCE'):lan('SIGNUP_LBLBIRTHDATE')?>:</strong>
 			</label>
 			<div>
@@ -138,7 +137,7 @@
 				</select>
 			</div>
 			<div class="left"><?php //country ?>
-				<label><strong><?=lan('BUSINESSCARD_LBLCOUNTRY')?>:</strong></label>
+				<label <?=!isset($noFails['country'])?'class="no-complete"':''?>><strong><?=lan('BUSINESSCARD_LBLCOUNTRY')?>:</strong></label>
 				<select name="frmProfile_cboFrom" id="cbo_from_search" w="150">
 					<option value="" ></option>
 					<?php foreach ($countries as $row) { ?>
@@ -155,8 +154,8 @@
 		</div>
 		<div class="clearfix">
 			<div id="setCitys">
-				<label ><strong>(*)&nbsp;<?=lan('BUSINESSCARD_LBLCITY')?>:</strong></label>
-				<select name="city" id="city" requerido="<?=lan('BUSINESSCARD_LBLCITY')?>" autocomplete="off"></select>
+				<label <?=!isset($noFails['city'])?'class="no-complete"':''?>><strong><?=lan('BUSINESSCARD_LBLCITY')?>:</strong></label>
+				<select name="city" id="city" requerido="<?=lan('BUSINESSCARD_LBLCITY')?>" autocomplete="off" ></select>
 			</div>
 		</div>
 		<?php if($_SESSION['ws-tags']['ws-user']['type']=='0'){ ?>
@@ -204,39 +203,47 @@
 			<em class="font-size3 color-d"><?=lan('PROFILE_PHONELEYEND')?></em>
 		</div>
 		<?php if( $_SESSION['ws-tags']['ws-user']['type']!='1' ){ ?>
-		<div><?php //sexo ?>
-			<label><strong><?=lan('SEX_TITLE')?>:</strong></label>
-			<select name="frmProfile_sex" id="frmProfile_sex" w="150">
-				<option value="" >...</option>
-				<option value="1" <?=($sex==1?"selected":'')?>><?=lan('SEX_MALE')?></option>
-				<option value="2" <?=($sex==2?"selected":'')?>><?=lan('SEX_FEMALE')?></option>
-			</select>
-		</div>
-		<div><?php //interes ?>
-			<label><strong><?=lan('INTERESTED_IN')?>:</strong></label>
-			<select name="frmProfile_interest" id="frmProfile_interest" w="150">
-				<option value="" >...</option>
-				<option value="1" <?=($_SESSION['ws-tags']['ws-user']['interest']==1?"selected":'')?>><?=lan('men','ucw')?></option>
-				<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']==2?"selected":'')?>><?=lan('women','ucw')?></option>
-				<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']===0?"selected":'')?>><?=lan('both','ucw')?></option>
-			</select>
-		</div>
-		<div><?php //relations  ?>
-			<label><strong><?=lan('relationship','ucw')?>:</strong></label>
-			<select name="frmProfile_relationship" id="frmProfile_relationship" w="150">
-				<option value="" >...</option>
-				<?php foreach ($relationship as $row) { ?>
-					<option value="<?=$row['id']?>" <?=($_SESSION['ws-tags']['ws-user']['relationship']==$row['id']?'selected':'')?>><?=lan($row['label'],'ucw')?></option>
-				<?php } ?>
-			</select>
-		</div>
-		<div class="row"><?php //wish  ?>
-			<label><strong><?=lan('wish to','ucw')?>:</strong></label>
-			<div id="wish_to" style="margin: 0px 5px;">
-				<?php foreach ($wish as $row) {?>
-					<input type="checkbox" id="check<?=$row['id']?>" name="frmProfile_wish_to[]" value="<?=$row['id']?>" <?=($row['id']&$_SESSION['ws-tags']['ws-user']['wish_to'])?'checked':''?> />
-					<label for="check<?=$row['id']?>"><?=lan($row['label'],'ucw')?></label>
-				<?php } ?>
+		<div class="ui-single-box">
+			<h3 class="ui-single-box-title"><?=lan('date','ucw')?></h3>
+			<div class="clearfix">
+				<div class="left"><?php //sexo ?>
+					<label <?=!isset($noFails['sex'])?'class="no-complete"':''?>><strong><?=lan('SEX_TITLE')?>:</strong></label>
+					<select name="frmProfile_sex" id="frmProfile_sex" w="150">
+						<option value="" >...</option>
+						<option value="1" <?=($sex==1?"selected":'')?>><?=lan('SEX_MALE')?></option>
+						<option value="2" <?=($sex==2?"selected":'')?>><?=lan('SEX_FEMALE')?></option>
+					</select>
+				</div>
+				<div class="left"><?php //interes ?>
+					<label <?=!isset($noFails['interest'])?'class="no-complete"':''?>><strong><?=lan('INTERESTED_IN')?>:</strong></label>
+					<select name="frmProfile_interest" id="frmProfile_interest" w="150">
+						<option value="" >...</option>
+						<option value="1" <?=($_SESSION['ws-tags']['ws-user']['interest']==1?"selected":'')?>><?=lan('men','ucw')?></option>
+						<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']==2?"selected":'')?>><?=lan('women','ucw')?></option>
+						<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']===0?"selected":'')?>><?=lan('both','ucw')?></option>
+					</select>
+				</div>
+				<div class="left"><?php //relations  ?>
+					<label <?=!isset($noFails['relation'])?'class="no-complete"':''?>><strong><?=lan('relationship','ucw')?>:</strong></label>
+					<select name="frmProfile_relationship" id="frmProfile_relationship" w="150">
+						<!-- <option value="" >...</option> -->
+						<?php foreach ($relationship as $row) { ?>
+							<option value="<?=$row['id']?>" <?=($_SESSION['ws-tags']['ws-user']['relationship']==$row['id']?'selected':'')?>><?=lan($row['label'],'ucw')?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div><?php //wish  ?>
+				<label <?=!isset($noFails['wish'])?'class="no-complete"':''?>><strong><?=lan('wish to','ucw')?>:</strong></label>
+				<div id="wish_to" style="margin: 0px 5px;">
+					<?php foreach ($wish as $row) {?>
+						<input type="checkbox" id="check<?=$row['id']?>" name="frmProfile_wish_to[]" value="<?=$row['id']?>" <?=($row['id']&$_SESSION['ws-tags']['ws-user']['wish_to'])?'checked':''?> />
+						<label for="check<?=$row['id']?>"><?=lan($row['label'],'ucw')?></label>
+					<?php } ?>
+				</div>
+			</div>
+			<div>
+				<em class="color-d font-size3"><?=lan('NOTE_DATES')?></em>
 			</div>
 		</div>
 		<?php }
@@ -397,6 +404,7 @@
 						}
 					break;
 				}
+				updateLabels(data['noFails']);
 			}else{ 
 				$('#divError').html(data['error']);
 				showAndHide('divError','divError',1500,true);
@@ -522,4 +530,24 @@
 			});
 		<?php } ?>
 		});
+function updateLabels(data){
+	var preferences=false;
+	if ($('#frmProfile_businessCardDiv a:nth-child(4)').hasClass('no-complete')){ preferences=true;}
+	$('.no-complete').removeClass('no-complete');
+	if (!data['name']) $('#frmProfile_firstName').prev('label').addClass('no-complete');
+	if (!data['sname']) $('#frmProfile_screenName').prev('label').addClass('no-complete');
+	if (!data['uname']) $('#uname').addClass('no-complete');
+	if (!data['lname']) $('#frmProfile_lastName').prev('label').addClass('no-complete');
+	if (!data['dateb']) $('#dateb').addClass('no-complete');
+	if (!data['country']) $('#cbo_from_search').prev('label').addClass('no-complete');
+	if (!data['city']) $('#setCitys label').addClass('no-complete');
+	if (!data['sex']) $('#frmProfile_sex').prev('label').addClass('no-complete');
+	if (!data['interest']) $('#frmProfile_interest').prev('label').addClass('no-complete');
+	if (!data['relation']) $('#frmProfile_relationship').prev('label').addClass('no-complete');
+	if (!data['wish']) $('#wish_to').prev('label').addClass('no-complete');
+	if (!data['wish']) $('#wish_to').prev('label').addClass('no-complete');
+	if (!data['msg']) $('#msg-personal').addClass('no-complete');
+	if (!data['photo']) $('#frmProfile_changePhotoButton a').addClass('no-complete');
+	if (preferences) $('#frmProfile_businessCardDiv a:nth-child(4)').addClass('no-complete');
+}
 </script>

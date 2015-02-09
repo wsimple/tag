@@ -31,5 +31,6 @@ $lang=array(
 	'ERRORFILEINFO' => 'Sorry, this file can not be processed, please try again with a different file.',
 	'OPEN_RELATIONSHIP' => 'open relationship',
 	'CLOSED_RELATIONSHIP' => 'closed relationship',
+	'NOTE_DATES' => 'You can select one or more of these options',
 );
 return $lang;
