@@ -1455,7 +1455,7 @@ loader.s32,.loader.s32{
 #infoDetails #idProductContent #titleDescription,
 #infoDetails #idProductContent #titleVideo,
 #infoDetails #idProductContent #titleHash{ margin-top:4px; }
-#infoDetails #idProductContent #titleHash + .tag-solo-hash,.tag-hash{ margin:10px 0px; width: 100%; }
+#infoDetails #idProductContent #titleHash + .tag-solo-hash,.tag-hash{ margin:10px 0 0 0; width: 100%; }
 #infoDetails #idProductContent #description{
 	text-align:justify;
 	font-weight:normal;

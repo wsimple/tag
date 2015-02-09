@@ -68,7 +68,7 @@
 					'<li class="ui-block-a timeline"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'+
 					'<li class="ui-block-c store"><a href="#">'+lan('store','ucw')+'</a></li>'+
-					'<li class="ui-block-d points"><!-- <span></span> --><a href="#">'+lan('rewards','ucw')+'</a></li>'
+					'<li class="ui-block-d points"><span></span><a href="#">'+lan('rewards','ucw')+'</a></li>'
 				);
 
 				$('#singleRedirDialog #scroller').html(lan('JS_DELETETAG'));
@@ -89,11 +89,19 @@
 			},
 			after:function(){
 				//V2
-				$('#bottom-menu').on('swipedown',function(){
-					$(this).animate({bottom: -114},500);
-				}).on('swipeup',function(){
-					$(this).animate({bottom: 0},500);
-				});
+				// $('#bottom-menu').on('swipedown',function(){
+				// 	$(this).animate({bottom: -114},500);
+				// }).on('swipeup',function(){
+				// 	$(this).animate({bottom: 0},500);
+				// });
+				$("#bottom-menu").swipe( {
+			        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
+			        	$(this).animate({bottom: -0},500);
+			        },threshold:0,
+			        swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
+			        	$(this).animate({bottom: -114},500);
+			        },threshold:0
+		        });
 				get_profile($.local('code'), function(data){
 					$('#profile span.full-name').html($.local('full_name'));
 					$('#profile .photo').html('<img src="'+data.datos[0].photo_friend+'">');

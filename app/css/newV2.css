@@ -16,6 +16,18 @@
 #btn-signup .ui-btn-inner, #btn-login .ui-btn-inner{
 	padding-left: 0;
 }
+/*Profile & Notifications Menu Timeline*/
+#profile span{
+	float: left;
+}
+#profile .full-name{
+	padding: 5px;
+}
+#profile .photo img{
+	width: 60px;
+	height: 40px;
+	border-radius: 5px 0 0 5px;
+}
 /*tag*/
 [tag] menu li{
 	border: none !important;
@@ -50,11 +62,6 @@
 }
 [tag] menu li#dislike{
 	background-color: #f57133;
-}
-#profile .photo img{
-	width: 60px;
-	height: 40px;
-	border-radius: 5px 0 0 5px;
 }
 
 .ui-page .ui-header.ui-bar-f{
@@ -95,6 +102,12 @@
 }
 
 /*Time line*/
+#page-timeLine #scroller{
+	background-color: #edeef0 !important;
+}
+#tagsList{
+	background: #edeef0 !important;
+}
 .tag-container{
 	background: #edeef0;
 }
@@ -152,8 +165,15 @@
 	background-size: 50%;
 }
 #sub-menu .ui-block-d.points{
+	color: #03a993;
+	width: 40%;
 	border-right: none;
-	width: 40%;;
+}
+
+#sub-menu .ui-block-d.points span{
+	color: #03a993;
+	font-weight: bold;
+	font-size: 1.5em;
 }
 /*Friends*/
 #page-friendUser #menu{
@@ -179,6 +199,7 @@
 }
 #page-friendUser #scroller{
 	background-color: #edeef0;
+	padding: 20px 0;
 }
 .list-friends.ui-grid-b{
 	list-style: none;
@@ -188,15 +209,17 @@
 
 li.userInList{
 	text-align: center;
-	margin-bottom: 1.5em;
+	margin-bottom: 1.8em;
 	color: #f57133;
 	text-shadow: 0 0 0;
 }
 
 li.userInList h3{
 	font-size: 12px;
-	font-weight: normal;
+	font-weight: bold;
 	margin-left: 0;
+	letter-spacing: 1px;
+	margin-top: 0px;
 }
 
 .userBR{
@@ -205,6 +228,18 @@ li.userInList h3{
 
 .userInList a img{
 	border: 1px solid #f57133;
+}
+
+#friend-options .window{
+	padding: 2.5em 1em;
+}
+
+#friend-options .window .photo{
+	text-align: center;
+}
+
+#friend-options .window .info{
+	font-size: 1.4em;
 }
 
 /*Main Menu*/

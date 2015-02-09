@@ -15,15 +15,15 @@
 					<ul class="list-friends ui-grid-b"></ul>
 				</div>
 				<div id="follow" class="list">
-					<ul data-role="listview" data-filter="true" data-divider-theme="e" class="list-friends"></ul>
+					<ul data-filter="true" class="list-friends ui-grid-b"></ul>
 				</div>
 				<div id="unfollow" class="list">
-					<ul data-role="listview" data-filter="true" data-divider-theme="e" class="list-friends"></ul>
+					<ul data-filter="true" class="list-friends ui-grid-b"></ul>
 				</div>
 			</div>
 		</div>
 	</div>
-	<?php include 'inc/mainmenu.php'; ?>
+	<?php //include 'inc/mainmenu.php'; ?>
 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="friendsFooter">

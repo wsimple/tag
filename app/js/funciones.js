@@ -1040,8 +1040,10 @@ function playComment(tagtId, opc){
 function bodyFriendsList(friend, temp){
 	temp = temp || 'a';
 	// if (friend.conocido) var te="a",text=lan('unfollow');
-	// else var te="e",text=lan('follow'); 
-	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+friend.conocido+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain">'+
+	// else var te="e",text=lan('follow');
+	var known = (friend.conocido)?1:0;
+	console.log('Resultado:'+friend.conocido);
+	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain">'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
 			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/>'+
 			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
@@ -1108,7 +1110,6 @@ function viewFriends(method, opc){
 				var char = ['a','b','c'], count = -1;
 				for(i=0;i<data.datos.length;i++){
 					if (i % 3 == 0) count = -1;
-					console.log(count);
 					count++;
 					friend=data.datos[i];
 					out+=bodyFriendsList(friend, char[count]);
@@ -1187,11 +1188,15 @@ function linkUser(layer,$wrapper){
 		// $('[thishide]',layer).removeAttr("thishide").attr("thisshow","1").next('li').hide();
 		// $(this).removeAttr("thisshow").attr("thishide","1").next("li").show();
 		//console.log('Posicion del click:'+e.pageY)
+		var photo = $(this).find('a img').attr('src');
 		var te="e",text=lan('follow'); 
-		if (this.dataset.known) te="a",text=lan('unfollow');
+		if (this.dataset.known == 1) te="a",text=lan('unfollow');
 		myDialog({
 			id:'#friend-options',
 			content:
+			'<div>'+
+			'<div class="photo"><img src="'+photo+'" alt="photo" /></div><br />'+
+			'<div class="info">'+lan('name')+'</div>'+
 			'<fieldset class="ui-grid-a">'+
 				'<div class="ui-block-a">'+
 					'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
@@ -1205,7 +1210,8 @@ function linkUser(layer,$wrapper){
 						'<button type="b" data-theme="'+te+'" userlink="'+this.dataset.unlink+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
 					'</div>'+
 				'</div>'+
-			'</fieldset>',
+			'</fieldset>'+
+			'</div>',
 			style:{'padding-right':5},
 			buttons:{},
 			backgroundClose: true
