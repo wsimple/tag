@@ -55,14 +55,15 @@
 							params.fileName=data.file.name;
 							Log('uploading...');
 							ft.upload(path,
-								"http://app.tagbum.com/controls/upload.php",
+								"http://v.tagbum.com/upload.php",
 								function(result){
 									var data=JSON.parse(result.response);
 									Log('Upload success: ' + result.responseCode);
 									Log(result.bytesSent + ' bytes sent');
 									Log('data:'+JSON.stringify(data));
 									console.log('data:',data);
-									Log('First Link: <a href="http://app.tagbum.com'+data.urls[0]+'">'+data.urls[0]+'</a>');
+									if(data.urls[0])
+										Log('First Link: <a href="http://v.tagbum.com/'+data.urls[0]+'">'+data.urls[0]+'</a>');
 								},
 								function(error){
 									Log('Error uploading file ' + path + ': ' + error.code);
@@ -72,10 +73,12 @@
 						},
 						galeryError=function(){
 							Log('galery error',true);
+							console.log('galery error');
 						},
 						captureError=function(error){
 							navigator.notification.alert('Error code: '+error.code,null,'Capture Error');
 							Log('capture error',true);
+							console.log('capture error');
 						};
 					$('#galeryVideo').click(function(){
 						try{
