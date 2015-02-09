@@ -169,7 +169,7 @@ $(function(){
 				$('#back-settings').next('input').val($(this).next('input').val());
 				$(this).hide().next('input').val('').hide();
 				$('#form-filter').show();
-			});
+			}).click();
 			$('#back-settings').click(function(){
 				$('#form-filter').hide();
 				$('#settings').show().next('input').val($(this).next('input').val()).show();
