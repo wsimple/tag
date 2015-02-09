@@ -89,11 +89,6 @@
 			},
 			after:function(){
 				//V2
-				// $('#bottom-menu').on('swipedown',function(){
-				// 	$(this).animate({bottom: -114},500);
-				// }).on('swipeup',function(){
-				// 	$(this).animate({bottom: 0},500);
-				// });
 				$("#bottom-menu").swipe( {
 			        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
 			        	$(this).animate({bottom: -0},500);
