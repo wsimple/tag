@@ -21,12 +21,32 @@
 			before:function(){
 			},
 			after:function(){
-				document.addEventListener('deviceready',function(){
+				$.cordova(function(){
 					$(".video").fadeIn(300);
 					var cam=Camera,
 						Log=function(text,clear){
 							if(clear) $('#video').html('');
 							$('#video').append(text+'<br/>');
+						},
+						galerySuccess=function(path_file){
+							var file={
+								fullPath:path_file,
+								name:path_file.replace(/([^\/]*\/)*/g,'')
+							};
+							Log('galery success',true);
+							console.log('galery success:',file);
+							uploadFile({file:file});
+						},
+						captureSuccess=function(mediaFiles){
+							var i,path,len;
+							Log('capture success',true);
+							// Log(JSON.stringify(mediaFiles));
+							for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+								path = mediaFiles[i].fullPath;
+								// do something interesting with the file
+								console.log(path);
+								uploadFile({file:mediaFiles[i]});
+							}
 						},
 						uploadFile=function(data){
 							var path=data.file.fullPath,
@@ -41,6 +61,7 @@
 									Log('Upload success: ' + result.responseCode);
 									Log(result.bytesSent + ' bytes sent');
 									Log('data:'+JSON.stringify(data));
+									console.log('data:',data);
 									Log('First Link: <a href="http://app.tagbum.com'+data.urls[0]+'">'+data.urls[0]+'</a>');
 								},
 								function(error){
@@ -48,25 +69,6 @@
 								},
 								params
 							);
-						};
-					var galerySuccess=function(path_file){
-							var file={
-								fullPath:path_file,
-								name:path_file.replace(/([^\/]*\/)*/g,'')
-							};
-							Log('galery success:'+JSON.stringify(file),true);
-							uploadFile({file:file});
-						},
-						captureSuccess=function(mediaFiles){
-							var i,path,len;
-							Log('capture success',true);
-							// Log(JSON.stringify(mediaFiles));
-							for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-								path = mediaFiles[i].fullPath;
-								// do something interesting with the file
-								console.log(path);
-								uploadFile({file:mediaFiles[i]});
-							}
 						},
 						galeryError=function(){
 							Log('galery error',true);
@@ -94,7 +96,7 @@
 							myDialog('Error: '+e);
 						}
 					});
-				},false);
+				});
 			}//end after
 		});
 	</script>
