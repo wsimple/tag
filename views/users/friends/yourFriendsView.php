@@ -2,7 +2,8 @@
 	global $section,$params;
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
 	if(empty($myId)) $myId=0;
-	$find=$sc=='2'||$sc=='find'||$sc=='dates'?true:false;
+	if($sc==2) $sc='find';
+	$find=$sc=='find'||$sc=='dates'?true:false;
 	$mod=isset($_GET['mod'])?$_GET['mod']:$sc;
 	$numFriends=CON::getVal('SELECT COUNT(id_user) as num from users_links where id_user = ?',array($myId));
 ?>
@@ -14,9 +15,10 @@
 		<div id="nf"></div>
 		<?php if($find){ ?> 
 			<?php if($sc=='dates'&&$_SESSION['ws-tags']['ws-user']['type']==0){ ?>
-			<input  id="settings" type="button"/>
+			<!-- <input id="settings" type="button"/> -->
+			<?php }else{ ?>
+				<input  id="txtSearchFriend" type="text" class="search" placeholder="<?=lan('USERS_BROWSERFRIENDSLABELTXT1')?>"/>
 			<?php } ?>
-		<input  id="txtSearchFriend" type="text" class="search" placeholder="<?=lan('USERS_BROWSERFRIENDSLABELTXT1')?>"/>
 		<?php } ?>
 	</h3>
 	<?php if($find){ ?>
@@ -33,23 +35,22 @@
 		unset($pref->id);
 	?>
 	<script>search_filter=<?=json_encode($pref)?>;</script>
-	<form id="form-filter" action="controls/users/search_filters.json.php?insert" method="post" style="display:none;"><div id="filters" class="ui-single-box clearfix">
+	<form id="form-filter" action="controls/users/search_filters.json.php?insert" method="post"><div id="filters" class="ui-single-box clearfix">
 		<input id="save" type="submit" value="<?=lan('Save')?>" style="display:none;"/>
 		<h3 class="ui-single-box-title">
 			<!-- <div style="margin-bottom:30px;"><?=lan('filter','ucw')?></div> -->
-			<input  id="back-settings" type="button"/>
-			<input id="txtSearchFriend2" type="text" class="search" placeholder="<?=lan('USERS_BROWSERFRIENDSLABELTXT1')?>" style="width:90%;"/>
+			<!-- <input  id="back-settings" type="button"/> -->
+			<input id="txtSearchFriend2" type="text" class="search" placeholder="<?=lan('USERS_BROWSERFRIENDSLABELTXT1')?>" style="width:98%;"/>
 		</h3>
 		<div style="display:none;" class="row">Preferences:<?=json_encode($pref)?></div>
-		<div class="row" style="width:40%">
+		<div class="row">
 			<div class="text"><?=lan('sex','ucw')?>:</div>
-			<select name="sex_preference" style="width:80%;">
+			<select name="sex_preference">
 				<?php foreach ($sex_preferences as $el) {?>
 					<option value="<?=$el->id?>" <?=$el->id==$pref->sex_preference?'selected':''?>><?=lan($el->label,'ucw')?></option>
 				<?php } ?>
 			</select>
-		</div>
-		<div class="row" style="width:40%">
+			<div class="divisor"></div>
 			<div class="text"><?=lan('wish to','ucf')?>:</div>
 			<div id="wish_to">
 				<input name="wish_to[]" type="hidden" value="0"/>
@@ -94,113 +95,108 @@
 	</div>
 </div>
 <script type="text/javascript">
-$(function(){
-	var title=new Array(),opc={mod:'friends',get:""},find=<?=$find?0:1?>,mod='<?=$sc?>';
+(function(){
+	var title=new Array(),
+		opc={mod:'friends',get:"",find:<?=$find?0:1?>},
+		find=<?=$find?0:1?>,
+		mod='<?=$sc?>',
+		sto;
+	opc.mod=mod=='2'?'find':mod;
 	// dates
 	title['friends'] = '<?=USER_FINDFRIENDSTITLELINKS?>';
 	title['follow'] = '<?=USER_LBLFOLLOWERS?>';
 	title['unfollow'] = '<?=USER_LBLFRIENDS?>';
 	title['find'] = '<?=EDITFRIEND_VIEWLABELSEARCH?>';
 	title['dates'] = '<?=EDITFRIEND_VIEWLABELSEARCH?>';
-	if (find!=0){
-		//Acción botones para navegación
-		$( "#radio-buttons" ).buttonset();
-		$( "#radio-buttons label" ).click( function(){
-			opc.mod = $(this).attr('for');$('#tab').html("");
-			redir('friends?sc=1&mod='+opc.mod);
-			$('#yourFriendsView div#tab').removeAttr('class').addClass(opc.mod);
-			$('#titleFriends').html(title[opc.mod]);
-			// friendsAndF(opc);
-		});
-
-		$('#yourFriendsView div#tab').removeAttr('class').addClass(opc.mod);
-		$('#titleFriends').html(title[opc.mod]);
-		if (mod!='') {opc.mod = mod};
-		$( "#radio-buttons input#"+opc.mod).click();
-
-	}else{
-		opc.mod=mod=='2'?'find':mod;
-		$('#tab').html("");
-		$('#txtSearchFriend,#txtSearchFriend2').keyup(function() {
-			opc.get = $.trim($(this).val());
-			if (opc.get!="" && $(this).val().length>2)	{
-				opc.get="&search="+opc.get;
+	console.log('titulos',title);
+<?php if($sc=='dates'){ ?>
+	var f=search_filter,
+		values=[f.min_age,f.max_age],
+		update=function(val,save){
+			if(val) values=val;
+			$('#age-values').html('['+values.join(' <?=lan('to')?> ')+']');
+			if(sto) clearTimeout(sto);
+			if(save) sto=setTimeout(function(){
+				$('#filters #save').click();
+			},1000);
+		},
+		update_ui=function(e,ui){
+			update(ui.values,true);
+		};
+	$("#wish_to").buttonset();
+	if($("#age-slider .ui-slider").length) $("#age-slider").slider('destroy');
+	$("#age-slider").slider({
+		min:13,
+		max:80,
+		range:true,
+		step:1,
+		values:values,
+		change:update_ui,
+		slide:update_ui
+	});
+	$('select').each(function(){
+		var w=$(this).attr('w'),opc={};
+		if(w) opc['menuWidth']=opc['width']=w;
+		if(!this.id.match('_search')) opc['disableSearch']=true;
+		$(this).chosen(opc);
+	});
+	update();
+	$('form#form-filter select,form#form-filter input[type="checkbox"]').change(function(){
+		$('#filters #save').click();	
+	});
+	$('#filters #save').click(function(){
+		$('#filters #min_age').val(values[0]);
+		$('#filters #max_age').val(values[1]);
+	})
+	$(function(){
+		$('form#form-filter').ajaxForm({
+			dataType:'json',
+			success:function(data){//post-submit callback
+				// console.log('filter save success.',data);
+				delete data.id;
+				search_filter=data;
 				$('#tab').html("");
 				friendsAndF(opc);
-			}else if($(this).val().length==0){
-				opc.get="";
-				$('#tab').html("");
-				friendsAndF(opc);
+			},
+			error:function(){
+				console.log('filter save error.');
+			},
+			complete:function(){
+				// console.log('filter save complete.');
 			}
 		});
-		if (opc.mod=="dates"){
-			$( "#wish_to" ).buttonset();
-			var f=search_filter,sto,
-				values=[f.min_age,f.max_age],
-				update=function(val){
-					if(val) values=val;
-					$('#age-values').html('['+values.join(' <?=lan('to')?> ')+']');
-					if(sto) clearTimeout(sto);
-					sto=setTimeout(function(){
-						$('#filters #save').click();
-					},1000);
-				},
-				update_ui=function(e,ui){
-					update(ui.values);
-				};
-			if($("#age-slider .ui-slider").length) $("#age-slider").slider('destroy');
-			update();
-			$("#age-slider").slider({
-				min:13,
-				max:80,
-				range:true,
-				step:1,
-				values:values,
-				change:update_ui,
-				slide:update_ui
-			});
-			$('select').each(function(){
-				var w=$(this).attr('w'),opc={};
-				if(w) opc['menuWidth']=opc['width']=w;
-				if(!this.id.match('_search')) opc['disableSearch']=true;
-				$(this).chosen(opc);
-			});
-			$('#settings').click(function(){
-				$('#back-settings').next('input').val($(this).next('input').val());
-				$(this).hide().next('input').val('').hide();
-				$('#form-filter').show();
-			});
-			$('#back-settings').click(function(){
-				$('#form-filter').hide();
-				$('#settings').show().next('input').val($(this).next('input').val()).show();
-				$(this).next('input').val('');
-			});
-			$('form#form-filter select,form#form-filter input[type="checkbox"]').change(function(){
-				$('#filters #save').click();	
-			});
-			$('#filters #save').click(function(){
-				$('#filters #min_age').val(values[0]);
-				$('#filters #max_age').val(values[1]);
-			})
-			$('form#form-filter').ajaxForm({
-				dataType:'json',
-				success:function(data){//post-submit callback
-					// console.log('filter save success.',data);
-					delete data.id;
-					search_filter=data;
-					$('#tab').html("");
-					friendsAndF(opc);
-				},
-				error:function(){
-					console.log('filter save error.');
-				},
-				complete:function(){
-					// console.log('filter save complete.');
-				}
-			});
+	});
+<?php }elseif($sc=='find'){ ?>
+	$("#radio-buttons").buttonset();
+<?php } ?>
+<?php if($find){ ?>
+	//Acción botones para navegación
+	$( "#radio-buttons label" ).click( function(){
+		opc.mod = $(this).attr('for');$('#tab').html("");
+		redir('friends?sc=1&mod='+opc.mod);
+		$('#yourFriendsView div#tab').removeAttr('class').addClass(opc.mod);
+		$('#titleFriends').html(title[opc.mod]);
+		// friendsAndF(opc);
+	});
+	$('#yourFriendsView div#tab').removeAttr('class').addClass(opc.mod);
+	$('#titleFriends').html(title[opc.mod]);
+	if (mod!='') {opc.mod = mod};
+	$( "#radio-buttons input#"+opc.mod).click();
+<?php }else{ ?>
+	$('#tab').html("");
+	$('#txtSearchFriend,#txtSearchFriend2').keyup(function() {
+		opc.get = $.trim($(this).val());
+		if (opc.get!="" && $(this).val().length>2)	{
+			opc.get="&search="+opc.get;
+			$('#tab').html("");
+			friendsAndF(opc);
+		}else if($(this).val().length==0){
+			opc.get="";
+			$('#tab').html("");
+			friendsAndF(opc);
 		}
-	}
-	opc.find=find;
+	});
+<?php } ?>
 	$('#titleFriends').html(title[opc.mod]);
 	friendsAndF(opc);
 	// if (opc.mod=='friends' || opc.mod=='unfollow') {
@@ -218,11 +214,11 @@ $(function(){
 		friendsAndF(opc);
 	});
 	function friendsAndF(opc){
-		$('#tab').append('<img src="css/smt/loader.gif" id="loader" width="32" height="32" class="loader" style="margin: 0 auto;display:block;">');
+		$('#tab').append('<img src="css/smt/loader.gif" id="loader" width="32" height="32" class="loader" style="margin:0 auto;display:block;">');
 		$.ajax({
-			url: 'controls/users/people.json.php?action=friendsAndFollow&withHtml&mod='+opc.mod+opc.get,
+			url:'controls/users/people.json.php?action=friendsAndFollow&withHtml&mod='+opc.mod+opc.get,
 			type:'POST',
-			dataType: 'json',
+			dataType:'json',
 			data:search_filter||{},
 			success:function(data){
 				$('#loader').remove();
@@ -244,9 +240,8 @@ $(function(){
 	window.reloadFriendList=function(){
 		friendsAndF(opc);
 	};
-});
 
+})();
 // console.log('<?=$numFriends?>');
 if (<?=$find?1:0?>&&('<?=$numFriends?>'==0)) { tour(SECTION); };
-
 </script>
