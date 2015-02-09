@@ -45,6 +45,7 @@ $lang=array(
 	'VIDEONOTFOUND'=>'No se pudo encontrar el video.',
 	'ERRORPROCESSINGYOURVIDEO'=>'Error procesando su video, quizas por alguna falla en la conexión.',
 	'RETRYVIDEOUPLOAD'=>'Verifique su conexión o espere un momento antes de volver a intentarlo.',
+	'NOTE_DATES'=>'Puedes seleccionar una o varias de estas opciones.',
 	#js
 	'JS_CONFIRM_REMOVE_TAG_ITEM' => "Remover el elemento dañará todas las tags que lo esten utilizando.\n ¿Está seguro de que quiere eliminarlo?",
 	#Otros
