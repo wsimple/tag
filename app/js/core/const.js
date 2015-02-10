@@ -60,6 +60,7 @@ is.limited= !is.webkit||is.android;
 		'soon'		:'pronto',
 		'exit'		:'salir',
 		'hot'		:'caliente',
+		'vie cart'	:'ver carro',
 
 		//'':'mover a',
 
