@@ -14,7 +14,7 @@
 			<span class="full-name"></span>
 		</div>
 		<div class="notificacion-area" id="notifications">
-			<span class="notification-num">0</span>
+			<span class="notification-num"><a href="notifications.html">0</a></span>
 		</div>
 		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
 		<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">

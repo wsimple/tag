@@ -595,8 +595,8 @@ function showTag(tag){//individual tag
 				(tag['uid']?
 					'<li id="users" users="'+tag['uid']+'"><span>profile</span></li>'
 				:'')+
-				'<li id="like" title="Like">'+tag.num_likes+'</li>'+
-				'<li id="dislike" title="Dislike">'+tag.num_disLikes+'</li>'+
+				'<li id="like" title="Like"><div>'+tag.num_likes+'</div></li>'+
+				'<li id="dislike" title="Dislike"><div class="rotated">'+tag.num_disLikes+'</div></li>'+
 				(!tag['popup']?
 					'<li id="comment" title="Comment"><span>Comment</span></li>'
 				:'')+(btn['redist']?
