@@ -71,5 +71,6 @@ $lang=array(
 	'widow' => 'viudo(a)',
 	'wish to' => 'deseos',
 	'relationship' => 'relación',
+	'disassociate' => 'desasociar'
 );
 return $lang;

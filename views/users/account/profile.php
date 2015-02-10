@@ -299,7 +299,7 @@
 					$none[0] = ($fbid!='') ? 'style="display: none;"':''; 
 					$none[1] = ($fbid=='') ? 'style="display: none;"':''; 
 				?>
-				<input name="frmProfile_btnDelfcId" type="button" class="fb-buttom" <?php echo $none[1]; ?> id="frmProfile_btnDelfcId" value="<?='Disassociate'?>" />
+				<input name="frmProfile_btnDelfcId" type="button" class="fb-buttom" <?php echo $none[1]; ?> id="frmProfile_btnDelfcId" value="<?=lan('disassociate','ucw')?>" />
 				<input type="button" class="fb-buttom" name="btnFacebook" <?php echo $none[0]; ?> id="btnFacebook" value="<?=lan('USERPROFILE_ASSOCFB')?>">
 				<div id="fb-root"></div>
 			</div>
