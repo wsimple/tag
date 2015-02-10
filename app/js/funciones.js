@@ -618,8 +618,6 @@ function showTag(tag){//individual tag
 						:'')+
 					'</ul></div>'+
 				'</li>'+
-				'<li id="like" title="Like"><div>'+tag.num_likes+'</div></li>'+
-				'<li id="dislike" title="Dislike"><div class="rotated">'+tag.num_disLikes+'</div></li>'+
 				(!tag['popup']?
 					'<li id="comment" title="Comment"><span>Comment</span></li>'
 				:'')+(btn['share']?
@@ -627,6 +625,8 @@ function showTag(tag){//individual tag
 				:'')+(btn['report']?
 					'<li id="report" title="Report"><span>Report</span></li>'
 				:'')+
+				'<li id="like" title="Like"><div>'+tag.num_likes+'</div></li>'+
+				'<li id="dislike" title="Dislike"><div class="rotated">'+tag.num_disLikes+'</div></li>'+
 			'</ul>'+hash+
 		'<div class="clearfix"></div></menu></div>'
 		:'<div id="menuTagnoLogged"></div>')+
