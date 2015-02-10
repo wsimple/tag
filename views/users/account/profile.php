@@ -323,7 +323,7 @@
 	//Para login con facebook
 	window.fbAsyncInit = function() {
 		FB.init({
-			appId: '141402139297347',
+			appId: '<?=isset($config->facebook->appId)?$config->facebook->appId:''?>',
 			cookie: true,
 			xfbml: true,
 			oauth: true,
