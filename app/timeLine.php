@@ -11,7 +11,10 @@
 	<div  data-role="header" data-theme="f" data-position="fixed">
 		<div id="profile" style="position:absolute;top:0px;left:0;padding:0 5px;">
 			<span class="photo"></span> 
-			<span class="full-name"></span>
+			<span class="info">
+				<span class="name"></span>
+				<span class="points"></span>
+			</span>
 		</div>
 		<div class="notificacion-area" id="notifications">
 			<span class="notification-num"><a href="notifications.html">0</a></span>
@@ -65,10 +68,10 @@
 			title:'Time Line',
 			before:function(){
 				$('#sub-menu ul').html(
-					'<li class="ui-block-a timeline"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
-					'<li class="ui-block-b newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'+
-					'<li class="ui-block-c store"><a href="#">'+lan('store','ucw')+'</a></li>'+
-					'<li class="ui-block-d points"><span></span><a href="#">'+lan('rewards','ucw')+'</a></li>'
+					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
+					'<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
+					'<li class="ui-block-c points"></li>'+
+					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
 				);
 
 				$('#singleRedirDialog #scroller').html(lan('JS_DELETETAG'));
@@ -88,20 +91,6 @@
 				);
 			},
 			after:function(){
-				//V2
-				$("#bottom-menu").swipe( {
-			        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
-			        	$(this).animate({bottom: -0},500);
-			        },threshold:0,
-			        swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
-			        	$(this).animate({bottom: -114},500);
-			        },threshold:0
-		        });
-				get_profile($.local('code'), function(data){
-					$('#profile span.full-name').html($.local('full_name'));
-					$('#profile .photo').html('<img src="'+data.datos[0].photo_friend+'">');
-				});
-				//END V2
 				
 				$('#creationTag').click(function(){
 					redir(PAGE['newtag']);
@@ -204,6 +193,17 @@
 				// 		$('#userPoints b').html(datos);
 				// 	}
 				// });
+				//V2
+				$(opc.layer).on('click', 'menu #other-options', function(){
+					$('.sub-menu-tag').find('ul').hide();
+					$(this).find('ul').show();
+				});
+				get_profile($.local('code'), function(data){
+					$('#profile span.info .name').html($.local('full_name'));
+					console.log(data.datos[0]);
+					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
+				});
+				//END V2
 			}
 		});
 	</script>
