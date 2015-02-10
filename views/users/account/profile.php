@@ -294,7 +294,13 @@
 			<div id="facebook-dialog" style="display:none;"><?=lan('FACEBOOK_NOTMATCHEMAIL')?></div>
 			<div class="frmProfileBotones">
 				<input name="frmProfile_btnSend" type="button" id="frmProfile_btnSend" value="<?=lan('USERPROFILE_SAVE')?>" />
-				<input type="button" class="fb-buttom" name="btnFacebook" id="btnFacebook" value="<?=lan('USERPROFILE_ASSOCFB')?>">
+				<?php 
+					$fbid = current($GLOBALS['cn']->queryRow('SELECT fbid FROM users WHERE id="'.$_SESSION['ws-tags']['ws-user']['id'].'"'));
+					$none[0] = ($fbid!='') ? 'style="display: none;"':''; 
+					$none[1] = ($fbid=='') ? 'style="display: none;"':''; 
+				?>
+				<input name="frmProfile_btnDelfcId" type="button" class="fb-buttom" <?php echo $none[1]; ?> id="frmProfile_btnDelfcId" value="<?='Disassociate'?>" />
+				<input type="button" class="fb-buttom" name="btnFacebook" <?php echo $none[0]; ?> id="btnFacebook" value="<?=lan('USERPROFILE_ASSOCFB')?>">
 				<div id="fb-root"></div>
 			</div>
 		</div>
@@ -376,6 +382,19 @@
 				console.log('No has logueado correcatmente con fbb.');
 			}
 		}, {scope: 'email'});
+	});	
+	$('#frmProfile_btnDelfcId').click(function(event){
+		showAndHide('btnFacebook','frmProfile_btnDelfcId','1000');
+		$.ajax({
+			url:DOMINIO+'controls/users/profile.json.php',
+			data:{'disAssociateFB':'1'},
+			type:'POST',
+			dataType:'json',
+			success:function(data){
+				if (data['out']==1)
+					showAndHide('btnFacebook','frmProfile_btnDelfcId','1000');
+			}
+		});
 	});
 	$('#frmProfile_').ajaxForm({
 		dataType:'json',
