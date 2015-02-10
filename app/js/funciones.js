@@ -220,6 +220,17 @@ function readTxt(url){
 					'<div class="underPage"/>'+
 				'</div>'
 			);
+
+			// Menu actions design V2
+			$("#bottom-menu").swipe( {
+		        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
+		        	$(this).animate({bottom: -0},500);
+		        },threshold:0,
+		        swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
+		        	$(this).animate({bottom: -114},500);
+		        },threshold:0
+	        });
+	        //END Menu actions design V2
 			// Menu actions
 			$('body')
 				.on('pagebeforeshow','.ui-page',function(){console.log('beforeshow');hideMenu();})
@@ -293,7 +304,7 @@ function readTxt(url){
 							datos=pts[0]+' M';
 						else
 							datos=data;
-						$('#userPoints b,.points span').html(datos);
+						$('#userPoints b,span.info .points').html(datos); //Agregado V2 para los puntos
 					}
 				});
 			}
@@ -592,25 +603,29 @@ function showTag(tag){//individual tag
 			(isLogged()?
 		'<div id="panel"><menu>'+
 			'<ul>'+
-				(tag['uid']?
-					'<li id="users" users="'+tag['uid']+'"><span>profile</span></li>'
-				:'')+
+				'<li id="other-options">...'+
+					'<div class="sub-menu-tag"><ul style="display:none;">'+
+						(tag['uid']?
+						'<li id="users" users="'+tag['uid']+'"><span>profile</span></li>':'')+
+						(btn['redist']?
+						'<li id="redistr" title="Redist"><span>Redist</span></li>':'')+
+						btnSponsor+(btn['trash'] && tag.type != 'out'?
+						'<li id="trash" title="Trash"><span>Trash</span></li>':'')+
+						(tag['typeVideo']?
+						'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>':'')+
+						(tag['product']?
+						'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
+						:'')+
+					'</ul></div>'+
+				'</li>'+
 				'<li id="like" title="Like"><div>'+tag.num_likes+'</div></li>'+
 				'<li id="dislike" title="Dislike"><div class="rotated">'+tag.num_disLikes+'</div></li>'+
 				(!tag['popup']?
 					'<li id="comment" title="Comment"><span>Comment</span></li>'
-				:'')+(btn['redist']?
-					'<li id="redistr" title="Redist"><span>Redist</span></li>'
 				:'')+(btn['share']?
 					'<li id="share" title="Share"><span>Share</span></li>'
-				:'')+btnSponsor+(btn['trash'] && tag.type != 'out'?
-					'<li id="trash" title="Trash"><span>Trash</span></li>'
-				:'')+(tag['typeVideo']?
-					'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>'
 				:'')+(btn['report']?
 					'<li id="report" title="Report"><span>Report</span></li>'
-				:'')+(tag['product']?
-					'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
 				:'')+
 			'</ul>'+hash+
 		'<div class="clearfix"></div></menu></div>'

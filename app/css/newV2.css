@@ -50,31 +50,80 @@
 	color: #f27233;
 }
 .ui-btn{
-	border-radius: 5px;cd ../
-	git pull
+	border-radius: 5px;
 }
 
-/*#btn-signup .ui-btn-inner, #btn-login .ui-btn-inner{
-	padding-left: 0;
-}*/
 /*Profile & Notifications Menu Timeline*/
 #profile span{
 	float: left;
 }
-#profile .full-name{
+#profile .info{
 	padding: 5px;
 }
+#profile .info span{
+	clear: both;
+}
+#profile .info .points{
+	font-size: 0.8em;
+	color: black;
+	text-shadow: 0 0 0;
+}
 #profile .photo img{
-	width: 60px;
-	height: 40px;
-	border-radius: 5px 0 0 5px;
+	border-radius: 5px;
 }
 /*tag*/
+/*Sub menu*/
+.sub-menu-tag{
+	position: absolute;
+	z-index: 2000;
+}
+.sub-menu-tag ul{
+	width: 100%;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	background-color: #fff;
+	border: 1px solid #CCC;
+	position: relative;
+	bottom: 2.8em;
+	right: 2.5em;
+	display: list-item;
+}
+/* Flecha sub-menu */
+.sub-menu-tag ul:after, .sub-menu-tag ul:before {
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.sub-menu-tag ul:after {
+	border-color: transparent;
+	border-top-color: white;
+	border-width: 0.8em;
+	margin-left: 7px;
+}
+.sub-menu-tag ul:before {
+	border-color: transparent;
+	border-top-color: #CCC;
+	border-width: 0.95em;
+	margin-left: 0.41em;
+}
+.sub-menu-tag ul li{
+	float: left;
+	display: list-item !important;
+}
 [tag] menu li{
 	border: none !important;
+	/*font-size: 2em;*/
 	text-align: right;
 	background-size: 1.033em !important;
 	color: white;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
 }
 .rotated{
 	-webkit-transform: rotate(180deg);
@@ -112,15 +161,17 @@
 }
 [tag] menu li#like div, [tag] menu li#dislike div{
 	position: relative;
-	top: -10px;
+	top: -6px;
 	background-repeat: no-repeat;
-	background-position: 14px 8px;
+	background-position: 0.7em center;
 	-webkit-background-size: 1.033em !important;
 	background-size: 0.9em !important;
 	background-color: #03a993;
 	border-radius: 20px;
-	width: 65px;
+	width: 2.5em;
 	padding: 0.1em 0.4em;
+	font-size: 0.8em;
+	text-shadow: 0 0 0;
 }
 [tag] menu li#like div{
 	background-color: #03a993;	
@@ -128,8 +179,11 @@
 [tag] menu li#dislike div{
 	background-color: #f57133;
 }
+.ui-page .ui-header{
+	height: 56px;
+}
 .ui-page .ui-header.ui-bar-f{
-	background-color: #f57133;
+	background-color: #ec5a28;
 	border-bottom: none;
 	-webkit-box-shadow: 0 0 0;
 	box-shadow: 0 0 0;
@@ -167,17 +221,21 @@
 
 .notificacion-area > .notification-num a,.notificacion-area > .notification-num a:hover{
 	color: white;
+	font-weight: normal;
 }
 
 /*Time line*/
 #page-timeLine #scroller{
-	background-color: #edeef0 !important;
+	background-color: #e2e6e7 !important;
+}
+.tags-list{
+	margin-top: 15px;
 }
 #tagsList{
-	background: #edeef0 !important;
+	background: #e2e6e7 !important;
 }
 .tag-container{
-	background: #edeef0;
+	background: #e2e6e7;
 }
 
 #panel {
@@ -192,8 +250,8 @@
 	text-shadow: none;
 	z-index: 103;
 	height: 3.8em;
-	top: 48px;
 	position: relative;
+	top: 56px;
 }
 
 #sub-menu ul{
@@ -202,9 +260,12 @@
 	padding: 0;
 }
 #sub-menu ul li{
-	background-color: #c4c9cd;
+	background-color: #b3b9bd;
 	display: table;
-	height: 3.8em;
+	height: 3.9em;
+}
+#sub-menu ul li.hover{
+	background-color: hsl(204, 7%, 60%);
 }
 #sub-menu ul li span{
 	display: inline;
@@ -221,16 +282,23 @@
 	font-size: small;
 }
 #sub-menu li.timeline{
-	background: #c4c9cd url('newdesign/submenu/timeline.png') no-repeat center 4px;
+	background: #b3b9bd url('newdesign/submenu/timeline.png') no-repeat center 4px;
 	background-size: 50%;
 }
 #sub-menu li.newtag{
-	background: #c4c9cd url('newdesign/submenu/create_tag.png') no-repeat center 4px;
+	background: #b3b9bd url('newdesign/submenu/create_tag.png') no-repeat center 4px;
 	background-size: 50%;
 }
 #sub-menu li.store{
-	background: #c4c9cd url('newdesign/submenu/store.png') no-repeat center 4px;
+	background: #b3b9bd url('newdesign/submenu/store.png') no-repeat center 4px;
 	background-size: 50%;
+}
+#sub-menu li:last-child a{
+	border-right: none;
+}
+#sub-menu .ui-block-c{
+	border-right: 1px solid #a1afb0;
+	width: 40%;
 }
 
 @media screen and (min-width: 600px) {
@@ -255,17 +323,6 @@
 	#sub-menu li.store{
 		background-size: 16%;
 	}
-}
-#sub-menu .ui-block-d.points{
-	color: #03a993;
-	width: 40%;
-	border-right: none;
-}
-
-#sub-menu .ui-block-d.points span{
-	color: #03a993;
-	font-weight: bold;
-	font-size: 1.5em;
 }
 /*Friends*/
 #page-lstStore #menu,
