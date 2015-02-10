@@ -1,21 +1,62 @@
 /*Login, Signin*/
 .ui-page .ui-content.smt-bg, .smt-bg{
-	background: #01a185 url('') no-repeat top;
+	background: #01a185 url('newdesign/bg-buildings.png') no-repeat top;
+	background-size: 103% 74%;
+	background-position: center;
 }
-.ui-shadow{
-	box-shadow: 0 0 0;
+.ui-box-home .logo-smt{
+	background-image: url('newdesign/tagbum_orange_logo.png'),url('newdesign/tagbum_white_logo.png');
+	/*background: #01a185 url('newdesign/bg-buildings.png') no-repeat top;*/
+	background-repeat: no-repeat;
+	background-size: 40% 60%, 55% 60%;
+	background-position: left center, right center;
+	width: 85%;
+	height: 150px;
+}
+.ui-box-home ._tt{ width: 100%;}
+.ui-box-home #buttons{ width: auto;}
+.ui-shadow{ box-shadow: 0 0 0; }
+#tagBum_info_msg{ 
+	color: white; 
+	font-weight: initial;
+	width: 75%;
+	margin: 0 auto;
+	font-size: 10px;
+}
+@media (min-width: 600px){
+	.ui-box-home #noconection,
+	.ui-box-home ._tt{ 
+		width: 50%; 
+		margin: 0 auto;
+	}
+	.ui-box-home .logo-smt{ width: 40%;}
+}
+#page-start #buttons ul li a{ 
+	width: 85%; 
+	border-radius: 10% !important;
+	-ms-border-radius: 10% !important;
+	-moz-border-radius: 10% !important;
+	-webkit-border-radius: 10% !important;
+	-o-border-radius: 10% !important;	
+	padding: 0;
+	font-weight: normal;
+}
+#page-start #buttons ul li span{ 
+	background-image: none; 
+	padding-left: 0;
 }
 #btn-login{
 	background-color: #fff;
 	color: #f27233;
 }
 .ui-btn{
-	border-radius: 5px;
+	border-radius: 5px;cd ../
+	git pull
 }
 
-#btn-signup .ui-btn-inner, #btn-login .ui-btn-inner{
+/*#btn-signup .ui-btn-inner, #btn-login .ui-btn-inner{
 	padding-left: 0;
-}
+}*/
 /*Profile & Notifications Menu Timeline*/
 #profile span{
 	float: left;

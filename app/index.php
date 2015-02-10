@@ -22,8 +22,9 @@
 				</ul>
 				<a id="btn-fullVersion" data-role="button" data-inline="true" data-theme="c" style="display:none" onclick="redir(PAGE['fullversion']);">Full Version</a>
 				<div class="store-info" style="margin-top: 15px; margin-bottom: 20px">
-					<p id="app_download_msg"></p>
-					<div class="googlePlay"></div>
+					<p id="tagBum_info_msg"></p>
+					<!-- <p id="app_download_msg"></p> -->
+					<!-- <div class="googlePlay"></div> -->
 					<!-- <a href="https://play.google.com/store/apps/details?id=com.tagbum.tagbum"></a> -->
 					<!-- <div class="appStore"></div> -->
 					<!-- <a href="https://itunes.apple.com/us/app/semytag/id658430038?ls=1&mt=8"></a> -->
@@ -58,7 +59,8 @@
 				var exp=CORDOVA?365:1;
 				$.cookie.defaults={expires:exp,path:'/'};
 				$('#btn-signup').html(lang.signup);
-				$('#app_download_msg').html(lang.LINK_DOWNLOADAPP);
+				// $('#app_download_msg').html(lang.LINK_DOWNLOADAPP);
+				$('#tagBum_info_msg').html(lang.ACCEPT_THE_TERMS);
 				$('#btn-login').html(lang.login);
 				$('#txtLoginError').html(lang.conectionFail);
 				$('#btn-reload').html(lang.retry);
