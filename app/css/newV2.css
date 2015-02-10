@@ -65,8 +65,9 @@
 }
 #profile .info .points{
 	font-size: 0.8em;
-	color: black;
+	color: #2c3e4f;
 	text-shadow: 0 0 0;
+	font-weight: normal;
 }
 #profile .photo img{
 	border-radius: 5px;
@@ -160,7 +161,6 @@
 	background-image: none;
 }
 [tag] menu li#like div, [tag] menu li#dislike div{
-	position: relative;
 	top: -6px;
 	background-repeat: no-repeat;
 	background-position: 0.7em center;
@@ -169,15 +169,16 @@
 	background-color: #03a993;
 	border-radius: 20px;
 	width: 2.5em;
-	padding: 0.1em 0.4em;
+	padding: 0.3em 0.4em;
 	font-size: 0.8em;
 	text-shadow: 0 0 0;
+	position: relative;
 }
 [tag] menu li#like div{
-	background-color: #03a993;	
+	background-color: #ec5a28;	
 }
 [tag] menu li#dislike div{
-	background-color: #f57133;
+	background-color: #169680;
 }
 .ui-page .ui-header{
 	height: 56px;
@@ -210,7 +211,7 @@
 	position: relative;
 	top: 9px;
 	left: -14px;
-	background-color: #03a993;
+	background-color: #169680;
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;
