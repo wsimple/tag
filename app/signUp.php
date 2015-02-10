@@ -6,43 +6,44 @@
 		<br>
 	</div>
 	<div data-role="content">
-		<img class="bg" src="css/smt/headerbg.png"/>
+		<img class="bg" src="css/smt/bgorange.png"/>
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
-				<form id="frmRegister" name="frmRegister" method="post" style="display:block;">
 
+				<!--<img src="css/smt/camera.png" alt="">-->
+				<form id="frmRegister" name="frmRegister" method="post" style="display:block;">
 					<div id="divDialog" data-role="dialog" style="display: none"></div>
 					<input type="hidden" value="1" name="mobile"/>
 					<input type="hidden" value="0" id="company" name="company"/>
 					<div class="smt-formfields">
 						<div>
-							<strong>
+							<!--<strong>
 								<label id="nameLabel" class="needed"></label>
 								<label id="nameEnter" class="needed"></label>
-							</strong>
+							</strong>-->
 							<input id="name" name="name" type="text"/>
 						</div>
 						<div class="single">
-							<strong><label id="lastNameLabel" class="needed"></label></strong>
+							<!--<strong><label id="lastNameLabel" class="needed"></label></strong>-->
 							<input id="lastName" name="lastName" type="text"/>
 						</div>
 						<div>
-							<strong>
+							<!--<strong>
 								<label id="dateLabel" class="needed"></label>
 								<label id="bussinesDate" class="needed"></label>
-							</strong>
+							</strong>-->
 							<select id="month" name="month"></select>
 							<select id="day" name="day"></select>
 							<select id="year" name="year"></select>
 						</div>
 						<div>
-							<strong><label id="emailLabel" class="needed"></label></strong>
+							<!--<strong><label id="emailLabel" class="needed"></label></strong>-->
 							<input id="email" name="email" type="email"/>
 						</div>
 						<div>
-							<strong><label id="passwordLabel" class="needed"></label></strong>
+							<!--<strong><label id="passwordLabel" class="needed"></label></strong>-->
 							<input id="password" name="password" type="password" class="password-field"/>
-							<strong><label id="repasswordLabel" class="needed"></label></strong>
+							<!--<strong><label id="repasswordLabel" class="needed"></label></strong>-->
 							<input id="repassword" name="confiPassword" type="password" class="password-field"/>
 							<div id="msgPassword" style="font-size: 12px"></div>
 						</div>
@@ -73,6 +74,8 @@
 				//traducciones de la etiquetas
 				$('#buttonSign').html(lang.MNU_REGISTER);
 				$('#nameLabel').html(lang.SIGNUP_LBLFIRSTNAME);
+				$("#name").attr("placeholder", lang.SIGNUP_LBLFIRSTNAME);
+				$("#lastName").attr("placeholder", lang.SIGNUP_LBLLASTNAME);				
 				$('#nameEnter').html(lang.JS_SIGNUP_LBLADVERTISERNAME);
 				$('#lastNameLabel').html(lang.SIGNUP_LBLLASTNAME);
 				$('#dateLabel').html(lang.SIGNUP_LBLBIRTHDATE);
@@ -81,6 +84,9 @@
 				$('#day').html('<option value="0" selected>'+lang.JS_SIGNUP_LBLDAY+'</option>');
 				$('#year').html('<option value="0" selected>'+lang.JS_SIGNUP_LBLYEAR+'</option>');
 				$('#emailLabel').html(lang.SIGNUP_LBLEMAIL);
+				$("#email").attr("placeholder", lang.SIGNUP_LBLEMAIL);
+				$("#password").attr("placeholder", lang.SIGNUP_PASSWORD);
+				$("#repassword").attr("placeholder", lang.SIGNUP_PASSWORD2);
 				$('#passwordLabel').html(lang.SIGNUP_PASSWORD);
 				$('#repasswordLabel').html(lang.SIGNUP_PASSWORD2);
 				$('#msgPassword').html(lang.USERPROFILE_PASSWORD);
@@ -126,12 +132,14 @@
 					$('.single').hide();
 					$('.enterp').show();
 					$('#company').val('1');
+					$("#name").attr("placeholder", lang.JS_SIGNUP_LBLADVERTISERNAME);
 					if(!is['limited']) setTimeout(function(){$('.fs-wrapper').jScroll('refresh');},500);
 				});
 				$('#showFormIndividual').click(function(){
 					$('.enterp').hide();
 					$('.single').show();
 					$('#company').val('0');
+					$("#name").attr("placeholder", lang.SIGNUP_LBLFIRSTNAME);
 					if(!is['limited']) setTimeout(function(){$('.fs-wrapper').jScroll('refresh');},500);
 				});
 				$('#frmRegister').submit(function(){
