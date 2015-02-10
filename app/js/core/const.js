@@ -351,7 +351,9 @@ is.limited= !is.webkit||is.android;
 		EMPTY_INFO_ADMIRERS				:'Disculpe, no tienes admiradores. Espera a que alguien te siga y lo veras en este lista.',
 		EMPTY_INFO_ADMIRED				:'Disculpe, no tienes admirados. Haz clic abajo y encuentra a tus amigos.',
 		EMPTY_INFO_FIND					:'Disculpe, no se consiguieron amigos con estas especificaciones.',
-		FIND_FRIENDS_NOTIFICATION		:'Encontrar Amigos'
+		FIND_FRIENDS_NOTIFICATION		:'Encontrar Amigos',
+
+		ACCEPT_THE_TERMS				:'Mediante el uso de TagBum, concedes a las <strong>Condiciones, Política de Cookies</strong> y <strong>Política de Privacidad.</strong>'
 	};//es
 	lang={//ingles por defecto
 		pass							:'Password',
@@ -710,6 +712,9 @@ is.limited= !is.webkit||is.android;
 		EMPTY_INFO_ADMIRED				:'Sorry you have no admired. Click below to find your friends.',
 		FIND_FRIENDS_NOTIFICATION		:'Find Friends',
 		EMPTY_INFO_FIND					:"Sorry, no friends with these specifications were found.",
+
+		ACCEPT_THE_TERMS				:'By using TagBum, you agree to <strong>Terms, Cookie Policy</strong> and <strong>Privacy Policy.</strong>',
+
 
 		TXT_REDIST	:' (redistribution)',
 		TXT_REDISTBY:'Redistributed by '
