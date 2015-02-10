@@ -348,7 +348,7 @@
 	height: 30px;
 }
 #page-friendUser #scroller{
-	background-color: #edeef0;
+	background-color: #e2e6e7;
 	padding: 20px 0;
 }
 .list-friends.ui-grid-b{
@@ -366,18 +366,14 @@ li.userInList{
 
 li.userInList h3{
 	font-size: 12px;
-	font-weight: bold;
 	margin-left: 0;
 	letter-spacing: 1px;
 	margin-top: 0px;
+	font-weight: normal;
 }
 
 .userBR{
 	border-radius: 10px !important;
-}
-
-.userInList a img{
-	border: 1px solid #f57133;
 }
 
 #friend-options .window{
