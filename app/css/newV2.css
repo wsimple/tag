@@ -137,7 +137,7 @@
 	background-image:url('newdesign/tag/like.png?1');
 }
 .tag-container [tag] menu li#dislike div{
-	background-image: url('newdesign/tag/like.png?1');
+	background-image: url('newdesign/tag/dislike.png?1');
 }
 .tag-container [tag] menu li#comment{
 	background-image:url('newdesign/tag/comments.png?1');
