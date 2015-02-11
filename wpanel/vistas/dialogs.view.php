@@ -1,14 +1,14 @@
 <?php
 	if ($_REQUEST['sumito']=='si')
-	{
-        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['about'])."' WHERE label LIKE 'INDEX_DIALOGABOUT' ");
-        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['terms'])."' WHERE label LIKE 'DIALOG_TERMS' ");
-        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['privacity'])."' WHERE label LIKE 'DIALOG_PRIVACITY' ");
-        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['developers'])."' WHERE label LIKE 'DIALOG_DEVELOPERS' ");
-        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['help'])."' WHERE label LIKE 'DIALOG_HELP' ");
-        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['cookies'])."' WHERE label LIKE 'DIALOG_COOKIES' ");
-        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['paypal'])."' WHERE label LIKE 'INDEX_DIALOGPAYPAL' ");
-		mensajes("Processed Sucessfully", "index.php?url=vistas/dialogs.view.php");
+	{ echo $_REQUEST['cookies'].'////';
+        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['about'])."' WHERE label LIKE 'INDEX_DIALOGABOUT' ") or die('1 - '.mysql_error());
+        mysql_query("UPDATE translations_template SET text = '".str_replace("'","\\'",$_REQUEST['terms'])."' WHERE label LIKE 'DIALOG_TERMS' ") or die('2 - '.mysql_error());
+        mysql_query("UPDATE translations_template SET text = '".str_replace("'","\\'",$_REQUEST['privacity'])."' WHERE label LIKE 'DIALOG_PRIVACITY' ") or die('3 - '.mysql_error());
+        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['developers'])."' WHERE label LIKE 'DIALOG_DEVELOPERS' ") or die('4 - '.mysql_error());
+        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['help'])."' WHERE label LIKE 'DIALOG_HELP' ") or die('5 - '.mysql_error());
+        mysql_query("UPDATE translations_template SET text = '".str_replace("'","\\'",$_REQUEST['cookies'])."' WHERE label LIKE 'DIALOG_COOKIES' ") or die('6 - '.mysql_error());
+        mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['paypal'])."' WHERE label LIKE 'INDEX_DIALOGPAYPAL' ") or die('7 - '.mysql_error());
+		//mensajes("Processed Sucessfully", "index.php?url=vistas/dialogs.view.php");
 	}
 	
 	$query = mysql_query("SELECT * FROM dialogs WHERE id = '1'") or die (mysql_error());
