@@ -60,6 +60,10 @@ is.limited= !is.webkit||is.android;
 		'soon'		:'pronto',
 		'exit'		:'salir',
 		'hot'		:'caliente',
+		'create.share':'crea.comparte',
+		'.reward':'.gana',
+		'Gender':'Genero',
+		'Phone Number (Optional)':'Numero de Telefono (Opcional)',
 
 		//'':'mover a',
 
