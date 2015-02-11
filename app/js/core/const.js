@@ -61,6 +61,7 @@ is.limited= !is.webkit||is.android;
 		'exit'		:'salir',
 		'hot'		:'caliente',
 		'vie cart'	:'ver carro',
+		'product search':'busqueda de producto',
 
 		//'':'mover a',
 

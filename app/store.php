@@ -3,7 +3,10 @@
 	<div data-role="header" data-position="fixed" data-theme="f">
 		<div id="menu" class="ui-grid-d" style="top:0px;left:0;padding:0 5px;"></div>
 	</div>
-	<div data-role="content" class="list-content">
+	<div data-role="content" class="list-content" style="margin: 50px 0 38px;">
+		<div class="ui-listview-filter ui-bar-c" style="margin: auto;">
+			<div id="rowTitle"><input type="search" name="search" id="searc-basic" value="" /></div>
+		</div>
 		<div class="list-wrapper"><div id="scroller">
 			<div><ul id="infoList" class="list-info ui-grid-a"></ul></div>
 		</div></div>
@@ -45,6 +48,7 @@
 					'<span class="ui-block-d"></span>'+
 					'<span class="ui-block-e menu-button"><a href="findFriends.html" title="cart"><img src="css/newdesign/menu/store.png"><br>'+lan('vie cart','ucw')+'</a></span>'
 				);
+				$('#searc-basic').attr('placeholder',lan('product search','ucw'));
 			},
 			after:function(){
 				var layer='#infoList';
@@ -62,51 +66,57 @@
                         case '2': redir(PAGE['storeSubCate']+'?id='+$(this).attr('code')); break;
                     }
 				});
-				getProducts(layer);
+				getProducts(layer,$_GET['c'], $_GET['sc']);
+				var timeOut;
+				function buscar(request,obj){
+                limit=0;
+                if (request!="" && obj.val().length>1) {
+	                    getProducts(layer,$_GET['c'], $_GET['sc'],'&srh='+request);
+	                }else if (obj.val().length==0){
+                        getProducts(layer,$_GET['c'], $_GET['sc']);
+	                }
+	            }
+				$('#searc-basic').keyup(function() {
+					var request = $(this).val(),obj=$(this);
+	                timeOut&&clearTimeout(timeOut);
+	                timeOut=setTimeout(buscar(request,obj),1000);
+				});
 			}
 		});
-	function getProducts(layer){
+	function getProducts(layer,category,subcategory,get){
 		myAjax({
 			type	:'GET',
-			url		:DOMINIO+'controls/store/listProd.json.php?source=mobile&module=store&limit=0',
+			url		:DOMINIO+'controls/store/listProd.json.php?source=mobile&module=store&limit=0&c='+category+'&sc='+subcategory+(get||''),
 			// url		:DOMINIO+'controls/store/listProd.json.php?source=mobile&module=store&limit=0&c='+category+'&sc='+subcategory,
 			dataType:'json',
 			error	:function(/*resp,status,error*/){
 				myDialog('#singleDialog',lan('conectionFail'));
 			},
 			success	:function(data){
-				var out='',num=0,prod=data.prod,category,idcategory,a='c';
-				for(var i=0;i<prod.length;i++){
-					switch(a){
-						case 'a': a='b';break;
-						// case 'b': a='c';break;
-						case 'b': a='a';break;
-					} 
-					out+=
-						// (num++<1?' <li data-role="list-divider">'+prod[i].titleList+'</li>':'')+
-						'<li date="'+prod[i].join_date+'" idPro="'+prod[i].id+'" class="ui-block-'+a+'">'+
-							'<a data-theme="e">'+
-								'<img src="'+prod[i].photo+'">'+
-								'<h3>'+prod[i].name+'</h3>'+
-								'<h3>'+prod[i].cost+' '+(prod[i].pago=="0"?'Pts':'$')+'</h3>'+
-								
-								// '<p id="nameProduct">'+prod[i].name+'</p>'+
-								// '<p id="descripProduct">'+prod[i].description+'</p>'+
-								// '<p class="costProduct">'+prod[i].cost+'</p>'+
-								// '<p class="date"><strong>Published:</strong> '+prod[i].join_date+'</p>'+
-							'</a>'+
-						'</li>';
-					category=prod[i].category;
-					idcategory=prod[i].mid_category;
-				}
+				if (data.prod){
+					var out='',num=0,prod=data.prod,a='c';
+					for(var i=0;i<prod.length;i++){
+						switch(a){
+							case 'a': a='b';break;
+							// case 'b': a='c';break;
+							case 'b': a='a';break;
+						} 
+						out+='<li date="'+prod[i].join_date+'" idPro="'+prod[i].id+'" class="ui-block-'+a+'">'+
+								'<a data-theme="e">'+
+									'<img src="'+prod[i].photo+'">'+
+									'<h3 class="name">'+prod[i].name+'</h3>'+
+									'<h3 class="costProduct">'+prod[i].cost+' '+(prod[i].pago=="0"?'Pts':'$')+'</h3>'+
+								'</a>'+
+							'</li>';
+					}
 
-				$(layer).html(out).listview('refresh');
-				$('.costProduct').formatCurrency({symbol:''}); //Formato de moneda
-		        var cost=$('.costProduct').html();
-		        var aux=cost.split('.');
-		        $('.costProduct').html(aux[0]+' '+lang.STORE_SHOPPING_POINTS);
-
-				$('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('goback')+' '+category+'</span></span>').attr('code',idcategory);
+					$(layer).html(out);
+					$('.costProduct').formatCurrency({symbol:''}); //Formato de moneda
+			        var cost=$('.costProduct').html();
+			        var aux=cost.split('.');
+			        $('.costProduct').html(aux[0]+' '+lang.STORE_SHOPPING_POINTS);
+					
+				}else $(layer).html('');
 				$('.list-wrapper').jScroll('refresh');
 			}
 		});

@@ -5,13 +5,13 @@
 	background-position: center;
 }
 .ui-box-home .logo-smt{
-	background-image: url('newdesign/tagbum_orange_logo.png'),url('newdesign/tagbum_white_logo.png');
+	background-image: url('newdesign/tagbum_orange_logo_border.png'),url('newdesign/tagbum_white_logo.png');
 	/*background: #01a185 url('newdesign/bg-buildings.png') no-repeat top;*/
 	background-repeat: no-repeat;
-	background-size: 40% 60%, 55% 60%;
-	background-position: left center, right center;
+	background-size: 40% 75%, 55% 75%;
+	background-position: left top, right center;
 	width: 85%;
-	height: 150px;
+	height: 130px;
 }
 .ui-box-home ._tt{ width: 100%;}
 .ui-box-home #buttons{ width: auto;}
@@ -21,7 +21,7 @@
 	font-weight: initial;
 	width: 75%;
 	margin: 0 auto;
-	font-size: 10px;
+	font-size: 16px;
 }
 @media (min-width: 600px){
 	.ui-box-home #noconection,
@@ -33,11 +33,11 @@
 }
 #page-start #buttons ul li a{ 
 	width: 85%; 
-	border-radius: 10% !important;
-	-ms-border-radius: 10% !important;
-	-moz-border-radius: 10% !important;
-	-webkit-border-radius: 10% !important;
-	-o-border-radius: 10% !important;	
+	border-radius: 5px !important;
+	-ms-border-radius: 5px !important;
+	-moz-border-radius: 5px !important;
+	-webkit-border-radius: 5px !important;
+	-o-border-radius: 5px !important;	
 	padding: 0;
 	font-weight: normal;
 }
@@ -225,6 +225,7 @@
 }
 
 /*Time line*/
+#page-lstStore #scroller,
 #page-timeLine #scroller{
 	background-color: #e2e6e7 !important;
 }
