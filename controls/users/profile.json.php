@@ -10,7 +10,6 @@ if ($_POST['disAssociateFB']=='1'){
 	$res=array();
 	$array = $GLOBALS['cn']->queryRow('SELECT fbid FROM users WHERE id="'.$myId.'" '); 
 	if (count($array)>0){
-		$res['usr']=$array['fbid'];
 		CON::update("users","fbid=NULL","id=?",array($myId));
 		$res['out'] = '1';
 	}else{
