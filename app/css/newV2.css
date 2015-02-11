@@ -566,5 +566,51 @@ li.userInList h3{
 #page-signUp :-ms-input-placeholder { /* Internet Explorer 10+ */
    color:    #F7BDA9;
 }
-
-
+/*store*/
+#page-lstStore .list-wrapper{ top: 47px; }
+#page-lstStore .list-info{
+	list-style: none;
+	text-align: center;
+	color: #2c3e4f;
+	/*margin: 15px 0 0;*/
+	padding: 5px 0 0;
+}
+#page-lstStore .list-info li{ height: 115px; }
+#page-lstStore .list-info li img{
+	width: 45%;
+	height: 60%;
+	border-radius: 5px !important;
+	-ms-border-radius: 5px !important;
+	-moz-border-radius: 5px !important;
+	-webkit-border-radius: 5px !important;
+	-o-border-radius: 5px !important;
+}
+#page-lstStore .list-info li h3{
+	font-size: 12px;
+	width: 60%;
+	margin: 0 auto;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	/*white-space: nowrap;*/
+	word-wrap: normal;
+	font-weight: 300;
+}
+#page-lstStore .list-info li h3{ height: 30px;}
+#page-lstStore .list-info li h3.costProduct{ color: #A42A00;}
+@media (min-width: 600px){
+	#page-lstStore .list-info li{  height: 200px; }
+	#page-lstStore .list-info li h3{ font-size: 20px; }
+	#page-lstStore .list-info li img{ width: 30%; }
+	/*#page-lstStore .list-info{ margin: 45px 0 0; }*/
+	#page-lstStore .list-wrapper{ top: 75px; }
+}
+#page-lstStore #rowTitle{
+	background-color: #8b9b9c;
+	margin: 5px auto 0;
+	padding: 2% 10%;
+}
+#page-lstStore #rowTitle .ui-input-search{
+	border-radius: 5px !important;
+	border: none;
+	box-shadow: none;
+}
