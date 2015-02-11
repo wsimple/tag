@@ -221,33 +221,6 @@ function readTxt(url){
 				'</div>'
 			);
 
-			// Menu actions design V2
-			$("#bottom-menu").swipe( {
-		        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
-		        	$(this).animate({bottom: -0},500);
-		        	$(this).find('div.arrow').animate({rotate: '-180deg'},200);
-		        	$(this).find('div.arrow').animate({  borderSpacing: 0 }, {
-					    step: function(now,fx) {
-					      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
-					      $(this).css('-moz-transform','rotate('+now+'deg)');
-					      $(this).css('transform','rotate('+now+'deg)');
-					    },
-					    duration:'slow'
-					},'linear');
-		        },threshold:0,
-		        swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
-		        	$(this).animate({bottom: -114},500);
-		        	$(this).find('div.arrow').animate({  borderSpacing: 180 }, {
-					    step: function(now,fx) {
-					      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
-					      $(this).css('-moz-transform','rotate('+now+'deg)');
-					      $(this).css('transform','rotate('+now+'deg)');
-					    },
-					    duration:'slow'
-					},'linear');
-		        },threshold:0
-	        });
-	        //END Menu actions design V2
 			// Menu actions
 			$('body')
 				.on('pagebeforeshow','.ui-page',function(){console.log('beforeshow');hideMenu();})
@@ -443,6 +416,33 @@ function readTxt(url){
 	$(function(){
 		putMenu();
 		putMenuOptions();
+		// Menu actions design V2
+		$("#bottom-menu").swipe( {
+	        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
+	        	$(this).animate({bottom: -0},500);
+	        	$(this).find('div.arrow').animate({rotate: '-180deg'},200);
+	        	$(this).find('div.arrow').animate({  borderSpacing: 0 }, {
+				    step: function(now,fx) {
+				      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
+				      $(this).css('-moz-transform','rotate('+now+'deg)');
+				      $(this).css('transform','rotate('+now+'deg)');
+				    },
+				    duration:'slow'
+				},'linear');
+	        },threshold:0,
+	        swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
+	        	$(this).animate({bottom: -114},500);
+	        	$(this).find('div.arrow').animate({  borderSpacing: 180 }, {
+				    step: function(now,fx) {
+				      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
+				      $(this).css('-moz-transform','rotate('+now+'deg)');
+				      $(this).css('transform','rotate('+now+'deg)');
+				    },
+				    duration:'slow'
+				},'linear');
+	        },threshold:0
+        });
+        //END Menu actions design V2
 	});
 	window.showMenu=showMenu;
 	window.hideMenu=hideMenu;

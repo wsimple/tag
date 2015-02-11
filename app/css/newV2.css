@@ -321,15 +321,15 @@
 		background-size: 16%;
 	}
 }
-/*Friends*/
-#page-lstStore #menu,
-#page-friendUser #menu{
+/*Find Friends and Friends*/
+#page-friendUser #menu, #page-friendSearch #menu{
 	display: block;
 }
-#page-friendUser #scroller{
+#page-friendUser #scroller,#page-friendSearch #scroller{
 	background-color: #e2e6e7;
 	padding: 20px 0;
 }
+/*Friends*/
 .list-friends.ui-grid-b{
 	list-style: none;
 	margin: 0;

@@ -9,6 +9,9 @@
 		<div id="menu" class="ui-grid-d" style="top:0px;left:0;"></div>
 	</div>
 	<div data-role="content" class="list-content">
+		<div class="ui-listview-filter ui-bar-c">
+			<input id="searchFriends" type="search" placeholder="Search" name="searchFriends" value="" />
+		</div>
 		<div class="list-wrapper">
 			<div id="scroller">
 				<div id="friends" class="list">
@@ -38,6 +41,7 @@
 		title:lan('friends','ucw'),
 		buttons:{showmenu:false,creation:false},
 		before:function(){
+			$('#searchFriends').attr('placeholder',lang.inputPlaceHolder);
 			$('#seek').html(lang.seek);
 			$('#menu').html(
 				'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/friends.png"><br>'+lan('friends','ucw')+'</a></span>'+
@@ -54,9 +58,9 @@
 		},
 		after:function(){
 			$('#page-friendUser .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
-			var $wrapper=$('.list-wrapper'), pag=1,perpag=20,
+			var $wrapper=$('.list-wrapper'), pag=1,perpag=21,
 				type=$_GET['type']||'friends',
-				opc={wrapper: $wrapper,get:'&offset='+perpag,user:$_GET['id_user']||'',perpag:20},
+				opc={wrapper: $wrapper,get:'&offset='+perpag,user:$_GET['id_user']||'',perpag:21},
 				modaux='',layeraux=null;
 			$('#friendsFooter li a[opc='+$_GET['type']+']').addClass('ui-btn-active'); //Estilo de li activo
 			// $(opc.layer).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');

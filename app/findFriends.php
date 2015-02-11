@@ -1,6 +1,8 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-friendSearch" data-role="page">
-	<div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
+	<div data-role="header" data-position="fixed" data-theme="f">
+		<div id="menu" class="ui-grid-c" style="top:0px;left:0;"></div>
+	</div>
 	<div data-role="content" class="list-content">
 		<div class="ui-listview-filter ui-bar-c">
 			<input id="searchFriends" type="search" placeholder="Search" name="searchFriends" value="" />
@@ -33,6 +35,12 @@
 		title:'',
 		buttons:{showmenu:false,home:false},
 		before:function(){
+			$('#menu').html(
+				'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/friends.png"><br>'+lang.friendSearh_title+'</a></span>'+
+				'<span class="ui-block-b"></span>'+
+				'<span class="ui-block-c"></span>'+
+				'<span class="ui-block-d menu-button"><a href="suggest.html" title="Suggest"><img src="css/newdesign/menu/friends.png"><br>'+lan('suggest','ucw')+'</a></span>'
+			);
 			$('#searchFriends').attr('placeholder',lang.inputPlaceHolder);
 			$('#contactList').html('<li data-role="list-divider">'+lan('CONTACTS_LOADING','ucf')+'</li><li class="center"><loader class="s32"/></li>');
 			if(CORDOVA){
@@ -48,12 +56,12 @@
 		},
 		after:function(){
 			$('.list-wrapper').jScroll({hScroll:false});
-			var that=this.id,pag=1,perpag=20;
+			var that=this.id,pag=1,perpag=21;
 			$(that).on('click','.ui-navbar a[data-opc]',function(){
 				$('.ui-content ul').addClass('dnone').filter(this.dataset.opc).removeClass('dnone');
 				$('.list-wrapper').jScroll('refresh');
 			});
-			var opc={layer:'#friendsList',wrapper:$('.list-wrapper'),mod:'find',user:$.local('code'),get:'&offset='+perpag,perpag:20};
+			var opc={layer:'#friendsList',wrapper:$('.list-wrapper'),mod:'find',user:$.local('code'),get:'&offset='+perpag,perpag:21};
 			$(that).on('click','#seemore', function(event) {
 				opc.get = '&offset='+perpag+'&limit='+(perpag*pag++);
 				viewFriends('more',opc);
