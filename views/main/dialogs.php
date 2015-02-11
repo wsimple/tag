@@ -4,7 +4,7 @@ $query = 'SELECT '.$sc.' AS dato FROM dialogs WHERE id = 1';
 
 ?>
 <container id="<?=$idPage?>" class="bg dialog">
-	<content class="ui-box-outline" style="display: block;">
+	<content class="ui-single-box" style="display: block;">
 		<div class="ui-box" id="dialog-<?=$idPage?>" style="min-height: 500px;">
 			<h3 class="ui-single-box-title color-a"><?=ucwords($idPage)?>
 			<?php
