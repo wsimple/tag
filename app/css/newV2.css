@@ -65,8 +65,9 @@
 }
 #profile .info .points{
 	font-size: 0.8em;
-	color: black;
+	color: #2c3e4f;
 	text-shadow: 0 0 0;
+	font-weight: normal;
 }
 #profile .photo img{
 	border-radius: 5px;
@@ -160,7 +161,6 @@
 	background-image: none;
 }
 [tag] menu li#like div, [tag] menu li#dislike div{
-	position: relative;
 	top: -6px;
 	background-repeat: no-repeat;
 	background-position: 0.7em center;
@@ -169,15 +169,16 @@
 	background-color: #03a993;
 	border-radius: 20px;
 	width: 2.5em;
-	padding: 0.1em 0.4em;
+	padding: 0.3em 0.4em;
 	font-size: 0.8em;
 	text-shadow: 0 0 0;
+	position: relative;
 }
 [tag] menu li#like div{
-	background-color: #03a993;	
+	background-color: #ec5a28;	
 }
 [tag] menu li#dislike div{
-	background-color: #f57133;
+	background-color: #169680;
 }
 .ui-page .ui-header{
 	height: 56px;
@@ -210,7 +211,7 @@
 	position: relative;
 	top: 9px;
 	left: -14px;
-	background-color: #03a993;
+	background-color: #169680;
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;
@@ -349,7 +350,7 @@
 	height: 30px;
 }
 #page-friendUser #scroller{
-	background-color: #edeef0;
+	background-color: #e2e6e7;
 	padding: 20px 0;
 }
 .list-friends.ui-grid-b{
@@ -367,18 +368,14 @@ li.userInList{
 
 li.userInList h3{
 	font-size: 12px;
-	font-weight: bold;
 	margin-left: 0;
 	letter-spacing: 1px;
 	margin-top: 0px;
+	font-weight: normal;
 }
 
 .userBR{
 	border-radius: 10px !important;
-}
-
-.userInList a img{
-	border: 1px solid #f57133;
 }
 
 #friend-options .window{
@@ -492,3 +489,82 @@ li.userInList h3{
 	text-align: center;
 	vertical-align: bottom;
 }
+
+
+#page-signUp #fs-wrapper{
+	background-color: #EB5A28;
+}
+#page-signUp #scroller{
+	background-color: #EB5A28;
+}
+#page-signUp #frmRegister{
+	background-color: #EB5A28;
+}
+
+#page-signUp #name{
+	background-color: #EF7B53;
+	color: #FFF;
+}
+#page-signUp #name{
+	background-color: #EF7B53;
+	background:#EF7B53;
+
+}
+
+#page-signUp #logo_image {
+  text-align: center;
+  margin-left:0 auto;
+  margin-right:0 auto;
+  width: 20%;
+}
+
+.ui-body-c,
+.ui-overlay-c {
+	border:1px solid #aaa;
+	color: #FFF;
+	text-shadow:0 1px 0 #fff;
+	background:#EF7B53;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #EF7B53 ), to( #eee )); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #EF7B53, #eee ); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #EF7B53, #eee ); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #EF7B53, #eee ); /* IE10 */
+	background-image:      -o-linear-gradient( #EF7B53, #eee ); /* Opera 11.10+ */
+	background-image:         linear-gradient( #EF7B53, #eee );
+}
+
+#page-signUp #lastName{
+	background-color: #EF7B53;
+	color: #FFF;
+}
+
+#page-signUp #email{
+	background-color: #EF7B53;
+	color: #FFF;
+}
+
+#page-signUp #password{
+	background-color: #EF7B53;
+	color: #FFF;
+}
+
+#page-signUp #repassword{
+	background-color: #EF7B53;
+	color: #FFF;
+}
+
+#page-signUp ::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #F7BDA9;
+}
+#page-signUp :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #F7BDA9;
+   opacity:  1;
+}
+#page-signUp ::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #F7BDA9;
+   opacity:  1;
+}
+#page-signUp :-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #F7BDA9;
+}
+
+

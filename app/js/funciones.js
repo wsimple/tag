@@ -304,7 +304,8 @@ function readTxt(url){
 							datos=pts[0]+' M';
 						else
 							datos=data;
-						$('#userPoints b,span.info .points').html(datos); //Agregado V2 para los puntos
+						$('span.info .points').html(datos+' Pts'); //Agregado V2 para los puntos
+						// $('#userPoints b').html(datos);
 					}
 				});
 			}
@@ -618,8 +619,6 @@ function showTag(tag){//individual tag
 						:'')+
 					'</ul></div>'+
 				'</li>'+
-				'<li id="like" title="Like"><div>'+tag.num_likes+'</div></li>'+
-				'<li id="dislike" title="Dislike"><div class="rotated">'+tag.num_disLikes+'</div></li>'+
 				(!tag['popup']?
 					'<li id="comment" title="Comment"><span>Comment</span></li>'
 				:'')+(btn['share']?
@@ -627,6 +626,8 @@ function showTag(tag){//individual tag
 				:'')+(btn['report']?
 					'<li id="report" title="Report"><span>Report</span></li>'
 				:'')+
+				'<li id="like" title="Like"><div>'+tag.num_likes+'</div></li>'+
+				'<li id="dislike" title="Dislike"><div>'+tag.num_disLikes+'</div></li>'+
 			'</ul>'+hash+
 		'<div class="clearfix"></div></menu></div>'
 		:'<div id="menuTagnoLogged"></div>')+
@@ -703,7 +704,8 @@ function actionsTags(layer, forceComments){
 			if ($(e.target).hasClass('canceled')) return false;
 
 			var tagId = $(e.target).parents('[tag]').attr('tag');
-			switch(e.target.id){
+			var actionId = e.target.id || $(e.target).parent('li').attr('id');
+			switch(actionId){
 				case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
 				case 'share':redir(PAGE['sharetag']+'?id_tag='+tagId);break;
 				case 'comment':
@@ -713,9 +715,9 @@ function actionsTags(layer, forceComments){
 				break;
 				case 'like':case 'dislike':
 					//$(e.target).addClass('canceled');
-					bigLike(tagId, e.target.id);
-					var that=e.target.id+'Icon',
-						show=e.target.id!='like'?'likeIcon':'dislikeIcon';
+					bigLike(tagId, actionId);
+					var that=actionId+'Icon',
+						show=actionId!='like'?'likeIcon':'dislikeIcon';
 						playLike(tagId,that,show);
 				break;
 				case 'redistr':
@@ -828,7 +830,9 @@ function playLike(tagtId,that,show,comment){
 			// else afterAjaxTags(data['success'], tagtId,'menu #dislike', 'menu #like');
 			$('#numDislikes').html(data['dislikes']); $('#numLikes').html(data['likes']);
 			// $('[tag='+tagtId+'] .tag-counts').find('#dislikeIcon+span').html(data['dislikes']); $('[tag='+tagtId+'] .tag-counts').find('#likeIcon+span').html(data['likes']);
-			$('[tag='+tagtId+'] menu').find('#dislike').html(data['dislikes']); $('[tag='+tagtId+'] menu').find('#like').html(data['likes']);
+			// $('[tag='+tagtId+'] menu').find('#dislike').html(data['dislikes']); $('[tag='+tagtId+'] menu').find('#like').html(data['likes']);
+			$('[tag='+tagtId+'] menu').find('#dislike').html('<div>'+data.dislikes+'</div>');
+			$('[tag='+tagtId+'] menu').find('#like').html('<div>'+data.likes+'</div>');
 			if (!comment && $('[tag='+tagtId+']').find('#comments').length == 0 ) {
 				playComment(tagtId);
 			}

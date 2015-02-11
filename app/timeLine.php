@@ -200,7 +200,6 @@
 				});
 				get_profile($.local('code'), function(data){
 					$('#profile span.info .name').html($.local('full_name'));
-					console.log(data.datos[0]);
 					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
 				});
 				//END V2

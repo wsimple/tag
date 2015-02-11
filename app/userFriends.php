@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	</div>
-	<?php //include 'inc/mainmenu.php'; ?>
+	<?php include 'inc/mainmenu.php'; ?>
 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="friendsFooter">
