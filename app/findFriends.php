@@ -11,10 +11,11 @@
 				<ul data-role="listview" data-divider-theme="e" id="contactFilter" class="contacts"></ul>
 				<ul data-role="listview" data-divider-theme="e" id="contactList" class="contacts"></ul>
 				<!-- busqueda en fagbum -->
-				<ul data-role="listview" data-divider-theme="e" id="friendsList"><li class="center"><loader class="s32"/></li></ul>
+				<ul class="list-friends ui-grid-b" id="friendsList"></ul>
 			</div>
 		</div>
 	</div>
+	<?php include 'inc/mainmenu.php'; ?>
 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="friendsFooter"></ul>
