@@ -21,9 +21,9 @@
 			<?php } ?>
 		<?php } ?>
 	</h3>
+	<script> var search_filter={};</script>
 	<?php if($find){ ?>
 	<!-- Filters -->
-	<script> var search_filter={};</script>
 	<?php
 	if($sc=='dates'&&$_SESSION['ws-tags']['ws-user']['type']==0){
 		$default_pref=json_decode('{"sex_preference":0,"wish_to":1,"min_age":18,"max_age":40}');
@@ -99,7 +99,7 @@
 	var title=new Array(),
 		opc={mod:'friends',get:"",find:<?=$find?0:1?>},
 		find=<?=$find?0:1?>,
-		mod='<?=$sc?>';
+		mod='<?=$mod?>';
 	opc.mod=mod=='2'?'find':mod;
 	// dates
 	title['friends'] = '<?=USER_FINDFRIENDSTITLELINKS?>';
@@ -167,7 +167,8 @@
 <?php }elseif($sc=='find'){ ?>
 	$("#radio-buttons").buttonset();
 <?php } ?>
-<?php if($find){ ?>
+<?php if(!$find){ ?>
+	$("#radio-buttons").buttonset();
 	//Acción botones para navegación
 	$( "#radio-buttons label" ).click( function(){
 		opc.mod = $(this).attr('for');$('#tab').html("");
@@ -192,7 +193,9 @@
 			opc.get="";
 			$('#tab').html("");
 			friendsAndF(opc);
+		}
 	});
+
 <?php } ?>
 	$('#titleFriends').html(title[opc.mod]);
 	friendsAndF(opc);
@@ -211,12 +214,13 @@
 		friendsAndF(opc);
 	});
 	function friendsAndF(opc){
+		search_filter=search_filter?search_filter:{};
 		$('#tab').append('<img src="css/smt/loader.gif" id="loader" width="32" height="32" class="loader" style="margin:0 auto;display:block;">');
 		$.ajax({
 			url:'controls/users/people.json.php?action=friendsAndFollow&withHtml&mod='+opc.mod+opc.get,
 			type:'POST',
 			dataType:'json',
-			data:search_filter||{},
+			data:search_filter,
 			success:function(data){
 				$('#loader').remove();
 				if(data['html']){
