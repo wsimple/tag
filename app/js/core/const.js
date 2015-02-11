@@ -60,6 +60,8 @@ is.limited= !is.webkit||is.android;
 		'soon'		:'pronto',
 		'exit'		:'salir',
 		'hot'		:'caliente',
+		'vie cart'	:'ver carro',
+		'product search':'busqueda de producto',
 
 		//'':'mover a',
 
