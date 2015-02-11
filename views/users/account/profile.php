@@ -18,6 +18,7 @@
 	$value=$_SESSION['ws-tags']['ws-user']['progress']['value']['preferences'];
 	$noFails=$_SESSION['ws-tags']['ws-user']['progress']['value']['noFails'];
 ?>
+<?php include('views/users/progress.php'); ?>
 <div id="frmProfile_View" class="ui-single-box clearfix">
 	<?php //user messages (top) ?>
 		<?=generateDivMessaje('divSuccess','250',lan('NEWTAG_CTRMSGDATASAVE'))?>

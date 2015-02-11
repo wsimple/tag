@@ -379,7 +379,7 @@ switch ($data['action']){
 				$user['show_birthday'],$user['home_phone'],$user['mobile_phone'],$user['work_phone'],
 				$user['language'],$user['user_background'],$user['country'],$user['city'],$user['sex'],
 				$user['paypal'],$user['zip_code'],$user['interest'],$user['relationship'],$user['wish_to'],
-				$user['taxId'],$user['personal_messages'],$myId));
+				$user['personal_messages'],$user['taxId'],$myId));
 		$_SESSION['ws-tags']['ws-user']['progress']['value']=calculateProgress();
 		$res['noFails']=$_SESSION['ws-tags']['ws-user']['progress']['value']['noFails'];
 	break;
