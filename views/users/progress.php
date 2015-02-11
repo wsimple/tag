@@ -5,7 +5,8 @@
 			&& $_SESSION['ws-tags']['ws-user']['progress']['value']!==false)
 			$_SESSION['ws-tags']['ws-user']['progress']['value']=calculateProgress();
 		$value=$_SESSION['ws-tags']['ws-user']['progress']['value'];
-		if (($value['profile']<100) || ($value['preferences']<100)) $active=true;
+		if (($value['profile']<100 && ($section!='user' && $params[0]!='preferences')) || 
+			($value['preferences']<100 && $section!='profile')) $active=true;
 		else $active=false;
 	}else $active=false;
 	if (isset($_SESSION['ws-tags']['ws-user']['progress']['omitir'])){
@@ -13,9 +14,9 @@
 		if ($_SESSION['ws-tags']['ws-user']['progress']['omitir']>=50) unset($_SESSION['ws-tags']['ws-user']['progress']['omitir']);
 	}
 ?>
-<?php if ($active): ?>
+<?php if ($active && $section!='creation'): ?>
 <div class="ui-single-box topBanner progress">
-	<?php if ($value['profile']<100): ?>
+	<?php if ($value['profile']<100 && ($section!='user' && $params[0]!='preferences')): ?>
 		<div>
 			<div id="p-profile" class="s"></div><em>%<?=round($value['profile'])?></em>
 			<div>
@@ -24,7 +25,7 @@
 			</div>
 		</div>
 	<?php endif; ?>
-	<?php if ($value['preferences']<100): ?>
+	<?php if ($value['preferences']<100 && $section!='profile'): ?>
 		<div>
 			<div id="p-preferences" class="s"></div><em>%<?=round($value['preferences'])?></em>
 			<div>
@@ -33,7 +34,7 @@
 			</div>
 		</div>
 	<?php endif; ?>
-	<a href="<?=DOMINIO?>" class="skip"><?=lan('skip')?></a>
+	<a href="<?=DOMINIO?>" class="skip"><?=lan('skip','ucw')?></a>
 	<div class="clearfix"></div>
 </div>
 <script>

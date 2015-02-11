@@ -51,6 +51,7 @@ $edit='<div class="edit"></div>';
 $edit=$obj->id==$_SESSION['ws-tags']['ws-user']['id']?$edit:false;
 $styleCon=!$logged?'style="margin-left:100px;"':'';
 ?>
+<?php include('views/users/progress.php'); ?>
 <div id="externalProfile" class="ui-single-box" <?=$styleCon?>>
 	<div id="coverExpro" style="background-image: url('<?=FILESERVER?>img/users_cover/<?=$obj->user_cover?>');height:196px;width:846px;position:absolute;top:0;left:0;">
 		<div class="ui-single-box-title">
