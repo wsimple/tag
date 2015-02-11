@@ -9,7 +9,7 @@
 <div id="singleRedirDialog" class="myDialog" style="display: none;"><div class="table"><div class="cell"><div class="window" style="max-height: 272px; display: block;"><div class="container" style="max-height: 272px;"><div id="scroller" class="content"></div></div><div class="buttons"><a action="0" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Sí</span></span></a><a action="1" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">No</span></span></a></div></div></div></div><div class="closedialog" style="display:none"></div></div>
 <div id="page-timeLine" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
-		<div id="profile" style="position:absolute;top:0px;left:0;padding:0 5px;">
+		<div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
 			<span class="photo"></span> 
 			<span class="info">
 				<span class="name"></span>
@@ -200,7 +200,6 @@
 				});
 				get_profile($.local('code'), function(data){
 					$('#profile span.info .name').html($.local('full_name'));
-					console.log(data.datos[0]);
 					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
 				});
 				//END V2

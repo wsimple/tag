@@ -5,13 +5,13 @@
 	background-position: center;
 }
 .ui-box-home .logo-smt{
-	background-image: url('newdesign/tagbum_orange_logo.png'),url('newdesign/tagbum_white_logo.png');
+	background-image: url('newdesign/tagbum_orange_logo_border.png'),url('newdesign/tagbum_white_logo.png');
 	/*background: #01a185 url('newdesign/bg-buildings.png') no-repeat top;*/
 	background-repeat: no-repeat;
-	background-size: 40% 60%, 55% 60%;
-	background-position: left center, right center;
+	background-size: 40% 75%, 55% 75%;
+	background-position: left top, right center;
 	width: 85%;
-	height: 150px;
+	height: 130px;
 }
 .ui-box-home ._tt{ width: 100%;}
 .ui-box-home #buttons{ width: auto;}
@@ -21,8 +21,9 @@
 	font-weight: initial;
 	width: 75%;
 	margin: 0 auto;
-	font-size: 10px;
+	font-size: 16px;
 }
+#tagBum_info_msg a{ color: white !important; }
 @media (min-width: 600px){
 	.ui-box-home #noconection,
 	.ui-box-home ._tt{ 
@@ -33,11 +34,11 @@
 }
 #page-start #buttons ul li a{ 
 	width: 85%; 
-	border-radius: 10% !important;
-	-ms-border-radius: 10% !important;
-	-moz-border-radius: 10% !important;
-	-webkit-border-radius: 10% !important;
-	-o-border-radius: 10% !important;	
+	border-radius: 5px !important;
+	-ms-border-radius: 5px !important;
+	-moz-border-radius: 5px !important;
+	-webkit-border-radius: 5px !important;
+	-o-border-radius: 5px !important;	
 	padding: 0;
 	font-weight: normal;
 }
@@ -126,17 +127,11 @@
 	color: white;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
 }
-.rotated{
-	-webkit-transform: rotate(180deg);
-	-ms-transform: rotate(180deg);
-	-o-transform: rotate(180deg);
-	transform: rotate(180deg);
-}
 .tag-container [tag] menu li#like div{
 	background-image:url('newdesign/tag/like.png?1');
 }
 .tag-container [tag] menu li#dislike div{
-	background-image: url('newdesign/tag/like.png?1');
+	background-image: url('newdesign/tag/dislike.png?1');
 }
 .tag-container [tag] menu li#comment{
 	background-image:url('newdesign/tag/comments.png?1');
@@ -226,6 +221,7 @@
 }
 
 /*Time line*/
+#page-lstStore #scroller,
 #page-timeLine #scroller{
 	background-color: #e2e6e7 !important;
 }
@@ -325,32 +321,15 @@
 		background-size: 16%;
 	}
 }
-/*Friends*/
-#page-friendUser #menu{
+/*Find Friends and Friends*/
+#page-friendUser #menu, #page-friendSearch #menu{
 	display: block;
 }
-#menu .menu-button{
-	font-weight: normal;
-	font-size: 12px;
-	text-align: center;
-}
-#menu .menu-button a{
-	width: 100%;
-	height: 100%;
-	color: #FFF;
-	font-weight: normal;
-}
-#menu .menu-button:active{
-	background-color: #f4bb3a;
-}
-#menu .menu-button img{
-	width: 30px;
-	height: 30px;
-}
-#page-friendUser #scroller{
+#page-friendUser #scroller,#page-friendSearch #scroller{
 	background-color: #e2e6e7;
 	padding: 20px 0;
 }
+/*Friends*/
 .list-friends.ui-grid-b{
 	list-style: none;
 	margin: 0;
@@ -388,6 +367,30 @@ li.userInList h3{
 	font-size: 1.4em;
 }
 
+/*Navigation menu*/
+#menu span{
+	height: 4.7em;
+}
+#menu span.hover{
+	background-color: hsl(39, 82%, 55%);	
+}
+#menu .menu-button{
+	font-size: 12px;
+	text-align: center;
+	font-weight: normal;
+}
+#menu .menu-button a{
+	width: 100%;
+	height: 100%;
+	color: #FFF;
+	font-weight: normal;
+	display: block;
+}
+#menu .menu-button img{
+	width: 30px;
+	height: 30px;
+}
+
 /*Main Menu*/
 #bottom-menu{
 	width: 100%;
@@ -396,17 +399,27 @@ li.userInList h3{
 	z-index: 200;
 	bottom: -114px;
 	text-align: center;
-	background: hsla(210, 26%, 30%, 0.8) url('newdesign/menu/open_menu.png') no-repeat center 9px;
+	background-color: hsla(210, 26%, 30%, 0.8);
+}
+
+#bottom-menu > div{
+	width: 100%;
+	height: 36px;
+	background: transparent url('newdesign/menu/open_menu.png') no-repeat center 2px;
 	-webkit-background-size: 22px 25px;
 	background-size: 22px 25px;
+	-webkit-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	transform: rotate(180deg);
 }
 
 #bottom-menu ul{
 	width: 90%;
-	list-style: none;
 	margin: 0 auto;
 	padding: 0;
-	margin-top: 46px;
+	list-style: none;
+	margin-top: 12px;
 }
 
 #bottom-menu ul li{
@@ -582,9 +595,59 @@ li.userInList h3{
    color:    #F7BDA9;
 }
 
+
 #page-signUp ._tr{
 	display:table-cell;
 	margin:0 auto;
 	vertical-align:middle;
 	text-align:right;
+}
+
+/*store*/
+#page-lstStore .list-wrapper{ top: 47px; }
+#page-lstStore .list-info{
+	list-style: none;
+	text-align: center;
+	color: #2c3e4f;
+	/*margin: 15px 0 0;*/
+	padding: 5px 0 0;
+}
+#page-lstStore .list-info li{ height: 115px; }
+#page-lstStore .list-info li img{
+	width: 45%;
+	height: 60%;
+	border-radius: 5px !important;
+	-ms-border-radius: 5px !important;
+	-moz-border-radius: 5px !important;
+	-webkit-border-radius: 5px !important;
+	-o-border-radius: 5px !important;
+}
+#page-lstStore .list-info li h3{
+	font-size: 12px;
+	width: 60%;
+	margin: 0 auto;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	/*white-space: nowrap;*/
+	word-wrap: normal;
+	font-weight: 300;
+}
+#page-lstStore .list-info li h3{ height: 30px;}
+#page-lstStore .list-info li h3.costProduct{ color: #A42A00;}
+@media (min-width: 600px){
+	#page-lstStore .list-info li{  height: 200px; }
+	#page-lstStore .list-info li h3{ font-size: 20px; }
+	#page-lstStore .list-info li img{ width: 30%; }
+	/*#page-lstStore .list-info{ margin: 45px 0 0; }*/
+	#page-lstStore .list-wrapper{ top: 75px; }
+}
+#page-lstStore #rowTitle{
+	background-color: #8b9b9c;
+	margin: 5px auto 0;
+	padding: 2% 10%;
+}
+#page-lstStore #rowTitle .ui-input-search{
+	border-radius: 5px !important;
+	border: none;
+	box-shadow: none;
 }

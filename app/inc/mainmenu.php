@@ -1,4 +1,5 @@
 <div id="bottom-menu">
+	<div class="arrow"></div>
 	<ul>
 		<li class="toptags"><a href="topTags.html">top tags</a></li>
 		<li class="news"><a href="news.html">news</a></li>

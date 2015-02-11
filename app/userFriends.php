@@ -6,9 +6,12 @@
 </style>
 <div id="page-friendUser" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
-		<div id="menu" class="ui-grid-d" style="top:0px;left:0;padding:0 5px;"></div>
+		<div id="menu" class="ui-grid-d" style="top:0px;left:0;"></div>
 	</div>
 	<div data-role="content" class="list-content">
+		<div class="ui-listview-filter ui-bar-c">
+			<input id="searchFriends" type="search" placeholder="Search" name="searchFriends" value="" />
+		</div>
 		<div class="list-wrapper">
 			<div id="scroller">
 				<div id="friends" class="list">
@@ -38,12 +41,13 @@
 		title:lan('friends','ucw'),
 		buttons:{showmenu:false,creation:false},
 		before:function(){
+			$('#searchFriends').attr('placeholder',lang.inputPlaceHolder);
 			$('#seek').html(lang.seek);
 			$('#menu').html(
-				'<span class="ui-block-a menu-button"><a href="#"><img src="css/newdesign/friends.png"><br>'+lan('friends','ucw')+'</a></span>'+
+				'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/friends.png"><br>'+lan('friends','ucw')+'</a></span>'+
 				'<span class="ui-block-b"></span>'+
 				'<span class="ui-block-c"></span>'+
-				'<span class="ui-block-d"></span>'+
+				'<span class="ui-block-d menu-button"><a href="suggest.html" title="Suggest"><img src="css/newdesign/menu/friends.png"><br>'+lan('suggest','ucw')+'</a></span>'+
 				'<span class="ui-block-e menu-button"><a href="findFriends.html" title="Search"><img src="css/newdesign/search.png"><br>'+lan('search','ucw')+'</a></span>'
 			);
 			$('#friendsFooter').html(
@@ -54,9 +58,9 @@
 		},
 		after:function(){
 			$('#page-friendUser .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
-			var $wrapper=$('.list-wrapper'), pag=1,perpag=20,
+			var $wrapper=$('.list-wrapper'), pag=1,perpag=21,
 				type=$_GET['type']||'friends',
-				opc={wrapper: $wrapper,get:'&offset='+perpag,user:$_GET['id_user']||'',perpag:20},
+				opc={wrapper: $wrapper,get:'&offset='+perpag,user:$_GET['id_user']||'',perpag:21},
 				modaux='',layeraux=null;
 			$('#friendsFooter li a[opc='+$_GET['type']+']').addClass('ui-btn-active'); //Estilo de li activo
 			// $(opc.layer).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');

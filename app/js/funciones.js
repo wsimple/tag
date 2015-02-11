@@ -221,16 +221,6 @@ function readTxt(url){
 				'</div>'
 			);
 
-			// Menu actions design V2
-			$("#bottom-menu").swipe( {
-		        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
-		        	$(this).animate({bottom: -0},500);
-		        },threshold:0,
-		        swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
-		        	$(this).animate({bottom: -114},500);
-		        },threshold:0
-	        });
-	        //END Menu actions design V2
 			// Menu actions
 			$('body')
 				.on('pagebeforeshow','.ui-page',function(){console.log('beforeshow');hideMenu();})
@@ -304,7 +294,8 @@ function readTxt(url){
 							datos=pts[0]+' M';
 						else
 							datos=data;
-						$('#userPoints b,span.info .points').html(datos); //Agregado V2 para los puntos
+						$('span.info .points').html(datos+' Pts'); //Agregado V2 para los puntos
+						// $('#userPoints b').html(datos);
 					}
 				});
 			}
@@ -425,6 +416,33 @@ function readTxt(url){
 	$(function(){
 		putMenu();
 		putMenuOptions();
+		// Menu actions design V2
+		$("#bottom-menu").swipe( {
+	        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
+	        	$(this).animate({bottom: -0},500);
+	        	$(this).find('div.arrow').animate({rotate: '-180deg'},200);
+	        	$(this).find('div.arrow').animate({  borderSpacing: 0 }, {
+				    step: function(now,fx) {
+				      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
+				      $(this).css('-moz-transform','rotate('+now+'deg)');
+				      $(this).css('transform','rotate('+now+'deg)');
+				    },
+				    duration:'slow'
+				},'linear');
+	        },threshold:0,
+	        swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
+	        	$(this).animate({bottom: -114},500);
+	        	$(this).find('div.arrow').animate({  borderSpacing: 180 }, {
+				    step: function(now,fx) {
+				      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
+				      $(this).css('-moz-transform','rotate('+now+'deg)');
+				      $(this).css('transform','rotate('+now+'deg)');
+				    },
+				    duration:'slow'
+				},'linear');
+	        },threshold:0
+        });
+        //END Menu actions design V2
 	});
 	window.showMenu=showMenu;
 	window.hideMenu=hideMenu;
@@ -626,7 +644,7 @@ function showTag(tag){//individual tag
 					'<li id="report" title="Report"><span>Report</span></li>'
 				:'')+
 				'<li id="like" title="Like"><div>'+tag.num_likes+'</div></li>'+
-				'<li id="dislike" title="Dislike"><div class="rotated">'+tag.num_disLikes+'</div></li>'+
+				'<li id="dislike" title="Dislike"><div>'+tag.num_disLikes+'</div></li>'+
 			'</ul>'+hash+
 		'<div class="clearfix"></div></menu></div>'
 		:'<div id="menuTagnoLogged"></div>')+
@@ -703,7 +721,8 @@ function actionsTags(layer, forceComments){
 			if ($(e.target).hasClass('canceled')) return false;
 
 			var tagId = $(e.target).parents('[tag]').attr('tag');
-			switch(e.target.id){
+			var actionId = e.target.id || $(e.target).parent('li').attr('id');
+			switch(actionId){
 				case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
 				case 'share':redir(PAGE['sharetag']+'?id_tag='+tagId);break;
 				case 'comment':
@@ -713,9 +732,9 @@ function actionsTags(layer, forceComments){
 				break;
 				case 'like':case 'dislike':
 					//$(e.target).addClass('canceled');
-					bigLike(tagId, e.target.id);
-					var that=e.target.id+'Icon',
-						show=e.target.id!='like'?'likeIcon':'dislikeIcon';
+					bigLike(tagId, actionId);
+					var that=actionId+'Icon',
+						show=actionId!='like'?'likeIcon':'dislikeIcon';
 						playLike(tagId,that,show);
 				break;
 				case 'redistr':
@@ -828,7 +847,9 @@ function playLike(tagtId,that,show,comment){
 			// else afterAjaxTags(data['success'], tagtId,'menu #dislike', 'menu #like');
 			$('#numDislikes').html(data['dislikes']); $('#numLikes').html(data['likes']);
 			// $('[tag='+tagtId+'] .tag-counts').find('#dislikeIcon+span').html(data['dislikes']); $('[tag='+tagtId+'] .tag-counts').find('#likeIcon+span').html(data['likes']);
-			$('[tag='+tagtId+'] menu').find('#dislike').html(data['dislikes']); $('[tag='+tagtId+'] menu').find('#like').html(data['likes']);
+			// $('[tag='+tagtId+'] menu').find('#dislike').html(data['dislikes']); $('[tag='+tagtId+'] menu').find('#like').html(data['likes']);
+			$('[tag='+tagtId+'] menu').find('#dislike').html('<div>'+data.dislikes+'</div>');
+			$('[tag='+tagtId+'] menu').find('#like').html('<div>'+data.likes+'</div>');
 			if (!comment && $('[tag='+tagtId+']').find('#comments').length == 0 ) {
 				playComment(tagtId);
 			}
@@ -2079,44 +2100,6 @@ function updateCantP(myselect){
 				}
 			}
 		});
-	});
-}
-function getProducts(layer,category,subcategory){
-	myAjax({
-		type	:'GET',
-		url		:DOMINIO+'controls/store/listProd.json.php?source=mobile&module=store&limit=0&c='+category+'&sc='+subcategory,
-		dataType:'json',
-		error	:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lan('conectionFail'));
-		},
-		success	:function(data){
-			var out='',num=0,prod=data.prod,category,idcategory;
-			for(var i=0;i<prod.length;i++){
-				out+=
-					(num++<1?' <li data-role="list-divider">'+prod[i].titleList+'</li>':'')+
-					'<li date="'+prod[i].join_date+'" idPro="'+prod[i].id+'">'+
-						'<a><img src="'+prod[i].photo+'" style="width:100px;height:60px;margin:20px 0 0 8px;border-radius:10px">'+
-							'<p id="nameProduct">'+prod[i].name+'</p>'+
-							'<p id="descripProduct">'+prod[i].description+'</p>'+
-							'<p class="costProduct">'+prod[i].cost+'</p>'+
-							'<p class="date"><strong>Published:</strong> '+prod[i].join_date+'</p>'+
-						'</a>'+
-					'</li>';
-				category=prod[i].category;
-				idcategory=prod[i].mid_category;
-			}
-
-			$(layer).html(out).listview('refresh');
-			$('.costProduct').formatCurrency({symbol:''}); //Formato de moneda
-            var cost=$('.costProduct').html();
-            var aux=cost.split('.');
-            $('.costProduct').html(aux[0]+' '+lang.STORE_SHOPPING_POINTS);
-
-			$('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('goback')+' '+category+'</span></span>').attr('code',idcategory);
-			$('.list-wrapper').jScroll('refresh');
-
-
-		}
 	});
 }
 function addProductShoppingCart(id,wish){
