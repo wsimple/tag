@@ -131,7 +131,7 @@
 				if($_GET['group']){
 					return { back:true};
 				}else{
-					return { showmenu:true};
+					return { showmenu:false};
 				}
 			},
 			before:function(){
