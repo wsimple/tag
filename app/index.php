@@ -94,6 +94,23 @@
 				if(is.device && !CORDOVA){
 					if(is['android']) $('.googlePlay').click();
 				}
+				$('#tagBum_info_msg a').click(function(event){
+					event.preventDefault();
+					switch($(this).attr('class')){
+						case 'terms': default: 
+						myDialog({id:'#singleDialog',
+								content:'<div style="color:black;text-align: center">'+lan('DIALOG_TERMS')+'</div>',
+								scroll:true,
+								style:{'height':330},
+								buttons:{ 'Ok':'close'},
+								after: function(){
+									// $('#scroller')
+									$('#singleDialog #scroller').jScroll('refresh');
+								}
+							});
+						// myDialog('#singleDialog',lan('DIALOG_TERMS'));
+					}
+				});
 			}
 		});
 //		function updateAndroidMarketLinks(){
