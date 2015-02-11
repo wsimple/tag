@@ -30,8 +30,8 @@
 	}
 	pageShow({
 		id:'#page-friendSearch',
-		title:lang.friendSearh_title,
-		buttons:{showmenu:true,home:true},
+		title:'',
+		buttons:{showmenu:false,home:false},
 		before:function(){
 			$('#searchFriends').attr('placeholder',lang.inputPlaceHolder);
 			$('#contactList').html('<li data-role="list-divider">'+lan('CONTACTS_LOADING','ucf')+'</li><li class="center"><loader class="s32"/></li>');

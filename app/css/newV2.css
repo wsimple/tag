@@ -126,12 +126,6 @@
 	color: white;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
 }
-.rotated{
-	-webkit-transform: rotate(180deg);
-	-ms-transform: rotate(180deg);
-	-o-transform: rotate(180deg);
-	transform: rotate(180deg);
-}
 .tag-container [tag] menu li#like div{
 	background-image:url('newdesign/tag/like.png?1');
 }
@@ -331,24 +325,6 @@
 #page-friendUser #menu{
 	display: block;
 }
-#menu .menu-button{
-	font-weight: normal;
-	font-size: 12px;
-	text-align: center;
-}
-#menu .menu-button a{
-	width: 100%;
-	height: 100%;
-	color: #FFF;
-	font-weight: normal;
-}
-#menu .menu-button:active{
-	background-color: #f4bb3a;
-}
-#menu .menu-button img{
-	width: 30px;
-	height: 30px;
-}
 #page-friendUser #scroller{
 	background-color: #e2e6e7;
 	padding: 20px 0;
@@ -390,6 +366,30 @@ li.userInList h3{
 	font-size: 1.4em;
 }
 
+/*Navigation menu*/
+#menu span{
+	height: 4.7em;
+}
+#menu span.hover{
+	background-color: hsl(39, 82%, 55%);	
+}
+#menu .menu-button{
+	font-size: 12px;
+	text-align: center;
+	font-weight: normal;
+}
+#menu .menu-button a{
+	width: 100%;
+	height: 100%;
+	color: #FFF;
+	font-weight: normal;
+	display: block;
+}
+#menu .menu-button img{
+	width: 30px;
+	height: 30px;
+}
+
 /*Main Menu*/
 #bottom-menu{
 	width: 100%;
@@ -398,17 +398,27 @@ li.userInList h3{
 	z-index: 200;
 	bottom: -114px;
 	text-align: center;
-	background: hsla(210, 26%, 30%, 0.8) url('newdesign/menu/open_menu.png') no-repeat center 9px;
+	background-color: hsla(210, 26%, 30%, 0.8);
+}
+
+#bottom-menu > div{
+	width: 100%;
+	height: 36px;
+	background: transparent url('newdesign/menu/open_menu.png') no-repeat center 2px;
 	-webkit-background-size: 22px 25px;
 	background-size: 22px 25px;
+	-webkit-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	transform: rotate(180deg);
 }
 
 #bottom-menu ul{
 	width: 90%;
-	list-style: none;
 	margin: 0 auto;
 	padding: 0;
-	margin-top: 46px;
+	list-style: none;
+	margin-top: 12px;
 }
 
 #bottom-menu ul li{

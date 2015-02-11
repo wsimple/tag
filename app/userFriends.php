@@ -6,7 +6,7 @@
 </style>
 <div id="page-friendUser" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
-		<div id="menu" class="ui-grid-d" style="top:0px;left:0;padding:0 5px;"></div>
+		<div id="menu" class="ui-grid-d" style="top:0px;left:0;"></div>
 	</div>
 	<div data-role="content" class="list-content">
 		<div class="list-wrapper">
@@ -40,10 +40,10 @@
 		before:function(){
 			$('#seek').html(lang.seek);
 			$('#menu').html(
-				'<span class="ui-block-a menu-button"><a href="#"><img src="css/newdesign/friends.png"><br>'+lan('friends','ucw')+'</a></span>'+
+				'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/friends.png"><br>'+lan('friends','ucw')+'</a></span>'+
 				'<span class="ui-block-b"></span>'+
 				'<span class="ui-block-c"></span>'+
-				'<span class="ui-block-d"></span>'+
+				'<span class="ui-block-d menu-button"><a href="suggest.html" title="Suggest"><img src="css/newdesign/menu/friends.png"><br>'+lan('suggest','ucw')+'</a></span>'+
 				'<span class="ui-block-e menu-button"><a href="findFriends.html" title="Search"><img src="css/newdesign/search.png"><br>'+lan('search','ucw')+'</a></span>'
 			);
 			$('#friendsFooter').html(
