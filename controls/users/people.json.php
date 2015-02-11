@@ -59,7 +59,7 @@ switch ($_GET['action']) {
 				$array['select']=',md5(u.id) AS id_user, md5(u.id) AS id_friend,
 					IF(u.id='.$myId.',1,0) AS iAm';
 				// $array['where']="u.id!=$uid AND ul.id_friend IS NULL ";
-				$array['where']="u.id!=$uid";
+				$array['where']="u.id!=$uid AND ul.id_friend IS NULL";
 				#####filtrado por preferencias de busqueda (solo para usuarios tipo 0)
 				if($_SESSION['ws-tags']['ws-user']['type']==0){
 					$pref='';
@@ -333,9 +333,14 @@ function htmlfriends($row,$numAction=1){
 	if($row['username']!=''){
 	$body.='<span class="titleField">'.USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.':</span>&nbsp;<a style="color:#ccc; font-size:12px;" href="'.base_url($row['username']).'" onFocus="this.blur();" target="_blank">'.DOMINIO.$row['username'].'</a><br><div class="clearfix"></div>';
 	}
-	$body.='<span class="titleField">Email:</span>'.$row['email'].'<div class="clearfix"></div>
-			<span class="titleField">'.USER_LBLFOLLOWERS.' ('.$row['followers_count'].')</span> 
-			<span class="titleField">'.USER_LBLFRIENDS.' ('.$row['friends_count'].')</span><br>';
+	if (isset($_GET['mod']) && $_GET['mod']=='dates'){
+		$body.='<span class="titleField">'.USER_LBLFOLLOWERS.' ('.$row['followers_count'].')</span> 
+				<span class="titleField">'.USER_LBLFRIENDS.' ('.$row['friends_count'].')</span><br>';		
+	}else{
+		$body.='<span class="titleField">Email:</span>'.$row['email'].'<div class="clearfix"></div>
+				<span class="titleField">'.USER_LBLFOLLOWERS.' ('.$row['followers_count'].')</span> 
+				<span class="titleField">'.USER_LBLFRIENDS.' ('.$row['friends_count'].')</span><br>';
+	}
 	if($nameCountryUser!=''){
 		$body.='<span class="titleField">'.USERS_BROWSERFRIENDSLABELCOUNTRY.':&nbsp;</span>'.$nameCountryUser['name'].'<div class="clearfix"></div><br>';
 	}
