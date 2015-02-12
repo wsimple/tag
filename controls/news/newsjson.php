@@ -1,7 +1,7 @@
 <?php
+	$_need_login=true;
 	include '../header.json.php';
 	$res=array();
-	$miId=$_SESSION['ws-tags']['ws-user']['id'];
 	$mobile=isset($_GET['all'])?true:$mobile;
 	if ($mobile && $_GET['action']!='refresh'){
 		$limitsql="LIMIT ".(isset($_GET['limit'])?$_GET['limit']:"0").",30";
