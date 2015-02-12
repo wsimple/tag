@@ -1,9 +1,7 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-signUp" data-role="page" data-cache="false">
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<h1></h1>
-		<!--<a href="#" id="buttonSign" data-icon="arrow-r" onclick="$('#frmRegister').submit();" data-iconpos="right"></a>-->
-		<br>
+
 	</div>
 	<div data-role="content">
 		<img class="bg" src="css/smt/bgorange.png"/>
@@ -24,59 +22,34 @@
 					<input type="hidden" value="1" name="mobile"/>
 					<input type="hidden" value="0" id="company" name="company"/>
 					<div class="smt-formfields">
-
 						<div class="ui-grid-a" id="nameBox">
 							<div class="ui-block-a">
-								<div>
-									<!--<strong>
-									<label id="nameLabel" class="needed"></label>
-									<label id="nameEnter" class="needed"></label>
-									</strong>-->
-									<input id="name" name="name" type="text" class="intext" aaa/>
-								</div>
+								<input id="name" name="name" type="text" class="intext"/>
 							</div>
-							<div class="ui-block-b">
-								<div class="single">
-									<!--<strong><label id="lastNameLabel" class="needed"></label></strong>-->
-									<input id="lastName" name="lastName" type="text" class="intext"/>
-								</div>
+							<div class="ui-block-b single">
+								<input id="lastName" name="lastName" type="text" class="intext"/>
 							</div>
 						</div>
-
 						<div>
-							<!--<strong><label id="emailLabel" class="needed"></label></strong>-->
 							<input id="email" name="email" type="email" class="intext"/>
-						</div>
-
-						<div>
-							<!--<strong><label id="passwordLabel" class="needed"></label></strong>-->
 							<input id="password" name="password" type="password" class="password-field intext" />
-							<!--<strong><label id="repasswordLabel" class="needed"></label></strong>-->
 							<input id="repassword" name="confiPassword" type="password" class="password-field intext"/>
-							<div id="msgPassword" style="font-size: 12px"></div>
-						</div>
-
-						<div class="ui-grid-b">
-							<div class="ui-block-a">
-								<select id="month" name="month"></select>
+							<div class="ui-grid-b">
+								<div class="ui-block-a">
+									<select id="month" name="month"></select>
+								</div>
+								<div class="ui-block-b">
+									<select id="day" name="day"></select>
+								</div>
+								<div class="ui-block-c">
+									<select id="year" name="year"></select>
+								</div>
 							</div>
-							<div class="ui-block-b">
-								<select id="day" name="day"></select>
+							<div class="ui-grid-solo single">
+								<select id="gender" name="gender"></select>
 							</div>
-							<div class="ui-block-c">
-								<select id="year" name="year"></select>
-							</div>
+							<p id="msgCreatedAccount" style="font-weight:bold;"></p><br/>
 						</div>
-
-						<div class="single">
-							<select id="gender" name="gender"></select>
-						</div>
-						<div>
-							<input id="phone" name="phone" type="text" class="intext"/>
-						</div>
-
-						<p id="msgRequired"></p>
-						<p id="msgCreatedAccount" style="font-weight:bold;"></p><br/>
 					</div>
 					<div id="buttons"><div class="_tt"><div class="_tr">
 								<a id="btn-signup" class="btn-orange" data-role="button" data-inline="true" data-theme="f" onclick="$('#frmRegister').submit();"  data-iconpos="right">Sign Up</a>
@@ -109,7 +82,7 @@
 				$('#btn-signup').html(lang.MNU_REGISTER);
 				$('#nameLabel').html(lang.SIGNUP_LBLFIRSTNAME);
 				$("#name").attr("placeholder", lang.SIGNUP_LBLFIRSTNAME);
-				$("#gender").attr("placeholder", lan('Gender'));
+				$('#gender').html('<option value="" selected>'+lan('Gender')+'</option>');
 				$("#phone").attr("placeholder", lan('Phone Number (Optional)'));
 				$("#lastName").attr("placeholder", lang.SIGNUP_LBLLASTNAME);
 				$('#nameEnter').html(lang.JS_SIGNUP_LBLADVERTISERNAME);
@@ -165,8 +138,8 @@
 					str+='<option value="'+i+'">'+i+'</option>';
 				$('#year').append(str);
 				// Combo Genero
-				str='<option value="'+lan('Female')+'">'+lan('Female')+'</option>';
-				str+='<option value="'+lan('Male')+'">'+lan('Male')+'</option>';
+				str='<option value="2">'+lan('Female')+'</option>';
+				str+='<option value="1">'+lan('Male')+'</option>';
 				$('#gender').append(str);
 				$('#showFormEnterprise').click(function(){
 					$("#nameBox").attr('class', 'ui-grid-solo');
@@ -201,7 +174,8 @@
 							email		:$('#email').val(),
 							password	:$('#password').val(),
 							repassword	:$('#repassword').val(),
-							company		:$('#company').val()
+							company		:$('#company').val(),
+							sex 		:$('#gender').val()
 						},
 						success:function(data){
 							console.log(data['msg']+data['email']);

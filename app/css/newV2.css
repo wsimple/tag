@@ -73,7 +73,6 @@
 #profile .photo img{
 	border-radius: 5px;
 }
-/*tag*/
 /*Sub menu*/
 .sub-menu-tag{
 	position: absolute;
@@ -119,6 +118,7 @@
 	float: left;
 	display: list-item !important;
 }
+/*tag*/
 [tag] menu li{
 	border: none !important;
 	/*font-size: 2em;*/
@@ -151,7 +151,7 @@
 .tag-container [tag] menu li#report:hover{
 	background-image:url('newdesign/tag/hide.png?1');
 }
-[tag] menu li#like, [tag] menu li#dislike{
+[tag] menu li#like, [tag] menu li#dislike,[tag] menu li#other-options{
 	padding: 0;
 	background-image: none;
 }
@@ -187,7 +187,9 @@
 #pd-wrapper{
 	top: 60px;
 }
-
+#notifications .ui-bar-f .ui-link,#notifications .ui-link:visited{
+	color: #FFF;
+}
 .notificacion-area{
 	position: absolute;
 	cursor: pointer;
@@ -241,6 +243,7 @@
 	border-radius: 0;
 	background-color: #fff;
 	width: 100%;
+	padding: 4px 0;
 }
 
 #sub-menu{
@@ -503,6 +506,14 @@ li.userInList h3{
 	vertical-align: bottom;
 }
 
+/* SignUp */
+#page-signUp .btn-orange{
+	background-color: #EB5A28;
+}
+
+#page-signUp .ui-btn-inner{
+	background: none;
+}
 
 #page-signUp #fs-wrapper{
 	background-color: #EB5A28;
@@ -522,12 +533,26 @@ li.userInList h3{
 }
 
 #page-signUp .ui-body-c{
-	border:1px solid #EF7B53;
-	text-shadow:0 1px 0 #fff;
-	background:#EF7B53;
+	/* border: 1px solid #EF7B53; */
+	text-shadow: none;
+	background: transparent;
+	border-radius: 5px;
+	-webkit-box-shadow: none;
+	border: none;
+	box-shadow: none;
 }
 
-#page-signUp #msgPassword, #msgRequired, #msgCreatedAccount{
+#page-signUp .ui-overlay-c{
+	text-shadow: 0 0;
+}
+
+#page-signUp #msgPassword, #msgRequired, #msgCreatedAccount, #msgLogo, #msgLogob{
+	color: #FFF;
+	text-shadow: none;
+}
+
+#page-signUp #month{
+	background-color: #EF7B53;
 	color: #FFF;
 }
 
@@ -541,13 +566,12 @@ li.userInList h3{
 	background-color: #EF7B53;
 	color: #FFF;
 	background-image: url('newdesign/presence60.png');
-	background-position: 0 2px;
+	background-position: left center !important;
 	background-repeat: no-repeat;
 	background-size: 30px 30px;
 	text-indent:35px;
-	box-sizing: border-box;
-	-webkit-box-sizing:border-box;
-	-moz-box-sizing: border-box;
+	height: 35px !important;
+	font-size: 18px !important;
  }
 
 #page-signUp #name{
@@ -607,6 +631,11 @@ li.userInList h3{
 	margin:0 auto;
 	vertical-align:middle;
 	text-align:right;
+}
+
+#page-signUp .ui-input-search, .ui-input-text {
+	margin-top: 4px !important;
+	margin-bottom: 0px !important;
 }
 
 /*store*/
