@@ -60,8 +60,14 @@ is.limited= !is.webkit||is.android;
 		'soon'		:'pronto',
 		'exit'		:'salir',
 		'hot'		:'caliente',
-		'vie cart'	:'ver carro',
+		'create.share':'crea.comparte',
+		'.reward'	:'.gana',
+		'Gender'	:'Genero',
+		'Phone Number (Optional)':'Numero de Telefono (Opcional)',
+		'view cart'	:'ver carro',
 		'product search':'busqueda de producto',
+		'Male'		:'Masculino',
+		'Female'	:'Femenino',
 
 		//'':'mover a',
 
