@@ -501,10 +501,11 @@ li.userInList h3{
 	vertical-align: bottom;
 }
 
-
+/* SignUp */
 #page-signUp .btn-orange{
 	background-color: #EB5A28;
 }
+
 #page-signUp .ui-btn-inner{
 	background: none;
 }
@@ -565,6 +566,7 @@ li.userInList h3{
 	background-size: 30px 30px;
 	text-indent:35px;
 	height: 35px !important;
+	font-size: 18px !important;
  }
 
 #page-signUp #name{
@@ -624,6 +626,11 @@ li.userInList h3{
 	margin:0 auto;
 	vertical-align:middle;
 	text-align:right;
+}
+
+#page-signUp .ui-input-search, .ui-input-text {
+	margin-top: 4px !important;
+	margin-bottom: 0px !important;
 }
 
 /*store*/
