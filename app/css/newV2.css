@@ -322,7 +322,8 @@
 	}
 }
 /*Find Friends and Friends*/
-#page-friendUser #menu, #page-friendSearch #menu{
+#page-friendUser #menu, #page-friendSearch #menu,
+#page-lstStore #menu, #page-detailsProducts #menu{
 	display: block;
 }
 #page-friendUser #scroller,#page-friendSearch #scroller{

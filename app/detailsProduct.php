@@ -1,8 +1,9 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-detailsProducts" data-role="page" data-cache="false" class="no-footer no-header">
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<h1></h1>
-		<a id="buttonShopping" href="#" data-icon="arrow-2" style="display: none;"></a>
+		<div id="menu" class="ui-grid-d" style="top:0px;left:0;padding:0 5px;"></div>
+        <!-- <h1></h1> -->
+		<!-- <a id="buttonShopping" href="#" data-icon="arrow-2" style="display: none;"></a> -->
 	</div><!-- header -->
 	<div data-role="content" class="list-content">
 		<div id="infoDetails"></div>
@@ -22,13 +23,11 @@
 		pageShow({
 			id:'#page-detailsProducts',
 			title:lang['STORE_DETAILS'],
-			backButton:true,
+			// backButton:true,
 			before:function(){
-                 
 				//languaje
-				$('#category').html(lang.STORE_CATEGORY);
-				$('#buttonShopping').html(lang.STORE_SHOPPING_ADD);
-				
+				// $('#category').html(lang.STORE_CATEGORY);
+				// $('#buttonShopping').html(lang.STORE_SHOPPING_ADD);				
 				$('#cart-footer ul').html(
 					'<li>'+
 						'<a class="ui-btn-active">'+
@@ -36,6 +35,13 @@
 						'</a>'+
 					'</li>'
 				);
+                $('#menu').html(
+                    '<span class="ui-block-a menu-button"><a href="#"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
+                    '<span class="ui-block-b"></span>'+
+                    '<span class="ui-block-c"><strong>'+lang.STORE_DETAILS+'</strong></span>'+
+                    '<span class="ui-block-d"></span>'+
+                    '<span class="ui-block-e menu-button"><a href="findFriends.html" title="cart"><img src="css/newdesign/menu/store.png"><br>'+lan('vie cart','ucw')+'</a></span>'
+                );
 			},
 			after:function(){
 				var info='#infoDetails';
@@ -43,25 +49,6 @@
 				$('.list-wrapper').jScroll({hScroll:false});
 				$('.list-wrapper').jScroll('refresh');
 				viewProductDetails(4,$_GET['id'],info);
-				
-               
-                $(info).on('click','div.tag-solo-hash',function(){ //
-                    $(this).addClass('tag-solo-hash-complete');
-                    var vector=$('a[hashT]',this);
-					$.each(vector, function(key,value){ $(this).attr('hash',$(this).attr('hashT')).removeAttr('hashT'); });
-                }).on('click','div.tag-solo-hash a[hash]',function(){ //tag-solo-hash-complete
-                    redir(PAGE['search']+'?srh='+$(this).attr('hash').replace('#','%23').replace('<br>',' '));
-                }).on('click','div a[nohref]',function(){ //tag-solo-hash-complete
-                    openVideo($(this).attr('nohref'),'#popupVideo');
-                });
-				
-                // $('#points').formatCurrency({symbol:''}); //Formato de moneda
-                // var forp='<?=$product['formPayment']?>';
-                // if(forp=='0'){
-                // var cost=$('#points').html();
-                // var aux=cost.split('.');
-                // $('#points').html(aux[0]);
-
                 function viewProductDetails(action,id,layer){//aquiiiii
                 	myAjax({
                 		type	:'GET',
@@ -71,7 +58,6 @@
                 			myDialog('#singleDialog',lang.conectionFail);
                 		},
                 		success	:function(data){
-
                 		  if (data['prod']){
                     			var i,photo,product,outLi='',category,idcategory,hashS='',video='';
                     			product=data['prod'][0];
@@ -91,8 +77,8 @@
                     			outLi+=
                     				'<div id="idProductContent">'+
                     				'<span id="title">'+product['name']+'</span><br>'+
-                    				'<span id="CateSub">'+product['category']+' > '+product['subCategory']+'</span><br><br>'+
-                                    (video!=''?'<div id="productVideo">'+video+'</div>':'')+
+                    				// '<span id="CateSub">'+product['category']+' > '+product['subCategory']+'</span><br><br>'+
+                                    // (video!=''?'<div id="productVideo">'+video+'</div>':'')+
                     				'<div class="photosp">';
                                     //<div id="titleVideo">'+lang.Video+':</div>
                     			if(product['place']=='1'){
@@ -108,7 +94,7 @@
     						    }
                     			outLi+=
                     				'</div>'+
-                    				'<div id="priceApp">'+lang.STORE_SHOPPING_VALUE+': <span id="points">'+product['cost']+' '+lang.STORE_SHOPPING_POINTS+'.</span>'+
+                    				'<div id="priceApp">: <span id="points">'+(product['pago']=='0'?product['cost']+'Pts':'$'+product['cost'])+'</span>'+
                     				'<span id="seller">'+lang.STORE_SHOPPING_SELLER+'</span></div>'+
                     				'<div id="user">'+product['seller']+'</div>'+
                                     '<div id="stock">'+lan('stock','ucw')+': '+product['stock']+'</div>'+
@@ -159,11 +145,16 @@
                                 var cost=$('#points').html();
                                 var aux=cost.split('.');
                                 $('#points').html(aux[0]+' '+lang.STORE_SHOPPING_POINTS);
-                            
-                            }else{
-                                
-                                myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE);
-                            }
+                                 $(info).on('click','div.tag-solo-hash',function(){ //
+                                    $(this).addClass('tag-solo-hash-complete');
+                                    var vector=$('a[hashT]',this);
+                                    $.each(vector, function(key,value){ $(this).attr('hash',$(this).attr('hashT')).removeAttr('hashT'); });
+                                }).on('click','div.tag-solo-hash a[hash]',function(){ //tag-solo-hash-complete
+                                    redir(PAGE['search']+'?srh='+$(this).attr('hash').replace('#','%23').replace('<br>',' '));
+                                }).on('click','div a[nohref]',function(){ //tag-solo-hash-complete
+                                    openVideo($(this).attr('nohref'),'#popupVideo');
+                                });
+                            }else{ myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE); }
                 		}
                 	}); 
                 }
