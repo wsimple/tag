@@ -502,6 +502,13 @@ li.userInList h3{
 }
 
 
+#page-signUp .btn-orange{
+	background-color: #EB5A28;
+}
+#page-signUp .ui-btn-inner{
+	background: none;
+}
+
 #page-signUp #fs-wrapper{
 	background-color: #EB5A28;
 }
@@ -519,9 +526,9 @@ li.userInList h3{
   width: 20%;
 }
 
-#page-signUp .ui-body-c {
+#page-signUp .ui-body-c{
 	/* border: 1px solid #EF7B53; */
-	/* text-shadow: 0 1px 0 #fff; */
+	text-shadow: none;
 	background: transparent;
 	border-radius: 5px;
 	-webkit-box-shadow: none;
@@ -529,15 +536,19 @@ li.userInList h3{
 	box-shadow: none;
 }
 
-#page-signUp #msgPassword, #msgRequired, #msgCreatedAccount{
+#page-signUp .ui-overlay-c{
+	text-shadow: 0 0;
+}
+
+#page-signUp #msgPassword, #msgRequired, #msgCreatedAccount, #msgLogo, #msgLogob{
 	color: #FFF;
+	text-shadow: none;
 }
 
 #page-signUp #month{
 	background-color: #EF7B53;
 	color: #FFF;
 }
-
 
 #page-signUp .ui-overlay-c{
 	border:1px solid #EF7B53;
@@ -549,10 +560,11 @@ li.userInList h3{
 	background-color: #EF7B53;
 	color: #FFF;
 	background-image: url('newdesign/presence60.png');
-	background-position: 0 2px;
+	background-position: left center !important;
 	background-repeat: no-repeat;
 	background-size: 30px 30px;
 	text-indent:35px;
+	height: 35px !important;
  }
 
 #page-signUp #name{
