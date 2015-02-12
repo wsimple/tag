@@ -73,7 +73,6 @@
 #profile .photo img{
 	border-radius: 5px;
 }
-/*tag*/
 /*Sub menu*/
 .sub-menu-tag{
 	position: absolute;
@@ -119,6 +118,7 @@
 	float: left;
 	display: list-item !important;
 }
+/*tag*/
 [tag] menu li{
 	border: none !important;
 	/*font-size: 2em;*/
@@ -151,7 +151,7 @@
 .tag-container [tag] menu li#report:hover{
 	background-image:url('newdesign/tag/hide.png?1');
 }
-[tag] menu li#like, [tag] menu li#dislike{
+[tag] menu li#like, [tag] menu li#dislike,[tag] menu li#other-options{
 	padding: 0;
 	background-image: none;
 }
@@ -187,7 +187,9 @@
 #pd-wrapper{
 	top: 60px;
 }
-
+#notifications .ui-bar-f .ui-link,#notifications .ui-link:visited{
+	color: #FFF;
+}
 .notificacion-area{
 	position: absolute;
 	cursor: pointer;
@@ -241,6 +243,7 @@
 	border-radius: 0;
 	background-color: #fff;
 	width: 100%;
+	padding: 4px 0;
 }
 
 #sub-menu{
