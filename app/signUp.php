@@ -69,10 +69,7 @@
 						</div>
 
 						<div class="single">
-							<input id="gender" name="gender" type="text" class="intext"/>
-						</div>
-						<div>
-							<input id="phone" name="phone" type="text" class="intext"/>
+							<select id="gender" name="gender"></select>
 						</div>
 
 						<p id="msgRequired"></p>
@@ -109,7 +106,7 @@
 				$('#btn-signup').html(lang.MNU_REGISTER);
 				$('#nameLabel').html(lang.SIGNUP_LBLFIRSTNAME);
 				$("#name").attr("placeholder", lang.SIGNUP_LBLFIRSTNAME);
-				$("#gender").attr("placeholder", lan('Gender'));
+				$('#gender').html('<option value="" selected>'+lan('Gender')+'</option>');
 				$("#phone").attr("placeholder", lan('Phone Number (Optional)'));
 				$("#lastName").attr("placeholder", lang.SIGNUP_LBLLASTNAME);
 				$('#nameEnter').html(lang.JS_SIGNUP_LBLADVERTISERNAME);
@@ -164,6 +161,10 @@
 				for(str='',i=date.getFullYear()-10;i>1929;i--)
 					str+='<option value="'+i+'">'+i+'</option>';
 				$('#year').append(str);
+				// Combo Genero
+				str='<option value="2">'+lan('Female')+'</option>';
+				str+='<option value="1">'+lan('Male')+'</option>';
+				$('#gender').append(str);
 				$('#showFormEnterprise').click(function(){
 					$("#nameBox").attr('class', 'ui-grid-solo');
 					$('.single').hide();
@@ -197,7 +198,8 @@
 							email		:$('#email').val(),
 							password	:$('#password').val(),
 							repassword	:$('#repassword').val(),
-							company		:$('#company').val()
+							company		:$('#company').val(),
+							sex 		:$('#gender').val()
 						},
 						success:function(data){
 							console.log(data['msg']+data['email']);

@@ -519,11 +519,25 @@ li.userInList h3{
   width: 20%;
 }
 
-#page-signUp .ui-body-c{
-	border:1px solid #EF7B53;
-	text-shadow:0 1px 0 #fff;
-	background:#EF7B53;
+#page-signUp .ui-body-c {
+	/* border: 1px solid #EF7B53; */
+	/* text-shadow: 0 1px 0 #fff; */
+	background: transparent;
+	border-radius: 5px;
+	-webkit-box-shadow: none;
+	border: none;
+	box-shadow: none;
 }
+
+#page-signUp #msgPassword, #msgRequired, #msgCreatedAccount{
+	color: #FFF;
+}
+
+#page-signUp #month{
+	background-color: #EF7B53;
+	color: #FFF;
+}
+
 
 #page-signUp .ui-overlay-c{
 	border:1px solid #EF7B53;
@@ -539,9 +553,6 @@ li.userInList h3{
 	background-repeat: no-repeat;
 	background-size: 30px 30px;
 	text-indent:35px;
-	box-sizing: border-box;
-	-webkit-box-sizing:border-box;
-	-moz-box-sizing: border-box;
  }
 
 #page-signUp #name{
