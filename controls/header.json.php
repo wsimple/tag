@@ -38,10 +38,12 @@ if(!$_header_json){
 	include $config->relpath.'class/wconecta.class.php';
 
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
+	if(!$myId) $myId=0;
 	if(!$_origin) include $config->relpath.'includes/languages.config.php';
-	if(!quitar_inyect()) die();
+	quitar_inyect();
 	$debug=isset($_REQUEST['debug'])?$_REQUEST['debug']:$_COOKIE['_DEBUG_'];
 	unset($path,$_head);
 }
 $_header_json=true;
+if($_need_login&&!$myId) die('');
 ?>
