@@ -45,7 +45,7 @@
 									<select id="year" name="year"></select>
 								</div>
 							</div>
-							<div class="single">
+							<div class="ui-grid-solo single">
 								<select id="gender" name="gender"></select>
 							</div>
 							<p id="msgCreatedAccount" style="font-weight:bold;"></p><br/>
