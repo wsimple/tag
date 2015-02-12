@@ -369,6 +369,7 @@ li.userInList h3{
 }
 
 /*Navigation menu*/
+#menu{ text-align: center; }
 #menu span{
 	height: 4.7em;
 }

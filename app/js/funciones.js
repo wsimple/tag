@@ -2136,7 +2136,7 @@ function addProductShoppingCart(id,wish){
 		}
 	});
 }
-function moveToWish(id,get){
+function moveToWish(id,get,details){
 		get=get?get:'';
 		myAjax({
 			type:'GET',
@@ -2144,6 +2144,7 @@ function moveToWish(id,get){
 			dataType:'json',
 			success:function(data){
 				var dato=data.listWish;
+				if (details) redir(PAGE.storeOption);
 				if(data.numRow>0){
 					if(data.datosCar){
 						if(data.datosCar[0].name){
