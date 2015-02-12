@@ -55,7 +55,6 @@
 					if(!cancel()&&!on[action]&&opc.more!==false){
 						on[action]=true;
 						myAjax({
-							type	: 'GET',
 							url		: DOMINIO+'controls/news/newsjson.php?action='+action,
 							// url		: DOMINIO+'controls/news/news.json.php',
 							dataType: 'json',
