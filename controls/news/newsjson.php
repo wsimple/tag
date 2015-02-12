@@ -34,8 +34,8 @@
 		}
 		$limitsql="";
 	}
+	if($limitsql=='') $limitsql="LIMIT 0,250";
 	if ($num){
-		if($limitsql=='') $limitsql="LIMIT 0,250";
 		$new=CON::query(
 			"SELECT un.id,
 				un.id_friend,
@@ -132,6 +132,7 @@
 		}
 		if(count($infoa)>0) foreach($infoa as $key){ $info[]=$key; }
 	}else{ $info=array(); }
+	$res['info_num']=count($info);
 	$res['info']=$info;
 	// echo '<pre>';
 	// print_r($infoa);
@@ -143,21 +144,21 @@
 	case 'es':
 //		$res['txt']['1'] ='[_UD_] recibi{&oacute;}{{eron}} una tag privada de [_FRIENDS_]';
 		$res['txt']['2'] ='[_FRIENDS_] Le{{s}} gusta la [_TAG_] de [_PEOPLE_]';
-		$res['txt']['4'] ='[_FRIENDS_] coment{&oacute;}{{aron}} la [_TAG_] de [_PEOPLE_]';
+		$res['txt']['4'] ='[_FRIENDS_] coment{ó}{{aron}} la [_TAG_] de [_PEOPLE_]';
 		$res['txt']['5'] ='[_FRIENDS_] ahora {es}{{son}} amigo{{s}} de [_PEOPLE_]';
 //		$res['txt']['6'] ='[_FRIENDS_] [_TE_] agreg{&oacute;}{{aron}} [_A_] a un grupo';
-//		$res['txt']['7'] ='[_FRIENDS_] comparti{&oacute;}{{eron}} [_TAG_]';
-		$res['txt']['8'] ='[_FRIENDS_] redistribuy{&oacute;}{{eron}} una [_TAG_]';
-		$res['txt']['9'] ='[_FRIENDS_] patrocin{&oacute;}{{aron}} una [_TAG_]';
-//		$res['txt']['10']='[_FRIENDS_] agreg{&oacute;}{{aron}} una Tag de grupo';
+//		$res['txt']['7'] ='[_FRIENDS_] comparti{ó}{{eron}} [_TAG_]';
+		$res['txt']['8'] ='[_FRIENDS_] redistribuy{ó}{{eron}} una [_TAG_]';
+		$res['txt']['9'] ='[_FRIENDS_] patrocin{ó}{{aron}} una [_TAG_]';
+//		$res['txt']['10']='[_FRIENDS_] agreg{ó}{{aron}} una Tag de grupo';
 		$res['txt']['11']='[_FRIENDS_] ahora admira{{n}} a [_PEOPLE_]';
 //		$res['txt']['12']='[_FRIENDS_] quiere{{n}} unirse al grupo [_GROUP_]';
-//		$res['txt']['13']='[_FRIENDS_] aprob&oacute; tu solicitud para unirte al grupo [_GROUP_]';
+//		$res['txt']['13']='[_FRIENDS_] aprobó tu solicitud para unirte al grupo [_GROUP_]';
 //		$res['txt']['14']='[_FRIENDS_] invited you to the Group [_GROUP_]';
 //		$res['txt']['15']='[_YOU_] commented a [_PROD_] in the store';
 //		$res['txt']['16']='La orden [_ORDER_] ha sido procesada satisfactoriamente';
 //		$res['txt']['17']='La orden [_ORDER_] está pendiente por pagar';
-		$res['txt']['22']='La [_TAG_] de [_PEOPLE_] ha sido la ganadora del d&iacute;a';
+		$res['txt']['22']='La [_TAG_] de [_PEOPLE_] ha sido la ganadora del día';
 		$res['txt']['25']='La [_TAG_] de [_PEOPLE_] ha sido la ganadora de la semana';
 		$res['txt']['26']='La [_TAG_] de [_PEOPLE_] ha sido la ganadora del mes';
 		$res['txt']['29']='[_PEOPLE_] ha publicado un [_PROD_] en la tienda';
@@ -165,7 +166,7 @@
 			'[_TAG_]'	=>'Tag',
 			'[_AND_]'	=>'y',
 			'[_PROD_]'	=>'producto',
-			'[_MORE_]'	=>'personas m&aacute;s'
+			'[_MORE_]'	=>'personas más'
 		);
 	break;
 	default:
