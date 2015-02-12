@@ -35,6 +35,7 @@
 		$limitsql="";
 	}
 	if ($num){
+		if($limitsql=='') $limitsql="LIMIT 0,250";
 		$new=CON::query("SELECT un.id,
 								un.id_friend,
 								un.id_user,
