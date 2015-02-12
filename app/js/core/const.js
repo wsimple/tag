@@ -61,12 +61,13 @@ is.limited= !is.webkit||is.android;
 		'exit'		:'salir',
 		'hot'		:'caliente',
 		'create.share':'crea.comparte',
-		'.reward':'.gana',
-		'Gender':'Genero',
+		'.reward'	:'.gana',
+		'Gender'	:'Genero',
 		'Phone Number (Optional)':'Numero de Telefono (Opcional)',
 		'view cart'	:'ver carro',
 		'product search':'busqueda de producto',
-
+		'Male'		:'Masculino',
+		'Female'	:'Femenino',
 
 		//'':'mover a',
 

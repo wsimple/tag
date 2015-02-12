@@ -69,7 +69,7 @@
 						</div>
 
 						<div class="single">
-							<input id="gender" name="gender" type="text" class="intext"/>
+							<select id="gender" name="gender"></select>
 						</div>
 						<div>
 							<input id="phone" name="phone" type="text" class="intext"/>
@@ -164,6 +164,10 @@
 				for(str='',i=date.getFullYear()-10;i>1929;i--)
 					str+='<option value="'+i+'">'+i+'</option>';
 				$('#year').append(str);
+				// Combo Genero
+				str='<option value="'+lan('Female')+'">'+lan('Female')+'</option>';
+				str+='<option value="'+lan('Male')+'">'+lan('Male')+'</option>';
+				$('#gender').append(str);
 				$('#showFormEnterprise').click(function(){
 					$("#nameBox").attr('class', 'ui-grid-solo');
 					$('.single').hide();

@@ -525,6 +525,10 @@ li.userInList h3{
 	background:#EF7B53;
 }
 
+#page-signUp #msgPassword, #msgRequired, #msgCreatedAccount{
+	color: #FFF;
+}
+
 #page-signUp .ui-overlay-c{
 	border:1px solid #EF7B53;
 	text-shadow:0 1px 0 #fff;
