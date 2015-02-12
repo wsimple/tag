@@ -634,14 +634,15 @@ function showTag(tag){//individual tag
 						(tag['product']?
 						'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
 						:'')+
+						(btn['report']?
+							'<li id="report" title="Report"><span>Report</span></li>'
+						:'')+
 					'</ul></div>'+
 				'</li>'+
-				(!tag['popup']?
-					'<li id="comment" title="Comment"><span>Comment</span></li>'
-				:'')+(btn['share']?
+				(btn['share']?
 					'<li id="share" title="Share"><span>Share</span></li>'
-				:'')+(btn['report']?
-					'<li id="report" title="Report"><span>Report</span></li>'
+				:'')+(!tag['popup']?
+					'<li id="comment" title="Comment"><span>Comment</span></li>'
 				:'')+
 				'<li id="like" title="Like"><div>'+tag.num_likes+'</div></li>'+
 				'<li id="dislike" title="Dislike"><div>'+tag.num_disLikes+'</div></li>'+
