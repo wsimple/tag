@@ -1,4 +1,4 @@
-<article id="adsListPublicity" class="side-box imagenPub">
+1<article id="adsListPublicity" class="side-box imagenPub">
 	<header><span><?=$lang["USERPUBLICITY_ABSINDEX"]?></span></header>
 	<?php  //$borde = ($i==4)?'style="border-bottom:0"':''
 	$prefe=users_publicity(5,'',$typePublicity);
@@ -17,7 +17,7 @@
 				  <br />
 				  <?=$messagePubli?>
 			</div>
-			<div class="linkPubliseemore"><a href="<?=$key['link']?>" target="_blank" onclick="showPublicityWb('<?=$key['id']?>')" onfocus="this.blur()"><?=USER_BTNSEEMORE?>...</a></div>
+			<!-- <div class="linkPubliseemore"><a href="<?=$key['link']?>" target="_blank" onclick="showPublicityWb('<?=$key['id']?>')" onfocus="this.blur()"><?=USER_BTNSEEMORE?>...</a></div> -->
 		</div>
 	<?php }
 	else{ ?>
