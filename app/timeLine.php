@@ -46,23 +46,6 @@
 		var active_tab = 'timeLine';
 		if (page) active_tab = page.last_tab;
 		//if(navigator.app) navigator.app.clearHistory();
-		function get_profile(code, callback){
-			myAjax({
-				url:DOMINIO+'controls/users/people.json.php?action=specific&code',
-				data:{uid:code},
-				success:function(response){
-					if (!response['error']){
-						if (typeof callback == 'function') {
-							callback(response);
-						}
-					}
-				},
-				error:function(){
-					console.log('error');
-				}
-			});
-		}
-
 		pageShow({
 			id:'page-timeLine',
 			title:'Time Line',
@@ -130,6 +113,9 @@
 						updateTags('reload',opc,true);
 					}
 				});
+				var donde = $('#pd-wrapper #scroller').attr('style').split(';');
+				donde = donde[donde.lenght];
+				console.log(donde);
 				var priv='',val='in';
 				$('#private-select input').click(function(){
 					opc.type = '';
