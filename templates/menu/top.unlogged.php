@@ -10,7 +10,7 @@ $languages=CON::getObject('SELECT cod,name FROM languages');
 	<div class="_tt">
 		<div class="_tc">
 			<div id="titleNormal">
-				<a href="#WhatIsIt" class="prinTitle prinTitleActive" id="1"><?=LANDING_WHATITIS?></a>
+				<a href="#WhatIsIt" class="prinTitle <?php if ($_GET['referee']==''){ ?> prinTitleActive <?php } ?> " id="1"><?=LANDING_WHATITIS?></a>
 				<a href="#HowDoesWork" class="prinTitle" id="2"><?=LANDING_HOWDOESIT?></a>
 				<a href="#App" class="prinTitle" id="3"><?=LANDING_APPDOWN?></a>
 				<a class="prinTitle" id="login"><span class=" iconLogin"></span><?=LANDING_LOGIN?></a>
@@ -56,7 +56,9 @@ $languages=CON::getObject('SELECT cod,name FROM languages');
 				hash = '#WhatIsIt';
 			}
 			$(menu).removeClass('prinTitleActive');
+			<?php if ($_GET['referee']==''){ ?>
 			$(menu).filter('[href="'+hash+'"]').addClass('prinTitleActive');
+			<?php } ?>
 		});
 	});
 </script>

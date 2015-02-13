@@ -30,7 +30,7 @@ if ($acceso){ ?>
 		<?php if(isset($_GET['wpanel'])){ ?><input type="hidden" name="wpanel" value="1"/><?php } ?>
 		<input type="hidden" name="product" value="<?=$_GET['product']?>" />
 		<input type="hidden" name="group" value="<?=$group?>" />
-	<div class="ui-single-box-title">
+	<div class="ui-single-box-title"> 
 		<div id="groupTitleStyle"><?php
 			//echo $idTag.'---'.$tag['id'].'---'.$_GET['tag'];
 			if(!$tag['id'])	echo $personal?NEWTAG_LBLTITLE_PERSONAL:NEWTAG_LBLTITLE;
