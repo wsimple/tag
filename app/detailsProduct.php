@@ -23,7 +23,7 @@
 	<script type="text/javascript">
 		pageShow({
 			id:'#page-detailsProducts',
-			title:lang['STORE_DETAILS'],
+			// title:lang['STORE_DETAILS'],
 			// backButton:true,
 			before:function(){
 				//languaje
@@ -37,11 +37,11 @@
 					'</li>'
 				);
                 $('#menu').html(
-                    '<span class="ui-block-a menu-button hover" style="width: 20%;"><a href="#"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
+                    '<span class="ui-block-a menu-button hover" style="width: 20%;"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
                     // '<span class="ui-block-b"></span>'+
                     '<span class="ui-block-b" style="width: 60%"><br/><strong>'+lang.STORE_DETAILS+'</strong></span>'+
                     // '<span class="ui-block-d"></span>'+
-                    '<span class="ui-block-c menu-button" style="width: 20%;"><a href="findFriends.html" title="cart"><img src="css/newdesign/menu/store.png"><br>'+lan('vie cart','ucw')+'</a></span>'
+                    '<span class="ui-block-c menu-button" style="width: 20%;"><a href="storeCartList.html" title="cart"><img src="css/newdesign/menu/store.png"><br>'+lan('view cart','ucw')+'</a></span>'
                 );
 			},
 			after:function(){

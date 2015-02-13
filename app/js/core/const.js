@@ -68,6 +68,18 @@ is.limited= !is.webkit||is.android;
 		'product search':'busqueda de producto',
 		'Male'		:'Masculino',
 		'Female'	:'Femenino',
+		'invoice'	:'factura',
+		'date'		:'fecha',
+		'Day/Month/Year':'Día/Mes/Año',
+		'method'	:'método',
+		'none selected'	:'ninguno seleccionado',
+		'total amount'	:'cantidad total',
+		'by'		:'por',
+		'delete'	:'eliminar',
+		'in stock'	:'en stock',
+		'pay now'	:'pagar ahora',
+		'wishes'	:'deseos',
+		'publications'	:'publicaciones',
 
 		//'':'mover a',
 
