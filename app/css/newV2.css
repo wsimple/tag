@@ -50,9 +50,6 @@
 	background-color: #fff;
 	color: #f27233;
 }
-.ui-btn{
-	border-radius: 5px;
-}
 
 /*Profile & Notifications Menu Timeline*/
 #profile span{
@@ -73,10 +70,21 @@
 #profile .photo img{
 	border-radius: 5px;
 }
+.list-info li[data-type="tag"] p.date span,.list-info li[data-type="usr"] p.date span,.list-info li[data-type="group"] p.date span,.list-info li[data-type="group"] p.date span{
+	background-repeat: no-repeat;
+	background-size:160px;
+}
+.list-info li[data-type="tag"] p.date span.tag4{ background-image:url(newdesign/info/icons-info.png);background-position:-0px 2px; }
+.list-info li[data-type="group"] p.date span{ background-image:url(newdesign/info/icons-info.png);background-position:-20px 2px; }
+.list-info li[data-type="tag"] p.date span.tag2{ background-image:url(newdesign/info/icons-info.png); background-position:-40px 2px; }
+.list-info li p.date span{ background-image:url(newdesign/info/icons-info.png);background-position:-20px 2px; }
+.list-info li[data-type="tag"] p.date span.tag8{ background-image:url(newdesign/info/icons-info.png);background-position:-80px 2px; }
+.list-info li[data-type="usr"] p.date span{ background-image:url(newdesign/info/icons-info.png);background-position:-140px 2px; }
+.list-info li[data-type="store"] p.date span{ background-image:url(newdesign/info/icons-info.png);background-position:-100px 2px; }
 /*Sub menu*/
 .sub-menu-tag{
-	position: absolute;
 	z-index: 2000;
+	position: absolute;
 }
 .sub-menu-tag ul{
 	width: 100%;
@@ -86,9 +94,9 @@
 	background-color: #fff;
 	border: 1px solid #CCC;
 	position: relative;
-	bottom: 2.8em;
-	right: 2.5em;
 	display: list-item;
+	bottom: 2.8em;
+	right: 3.8em;
 }
 /* Flecha sub-menu */
 .sub-menu-tag ul:after, .sub-menu-tag ul:before {
@@ -112,7 +120,7 @@
 	border-color: transparent;
 	border-top-color: #CCC;
 	border-width: 0.95em;
-	margin-left: 0.41em;
+	margin-left: 0.26em;
 }
 .sub-menu-tag ul li{
 	float: left;
@@ -224,7 +232,8 @@
 
 /*Time line*/
 #page-lstStore #scroller,
-#page-timeLine #scroller{
+#page-timeLine #scroller,
+#page-topTags #scroller{
 	background-color: #e2e6e7 !important;
 }
 .tags-list{
@@ -252,6 +261,7 @@
 	height: 3.8em;
 	position: relative;
 	top: 56px;
+	background: #b3b9bd;
 }
 
 #sub-menu ul{
@@ -371,7 +381,23 @@ li.userInList h3{
 #friend-options .window .info{
 	font-size: 1.4em;
 }
-
+/*notificaciones*/
+#page-notif .ui-bar-b{
+	text-shadow: 0 0 0;
+	background-image: none;
+	background: #2d4480;
+}
+#page-notif .list-info .ui-btn-up-c.notiNoRevi{
+	text-shadow: 0 0 0;
+	background-image: none;
+}
+#page-notif .list-info .ui-btn-up-c.notiNoRevi {
+	border: 1px solid #CCC;
+	background: #FFF;
+}
+#page-notif .ui-btn{
+	border-radius: 0;
+}
 /*Navigation menu*/
 #menu{ text-align: center; }
 #menu span{
@@ -495,6 +521,69 @@ li.userInList h3{
 	background: transparent url('newdesign/menu/logout.png') no-repeat center top;
 	-webkit-background-size: 45% 60%;
 	background-size: 45% 60%;
+}
+
+@media screen and (min-width: 600px) {
+	#sub-menu li.timeline{
+		background-size: 20%;
+	}
+	#sub-menu li.newtag{
+		background-size: 20%;
+	}
+	#sub-menu li.store{
+		background-size: 20%;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	#bottom-menu ul li.toptags{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.news{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.notifications{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.groups{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+	#bottom-menu ul li.chat{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.profile{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.friends{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.createtag{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.store{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.logout{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
 }
 
 #bottom-menu ul li a{

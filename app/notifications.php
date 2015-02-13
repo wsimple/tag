@@ -1,6 +1,6 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-notif" data-role="page" data-cache="false" class="no-footer">
-	<div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
+	<div data-role="header" data-position="fixed" data-theme="f"></div>
 	<div data-role="content" class="list-content">
 		<div id="pd-wrapper">
 			<div id="scroller">
@@ -10,6 +10,7 @@
 			</div>
 		</div>
 	</div><!-- content -->
+	<?php include 'inc/mainmenu.php'; ?>
 	<script type="text/javascript">
 		pageShow({
 			id:'#page-notif',

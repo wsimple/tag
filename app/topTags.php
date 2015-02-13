@@ -42,8 +42,8 @@
 			before:function(){
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lang.TOPTAGS_TITLE+'</a></li>'+
-					'<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
-					'<li class="ui-block-c points"></li>'+
+					'<li class="ui-block-b"></li>'+
+					'<li class="ui-block-c"></li>'+
 					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
 				);
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
@@ -82,7 +82,7 @@
 				// 	redir(PAGE['tag']+'?id='+$(this).attr('tag'));
 				// });
 				$wrapper.ptrScroll({
-					onPullDown:function(){
+					onPullDown:function(e){
 						updateTags('reload',opc);
 					},
 					onPullUp:function(){
