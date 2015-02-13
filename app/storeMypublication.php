@@ -45,7 +45,7 @@
 							lang.STORE_VIEWORDERINCART+
 						'</a>'+
 					'</li>'
-				);
+				); 
                 $('#menu').html(
 					'<span class="ui-block-a menu-button"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
 					'<span class="ui-block-b menu-button hover"><a href="#"><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
