@@ -1,22 +1,17 @@
 <?php include 'inc/header.php'; ?>
-<div id="page-signUp" data-role="page" data-cache="false">
-	<div data-role="header" data-position="fixed" data-theme="f">
-
-	</div>
+<div id="page-signUp" data-role="page" data-cache="false" class="no-header">
 	<div data-role="content">
 		<img class="bg" src="css/smt/bgorange.png"/>
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
-
 				<div id="buttons"><div class="_tt"><div class="_tc">
 					<div id="logo_image ">
 						<a data-inline="true" data-theme="f" >
-							<img src="css/newdesign/tagbum_white_logo.png" alt="" style="max-height:125px;"><br>
+							<img src="css/newdesign/tagbum_white_logo.png" alt="" style="max-height:100px;"><br>
 							<span id="msgLogo" style="color:#FFF; font-weight:normal;">create.share</span><span id="msgLogob" style="color:#FFF;font-weight:bold;">.reward</span>
 						</a>
 					</div>
 				</div></div></div>
-
 				<form id="frmRegister" name="frmRegister" method="post" style="display:block;">
 					<div id="divDialog" data-role="dialog" style="display: none"></div>
 					<input type="hidden" value="1" name="mobile"/>
@@ -36,24 +31,31 @@
 							<input id="repassword" name="confiPassword" type="password" class="password-field intext"/>
 							<div class="ui-grid-b">
 								<div class="ui-block-a">
-									<select id="month" name="month"></select>
+									<select id="month" name="month" data-theme="n" data-icon="false"></select>
 								</div>
 								<div class="ui-block-b">
-									<select id="day" name="day"></select>
+									<select id="day" name="day" data-theme="n" data-icon="false"></select>
 								</div>
 								<div class="ui-block-c">
-									<select id="year" name="year"></select>
+									<select id="year" name="year" data-theme="n" data-icon="false"></select>
 								</div>
 							</div>
 							<div class="ui-grid-solo single">
-								<select id="gender" name="gender"></select>
+								<select id="gender" name="gender" data-theme="n" data-icon="false"></select>
 							</div>
 							<p id="msgCreatedAccount" style="font-weight:bold;"></p><br/>
 						</div>
 					</div>
-					<div id="buttons"><div class="_tt"><div class="_tr">
+					<div id="buttons">
+						<div class="_tt">
+							<div class="_tl">
+								<a id="btn-back" class="btn-orange" data-role="button" data-inline="true" data-theme="f" onclick="goBack()"  data-iconpos="right"></a>
+							</div>
+							<div class="_tr">
 								<a id="btn-signup" class="btn-orange" data-role="button" data-inline="true" data-theme="f" onclick="$('#frmRegister').submit();"  data-iconpos="right">Sign Up</a>
-					</div></div></div>
+							</div>
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -69,8 +71,6 @@
 	<script>
 		pageShow({
 			id:'#page-signUp',
-
-			backButton:true,
 			before:function(){ 
 				$('#nameLabel,#dateLabel').addClass('single');
 				$('#nameEnter,#bussinesDate').addClass('enterp');
@@ -78,6 +78,7 @@
 				//traducciones de la etiquetas
 				$('#buttonSign').html(lang.MNU_REGISTER);
 				$('#msgLogo').html(lan('create.share'));
+				$('#btn-back').html(lan('Back'));
 				$('#msgLogob').html(lan('.reward'));
 				$('#btn-signup').html(lang.MNU_REGISTER);
 				$('#nameLabel').html(lang.SIGNUP_LBLFIRSTNAME);
