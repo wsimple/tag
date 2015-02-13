@@ -8,7 +8,7 @@
         mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['help'])."' WHERE label LIKE 'DIALOG_HELP' ") or die('5 - '.mysql_error());
         mysql_query("UPDATE translations_template SET text = '".str_replace("'","\\'",$_REQUEST['cookies'])."' WHERE label LIKE 'DIALOG_COOKIES' ") or die('6 - '.mysql_error());
         mysql_query("UPDATE translations_template SET text = '".trim($_REQUEST['paypal'])."' WHERE label LIKE 'INDEX_DIALOGPAYPAL' ") or die('7 - '.mysql_error());
-		//mensajes("Processed Sucessfully", "index.php?url=vistas/dialogs.view.php");
+		mensajes("Processed Sucessfully", "index.php?url=vistas/dialogs.view.php");
 	}
 	
 	$query = mysql_query("SELECT * FROM dialogs WHERE id = '1'") or die (mysql_error());
