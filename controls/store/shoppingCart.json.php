@@ -1213,7 +1213,13 @@ include ('../../class/class.phpmailer.php');
                 if (isset($wishList['noId'])) unset($wishList['noId']);
             }
         }
-        
+        if (isset($_POST['infoI'])){
+        	$jsonResponse['inf']['user']=formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']);
+        	$jsonResponse['inf']['num']=generaCodeId($_SESSION['car']['order']['order'],11);;
+        	$fechaC=explode(" ",CON::getVal("SELECT NOW()"));
+        	$fecha=explode("-",$fechaC[0]);
+        	$jsonResponse['inf']['date']=$fecha[2].'/'.$fecha[1].'/'.$fecha[0].' '.$fechaC[1];
+        }
 		if(isset($salida)){ echo str_replace('}{','},{',$salida).']'; }
         else{
 			if (isset($wishList) && $wishList!='') $jsonResponse['wish']    = $wishList;

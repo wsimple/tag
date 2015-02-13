@@ -326,7 +326,8 @@
 }
 /*Find Friends and Friends*/
 #page-friendUser #menu, #page-friendSearch #menu,
-#page-lstStore #menu, #page-detailsProducts #menu{
+#page-lstStore #menu, #page-detailsProducts #menu,
+#page-lstMyStore #menu{
 	display: block;
 }
 #page-friendUser #scroller,#page-friendSearch #scroller{
@@ -639,15 +640,19 @@ li.userInList h3{
 }
 
 /*store*/
-#page-lstStore .list-wrapper{ top: 47px; }
-#page-lstStore .list-info{
+#page-lstStore .list-wrapper,
+#page-lstMyStore .list-wrapper{ top: 47px; }
+#page-lstStore .list-info,
+#page-lstMyStore .list-info{
 	list-style: none;
 	text-align: center;
 	color: #2c3e4f;
 	/*margin: 15px 0 0;*/
 	padding: 5px 0 0;
 }
-#page-lstStore .list-info li{ height: 115px; }
+#page-lstStore .list-info li,
+#page-lstMyStore .list-info li{ height: 115px; }
+#page-lstMyStore .list-info li img,
 #page-lstStore .list-info li img{
 	width: 45%;
 	height: 60%;
@@ -657,6 +662,7 @@ li.userInList h3{
 	-webkit-border-radius: 5px !important;
 	-o-border-radius: 5px !important;
 }
+#page-lstMyStore .list-info li h3,
 #page-lstStore .list-info li h3{
 	font-size: 12px;
 	width: 60%;
@@ -667,20 +673,28 @@ li.userInList h3{
 	word-wrap: normal;
 	font-weight: 300;
 }
-#page-lstStore .list-info li h3{ height: 30px;}
+#page-lstMyStore .list-info li h3,
+#page-lstStore .list-info li h3{ max-height: 30px;}
+#page-lstMyStore .list-info li h3.costProduct,
 #page-lstStore .list-info li h3.costProduct{ color: #A42A00;}
 @media (min-width: 600px){
+	#page-lstMyStore .list-info li,
 	#page-lstStore .list-info li{  height: 200px; }
+	#page-lstMyStore .list-info li h3,
 	#page-lstStore .list-info li h3{ font-size: 20px; }
+	#page-lstMyStore .list-info li img,
 	#page-lstStore .list-info li img{ width: 30%; }
 	/*#page-lstStore .list-info{ margin: 45px 0 0; }*/
+	#page-lstMyStore .list-wrapper,
 	#page-lstStore .list-wrapper{ top: 75px; }
 }
+#page-lstMyStore #rowTitle,
 #page-lstStore #rowTitle{
 	background-color: #8b9b9c;
 	margin: 5px auto 0;
 	padding: 2% 10%;
 }
+#page-lstMyStore #rowTitle .ui-input-search,
 #page-lstStore #rowTitle .ui-input-search{
 	border-radius: 5px !important;
 	border: none;
@@ -705,18 +719,22 @@ li.userInList h3{
 #infoDetails .buttonsDetails{
 	margin-bottom: 20px; 
 }
+#page-lstStoreCarList #footerPay div,
 #infoDetails .buttonsDetails div[data-corners="true"]{
 	border-radius: 5px !important;
 	font-weight: initial !important;
 } 
+#page-lstStoreCarList #footerPay div[data-corners="true"] button,
 #infoDetails .buttonsDetails div[data-corners="true"] button{
 	font-weight: initial !important;
 }
+#page-lstStoreCarList #footerPay div[data-theme="c"],
 #infoDetails .buttonsDetails div[data-theme="c"]{ 
 	color: #2c3e4f;
 	border: 1px solid #2c3e4f;
 	background: #fff;
 }
+#page-lstStoreCarList #footerPay div[data-theme="e"],
 #infoDetails .buttonsDetails div[data-theme="e"]{
 	background: #F57133;
 	border: 1px solid #F57133;
@@ -751,3 +769,59 @@ li.userInList h3{
  	float: none; 
 }
 /*end class*/
+#page-lstStoreCarList.ui-page .ui-header{ height: 100px; }
+#page-lstStoreCarList.ui-page .ui-content{ margin: 100px 0 0; }
+#page-lstStoreCarList.ui-page #data-header div{
+	font-weight: bold;
+	font-size: 13px;
+}
+#page-lstStoreCarList.ui-page #data-header div span{
+	font-weight: normal;
+	font-size: 12px;
+}
+#page-lstStoreCarList.ui-page #data-header .total div{ text-align: right;}
+#page-lstStoreCarList.ui-page #cartList li{
+	border: none;
+	background: none;
+	border-bottom: 1px solid #2c3e4f;
+	font-weight: normal;
+}
+#page-lstStoreCarList.ui-page #cartList li.last{ border:none;}
+#page-lstStoreCarList.ui-page #cartList li .ui-block-a div{
+	font-size: 13px;
+}
+#page-lstStoreCarList.ui-page #cartList li .ui-block-a div.name{
+	font-weight: bold;
+	font-size: 14px;
+}
+#page-lstStoreCarList.ui-page #cartList .links{
+
+}
+#page-lstStoreCarList.ui-page #cartList .links,
+#page-lstStoreCarList.ui-page #cartList .links a,
+#page-lstStoreCarList.ui-page #cartList .links a:active{ 
+	font-size: 12px;
+	color: #F57133;
+	text-decoration: none;
+}
+#page-lstStoreCarList.ui-page #cartList li .price,
+#page-lstStoreCarList.ui-page #cartList li .stock{
+	color: #F57133;
+}
+#page-lstStoreCarList.ui-page #footerPay{
+	width: 100%;
+	height: 158px;
+	position: fixed;
+	z-index: 200;
+	bottom: -100px;
+	text-align: center;
+}
+#lstStoreOption .buttons a, #cartList .buttons a{ margin: 0;}
+#page-lstStoreCarList.ui-page .ui-icon-arrow-d{ display: none; }
+#page-lstStoreCarList.ui-page .ui-select .ui-mini.ui-btn-icon-right .ui-btn-inner{ padding: .6em 20px; }
+#page-lstStoreCarList.ui-page .ui-select div[data-corners="true"]{ 
+	border-radius: 5px !important;
+	color: #2c3e4f;
+	border: 1px solid #2c3e4f;
+	background: #fff;
+}
