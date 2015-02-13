@@ -508,8 +508,39 @@ li.userInList h3{
 }
 
 /* SignUp */
+#page-signUp .ui-btn-up-n {
+	border: 0px solid #cccccc /*{a-bup-border}*/;
+	background: #EF7B53 /*{a-bup-background-color}*/;
+	font-weight: normal;
+	color: #FFF /*{a-bup-color}*/;
+}
+
+#page-signUp .ui-btn-hover-n {
+	border: 0px solid #bbbbbb /*{a-bhover-border}*/;
+	background: #EF7B53 /*{a-bhover-background-color}*/;
+	font-weight: bold;
+	color: #FFF /*{a-bhover-color}*/;
+	text-shadow: 0 /*{a-bhover-shadow-x}*/ 1px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #ffffff /*{a-bhover-shadow-color}*/;
+
+}
+
+#page-signUp .ui-icon,
+#page-signUp .ui-icon-searchfield:after {
+	background: #FAF /*{global-icon-color}*/;
+	background: rgba(250,15,NaN,0) /*{global-icon-disc}*/;
+	background-color: #EB5A28;
+	background-image: url(images/icons-18-white.png) /*{global-icon-set}*/;
+	background-repeat: no-repeat;
+	-webkit-border-radius: 				9px;
+	border-radius: 						9px;
+}
+
 #page-signUp .btn-orange{
 	background-color: #EB5A28;
+}
+
+#page-signUp .btn-orange{
+	position: top;
 }
 
 #page-signUp .ui-btn-inner{
@@ -597,7 +628,7 @@ li.userInList h3{
 }
 
 #page-signUp #repassword{
-	background-image: none;
+	background-image: url('newdesign/lock60.png');
 	background-position: 0 2px;
 }
 
@@ -638,6 +669,10 @@ li.userInList h3{
 	margin-top: 4px !important;
 	margin-bottom: 0px !important;
 }
+
+/*Profile Start*/
+
+/*Profile Ends*/
 
 /*store*/
 #page-lstStore .list-wrapper,
