@@ -1,4 +1,4 @@
-1<article id="adsListPublicity" class="side-box imagenPub">
+<article id="adsListPublicity" class="side-box imagenPub">
 	<header><span><?=$lang["USERPUBLICITY_ABSINDEX"]?></span></header>
 	<?php  //$borde = ($i==4)?'style="border-bottom:0"':''
 	$prefe=users_publicity(5,'',$typePublicity);
