@@ -1950,61 +1950,6 @@ function viewCategories(action,idLayer,id){
 		}
 	});
 }
-function bodyCart(data){
-	var i,out='',num=0,outDivider='<li data-role="list-divider" class="titleDivider">'+lan('STORE_SHOPPING_TOTAL')+' ('+data.nproduct+')';
-	for(i=0;i<data.datosCar.length;i++){
-		var select='';
-		if(data.datosCar[i].place=='1' && parseInt(data.datosCar[i].stock)>0){
-			$('#productApp').val('si');
-			var option='';
-			select='<select class="cant-product" name="select-choice-mini" id="select-choice-mini" data-mini="true" data-inline="true"'+
-						' cantAct="'+(data.datosCar[i].sale_points*data.datosCar[i].cant)+'" precio="'+data.datosCar[i].sale_points+'" '+((data.datosCar[i].formPayment=='1')?'fr="1"':'fr="0"')+'>';
-			for(var j=1;j<=(parseInt(data.datosCar[i].stock));j++){
-				option+='<option value="'+j+'" '+(data.datosCar[i].cant==j?'selected':'')+'>'+j+'</option>';
-			}
-			select=select+option+'</select>';
-		}else if(data.datosCar[i].place=='1' && data.datosCar[i].stock<=0){
-			$('#productApp').val('si');
-			select='<em class="info-top-p">'+lan('TAGS_WHENTAGNOEXIST')+'</em><input type="hidden" class="cant-product"  value="'+data.datosCar[i].cant+'">';
-		}
-		if(data.datosCar[i].formPayment=='1'){ $('#dollarApp').val('si'); }
-		out+='<li id="'+data.datosCar[i].mId+'" >'+
-				'<div class="contentItem">'+
-					'<div class="itemPic">'+
-						'<img src="'+data.datosCar[i].photo+'"/>'+
-					'</div>'+
-					'<div class="itemDes">'+
-						'<div class="name">'+data.datosCar[i].name+'</div>'+
-						'<div><strong>'+lan('STORE_SHOPPING_SELLER')+':</strong> '+data.datosCar[i].nameUser+'</div>'+
-						'<div>'+data.datosCar[i].nameC+' > '+data.datosCar[i].nameSC+'</div>'+
-						'<div class="price">'+lan('STORE_SHOPPING_VALUE')+': '+data.datosCar[i].sale_points+' '+(data.datosCar[i].formPayment=='1'?lan('STORE_SHOPPING_DOLLARS'):lan('STORE_SHOPPING_POINTSMA'))+'</div>'+
-						select+
-					'</div>'+
-				'</div><br/>'+
-				'<div class="buttons">'+
-					'<a func="details" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_SHOPPING_DETAILS')+'</span></span></a>'+
-					'<a func="delete" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_SHOPPING_ITEM')+'</span></span></a>'+
-					'<a func="sendWish" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_WISH_LIST_MOVE')+'</span></span></a>'+
-				'</div>'+
-			'</li>';
-	}
-	if(data.totalpoints>0){
-		outDivider+='<div class="point">'+
-						lan('STORE_SHOPPING_TOTAL_PRODUCTS')+
-						'<span>'+data.totalpoints+'</span>'+
-						'<input type="hidden" value="'+data.totalpoints+'">'+
-					'</div>';
-	}
-	if(data.totalmoney>0){
-		outDivider+='<div class="money">'+
-						lan('STORE_SHOPPING_TOTAL_PRODUCTSD')+
-						'<span>'+data.totalmoney+'</span>'+
-						'<input type="hidden" value="'+data.totalmoney+'">'+
-					'</div>';
-	}
-	outDivider+='</li>';
-	return outDivider+out;
-}
 function actionButtonsStore(){
 	$('#lstStoreOption .buttons a,#cartList .buttons a').click(function(){
 			switch($(this).attr('func')){
@@ -2086,7 +2031,7 @@ function deleteItemCar(id,get,obj){
 function updateCantP(myselect){
 	myselect.change(function(){
 		var cantAct=$(this).val(),tipo=$(this).attr('fr'),totalAnt=$(this).attr('cantAct'),
-			diferencia=0,objeto=$(this),linea=$(this).parents('li').attr('id');
+			diferencia=0,objeto=$(this),linea=$(this).parents('li').attr('id'),total,totalAct;
 			diferencia=cantAct*$(this).attr('precio');
 		myAjax({
 			type:'POST',
@@ -2095,14 +2040,24 @@ function updateCantP(myselect){
 			success:function(data){
 				if(data.datosCar=='update'){
 					objeto.attr('cantAct',diferencia);
-					totalAct=$('#cartList .titleDivider .money input').val();
 					if(tipo==1){
-						$('#cartList .titleDivider .money imput').val((totalAct-(totalAnt))+(diferencia));
-						$('#cartList .titleDivider .money span').html((totalAct-(totalAnt))+(diferencia));
+						totalAct=$('#data-header .total div .money input').val();
+						total=(totalAct-(totalAnt))+(diferencia);
+						$('#data-header .total div .money').remove();
+						$('#data-header .total div').append('<div class="money">$'+total+'<input type="hidden" value="'+total+'"></div>');
+						objeto.parents('li').find('.price').html('$'+total);
+						// totalAct=$('#cartList .titleDivider .money input').val();
+						// $('#cartList .titleDivider .money imput').val();
+						// $('#cartList .titleDivider .money span').html((totalAct-(totalAnt))+(diferencia));
 						//$('#totalPriceMoney').html((totalAct-(totalAnt))+(diferencia)).formatCurrency({symbol:''});
 					}else{
-						$('#cartList .titleDivider .point imput').val((totalAct-(totalAnt))+(diferencia));
-						$('#cartList .titleDivider .point span').html((totalAct-(totalAnt))+(diferencia));
+						totalAct=$('#data-header .total div .points input').val();
+						total=(totalAct-(totalAnt))+(diferencia);
+						$('#data-header .total div .points').remove();
+						$('#data-header .total div').append('<div class="points">$'+total+'Pts<input type="hidden" value="'+total+'"></div>');
+						objeto.parents('li').find('.price').html(total+'Pts');
+						// $('#cartList .titleDivider .point imput').val((totalAct-(totalAnt))+(diferencia));
+						// $('#cartList .titleDivider .point span').html((totalAct-(totalAnt))+(diferencia));
 						//$('#totalPrice').html((totalAct-(totalAnt))+(diferencia)).formatCurrency({symbol:''});
 						//var auxi=$('#totalPrice').html().split('.');
 						//$('#totalPrice').html(auxi[0]);
