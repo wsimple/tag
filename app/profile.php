@@ -3,7 +3,6 @@
 	<div id="sub-menu" style="position:absolute;top:0px;left:0;padding:0px;" data-position="fixed"  >
 		<ul class="ui-grid-d"></ul>
 	</div>
-
 	<div data-role="content" data-theme="d" class="no-footer">
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
