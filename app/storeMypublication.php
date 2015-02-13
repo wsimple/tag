@@ -44,7 +44,7 @@
 						'<a class="ui-btn-active">'+
 							lang.STORE_VIEWORDERINCART+
 						'</a>'+
-					'</li>'
+					'</li>' 
 				); 
                 $('#menu').html(
 					'<span class="ui-block-a menu-button"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
