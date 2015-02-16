@@ -18,7 +18,7 @@
 				</div>
 				<div id="globalButtons" align="center">
 					<!-- style="display:none;"  -->
-					<a id="pictureButton" data-role="button" data-theme="m" class="intext">&nbsp;</a>
+					<a id="pictureButton" data-role="button" data-theme="m" class="intext" style="display:none;" >&nbsp;</a>
 					<div id="userFriends" data-role="button" data-theme="m" class="intext">&nbsp;</div>
 					<div id="userFollowers" data-role="button" data-theme="m" class="intext">&nbsp;</div>
 					<div id="userFollowing" data-role="button" data-theme="m" class="intext">&nbsp;</div>

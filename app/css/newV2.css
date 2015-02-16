@@ -625,9 +625,6 @@ li.userInList h3{
 
 #page-signUp .btn-orange{
 	background-color: #EB5A28;
-}
-
-#page-signUp .btn-orange{
 	position: top;
 }
 
@@ -635,15 +632,12 @@ li.userInList h3{
 	background: none;
 }
 
-#page-signUp #fs-wrapper{
+#page-signUp #fs-wrapper, 
+#page-signUp #scroller, 
+#page-signUp #frmRegister {
 	background-color: #EB5A28;
 }
-#page-signUp #scroller{
-	background-color: #EB5A28;
-}
-#page-signUp #frmRegister{
-	background-color: #EB5A28;
-}
+
 
 #page-signUp #logo_image {
   text-align: center;
@@ -756,6 +750,7 @@ li.userInList h3{
 	margin-top: 2px !important;
 	margin-bottom: 2px !important;
 }
+/*SignUp Ends*/
 
 /*Profile Start*/
 #page-profile .ui-btn-inner{
@@ -766,13 +761,55 @@ li.userInList h3{
 	padding-left: 5px !important;
 }
 
+#page-profile #pictureButton{
+	background-image: url('newdesign/camera_o.png');
+	background-position:5px 2px;
+	background-size: 30px 30px;	
+	background-repeat: no-repeat;	
+}
+
+#page-profile #userFriends{
+	background-image: url('newdesign/presence_o.png');
+	background-position:5px 2px;
+	background-size: 30px 30px;	
+	background-repeat: no-repeat;	
+}
+
+#page-profile #userFollowers{
+	background-image: url('newdesign/presence_o.png');
+	background-position:5px 2px;
+	background-size: 30px 30px;	
+	background-repeat: no-repeat;	
+}
+
+#page-profile #userFollowing{
+	background-image: url('newdesign/presence_o.png');
+	background-position:5px 2px;
+	background-size: 30px 30px;	
+	background-repeat: no-repeat;	
+}
+
+#page-profile #userPreferences{
+	background-image: url('newdesign/settings_o.png');
+	background-position:5px 2px;
+	background-size: 30px 30px;	
+	background-repeat: no-repeat;	
+}
+
+#page-profile #userTags{
+	background-image: url('newdesign/tag.png');
+	background-position:5px 2px;
+	background-size: 30px 30px;	
+	background-repeat: no-repeat;	
+}
+
+#page-profile #userPersonalTags{
+	text-indent:5px !important;
+}
+
 #page-profile .intext{
 	background-color: #EF7B53;
 	color: #FFF;
-	background-image: url('newdesign/presence60.png');
-	background-position: left center !important;
-	background-repeat: no-repeat;
-	background-size: 30px 30px;
 	text-indent:35px;
 	height: 35px !important;
 	line-height: 25px !important;
@@ -847,7 +884,7 @@ li.userInList h3{
 
 #page-profile #content, #scroller, #fs-wrapper{
 	background-color: #E1E6E7;
-	border: none;
+	border: none !important;
 	border-shadow: none;
 	border:1px solid #E1E6E7;
 	box-shadow: none;
