@@ -1944,7 +1944,7 @@ function viewCategories(action,idLayer,id){
 					buttons:{ ok:'close' }
 				});
 			}
-			if(data.sCart) $('#cart-footer').fadeIn();
+			// if(data.sCart) $('#cart-footer').fadeIn();
 			$(idLayer).html(out).listview('refresh');
 			$('.list-wrapper').jScroll('refresh');
 		}

@@ -12,7 +12,7 @@
 		<!-- <ul id="cartList" data-role="listview" data-filter="true" class="list-friends"></ul> -->
 	</div>
     <div id="footerPay"></div>
-    <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
+<!--     <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul>
 				<li><a href="#" id="gotoStore"></a></li>
@@ -20,7 +20,7 @@
                 <li><a href="#" id="deleteShopping"></a></li>
 			</ul>
 		</div>
-	</div>
+	</div> -->
 	<script>
 		pageShow({
 			id:'#page-lstStoreCarList',
@@ -51,12 +51,12 @@
 					redir(PAGE['storePorduct']+'?sc='+$(this).attr('code')+'&c='+$_GET['id']);
 				});
 				getCartList(msgShipp);
-                $('#footer').on('click','li a',function(){
-					switch($(this).attr('id')){
-                        case 'gotoStore':   redir(PAGE['storeCat']); break;
-                        case 'gotoWish':    redir(PAGE['storeOption']); break;
-                    }
-				});
+    //             $('#footer').on('click','li a',function(){
+				// 	switch($(this).attr('id')){
+    //                     case 'gotoStore':   redir(PAGE['storeCat']); break;
+    //                     case 'gotoWish':    redir(PAGE['storeOption']); break;
+    //                 }
+				// });
                 function getCartList(msgShipp){
                 	myAjax({
                 		type	:'POST',
@@ -133,13 +133,29 @@
                                                 action: 'close'
                                             }]
                         				});   
-                                    }else{ myDialog('#singleDialog','<div><strong>'+lang.STORE_NO_SC+'</strong></div>'); }
+                                    }else{
+                                        myDialog({
+                                            id:'#singleDialog',
+                                            content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
+                                            buttons:[{
+                                                name:'Ok',
+                                                action:function(){ redir(PAGE.storeCat); }
+                                            }]
+                                        }); 
+                                    }
                                 });
                                 if (data['bodyEmerg']){  myDialog('#singleDialog',data['bodyEmerg']); }
-                            }else{ 
-                                myDialog('#singleDialog','<div><strong>'+lang.STORE_NO_SC+'</strong></div>'); 
+                            }else{  
+                                myDialog({
+                                    id:'#singleDialog',
+                                    content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
+                                    buttons:[{
+                                        name:'Ok',
+                                        action:function(){ redir(PAGE.storeCat); }
+                                    }]
+                                }); 
                                 $('#buttonCheckOut,#footer li.ui-block-c').remove();
-                                $('#footer ul li').css('width','50%');
+                                // $('#footer ul li').css('width','50%');
                             }
                 		}
                 	});

@@ -11,18 +11,18 @@
 			<div><ul id="infoList" class="list-info ui-grid-a"></ul></div>
 		</div></div>
 	</div><!-- content -->
-	<div id="cart-footer" data-role="footer" data-position="fixed" data-theme="f" style="display: none">
+<!-- 	<div id="cart-footer" data-role="footer" data-position="fixed" data-theme="f" style="display: none">
 		<div data-role="navbar"><ul></ul></div>
-	</div>
+	</div> -->
 	<?php include 'inc/mainmenu.php'; ?>
-    <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
+<!--     <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="storeNav">
 				<li><a href="#" id="goBack" opc="1"></a></li>
 				<li><a href="#"  opc="2"></a></li>
 			</ul>
 		</div>
-	</div>
+	</div> -->
 	<script type="text/javascript">
 		pageShow({
 			id:'#page-lstStore',
@@ -33,19 +33,19 @@
 				// $('#category').html(lang.STORE_CATEGORY);
 				// $('#btnGroupCreated').html(lang.GROUPS_TITLEWINDOWSNEW);
 				// $('#searchPreferences').attr('placeholder',lang.PREFERENCES_HOLDERSEARCH);
-				$('#cart-footer ul').html(
-					'<li>'+
-						'<a class="ui-btn-active">'+
-							lang.STORE_VIEWORDERINCART+
-						'</a>'+
-					'</li>'
-				);
+				// $('#cart-footer ul').html(
+				// 	'<li>'+
+				// 		'<a class="ui-btn-active">'+
+				// 			lang.STORE_VIEWORDERINCART+
+				// 		'</a>'+
+				// 	'</li>'
+				// );
                 // $('#storeNav #goBack').html(lang.goback+' '+lang.store);
                 $('#menu').html(
 					'<span class="ui-block-a menu-button hover"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
-					'<span class="ui-block-b"></span>'+
+					'<span class="ui-block-b menu-button" style="font-size: 9px;"><a href="storeMypublication.html" ><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
 					'<span class="ui-block-c"></span>'+
-					'<span class="ui-block-d"></span>'+
+					'<span class="ui-block-d menu-button"><a href="storeOption.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('wishes','ucw')+'</a></span>'+
 					'<span class="ui-block-e menu-button"><a href="storeCartList.html" title="cart"><img src="css/newdesign/menu/store.png"><br>'+lan('view cart','ucw')+'</a></span>'
 				);
 				$('#searc-basic').attr('placeholder',lan('product search','ucw'));

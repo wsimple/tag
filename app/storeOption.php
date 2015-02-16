@@ -8,14 +8,14 @@
 			<div id="storeOption"></div>
 			<ul data-role="listview" id="lstStoreOption" data-filter="true" data-divider-theme="b" class="list-info"></ul>
 	</div><!-- content -->
-	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
+<!-- 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul>
 				<li><a href="#" id="gotoStore"></a></li>
 				<li><a href="#" id="gotoCart"></a></li>
 			</ul>
 		</div>
-	</div>
+	</div> -->
 	<script>
 		pageShow({
 			id:'#page-lstStoreOption',
@@ -70,12 +70,12 @@
 			},
 			after:function(){
                 // $('#page-lstStoreOption .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
-                $('#footer').on('click','li a',function(){
-					switch($(this).attr('id')){
-                        case 'gotoStore':   redir(PAGE['storeCat']); break;
-                        case 'gotoCart':    redir(PAGE['shoppingCart']); break;
-                    }
-				});
+    //             $('#footer').on('click','li a',function(){
+				// 	switch($(this).attr('id')){
+    //                     case 'gotoStore':   redir(PAGE['storeCat']); break;
+    //                     case 'gotoCart':    redir(PAGE['shoppingCart']); break;
+    //                 }
+				// });
                 if ($_GET['option']){
                     switch($_GET['option']){
                         case '1': 

@@ -231,9 +231,10 @@
 }
 
 /*Time line*/
-#page-lstStore #scroller,
-#page-timeLine #scroller,
-#page-topTags #scroller{
+#page-lstStoreSubCategory #scroller,
+#page-lstStoreCategory #scroller,
+#page-lstMyStore #scroller, #page-lstStore #scroller, 
+#page-timeLine #scroller, #page-topTags #scroller{
 	background-color: #e2e6e7 !important;
 }
 .tags-list{
@@ -335,6 +336,7 @@
 	}
 }
 /*Find Friends and Friends*/
+#page-lstStoreCategory #menu,#page-lstStoreSubCategory #menu,
 #page-friendUser #menu, #page-friendSearch #menu,
 #page-lstStore #menu, #page-detailsProducts #menu,
 #page-lstMyStore #menu{
@@ -861,7 +863,11 @@ li.userInList h3{
 
 /*store*/
 #page-lstStore .list-wrapper,
-#page-lstMyStore .list-wrapper{ top: 47px; }
+#page-lstMyStore .list-wrapper{ top: 63px; }
+@media (min-width: 600px){
+	#page-lstStore .list-wrapper,
+	#page-lstMyStore .list-wrapper{ top: 47px; }
+}
 #page-lstStore .list-info,
 #page-lstMyStore .list-info{
 	list-style: none;
@@ -959,6 +965,17 @@ li.userInList h3{
 	background: #F57133;
 	border: 1px solid #F57133;
 } 
+#infoDetails .tag-hash a,#infoDetails .tag-solo-hash a{ color: #FF6633; }
+#infoDetails .buttonsDetails .video .ui-btn-inner{ padding: .2em;}
+#infoDetails .buttonsDetails .video>a{
+	background: #F57133;
+	border-radius: 5px !important;
+	-ms-border-radius: 5px !important;
+	-moz-border-radius: 5px !important;
+	-webkit-border-radius: 5px !important;
+	-o-border-radius: 5px !important;
+	border: 1px solid #F57133;
+}
 #singleDialogProducts #contentImgs{
 	overflow: hidden;
 	position: relative;
@@ -1044,4 +1061,28 @@ li.userInList h3{
 	color: #2c3e4f;
 	border: 1px solid #2c3e4f;
 	background: #fff;
+}
+#page-lstStoreCategory form.ui-listview-filter,
+#page-lstStoreSubCategory form.ui-listview-filter{
+	background: #03A993;
+	color: #fff;
+	text-align: center;
+	font-weight: bold;
+	background-color: #8b9b9c;
+	margin: 5px auto 0;
+	padding: 2% 10%;
+}
+#page-lstStoreCategory form.ui-listview-filter div.ui-input-search,
+#page-lstStoreSubCategory form.ui-listview-filter div.ui-input-search{
+	border-radius: 5px !important;
+	-ms-border-radius: 5px !important;
+	-moz-border-radius: 5px !important;
+	-webkit-border-radius: 5px !important;
+	-o-border-radius: 5px !important;
+}
+#page-lstStoreCategory .list-wrapper,
+#page-lstStoreSubCategory .list-wrapper{ top: 68px; }
+@media (min-width: 600px){
+	#page-lstStoreCategory .list-wrapper,
+	#page-lstStoreSubCategory .list-wrapper{ top: 90px; }
 }

@@ -12,14 +12,14 @@
 		<div data-role="navbar"><ul></ul></div>
 	</div>
     <?php include 'inc/mainmenu.php'; ?>
-    <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
+<!--     <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="storeNav">
 				<li><a href="#" id="goBack" opc="1"></a></li>
 				<li><a href="#"  opc="2"></a></li>
 			</ul>
 		</div>
-	</div>
+	</div> -->
 	<script type="text/javascript">
 		pageShow({
 			id:'#page-detailsProducts',
@@ -63,10 +63,13 @@
                     			var i,photo,product,outLi='',hashS='',video='',stock='',basePhoto='',divPhotos='',nPhotos=0;
                     			product=data['prod'][0];
                                 if(product['typeVideo']){
-    								var href='',$video=$('.tag-buttons #'+product['typeVideo']).fadeIn('slow');								
+    								var href='';
+                                    // $video=$('.tag-buttons #'+product['typeVideo']).fadeIn('slow');								
                                     if(openVideo){ href='nohref="'+product['video']+'"';
     								}else{ href='href="'+product['video']+'" target="_blank"'; }
-                                    video='<a id="'+product['typeVideo']+'"	'+href+' class="video" data-ajax="false"></a>';                                
+                                    video='<a id="'+product['typeVideo']+'"	'+href+' class="video" data-ajax="false" data-role="button" data-theme="e">'+
+                                        '<img src="css/newdesign/video.png" alt="" width="27" height="27">'+
+                                    '</a>';                                
     							}
         //                         if(product['stock']>0){
 								// 	if(product['idse']!==product['id_user']){
@@ -96,11 +99,12 @@
                                             hashS+='<a href="#" hashT="'+data['hash'][jj]+'">'+data['hash'][jj]+'</a>&nbsp;&nbsp;';
                                       }
     						    }
+                                console.log(hashS);
                     			outLi+=basePhoto+
                     				'</div>'+
                     				'<div id="priceApp">'+(product['pago']=='0'?'<span id="points">'+product['cost']+'</span>pts':'$<span id="points">'+product['cost']+'</span>')+'</div>'+
                                     '<div id="titleDescription">'+lang.STORE_SHOPPING_DESCRIPTION+':</div>'+
-                                    '<div id="description">'+product['description']+'</div>'+
+                                    '<section id="description">'+product['description']+'</section>'+
                                     (hashS!=''?'<div id="titleHash">'+lang.STORE_SUGGEST+':</div><div class="tag-solo-hash">'+hashS+'</div>':'')+
                                     '<span id="seller">'+lang.STORE_SHOPPING_SELLER+': '+product['seller']+'</span>'+
                                     // '<div id="user">'+product['seller']+'</div>'+
@@ -126,13 +130,16 @@
                                                 '<button id="buttonShopping" data-theme="e">'+lang.STORE_SHOPPING_ADD+'</button>'+
                                             '</div>'+
                                         '</div>'+
-                                    '<div class="ui-grid-solo">'+
-                                        '<div class="ui-block-a"><button data-theme="c" id="buttonWish">'+lang.STORE_WISH_LIST_ADD+'</button></div>'+
+                                    '<div class="'+(video!=''?'ui-grid-a':'ui-grid-solo')+'">'+
+                                        (video!=''?
+                                        '<div class="ui-block-a video" style="width: 20%;">'+video+'</div>'+
+                                        '<div class="ui-block-b" style="width: 75%;"><button data-theme="c" id="buttonWish">'+lang.STORE_WISH_LIST_ADD+'</button></div>':
+                                        '<div class="ui-block-a"><button data-theme="c" id="buttonWish">'+lang.STORE_WISH_LIST_ADD+'</button></div>')+
                                     '</div></div></div>';
                     
                     			$(layer).html(outLi);
                                 // $('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+category+'</span></span>').attr('code',idcategory);
-                    			$( ".buttonsDetails button" ).button();
+                    			$( ".buttonsDetails button,.buttonsDetails a" ).button();
                                 $('.list-wrapper').jScroll('refresh');
                     			$(".photosp").on("click",".pic",function(){
                                     var html=
@@ -211,7 +218,7 @@
                                     var aux=cost.split('.');
                                     $('#points').html(aux[0]);
                                 }
-                                 $(info).on('click','div.tag-solo-hash',function(){ //
+                                $(info).on('click','div.tag-solo-hash',function(){ //
                                     $(this).addClass('tag-solo-hash-complete');
                                     var vector=$('a[hashT]',this);
                                     $.each(vector, function(key,value){ $(this).attr('hash',$(this).attr('hashT')).removeAttr('hashT'); });

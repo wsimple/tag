@@ -21,14 +21,14 @@
 		</div>
 	</div>
 	<?php include 'inc/mainmenu.php'; ?>
-    <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
+<!--     <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="storeNav">
 				<li><a href="#" id="goBack" opc="1"></a></li>
 				<!--<li><a href="#"  opc="2"></a></li>-->
 			</ul>
 		</div>
-	</div>
+	</div> -->
 	<script type="text/javascript">
 		pageShow({
 			id:'#page-lstMyStore',
@@ -48,7 +48,7 @@
 				); 
                 $('#menu').html(
 					'<span class="ui-block-a menu-button"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
-					'<span class="ui-block-b menu-button hover"><a href="#"><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
+					'<span class="ui-block-b menu-button hover" style="font-size: 9px;"><a href="#"><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
 					'<span class="ui-block-c"></span>'+
 					'<span class="ui-block-d menu-button"><a href="storeOption.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('wishes','ucw')+'</a></span>'+
 					'<span class="ui-block-e menu-button"><a href="storeCartList.html" title="cart"><img src="css/newdesign/menu/store.png"><br>'+lan('view cart','ucw')+'</a></span>'
