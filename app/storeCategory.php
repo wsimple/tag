@@ -20,10 +20,11 @@
 				// $('#buttonShopping').html(lang.STORE_CART);
 				$('#menu').html(
 					'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
-					'<span class="ui-block-b menu-button" style="font-size: 9px;"><a href="storeMypublication.html" ><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
+					// '<span class="ui-block-b menu-button" style="font-size: 9px;"><a href="storeMypublication.html" ><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
+					'<span class="ui-block-b"></span>'+
 					'<span class="ui-block-c"></span>'+
 					'<span class="ui-block-d menu-button"><a href="storeOption.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('wishes','ucw')+'</a></span>'+
-					'<span class="ui-block-e menu-button"><a href="storeCartList.html" title="cart"><img src="css/newdesign/menu/store.png"><br>'+lan('view cart','ucw')+'</a></span>'
+					'<span class="ui-block-c menu-button cart" style="width: 20%;"><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('cart','ucw')+'</a></span>'
 				);
 				// $('#cart-footer ul').html(
 				// 	'<li>'+
@@ -46,14 +47,14 @@
 				}).on('click','a[codePro]',function(){
 					redir(PAGE['storePorduct']+'?idCat='+$(this).attr('codePro'));
 				});
-				$('#buttonShopping').click(function(){
-					goShoppingCart();
-				});
+				// $('#buttonShopping').click(function(){
+				// 	goShoppingCart();
+				// });
 				// $('#cart-footer ul li a').click(function(){
 				// 	redir(PAGE['shoppingCart']);
 				// });
 				viewCategories(1,el,'');
-
+				numItemsCart();
 			}
 		});
 	</script>

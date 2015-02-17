@@ -48,10 +48,11 @@
 				); 
                 $('#menu').html(
 					'<span class="ui-block-a menu-button"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
-					'<span class="ui-block-b menu-button hover" style="font-size: 9px;"><a href="#"><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
+					// '<span class="ui-block-b menu-button hover" style="font-size: 9px;"><a href="#"><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
+					'<span class="ui-block-b"></span>'+
 					'<span class="ui-block-c"></span>'+
 					'<span class="ui-block-d menu-button"><a href="storeOption.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('wishes','ucw')+'</a></span>'+
-					'<span class="ui-block-e menu-button"><a href="storeCartList.html" title="cart"><img src="css/newdesign/menu/store.png"><br>'+lan('view cart','ucw')+'</a></span>'
+					'<span class="ui-block-c menu-button cart" style="width: 20%;"><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('cart','ucw')+'</a></span>'
 				);
 				$('#searc-basic').attr('placeholder',lan('product search','ucw'));
 			},
@@ -65,13 +66,14 @@
 				$(layer).on('click','li[idPro]',function(){
 					redir(PAGE['detailsproduct']+'?id='+$(this).attr('idPro'));
 				});				
-                $('#storeNav').on('click','li a[opc]',function(){
-					switch($(this).attr('opc')){
-                        case '1': redir(PAGE['storeCat']); break;
-//                        case '2': redir(PAGE['storeSubCate']+'?id='+$(this).attr('code')); break;
-                    }
-				});
+//                 $('#storeNav').on('click','li a[opc]',function(){
+// 					switch($(this).attr('opc')){
+//                         case '1': redir(PAGE['storeCat']); break;
+// //                        case '2': redir(PAGE['storeSubCate']+'?id='+$(this).attr('code')); break;
+//                     }
+// 				});
 				getMypublication(layer);
+				numItemsCart();
 				var timeOut;
 				function buscar(request,obj){
                 limit=0;
@@ -115,7 +117,8 @@
 										'</a>'+
 									'</li>';
 							}
-							$(layer).html(out).listview('refresh');
+							$(layer).html(out);
+							// $(layer).html(out).listview('refresh');
 							//$('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+category+'</span></span>').attr('code',idcategory);
 							$('.list-wrapper').jScroll('refresh');
 						}else myDialog('#singleDialog',lang.STORE_NOSTORE_MESSAGE);

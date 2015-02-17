@@ -64,6 +64,7 @@ is.limited= !is.webkit||is.android;
 		'.reward'	:'.gana',
 		'Gender'	:'G&eacute;nero',
 		'Phone Number (Optional)':'Numero de Teléfono (Opcional)',
+		'cart'		:'carro',
 		'view cart'	:'ver carro',
 		'product search':'busqueda de producto',
 		'Male'		:'Masculino',

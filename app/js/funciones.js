@@ -2143,7 +2143,14 @@ function moveToWish(id,get,details){
 						//$('#list_orderProduct_wish ul').html(data.wish.body);
 						//$('.button').button();
 					}else{
-						myDialog('#singleDialog','<div><strong>'+lan('STORE_NO_SC')+'</strong></div>');
+						myDialog({
+                            id:'#singleDialog',
+                            content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
+                            buttons:[{
+                                name:'Ok',
+                                action:function(){ redir(PAGE.storeCat); }
+                            }]
+                        });
 						$('#cartList').empty().html('').listview('refresh');
 					}
 				}
@@ -2191,7 +2198,22 @@ function checkOutShoppingCart(get){
 		}
 	});
 }
-
+function numItemsCart(){
+	myAjax({
+		type	:'POST',
+		url		:DOMINIO+'controls/store/shoppingCart.json.php?numActShop=4',
+		dataType:'json',
+		error	:function(/*resp,status,error*/){
+			myDialog('#singleDialog',lan('conectionFail'));
+		},
+		success	:function(data){
+			if (data[0]){ 
+				var num=data[0]*1;
+				if (num>0) $('#menu .cart span').html(num).addClass('active'); 
+			}
+		}
+	});	
+}
 (function(window){//funciones de comentarios
 	function showComments(comments){
 		if(!comments||!comments.length) return '';

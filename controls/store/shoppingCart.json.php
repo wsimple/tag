@@ -1,8 +1,12 @@
 <?php
-if (!$car){
-	include '../header.json.php';
-}
+if (!$car){ include '../header.json.php'; }
 include ('../../class/class.phpmailer.php');
+	
+	if (isset($_GET['numActShop'])){
+		if ($_SESSION['ws-tags']['ws-user']['id']!='')
+			die(jsonp(array(createSessionCar('','','count'))));
+		else die();
+	}
 
 	$jsonResponse = array();
 
@@ -36,7 +40,7 @@ include ('../../class/class.phpmailer.php');
 		switch ($action){
 		case 1:
 			#Añadir productos al carrito
-			if($product['seller']==$_SESSION['ws-tags']['ws-user'][id]){ $jsonResponse['datosCar2']['add'] = 'no'; }
+			if($product['seller']==$_SESSION['ws-tags']['ws-user']['id']){ $jsonResponse['datosCar2']['add'] = 'no'; }
             else{
 				if ($product['id_status']!='2' && $product['stock']>'0'){
 					$jsonResponse['datosCar2']['add'] = 'si';
@@ -1345,7 +1349,7 @@ include ('../../class/class.phpmailer.php');
                 }	                
                 switch ($row['formPayment']){
                     case '1': $price='$ <span money="d">'.$row['price'].'</span>'; break;
-                    default : $price='<span money="p">'.$row['price'].'</span> '.$lang["STORE_TITLEPOINTS"];
+                    default : $price='<span money="p">'.$row['price'].'</span> '.(($array['mobile'])?'Pts':$lang["STORE_TITLEPOINTS"]);
                 }                
                 //datos empieza el html
                 if ($array['mobile']){
@@ -1436,27 +1440,22 @@ include ('../../class/class.phpmailer.php');
     function mobileWishList($row,$lang,$array,$price){
 		$delete='';$button='';
     	if ($array['tipo']!='prefe' && $array['tipo']!='aso')
-    		$delete='<a func="delete" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f">
-    					<span class="ui-btn-inner"><span class="ui-btn-text">'.$lang["STORE_REMOVEITEMSCTITLE"].'</span></span>
-    				</a>';
+    		$delete=' | <a func="delete" href="#">'.$lang["PRODUCTS_DELETE"].'</a>';
     	if ($row['stock']>0)
-    		$button='<a func="sendCart" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f">
-    					<span class="ui-btn-inner"><span class="ui-btn-text">'.$lang["STORE_ADDCART"].'</span></span>
-					</a>';
+    		$button=' | <a func="sendCart" href="#">'.$lang["STORE_ADDCART"].'</a>';
     	$html='<li id='.md5($row['id']).'>
     				<div class="contentItem">
     					<div class="itemPic"><img src="'.$row['photo'].'"/></div>
 						<div class="itemDes">
 							<div class="name">'.$row['name'].'</div>
-							<div><strong>'.$lang["SELLER"].':</strong> '.$row['nameUser'].'</div>
-							<div>'.$row['category'].' > '.$row['subCategory'].'</div>
-							<div class="price">'.$lang["PRODUCTS_PRICE"].': '.$price.'</div>
+							<div>'.$lang["SELLER"].': '.$row['nameUser'].'</div>
+							<!--div>'.$row['category'].' > '.$row['subCategory'].'</div-->
+							<div class="price">'.$price.'</div>
+							<!--div class="price">'.$lang["PRODUCTS_PRICE"].': '.$price.'</div-->
 							<div >'.$lang["STORE_STOCK"].': '.$row['stock'].'</div>
         				</div><br/>
         				<div class="buttons">
-        					<a func="details" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f">
-        						<span class="ui-btn-inner"><span class="ui-btn-text">'.$lang["STORE_VIEWDETAILS"].'</span></span>
-    						</a>'.$delete.$button.'
+        					<a func="details" href="#">'.$lang["STORE_VIEWDETAILS"].'</a>'.$delete.$button.'
     					</div>
                 </li>';
         return $html;

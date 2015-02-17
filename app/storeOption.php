@@ -1,13 +1,16 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-lstStoreOption" data-role="page" data-cache="false" class="no-footer">
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<h1></h1>
-        <a id="buttonCheckOutOption" href="#" data-icon="arrow-r" style="display: none;">&nbsp;</a>
+		<div id="menu" class="ui-grid-b" style="top:0px;left:0;padding:0 5px;"></div>
+        <!-- <h1></h1> -->
+        <!-- <a id="buttonCheckOutOption" href="#" data-icon="arrow-r" style="display: none;">&nbsp;</a> -->
 	</div><!-- header -->
 	<div data-role="content" class="list-content">
 			<div id="storeOption"></div>
-			<ul data-role="listview" id="lstStoreOption" data-filter="true" data-divider-theme="b" class="list-info"></ul>
+			<ul data-role="listview" id="lstStoreOption" data-divider-theme="b" class="list-info"></ul>
 	</div><!-- content -->
+    <div id="footerPay"></div>
+    <?php include 'inc/mainmenu.php'; ?>
 <!-- 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul>
@@ -19,21 +22,22 @@
 	<script>
 		pageShow({
 			id:'#page-lstStoreOption',
-			title:function(){
-                 if ($_GET['option']){
-                    switch($_GET['option']){
-                        case '1': return lang.STORE_SHIPPING; break;
-                    }   
-                }else{ return lang['STORE']; }
-			},
-			showmenuButton:true,
+			// title:function(){
+   //               if ($_GET['option']){
+   //                  switch($_GET['option']){
+   //                      case '1': return lang.STORE_SHIPPING; break;
+   //                  }   
+   //              }else{ return lang['STORE']; }
+			// },
+			// showmenuButton:true,
 			before:function(){
-				$('#gotoStore').html(lan('store','ucw'));
-                $('#gotoCart').html(lan('shopping cart','ucw'));
+				// $('#gotoStore').html(lan('store','ucw'));
+    //             $('#gotoCart').html(lan('shopping cart','ucw'));
+                var title='';
                 if ($_GET['option']){
                     switch($_GET['option']){
-                        case '1': 
-                            $('#buttonCheckOutOption').html(lang.STORE_SHOPPING_CHECKOUT);
+                        case '1': title=lang.STORE_SHIPPING;
+                            // $('#buttonCheckOutOption').html(lang.STORE_SHOPPING_CHECKOUT);
 			                var formulario='<div id="scroller">'+
 				                              '<div>'+
                                                     '<form action="" method="get">'+
@@ -61,12 +65,27 @@
 			                               '</div>';
                                 $('#storeOption').before('<img class="bg" src="css/smt/bg.png" />').html(formulario).addClass('fs-wrapper');
                                 $('#lstStoreOption').remove();
+                                $('#footerPay').html('<div class="ui-grid-solo">'+
+                                            '<div class="ui-block-a">'+
+                                                '<button id="buttonCheckOutOption" data-theme="e">'+lan('STORE_SHOPPING_CHECKOUT')+'</button>'+
+                                            '</div>'+
+                                        '</div>');
+                                $('#bottom-menu').remove();
+                                // $( "#footerPay button" ).button();
                         break;
                     }   
                 }else{ 
+                    title=lan('wish list','ucw');
                     $('#shopping').html(lang.STORE_SHOPPING_CART); 
                     $('#storeOption').remove();
                 }
+                $('#menu').html(
+                    '<span class="ui-block-a menu-button hover" style="width: 20%;"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
+                    // '<span class="ui-block-b"></span>'+
+                    '<span class="ui-block-b" style="width: 60%"><br/><strong>'+title+'</strong></span>'+
+                    // '<span class="ui-block-d"></span>'+
+                    '<span class="ui-block-c menu-button cart" style="width: 20%;"><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('cart','ucw')+'</a></span>'
+                );
 			},
 			after:function(){
                 // $('#page-lstStoreOption .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
@@ -76,6 +95,7 @@
     //                     case 'gotoCart':    redir(PAGE['shoppingCart']); break;
     //                 }
 				// });
+                numItemsCart();
                 if ($_GET['option']){
                     switch($_GET['option']){
                         case '1': 
@@ -105,7 +125,7 @@
                                         $('#address').val(data['datosCar']['address']);
                                         $('#phoneWork').val(data['datosCar']['nwork']);
                                         $('#phoneMobile').val(data['datosCar']['nmobile']);
-                                        $('#buttonCheckOutOption').css('display','inline-block');
+                                        // $('#buttonCheckOutOption').css('display','inline-block');
                                     }
                                 }
                         	});

@@ -8,9 +8,9 @@
 	<div data-role="content" class="list-content">
 		<div id="infoDetails"></div>
 	</div><!-- content -->
-	<div id="cart-footer" data-role="footer" data-position="fixed" data-theme="f" style="display: none">
+<!-- 	<div id="cart-footer" data-role="footer" data-position="fixed" data-theme="f" style="display: none">
 		<div data-role="navbar"><ul></ul></div>
-	</div>
+	</div> -->
     <?php include 'inc/mainmenu.php'; ?>
 <!--     <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
@@ -29,19 +29,19 @@
 				//languaje
 				// $('#category').html(lang.STORE_CATEGORY);
 				// $('#buttonShopping').html(lang.STORE_SHOPPING_ADD);				
-				$('#cart-footer ul').html(
-					'<li>'+
-						'<a class="ui-btn-active">'+
-							lang.STORE_VIEWORDERINCART+
-						'</a>'+
-					'</li>'
-				);
+				// $('#cart-footer ul').html(
+				// 	'<li>'+
+				// 		'<a class="ui-btn-active">'+
+				// 			lang.STORE_VIEWORDERINCART+
+				// 		'</a>'+
+				// 	'</li>'
+				// );
                 $('#menu').html(
                     '<span class="ui-block-a menu-button hover" style="width: 20%;"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
                     // '<span class="ui-block-b"></span>'+
                     '<span class="ui-block-b" style="width: 60%"><br/><strong>'+lang.STORE_DETAILS+'</strong></span>'+
                     // '<span class="ui-block-d"></span>'+
-                    '<span class="ui-block-c menu-button" style="width: 20%;"><a href="storeCartList.html" title="cart"><img src="css/newdesign/menu/store.png"><br>'+lan('view cart','ucw')+'</a></span>'
+                    '<span class="ui-block-c menu-button cart" style="width: 20%;"><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('cart','ucw')+'</a></span>'
                 );
 			},
 			after:function(){
@@ -140,6 +140,7 @@
                     			$(layer).html(outLi);
                                 // $('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+category+'</span></span>').attr('code',idcategory);
                     			$( ".buttonsDetails button,.buttonsDetails a" ).button();
+                                numItemsCart();
                                 $('.list-wrapper').jScroll('refresh');
                     			$(".photosp").on("click",".pic",function(){
                                     var html=

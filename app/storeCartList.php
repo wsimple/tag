@@ -11,7 +11,7 @@
         <ul id="cartList" data-role="listview" class="list-friends"></ul>
 		<!-- <ul id="cartList" data-role="listview" data-filter="true" class="list-friends"></ul> -->
 	</div>
-    <div id="footerPay"></div>
+    <div data-role="footer" id="footerPay"></div>
 <!--     <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul>
@@ -52,21 +52,21 @@
 				});
 				getCartList(msgShipp);
     //             $('#footer').on('click','li a',function(){
-				// 	switch($(this).attr('id')){
+                //  switch($(this).attr('id')){
     //                     case 'gotoStore':   redir(PAGE['storeCat']); break;
     //                     case 'gotoWish':    redir(PAGE['storeOption']); break;
     //                 }
-				// });
+                // });
                 function getCartList(msgShipp){
-                	myAjax({
-                		type	:'POST',
-                		url		:DOMINIO+'controls/store/shoppingCart.json.php?action=16&noEditS=1&shop=1',
-                		dataType:'json',
+                    myAjax({
+                        type    :'POST',
+                        url     :DOMINIO+'controls/store/shoppingCart.json.php?action=16&noEditS=1&shop=1',
+                        dataType:'json',
                         data:{infoI:true},
-                		error	:function(/*resp,status,error*/){
-                			myDialog('#singleDialog',lang.conectionFail);
-                		},
-                		success	:function(data){
+                        error   :function(/*resp,status,error*/){
+                            myDialog('#singleDialog',lang.conectionFail);
+                        },
+                        success :function(data){
                 			var out='';
                             if (data['datosCar'][0]['name']){
                                 msgShipp.msg=data['msgShipp'];
@@ -80,7 +80,7 @@
                                                 '<div class="ui-block-a" style="width: 40%">'+
                                                     '<button id="buttonCancelCheckOut" data-theme="c">'+lan('cancel')+'</button>'+                                        
                                                 '</div>'+
-                                                '<div \ class="ui-block-b" style="width: 60%">'+
+                                                '<div class="ui-block-b" style="width: 60%">'+
                                                     '<button id="buttonCheckOut" data-theme="e">'+lan('pay now','ucw')+'</button>'+
                                                 '</div>'+
                                             '</div>');
@@ -88,6 +88,7 @@
                                     $('#buttonCancelCheckOut').click(function(){
                                         goBack();
                                     });
+                                    $('#footerPay').removeAttr('class');
                                     $('#buttonCheckOut').click(function(){
                                         if ($('#dollarApp').val()=='si'){ myDialog('#singleDialog',lang.STORE_NOT_CHET_DOLLAR);}
                                         else {
