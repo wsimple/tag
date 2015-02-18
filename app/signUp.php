@@ -13,10 +13,6 @@
 					</div>
 				</div></div></div>
 				<form id="frmRegister" name="frmRegister" method="post" style="display:block;">
-<<<<<<< HEAD
-					<!--<a href="divDialog" data-rel="dialog">Open dialog</a>-->
-=======
->>>>>>> designV2APP
 					<div id="divDialog" data-role="dialog" style="display: none"></div>
 					<input type="hidden" value="1" name="mobile"/>
 					<input type="hidden" value="0" id="company" name="company"/>

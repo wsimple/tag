@@ -2,13 +2,8 @@
 <script> var opc={type:1,dato:[]}; </script>
 <div id="page-preferences" data-role="page" data-cache="false">
 	<div id="sub-menu" style="position:absolute;top:0px;left:0;padding:0px;" data-position="fixed"  >
-		<ul class="ui-grid-d"></ul>
+
 	</div>
-	<!--<div data-role="header" data-position="fixed" data-theme="f">
-		<a id="buttonBack_preferences" href="#" data-icon="arrow-l" onclick="goBack();"></a>
-		<h1>&nbsp;</h1>
-		<a id="btnPreferences_update" style="display:none" href="#" onClick="savePreferences(opc);" data-icon="check"></a>
-	</div>-->
 
 	<div data-role="content" class="list-content">
 		<img class="bg" src="css/smt/bg.png" />
@@ -16,23 +11,34 @@
 			<div id="scroller">
 				<div class="smt-tag-content" style="text-align: left">
 					<fieldset data-role="controlgroup">
-						<legend id="titleOptionPrefe" style="font-weight: bold">&nbsp;</legend>
-						<input type="radio" name="radio-choice-1" id="radio-choice-1" value="choice-1" onclick="changePrefe(opc,1);" />
-						<label for="radio-choice-1" id="labelTypePrefe1"></label>
-						<input type="radio" name="radio-choice-1" id="radio-choice-2" value="choice-2" onclick="changePrefe(opc,2);"  />
-						<label for="radio-choice-2" id="labelTypePrefe2"></label>
-						<input type="radio" name="radio-choice-1" id="radio-choice-3" value="choice-3" onclick="changePrefe(opc,3);"  />
-						<label for="radio-choice-3" id="labelTypePrefe3"</label>
+						<legend id="titleOptionPrefe" style="font-weight: bold" data-theme="m" >&nbsp;</legend>
+						<input type="radio" name="radio-choice-1" id="radio-choice-1" value="choice-1" onclick="changePrefe(opc,1);" data-theme="m" />
+						<label for="radio-choice-1" id="labelTypePrefe1" data-theme="m" ></label>
+						<input type="radio" name="radio-choice-1" id="radio-choice-2" value="choice-2" onclick="changePrefe(opc,2);"  data-theme="m" />
+						<label for="radio-choice-2" id="labelTypePrefe2" data-theme="m" ></label>
+						<input type="radio" name="radio-choice-1" id="radio-choice-3" value="choice-3" onclick="changePrefe(opc,3);"  data-theme="m" />
+						<label for="radio-choice-3" id="labelTypePrefe3"  data-theme="m" ></label>
 					</fieldset>
 					<label id="labelTxtPrefe" for="txtPreFe"></label>
 					<textarea id="txtPrefe" name="txtPrefe" style="resize: none;" ></textarea>
 					<span id="prefere_legend" style="font-size: 10px;display:block;"></span>
 					<input id="typePre" name="typePre" type="hidden" value="" />
+
+					<div style="margin-top: 10px;">
+						<div style="float: left;">
+							<a id="buttonBack_preferences" href="#" data-icon="arrow-l" onclick="goBack();"></a>
+						</div>
+						<div style="float: right">
+							<a id="btnPreferences_update" style="display:none" href="#" onClick="savePreferences(opc);" data-icon="check"></a>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
 	</div>
-	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
+
+	<div id="footer" data-role="footer" data-position="fixed" data-theme="f" style="background-color: #E1E6E7 !important;">
 		<div data-role="navbar">
 			<ul>
 				<li><a id="labelChoosePre" class="ui-btn-active" onclick="redir(PAGE['preferences']);" >&nbsp;</a></li>

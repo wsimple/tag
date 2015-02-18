@@ -884,6 +884,10 @@ li.userInList h3{
 	box-shadow: none;
 }
 
+#page-profile #footer{
+	background-color: #E1E6E7 !important;
+}
+
 #page-profile #content, #page-profile #scroller, #page-profile #fs-wrapper{
 	background-color: #E1E6E7;
 	border: none !important;
@@ -896,12 +900,93 @@ li.userInList h3{
 	margin: 0 !important;
 }
 
-#page-profile #closeBtn {
-	text-align: center !important;
-	text-decoration: none;
+#page-profile .ui-link {
+	color: #2489ce;
+	font-weight: bold;
 }
 
 /*Profile Ends*/
+
+/*Preferences Starts*/
+
+#page-preferences .ui-corner-all {
+	border-radius: 4px /*{global-radii-blocks}*/;
+	-webkit-border-radius: 4px /*{global-radii-blocks}*/;
+}
+
+#page-preferences .ui-selectmenu-list .ui-icon {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+#page-preferences .ui-btn-corner-all {
+	-webkit-border-radius: 4px /*{global-radii-buttons}*/;
+	border-radius: 4px /*{global-radii-buttons}*/;
+}
+
+#page-preferences .ui-btn {
+	text-align: left;
+	width: 100%;
+	margin-top: 2px !important;
+	margin-bottom: 2px !important;
+	border-radius: 4px /*{global-radii-blocks}*/ !important;
+	-webkit-border-radius: 4px /*{global-radii-blocks}*/ !important;
+}
+
+#page-preferences .ui-btn-up-m {
+	border: 1px solid #FFF;
+	background: #FFF;
+	font-weight: bold;
+	color: #EB5A28;
+}
+
+#page-preferences .ui-btn-hover-m {
+	border: 1px solid #bbbbbb ;
+	background: #FFF;
+	font-weight: bold;
+	color: #EB5A28 ;
+}
+
+#page-preferences .ui-btn-up-n {
+	border: 1px solid #EB5A28 ;
+	background: #EB5A28 ;
+	font-weight: normal;
+	color: #FFF ;
+	margin-right: 0 !important;
+	margin-left: 0 !important;
+	width: 99%;
+}
+
+#page-preferences .ui-btn-hover-n {
+	border: 1px solid #bbbbbb ;
+	background: #EB5A28 ;
+	font-weight: normal;
+	color: #FFF ;
+	margin-right: 0 !important;
+	margin-left: 0 !important;
+	width: 99%;
+}
+
+#page-preferences {
+	background-color: #E1E6E7;
+	border: none;
+	border-shadow: none;
+	border:1px solid #E1E6E7;
+	box-shadow: none;
+}
+
+#page-preferences #content, #page-preferences #scroller, 
+#page-preferences #fs-wrapper, #page-preferences .smt-tag-content{
+	background-color: #E1E6E7;
+	border: none !important;
+	border-shadow: none;
+	border:1px solid #E1E6E7;
+	box-shadow: none;
+}
+
+#page-preferences #fs-wrapper{
+	margin: 0 !important;
+}
 
 /*Store*/
 #page-lstStore .list-wrapper,
