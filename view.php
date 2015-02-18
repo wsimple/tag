@@ -38,7 +38,7 @@ $f_unlogged=array(
 $numPanels=isset($numPanels)?$numPanels:3;
 //nombre del archivo con el contenido principal de la pagina
 $bodyPage=false;
-/*---------hashtags antiguos oryevaaaaaa
+/*---------hashtags antiguos my first commit to github
 	profile				*	views/users/account.view.php
 	timeLine			*	views/tags/timeLine.view.php
 	creation			*	views/tags/newTag.view.php
