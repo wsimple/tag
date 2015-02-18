@@ -6,29 +6,30 @@
 	<div data-role="content" data-theme="d" class="no-footer">
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
-				<div style="height:60px;margin:19px;" align="center">
-					<table>
-						<tbody>
-							<tr>
-								<td><img id="userPicture" style="height:60px;width:60px;" class="userBR" /></td>
-								<td><div id="userInfo" style="float:left;margin-left:13px;"></div></td>
-							</tr>
-						</tbody>
-					</table>
+
+				<div style="height:60px;margin:19px;">
+					<div id="wrap">
+					   <div id="contents">
+							<img id="userPicture" style="float:left;height:60px;width:60px;" class="userBR" />
+							<div id="userInfo" style="float:left;margin-left:13px;"></div>
+							<div style="clear: both;"></div>
+					   </div>
+					</div>
 				</div>
+
 				<div id="globalButtons" align="center">
 					<!-- style="display:none;"  -->
-					<a id="pictureButton" data-role="button" data-theme="m" class="intext" style="display:none;" >&nbsp;</a>
-					<div id="userFriends" data-role="button" data-theme="m" class="intext">&nbsp;</div>
-					<div id="userFollowers" data-role="button" data-theme="m" class="intext">&nbsp;</div>
-					<div id="userFollowing" data-role="button" data-theme="m" class="intext">&nbsp;</div>
-					<div id="userPreferences" data-role="button" data-theme="m" class="intext">&nbsp;</div>
+					<a id="pictureButton" data-role="button" data-theme="m" class="intext" >&nbsp;</a>
+					<div id="userFriends" data-role="button" data-theme="m">&nbsp;</div>
+					<div id="userFollowers" data-role="button" data-theme="m">&nbsp;</div>
+					<div id="userFollowing" data-role="button" data-theme="m">&nbsp;</div>
+					<div id="userPreferences" data-role="button" data-theme="m">&nbsp;</div>
 					<div class="ui-grid-a" id="nameBox" style="width:80%">
 						<div class="ui-block-a">
-							<div id="userTags" data-role="button" data-theme="n" class="intext">&nbsp;</div>
+							<div id="userTags" data-role="button" data-theme="n">&nbsp;</div>
 						</div>
 						<div class="ui-block-b">
-							<div id="userPersonalTags" data-role="button" data-theme="n" class="intext">&nbsp;</div>
+							<div id="userPersonalTags" data-role="button" data-theme="n">&nbsp;</div>
 						</div>
 					</div>
 				</div>
@@ -38,7 +39,6 @@
 			</div>
 		</div>
 	</div>
-
 
 	<!-- Dialogs -->
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
@@ -50,23 +50,25 @@
 						<div class="this-search" style="margin-bottom:10px;width:100%;height:20px;">
 							<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" style="font-size: 12px" />
 						</div>
-						<ul id="ulListFriends" data-role="listview" data-inset="true"></ul>
+						<ul id="ulListFriends" data-role="listview" data-inset="true" class="ui-grid-b"></ul>
 				</div>
 			</div>
 		</div>
 		<div class="buttons">
-			<a href="#" data-role="button" onclick="closeDialogmembersGroup('#shareTagDialog')" data-theme="f">Ok</a>
+			<a href="#" id="closeBtn" data-role="button" onclick="closeDialogmembersGroup('#shareTagDialog')" data-theme="n">Ok</a>
 		</div>
 	</div>
 
-
-	<script>
+	<script>	
 		pageShow({
 			id:'#page-profile',
 			buttons:{showmenu:true,creation:true},
 			title:lang.USER_PROFILE,
 			before:function(){
-				function buttonText(id,text){ $(id).html(text+' (<b><loader/></b>)'); }
+				function buttonText(id,text){ $(id).html(
+					'<div class="imagebox"></div><div class="textbox" >'+
+					text+' (<b><loader/></b>)</div>'); 
+				};
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
@@ -85,7 +87,9 @@
 				buttonText('#userTags','Tags');
                 $('#userPicture').attr('src',FILESERVER+'img/users/default.png');
 				buttonText('#userPersonalTags',lang.PROFILE_PERSONALTAGS);
-				$('#userPreferences').html(lang.USERPROFILE_PREFERENCES_TITLE);
+				$('#userPreferences').html(
+					'<div class="imagebox"></div><div class="textbox" >'+
+					lang.USERPROFILE_PREFERENCES_TITLE+' </div>');
 				$('#pictureButton').html(lan(CORDOVA?'change picture':'edit thumbnail','ucw'));
 				$('#shareTagDialog .buttons a').html(lan('exit','ucw'));
 			},

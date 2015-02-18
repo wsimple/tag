@@ -597,6 +597,7 @@ li.userInList h3{
 }
 
 /* SignUp */
+
 #page-signUp .ui-btn-up-n {
 	border: 0px solid #cccccc /*{a-bup-border}*/;
 	background: #EF7B53 /*{a-bup-background-color}*/;
@@ -628,6 +629,10 @@ li.userInList h3{
 	position: top;
 }
 
+#page-signUp .ui-btn{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
 #page-signUp .ui-btn-inner{
 	background: none;
 }
@@ -636,8 +641,10 @@ li.userInList h3{
 #page-signUp #scroller, 
 #page-signUp #frmRegister {
 	background-color: #EB5A28;
+	border: none !important;
+	border-shadow: none;
+	box-shadow: none;
 }
-
 
 #page-signUp #logo_image {
   text-align: center;
@@ -660,14 +667,10 @@ li.userInList h3{
 	text-shadow: 0 0;
 }
 
-#page-signUp #msgPassword, #msgRequired, #msgCreatedAccount, #msgLogo, #msgLogob{
+#page-signUp #msgPassword, #page-signUp #msgRequired, #page-signUp #msgCreatedAccount, 
+#page-signUp #msgLogo, #page-signUp #msgLogob{
 	color: #FFF;
 	text-shadow: none;
-}
-
-#page-signUp #month{
-	background-color: #EF7B53;
-	color: #FFF;
 }
 
 #page-signUp .ui-overlay-c{
@@ -679,7 +682,7 @@ li.userInList h3{
 #page-signUp .intext{
 	background-color: #EF7B53;
 	color: #FFF;
-	background-image: url('newdesign/presence60.png');
+	/* background-image: url('newdesign/presence60.png'); */
 	background-position: left center !important;
 	background-repeat: no-repeat;
 	background-size: 30px 30px;
@@ -690,7 +693,7 @@ li.userInList h3{
 
 #page-signUp #name{
 	background-image: url('newdesign/presence60.png');
-	background-position: 0 2px;
+	background-position: 5px 2px;
 }
 
 #page-signUp #lastName{
@@ -746,65 +749,60 @@ li.userInList h3{
 	text-align:right;
 }
 
-#page-signUp .ui-input-search, .ui-input-text {
+#page-signUp .ui-input-search, #page-signUp .ui-input-text {
 	margin-top: 2px !important;
 	margin-bottom: 2px !important;
 }
 /*SignUp Ends*/
 
 /*Profile Start*/
+#page-profile #wrap{
+    float: left;
+    position: relative;
+    left: 50%;
+}
+
+#page-profile #contents{
+    float: left;
+    position: relative;
+    left: -50%;
+}
+
+#page-profile .imagebox{
+	height: 30px;
+	width: 30px;
+	background-image: url('newdesign/sprite.png');
+	background-size: 250px 67px;
+	background-repeat: no-repeat;
+	float: left;
+}
+
+#page-profile .textbox{
+	height: 25px !important;
+	line-height: 25px !important;
+	font-size: 18px !important;
+	float: left;
+	margin-left: 3px;
+	margin-top: 3px;
+}
+
+#page-profile #userFriends .imagebox{ background-position:-220px 0px !important; }
+#page-profile #pictureButton .imagebox{ background-position:-220px 0px !important; }
+#page-profile #userFollowers .imagebox{ background-position:-220px 0px !important; }
+#page-profile #userFollowing .imagebox{ background-position:-220px 0px !important; }
+#page-profile #userPreferences .imagebox{ background-position:-31px 0px !important; }
+#page-profile #userTags .imagebox{
+	background-position:-120px -34px !important;
+	background-size: 259px 71px;
+}
+#page-profile #userPersonalTags .imagebox{ width: 0px !important; }
+
 #page-profile .ui-btn-inner{
 	background: none;
 	padding-bottom: 5px !important;
 	padding-right: 5px !important;
 	padding-top: 5px !important;
 	padding-left: 5px !important;
-}
-
-#page-profile #pictureButton{
-	background-image: url('newdesign/camera_o.png');
-	background-position:5px 2px;
-	background-size: 30px 30px;	
-	background-repeat: no-repeat;	
-}
-
-#page-profile #userFriends{
-	background-image: url('newdesign/presence_o.png');
-	background-position:5px 2px;
-	background-size: 30px 30px;	
-	background-repeat: no-repeat;	
-}
-
-#page-profile #userFollowers{
-	background-image: url('newdesign/presence_o.png');
-	background-position:5px 2px;
-	background-size: 30px 30px;	
-	background-repeat: no-repeat;	
-}
-
-#page-profile #userFollowing{
-	background-image: url('newdesign/presence_o.png');
-	background-position:5px 2px;
-	background-size: 30px 30px;	
-	background-repeat: no-repeat;	
-}
-
-#page-profile #userPreferences{
-	background-image: url('newdesign/settings_o.png');
-	background-position:5px 2px;
-	background-size: 30px 30px;	
-	background-repeat: no-repeat;	
-}
-
-#page-profile #userTags{
-	background-image: url('newdesign/tag.png');
-	background-position:5px 2px;
-	background-size: 30px 30px;	
-	background-repeat: no-repeat;	
-}
-
-#page-profile #userPersonalTags{
-	text-indent:5px !important;
 }
 
 #page-profile .intext{
@@ -882,7 +880,7 @@ li.userInList h3{
 	box-shadow: none;
 }
 
-#page-profile #content, #scroller, #fs-wrapper{
+#page-profile #content, #page-profile #scroller, #page-profile #fs-wrapper{
 	background-color: #E1E6E7;
 	border: none !important;
 	border-shadow: none;
@@ -892,6 +890,11 @@ li.userInList h3{
 
 #page-profile #fs-wrapper{
 	margin: 0 !important;
+}
+
+#page-profile #closeBtn {
+	text-align: center !important;
+	text-decoration: none;
 }
 
 /*Profile Ends*/
