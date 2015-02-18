@@ -29,7 +29,6 @@
 			</div>
 		</div>
 	</div>
-	<?php include 'inc/mainmenu.php'; ?>
 	<div data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar"><ul id="footer-icons"></ul></div>
 	</div>
@@ -40,6 +39,7 @@
 			title:lang.TOPTAGS_TITLE,
 			buttons:{showmenu:false,creation:false},
 			before:function(){
+				newMenu();
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lang.TOPTAGS_TITLE+'</a></li>'+
 					'<li class="ui-block-b"></li>'+

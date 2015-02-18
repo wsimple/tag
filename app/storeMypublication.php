@@ -20,7 +20,6 @@
 			<ul></ul>
 		</div>
 	</div>
-	<?php include 'inc/mainmenu.php'; ?>
 <!--     <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="storeNav">
@@ -35,6 +34,7 @@
 			// title:lang['STORE_MYPUBLICATIONS'],
 			// backButton:true,
 			before:function(){
+				newMenu();
 				//languaje
 //				$('#category').html(lang.STORE_CATEGORY);
 //				$('#btnGroupCreated').html(lang.GROUPS_TITLEWINDOWSNEW);

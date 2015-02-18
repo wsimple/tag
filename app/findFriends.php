@@ -17,7 +17,6 @@
 			</div>
 		</div>
 	</div>
-	<?php include 'inc/mainmenu.php'; ?>
 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="friendsFooter"></ul>
@@ -35,6 +34,7 @@
 		title:'',
 		buttons:{showmenu:false,home:false},
 		before:function(){
+			newMenu();
 			$('#menu').html(
 				'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/friends.png"><br>'+lang.friendSearh_title+'</a></span>'+
 				'<span class="ui-block-b"></span>'+

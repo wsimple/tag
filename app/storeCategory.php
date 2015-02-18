@@ -7,7 +7,6 @@
 	<div data-role="content" class="list-content">
 		<ul id="categotyList" data-role="listview" data-filter="true" data-divider-theme="b" class="list-friends"></ul>
 	</div>
-	<?php include 'inc/mainmenu.php'; ?>
 <!-- 	<div id="cart-footer" data-role="footer" data-position="fixed" data-theme="f" style="display: none">
 		<div data-role="navbar"><ul></ul></div>
 	</div> -->
@@ -18,6 +17,7 @@
 			// showmenuButton:true,
 			before:function(){
 				// $('#buttonShopping').html(lang.STORE_CART);
+				newMenu();
 				$('#menu').html(
 					'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
 					// '<span class="ui-block-b menu-button" style="font-size: 9px;"><a href="storeMypublication.html" ><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+

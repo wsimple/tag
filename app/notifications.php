@@ -10,13 +10,13 @@
 			</div>
 		</div>
 	</div><!-- content -->
-	<?php include 'inc/mainmenu.php'; ?>
 	<script type="text/javascript">
 		pageShow({
 			id:'#page-notif',
 			title:lang['NOTIFICATIONS']+'<span class="push-notifications" style="display:none;">0</span>',
 			buttons:{showmenu:true,creation:true},
 			before:function(){
+				newMenu();
 				//languaje
 				$('#labelGroups').html(lang.MAINMNU_GROUPS);
 				$('#labelMyGroups').html(lang.GROUPS_MYGROUPS);

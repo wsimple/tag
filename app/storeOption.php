@@ -10,7 +10,6 @@
 			<ul data-role="listview" id="lstStoreOption" data-divider-theme="b" class="list-info"></ul>
 	</div><!-- content -->
     <div id="footerPay"></div>
-    <?php include 'inc/mainmenu.php'; ?>
 <!-- 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul>
@@ -33,6 +32,7 @@
 			before:function(){
 				// $('#gotoStore').html(lan('store','ucw'));
     //             $('#gotoCart').html(lan('shopping cart','ucw'));
+                newMenu();
                 var title='';
                 if ($_GET['option']){
                     switch($_GET['option']){

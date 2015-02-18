@@ -37,7 +37,6 @@
 			</div>
 		</div>
 	</div>
-	<?php include 'inc/mainmenu.php'; ?>
 	<div id="tl-footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar"><ul></ul></div>
 	</div>
@@ -50,6 +49,7 @@
 			id:'page-timeLine',
 			title:'Time Line',
 			before:function(){
+				newMenu();
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
@@ -113,9 +113,9 @@
 						updateTags('reload',opc,true);
 					}
 				});
-				var donde = $('#pd-wrapper #scroller').attr('style').split(';');
-				donde = donde[donde.lenght];
-				console.log(donde);
+			// var donde = $('#pd-wrapper #scroller').attr('style').split(';');
+			// donde = donde[donde.lenght];
+			// console.log(donde);
 				var priv='',val='in';
 				$('#private-select input').click(function(){
 					opc.type = '';

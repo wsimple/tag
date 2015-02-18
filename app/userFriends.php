@@ -26,7 +26,6 @@
 			</div>
 		</div>
 	</div>
-	<?php include 'inc/mainmenu.php'; ?>
 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="friendsFooter">
@@ -41,6 +40,7 @@
 		title:lan('friends','ucw'),
 		buttons:{showmenu:false,creation:false},
 		before:function(){
+			newMenu();
 			$('#searchFriends').attr('placeholder',lang.inputPlaceHolder);
 			$('#seek').html(lang.seek);
 			$('#menu').html(
