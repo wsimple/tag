@@ -1127,4 +1127,9 @@ li.userInList h3{
 		width: 500px;
 	}
 }
+#page-lstStoreSubCategory #categotyList li,
+#page-lstStoreCategory #categotyList li{
+	background: none;
+	background-color: #ECF0F1;
+}
 /*Store Ends*/

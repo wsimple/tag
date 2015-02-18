@@ -25,8 +25,8 @@
 				// 	'</li>'
 				// );
 				$('#menu').html(
-					'<span class="ui-block-a menu-button"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
-					// '<span class="ui-block-b menu-button hover" style="font-size: 9px;"><a href="storeMypublication.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
+					'<span class="ui-block-a menu-button hover"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
+					// '<span class="ui-block-b menu-button" style="font-size: 9px;"><a href="storeMypublication.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
 					'<span class="ui-block-b"></span>'+
 					'<span class="ui-block-c"></span>'+
 					'<span class="ui-block-d menu-button"><a href="storeOption.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('wishes','ucw')+'</a></span>'+
