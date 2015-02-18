@@ -51,7 +51,7 @@
 
 <?php }else{
 ?>
-	<!---------- Facebook Conversion Code for Tagbum ---------->
+	<!----------Facebook Conversion Code for Tagbum---------->
 	<script>(function() {
 	  var _fbq = window._fbq || (window._fbq = []);
 	  if (!_fbq.loaded) {
