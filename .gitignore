@@ -19,6 +19,7 @@ js/funciones_es.js
 
 video_server/videos/pending/*
 video_server/videos/*/*
+video_server/*
 
 main/views/templates/tags.php
 
