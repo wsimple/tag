@@ -18,6 +18,7 @@
 	$value=$_SESSION['ws-tags']['ws-user']['progress']['value']['preferences'];
 	$noFails=$_SESSION['ws-tags']['ws-user']['progress']['value']['noFails'];
 ?>
+<?php include('views/users/progress.php'); ?>
 <div id="frmProfile_View" class="ui-single-box clearfix">
 	<?php //user messages (top) ?>
 		<?=generateDivMessaje('divSuccess','250',lan('NEWTAG_CTRMSGDATASAVE'))?>
@@ -294,7 +295,13 @@
 			<div id="facebook-dialog" style="display:none;"><?=lan('FACEBOOK_NOTMATCHEMAIL')?></div>
 			<div class="frmProfileBotones">
 				<input name="frmProfile_btnSend" type="button" id="frmProfile_btnSend" value="<?=lan('USERPROFILE_SAVE')?>" />
-				<input type="button" class="fb-buttom" name="btnFacebook" id="btnFacebook" value="<?=lan('USERPROFILE_ASSOCFB')?>">
+				<?php 
+					$fbid = current($GLOBALS['cn']->queryRow('SELECT fbid FROM users WHERE id="'.$_SESSION['ws-tags']['ws-user']['id'].'"'));
+					$none[0] = ($fbid!='') ? 'style="display: none;"':''; 
+					$none[1] = ($fbid=='') ? 'style="display: none;"':''; 
+				?>
+				<input name="frmProfile_btnDelfcId" type="button" class="fb-buttom" <?php echo $none[1]; ?> id="frmProfile_btnDelfcId" value="<?=lan('disassociate','ucw')?>" />
+				<input type="button" class="fb-buttom" name="btnFacebook" <?php echo $none[0]; ?> id="btnFacebook" value="<?=lan('USERPROFILE_ASSOCFB')?>">
 				<div id="fb-root"></div>
 			</div>
 		</div>
@@ -323,7 +330,7 @@
 	//Para login con facebook
 	window.fbAsyncInit = function() {
 		FB.init({
-			appId: '141402139297347',
+			appId: '<?=isset($config->facebook->appId)?$config->facebook->appId:''?>',
 			cookie: true,
 			xfbml: true,
 			oauth: true,
@@ -376,6 +383,19 @@
 				console.log('No has logueado correcatmente con fbb.');
 			}
 		}, {scope: 'email'});
+	});	
+	$('#frmProfile_btnDelfcId').click(function(event){
+		showAndHide('btnFacebook','frmProfile_btnDelfcId','1000');
+		$.ajax({
+			url:DOMINIO+'controls/users/profile.json.php',
+			data:{'disAssociateFB':'1'},
+			type:'POST',
+			dataType:'json',
+			success:function(data){
+				if (data['out']==1)
+					showAndHide('btnFacebook','frmProfile_btnDelfcId','1000');
+			}
+		});
 	});
 	$('#frmProfile_').ajaxForm({
 		dataType:'json',

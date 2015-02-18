@@ -17,7 +17,7 @@
 				  <br />
 				  <?=$messagePubli?>
 			</div>
-			<div class="linkPubliseemore"><a href="<?=$key['link']?>" target="_blank" onclick="showPublicityWb('<?=$key['id']?>')" onfocus="this.blur()"><?=USER_BTNSEEMORE?>...</a></div>
+			<!-- <div class="linkPubliseemore"><a href="<?=$key['link']?>" target="_blank" onclick="showPublicityWb('<?=$key['id']?>')" onfocus="this.blur()"><?=USER_BTNSEEMORE?>...</a></div> -->
 		</div>
 	<?php }
 	else{ ?>

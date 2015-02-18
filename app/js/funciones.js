@@ -556,6 +556,7 @@ function includePage(){
 		if($.local('enable_console')&&!opc.noLog&&opc.log!==false){
 			var log={url:opc.url},s=opc.success,c=opc.complete;//,e=opc.error;
 			if(opc.data) log.data=$.extend({},opc.data);
+			if(opc.type&&opc.type.match(/get/i)) opc.type='post';
 			opc.success=function(data){
 				log.success=data;
 				if(typeof s==='function') s.call(this,data);

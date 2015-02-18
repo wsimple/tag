@@ -2,8 +2,8 @@
 global $section,$params;
 //Seleccion del menu Friends
 $sc = $_GET['sc'];
+if ($section=='friends') $sc=$section;
 if($params[0]!='') $sc=$params[0];
-
 switch ($sc) {
 	case 1: case 2: case 'find':case 'dates':
 		include("friends/yourFriendsView.php"); break;

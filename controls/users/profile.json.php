@@ -3,12 +3,26 @@ include '../header.json.php';
 include RELPATH.'includes/funciones_upload.php';
 include RELPATH.'class/validation.class.php';
 
+$myId=$_SESSION['ws-tags']['ws-user']['id'];
+$code=$_SESSION['ws-tags']['ws-user']['code'];
+
+if ($_POST['disAssociateFB']=='1'){
+	$res=array();
+	$array = $GLOBALS['cn']->queryRow('SELECT fbid FROM users WHERE id="'.$myId.'" '); 
+	if (count($array)>0){
+		CON::update("users","fbid=NULL","id=?",array($myId));
+		$res['out'] = '1';
+	}else{
+		$res['out'] = '0';
+	}
+	die(jsonp($res));
+}
+
 if (isset($_GET['skipProgress'])){
 	$_SESSION['ws-tags']['ws-user']['progress']['omitir']=1;
 	die();
 }else unset($_SESSION['ws-tags']['ws-user']['progress']);
-$myId=$_SESSION['ws-tags']['ws-user']['id'];
-$code=$_SESSION['ws-tags']['ws-user']['code'];
+
 #ini
 $res=array();
 #arreglo de datos que se recibiran
@@ -364,7 +378,7 @@ switch ($data['action']){
 				$user['show_birthday'],$user['home_phone'],$user['mobile_phone'],$user['work_phone'],
 				$user['language'],$user['user_background'],$user['country'],$user['city'],$user['sex'],
 				$user['paypal'],$user['zip_code'],$user['interest'],$user['relationship'],$user['wish_to'],
-				$user['taxId'],$user['personal_messages'],$myId));
+				$user['personal_messages'],$user['taxId'],$myId));
 		$_SESSION['ws-tags']['ws-user']['progress']['value']=calculateProgress();
 		$res['noFails']=$_SESSION['ws-tags']['ws-user']['progress']['value']['noFails'];
 	break;

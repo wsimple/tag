@@ -21,40 +21,20 @@
 			before:function(){
 			},
 			after:function(){
-				document.addEventListener('deviceready',function(){
+				$.cordova(function(){
 					$(".video").fadeIn(300);
 					var cam=Camera,
 						Log=function(text,clear){
 							if(clear) $('#video').html('');
 							$('#video').append(text+'<br/>');
 						},
-						uploadFile=function(data){
-							var path=data.file.fullPath,
-								params=data.data||{},
-								ft=new FileTransfer();
-							params.fileName=data.file.name;
-							Log('uploading...');
-							ft.upload(path,
-								"http://app.tagbum.com/controls/upload.php",
-								function(result){
-									var data=JSON.parse(result.response);
-									Log('Upload success: ' + result.responseCode);
-									Log(result.bytesSent + ' bytes sent');
-									Log('data:'+JSON.stringify(data));
-									Log('First Link: <a href="http://app.tagbum.com'+data.urls[0]+'">'+data.urls[0]+'</a>');
-								},
-								function(error){
-									Log('Error uploading file ' + path + ': ' + error.code);
-								},
-								params
-							);
-						};
-					var galerySuccess=function(path_file){
+						galerySuccess=function(path_file){
 							var file={
 								fullPath:path_file,
 								name:path_file.replace(/([^\/]*\/)*/g,'')
 							};
-							Log('galery success:'+JSON.stringify(file),true);
+							Log('galery success',true);
+							console.log('galery success:',file);
 							uploadFile({file:file});
 						},
 						captureSuccess=function(mediaFiles){
@@ -68,12 +48,37 @@
 								uploadFile({file:mediaFiles[i]});
 							}
 						},
+						uploadFile=function(data){
+							var path=data.file.fullPath,
+								params=data.data||{},
+								ft=new FileTransfer();
+							params.fileName=data.file.name;
+							Log('uploading...');
+							ft.upload(path,
+								"http://v.tagbum.com/upload.php",
+								function(result){
+									var data=JSON.parse(result.response);
+									Log('Upload success: ' + result.responseCode);
+									Log(result.bytesSent + ' bytes sent');
+									Log('data:'+JSON.stringify(data));
+									console.log('data:',data);
+									if(data.urls[0])
+										Log('First Link: <a href="http://v.tagbum.com/'+data.urls[0]+'">'+data.urls[0]+'</a>');
+								},
+								function(error){
+									Log('Error uploading file ' + path + ': ' + error.code);
+								},
+								params
+							);
+						},
 						galeryError=function(){
 							Log('galery error',true);
+							console.log('galery error');
 						},
 						captureError=function(error){
 							navigator.notification.alert('Error code: '+error.code,null,'Capture Error');
 							Log('capture error',true);
+							console.log('capture error');
 						};
 					$('#galeryVideo').click(function(){
 						try{
@@ -94,7 +99,7 @@
 							myDialog('Error: '+e);
 						}
 					});
-				},false);
+				});
 			}//end after
 		});
 	</script>

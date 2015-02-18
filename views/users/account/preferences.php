@@ -1,3 +1,4 @@
+<?php include('views/users/progress.php'); ?>
 <div class="ui-single-box" style="height: 780px;">
 	<form action="controls/users/preferences.json.php?action=up" id="frmPreferences" name="frmPreferences" method="post" >
 			<div id="frmProfile_View" style="margin-left: 20px; padding-top: 8px; max-width: 690px;">
