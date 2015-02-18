@@ -1,11 +1,15 @@
 <?php include 'inc/header.php'; ?>
 <script> var opc={type:1,dato:[]}; </script>
 <div id="page-preferences" data-role="page" data-cache="false">
-	<div data-role="header" data-position="fixed" data-theme="f">
+	<div id="sub-menu" style="position:absolute;top:0px;left:0;padding:0px;" data-position="fixed"  >
+		<ul class="ui-grid-d"></ul>
+	</div>
+	<!--<div data-role="header" data-position="fixed" data-theme="f">
 		<a id="buttonBack_preferences" href="#" data-icon="arrow-l" onclick="goBack();"></a>
 		<h1>&nbsp;</h1>
 		<a id="btnPreferences_update" style="display:none" href="#" onClick="savePreferences(opc);" data-icon="check"></a>
-	</div>
+	</div>-->
+
 	<div data-role="content" class="list-content">
 		<img class="bg" src="css/smt/bg.png" />
 		<div id="fs-wrapper" class="fs-wrapper">
