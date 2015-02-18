@@ -25,6 +25,11 @@
 	<link rel="stylesheet" href="css/farbtastic.css"/>
 	<link rel="stylesheet" href="css/seemytag.css"/>
 	<link rel="stylesheet" href="css/colorPicker.css"/>
+	<link rel="stylesheet" href="css/newV2.css"/>
+<?php if(isset($_GET['minify'])){
+?>	<script src="<?=isset($_GET['steroids'])?'http://localhost/cordova.js':'cordova.js'?>"></script>
+	<!--<script src="http://debug.build.phonegap.com/target/target-script-min.js#82ad4bcc-195f-11e3-af04-22000a98b3d6"></script><!-- -->
+<?php } ?>
 	<script src="js/core/const.js" charset="UTF-8"></script>
 	<script src="js/core/md5.js"></script>
 	<script src="js/core/jquery-1.10.2.min.js"></script>
@@ -40,6 +45,7 @@
 	<script src="js/core/farbtastic.js"></script>
 	<script src="js/core/colorPicker.js"></script>
 	<script src="js/core/currency/jquery.formatCurrency-1.4.0.js"></script>
+	<script type="text/javascript" src="js/core/jquery.touchSwipe.min.js"></script>
 <?php if(isset($_GET['minify'])){
 ?>	<script src="js/min.js" charset="UTF-8"></script>
 

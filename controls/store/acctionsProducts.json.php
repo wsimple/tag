@@ -48,6 +48,7 @@ switch ($_GET['acc']) {
             }
             if($txtVideo==''||!preg_match(regex('video'),$txtVideo)) $txtVideo=='http://';
             else $txtVideo=str_replace("'",'',$txtVideo);
+            $txtDescription=str_replace("href=","",$txtDescription);
            	$idproduct=CON::insert('store_products','id_user=?,
 									id_status=?,id_category=?,
 									id_sub_category=?,name=?,
@@ -55,7 +56,7 @@ switch ($_GET['acc']) {
 									sale_points=?,photo=?,
 									join_date=NOW(),update_date=NOW(),
 									place=?,formPayment=?,
-									video_url=?',array($userId,$status,$txtCategory,$txtSubCategory,formatText($txtName),$txtDescription,$txtStock,$txtPrice,$img,$place,$txtMethod,$txtVideo));
+									video_url=?',array($userId,$status,$txtCategory,$txtSubCategory,formatText($txtName),($txtDescription),$txtStock,$txtPrice,$img,$place,$txtMethod,$txtVideo));
 			if (!isset($backgSelect_)){
 				$band=false;
 				// $idproduct=mysql_insert_id();
@@ -95,11 +96,12 @@ switch ($_GET['acc']) {
                     }
 					$txtPrice = str_replace(',','',$txtPrice); //Formatea el tipo de dinero para ser insertado
                     if($txtVideo==''||!preg_match(regex('video'),$txtVideo)) $txtVideo=='http://';
-                    else $txtVideo=str_replace("'",'',$txtVideo);					
+                    else $txtVideo=str_replace("'",'',$txtVideo);
+            		$txtDescription=str_replace("href=","",$txtDescription);
 					$result = CON::update('store_products','id_status=?,name=?,id_category=?,id_sub_category=?,
 										description=?,stock=?,sale_points=?,photo=?,update_date=NOW(),formPayment=?,video_url=?',
 										'id=?',
-										array($status,formatText($txtName),$txtCategory,$txtSubCategory,$txtDescription,$txtStock,$txtPrice,$img,$txtMethod,$txtVideo,$_GET['id']));
+										array($status,formatText($txtName),$txtCategory,$txtSubCategory,($txtDescription),$txtStock,$txtPrice,$img,$txtMethod,$txtVideo,$_GET['id']));
 					if (!isset($backgSelect_)){
 						$band=false;
 						for ($y=1;$y<6;$y++){

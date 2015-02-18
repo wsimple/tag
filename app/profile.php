@@ -1,30 +1,45 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-profile" data-role="page" data-cache="false">
-	<div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
+	<div id="sub-menu" style="position:absolute;top:0px;left:0;padding:0px;" data-position="fixed"  >
+		<ul class="ui-grid-d"></ul>
+	</div>
 	<div data-role="content" data-theme="d" class="no-footer">
-		<img class="bg" src="css/smt/bg.png" />
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
-				<div>
-					<div style="height:60px;margin:19px;">
-						<img id="userPicture" style="float:left;height:60px;width:60px;" class="userBR" />
-						<div id="userInfo" style="float:left;margin-left:13px;"></div>
+
+				<div style="height:60px;margin:19px;">
+					<div id="wrap">
+					   <div id="contents">
+							<img id="userPicture" style="float:left;height:60px;width:60px;" class="userBR" />
+							<div id="userInfo" style="float:left;margin-left:13px;"></div>
+							<div style="clear: both;"></div>
+					   </div>
 					</div>
-					<a id="pictureButton" style="display:none;" data-role="button" data-theme="c">&nbsp;</a>
-					<div id="globalButtons">
-						<div id="userFriends" data-role="button" data-theme="c">&nbsp;</div>
-						<div id="userFollowers" data-role="button" data-theme="c">&nbsp;</div>
-						<div id="userFollowing" data-role="button" data-theme="c">&nbsp;</div>
-						<div id="userTags" data-role="button" data-theme="c">&nbsp;</div>
-						<div id="userPersonalTags" data-role="button" data-theme="c">&nbsp;</div>
-						<div id="userPreferences" data-role="button" data-theme="c">&nbsp;</div>
-					</div>
-					<a id="followButton" style="display:none;" data-role="button" data-theme="e" data-icon="plus" data-iconpos="right" style="margin-top:25px;">&nbsp;</a>
 				</div>
+
+				<div id="globalButtons" align="center">
+					<!-- style="display:none;"  -->
+					<a id="pictureButton" data-role="button" data-theme="m" class="intext" >&nbsp;</a>
+					<div id="userFriends" data-role="button" data-theme="m">&nbsp;</div>
+					<div id="userFollowers" data-role="button" data-theme="m">&nbsp;</div>
+					<div id="userFollowing" data-role="button" data-theme="m">&nbsp;</div>
+					<div id="userPreferences" data-role="button" data-theme="m">&nbsp;</div>
+					<div class="ui-grid-a" id="nameBox" style="width:80%">
+						<div class="ui-block-a">
+							<div id="userTags" data-role="button" data-theme="n">&nbsp;</div>
+						</div>
+						<div class="ui-block-b">
+							<div id="userPersonalTags" data-role="button" data-theme="n">&nbsp;</div>
+						</div>
+					</div>
+				</div>
+				<a id="followButton" style="display:none;" data-role="button" data-theme="e" data-icon="plus" data-iconpos="right" style="margin-top:25px;">&nbsp;</a>
+
 				<div id="error"></div>
 			</div>
 		</div>
 	</div>
+
 	<!-- Dialogs -->
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
@@ -35,21 +50,32 @@
 						<div class="this-search" style="margin-bottom:10px;width:100%;height:20px;">
 							<input id="like_friend" name="like_friend" type="text" placeholder="Search" value="" data-inline="true" class="no-disable" style="font-size: 12px" />
 						</div>
-						<ul id="ulListFriends" data-role="listview" data-inset="true"></ul>
-				</div></div>
-			</div>
-			<div class="buttons">
-				<a href="#" data-role="button" onclick="closeDialogmembersGroup('#shareTagDialog')" data-theme="f">Ok</a>
+						<ul id="ulListFriends" data-role="listview" data-inset="true" class="ui-grid-b"></ul>
+				</div>
 			</div>
 		</div>
-	</div></div></div>
-	<script>
+		<div class="buttons">
+			<a href="#" id="closeBtn" data-role="button" onclick="closeDialogmembersGroup('#shareTagDialog')" data-theme="n">Ok</a>
+		</div>
+	</div>
+
+	<script>	
 		pageShow({
 			id:'#page-profile',
 			buttons:{showmenu:true,creation:true},
 			title:lang.USER_PROFILE,
 			before:function(){
-				function buttonText(id,text){ $(id).html(text+' (<b><loader/></b>)'); }
+				function buttonText(id,text){ $(id).html(
+					'<div class="imagebox"></div><div class="textbox" >'+
+					text+' (<b><loader/></b>)</div>'); 
+				};
+				$('#sub-menu ul').html(
+					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
+					'<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
+					'<li class="ui-block-c points"></li>'+
+					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+				);
+
 				$('#userInfo').html(
 					'<div><strong><loader/></strong></div>'+
 					'<div><strong>'+lang.PROFILE_BIRTHDATE+':</strong> <loader/></div>'+
@@ -61,7 +87,9 @@
 				buttonText('#userTags','Tags');
                 $('#userPicture').attr('src',FILESERVER+'img/users/default.png');
 				buttonText('#userPersonalTags',lang.PROFILE_PERSONALTAGS);
-				$('#userPreferences').html(lang.USERPROFILE_PREFERENCES_TITLE);
+				$('#userPreferences').html(
+					'<div class="imagebox"></div><div class="textbox" >'+
+					lang.USERPROFILE_PREFERENCES_TITLE+' </div>');
 				$('#pictureButton').html(lan(CORDOVA?'change picture':'edit thumbnail','ucw'));
 				$('#shareTagDialog .buttons a').html(lan('exit','ucw'));
 			},

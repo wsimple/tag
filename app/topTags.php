@@ -1,6 +1,25 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-topTags" data-role="page" data-cache="false">
-	<div data-role="header" data-theme="f" data-position="fixed"><h1><span class="loader"></span></h1></div>
+	<div  data-role="header" data-theme="f" data-position="fixed">
+		<div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
+			<span class="photo"></span> 
+			<span class="info">
+				<span class="name"></span>
+				<span class="points"></span>
+			</span>
+		</div>
+		<div class="notificacion-area" id="notifications">
+			<span class="notification-num"><a href="notifications.html">0</a></span>
+		</div>
+		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
+		<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
+			<span class="loader"></span>
+		</div> -->
+		<fieldset id="private-select" data-role="controlgroup" data-type="horizontal" data-mini="true" style="position:absolute;top:7px;right:5px;display:none;">
+			<input id="radio-inbox" type="radio" name="radio-in-out" data-theme="a" value="in" checked="checked"/>
+			<input id="radio-outbox" type="radio" name="radio-in-out" data-theme="a" value="out"/>
+		</fieldset>
+	</div>
 	<div data-role="content" style="background-color:#fff;">
 		<div id="pd-wrapper">
 			<div id="scroller">
@@ -10,6 +29,7 @@
 			</div>
 		</div>
 	</div>
+	<?php include 'inc/mainmenu.php'; ?>
 	<div data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar"><ul id="footer-icons"></ul></div>
 	</div>
@@ -18,8 +38,14 @@
 		pageShow({
 			id:'page-topTags',
 			title:lang.TOPTAGS_TITLE,
-			buttons:{showmenu:true,creation:true},
+			buttons:{showmenu:false,creation:false},
 			before:function(){
+				$('#sub-menu ul').html(
+					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lang.TOPTAGS_TITLE+'</a></li>'+
+					'<li class="ui-block-b"></li>'+
+					'<li class="ui-block-c"></li>'+
+					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+				);
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);
 				$('#footer-icons').html(//llenado de footer
@@ -56,7 +82,7 @@
 				// 	redir(PAGE['tag']+'?id='+$(this).attr('tag'));
 				// });
 				$wrapper.ptrScroll({
-					onPullDown:function(){
+					onPullDown:function(e){
 						updateTags('reload',opc);
 					},
 					onPullUp:function(){
@@ -76,6 +102,16 @@
 				$('#footer-icons').on('click','a',function(){
 					$wrapper.ptrScroll('reload',$(this).attr('opc'));
 				});
+				//V2
+				$(opc.layer).on('click', 'menu #other-options', function(){
+					$('.sub-menu-tag').find('ul').hide();
+					$(this).find('ul').show();
+				});
+				get_profile($.local('code'), function(data){
+					$('#profile span.info .name').html($.local('full_name'));
+					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
+				});
+				//END V2
 				$('#userPoints').click(function(){
 					myDialog({
 						id:'msg-points',

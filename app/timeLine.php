@@ -6,17 +6,20 @@
 		window.location.reload();
 	}
 </script>
-<div id="singleRedirDialog" class="myDialog" style="display: none;"><div class="table"><div class="cell"><div class="window" style="max-height: 272px; display: block;"><div class="container" style="max-height: 272px;"><div id="scroller" class="content">Está seguro que quiere eliminar esta tag?</div></div><div class="buttons"><a action="0" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Sí</span></span></a><a action="1" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">No</span></span></a></div></div></div></div><div class="closedialog" style="display:none"></div></div>
+<div id="singleRedirDialog" class="myDialog" style="display: none;"><div class="table"><div class="cell"><div class="window" style="max-height: 272px; display: block;"><div class="container" style="max-height: 272px;"><div id="scroller" class="content"></div></div><div class="buttons"><a action="0" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Sí</span></span></a><a action="1" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">No</span></span></a></div></div></div></div><div class="closedialog" style="display:none"></div></div>
 <div id="page-timeLine" data-role="page" data-cache="false">
 	<div  data-role="header" data-theme="f" data-position="fixed">
-		<div style="position:absolute;top:0px;left:0;padding:5px 5px;">
-			<a href="#" class="showMenu" style="position:relative;"><span class="btn-menu showMenu"></span><span class="push-notifications button" style="display:none;">0</span></a>
-			
+		<div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
+			<span class="photo"></span> 
+			<span class="info">
+				<span class="name"></span>
+				<span class="points"></span>
+			</span>
 		</div>
-		<h1><span class="loader"></span></h1>
-		<div class="creation" id="creationTag">
-			<!-- <a href="#" onclick="redir(PAGE['newtag'])"></a> -->
+		<div class="notificacion-area" id="notifications">
+			<span class="notification-num"><a href="notifications.html">0</a></span>
 		</div>
+		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
 		<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
 			<span class="loader"></span>
 		</div> -->
@@ -34,6 +37,7 @@
 			</div>
 		</div>
 	</div>
+	<?php include 'inc/mainmenu.php'; ?>
 	<div id="tl-footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar"><ul></ul></div>
 	</div>
@@ -42,11 +46,18 @@
 		var active_tab = 'timeLine';
 		if (page) active_tab = page.last_tab;
 		//if(navigator.app) navigator.app.clearHistory();
-
 		pageShow({
 			id:'page-timeLine',
 			title:'Time Line',
 			before:function(){
+				$('#sub-menu ul').html(
+					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
+					'<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
+					'<li class="ui-block-c points"></li>'+
+					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+				);
+
+				$('#singleRedirDialog #scroller').html(lan('JS_DELETETAG'));
 				$('.pullDownLabel').html(lan('SCROLL_PULLDOWN'));
 				$('.pullUpLabel').html(lan('SCROLL_PULLUP'));
 				$('#singleRedirDialog #scroller.content').html(lan('JS_DELETETAG'));
@@ -63,7 +74,7 @@
 				);
 			},
 			after:function(){
-
+				
 				$('#creationTag').click(function(){
 					redir(PAGE['newtag']);
 				});
@@ -102,6 +113,9 @@
 						updateTags('reload',opc,true);
 					}
 				});
+				var donde = $('#pd-wrapper #scroller').attr('style').split(';');
+				donde = donde[donde.lenght];
+				console.log(donde);
 				var priv='',val='in';
 				$('#private-select input').click(function(){
 					opc.type = '';
@@ -165,6 +179,16 @@
 				// 		$('#userPoints b').html(datos);
 				// 	}
 				// });
+				//V2
+				$(opc.layer).on('click', 'menu #other-options', function(){
+					$('.sub-menu-tag').find('ul').hide();
+					$(this).find('ul').show();
+				});
+				get_profile($.local('code'), function(data){
+					$('#profile span.info .name').html($.local('full_name'));
+					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
+				});
+				//END V2
 			}
 		});
 	</script>

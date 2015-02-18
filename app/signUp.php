@@ -1,53 +1,64 @@
 <?php include 'inc/header.php'; ?>
-<div id="page-signUp" data-role="page" data-cache="false">
-	<div data-role="header" data-position="fixed" data-theme="f">
-		<h1></h1>
-		<a href="#" id="buttonSign" data-icon="arrow-r" onclick="$('#frmRegister').submit();" data-iconpos="right"></a>
-		<br>
-	</div>
+<div id="page-signUp" data-role="page" data-cache="false" class="no-header">
 	<div data-role="content">
-		<img class="bg" src="css/smt/bg.png"/>
+		<img class="bg" src="css/smt/bgorange.png"/>
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
+				<div id="buttons"><div class="_tt"><div class="_tc">
+					<div id="logo_image ">
+						<a data-inline="true" data-theme="f" >
+							<img src="css/newdesign/tagbum_white_logo.png" alt="" style="max-height:100px;"><br>
+							<span id="msgLogo" style="color:#FFF; font-weight:normal;">create.share</span><span id="msgLogob" style="color:#FFF;font-weight:bold;">.reward</span>
+						</a>
+					</div>
+				</div></div></div>
 				<form id="frmRegister" name="frmRegister" method="post" style="display:block;">
+<<<<<<< HEAD
 					<!--<a href="divDialog" data-rel="dialog">Open dialog</a>-->
+=======
+>>>>>>> designV2APP
 					<div id="divDialog" data-role="dialog" style="display: none"></div>
 					<input type="hidden" value="1" name="mobile"/>
 					<input type="hidden" value="0" id="company" name="company"/>
 					<div class="smt-formfields">
-						<div>
-							<strong>
-								<label id="nameLabel" class="needed"></label>
-								<label id="nameEnter" class="needed"></label>
-							</strong>
-							<input id="name" name="name" type="text"/>
-						</div>
-						<div class="single">
-							<strong><label id="lastNameLabel" class="needed"></label></strong>
-							<input id="lastName" name="lastName" type="text"/>
+						<div class="ui-grid-a" id="nameBox">
+							<div class="ui-block-a">
+								<input id="name" name="name" type="text" class="intext"/>
+							</div>
+							<div class="ui-block-b single">
+								<input id="lastName" name="lastName" type="text" class="intext"/>
+							</div>
 						</div>
 						<div>
-							<strong>
-								<label id="dateLabel" class="needed"></label>
-								<label id="bussinesDate" class="needed"></label>
-							</strong>
-							<select id="month" name="month"></select>
-							<select id="day" name="day"></select>
-							<select id="year" name="year"></select>
+							<input id="email" name="email" type="email" class="intext"/>
+							<input id="password" name="password" type="password" class="password-field intext" />
+							<input id="repassword" name="confiPassword" type="password" class="password-field intext"/>
+							<div class="ui-grid-b" style="margin: 0px !important;">
+								<div class="ui-block-a" style="margin: 0px !important;">
+									<select id="month" name="month" data-theme="n" data-icon="false"  style="margin: 0px !important;"></select>
+								</div>
+								<div class="ui-block-b">
+									<select id="day" name="day" data-theme="n" data-icon="false"></select>
+								</div>
+								<div class="ui-block-c">
+									<select id="year" name="year" data-theme="n" data-icon="false"></select>
+								</div>
+							</div>
+							<div class="ui-grid-solo single">
+								<select id="gender" name="gender" data-theme="n" data-icon="false"></select>
+							</div>
+							<p id="msgCreatedAccount" style="font-weight:bold;"></p><br/>
 						</div>
-						<div>
-							<strong><label id="emailLabel" class="needed"></label></strong>
-							<input id="email" name="email" type="email"/>
+					</div>
+					<div id="buttons">
+						<div class="_tt">
+							<div class="_tl">
+								<a id="btn-back" class="btn-orange" data-role="button" data-inline="true" data-theme="f" onclick="goBack()"  data-iconpos="right"></a>
+							</div>
+							<div class="_tr">
+								<a id="btn-signup" class="btn-orange" data-role="button" data-inline="true" data-theme="f" onclick="$('#frmRegister').submit();"  data-iconpos="right">Sign Up</a>
+							</div>
 						</div>
-						<div>
-							<strong><label id="passwordLabel" class="needed"></label></strong>
-							<input id="password" name="password" type="password" class="password-field"/>
-							<strong><label id="repasswordLabel" class="needed"></label></strong>
-							<input id="repassword" name="confiPassword" type="password" class="password-field"/>
-							<div id="msgPassword" style="font-size: 12px"></div>
-						</div>
-						<p id="msgRequired"></p>
-						<p id="msgCreatedAccount" style="font-weight:bold;"></p><br/>
 					</div>
 				</form>
 			</div>
@@ -64,15 +75,21 @@
 	<script>
 		pageShow({
 			id:'#page-signUp',
-			title:lang.JS_SIGNUP_PROFILE,
-			backButton:true,
-			before:function(){
+			before:function(){ 
 				$('#nameLabel,#dateLabel').addClass('single');
 				$('#nameEnter,#bussinesDate').addClass('enterp');
 				$('.single,.enterp').hide();
 				//traducciones de la etiquetas
 				$('#buttonSign').html(lang.MNU_REGISTER);
+				$('#msgLogo').html(lan('create.share'));
+				$('#btn-back').html(lan('Back'));
+				$('#msgLogob').html(lan('.reward'));
+				$('#btn-signup').html(lang.MNU_REGISTER);
 				$('#nameLabel').html(lang.SIGNUP_LBLFIRSTNAME);
+				$("#name").attr("placeholder", lang.SIGNUP_LBLFIRSTNAME);
+				$('#gender').html('<option value="" selected>'+lan('Gender')+'</option>');
+				$("#phone").attr("placeholder", lan('Phone Number (Optional)'));
+				$("#lastName").attr("placeholder", lang.SIGNUP_LBLLASTNAME);
 				$('#nameEnter').html(lang.JS_SIGNUP_LBLADVERTISERNAME);
 				$('#lastNameLabel').html(lang.SIGNUP_LBLLASTNAME);
 				$('#dateLabel').html(lang.SIGNUP_LBLBIRTHDATE);
@@ -81,6 +98,9 @@
 				$('#day').html('<option value="0" selected>'+lang.JS_SIGNUP_LBLDAY+'</option>');
 				$('#year').html('<option value="0" selected>'+lang.JS_SIGNUP_LBLYEAR+'</option>');
 				$('#emailLabel').html(lang.SIGNUP_LBLEMAIL);
+				$("#email").attr("placeholder", lang.SIGNUP_LBLEMAIL);
+				$("#password").attr("placeholder", lang.SIGNUP_PASSWORD);
+				$("#repassword").attr("placeholder", lang.SIGNUP_PASSWORD2);
 				$('#passwordLabel').html(lang.SIGNUP_PASSWORD);
 				$('#repasswordLabel').html(lang.SIGNUP_PASSWORD2);
 				$('#msgPassword').html(lang.USERPROFILE_PASSWORD);
@@ -122,16 +142,24 @@
 				for(str='',i=date.getFullYear()-10;i>1929;i--)
 					str+='<option value="'+i+'">'+i+'</option>';
 				$('#year').append(str);
+				// Combo Genero
+				str='<option value="2">'+lan('Female')+'</option>';
+				str+='<option value="1">'+lan('Male')+'</option>';
+				$('#gender').append(str);
 				$('#showFormEnterprise').click(function(){
+					$("#nameBox").attr('class', 'ui-grid-solo');
 					$('.single').hide();
 					$('.enterp').show();
 					$('#company').val('1');
+					$("#name").attr("placeholder", lang.JS_SIGNUP_LBLADVERTISERNAME);
 					if(!is['limited']) setTimeout(function(){$('.fs-wrapper').jScroll('refresh');},500);
 				});
 				$('#showFormIndividual').click(function(){
+					$("#nameBox").attr('class', 'ui-grid-a');
 					$('.enterp').hide();
 					$('.single').show();
 					$('#company').val('0');
+					$("#name").attr("placeholder", lang.SIGNUP_LBLFIRSTNAME);
 					if(!is['limited']) setTimeout(function(){$('.fs-wrapper').jScroll('refresh');},500);
 				});
 				$('#frmRegister').submit(function(){
@@ -151,7 +179,8 @@
 							email		:$('#email').val(),
 							password	:$('#password').val(),
 							repassword	:$('#repassword').val(),
-							company		:$('#company').val()
+							company		:$('#company').val(),
+							sex 		:$('#gender').val()
 						},
 						success:function(data){
 							console.log(data['msg']+data['email']);

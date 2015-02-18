@@ -227,6 +227,7 @@ function readTxt(url){
 					'<div class="underPage"/>'+
 				'</div>'
 			);
+
 			// Menu actions
 			$('body')
 				.on('pagebeforeshow','.ui-page',function(){console.log('beforeshow');hideMenu();})
@@ -300,7 +301,8 @@ function readTxt(url){
 							datos=pts[0]+' M';
 						else
 							datos=data;
-						$('#userPoints b').html(datos);
+						$('span.info .points').html(datos+' Pts'); //Agregado V2 para los puntos
+						// $('#userPoints b').html(datos);
 					}
 				});
 			}
@@ -421,6 +423,33 @@ function readTxt(url){
 	$(function(){
 		putMenu();
 		putMenuOptions();
+		// Menu actions design V2
+		$("#bottom-menu").swipe( {
+	        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
+	        	$(this).animate({bottom: -0},500);
+	        	$(this).find('div.arrow').animate({rotate: '-180deg'},200);
+	        	$(this).find('div.arrow').animate({  borderSpacing: 0 }, {
+				    step: function(now,fx) {
+				      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
+				      $(this).css('-moz-transform','rotate('+now+'deg)');
+				      $(this).css('transform','rotate('+now+'deg)');
+				    },
+				    duration:'slow'
+				},'linear');
+	        },threshold:0,
+	        swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
+	        	$(this).animate({bottom: -114},500);
+	        	$(this).find('div.arrow').animate({  borderSpacing: 180 }, {
+				    step: function(now,fx) {
+				      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
+				      $(this).css('-moz-transform','rotate('+now+'deg)');
+				      $(this).css('transform','rotate('+now+'deg)');
+				    },
+				    duration:'slow'
+				},'linear');
+	        },threshold:0
+        });
+        //END Menu actions design V2
 	});
 	window.showMenu=showMenu;
 	window.hideMenu=hideMenu;
@@ -600,26 +629,31 @@ function showTag(tag){//individual tag
 			(isLogged()?
 		'<div id="panel"><menu>'+
 			'<ul>'+
-				(tag['uid']?
-					'<li id="users" users="'+tag['uid']+'"><span>profile</span></li>'
-				:'')+
-				'<li id="like" '+(tag['likeIt']>0?' style="display:none;"':'')+' title="Like"><span>Like</span></li>'+
-				'<li id="dislike" '+(tag['likeIt']<0?' style="display:none;"':'')+' title="Dislike"><span>Dislike</span></li>'+
-				(!tag['popup']?
-					'<li id="comment" title="Comment"><span>Comment</span></li>'
-				:'')+(btn['redist']?
-					'<li id="redistr" title="Redist"><span>Redist</span></li>'
-				:'')+(btn['share']?
+				'<li id="other-options">...'+
+					'<div class="sub-menu-tag"><ul style="display:none;">'+
+						(tag['uid']?
+						'<li id="users" users="'+tag['uid']+'"><span>profile</span></li>':'')+
+						(btn['redist']?
+						'<li id="redistr" title="Redist"><span>Redist</span></li>':'')+
+						btnSponsor+(btn['trash'] && tag.type != 'out'?
+						'<li id="trash" title="Trash"><span>Trash</span></li>':'')+
+						(tag['typeVideo']?
+						'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>':'')+
+						(tag['product']?
+						'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
+						:'')+
+						(btn['report']?
+							'<li id="report" title="Report"><span>Report</span></li>'
+						:'')+
+					'</ul></div>'+
+				'</li>'+
+				(btn['share']?
 					'<li id="share" title="Share"><span>Share</span></li>'
-				:'')+btnSponsor+(btn['trash'] && tag.type != 'out'?
-					'<li id="trash" title="Trash"><span>Trash</span></li>'
-				:'')+(tag['typeVideo']?
-					'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>'
-				:'')+(btn['report']?
-					'<li id="report" title="Report"><span>Report</span></li>'
-				:'')+(tag['product']?
-					'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
+				:'')+(!tag['popup']?
+					'<li id="comment" title="Comment"><span>Comment</span></li>'
 				:'')+
+				'<li id="like" title="Like"><div>'+tag.num_likes+'</div></li>'+
+				'<li id="dislike" title="Dislike"><div>'+tag.num_disLikes+'</div></li>'+
 			'</ul>'+hash+
 		'<div class="clearfix"></div></menu></div>'
 		:'<div id="menuTagnoLogged"></div>')+
@@ -629,10 +663,10 @@ function showTag(tag){//individual tag
 			'<div id="likeIcon" '+(tag['likeIt']>0?'':'style="display:none;"')+'></div>'+
 			'<div id="dislikeIcon" '+(tag['likeIt']<0?'':'style="display:none;"')+'></div>'+
 		'</div>'+
-		'<div class="tag-counts">'+
-			'<div id="likeIcon"></div><span>'+tag.num_likes+'</span>'+
-			'<div id="dislikeIcon"></div><span>'+tag.num_disLikes+'</span>'+
-		'</div>'+
+		// '<div class="tag-counts">'+
+		// 	'<div id="likeIcon"></div><span>'+tag.num_likes+'</span>'+
+		// 	'<div id="dislikeIcon"></div><span>'+tag.num_disLikes+'</span>'+
+		// '</div>'+
 		(tag['rid']?'<div class="redist"><div>'+lan('TXT_REDISTBY')+tag['name_redist']+'</div></div>':'')+
 		((tag['product']||tag['typeVideo'])?
 			'<div class="extras"><div>'+
@@ -696,7 +730,8 @@ function actionsTags(layer, forceComments){
 			if ($(e.target).hasClass('canceled')) return false;
 
 			var tagId = $(e.target).parents('[tag]').attr('tag');
-			switch(e.target.id){
+			var actionId = e.target.id || $(e.target).parent('li').attr('id');
+			switch(actionId){
 				case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
 				case 'share':redir(PAGE['sharetag']+'?id_tag='+tagId);break;
 				case 'comment':
@@ -706,9 +741,9 @@ function actionsTags(layer, forceComments){
 				break;
 				case 'like':case 'dislike':
 					//$(e.target).addClass('canceled');
-					bigLike(tagId, e.target.id);
-					var that=e.target.id+'Icon',
-						show=e.target.id!='like'?'likeIcon':'dislikeIcon';
+					bigLike(tagId, actionId);
+					var that=actionId+'Icon',
+						show=actionId!='like'?'likeIcon':'dislikeIcon';
 						playLike(tagId,that,show);
 				break;
 				case 'redistr':
@@ -817,10 +852,13 @@ function playLike(tagtId,that,show,comment){
 		dataType:'json',
 		loader: false,
 		success:function(data){
-			if (data['success']=='likes') afterAjaxTags(data['success'], tagtId, 'menu #like', 'menu #dislike');
-			else afterAjaxTags(data['success'], tagtId,'menu #dislike', 'menu #like');
+			// if (data['success']=='likes') afterAjaxTags(data['success'], tagtId, 'menu #like', 'menu #dislike');
+			// else afterAjaxTags(data['success'], tagtId,'menu #dislike', 'menu #like');
 			$('#numDislikes').html(data['dislikes']); $('#numLikes').html(data['likes']);
-			$('[tag='+tagtId+'] .tag-counts').find('#dislikeIcon+span').html(data['dislikes']); $('[tag='+tagtId+'] .tag-counts').find('#likeIcon+span').html(data['likes']);
+			// $('[tag='+tagtId+'] .tag-counts').find('#dislikeIcon+span').html(data['dislikes']); $('[tag='+tagtId+'] .tag-counts').find('#likeIcon+span').html(data['likes']);
+			// $('[tag='+tagtId+'] menu').find('#dislike').html(data['dislikes']); $('[tag='+tagtId+'] menu').find('#like').html(data['likes']);
+			$('[tag='+tagtId+'] menu').find('#dislike').html('<div>'+data.dislikes+'</div>');
+			$('[tag='+tagtId+'] menu').find('#like').html('<div>'+data.likes+'</div>');
 			if (!comment && $('[tag='+tagtId+']').find('#comments').length == 0 ) {
 				playComment(tagtId);
 			}
@@ -1044,36 +1082,39 @@ function playComment(tagtId, opc){
 	};
 })(window,jQuery,console);
 
-function bodyFriendsList(friend){
-	if (friend.conocido) var te="a",text=lan('unfollow');
-	else var te="e",text=lan('follow'); 
-	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain">'+
+function bodyFriendsList(friend, temp){
+	temp = temp || 'a';
+	// if (friend.conocido) var te="a",text=lan('unfollow');
+	// else var te="e",text=lan('follow');
+	var known = (friend.conocido)?1:0;
+	console.log('Resultado:'+friend.conocido);
+	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain">'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
-			'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
+			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/>'+
 			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
-			'<p class="ui-li-desc">'+
-				lan('friends','ucw')+' <span class="ufriends">('+(friend.friends_count||0)+'),</span>  '+
-				lan('admirers','ucw')+' <span class="ufollowers">('+(friend.followers_count||0)+'),</span>  '+
-				lan('admired','ucw')+' <span class="ufollowing">('+(friend.following_count||0)+')</span> '+
-			'</p>'+
+			// '<p class="ui-li-desc">'+
+			// 	lan('friends','ucw')+' <span class="ufriends">('+(friend.friends_count||0)+'),</span>  '+
+			// 	lan('admirers','ucw')+' <span class="ufollowers">('+(friend.followers_count||0)+'),</span>  '+
+			// 	lan('admired','ucw')+' <span class="ufollowing">('+(friend.following_count||0)+')</span> '+
+			// '</p>'+
 		'</a>'+
-	'</li>'+ //la maquetacion de este li se hizo con el jquerymobile ya cargado
-	(friend.iAm=="0"?'<li class="ui-body ui-body-b" style="display: none;">'+
-		'<fieldset class="ui-grid-a">'+
-			'<div class="ui-block-a">'+
-				'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
-					'<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('USER_PROFILE')+'</span></span>'+
-					'<button code="'+friend.code_friend+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lan('USER_PROFILE')+'</button>'+
-				'</div>'+
-			'</div>'+
-			'<div class="ui-block-b">'+
-				'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="'+te+'" data-disabled="false" class="ui-submit ui-btn ui-shadow ui-btn-corner-all ui-btn-up-'+te+'" aria-disabled="false">'+
-					'<span class="ui-btn-inner"><span class="ui-btn-text">'+text+'</span></span>'+
-					'<button type="b" data-theme="'+te+'" userlink="'+md5(friend.id)+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
-				'</div>'+
-			'</div>'+
-		'</fieldset>'+
-	'</li>':'');
+	'</li>'; //la maquetacion de este li se hizo con el jquerymobile ya cargado
+	// (friend.iAm=="0"?'<div class="" style="display: none;">'+
+	// 	'<fieldset class="ui-grid-a">'+
+	// 		'<div class="ui-block-a">'+
+	// 			'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
+	// 				'<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('USER_PROFILE')+'</span></span>'+
+	// 				'<button code="'+friend.code_friend+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lan('USER_PROFILE')+'</button>'+
+	// 			'</div>'+
+	// 		'</div>'+
+	// 		'<div class="ui-block-b">'+
+	// 			'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="'+te+'" data-disabled="false" class="ui-submit ui-btn ui-shadow ui-btn-corner-all ui-btn-up-'+te+'" aria-disabled="false">'+
+	// 				'<span class="ui-btn-inner"><span class="ui-btn-text">'+text+'</span></span>'+
+	// 				'<button type="b" data-theme="'+te+'" userlink="'+md5(friend.id)+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
+	// 			'</div>'+
+	// 		'</div>'+
+	// 	'</fieldset>'+
+	// '</div>':'');
 	return out;
 }
 function viewFriends(method, opc){
@@ -1109,11 +1150,14 @@ function viewFriends(method, opc){
 			}
 			// }
 			divider=!opc.noCount?'<li data-role="list-divider">'+divider+(count!=''?' ('+count+')':'')+'</li>':'';
-
-			if (data.datos.length>0){
+			divider = ''; //DesignV2 o comentar desde la linea 1091 hastas 1105
+			if(data.datos.length>0){
+				var char = ['a','b','c'], count = -1;
 				for(i=0;i<data.datos.length;i++){
+					if (i % 3 == 0) count = -1;
+					count++;
 					friend=data.datos[i];
-					out+=bodyFriendsList(friend);
+					out+=bodyFriendsList(friend, char[count]);
 				}
 			}else{
 				var mens='';
@@ -1130,11 +1174,12 @@ function viewFriends(method, opc){
 			if (method=='refresh') {
 				var seemore='';
 				if (opc.perpag && data.datos.length>=opc.perpag) seemore='<li data-theme="f" data-icon="false" id="seemore"><a style="text-align:center;" href="#">'+lan('see more','ucw')+'</a></li>';
-				$(opc.layer).html(divider+out+seemore).listview('refresh');
+				//$(opc.layer).html(divider+out+seemore).listview('refresh');
+				$(opc.layer).html(divider+out+seemore);
 			}else if(method=='more'){
 				if ($('#findFriends').length == 0) {
 					$(opc.layer+' #seemore').before(out);
-					$(opc.layer).listview('refresh');
+					//$(opc.layer).listview('refresh');
 				}
 				$('#findFriends').click(function(event){
 					redir(PAGE['findfriends']);
@@ -1185,9 +1230,38 @@ function linkUser(layer,$wrapper){
 			}
 		});
 	}).on('click','[thisshow]',function(e){
-		$('[thishide]',layer).removeAttr("thishide").attr("thisshow","1").next('li').hide();
-		$(this).removeAttr("thisshow").attr("thishide","1").next("li").show();
+		// $('[thishide]',layer).removeAttr("thishide").attr("thisshow","1").next('li').hide();
+		// $(this).removeAttr("thisshow").attr("thishide","1").next("li").show();
 		//console.log('Posicion del click:'+e.pageY)
+		var photo = $(this).find('a img').attr('src');
+		var te="e",text=lan('follow'); 
+		if (this.dataset.known == 1) te="a",text=lan('unfollow');
+		myDialog({
+			id:'#friend-options',
+			content:
+			'<div>'+
+			'<div class="photo"><img src="'+photo+'" alt="photo" /></div><br />'+
+			'<div class="info">'+lan('name')+'</div>'+
+			'<fieldset class="ui-grid-a">'+
+				'<div class="ui-block-a">'+
+					'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
+						'<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('USER_PROFILE')+'</span></span>'+
+						'<button code="'+this.dataset.link+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lan('USER_PROFILE')+'</button>'+
+					'</div>'+
+				'</div>'+
+				'<div class="ui-block-b">'+
+					'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="'+te+'" data-disabled="false" class="ui-submit ui-btn ui-shadow ui-btn-corner-all ui-btn-up-'+te+'" aria-disabled="false">'+
+						'<span class="ui-btn-inner"><span class="ui-btn-text">'+text+'</span></span>'+
+						'<button type="b" data-theme="'+te+'" userlink="'+this.dataset.unlink+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
+					'</div>'+
+				'</div>'+
+			'</fieldset>'+
+			'</div>',
+			style:{'padding-right':5},
+			buttons:{},
+			backgroundClose: true
+		});
+
 		if ($wrapper) {
 			var eleHeight = $(this).height();
 			var broHeight = $(this).next().height();
@@ -1472,6 +1546,9 @@ function myDialog(){
 				$d.fadeOut('fast');
 		});
 	};
+	if(o.backgroundClose){
+		$(o.id+'.myDialog>.table').one('click',o.close);
+	}
 	$('.closedialog',$d).one('click',o.close);
 	if(!o.buttons){
 		o.buttons={Ok:o.close};
@@ -1768,6 +1845,23 @@ function convertirLinks(text){
 	};
 })(jQuery,console);
 
+function get_profile(code, callback){
+	myAjax({
+		url:DOMINIO+'controls/users/people.json.php?action=specific&code',
+		data:{uid:code},
+		success:function(response){
+			if (!response['error']){
+				if (typeof callback == 'function') {
+					callback(response);
+				}
+			}
+		},
+		error:function(){
+			console.log('error');
+		}
+	});
+}
+
 function paletteColorPicker(id_layer){
 	var cs=['0','3','6','9','C','F'];
 	function opc(a,b,c){
@@ -1858,66 +1952,11 @@ function viewCategories(action,idLayer,id){
 					buttons:{ ok:'close' }
 				});
 			}
-			if(data.sCart) $('#cart-footer').fadeIn();
+			// if(data.sCart) $('#cart-footer').fadeIn();
 			$(idLayer).html(out).listview('refresh');
 			$('.list-wrapper').jScroll('refresh');
 		}
 	});
-}
-function bodyCart(data){
-	var i,out='',num=0,outDivider='<li data-role="list-divider" class="titleDivider">'+lan('STORE_SHOPPING_TOTAL')+' ('+data.nproduct+')';
-	for(i=0;i<data.datosCar.length;i++){
-		var select='';
-		if(data.datosCar[i].place=='1' && parseInt(data.datosCar[i].stock)>0){
-			$('#productApp').val('si');
-			var option='';
-			select='<select class="cant-product" name="select-choice-mini" id="select-choice-mini" data-mini="true" data-inline="true"'+
-						' cantAct="'+(data.datosCar[i].sale_points*data.datosCar[i].cant)+'" precio="'+data.datosCar[i].sale_points+'" '+((data.datosCar[i].formPayment=='1')?'fr="1"':'fr="0"')+'>';
-			for(var j=1;j<=(parseInt(data.datosCar[i].stock));j++){
-				option+='<option value="'+j+'" '+(data.datosCar[i].cant==j?'selected':'')+'>'+j+'</option>';
-			}
-			select=select+option+'</select>';
-		}else if(data.datosCar[i].place=='1' && data.datosCar[i].stock<=0){
-			$('#productApp').val('si');
-			select='<em class="info-top-p">'+lan('TAGS_WHENTAGNOEXIST')+'</em><input type="hidden" class="cant-product"  value="'+data.datosCar[i].cant+'">';
-		}
-		if(data.datosCar[i].formPayment=='1'){ $('#dollarApp').val('si'); }
-		out+='<li id="'+data.datosCar[i].mId+'" >'+
-				'<div class="contentItem">'+
-					'<div class="itemPic">'+
-						'<img src="'+data.datosCar[i].photo+'"/>'+
-					'</div>'+
-					'<div class="itemDes">'+
-						'<div class="name">'+data.datosCar[i].name+'</div>'+
-						'<div><strong>'+lan('STORE_SHOPPING_SELLER')+':</strong> '+data.datosCar[i].nameUser+'</div>'+
-						'<div>'+data.datosCar[i].nameC+' > '+data.datosCar[i].nameSC+'</div>'+
-						'<div class="price">'+lan('STORE_SHOPPING_VALUE')+': '+data.datosCar[i].sale_points+' '+(data.datosCar[i].formPayment=='1'?lan('STORE_SHOPPING_DOLLARS'):lan('STORE_SHOPPING_POINTSMA'))+'</div>'+
-						select+
-					'</div>'+
-				'</div><br/>'+
-				'<div class="buttons">'+
-					'<a func="details" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_SHOPPING_DETAILS')+'</span></span></a>'+
-					'<a func="delete" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_SHOPPING_ITEM')+'</span></span></a>'+
-					'<a func="sendWish" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_WISH_LIST_MOVE')+'</span></span></a>'+
-				'</div>'+
-			'</li>';
-	}
-	if(data.totalpoints>0){
-		outDivider+='<div class="point">'+
-						lan('STORE_SHOPPING_TOTAL_PRODUCTS')+
-						'<span>'+data.totalpoints+'</span>'+
-						'<input type="hidden" value="'+data.totalpoints+'">'+
-					'</div>';
-	}
-	if(data.totalmoney>0){
-		outDivider+='<div class="money">'+
-						lan('STORE_SHOPPING_TOTAL_PRODUCTSD')+
-						'<span>'+data.totalmoney+'</span>'+
-						'<input type="hidden" value="'+data.totalmoney+'">'+
-					'</div>';
-	}
-	outDivider+='</li>';
-	return outDivider+out;
 }
 function actionButtonsStore(){
 	$('#lstStoreOption .buttons a,#cartList .buttons a').click(function(){
@@ -2000,7 +2039,7 @@ function deleteItemCar(id,get,obj){
 function updateCantP(myselect){
 	myselect.change(function(){
 		var cantAct=$(this).val(),tipo=$(this).attr('fr'),totalAnt=$(this).attr('cantAct'),
-			diferencia=0,objeto=$(this),linea=$(this).parents('li').attr('id');
+			diferencia=0,objeto=$(this),linea=$(this).parents('li').attr('id'),total,totalAct;
 			diferencia=cantAct*$(this).attr('precio');
 		myAjax({
 			type:'POST',
@@ -2009,14 +2048,24 @@ function updateCantP(myselect){
 			success:function(data){
 				if(data.datosCar=='update'){
 					objeto.attr('cantAct',diferencia);
-					totalAct=$('#cartList .titleDivider .money input').val();
 					if(tipo==1){
-						$('#cartList .titleDivider .money imput').val((totalAct-(totalAnt))+(diferencia));
-						$('#cartList .titleDivider .money span').html((totalAct-(totalAnt))+(diferencia));
+						totalAct=$('#data-header .total div .money input').val();
+						total=(totalAct-(totalAnt))+(diferencia);
+						$('#data-header .total div .money').remove();
+						$('#data-header .total div').append('<div class="money">$'+total+'<input type="hidden" value="'+total+'"></div>');
+						objeto.parents('li').find('.price').html('$'+total);
+						// totalAct=$('#cartList .titleDivider .money input').val();
+						// $('#cartList .titleDivider .money imput').val();
+						// $('#cartList .titleDivider .money span').html((totalAct-(totalAnt))+(diferencia));
 						//$('#totalPriceMoney').html((totalAct-(totalAnt))+(diferencia)).formatCurrency({symbol:''});
 					}else{
-						$('#cartList .titleDivider .point imput').val((totalAct-(totalAnt))+(diferencia));
-						$('#cartList .titleDivider .point span').html((totalAct-(totalAnt))+(diferencia));
+						totalAct=$('#data-header .total div .points input').val();
+						total=(totalAct-(totalAnt))+(diferencia);
+						$('#data-header .total div .points').remove();
+						$('#data-header .total div').append('<div class="points">$'+total+'Pts<input type="hidden" value="'+total+'"></div>');
+						objeto.parents('li').find('.price').html(total+'Pts');
+						// $('#cartList .titleDivider .point imput').val((totalAct-(totalAnt))+(diferencia));
+						// $('#cartList .titleDivider .point span').html((totalAct-(totalAnt))+(diferencia));
 						//$('#totalPrice').html((totalAct-(totalAnt))+(diferencia)).formatCurrency({symbol:''});
 						//var auxi=$('#totalPrice').html().split('.');
 						//$('#totalPrice').html(auxi[0]);
@@ -2032,44 +2081,6 @@ function updateCantP(myselect){
 				}
 			}
 		});
-	});
-}
-function getProducts(layer,category,subcategory){
-	myAjax({
-		type	:'GET',
-		url		:DOMINIO+'controls/store/listProd.json.php?source=mobile&module=store&limit=0&c='+category+'&sc='+subcategory,
-		dataType:'json',
-		error	:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lan('conectionFail'));
-		},
-		success	:function(data){
-			var out='',num=0,prod=data.prod,category,idcategory;
-			for(var i=0;i<prod.length;i++){
-				out+=
-					(num++<1?' <li data-role="list-divider">'+prod[i].titleList+'</li>':'')+
-					'<li date="'+prod[i].join_date+'" idPro="'+prod[i].id+'">'+
-						'<a><img src="'+prod[i].photo+'" style="width:100px;height:60px;margin:20px 0 0 8px;border-radius:10px">'+
-							'<p id="nameProduct">'+prod[i].name+'</p>'+
-							'<p id="descripProduct">'+prod[i].description+'</p>'+
-							'<p class="costProduct">'+prod[i].cost+'</p>'+
-							'<p class="date"><strong>Published:</strong> '+prod[i].join_date+'</p>'+
-						'</a>'+
-					'</li>';
-				category=prod[i].category;
-				idcategory=prod[i].mid_category;
-			}
-
-			$(layer).html(out).listview('refresh');
-			$('.costProduct').formatCurrency({symbol:''}); //Formato de moneda
-            var cost=$('.costProduct').html();
-            var aux=cost.split('.');
-            $('.costProduct').html(aux[0]+' '+lang.STORE_SHOPPING_POINTS);
-
-			$('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('goback')+' '+category+'</span></span>').attr('code',idcategory);
-			$('.list-wrapper').jScroll('refresh');
-
-
-		}
 	});
 }
 function addProductShoppingCart(id,wish){
@@ -2106,7 +2117,7 @@ function addProductShoppingCart(id,wish){
 		}
 	});
 }
-function moveToWish(id,get){
+function moveToWish(id,get,details){
 		get=get?get:'';
 		myAjax({
 			type:'GET',
@@ -2114,6 +2125,7 @@ function moveToWish(id,get){
 			dataType:'json',
 			success:function(data){
 				var dato=data.listWish;
+				if (details) redir(PAGE.storeOption);
 				if(data.numRow>0){
 					if(data.datosCar){
 						if(data.datosCar[0].name){
@@ -2139,7 +2151,14 @@ function moveToWish(id,get){
 						//$('#list_orderProduct_wish ul').html(data.wish.body);
 						//$('.button').button();
 					}else{
-						myDialog('#singleDialog','<div><strong>'+lan('STORE_NO_SC')+'</strong></div>');
+						myDialog({
+                            id:'#singleDialog',
+                            content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
+                            buttons:[{
+                                name:'Ok',
+                                action:function(){ redir(PAGE.storeCat); }
+                            }]
+                        });
 						$('#cartList').empty().html('').listview('refresh');
 					}
 				}
@@ -2187,7 +2206,22 @@ function checkOutShoppingCart(get){
 		}
 	});
 }
-
+function numItemsCart(){
+	myAjax({
+		type	:'POST',
+		url		:DOMINIO+'controls/store/shoppingCart.json.php?numActShop=4',
+		dataType:'json',
+		error	:function(/*resp,status,error*/){
+			myDialog('#singleDialog',lan('conectionFail'));
+		},
+		success	:function(data){
+			if (data[0]){ 
+				var num=data[0]*1;
+				if (num>0) $('#menu .cart span').html(num).addClass('active'); 
+			}
+		}
+	});	
+}
 (function(window){//funciones de comentarios
 	function showComments(comments){
 		if(!comments||!comments.length) return '';

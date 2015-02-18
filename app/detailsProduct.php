@@ -1,226 +1,236 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-detailsProducts" data-role="page" data-cache="false" class="no-footer no-header">
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<h1></h1>
-		<a id="buttonShopping" href="#" data-icon="arrow-2" style="display: none;"></a>
+		<div id="menu" class="ui-grid-b" style="top:0px;left:0;padding:0 5px;"></div>
+        <!-- <h1></h1> -->
+		<!-- <a id="buttonShopping" href="#" data-icon="arrow-2" style="display: none;"></a> -->
 	</div><!-- header -->
 	<div data-role="content" class="list-content">
 		<div id="infoDetails"></div>
 	</div><!-- content -->
-	<div id="cart-footer" data-role="footer" data-position="fixed" data-theme="f" style="display: none">
+<!-- 	<div id="cart-footer" data-role="footer" data-position="fixed" data-theme="f" style="display: none">
 		<div data-role="navbar"><ul></ul></div>
-	</div>
-    <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
+	</div> -->
+    <?php include 'inc/mainmenu.php'; ?>
+<!--     <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul id="storeNav">
 				<li><a href="#" id="goBack" opc="1"></a></li>
 				<li><a href="#"  opc="2"></a></li>
 			</ul>
 		</div>
-	</div>
-    <!-- Dialogs -->
-    <div id="friendsListDialog" class="myDialog"><div class="table"><div class="cell">
-        <div class="window">
-            <div class="container" style="font-size: 50%;height:220px;">
-                <div class="list-wrapper" style="top: 0;"><div id="scroller"><ul data-role="listview" data-inset="true"></ul><div class="clearfix"></div></div></div>
-            </div>
-            <div class="buttons">
-                <a href="#" data-role="button" onclick="closeDialogmembersGroup('#friendsListDialog')" data-theme="f">Ok</a>
-            </div>
-        </div>
-    </div></div></div>
+	</div> -->
 	<script type="text/javascript">
 		pageShow({
 			id:'#page-detailsProducts',
-			title:lang['STORE_DETAILS'],
-            showmenuButton:true,
-            before:function(){
-                //languaje
-                if ($_GET['fp']!==undefined) $('#buttonShopping').html(lan('join','ucw'));
-                else $('#buttonShopping').html(lang.STORE_SHOPPING_ADD);
-                $('#cart-footer ul').html(
-                    '<li>'+
-                        '<a class="ui-btn-active">'+
-                            lang.STORE_VIEWORDERINCART+
-                        '</a>'+
-                    '</li>'
+			// title:lang['STORE_DETAILS'],
+			// backButton:true,
+			before:function(){
+				//languaje
+				// $('#category').html(lang.STORE_CATEGORY);
+				// $('#buttonShopping').html(lang.STORE_SHOPPING_ADD);				
+				// $('#cart-footer ul').html(
+				// 	'<li>'+
+				// 		'<a class="ui-btn-active">'+
+				// 			lang.STORE_VIEWORDERINCART+
+				// 		'</a>'+
+				// 	'</li>'
+				// );
+                $('#menu').html(
+                    '<span class="ui-block-a menu-button hover" style="width: 20%;"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
+                    // '<span class="ui-block-b"></span>'+
+                    '<span class="ui-block-b" style="width: 60%"><br/><strong>'+lang.STORE_DETAILS+'</strong></span>'+
+                    // '<span class="ui-block-d"></span>'+
+                    '<span class="ui-block-c menu-button cart" style="width: 20%;"><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('cart','ucw')+'</a></span>'
                 );
-            },
-            after:function(){
-                var info='#infoDetails';
-                $(info).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
-                $('.list-wrapper').jScroll({hScroll:false});
-                $('.list-wrapper').jScroll('refresh');
-
-                viewProductDetails($_GET['id'],info,$_GET['fp']);
-                
-               
-                $(info).on('click','div.tag-solo-hash',function(){ //
-                    $(this).addClass('tag-solo-hash-complete');
-                    var vector=$('a[hashT]',this);
-                    $.each(vector, function(key,value){ $(this).attr('hash',$(this).attr('hashT')).removeAttr('hashT'); });
-                }).on('click','div.tag-solo-hash a[hash]',function(){ //tag-solo-hash-complete
-                    redir(PAGE['search']+'?srh='+$(this).attr('hash').replace('#','%23').replace('<br>',' '));
-                }).on('click','div a[nohref]',function(){ //tag-solo-hash-complete
-                    openVideo($(this).attr('nohref'),'#popupVideo');
-                });
-
-                function viewProductDetails(id,layer,fp){
-                    var module=(fp!==undefined)?'raffle':'store';
-                    myAjax({
-                        type    :'GET',
-                        url     :DOMINIO+'controls/store/listProd.json.php?source=mobile&module='+module+'&idp='+id,
-                        dataType:'json',
-                        error   :function(/*resp,status,error*/){
-                            myDialog('#singleDialog',lang.conectionFail);
-                        },
-                        success :function(data){
-                          if (data['prod']){
-                                var i,photo,product,outLi='',category,idcategory,hashS='',video='';
-                                product=data['prod'][0];
-                                category=product['category'];
-                                idcategory=product['mid_category'];
+			},
+			after:function(){
+				var info='#infoDetails';
+				$(info).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
+				$('.list-wrapper').jScroll({hScroll:false});
+				$('.list-wrapper').jScroll('refresh');
+				viewProductDetails(4,$_GET['id'],info);
+                function viewProductDetails(action,id,layer){//aquiiiii
+                	myAjax({
+                		type	:'GET',
+                		url		:DOMINIO+'controls/store/listProd.json.php?source=mobile&module=store&idp='+id,
+                		dataType:'json',
+                		error	:function(/*resp,status,error*/){
+                			myDialog('#singleDialog',lang.conectionFail);
+                		},
+                		success	:function(data){
+                		  if (data['prod']){
+                    			var i,photo,product,outLi='',hashS='',video='',stock='',basePhoto='',divPhotos='',nPhotos=0;
+                    			product=data['prod'][0];
                                 if(product['typeVideo']){
-                                    var href='',$video=$('.tag-buttons #'+product['typeVideo']).fadeIn('slow');                             
+    								var href='';
+                                    // $video=$('.tag-buttons #'+product['typeVideo']).fadeIn('slow');								
                                     if(openVideo){ href='nohref="'+product['video']+'"';
-                                    }else{ href='href="'+product['video']+'" target="_blank"'; }
-                                    video='<a id="'+product['typeVideo']+'" '+href+' class="video" data-ajax="false"></a>';                                
-                                }
-                                if(product['stock']>0 && product['idse']!==product['id_user']){
-                                    if (fp!==undefined && (product['end_date'] || product['joined']))
-                                        $('#buttonShopping .ui-btn-text').html(lan('participants','ucw'));
-                                    $('#buttonShopping').css('display','inline-block')
-                                    .click(function(){
-                                        if (fp!==undefined){
-                                            if (!product['joined'] && !$(this).hasClass('exist')){
-                                                joinFreeProducts(product['rid']);
-                                            }else{ 
-                                                myDialog({
-                                                    id:'#friendsListDialog',
-                                                    style:{'min-height':200},
-                                                    buttons:{},
-                                                    after: function (options,dialog){
-                                                        participantsFreeProducts(product['rid']) 
-                                                    }
-                                                });
-                                            }
-                                        }else addProductShoppingCart($_GET['id']);
-                                    });
-                                }
-                                outLi+='<div id="idProductContent">'+
-                        				'<span id="title">'+product['name']+'</span><br>'+
-                                        ((fp!==undefined)?'':'<span id="CateSub">'+product['category']+' > '+product['subCategory']+'</span><br><br>')+
-                                        (video!=''?'<div id="productVideo">'+video+'</div>':'')+
-                                        '<div class="photosp">';
+    								}else{ href='href="'+product['video']+'" target="_blank"'; }
+                                    video='<a id="'+product['typeVideo']+'"	'+href+' class="video" data-ajax="false" data-role="button" data-theme="e">'+
+                                        '<img src="css/newdesign/video.png" alt="" width="27" height="27">'+
+                                    '</a>';                                
+    							}
+        //                         if(product['stock']>0){
+								// 	if(product['idse']!==product['id_user']){
+								// 		$('#buttonShopping').css('display','inline-block'); 	
+								// 	}
+								// }
+                    			outLi+=
+                    				'<div id="idProductContent">'+
+                    				'<span id="title">'+product['name']+'</span><br>'+
+                    				// '<span id="CateSub">'+product['category']+' > '+product['subCategory']+'</span><br><br>'+
+                                    // (video!=''?'<div id="productVideo">'+video+'</div>':'')+
+                    				'<div class="photosp">';
+                                    //<div id="titleVideo">'+lang.Video+':</div>
                     			if(product['place']=='1'){
-                    				for(i in product['photo']){
+                    				for(i in product['photo']){ nPhotos++;
                     					photo=product['photo'][i];
-                    					outLi+='<div photo="'+photo['pic']+'" class="pic" style="background-image:url(\''+photo['pic']+'\');"></div>';
-                    				}
-                    			}else{ outLi+='<img src ="'+product['photo']+'" />'; }
+                                        divPhotos+='<div><img src="'+photo['pic']+'" width = "150" /></div>';
+                                        if (basePhoto=='') basePhoto+='<div class="pic" style="background-image:url(\''+photo['pic']+'\');"></div>';
+                                    }
+                                }else{ nPhotos++;
+                    				divPhotos+='<div><img src="'+product['photo']+'" width = "150" /></div>';
+                                    basePhoto+='<div class="pic" style="background-image:url(\''+product['photo']+'\');"></div>';  
+                                }
+                    			// }else{ outLi+='<img src ="'+product['photo']+'" />'; }
                                 if (data['hash']){ 
                                     for (var jj=0;jj<data['hash'].length;jj++){
                                         hashS+='<a href="#" hashT="'+data['hash'][jj]+'">'+data['hash'][jj]+'</a>&nbsp;&nbsp;';
                                     }
     						    }
-                    			outLi+=
+                                console.log(hashS);
+                    			outLi+=basePhoto+
                     				'</div>'+
-                    				'<div id="priceApp">'+lang.STORE_SHOPPING_VALUE+': <span id="points">'+((fp!==undefined)?product['points']:product['cost'])+' '+lang.STORE_SHOPPING_POINTS+'.</span>'+
-                    				'<span id="seller">'+lang.STORE_SHOPPING_SELLER+'</span></div>'+
-                    				'<div id="user">'+product['seller']+'</div>'+
-                                    ((fp!==undefined)?
-                                        '<div id="start_date">'+lan('start date','ucw')+': '+product['start_date']+'</div>'+
-                                        ((!product['end_date'])?'':'<div id="end_date">'+lan('end date','ucw')+': '+product['end_date']+'</div>'):
-                                        '<div id="stock">'+lan('stock','ucw')+': '+product['stock']+'</div>')+
-                    				'<div id="titleDescription">'+lang.STORE_SHOPPING_DESCRIPTION+':</div>'+
-                    				'<div id="description">'+product['description']+'</div>'+
+                    				'<div id="priceApp">'+(product['pago']=='0'?'<span id="points">'+product['cost']+'</span>pts':'$<span id="points">'+product['cost']+'</span>')+'</div>'+
+                                    '<div id="titleDescription">'+lang.STORE_SHOPPING_DESCRIPTION+':</div>'+
+                                    '<section id="description">'+product['description']+'</section>'+
                                     (hashS!=''?'<div id="titleHash">'+lang.STORE_SUGGEST+':</div><div class="tag-solo-hash">'+hashS+'</div>':'')+
-                    				'</div>';
+                                    '<span id="seller">'+lang.STORE_SHOPPING_SELLER+': '+product['seller']+'</span>'+
+                                    // '<div id="user">'+product['seller']+'</div>'+
+                                    // '<div id="stock">'+lan('stock','ucw')+': '+product['stock']+'</div>'+
+                                    '';
+                    				// '</div>';
+                                for (var i=1;i<=product['stock'];i++) stock+='<option value="'+i+'">'+i+'</option>';
+                                /*modelo del stock con select
+                                <form>
+                                    <div data-role="fieldcontain">
+                                        <label for="select-native-1">Basic:</label>
+                                        <select name="select-native-1" id="select-native-1">';
+                    
+                                        </select>
+                                    </div>
+                                </form>
+                                */
+                                outLi+='<div class="buttonsDetails"><div class="ui-grid-a">'+
+                                            '<div class="ui-block-a" style="width: 35%">'+
+                                                '<button data-theme="c">'+product['stock']+'</button>'+                                        
+                                            '</div>'+
+                                            '<div class="ui-block-b" style="width: 65%">'+
+                                                '<button id="buttonShopping" data-theme="e">'+lang.STORE_SHOPPING_ADD+'</button>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '<div class="'+(video!=''?'ui-grid-a':'ui-grid-solo')+'">'+
+                                        (video!=''?
+                                        '<div class="ui-block-a video" style="width: 20%;">'+video+'</div>'+
+                                        '<div class="ui-block-b" style="width: 75%;"><button data-theme="c" id="buttonWish">'+lang.STORE_WISH_LIST_ADD+'</button></div>':
+                                        '<div class="ui-block-a"><button data-theme="c" id="buttonWish">'+lang.STORE_WISH_LIST_ADD+'</button></div>')+
+                                    '</div></div></div>';
+                    
                     			$(layer).html(outLi);
-                                if (fp!==undefined)
-                                    $('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+lang['STORE_FREE_PRODUCTS']+'</span></span>').attr('code','freeP');
-                                else
-                                    $('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+category+'</span></span>').attr('code',idcategory);
-                    			$('.list-wrapper').jScroll('refresh');
-                    			
-                    			$(".photosp").on("click","[photo]",function(){
-                    				var html=
-                    					'<div>'+
+                                // $('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+category+'</span></span>').attr('code',idcategory);
+                    			$( ".buttonsDetails button,.buttonsDetails a" ).button();
+                                numItemsCart();
+                                $('.list-wrapper').jScroll('refresh');
+                    			$(".photosp").on("click",".pic",function(){
+                                    var html=
+                    					'<div style="text-align: center;">'+
                     						'<strong>'+product['name']+'</strong></div>'+
-                    						'<div><img src="'+$(this).attr('photo')+'" width = "150" /></div>'+
+                    						'<div id="contentImgs" style="width: '+(nPhotos*100)+'%">'+
+                                               divPhotos+
+                                            '</div>'+
                     					'</div>';
-                    				myDialog('#singleDialog',html);
-                    			});
-								if(product['idse']===product['id_user']){
-									
-									$('#storeNav #goBack').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.STORE_MYPUBLICATIONS+'</span></span>');
-									$('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.newTag+'</span></span>');
-									
-									$('#storeNav').on('click','li a[opc]',function(){
-										switch($(this).attr('opc')){
-											case '1': redir(PAGE['storeMypubli']); break;
-											case '2': redir(PAGE['newtag']+'?product='+product['id']); break;
-										}
-									});
-								}else{
-									$('#storeNav #goBack').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+lang.store+'</span></span>');
-									
-									$('#storeNav').on('click','li a[opc]',function(){
-										switch($(this).attr('opc')){
-											case '1': redir(PAGE['storeCat']); break;
-                                            case '2': 
-                                                if (fp===undefined) redir(PAGE['storeCat']);
-                                                else redir(PAGE['storeFreeProducts']); 
-                                            break;
+                                    myDialog({
+                                        id:'#singleDialogProducts',
+                                        content:html,
+                                        after:function(){
+                                            $('#contentImgs div').css('width',(100/nPhotos)+'%');
+                                            var vright=0;
+                                            if (nPhotos>1)
+                                            $("#contentImgs img").swipe({
+                                                swipeLeft:function(event, direction, distance, duration, fingerCount, fingerData) {
+                                                    if (vright>=0 && vright<((nPhotos-1)*100)){
+                                                        vright=vright+100;
+                                                        console.log(vright);
+                                                        $(this[0]).parents('div#contentImgs').animate({right: '+=100%'},500);
+                                                    }
+                                                },threshold:0,
+                                                swipeRight:function(event, direction, distance, duration, fingerCount, fingerData) {
+                                                    if (vright>0 && vright<=((nPhotos-1)*100)){
+                                                        vright=vright-100;
+                                                        console.log(vright);
+                                                        $(this[0]).parents('div#contentImgs').animate({right: '-=100%'},500);
+                                                    } 
+                                                },threshold:0
+                                            });
                                         }
                                     });
-                                }
-                                $('#points').formatCurrency({symbol:''}); //Formato de moneda
-                                var cost=$('#points').html();
-                                var aux=cost.split('.');
-                                $('#points').html(aux[0]+' '+lang.STORE_SHOPPING_POINTS);
-                            }else{ myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE); }
-                        }
-                    }); 
-                }
-                function joinFreeProducts(id){
-                    console.log('joinFreeProducts');
-                    myDialog({
-                        content :lan('JOIN_CONFIN_R'),
-                        scroll:true,
-                        buttons:[{
-                            name:lan('yes'),
-                            action:function(){
-                                var di=this;
-                                myAjax({
-                                    type    :'GET',
-                                    url     :DOMINIO+'controls/store/acctionsProducts.json.php?acc=4&rfl='+id,
-                                    dataType:'json',
-                                    error   :function(/*resp,status,error*/){
-                                        myDialog('#singleDialog',lang.conectionFail);
-                                    },
-                                    success :function(data){
-                                        di.close();
-                                        switch(data['action']){
-                                            case 'join': 
-                                                myDialog('#msgDialog',lan('STORE_THANKYOUMEMBERS')); 
-                                                $('#buttonShopping').addClass('exist').find('.ui-btn-text').html(lan('participants','ucw'));
-                                            break;
-                                            case 'end': myDialog('#msgDialog',lan('STORE_THANKYOUFINALMEMBERS')); break;
-                                            case 'no-points': myDialog('#msgDialog',lan('STORE_SHOPPING_NOPOINTS')); break;
-                                            case 'exist': myDialog('#msgDialog',lan('STORE_EXIST_RAFFLE')); break;
-                                            case 'no-id-update': myDialog('#msgDialog',lan('TAG_DELETEDERROR')); break;
-                                        }
+                    			});
+
+								if(product['idse']===product['id_user']){									
+                                    $('#buttonShopping').html(lang.goback+' '+lang.store).attr('id','gotoStore').prev('span').html(lang.goback+' '+lang.store);
+									$('#buttonWish').html(lang.goback+' '+lang.STORE_MYPUBLICATIONS).attr('id','gotoMyPublications').prev('span').html(lang.goback+' '+lang.STORE_MYPUBLICATIONS);
+                                    $('#gotoStore').click(function(){
+                                        redir(PAGE['storeCat']);
+                                    });
+                                    $('#gotoMyPublications').click(function(){
+                                        redir(PAGE['storeMypubli']);
+                                    });
+                                    // $('#storeNav #goBack').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.STORE_MYPUBLICATIONS+'</span></span>');
+									// $('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.newTag+'</span></span>');
+									// $('#storeNav').on('click','li a[opc]',function(){
+									// 	switch($(this).attr('opc')){
+									// 		case '1': redir(PAGE['storeMypubli']); break;
+									// 		case '2': redir(PAGE['newtag']+'?product='+product['id']); break;
+									// 	}
+									// });
+								}else{
+                                    if (product['stock']>0){
+    									$('#buttonShopping').click(function(){
+                                            addProductShoppingCart($_GET['id']);
+                                        });
+                                    }else{
+                                        $('#buttonShopping').html('No '+lan('stock')).prev('span').html('No '+lan('stock'));
                                     }
+                                    $('#buttonWish').click(function(){
+                                        moveToWish($_GET['id'],'',true);
+                                    });
+                                    // $('#storeNav #goBack').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+lang.store+'</span></span>');
+									// $('#storeNav').on('click','li a[opc]',function(){
+									// 	switch($(this).attr('opc')){
+									// 		case '1': redir(PAGE['storeCat']); break;
+									// 		case '2': redir(PAGE['storeSubCate']+'?id='+$(this).attr('code')); break;
+									// 	}
+									// });
+								}
+                                $('#points').formatCurrency({symbol:''}); //Formato de moneda
+                                if (product['pago']=='0'){
+                                    var cost=$('#points').html();
+                                    var aux=cost.split('.');
+                                    $('#points').html(aux[0]);
+                                }
+                                $(info).on('click','div.tag-solo-hash',function(){ //
+                                    $(this).addClass('tag-solo-hash-complete');
+                                    var vector=$('a[hashT]',this);
+                                    $.each(vector, function(key,value){ $(this).attr('hash',$(this).attr('hashT')).removeAttr('hashT'); });
+                                }).on('click','div.tag-solo-hash a[hash]',function(){ //tag-solo-hash-complete
+                                    redir(PAGE['search']+'?srh='+$(this).attr('hash').replace('#','%23').replace('<br>',' '));
+                                }).on('click','div a[nohref]',function(){ //tag-solo-hash-complete
+                                    openVideo($(this).attr('nohref'),'#popupVideo');
                                 });
-                            }
-                        },{
-                            name:'No',
-                            action:function(){
-                                this.close();
-                            }
-                        }]
-                    });
+                            }else{ myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE); }
+                		}
+                	}); 
                 }
                 function participantsFreeProducts(id){
                     console.log('participantsFreeProducts');

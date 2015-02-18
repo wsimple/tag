@@ -1400,7 +1400,7 @@ loader.s32,.loader.s32{
 #infoDetails #idProductContent #titleDescription,
 #infoDetails #idProductContent #titleVideo,
 #infoDetails #idProductContent #titleHash{ margin-top:4px; }
-#infoDetails #idProductContent #titleHash + .tag-solo-hash,.tag-hash{ margin:10px 0px; width: 100%; }
+#infoDetails #idProductContent #titleHash + .tag-solo-hash,.tag-hash{ margin:10px 0 0 0; width: 100%; }
 #infoDetails #idProductContent #description{
 	text-align:justify;
 	font-weight:normal;
@@ -1641,20 +1641,20 @@ input.password-field {
 .mobile .tag-container [tag] menu li.expand#users{
 	background-image:url('menu/bcard_over.png');
 }
-.tag-container [tag] menu li#like{
+/*.tag-container [tag] menu li#like{
 	background-image:url('menu/like.png?1');
-}
-.tag-container [tag] menu li#like:hover,
+}*/
+/*.tag-container [tag] menu li#like:hover,
 .mobile .tag-container [tag] menu li.expand#like{
 	background-image:url('menu/like_over.png?1');
-}
-.tag-container [tag] menu li#dislike{
+}*/
+/*.tag-container [tag] menu li#dislike{
 	background-image:url('menu/dislike.png?1');
-}
-.tag-container [tag] menu li#dislike:hover,
+}*/
+/*.tag-container [tag] menu li#dislike:hover,
 .mobile .tag-container [tag] menu li.expand#dislike{
 	background-image:url('menu/dislike_over.png?1');
-}
+}*/
 .tag-container [tag] menu li#comment{
 	background-image:url('menu/comment.png?1');
 }

@@ -229,7 +229,7 @@
 			}
 		}
 	}
-	if($_GET['source']!='mobile'){
+	// if($_GET['source']!='mobile'){
 		if(isset($_GET['idp'])){
 			if(isset($res['prod'][0]['description']) && $res['prod'][0]['description']!=''){
 				$textTop=get_hashtags($res['prod'][0]['description']);
@@ -246,7 +246,7 @@
 				$res['hash']=$textTop;
 			} 
 		} 
-	}
+	// }
 	if (!is_array($res)) $res=array();
 	$wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
 	if ($_SESSION['ws-tags']['ws-user']['type']==1)	$res['empre']=1;
@@ -321,7 +321,7 @@
 					if(fileExists($photo)){ $row['photo'] = $photo; }
 					else{ $row['photo'] = DOMINIO.'imgs/defaultAvatar.png'; }
 					if($_GET['source']=='mobile'){
-						$row['description'] = formatoCadena((strlen($row['description'])>300) ? substr($row['description'], 0,55)." ..." : $row['description']);
+						if(!isset($_GET['idp'])) $row['description'] = formatoCadena((strlen($row['description'])>300) ? substr($row['description'], 0,55)." ..." : $row['description']);
 						$row['idse'] = $_SESSION['ws-tags']['ws-user']['id'];
 						$row['titleList'] = $row['category'].' > '.$row['subCategory'];
 						$row['mid_category'] = md5($row['id_category']);
