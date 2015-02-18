@@ -29,9 +29,9 @@
 							<input id="email" name="email" type="email" class="intext"/>
 							<input id="password" name="password" type="password" class="password-field intext" />
 							<input id="repassword" name="confiPassword" type="password" class="password-field intext"/>
-							<div class="ui-grid-b">
-								<div class="ui-block-a">
-									<select id="month" name="month" data-theme="n" data-icon="false"></select>
+							<div class="ui-grid-b" style="margin: 0px !important;">
+								<div class="ui-block-a" style="margin: 0px !important;">
+									<select id="month" name="month" data-theme="n" data-icon="false"  style="margin: 0px !important;"></select>
 								</div>
 								<div class="ui-block-b">
 									<select id="day" name="day" data-theme="n" data-icon="false"></select>
