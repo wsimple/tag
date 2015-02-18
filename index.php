@@ -1,5 +1,5 @@
 <?php
-#//probando commit mientras se este migrando a modelo-vista-controlador, se trabaja paralelo con la interfaz antigua. desactivar esta variable para trabajar unicamente con MVC
+#// mientras se este migrando a modelo-vista-controlador, se trabaja paralelo con la interfaz antigua. desactivar esta variable para trabajar unicamente con MVC
 $migrating=TRUE;
 
 #si la web se llama con "www." se remueve el subdominio
