@@ -787,7 +787,7 @@ li.userInList h3{
 	height: 30px;
 	width: 30px;
 	background-image: url('newdesign/sprite.png');
-	background-size: 250px 67px;
+	background-size: 335px 120px;
 	background-repeat: no-repeat;
 	float: left;
 }
@@ -808,15 +808,12 @@ li.userInList h3{
 	background-size: 30px 30px;	
 }
 
-#page-profile #userFriends .imagebox{ background-position:-220px 0px !important; }
+#page-profile #userFriends .imagebox{ background-position: -31px -89px !important; }
 #page-profile #pictureButton .imagebox{ background-position:-220px 0px !important; }
-#page-profile #userFollowers .imagebox{ background-position:-220px 0px !important; }
-#page-profile #userFollowing .imagebox{ background-position:-220px 0px !important; }
-#page-profile #userPreferences .imagebox{ background-position:-31px 0px !important; }
-#page-profile #userTags .imagebox{
-	background-position:-120px -34px !important;
-	background-size: 259px 71px;
-}
+#page-profile #userFollowers .imagebox{ background-position: -31px -89px !important; }
+#page-profile #userFollowing .imagebox{ background-position: -31px -89px !important; }
+#page-profile #userPreferences .imagebox{ background-position: -91px -90px !important; }
+#page-profile #userTags .imagebox{ background-position: -60px -90px !important; }
 #page-profile #userPersonalTags .imagebox{ width: 0px !important; }
 
 #page-profile .ui-btn-inner{
@@ -924,7 +921,52 @@ li.userInList h3{
 	color: #FFF;
 }
 
+#page-profile #closeBtn{
+	text-align: center;
+	text-decoration: none;
+}
+
 /*Profile Ends*/
+
+/*Search PopUp*/
+
+#searchPopUp {
+	background-color: #E1E6E7;
+	padding: 15px;
+}
+
+#searchPopUp-popup {
+    width: 80%;
+    left: 10%;
+    right: 10%;
+    height: 80%;
+    top: 10%;
+    bottom: 10%;
+}
+
+#searchPopUp #wrap{
+    float: left;
+    position: relative;
+    left: 50%;
+}
+
+#searchPopUp #contents{
+    float: left;
+    position: relative;
+    left: -50%;
+}
+
+#searchPopUp #srh{
+	background-color: #FFF;
+	color: #505F6D;
+}
+
+#searchPopUp .center-wrapper{
+  text-align: center;
+}
+#searchPopUp .center-wrapper * {
+  margin: 0 auto;
+}
 
 /*Preferences Starts*/
 #page-preferences .ui-link, #page-preferences .ui-link:visited{

@@ -77,6 +77,12 @@ function readTxt(url){
 	req.send();
 	return txt;
 }
+//-- SearchPopUp --//
+function createSearchPopUp(){
+	var menu = '	<div data-role="popup" id="searchPopUp" data-overlay-theme="a" data-transition="fade" >';
+	$('body').append(menu);	
+}
+
 //-- Menu --//
 function newMenu(){
 	var menu = '<div id="bottom-menu">'+
