@@ -598,6 +598,7 @@ li.userInList h3{
 	display: table-cell;
 	text-align: center;
 	vertical-align: bottom;
+	text-decoration: none;
 }
 
 /* SignUp */

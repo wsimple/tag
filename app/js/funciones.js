@@ -85,14 +85,14 @@ function newMenu(){
 			'<li class="toptags"><a href="'+PAGE.toptags+'">'+lan('TOPTAGS_TITLE')+'</a></li>'+
 			'<li class="news"><a href="news.html">'+lan('NEWS')+'</a></li>'+
 			'<li class="notifications"><a href="'+PAGE.notify+'">'+lan('NOTIFICATIONS')+'</a></li>'+
-			//'<li class="groups"><a href="'+(PAGE.tagslist+'?current=group&id='+(data.group||$this.attr('group')))+'">groups</a></li>'+
+			'<li class="groups"><a href="#">'+lan('groups')+'</a></li>'+
 			'<li class="chat"><a href="cometchat/i.html">'+lan('chat')+'</a></li>'+
 			'<li class="profile"><a href="'+PAGE.profile+'?id='+$.local('code')+'">'+lan('profile')+'</a></li>'+
 			'<li class="friends"><a href="'+PAGE.userfriends+'?type=friends&id_user='+$.local('code')+'">'+lan('friends','ucw')+'</a></li>'+
-			'<li class="createtag"><a href="newtag.html">create tag</a></li>'+
-			'<li class="store"><a href="#">'+lan('store')+'</a></li>'+
+			'<li class="createtag"><a href="newtag.html">'+lan('newTag')+'</a></li>'+
+			'<li class="store"><a href="'+PAGE.storeCat+'">'+lan('store')+'</a></li>'+
 			'<li class="logout"><a href="#" onclick="javascript:logout();">'+lan('logout')+'</a></li>'+
-		'</ul>	'+
+		'</ul>'+
 	'</div>';
 	$('body').append(menu);
 }
