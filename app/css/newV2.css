@@ -801,6 +801,13 @@ li.userInList h3{
 	margin-top: 3px;
 }
 
+#page-profile #pictureButton{
+	background-image: url('newdesign/camera_o.png');
+	background-position: 5px 2px !important;
+	background-repeat: no-repeat;
+	background-size: 30px 30px;	
+}
+
 #page-profile #userFriends .imagebox{ background-position:-220px 0px !important; }
 #page-profile #pictureButton .imagebox{ background-position:-220px 0px !important; }
 #page-profile #userFollowers .imagebox{ background-position:-220px 0px !important; }
@@ -875,6 +882,7 @@ li.userInList h3{
 	margin-right: 0 !important;
 	margin-left: 0 !important;
 	width: 99%;
+	text-shadow: 0 0px 0 #FFF;
 }
 
 #page-profile .ui-btn-hover-n {
@@ -885,6 +893,7 @@ li.userInList h3{
 	margin-right: 0 !important;
 	margin-left: 0 !important;
 	width: 99%;
+	text-shadow: 0 0px 0 #FFF;
 }
 
 #page-profile {
@@ -972,6 +981,7 @@ li.userInList h3{
 	margin-right: 0 !important;
 	margin-left: 0 !important;
 	width: 99%;
+	text-shadow: 0 0px 0 #FFF;	
 }
 
 #page-preferences .ui-btn-hover-n {
@@ -982,6 +992,7 @@ li.userInList h3{
 	margin-right: 0 !important;
 	margin-left: 0 !important;
 	width: 99%;
+	text-shadow: 0 0px 0 #FFF;	
 }
 
 #page-preferences {
@@ -1007,7 +1018,9 @@ li.userInList h3{
 
 #page-preferences .ui-radio-on{
 	background-color: #EB5A28;
+	border-color: #EB5A28;
 	color: #FFF;
+	text-decoration: none;
 }
 
 #page-preferences .ui-link, #page-preferences .ui-link:visited{
