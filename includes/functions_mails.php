@@ -601,7 +601,7 @@ function storeCarMail($car,$type=16){
 	$foto_remitente=FILESERVER. getUserPicture($array['code']."/".$array['photo']);
 
 	if (trim($array['username'])!=''){
-		$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".base_url($array['username'])."' target='_blank'>".$GLOBALS['config']->main_server.$array['username']."</a><br>";
+		$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".$GLOBALS['config']->main_server.$array['username']."' target='_blank'>".$GLOBALS['config']->main_server.$array['username']."</a><br>";
 	}else{ $external=formatoCadena($array['name_user']); }
 	$pay="";
 	if ($type==17) 
