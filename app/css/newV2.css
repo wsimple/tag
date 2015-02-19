@@ -911,14 +911,20 @@ li.userInList h3{
 	margin: 0 !important;
 }
 
-#page-profile .ui-link {
-	color: #2489ce;
-	font-weight: bold;
+#page-profile .ui-bar-f .ui-link, #page-profile .ui-link:visited{
+	color: #FFF;
 }
 
 /*Profile Ends*/
 
 /*Preferences Starts*/
+#page-preferences .ui-link, #page-preferences .ui-link:visited{
+	color: #FFF;
+}
+
+#page-preferences .ui-icon {
+	background-color: #BBB !important;
+}
 
 #page-preferences .ui-corner-all {
 	border-radius: 4px /*{global-radii-blocks}*/;
@@ -996,6 +1002,100 @@ li.userInList h3{
 }
 
 #page-preferences #fs-wrapper{
+	margin: 0 !important;
+}
+
+#page-preferences .ui-radio-on{
+	background-color: #EB5A28;
+	color: #FFF;
+}
+
+#page-preferences .ui-link, #page-preferences .ui-link:visited{
+	color: #505F60;
+}
+
+/*SeekPreferences Start*/
+
+#page-seekPreferences .ui-link, #page-seekPreferences .ui-link:visited{
+	color: #FFF;
+}
+
+#page-seekPreferences .ui-page, #page-seekPreferences .ui-content{
+	margin-top: 60px !important;
+}
+
+#page-seekPreferences .ui-corner-all {
+	border-radius: 4px /*{global-radii-blocks}*/;
+	-webkit-border-radius: 4px /*{global-radii-blocks}*/;
+}
+
+#page-seekPreferences .ui-selectmenu-list .ui-icon {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+#page-seekPreferences .ui-btn-corner-all {
+	-webkit-border-radius: 4px /*{global-radii-buttons}*/;
+	border-radius: 4px /*{global-radii-buttons}*/;
+}
+
+#page-seekPreferences .ui-btn {
+	text-align: left;
+	width: 100%;
+	margin-top: 2px !important;
+	margin-bottom: 2px !important;
+	border-radius: 4px /*{global-radii-blocks}*/ !important;
+	-webkit-border-radius: 4px /*{global-radii-blocks}*/ !important;
+}
+
+#page-seekPreferences .ui-btn-up-m {
+	border: 1px solid #FFF;
+	background: #FFF;
+	font-weight: bold;
+	color: #EB5A28;
+}
+
+#page-seekPreferences .ui-btn-hover-m {
+	border: 1px solid #bbbbbb ;
+	background: #FFF;
+	font-weight: bold;
+	color: #EB5A28 ;
+}
+
+#page-seekPreferences .ui-btn-up-n {
+	border: 1px solid #EB5A28 ;
+	background: #EB5A28 ;
+	font-weight: normal;
+	color: #FFF ;
+	width: 100%;
+}
+
+#page-seekPreferences .ui-btn-hover-n {
+	border: 1px solid #bbbbbb ;
+	background: #EB5A28 ;
+	font-weight: normal;
+	color: #FFF ;
+	width: 100%;
+}
+
+#page-seekPreferences {
+	background-color: #E1E6E7;
+	border: none;
+	border-shadow: none;
+	border:1px solid #E1E6E7;
+	box-shadow: none;
+}
+
+#page-seekPreferences #content, #page-seekPreferences #scroller, 
+#page-seekPreferences #fs-wrapper, #page-seekPreferences .smt-tag-content{
+	background-color: #E1E6E7;
+	border: none !important;
+	border-shadow: none;
+	border:1px solid #E1E6E7;
+	box-shadow: none;
+}
+
+#page-seekPreferences #fs-wrapper{
 	margin: 0 !important;
 }
 

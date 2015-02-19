@@ -1,6 +1,12 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-seekPreferences" data-role="page" data-cache="false">
-	<div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
+	<div id="sub-menu" style="position:absolute;top:0px;left:0;padding:0px;" data-position="fixed"  >
+		<div style="float: left; margin-left: 10px; margin-top: 20px">
+			<a id="buttonBack_preferences" href="#" data-icon="arrow-l" onclick="goBack();"></a>
+		</div>
+	</div>
+
+
 	<div data-role="content" class="list-content">
 		<div class="ui-listview-filter ui-bar-c">
 			<input id="searchPreferences" type="search" name="searchPreferences" value="" />
@@ -28,6 +34,7 @@
 			title:lang.PREFERENCES_TITLESEEK,
 			backButton:true,
 			before:function(){
+				$('#buttonBack_preferences').html(lan('Back'));
 				//languaje
 				$('#labelTypePrefe1').html(lang.PREFERENCES_WHATILIKE);
 				$('#labelTypePrefe2').html(lang.PREFERENCES_WHATIWANT);

@@ -2,7 +2,7 @@
 <script> var opc={type:1,dato:[]}; </script>
 <div id="page-preferences" data-role="page" data-cache="false">
 	<div id="sub-menu" style="position:absolute;top:0px;left:0;padding:0px;" data-position="fixed"  >
-
+		<ul class="ui-grid-d"></ul>
 	</div>
 
 	<div data-role="content" class="list-content">
@@ -12,7 +12,7 @@
 				<div class="smt-tag-content" style="text-align: left">
 					<fieldset data-role="controlgroup">
 						<legend id="titleOptionPrefe" style="font-weight: bold" data-theme="m" >&nbsp;</legend>
-						<input type="radio" name="radio-choice-1" id="radio-choice-1" value="choice-1" onclick="changePrefe(opc,1);" data-theme="m" />
+						<input type="radio" name="radio-choice-1" id="radio-choice-1" value="choice-1" onclick="changePrefe(opc,1);" data-theme="m"  />
 						<label for="radio-choice-1" id="labelTypePrefe1" data-theme="m" ></label>
 						<input type="radio" name="radio-choice-1" id="radio-choice-2" value="choice-2" onclick="changePrefe(opc,2);"  data-theme="m" />
 						<label for="radio-choice-2" id="labelTypePrefe2" data-theme="m" ></label>
@@ -24,12 +24,12 @@
 					<span id="prefere_legend" style="font-size: 10px;display:block;"></span>
 					<input id="typePre" name="typePre" type="hidden" value="" />
 
-					<div style="margin-top: 10px;">
+					<div style="margin-top: 20px;">
 						<div style="float: left;">
-							<a id="buttonBack_preferences" href="#" data-icon="arrow-l" onclick="goBack();"></a>
+							<a id="buttonBack_preferences" href="#" data-icon="arrow-l" onclick="goBack();" style="color: #505F6D"></a>
 						</div>
 						<div style="float: right">
-							<a id="btnPreferences_update" style="display:none" href="#" onClick="savePreferences(opc);" data-icon="check"></a>
+							<a id="btnPreferences_update" style="display:none" href="#" onClick="savePreferences(opc);" data-icon="check" style="color: #505F6D"></a>
 						</div>
 					</div>
 
@@ -52,6 +52,12 @@
 			id:'#page-preferences',
 			title:lang.USERPROFILE_PREFERENCES,
 			before:function(){
+				$('#sub-menu ul').html(
+					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
+					'<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
+					'<li class="ui-block-c points"></li>'+
+					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+				);				
 				//languaje
 				$('#buttonBack_preferences').html(lan('Back'));
 				$('#labelTypePrefe1').html(lang.PREFERENCES_WHATILIKE);
