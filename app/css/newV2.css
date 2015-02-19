@@ -340,7 +340,8 @@
 #page-lstStoreCategory #menu,#page-lstStoreSubCategory #menu,
 #page-friendUser #menu, #page-friendSearch #menu,
 #page-lstStore #menu, #page-detailsProducts #menu,
-#page-lstMyStore #menu{
+#page-lstMyStore #menu,
+#page-newTag #menu{
 	display: block;
 }
 #page-friendUser #scroller,#page-friendSearch #scroller{
@@ -759,6 +760,15 @@ li.userInList h3{
 	margin-bottom: 2px !important;
 }
 /*SignUp Ends*/
+
+/*New Tag*/
+#page-newTag .fs-wrapper{
+	padding: 0;
+	margin: 0;
+}
+#page-newTag #scroller{
+	background-color: #e2e6e7;
+}
 
 /*Profile Start*/
 #page-profile #wrap{

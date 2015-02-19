@@ -10,11 +10,11 @@
 		}
 	</style>
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<h1></h1>
-		<a id="publish_newTag" data-icon="check" data-theme="f"></a>
+		<!-- <h1></h1>
+		<a id="publish_newTag" data-icon="check" data-theme="f"></a> -->
+		<div id="menu" class="ui-grid-d" style="top:0px;left:0;"></div>
 	</div>
 	<div data-role="content">
-		<img class="bg" src="css/smt/bg.png" />
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
 				<input id="imgBase64" value="" type="hidden" />
@@ -135,7 +135,15 @@
 				}
 			},
 			before:function(){
+				newMenu();
 				//language constants
+				$('#menu').html(
+					'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/submenu/create_tag.png"><br>'+lan('newTag','ucw')+'</a></span>'+
+					'<span class="ui-block-b"></span>'+
+					'<span class="ui-block-c"></span>'+
+					'<span class="ui-block-d menu-button"><a href="suggest.html" title="Suggest"><img src="css/newdesign/newtag/cancel.png"><br>'+lan('cancel','ucw')+'</a></span>'+
+					'<span class="ui-block-e menu-button"><a href="findFriends.html" title="Search"><img src="css/newdesign/newtag/publish.png"><br>'+lan('publish','ucw')+'</a></span>'
+				);
 				$('#topText'					).attr('placeholder',lang.NEWTAG_MESSAGE);
 				$('#middleText'					).attr('placeholder',lang.NEWTAG_MIDDLEMESSAGE);
 				$('#bottomText'					).attr('placeholder',lang.NEWTAG_BOTTOMMESSAGE);
