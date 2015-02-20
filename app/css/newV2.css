@@ -126,6 +126,43 @@
 	float: left;
 	display: list-item !important;
 }
+/*new tag*/
+.prew-tag{
+	margin: 1.4em;
+	border-radius: 10px;
+	background-color: #dd5425;
+	padding: 2em;
+}
+.prew-tag .ui-input-text.ui-focus{
+	box-shadow: 0 0 0;
+}
+.prew-tag input[placeholder],
+.prew-tag [placeholder],
+.prew-tag *[placeholder] {
+}
+#div_middleText .ui-input-text.ui-body-c{
+	background: #f07b53;
+	border: none;
+	text-shadow: 0 0 0;
+	color: #FFF;
+}
+.prew-tag .ui-shadow-inset{
+	-moz-box-shadow: 0 0 0;
+	-webkit-box-shadow: 0 0 0;
+	box-shadow: 0 0 0;
+}
+#topText,#bottomText{
+	border:none;
+	background-color: #f07b53;
+	text-shadow: 0 0 0;
+	margin: 0;
+}
+.prew-tag .ui-input-search, .prew-tag div.ui-input-text {
+	margin: 0.4em 0;
+}
+.smt-div-profile-color {
+	margin: 0 34px 0 10px;
+}
 /*tag*/
 [tag] menu li{
 	border: none !important;
@@ -310,30 +347,6 @@
 #sub-menu .ui-block-c{
 	border-right: 1px solid #a1afb0;
 	width: 40%;
-}
-
-@media screen and (min-width: 600px) {
-	#sub-menu li.timeline{
-		background-size: 20%;
-	}
-	#sub-menu li.newtag{
-		background-size: 20%;
-	}
-	#sub-menu li.store{
-		background-size: 20%;
-	}
-}
-
-@media screen and (min-width: 1200px) {
-	#sub-menu li.timeline{
-		background-size: 16%;
-	}
-	#sub-menu li.newtag{
-		background-size: 16%;
-	}
-	#sub-menu li.store{
-		background-size: 16%;
-	}
 }
 /*Find Friends and Friends*/
 #page-lstStoreOption #menu,
@@ -528,71 +541,7 @@ li.userInList h3{
 	background-size: 45% 60%;
 }
 
-@media screen and (min-width: 600px) {
-	#sub-menu li.timeline{
-		background-size: 20%;
-	}
-	#sub-menu li.newtag{
-		background-size: 20%;
-	}
-	#sub-menu li.store{
-		background-size: 20%;
-	}
-}
-
-@media screen and (min-width: 1200px) {
-	#bottom-menu ul li.toptags{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.news{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.notifications{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.groups{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-	#bottom-menu ul li.chat{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.profile{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.friends{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.createtag{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.store{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.logout{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-}
-
 #bottom-menu ul li a{
-	height: 100%;
 	font-weight: normal;
 	color: white;
 	font-size: 0.7em;
@@ -1369,3 +1318,89 @@ li.userInList h3{
 	background-color: #ECF0F1;
 }
 /*Store Ends*/
+/*Media querys*/
+@media screen and (max-width: 600px) {
+	#sub-menu li.timeline{
+		background-size: 23%;
+	}
+	#sub-menu li.newtag{
+		background-size: 23%;
+	}
+	#sub-menu li.store{
+		background-size: 23%;
+	}
+}
+@media screen and (max-width: 1200px) {
+	#bottom-menu ul li.toptags{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.news{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.notifications{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.groups{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+	#bottom-menu ul li.chat{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.profile{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.friends{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.createtag{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.store{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.logout{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+}
+
+@media screen and (min-width: 600px) {
+	#sub-menu li.timeline{
+		background-size: 20%;
+	}
+	#sub-menu li.newtag{
+		background-size: 20%;
+	}
+	#sub-menu li.store{
+		background-size: 20%;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	#sub-menu li.timeline{
+		background-size: 16%;
+	}
+	#sub-menu li.newtag{
+		background-size: 16%;
+	}
+	#sub-menu li.store{
+		background-size: 16%;
+	}
+}
