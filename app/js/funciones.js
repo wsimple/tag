@@ -100,7 +100,7 @@ function createSearchPopUp(container){
 				'</div>'+
 			'</div>'+
 		'</form>'+
-		'<div style="height:120px;margin:40px;">'+
+		'<div style="height:90px;margin:40px;">'+
 			'<div id="wrap">'+
 			   '<div id="contents">'+
 					'<div style="clear: both;"></div>'+
