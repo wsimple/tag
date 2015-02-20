@@ -131,7 +131,7 @@
 	margin: 1.4em;
 	border-radius: 10px;
 	background-color: #dd5425;
-	padding: 2em;
+	padding: 2em 2.5em;
 }
 .prew-tag .ui-input-text.ui-focus{
 	box-shadow: 0 0 0;
@@ -151,11 +151,12 @@
 	-webkit-box-shadow: 0 0 0;
 	box-shadow: 0 0 0;
 }
-#topText,#bottomText{
+#topText,#bottomText,#middleText{
 	border:none;
 	background-color: #f07b53;
 	text-shadow: 0 0 0;
 	margin: 0;
+	text-align: center;
 }
 .prew-tag .ui-input-search, .prew-tag div.ui-input-text {
 	margin: 0.4em 0;
