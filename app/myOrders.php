@@ -1,27 +1,48 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-myOrders" data-role="page" data-cache="false">
-	<div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
+	<div data-role="header" data-position="fixed" data-theme="f">
+    <!-- <h1></h1> -->
+        <div id="menu" class="ui-grid-b" style="top:0px;left:0;padding:0 5px;"></div>
+    </div>
 	<div data-role="content" >
+        <div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <div><a href="#" class="summary" data-theme="e"></a></div>
+                </div>
+                <div class="ui-block-b">
+                    <div><a href="#" class="filter" data-theme="e"></a></div>
+                </div>
+            </div>
+        </div></div>
         <div id="fs-wrapper" class="fs-wrapper">
     		<div id="scroller">
                 <div id="resultList" data-role="collapsible-set" data-inset="false"></div>
             </div>
         </div>
 	</div>
-	<div id="myOrders-footer" data-role="footer" data-position="fixed" data-theme="f" >
+<!-- 	<div id="myOrders-footer" data-role="footer" data-position="fixed" data-theme="f" >
         <div data-role="navbar"><ul>
             <li class="summary"><a></a></li>
             <li class="filter"><a></a></li>
         </ul></div>
-    </div>
+    </div> -->
 	<script>
 		pageShow({
 			id:'#page-myOrders',
-			title:lan('my orders','ucw'),
-			buttons:{showmenu:true,home:true},
+			// title:lan('my orders','ucw'),
+			// buttons:{showmenu:true,home:true},
 			before:function(){
-                $('#myOrders-footer .summary a').html(lan('summary','ucw'));
-                $('#myOrders-footer .filter a').html(lang.filter);
+                newMenu();
+                $('#rowTitle .summary').html(lan('summary','ucw'));
+                $('#rowTitle .filter').html(lan(' filter','ucw'));
+                $('#menu').html(
+                    '<span class="ui-block-a menu-button hover" style="width: 20%;"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
+                    // '<span class="ui-block-b"></span>'+
+                    '<span class="ui-block-b" style="width: 60%"><br/><strong>'+lan('my orders','ucw')+'</strong></span>'+
+                    // '<span class="ui-block-d"></span>'+
+                    '<span class="ui-block-c menu-button cart" style="width: 20%;"><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('cart','ucw')+'</a></span>'
+                );
             },after:function(){
 				var el='#resultList';
 				$('.fs-wrapper').jScroll({hScroll:false});
@@ -68,7 +89,7 @@
                                         var auxi=cost.split('.');
                                         cost = auxi[0];
                                         totalPoints=totalPoints+((data.datosCar[i]['product_price']*1)*data.datosCar[i]['product_cant']);
-                                        cost= cost+' '+lang.STORE_SHOPPING_POINTS;
+                                        cost= cost+' Pts';
                                     }else{
                                         totalMoney=totalMoney+((data.datosCar[i]['product_price']*1)*data.datosCar[i]['product_cant']);
                                         cost= '$'+cost;
@@ -78,9 +99,9 @@
                                     outS[a]+='<li prod="'+data.datosCar[i]['product_id']+'">'+
                                                 '<a><img src="'+data.datosCar[i]['product_photo']+'" style="width:100px;height:60px;margin:20px 0 0 8px;border-radius:10px">'+
                                                     '<p class="nameProduct"><strong>'+data.datosCar[i]['product_name']+'</strong></p>'+
-                                                    '<p class="descripProduct">'+lang.STORE_SHOPPING_SELLER+': <strong>'+data.datosCar[i]['product_name_user']+'</strong></p>'+
+                                                    '<p class="descripProduct">'+lan('seller','ucw')+': <strong>'+data.datosCar[i]['product_name_user']+'</strong></p>'+
                                                     '<p>'+lan('quantity','ucw')+': '+data.datosCar[i]['product_cant']+'</p>'+
-                                                    '<p>'+lan('amount','ucw')+': '+cost+'</p>'+
+                                                    '<p class="price">'+cost+'</p>'+
                                                 '</a>'+
                                             '</li>';
                                 }
@@ -100,7 +121,7 @@
                                         costFormated = $(tempEle).formatCurrency({symbol:''});
                                         totalMoney = costFormated.html(); 
                                     }
-                                    $('#myOrders-footer .summary').click(function(){
+                                    $('#rowTitle .summary').click(function(){
                                         myDialog({
                                             content:'<div style="text-align: left;padding: 10px;">'+
                                                         '<strong>'+lan('total orders','ucw')+': <span style="color:#F57133;">'+numOrdes+'</span></strong><br/>'+
@@ -116,7 +137,7 @@
                                         error   :function(/*resp,status,error*/){ myDialog('#singleDialog',lang.conectionFail);
                                         },success :function(data){ opc.date=data.datosCar; }
                                     });
-                                    $('#myOrders-footer .filter').click(function(){
+                                    $('#rowTitle .filter').click(function(){
                                         var optionY='',optionM=[],i,validaY=[],validaM=[];
                                         for (i=0;i<opc.date.length;i++){
                                             if(validaY.indexOf(opc.date[i]['year'])!=-1){
