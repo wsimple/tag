@@ -917,6 +917,46 @@ li.userInList h3{
   margin: 0 auto;
 }
 
+#searchPopUp #seacrh-btn {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+	background-color: #EC5A28;
+}
+
+#searchPopUp #custom-btn span span {
+    height: 50px !important;  
+    line-height: 70px;
+}
+
+#searchPopUp #custom-btn span span {
+    height: 50px !important;  
+    line-height: 70px;
+}
+
+#searchPopUp .imagebox{
+	height: 40px;
+	width: 40px;
+    background:url('newdesign/search.png');
+	background-size: 35px 35px;
+	background-repeat: no-repeat;
+	background-color: #EC5A28;
+}
+
+#searchPopUp .ui-btn-up-m {
+	border: 1px solid #FFF;
+	background: #FFF;
+	font-weight: bold;
+	color: #EB5A28;
+}
+
+#searchPopUp .ui-btn-hover-m {
+	border: 1px solid #bbbbbb ;
+	background: #FFF;
+	font-weight: bold;
+	color: #EB5A28 ;
+}
+
 /*Preferences Starts*/
 #page-preferences .ui-link, #page-preferences .ui-link:visited{
 	color: #FFF;

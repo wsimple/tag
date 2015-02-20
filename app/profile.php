@@ -59,25 +59,6 @@
 		</div>
 	</div>
 
-	<div data-role="popup" id="searchPopUp" data-overlay-theme="a" data-transition="fade" >
-
-		<div id="logo_image">
-			<a data-inline="true" data-theme="f">
-				<img src="css/newdesign/tagbum_white_logo.png" alt="" style="max-height:100px;"><br>
-			</a>
-		</div>
-
-		<form role="search" action="search.html">
-			<div>
-				<label for="srh" class="ui-hidden-accessible">Seacrh:</label>
-				<input type="text" name="srh" id="srh" placeholder="Seacrh">
-				<div class="center-wrapper">
-					<input type="submit" value="Submit Button" />
-				</div>
-			</div>
-		</form>		
-	</div>
-
 	<script>	
 		pageShow({
 			id:'#page-profile',
@@ -85,6 +66,7 @@
 			title:lang.USER_PROFILE,
 			before:function(){
 				newMenu();
+				createSearchPopUp('#page-profile');
 				function buttonText(id,text){ $(id).html(
 					'<div class="imagebox"></div><div class="textbox" >'+
 					text+' (<b><loader/></b>)</div>'); 
