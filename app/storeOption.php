@@ -9,7 +9,7 @@
 			<div id="storeOption"></div>
 			<ul data-role="listview" id="lstStoreOption" data-divider-theme="b" class="list-info"></ul>
 	</div><!-- content -->
-    <div id="footerPay"></div>
+    <div data-role="footer" id="footerPay"></div>
 <!-- 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar">
 			<ul>
@@ -71,6 +71,7 @@
                                             '</div>'+
                                         '</div>');
                                 $('#bottom-menu').remove();
+
                                 // $( "#footerPay button" ).button();
                         break;
                     }   
@@ -126,6 +127,7 @@
                                         $('#phoneWork').val(data['datosCar']['nwork']);
                                         $('#phoneMobile').val(data['datosCar']['nmobile']);
                                         // $('#buttonCheckOutOption').css('display','inline-block');
+                                        $('#footerPay').removeAttr('class');
                                     }
                                 }
                         	});

@@ -61,12 +61,12 @@
 				$(layer).on('click','li[idPro]',function(){
 					redir(PAGE['detailsproduct']+'?id='+$(this).attr('idPro'));
 				});				
-                $('#storeNav').on('click','li a[opc]',function(){
-					switch($(this).attr('opc')){
-                        case '1': redir(PAGE['storeCat']); break;
-                        case '2': redir(PAGE['storeSubCate']+'?id='+$(this).attr('code')); break;
-                    }
-				});
+    //             $('#storeNav').on('click','li a[opc]',function(){
+				// 	switch($(this).attr('opc')){
+    //                     case '1': redir(PAGE['storeCat']); break;
+    //                     case '2': redir(PAGE['storeSubCate']+'?id='+$(this).attr('code')); break;
+    //                 }
+				// });
 				getProducts(layer,$_GET['c'], $_GET['sc']);
 				numItemsCart();
 				var timeOut;

@@ -77,10 +77,38 @@ function readTxt(url){
 	req.send();
 	return txt;
 }
+
 //-- SearchPopUp --//
-function createSearchPopUp(){
-	var menu = '	<div data-role="popup" id="searchPopUp" data-overlay-theme="a" data-transition="fade" >';
-	$('body').append(menu);	
+function createSearchPopUp(container){
+	var popcontent = '<div data-role="popup" id="searchPopUp" data-overlay-theme="a" data-transition="fade" >'+
+	'<div style="height:120px;margin:19px;">'+
+		'<div id="wrap">'+
+			'<div id="contents">'+
+					'<img src="css/newdesign/tagbum_orange_logo_letters.png" alt="" style="max-height:100px;">'+
+					'<div style="clear: both;"></div>'+
+			   '</div>'+
+			'</div>'+
+		'</div>'+
+		'<form role="search" action="search.html" id="searchfrom" name="searchfrom">'+
+			'<div>'+
+				'<label for="srh" class="ui-hidden-accessible">'+lan('search')+':</label>'+
+				'<input type="text" name="srh" id="srh" placeholder="'+lan('search')+'">'+
+				'<div class="center-wrapper">'+
+					'<div id="seacrh-btn" data-role="button" data-theme="m" onclick="searchfrom.submit();">'+
+						'<div class="imagebox"></div>'+
+					'</div>'+
+				'</div>'+
+			'</div>'+
+		'</form>'+
+		'<div style="height:120px;margin:40px;">'+
+			'<div id="wrap">'+
+			   '<div id="contents">'+
+					'<div style="clear: both;"></div>'+
+			   '</div>'+
+			'</div>'+
+		'</div>'+
+	'</div>';
+	$(container).append(popcontent);	
 }
 
 //-- Menu --//
