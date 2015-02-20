@@ -736,7 +736,7 @@ li.userInList h3{
 	height: 30px;
 	width: 30px;
 	background-image: url('newdesign/sprite.png');
-	background-size: 250px 67px;
+	background-size: 335px 120px;
 	background-repeat: no-repeat;
 	float: left;
 }
@@ -750,15 +750,19 @@ li.userInList h3{
 	margin-top: 3px;
 }
 
-#page-profile #userFriends .imagebox{ background-position:-220px 0px !important; }
-#page-profile #pictureButton .imagebox{ background-position:-220px 0px !important; }
-#page-profile #userFollowers .imagebox{ background-position:-220px 0px !important; }
-#page-profile #userFollowing .imagebox{ background-position:-220px 0px !important; }
-#page-profile #userPreferences .imagebox{ background-position:-31px 0px !important; }
-#page-profile #userTags .imagebox{
-	background-position:-120px -34px !important;
-	background-size: 259px 71px;
+#page-profile #pictureButton{
+	background-image: url('newdesign/camera_o.png');
+	background-position: 5px 2px !important;
+	background-repeat: no-repeat;
+	background-size: 30px 30px;	
 }
+
+#page-profile #userFriends .imagebox{ background-position: -31px -89px !important; }
+#page-profile #pictureButton .imagebox{ background-position:-220px 0px !important; }
+#page-profile #userFollowers .imagebox{ background-position: -31px -89px !important; }
+#page-profile #userFollowing .imagebox{ background-position: -31px -89px !important; }
+#page-profile #userPreferences .imagebox{ background-position: -91px -90px !important; }
+#page-profile #userTags .imagebox{ background-position: -60px -90px !important; }
 #page-profile #userPersonalTags .imagebox{ width: 0px !important; }
 
 #page-profile .ui-btn-inner{
@@ -824,6 +828,7 @@ li.userInList h3{
 	margin-right: 0 !important;
 	margin-left: 0 !important;
 	width: 99%;
+	text-shadow: 0 0px 0 #FFF;
 }
 
 #page-profile .ui-btn-hover-n {
@@ -834,6 +839,7 @@ li.userInList h3{
 	margin-right: 0 !important;
 	margin-left: 0 !important;
 	width: 99%;
+	text-shadow: 0 0px 0 #FFF;
 }
 
 #page-profile {
@@ -864,7 +870,52 @@ li.userInList h3{
 	color: #FFF;
 }
 
+#page-profile #closeBtn{
+	text-align: center;
+	text-decoration: none;
+}
+
 /*Profile Ends*/
+
+/*Search PopUp*/
+
+#searchPopUp {
+	background-color: #E1E6E7;
+	padding: 15px;
+}
+
+#searchPopUp-popup {
+    width: 80%;
+    left: 10%;
+    right: 10%;
+    height: 80%;
+    top: 10%;
+    bottom: 10%;
+}
+
+#searchPopUp #wrap{
+    float: left;
+    position: relative;
+    left: 50%;
+}
+
+#searchPopUp #contents{
+    float: left;
+    position: relative;
+    left: -50%;
+}
+
+#searchPopUp #srh{
+	background-color: #FFF;
+	color: #505F6D;
+}
+
+#searchPopUp .center-wrapper{
+  text-align: center;
+}
+#searchPopUp .center-wrapper * {
+  margin: 0 auto;
+}
 
 /*Preferences Starts*/
 #page-preferences .ui-link, #page-preferences .ui-link:visited{
@@ -921,6 +972,7 @@ li.userInList h3{
 	margin-right: 0 !important;
 	margin-left: 0 !important;
 	width: 99%;
+	text-shadow: 0 0px 0 #FFF;	
 }
 
 #page-preferences .ui-btn-hover-n {
@@ -931,6 +983,7 @@ li.userInList h3{
 	margin-right: 0 !important;
 	margin-left: 0 !important;
 	width: 99%;
+	text-shadow: 0 0px 0 #FFF;	
 }
 
 #page-preferences {
@@ -956,7 +1009,9 @@ li.userInList h3{
 
 #page-preferences .ui-radio-on{
 	background-color: #EB5A28;
+	border-color: #EB5A28;
 	color: #FFF;
+	text-decoration: none;
 }
 
 #page-preferences .ui-link, #page-preferences .ui-link:visited{
