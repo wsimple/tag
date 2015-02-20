@@ -20,35 +20,37 @@
 				<input id="imgBase64" value="" type="hidden" />
 				<input id="imgTemplate" value="" type="hidden" />
 				<div id="master" style="padding:10px 0">
-					<div id="div_topText" class="smt-div-profile-color dnone">
-						<div style="width:5px;right:30px;position:absolute;">
-							<div id="divColorPickerTop">
-								<select name="colourPicker1"></select>
+					<div class="prew-tag">
+						<div id="div_topText" class="smt-div-profile-color">
+							<div style="width:5px;right:52px;position:absolute;">
+								<div id="divColorPickerTop">
+									<select name="colourPicker1"></select>
+								</div>
+								<div id="topCounter" style="width:35px;"></div>
 							</div>
-							<div id="topCounter" style="width:35px;"></div>
+							<textarea id="topText" name="topText" style="resize:none;"></textarea>
+							<input type="hidden" name="topColor" id="topColor" value="#000" />
 						</div>
-						<textarea id="topText" name="topText" style="resize:none;"></textarea>
-						<input type="hidden" name="topColor" id="topColor" value="#000" />
-					</div>
-					<div id="div_middleText" class="smt-div-profile-color" style="margin-bottom:20px;">
-						<div style="width:5px;right:30px;position:absolute;">
-							<div id="divColorPickerMiddle">
-								<select name="colourPicker2"></select>
+						<div id="div_middleText" class="smt-div-profile-color">
+							<div style="width:5px;right:52px;position:absolute;">
+								<div id="divColorPickerMiddle">
+									<select name="colourPicker2"></select>
+								</div>
+								<div id="middleCounter" style="width:35px;"></div>
 							</div>
-							<div id="middleCounter" style="width:35px;"></div>
+							<input id="middleText" name="middleText" value="" type="text" />
+							<input type="hidden" name="middleColor" id="middleColor" value="#000" />
 						</div>
-						<input id="middleText" name="middleText" value="" type="text" />
-						<input type="hidden" name="middleColor" id="middleColor" value="#000" />
-					</div>
-					<div id="div_bottomText" class="smt-div-profile-color">
-						<div style="width:5px;right:30px;position:absolute;">
-							<div id="divColorPickerBottom">
-								<select name="selectColourPicker3"></select>
+						<div id="div_bottomText" class="smt-div-profile-color">
+							<div style="width:5px;right:52px;position:absolute;">
+								<div id="divColorPickerBottom">
+									<select name="selectColourPicker3"></select>
+								</div>
+								<div id="bottomCounter" style="width:35px;"></div>
 							</div>
-							<div id="bottomCounter" style="width:35px;"></div>
+							<textarea id="bottomText" name="bottomText" style="resize:none;"></textarea>
+							<input type="hidden" name="bottomColor" id="bottomColor" value="#000" />
 						</div>
-						<textarea id="bottomText" name="bottomText" style="resize:none;"></textarea>
-						<input type="hidden" name="bottomColor" id="bottomColor" value="#000" />
 					</div>
 					<div id="div_changeMode" class="smt-div-profile">
 						<input id="button_changeMode" type="button"/>
@@ -89,9 +91,9 @@
 		</div>
 		<div style="display:none;"><img id="checkBackground" src=""></div>
 	</div>
-	<div data-role="footer" data-position="fixed" data-theme="f" data-tap-toggle="false">
+	<!-- <div data-role="footer" data-position="fixed" data-theme="f" data-tap-toggle="false">
 		<div data-role="navbar"><ul id="footerPicture"></ul></div>
-	</div>
+	</div> -->
 	<!-- dialogs -->
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
@@ -139,10 +141,13 @@
 				//language constants
 				$('#menu').html(
 					'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/submenu/create_tag.png"><br>'+lan('newTag','ucw')+'</a></span>'+
-					'<span class="ui-block-b"></span>'+
-					'<span class="ui-block-c"></span>'+
-					'<span class="ui-block-d menu-button"><a href="suggest.html" title="Suggest"><img src="css/newdesign/newtag/cancel.png"><br>'+lan('cancel','ucw')+'</a></span>'+
-					'<span class="ui-block-e menu-button"><a href="findFriends.html" title="Search"><img src="css/newdesign/newtag/publish.png"><br>'+lan('publish','ucw')+'</a></span>'
+					(CORDOVA?
+						'<span class="ui-block-b"><a opc="cam">'+lan('camera','ucw')+'</a></span>'+
+						(is['android']&&version.match(/^2\./)?'':'<li><a opc="lib">'+lan('gallery','ucw')+'</a></li>')
+					:'<span class="ui-block-b"></span>')+
+					'<span id="footerPicture" class="ui-block-c menu-button"><a href="#" id="template"><img src="css/newdesign/newtag/images.png"><br>'+lang.NEWTAG_BACKGROUNDAPP+'</a></span>'+
+					'<span class="ui-block-d menu-button"><a href="timeline.html"><img src="css/newdesign/newtag/cancel.png"><br>'+lan('cancel','ucw')+'</a></span>'+
+					'<span class="ui-block-e menu-button"><a id="publish_newTag" href="#" title="newtag"><img src="css/newdesign/newtag/publish.png"><br>'+lang.publish+'</a></span>'
 				);
 				$('#topText'					).attr('placeholder',lang.NEWTAG_MESSAGE);
 				$('#middleText'					).attr('placeholder',lang.NEWTAG_MIDDLEMESSAGE);
@@ -150,7 +155,7 @@
 				$('#emails_shareTag'			).attr('placeholder',lang.NEWTAG_PLACEHOLDER_EMAIL);
 				$('#like_friend'				).attr('placeholder',lang.inputPlaceHolder);
 				$('#button_shareFriends'		).attr('value',lang.NEWTAG_BUTTON_SHARE);
-				$('#publish_newTag'				).html(lang.publish);
+				//$('#publish_newTag'				).html(lang.publish);
 				$('#emails_legend_newtag'		).html(lang.SHARETAG_EMAILSLEGEND);
 				$('#div_leyend_btn_public'		).html(lang.NEWTAG_LEYENDBTNPUBLIC);
 				$('#publicPrivateTagsApp'		).html(lang.NEWTAG_PRIVATEPUBLICTAG);
@@ -169,13 +174,13 @@
 //				}
 				
 				//setting footers buttons
-				$('#footerPicture').html(
-					(CORDOVA?
-						'<li><a opc="cam">'+lan('camera','ucw')+'</a></li>'+
-						(is['android']&&version.match(/^2\./)?'':'<li><a opc="lib">'+lan('gallery','ucw')+'</a></li>')
-					:'')+
-					'<li><a id="template">'+lang.NEWTAG_BACKGROUNDAPP+'</a></li>'
-				);
+				// $('#footerPicture').html(
+				// 	(CORDOVA?
+				// 		'<li><a opc="cam">'+lan('camera','ucw')+'</a></li>'+
+				// 		(is['android']&&version.match(/^2\./)?'':'<li><a opc="lib">'+lan('gallery','ucw')+'</a></li>')
+				// 	:'')+
+				// 	'<li><a id="template">'+lang.NEWTAG_BACKGROUNDAPP+'</a></li>'
+				// );
 				//main scroll
 				if(is['limited']){
 					$('#page-newTag').addClass('default');

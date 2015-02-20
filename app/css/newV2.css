@@ -126,6 +126,43 @@
 	float: left;
 	display: list-item !important;
 }
+/*new tag*/
+.prew-tag{
+	margin: 1.4em;
+	border-radius: 10px;
+	background-color: #dd5425;
+	padding: 2em;
+}
+.prew-tag .ui-input-text.ui-focus{
+	box-shadow: 0 0 0;
+}
+.prew-tag input[placeholder],
+.prew-tag [placeholder],
+.prew-tag *[placeholder] {
+}
+#div_middleText .ui-input-text.ui-body-c{
+	background: #f07b53;
+	border: none;
+	text-shadow: 0 0 0;
+	color: #FFF;
+}
+.prew-tag .ui-shadow-inset{
+	-moz-box-shadow: 0 0 0;
+	-webkit-box-shadow: 0 0 0;
+	box-shadow: 0 0 0;
+}
+#topText,#bottomText{
+	border:none;
+	background-color: #f07b53;
+	text-shadow: 0 0 0;
+	margin: 0;
+}
+.prew-tag .ui-input-search, .prew-tag div.ui-input-text {
+	margin: 0.4em 0;
+}
+.smt-div-profile-color {
+	margin: 0 34px 0 10px;
+}
 /*tag*/
 [tag] menu li{
 	border: none !important;
@@ -310,30 +347,6 @@
 #sub-menu .ui-block-c{
 	border-right: 1px solid #a1afb0;
 	width: 40%;
-}
-
-@media screen and (min-width: 600px) {
-	#sub-menu li.timeline{
-		background-size: 20%;
-	}
-	#sub-menu li.newtag{
-		background-size: 20%;
-	}
-	#sub-menu li.store{
-		background-size: 20%;
-	}
-}
-
-@media screen and (min-width: 1200px) {
-	#sub-menu li.timeline{
-		background-size: 16%;
-	}
-	#sub-menu li.newtag{
-		background-size: 16%;
-	}
-	#sub-menu li.store{
-		background-size: 16%;
-	}
 }
 /*Find Friends and Friends*/
 #page-myOrders #menu, #page-lstStoreOption #menu,
@@ -529,71 +542,7 @@ li.userInList h3{
 	background-size: 45% 60%;
 }
 
-@media screen and (min-width: 600px) {
-	#sub-menu li.timeline{
-		background-size: 20%;
-	}
-	#sub-menu li.newtag{
-		background-size: 20%;
-	}
-	#sub-menu li.store{
-		background-size: 20%;
-	}
-}
-
-@media screen and (min-width: 1200px) {
-	#bottom-menu ul li.toptags{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.news{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.notifications{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.groups{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-	#bottom-menu ul li.chat{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.profile{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.friends{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.createtag{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.store{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.logout{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-}
-
 #bottom-menu ul li a{
-	height: 100%;
 	font-weight: normal;
 	color: white;
 	font-size: 0.7em;
@@ -788,7 +737,7 @@ li.userInList h3{
 	height: 30px;
 	width: 30px;
 	background-image: url('newdesign/sprite.png');
-	background-size: 250px 67px;
+	background-size: 335px 120px;
 	background-repeat: no-repeat;
 	float: left;
 }
@@ -809,15 +758,12 @@ li.userInList h3{
 	background-size: 30px 30px;	
 }
 
-#page-profile #userFriends .imagebox{ background-position:-220px 0px !important; }
+#page-profile #userFriends .imagebox{ background-position: -31px -89px !important; }
 #page-profile #pictureButton .imagebox{ background-position:-220px 0px !important; }
-#page-profile #userFollowers .imagebox{ background-position:-220px 0px !important; }
-#page-profile #userFollowing .imagebox{ background-position:-220px 0px !important; }
-#page-profile #userPreferences .imagebox{ background-position:-31px 0px !important; }
-#page-profile #userTags .imagebox{
-	background-position:-120px -34px !important;
-	background-size: 259px 71px;
-}
+#page-profile #userFollowers .imagebox{ background-position: -31px -89px !important; }
+#page-profile #userFollowing .imagebox{ background-position: -31px -89px !important; }
+#page-profile #userPreferences .imagebox{ background-position: -91px -90px !important; }
+#page-profile #userTags .imagebox{ background-position: -60px -90px !important; }
 #page-profile #userPersonalTags .imagebox{ width: 0px !important; }
 
 #page-profile .ui-btn-inner{
@@ -925,7 +871,92 @@ li.userInList h3{
 	color: #FFF;
 }
 
+#page-profile #closeBtn{
+	text-align: center;
+	text-decoration: none;
+}
+
 /*Profile Ends*/
+
+/*Search PopUp*/
+
+#searchPopUp {
+	background-color: #E1E6E7;
+	padding: 15px;
+}
+
+#searchPopUp-popup {
+    width: 80%;
+    left: 10%;
+    right: 10%;
+    height: 80%;
+    top: 10%;
+    bottom: 10%;
+}
+
+#searchPopUp #wrap{
+    float: left;
+    position: relative;
+    left: 50%;
+}
+
+#searchPopUp #contents{
+    float: left;
+    position: relative;
+    left: -50%;
+}
+
+#searchPopUp #srh{
+	background-color: #FFF;
+	color: #505F6D;
+}
+
+#searchPopUp .center-wrapper{
+  text-align: center;
+}
+#searchPopUp .center-wrapper * {
+  margin: 0 auto;
+}
+
+#searchPopUp #seacrh-btn {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+	background-color: #EC5A28;
+}
+
+#searchPopUp #custom-btn span span {
+    height: 50px !important;  
+    line-height: 70px;
+}
+
+#searchPopUp #custom-btn span span {
+    height: 50px !important;  
+    line-height: 70px;
+}
+
+#searchPopUp .imagebox{
+	height: 40px;
+	width: 40px;
+    background:url('newdesign/search.png');
+	background-size: 35px 35px;
+	background-repeat: no-repeat;
+	background-color: #EC5A28;
+}
+
+#searchPopUp .ui-btn-up-m {
+	border: 1px solid #FFF;
+	background: #FFF;
+	font-weight: bold;
+	color: #EB5A28;
+}
+
+#searchPopUp .ui-btn-hover-m {
+	border: 1px solid #bbbbbb ;
+	background: #FFF;
+	font-weight: bold;
+	color: #EB5A28 ;
+}
 
 /*Preferences Starts*/
 #page-preferences .ui-link, #page-preferences .ui-link:visited{
@@ -1444,3 +1475,89 @@ li.userInList h3{
 #page-myOrders .nameProduct{ padding: 0; }
 #page-myOrders .price{ color: #F57133; }
 /*Store Ends*/
+/*Media querys*/
+@media screen and (max-width: 600px) {
+	#sub-menu li.timeline{
+		background-size: 23%;
+	}
+	#sub-menu li.newtag{
+		background-size: 23%;
+	}
+	#sub-menu li.store{
+		background-size: 23%;
+	}
+}
+@media screen and (max-width: 1200px) {
+	#bottom-menu ul li.toptags{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.news{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.notifications{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.groups{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+	#bottom-menu ul li.chat{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.profile{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.friends{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.createtag{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.store{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+
+	#bottom-menu ul li.logout{
+		-webkit-background-size: 24% 60%;
+		background-size: 24% 60%;
+	}
+}
+
+@media screen and (min-width: 600px) {
+	#sub-menu li.timeline{
+		background-size: 20%;
+	}
+	#sub-menu li.newtag{
+		background-size: 20%;
+	}
+	#sub-menu li.store{
+		background-size: 20%;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	#sub-menu li.timeline{
+		background-size: 16%;
+	}
+	#sub-menu li.newtag{
+		background-size: 16%;
+	}
+	#sub-menu li.store{
+		background-size: 16%;
+	}
+}

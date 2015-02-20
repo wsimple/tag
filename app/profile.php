@@ -19,7 +19,7 @@
 
 				<div id="globalButtons" align="center">
 					<!-- style="display:none;"  -->
-					<a id="pictureButton" data-role="button" data-theme="m" class="intext" >&nbsp;</a>
+					<a id="pictureButton" data-role="button" data-theme="m" class="intext" style="display:none;">&nbsp;</a>
 					<div id="userFriends" data-role="button" data-theme="m">&nbsp;</div>
 					<div id="userFollowers" data-role="button" data-theme="m">&nbsp;</div>
 					<div id="userFollowing" data-role="button" data-theme="m">&nbsp;</div>
@@ -65,6 +65,8 @@
 			buttons:{showmenu:true,creation:true},
 			title:lang.USER_PROFILE,
 			before:function(){
+				newMenu();
+				createSearchPopUp('#page-profile');
 				function buttonText(id,text){ $(id).html(
 					'<div class="imagebox"></div><div class="textbox" >'+
 					text+' (<b><loader/></b>)</div>'); 
@@ -72,7 +74,7 @@
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
-					'<li class="ui-block-c points"></li>'+
+					'<li class="ui-block-c points"><a href="#searchPopUp" data-rel="popup" data-position-to="window">Seacrh</a></li>'+
 					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
 				);
 
