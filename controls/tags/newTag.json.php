@@ -69,6 +69,7 @@ function newTag_json($data,$mobile=false){
 		$data['product']=$product['id'];
 	}
 	#si hay personas, se verifican
+	$res['nonpublic'] = false; // gives knowing if the tag is either private or public
 	if($data['status']!=4) unset($data['people']);
 	if($data['people']){
 		if(!is_array($data['people'])) $data['people']=explode(',',$data['people']);
@@ -100,6 +101,7 @@ function newTag_json($data,$mobile=false){
 			$data['status']=1;
 		}
 		unset($_users,$_mails);
+		$res['nonpublic'] = true; // gives knowing if the tag is either private or public
 	}
 	#validamos el grupo
 	if($data['group']!=''){

@@ -72,6 +72,12 @@
 					'<label for="radio-inbox">'+lan('inbox','ucw')+'</label>'+
 					'<label for="radio-outbox">'+lan('outbox','ucw')+'</label>'
 				);
+
+				if ($_GET['nonpublic']=='1'){ // gives knowing if the tag is either private or public
+					alert($_GET['nonpublic']);
+					$('#private-select').show();
+					$('.creation').hide();
+				}
 			},
 			after:function(){
 				
