@@ -877,7 +877,7 @@ is.limited= !is.webkit||is.android;
 })(window);
 
 function lan(value,opc){
-	var txt=(lang[value]||value);
+	var txt=(lang[value]||value||'');
 	//cambio de caracteres especiales por unicode (español)
 	if(opc&&typeof opc=='string'){
 		switch(opc.toLowerCase()){
