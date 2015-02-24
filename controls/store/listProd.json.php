@@ -230,22 +230,23 @@
 		}
 	}
 	// if($_GET['source']!='mobile'){
-		if(isset($_GET['idp'])){
-			if(isset($res['prod'][0]['description']) && $res['prod'][0]['description']!=''){
-				$textTop=get_hashtags($res['prod'][0]['description']);
-				$result=count($textTop);
-				if($result>0){
-					$textTop=explode(' ',implode(' ',$textTop));
-					$res['hash']=$textTop;
-				}   
-			}
-		}else{
-			$textTop=vectorPhash($_GET['srh'],10);
-			if($textTop!=''){
+	if (gettype($res)=='string') $res=array();
+	if(isset($_GET['idp'])){
+		if(isset($res['prod'][0]['description']) && $res['prod'][0]['description']!=''){
+			$textTop=get_hashtags($res['prod'][0]['description']);
+			$result=count($textTop);
+			if($result>0){
 				$textTop=explode(' ',implode(' ',$textTop));
 				$res['hash']=$textTop;
-			} 
+			}   
+		}
+	}else{
+		$textTop=vectorPhash($_GET['srh'],10);
+		if($textTop!=''){
+			$textTop=explode(' ',implode(' ',$textTop));
+			$res['hash']=$textTop;
 		} 
+	} 
 	// }
 	if (!is_array($res)) $res=array();
 	$wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
@@ -333,9 +334,9 @@
 							$photos = $GLOBALS['cn']->query($sqlPhoto);
 							while ($photo = mysql_fetch_assoc($photos)){
 								$photo['id'] = md5($photo['id']);
-								if(fileExistsRemote(FILESERVER.'img/'.$photo['picture'])){ $photo['pic'] = FILESERVER.'img/'.$photo['picture']; }
+								$photo['picture']=($config->local?DOMINIO:FILESERVER).'img/'.$photo['picture'];
+								if(fileExistsRemote($photo['picture'])){ $photo['pic'] = $photo['picture']; }
 								else{ $photo['pic'] = DOMINIO.'imgs/defaultAvatar.png'; }
-								$photo['pic'] = FILESERVER.'img/'.$photo['picture'];
 								$arrayPhotos[]=$photo;
 							}
 							$row['photo']=$arrayPhotos;
