@@ -74,7 +74,6 @@
 				);
 
 				if ($_GET['nonpublic']=='1'){ // gives knowing if the tag is either private or public
-					alert($_GET['nonpublic']);
 					$('#private-select').show();
 					$('.creation').hide();
 				}
