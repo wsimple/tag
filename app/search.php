@@ -85,7 +85,7 @@
                                 if (data['friends']!=''){
                                         out=  '<div data-role="collapsible" class="despliegue">'
                                                 +'<h3>'+lan('peoples','ucw')+'</h3>'
-                                                +'<ul id="resultSP" data-role="listview" data-filter="true" data-divider-theme="e" class="ui-listview ui-corner-all ui-shadow ui-grid-b" >';
+                                                +'<ul id="resultSP" data-role="listview" data-filter="true" data-divider-theme="e" class="ui-listview ui-corner-all ui-shadow " >';
                             			for(i=0;i<data['friends'].length;i++){
                             				friend=data['friends'][i];
                                             if(i==0){

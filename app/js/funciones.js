@@ -1182,11 +1182,13 @@ function bodyFriendsList(friend, temp){
 	return out;
 }
 
-function bodyFriendsList3(friend){
+function bodyFriendsList2(friend){
+	var known = (friend.conocido)?1:0;
 	if (friend.conocido) var te="a",text=lan('unfollow');
 	else var te="e",text=lan('follow'); 
-	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain">'+
-		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e" class="ulbox">'+
+	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain" '+
+		'data-icon="info"  data-known="'+known+'" data-usrname="'+friend.name_user+'">'+
+		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-username="'+friend.name_user+'" data-theme="e" class="ulbox">'+
 			'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
 			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
 			'<p class="ui-li-desc">'+
@@ -1339,7 +1341,7 @@ function linkUser(layer,$wrapper){
 			content:
 			'<div>'+
 			'<div class="photo"><img src="'+photo+'" alt="photo" /></div><br />'+
-			'<div class="info">'+lan('name')+'</div>'+
+			'<div class="info">'+lan('name','ucf')+': '+this.dataset.usrname+'</div>'+
 			'<fieldset class="ui-grid-a">'+
 				'<div class="ui-block-a">'+
 					'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+

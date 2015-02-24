@@ -1114,6 +1114,18 @@ li.userInList h3{
 	box-shadow: none;
 }
 
+#page-search li.userInList h3{
+	margin-left: -35px !important;
+	color: #EB5A28 ;
+	text-decoration: none;
+}
+
+#page-search li.userInList p{
+	margin-left: -35px !important;
+	color: #159580 ;
+	text-decoration: none;
+}
+
 #page-search #content, #page-search #scroller, #page-search #fs-wrapper{
 	background-color: #E1E6E7;
 	border: none !important;
