@@ -81,16 +81,29 @@
                 			myDialog('#singleDialog',lang.conectionFail);
                 		},
                 		success	:function(data){
-                		      var i,out='',outP='',outG='',outH='',outS='',more='';
+                		      var i,out='',outP='',outG='',outH='',outS='',more='',gridpos='';
                                 if (data['friends']!=''){
                                         out=  '<div data-role="collapsible" class="despliegue">'
                                                 +'<h3>'+lan('peoples','ucw')+'</h3>'
-                                                +'<ul id="resultSP" data-role="listview" data-filter="true" data-divider-theme="e" class="list-friends">';
+                                                +'<ul id="resultSP" data-role="listview" data-filter="true" data-divider-theme="e" class="ui-listview ui-corner-all ui-shadow ui-grid-b" >';
                             			for(i=0;i<data['friends'].length;i++){
                             				friend=data['friends'][i];
-                            				outP+=bodyFriendsList(friend);
+                                            if(i==0){
+                                                gridpos='a';
+                                            }else{
+                                                if(gridpos=='a'){
+                                                    gridpos='b';
+                                                }else{
+                                                    if(gridpos=='b'){
+                                                        gridpos='c';
+                                                    }else{
+                                                        gridpos='a';
+                                                    }
+                                                }
+                                            }
+                            				outP+=bodyFriendsList2(friend, gridpos);
                                             more+=armarSeemore(data['limit'],'friends',(i+1),data['f_maxR']);
-                                            if (more!=''){ outP+=more; break;}
+                                            //if (more!=''){ outP+=more; break;}
                             			}
                                         out+='   </ul>'
                                             +'</div>';

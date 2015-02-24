@@ -1134,6 +1134,18 @@ function playComment(tagtId, opc){
 	};
 })(window,jQuery,console);
 
+function bodyFriendsList2(friend, temp){
+	var known = (friend.conocido)?1:0;
+	console.log('Resultado:'+friend.conocido);
+	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain" data-icon="false">'+
+		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
+			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/></br>'+
+			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
+		'</a>'+
+	'</li>';
+	return out;
+}
+
 function bodyFriendsList(friend, temp){
 	temp = temp || 'a';
 	// if (friend.conocido) var te="a",text=lan('unfollow');
@@ -1169,6 +1181,40 @@ function bodyFriendsList(friend, temp){
 	// '</div>':'');
 	return out;
 }
+
+function bodyFriendsList3(friend){
+	if (friend.conocido) var te="a",text=lan('unfollow');
+	else var te="e",text=lan('follow'); 
+	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain">'+
+		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e" class="ulbox">'+
+			'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
+			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
+			'<p class="ui-li-desc">'+
+				lan('friends','ucw')+' <span class="ufriends">('+(friend.friends_count||0)+'),</span>  '+
+				lan('admirers','ucw')+' <span class="ufollowers">('+(friend.followers_count||0)+'),</span>  '+
+				lan('admired','ucw')+' <span class="ufollowing">('+(friend.following_count||0)+')</span> '+
+			'</p>'+
+		'</a>'+
+	'</li>'+ //la maquetacion de este li se hizo con el jquerymobile ya cargado
+	(friend.iAm=="0"?'<li class="ui-body ui-body-b" style="display: none;">'+
+		'<fieldset class="ui-grid-a">'+
+			'<div class="ui-block-a">'+
+				'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
+					'<span class="ui-btn-inner"><span class="ui-btn-text">'+lan('USER_PROFILE')+'</span></span>'+
+					'<button code="'+friend.code_friend+'" type="submit" data-theme="d" class="ui-btn-hidden" data-disabled="false">'+lan('USER_PROFILE')+'</button>'+
+				'</div>'+
+			'</div>'+
+			'<div class="ui-block-b">'+
+				'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="'+te+'" data-disabled="false" class="ui-submit ui-btn ui-shadow ui-btn-corner-all ui-btn-up-'+te+'" aria-disabled="false">'+
+					'<span class="ui-btn-inner"><span class="ui-btn-text">'+text+'</span></span>'+
+					'<button type="b" data-theme="'+te+'" userlink="'+md5(friend.id)+'" class="ui-btn-hidden" data-disabled="false">'+text+'</button>'+
+				'</div>'+
+			'</div>'+
+		'</fieldset>'+
+	'</li>':'');
+	return out;
+}
+
 function viewFriends(method, opc){
 	console.log('viewfriends');
 	if(!opc.post) opc.post={};

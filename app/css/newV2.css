@@ -992,8 +992,22 @@ li.userInList h3{
 }
 
 #page-search .ui-content{
-	margin-top: 20px;
+	margin-top: 30px;
 }
+
+#page-search .ui-first-child, #page-search .ui-last-child{
+	border-radius: 0;
+}
+
+#page-search .ui-last-child{
+	margin-bottom: 10px;
+}
+
+#page-search .ulbox{
+	min-height: 36px !important;
+}
+
+
 
 /*Preferences Starts*/
 #page-preferences .ui-link, #page-preferences .ui-link:visited{
