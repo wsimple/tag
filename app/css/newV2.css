@@ -1094,6 +1094,56 @@ li.userInList h3{
 	color: #EB5A28 ;
 }
 
+#searchPopUp .ui-btn-inner {
+	margin: 1px !important;
+	padding: 4px !important;
+}
+
+#searchPopUp .ui-corner-all {
+	-webkit-border-radius: .6em /*{global-radii-blocks}*/;
+	border-radius: .6em /*{global-radii-blocks}*/;	
+}
+
+/*Seacrh Starts*/
+
+#page-search {
+	background-color: #E1E6E7;
+	border: none;
+	border-shadow: none;
+	border:1px solid #E1E6E7;
+	box-shadow: none;
+}
+
+#page-search #content, #page-search #scroller, #page-search #fs-wrapper{
+	background-color: #E1E6E7;
+	border: none !important;
+	border-shadow: none;
+	border:1px solid #E1E6E7;
+	box-shadow: none;
+}
+
+#page-search #fs-wrapper{
+	margin: 0 !important;
+}
+
+#page-search .ui-content{
+	margin-top: 30px;
+}
+
+#page-search .ui-first-child, #page-search .ui-last-child{
+	border-radius: 0;
+}
+
+#page-search .ui-last-child{
+	margin-bottom: 10px;
+}
+
+#page-search .ulbox{
+	min-height: 36px !important;
+}
+
+
+
 /*Preferences Starts*/
 #page-preferences .ui-link, #page-preferences .ui-link:visited{
 	color: #FFF;
@@ -1366,18 +1416,53 @@ li.userInList h3{
 	color: #2c3e4f;
 	margin-top: 11px;
 }
+#infoDetails #idProductContent .photosp .vid,
 #infoDetails #idProductContent .photosp .pic{
+	height: initial;
+	margin: 0 auto;
+	border: none;
+	display: inline-block;
+}
+#infoDetails #idProductContent .photosp img{
 	width: 160px;
-	height: 160px;
-	margin: 2px;
 	border: none;
 }
+#infoDetails #idProductContent .photosp .vid img{
+	width: 70px;
+	height: 60px;
+	border: none;
+	padding: 40px 45px;
+	opacity: 0.7;
+}
+#infoDetails #idProductContent .photosp .pic a:nth-child(1),
+#infoDetails #idProductContent .photosp a.lastVideo,
+#infoDetails #idProductContent .photosp .pic a:nth-child(3){
+	margin: 15px;
+	width: 30px;
+	height: 30px;
+	background-color: black;
+	background-image: url('newdesign/arrow_single.png');
+	background-size: 50%;
+	background-position: center;
+	background-repeat: no-repeat;
+	display: inline-block;	
+}
+#infoDetails #idProductContent .photosp a.lastVideo,
+#infoDetails #idProductContent .photosp .pic a:nth-child(1){
+	transform : rotate(180deg);
+	-moz-transform : rotate(180deg); /* Firefox */
+	-webkit-transform : rotate(180deg); /* Chrome - Safari */
+	-o-transform : rotate(180deg); /* Opera */
+}
+#infoDetails #idProductContent .photosp a.lastVideo.no,
+#infoDetails #idProductContent .photosp .pic.first a:nth-child(1),
+#infoDetails #idProductContent .photosp .pic.last a:nth-child(3){ opacity: 0; }
 #infoDetails #idProductContent #priceApp{ color: #F57133; }
 #infoDetails #titleDescription,
 #infoDetails #description,
 #infoDetails #seller{ font-size: 14px; }
 #infoDetails .buttonsDetails{
-	margin-bottom: 20px; 
+	margin-bottom: 80px; 
 }
 #page-lstStoreOption #footerPay div,
 #page-lstStoreCarList #footerPay div,
@@ -1435,6 +1520,8 @@ li.userInList h3{
 	border-top: none;
 	border-bottom: none;
 	background: inherit;
+	overflow: hidden;
+	position: relative;
 	/*padding: 3px;*/
 }
 #infoDetails #idProductContent #seller{
@@ -1528,6 +1615,8 @@ li.userInList h3{
 @media (min-width: 600px){
 	#page-lstStoreCategory .list-wrapper,
 	#page-lstStoreSubCategory .list-wrapper{ top: 90px; }
+	#infoDetails #idProductContent .photosp img{ width: 350px; }
+	#infoDetails #idProductContent .photosp .vid img{ padding: 40px 140px; }
 }
 #menu .cart .active{
 	font-size: 20px;

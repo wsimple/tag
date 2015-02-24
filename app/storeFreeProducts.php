@@ -38,7 +38,7 @@
 				var titles=[],indice=($_GET['module']!==undefined?$_GET['module']:'fp'),get='';
 				titles['fp']=lang['STORE_FREE_PRODUCTS'];
 				titles['myPartiFp']=lang['STORE_RAFFLES_PLAYS'];
-				titles['myFp']=lang['STORE_RAFFLES_PLAYS'];
+				titles['myFp']=lang['STORE_MY_FREE_PRODUCTS'];
 				console.log(titles[indice]);
 				$('div[data-role="header"] h1').html(titles[indice]);
 				var layer='#infoList';
@@ -55,7 +55,7 @@
 				// });
 				switch(indice){
 					case 'myPartiFp': get='&scc=2&myplays=1'; break;
-					case 'myFp': get='&scc=2&myplays=1'; break;
+					case 'myFp': get='&scc=2&my=1'; break;
 				}
 				getFreeProducts(layer,get);
 			}

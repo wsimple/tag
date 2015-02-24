@@ -1,6 +1,10 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-search" data-role="page" data-cache="false">
-	<div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
+    <div id="sub-menu" style="position:absolute;top:0px;left:0;padding:0px;" data-position="fixed"  >
+        <ul class="ui-grid-d"></ul>
+    </div>
+    <div data-role="content" data-theme="d" class="no-footer">
+
 	<div data-role="content" >
         <div id="fs-wrapper" class="fs-wrapper">
     		<div id="scroller">
@@ -16,8 +20,17 @@
 			title:lang.searchtitle,
 			buttons:{showmenu:true,home:true},
 			before:function(){
+                newMenu();
+                createSearchPopUp('#page-search');
 				$('#seek').html(lang.seek);
 				//$('#searchFooter').html('<li><a href="#" opc="store">'+lan('All')+'</a></li>');
+                $('#sub-menu ul').html(
+                    '<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
+                    '<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
+                    '<li class="ui-block-c points"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
+                    '<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
+                );      
+                //
 			},
 			after:function(){
 				var el='#resultList',srh=$_GET['srh'],tipo=$_GET['tipo']?$_GET['tipo']:'';
@@ -68,16 +81,29 @@
                 			myDialog('#singleDialog',lang.conectionFail);
                 		},
                 		success	:function(data){
-                		      var i,out='',outP='',outG='',outH='',outS='',more='';
+                		      var i,out='',outP='',outG='',outH='',outS='',more='',gridpos='';
                                 if (data['friends']!=''){
                                         out=  '<div data-role="collapsible" class="despliegue">'
                                                 +'<h3>'+lan('peoples','ucw')+'</h3>'
-                                                +'<ul id="resultSP" data-role="listview" data-filter="true" data-divider-theme="e" class="list-friends">';
+                                                +'<ul id="resultSP" data-role="listview" data-filter="true" data-divider-theme="e" class="ui-listview ui-corner-all ui-shadow ui-grid-b" >';
                             			for(i=0;i<data['friends'].length;i++){
                             				friend=data['friends'][i];
-                            				outP+=bodyFriendsList(friend);
+                                            if(i==0){
+                                                gridpos='a';
+                                            }else{
+                                                if(gridpos=='a'){
+                                                    gridpos='b';
+                                                }else{
+                                                    if(gridpos=='b'){
+                                                        gridpos='c';
+                                                    }else{
+                                                        gridpos='a';
+                                                    }
+                                                }
+                                            }
+                            				outP+=bodyFriendsList2(friend, gridpos);
                                             more+=armarSeemore(data['limit'],'friends',(i+1),data['f_maxR']);
-                                            if (more!=''){ outP+=more; break;}
+                                            //if (more!=''){ outP+=more; break;}
                             			}
                                         out+='   </ul>'
                                             +'</div>';

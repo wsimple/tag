@@ -111,6 +111,7 @@ is.limited= !is.webkit||is.android;
 		'publications'		:'publicaciones',
 		' filter'			:' filtrar',
 		'seller'			:' vendedor',
+		'closed'			:' cerrado',
 
 		//'':'mover a',
 
@@ -364,6 +365,7 @@ is.limited= !is.webkit||is.android;
 		STORE_PAYABLES					:'Compra pendiente por pagar',
 		STORE_NO_AVAILABLE_ORDERS		:'No hay ordenes disponibles, si quieren hacer una compra, visite nuestra lista de productos en la tienda.',
 		STORE_FREE_PRODUCTS				:'Productos Gratis',
+		STORE_MY_FREE_PRODUCTS			:'Mis Productos Gratis',
 		STORE_RAFFLES_PLAYS				:'My participation',
 		STORE_FREE_PRODUCTS_NUM_USERS	:'Numero de participantes',
 		JOIN_CONFIN_R					:'¿Estas seguro de unirse?',
@@ -789,6 +791,7 @@ is.limited= !is.webkit||is.android;
 		STORE_PAYABLES					:'Outstanding purchase payables',
 		STORE_NO_AVAILABLE_ORDERS		:'No orders available, if you want to make a purchase visit our list of products in the store.',
 		STORE_FREE_PRODUCTS				:'Free Products',
+		STORE_MY_FREE_PRODUCTS			:'My Free Products',
 		STORE_RAFFLES_PLAYS				:'Mis participaciones',
 		STORE_FREE_PRODUCTS_NUM_USERS	:'Number of participants',
 		JOIN_CONFIN_R					:'Are you sure you join?',
