@@ -449,6 +449,7 @@
 							myDialog(lang.conectionFail);
 						},
 						success:function(data) {
+							var nonpublic = (data['nonpublic']) ? '?nonpublic=1' : '';
 							if(data['done']){
 								localStorage.removeItem('timeLine');
 								if(false&&$.local('enableLogs')){
@@ -461,7 +462,7 @@
 												if($_GET['group'] && $_GET['group'] != '' ) {
 													redir(PAGE['tagslist']+'?current=group&id='+$_GET['group']);
 												}else{
-													redir(PAGE['timeline']);
+													redir(PAGE['timeline']+nonpublic);
 												}
 											}
 										}
@@ -473,7 +474,7 @@
 										redir(PAGE['storeMypubli']);
 									}else{
 										localStorage.removeItem('timeLine');
-										redir(PAGE['timeline']);
+										redir(PAGE['timeline']+nonpublic);
 									}
 								}
 							}

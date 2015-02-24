@@ -21,7 +21,7 @@ if (quitar_inyect()){
     if($_GET['type']==''||$_GET['type']=='friends'){
         if (isset($_GET['limit'])){
             switch($_GET['limit']){
-                case 'basic':   $array['limit']='LIMIT 0,6'; $res['f_maxR']=5; break;
+                case 'basic':   $array['limit']='LIMIT 0,6'; $res['f_maxR']=6; break;
                 case 'more' :   $array['limit']='LIMIT '.$_REQUEST['f_limitIni'].',10'; $res['f_maxR']=9; break;
                 case 'perso':   $array['limit']='LIMIT '.$_REQUEST['f_limitIni'].','.$_REQUEST['f_limitEnd']; break;
             }   
