@@ -73,10 +73,6 @@
 					'<label for="radio-outbox">'+lan('outbox','ucw')+'</label>'
 				);
 
-				if ($_GET['nonpublic']=='1'){ // gives knowing if the tag is either private or public
-					$('#private-select').show();
-					$('.creation').hide();
-				}
 			},
 			after:function(){
 				
@@ -153,6 +149,14 @@
 						$wrapper.ptrScroll('reload');
 					}
 				});
+				
+				if ($_GET['nonpublic']=='1'){ // gives knowing if the tag is either private or public checked="checked"
+					priv='&type=outbox';
+					$('#tl-footer ul a[opc="privateTags"]').click();
+					$("#radio-inbox").removeAttr("checked").checkboxradio("refresh");
+					$("#radio-outbox").attr("checked", "checked").checkboxradio("refresh");
+				}
+
 				// $('#userPoints').click(function(){
 				// 	myDialog({
 				// 		id:'msg-points',
