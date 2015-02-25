@@ -20,48 +20,70 @@
 				<input id="imgBase64" value="" type="hidden" />
 				<input id="imgTemplate" value="" type="hidden" />
 				<div id="master" style="padding:10px 0">
-					<div class="prew-tag">
-						<div id="div_topText" class="smt-div-profile-color">
-							<div style="width:5px;right:52px;position:absolute;">
-								<div id="divColorPickerTop">
-									<select name="colourPicker1"></select>
-								</div>
-								<div id="topCounter" style="width:35px;"></div>
+					<div class="tag-solo">
+						<div class="tag-container">
+							<div tag>
+								<div id="backgroundPreview" class="tag"></div>
 							</div>
-							<textarea id="topText" name="topText" style="resize:none;"></textarea>
-							<input type="hidden" name="topColor" id="topColor" value="#000" />
 						</div>
-						<div id="div_middleText" class="smt-div-profile-color">
-							<div style="width:5px;right:52px;position:absolute;">
-								<div id="divColorPickerMiddle">
-									<select name="colourPicker2"></select>
+						<div class="inputs-tag">
+							<div id="div_topText" class="smt-div-profile-color">
+								<div class="counter-container">
+									<div id="divColorPickerTop">
+										<select name="colourPicker1"></select>
+									</div>
+									<div id="topCounter" style="width:35px;"></div>
 								</div>
-								<div id="middleCounter" style="width:35px;"></div>
+								<textarea id="topText" name="topText" style="resize:none;"></textarea>
+								<input type="hidden" name="topColor" id="topColor" value="#000" />
 							</div>
-							<input id="middleText" name="middleText" value="" type="text" />
-							<input type="hidden" name="middleColor" id="middleColor" value="#000" />
-						</div>
-						<div id="div_bottomText" class="smt-div-profile-color">
-							<div style="width:5px;right:52px;position:absolute;">
-								<div id="divColorPickerBottom">
-									<select name="selectColourPicker3"></select>
+							<div id="div_middleText" class="smt-div-profile-color">
+								<div class="counter-container">
+									<div id="divColorPickerMiddle">
+										<select name="colourPicker2"></select>
+									</div>
+									<div id="middleCounter" style="width:35px;"></div>
 								</div>
-								<div id="bottomCounter" style="width:35px;"></div>
+								<input id="middleText" name="middleText" value="" type="text" />
+								<input type="hidden" name="middleColor" id="middleColor" value="#000" />
 							</div>
-							<textarea id="bottomText" name="bottomText" style="resize:none;"></textarea>
-							<input type="hidden" name="bottomColor" id="bottomColor" value="#000" />
+							<div id="div_bottomText" class="smt-div-profile-color">
+								<div class="counter-container">
+									<div id="divColorPickerBottom">
+										<select name="selectColourPicker3"></select>
+									</div>
+									<div id="bottomCounter" style="width:35px;"></div>
+								</div>
+								<textarea id="bottomText" name="bottomText" style="resize:none;"></textarea>
+								<input type="hidden" name="bottomColor" id="bottomColor" value="#000" />
+							</div>
 						</div>
 					</div>
-					<div id="div_changeMode" class="smt-div-profile">
+					<!-- <div id="div_changeMode" class="smt-div-profile">
 						<input id="button_changeMode" type="button"/>
+					</div> -->
+					<div id="hasTags">
+						sdf
 					</div>
-					<div id="div_publicTag" data-role="fieldcontain" class="smt-tag-content dnone">
+					<div id="privacy-options">
+						<ul>
+							<li class="privacy-public">
+								<input id="div_publicTag_checkbox" name="privacyOption" type="radio" checked="checked" />
+								<label for="div_publicTag_checkbox" id="publicTagsApp"></label>
+							</li>
+							<li class="privacy-private">
+								<input id="div_privateTag_checkbox" name="privacyOption" type="radio" />
+								<label for="div_privateTag_checkbox" id="privateTagsApp"></label>
+							</li>
+						</ul>
+					</div>
+					<!-- <div id="div_publicTag" data-role="fieldcontain" class="smt-tag-content">
 						<fieldset data-role="controlgroup">
 							<input id="div_publicTag_checkbox" name="div_publicTag_checkbox" type="checkbox" class="custom" checked="checked" />
 							<label for="div_publicTag_checkbox" id="publicPrivateTagsApp"></label>
 							<div style="font-size:11px;color:#999999;float:left" id="div_leyend_btn_public"></div>
 						</fieldset>
-					</div>
+					</div> -->
 					<div id="div_Private" style="display:none;">
 						<div id="div_shareMails" class="smt-div-profile dnone">
 							<label id="EmailsPublicPrivateTagsApp"></label>
@@ -74,19 +96,7 @@
 							<div id="pictures_shareTag" style="height:40px;margin-bottom:10px;text-align:center;overflow:hidden;"></div>
 						</div>
 					</div>
-					<div class="tag-solo">
-						<div class="tag-container">
-							<div tag>
-								<div id="backgroundPreview" class="tag"></div>
-							</div>
-						</div>
-					</div>
-<!-- 					<div class="smt-tag-content ui-shadow-inset">
-						<div id="backgroundPreview" class="smt-tag-bg">
-						</div>
-							<img id="backgroundPreview" style="width:100%;" src="css/smt/bg_pop.png"/>
-					</div>
- -->				</div>
+				</div>
 			</div>
 		</div>
 		<div style="display:none;"><img id="checkBackground" src=""></div>
@@ -158,7 +168,8 @@
 				//$('#publish_newTag'				).html(lang.publish);
 				$('#emails_legend_newtag'		).html(lang.SHARETAG_EMAILSLEGEND);
 				$('#div_leyend_btn_public'		).html(lang.NEWTAG_LEYENDBTNPUBLIC);
-				$('#publicPrivateTagsApp'		).html(lang.NEWTAG_PRIVATEPUBLICTAG);
+				$('#publicTagsApp'		).html(lang.private);
+				$('#privateTagsApp'		).html(lang.NEWTAG_PRIVATEPUBLICTAG);
 				$('#EmailsPublicPrivateTagsApp'	).html(lang.NEWTAG_EMAILSPRIVATEPUBLICTAG);
 
 				$('#title_pictures_shareTag').html(lang.SHARETAG_TOUCHPICTURE);
@@ -211,33 +222,33 @@
 					}
 //					alert(status);
 				});
-				$('#div_changeMode').click(function(){
-					if(single){//cambiar a modo avanzado
-						if(aStatus) status=aStatus;
-						$('#div_changeMode').fadeOut(function(){
-							$('#div_changeMode .ui-btn-text').html(lang.NEWTAG_BUTTON_QUICK);
-							$('#div_changeMode,#div_topText,#div_shareMails,#div_shareFriends,#div_publicTag').fadeIn(function(){
-								//hide controls provate tag if isset group
-								if($_GET['group']||$_GET['product']){
-									$('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
-								}
-								if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
-							});
-						});
-					}else{//cambiar a modo simple
-						aStatus=status;
-						status=1;
-						$('#div_changeMode,#div_topText,#div_shareMails,#div_shareFriends,#div_publicTag').fadeOut(function(){
-							$('#div_changeMode .ui-btn-text').html(lang.NEWTAG_BUTTON_ADVANCED);
-							$('#div_changeMode').fadeIn(function(){
-								if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
-							});
-							$('#topText,#emails_shareTag').val('');
-							$('#pictures_shareTag').html('');
-						});
-					}
-					single=!single;
-				})
+				// $('#div_changeMode').click(function(){
+				// 	if(single){//cambiar a modo avanzado
+				// 		if(aStatus) status=aStatus;
+				// 		$('#div_changeMode').fadeOut(function(){
+				// 			$('#div_changeMode .ui-btn-text').html(lang.NEWTAG_BUTTON_QUICK);
+				// 			$('#div_changeMode,#div_shareMails,#div_shareFriends,#div_publicTag').fadeIn(function(){
+				// 				//hide controls provate tag if isset group
+				// 				if($_GET['group']||$_GET['product']){
+				// 					$('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
+				// 				}
+				// 				if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
+				// 			});
+				// 		});
+				// 	}else{//cambiar a modo simple
+				// 		aStatus=status;
+				// 		status=1;
+				// 		$('#div_changeMode,#div_shareMails,#div_shareFriends,#div_publicTag').fadeOut(function(){
+				// 			$('#div_changeMode .ui-btn-text').html(lang.NEWTAG_BUTTON_ADVANCED);
+				// 			$('#div_changeMode').fadeIn(function(){
+				// 				if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
+				// 			});
+				// 			$('#topText,#emails_shareTag').val('');
+				// 			$('#pictures_shareTag').html('');
+				// 		});
+				// 	}
+				// 	single=!single;
+				// })
 				// colour picker
 				//fill palletes
 				paletteColorPicker('#divColorPickerTop,#divColorPickerMiddle,#divColorPickerBottom');
@@ -341,6 +352,7 @@
 				var img64;
 				$('#checkBackground').load(function(){
 					var bg;
+					console.log('cargare bg');
 					if(this.dataset.template){
 						console.log('template');
 						$('#imgTemplate').val(this.dataset.template);
@@ -357,6 +369,7 @@
 						var bgsize=this.naturalWidth>650?100:100*this.naturalWidth/650;
 						bgsize=bgsize+'% auto';
 						$('#backgroundPreview').css({
+						// $('.prew-tag').css({
 							'background-image':'url('+bg+')',
 							'-webkit-background-size':bgsize,
 							'-o-background-size':bgsize,

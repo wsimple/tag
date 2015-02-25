@@ -47,7 +47,7 @@ is.limited= !is.webkit||is.android;
 		'outbox'			:'salida',
 		'password'			:'contraseña',
 		'peoples'   		:'personas',
-		'private'			:'privado',
+		'private'			:'Privado',
 		'save'				:'guardar',
 		'see more'			:'ver más',
 		'shopping cart'		:'carrito de compras',
@@ -878,7 +878,7 @@ is.limited= !is.webkit||is.android;
 })(window);
 
 function lan(value,opc){
-	var txt=(lang[value]||value);
+	var txt=(lang[value]||value||'');
 	//cambio de caracteres especiales por unicode (español)
 	if(opc&&typeof opc=='string'){
 		switch(opc.toLowerCase()){
