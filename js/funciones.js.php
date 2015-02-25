@@ -2562,8 +2562,9 @@ function bodyListProd(prod,obje,i){
 		var inputFooter='';
 		if (prod['stock']=='0'){ inputFooter='<span class="nameSP" stock="0"><?=formatoCadena($lang["STORE_STOCK"])?>: 0</span>'; }
 		else{
-			if(obje.idUsr!=''){ inputFooter+='<span class="nameSP" action="newRaffle,'+prod['id']+'"><?=$lang["PRODUCTS_NEW_RAFFLE"]?></span>'; }
-			inputFooter='<br><span class="nameSP" action="createTag,?product='+prod['id']+'"><?=$lang["MAINMNU_CREATETAG"]?></span>';
+			// if(obje.idUsr!=''){ inputFooter+='<span class="nameSP" action="newRaffle,'+prod['id']+'"><?=$lang["PRODUCTS_NEW_RAFFLE"]?></span>'; }
+			inputFooter+='<span class="nameSP" action="newRaffle,'+prod['id']+'"><?=$lang["PRODUCTS_NEW_RAFFLE"]?></span>'; 
+			inputFooter+='<br><span class="nameSP" action="createTag,?product='+prod['id']+'"><?=$lang["MAINMNU_CREATETAG"]?></span>';
 		}
 		inputCreate='<div class="inputCreateRaffle">'
 						+'<div>'

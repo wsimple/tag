@@ -1310,7 +1310,7 @@ li.userInList h3{
 	background-size: 50%;
 	background-position: center;
 	background-repeat: no-repeat;
-	display: inline-block;	
+	display: none;	
 }
 #infoDetails #idProductContent .photosp a.lastVideo,
 #infoDetails #idProductContent .photosp .pic a:nth-child(1){
