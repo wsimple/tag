@@ -1016,9 +1016,28 @@ li.userInList h3{
 
 /*Search PopUp*/
 
+.ui-panel-inner .ui-content #autocomplete {
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
 #searchPopUp {
 	background-color: #E1E6E7;
 	padding: 15px;
+}
+
+#searchPopUp .ui-listview-filter-inset {
+    margin-top: 0;
+}
+
+#searchPopUp .ui-btn, #searchPopUp .ui-btn-up-d, #searchPopUp .ui-btn-hover-d{
+	width: 25px !important;
+	top: 10% !important;
+	background-color: #E1E6E7;
+	border: none !important;
+	border-shadow: none;
+	border:1px solid #E1E6E7;
+	box-shadow: none;
 }
 
 #searchPopUp-popup {
