@@ -1,3 +1,9 @@
+/*Cuadros de dialogo*/
+.myDialog .window{
+	/*background: hsla(0, 0%, 20%, 0.85);*/ /*porcia miharbi dice que no es el color*/
+	background: hsla(210, 26%, 30%, 0.8);
+	border-radius: 5px;
+}
 /*Login, Signin*/
 .ui-page .ui-content.smt-bg, .smt-bg{
 	background: #01a185 url('newdesign/bg-buildings.png') no-repeat top;
@@ -210,6 +216,10 @@
 }
 .counter-container{
 	width:5px;position:absolute;z-index:200;right:10px;
+}
+
+#privacy-options{
+	margin-top: 1em;
 }
 
 #privacy-options .ui-btn-up-c{
@@ -1014,6 +1024,46 @@ li.userInList h3{
 	text-shadow: 0 0px 0 #FFF;
 }
 
+#page-profile .ui-btn-up-l {
+	border: 1px solid #bbbbbb ;
+	background: #06c5ac !important;
+	font-weight: bold;
+	color: #FFF ;
+	height: 40px !important;
+	line-height: 30px !important;
+	font-size: 18px !important;
+}
+
+#page-profile .ui-btn-hover-l {
+	border: 1px solid #bbbbbb ;
+	background: #08d4c1 !important;
+	font-weight: bold;
+	color: #FFF ;
+	height: 40px !important;
+	line-height: 30px !important;
+	font-size: 18px !important;
+}
+
+#page-profile .ui-btn-up-u {
+	border: 1px solid #FFF;
+	background: #525a6f !important;
+	font-weight: bold;
+	color: #FFF;
+	height: 40px !important;
+	line-height: 30px !important;
+	font-size: 18px !important;
+}
+
+#page-profile .ui-btn-hover-u {
+	border: 1px solid #bbbbbb ;
+	background: #6f7484 !important;
+	font-weight: bold;
+	color: #FFF ;
+	height: 40px !important;
+	line-height: 30px !important;
+	font-size: 18px !important;
+}
+
 #page-profile {
 	background-color: #E1E6E7;
 	border: none;
@@ -1050,11 +1100,6 @@ li.userInList h3{
 /*Profile Ends*/
 
 /*Search PopUp*/
-
-.ui-panel-inner .ui-content #autocomplete {
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
-}
 
 #searchPopUp {
 	background-color: #E1E6E7;
@@ -1115,6 +1160,13 @@ li.userInList h3{
 	background-color: #EC5A28;
 }
 
+#searchPopUp #seacrh-btn2 {
+    width: 35px !important;
+    height: 35px !important;
+    border-radius: 50% !important;
+	background-color: #EC5A28;
+}
+
 #searchPopUp #custom-btn span span {
     height: 50px !important;  
     line-height: 70px;
@@ -1130,6 +1182,15 @@ li.userInList h3{
 	width: 40px;
     background:url('newdesign/search.png');
 	background-size: 35px 35px;
+	background-repeat: no-repeat;
+	background-color: #EC5A28;
+}
+
+#searchPopUp .imagebox2{
+	height: 25px;
+	width: 25px;
+    background:url('newdesign/search.png');
+	background-size: 25px 25px;
 	background-repeat: no-repeat;
 	background-color: #EC5A28;
 }
@@ -1156,6 +1217,10 @@ li.userInList h3{
 #searchPopUp .ui-corner-all {
 	-webkit-border-radius: .6em /*{global-radii-blocks}*/;
 	border-radius: .6em /*{global-radii-blocks}*/;	
+}
+
+#searchPopUp .ui-first-child{
+	border-radius: 0;
 }
 
 /*Seacrh Starts*/

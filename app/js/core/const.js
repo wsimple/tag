@@ -47,6 +47,7 @@ is.limited= !is.webkit||is.android;
 		'outbox'			:'salida',
 		'password'			:'contraseña',
 		'peoples'   		:'personas',
+		'people'   			:'persona',
 		'private'			:'Privado',
 		'save'				:'guardar',
 		'see more'			:'ver más',

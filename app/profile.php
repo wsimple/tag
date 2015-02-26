@@ -32,12 +32,8 @@
 							<div id="userPersonalTags" data-role="button" data-theme="n">&nbsp;</div>
 						</div>
 					</div>
-
-				<a id="followButton" style="display:none;" data-role="button" data-theme="e" data-icon="plus" data-iconpos="right" style="margin-top:25px;">&nbsp;</a>
-
+					<a id="followButton" style="display:none;" data-role="button" data-theme="l" data-icon="plus" data-iconpos="right" style="margin-top:25px;">&nbsp;</a>
 				</div>
-
-
 				<div id="error"></div>
 			</div>
 		</div>
@@ -62,120 +58,14 @@
 		</div>
 	</div>
 
-	<div data-role="popup" id="searchPopUp" data-overlay-theme="a" data-transition="fade" >
-		<div style="height:120px;margin:19px;">
-			<div id="wrap">
-				<div id="contents">
-						<img src="css/newdesign/tagbum_orange_logo_letters.png" alt="" style="max-height:100px;">
-						<div style="clear: both;"></div>
-				   </div>
-				</div>
-			</div>
-
-			<div class="center-wrapper">
-					<ul id="autocomplete" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Search..." data-filter-theme="d"></ul>
-			</div>
-
-			<div class="center-wrapper" style="margin:10px;">
-				<div id="seacrh-btn" data-role="button" data-theme="m" onclick="searchfrom.submit();">
-					<div class="imagebox"></div>
-				</div>
-			</div>
-
-			<div style="height:90px;margin:40px;">
-				<div id="wrap">
-				   <div id="contents">
-						<div style="clear: both;"></div>
-				   </div>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<script>
-		$( document ).on( "pageinit", function() {
-			$('#searchPopUp input[data-type="search"]').on('keydown', function(e) {
-				var code = (e.keyCode ? e.keyCode : e.which);
-				if (code == 13) { //Enter keycode
-					var seacrhq = $('#searchPopUp input[data-type="search"]').val();
-					//alert(seacrhq);
-					window.location.href = "search.html?srh="+seacrhq;
-				}
-			});
-
-			$("#autocomplete").on("click","li",function() {
-				// do stuff when user clicks on item in list
-				//alert($(this).text());
-				//alert($(this).attr('code'));
-				var tipobox = $(this).attr('srctype');
-				switch(tipobox){
-					case 'people': redir(PAGE['profile']+'?id='+$(this).attr('code')); break;
-					case 'group': alert($(this).attr('code')); break;
-					case 'hash': alert($(this).attr('code')); break;
-					case 'product': alert($(this).attr('code')); break;
-				};
-			});
-
-		    $("#autocomplete").on("listviewbeforefilter", function (e, data) {
-		        var $ul = $( this ),
-		            $input = $( data.input ),
-		            value = $input.val(),
-		            html = "";
-		        $ul.html( "" );
-		        if ( value && value.length > 2 ) {
-		            $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
-		            $ul.listview( "refresh" );
-
-					myAjax({
-                		type	:'POST',
-                		url		:DOMINIO+'controls/search/search.json.php?mobile&search='+$input.val()+'&limit=basic',
-                		error	:function(/*resp,status,error*/){
-                			myDialog('#singleDialog',lang.conectionFail);
-                		},		            
-                		success	:function(data){
-                			if (data['friends']!=''){
-                				for(i=0;i<data['friends'].length;i++){
-                					friend=data['friends'][i];
-                					html += '<li srctype="people" code="'+friend.code_friend+'">persona: '+friend.name_user+'</li>';
-                				}
-                			}
-			                $ul.html( html );
-			                $ul.listview( "refresh" );
-			                $ul.trigger( "updatelayout");
-                		}
-                	});
-
-		            /*$.getJSON(DOMINIO+'controls/resultSearchAll.json.php?callback=?','term='+$input.val())
-		            .then( function ( response ) {
-		                $.each( response, function ( i, val ) {
-		                	if(val.people){//Es una persona
-		                		html += '<li srctype="people" code="'+val.people.id+'">persona: '+val.people.name+'</li>';
-		                	}
-		                	if(val.group){//Es un Grupo
-		                		html += '<li srctype="group" code="'+val.group.id+'">Grupo: ' + val.group.name + '</li>';
-		                	}
-		                	if(val.hash){//Es un hashtag
-		                		html += '<li srctype="hash" >hash: ' + val.hash.hash + '</li>';
-		                	}
-		                	if(val.product){//Es un product
-		                		html += '<li srctype="product" >product: ' + val.product.name + '</li>';
-		                	}
-		                });
-		                $ul.html( html );
-		                $ul.listview( "refresh" );
-		                $ul.trigger( "updatelayout");
-		            });*/
-		        };
-		    });
-		});
- 
 		pageShow({
 			id:'#page-profile',
 			buttons:{showmenu:true,creation:true},
 			title:lang.USER_PROFILE,
 			before:function(){
 				newMenu();
-				//createSearchPopUp('#page-profile');
+				createSearchPopUp('#page-profile');
 				function buttonText(id,text){ $(id).html(
 					'<div class="imagebox"></div><div class="textbox" >'+
 					text+' (<b><loader/></b>)</div>'); 
@@ -229,9 +119,9 @@
 					}
 					//esta funcion define tema y texto del boton follow/unfollow
 					function setFollowButton(follow){
-						var theme='e',text=lang.follow,icon='ui-icon-plus';
+						var theme='l',text=lang.follow,icon='ui-icon-plus';
 						if(follow){
-							theme='a';
+							theme='u';
 							text=lang.unfollow;
 							icon='ui-icon-minus';
 						}
@@ -312,7 +202,7 @@
 						$follow.fadeIn('slow').click(function(){
 							setFriendsButtons({});
 							$follow.fadeOut('slow', function () {
-								setFollowButton($follow.attr('data-theme')=="e");
+								setFollowButton($follow.attr('data-theme')=="l");
 								$follow.fadeIn('slow');
 							});
 							myAjax({
@@ -330,9 +220,9 @@
 										// });
 									}else{
 										$follow.fadeOut('slow', function () {
-											setFollowButton($follow.attr('data-theme')=="e");
+											setFollowButton($follow.attr('data-theme')=="u");
 											$follow.fadeIn('slow');
-										});
+										});u
 									}
 								}
 							});
