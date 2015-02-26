@@ -9,6 +9,12 @@
 	background: transparent;
 	/*border-radius: 5px;*/
 }
+
+
+#friend-options .info{
+	color: #FFF;
+}
+
 .myDialog .content span,.myDialog .content a,
 .myDialog .content strong,.myDialog .content li,
 .myDialog .content p,.myDialog .content em,
@@ -19,6 +25,7 @@
 	text-shadow: 0 0 0;
 }
 /*End Cuadros de dialogo*/
+
 /*Login, Signin*/
 .ui-page .ui-content.smt-bg, .smt-bg{
 	background: #01a185 url('newdesign/bg-buildings.png') no-repeat top;
@@ -353,10 +360,12 @@
 	background-image:url('newdesign/tag/comments.png?1');
 }
 .tag-container [tag] menu li#share{
-	background-image:url('newdesign/tag/share.png?1');
+	background-image:url('menu/redist.png?1');
+	
 }
 .tag-container [tag] menu li#share:hover{
-	background-image:url('newdesign/tag/share.png?1');
+	background-image:url('menu/redist_over.png?1');
+	
 }
 .tag-container [tag] menu li#report{
 	background-image:url('newdesign/tag/hide.png?1');
@@ -365,11 +374,11 @@
 	background-image:url('newdesign/tag/hide.png?1');
 }
 .tag-container [tag] menu li#redistr{
-	background-image:url('menu/redist.png?1');
+	background-image:url('newdesign/tag/share.png?1');
 }
 .tag-container [tag] menu li#redistr:hover,
 .mobile .tag-container [tag] menu li.expand#redistr{
-	background-image:url('menu/redist_over.png?1');
+	background-image:url('newdesign/tag/share.png?1');
 }
 .tag-container [tag] menu li#sponsors{
 	background-image:url('menu/sponsor.png?1');
