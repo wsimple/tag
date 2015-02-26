@@ -1487,7 +1487,6 @@ li.userInList h3{
 	margin: 15px;
 	width: 30px;
 	height: 30px;
-	background-color: black;
 	background-image: url('newdesign/arrow_single.png');
 	background-size: 50%;
 	background-position: center;
@@ -1768,7 +1767,7 @@ li.userInList h3{
 #cate-dialog ul li.c+li{
 	width: 9%;
 	height: 15px;
-	background-image: url('newdesign/arrow_single.png');
+	background-image: url('newdesign/arrow_single_white.png');
 	background-size: 30%;
 	background-repeat: no-repeat;;
 	background-position: center;
