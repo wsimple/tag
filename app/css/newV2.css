@@ -219,7 +219,6 @@
 #privacy-options ul{
 	list-style: none;
 	width: 300px;
-	height: 100px;
 	padding: 0;
 	margin: 0 auto;
 }
@@ -239,12 +238,12 @@
 }
 
 #privacy-options .privacy-public{
-	background: #ec5a28 url('newdesign/other/add_friend.png') no-repeat center center;
+	background: #169680 url('newdesign/other/add_friend.png') no-repeat center center;
 	-webkit-background-size: 30%;
 	background-size: 30%;
 }
 #privacy-options .privacy-private{
-	background: #169680 url('newdesign/other/unfriend.png') no-repeat center center;
+	background: #ec5a28 url('newdesign/other/unfriend.png') no-repeat center center;
 	-webkit-background-size: 30%;
 	background-size: 30%;
 }
@@ -259,11 +258,47 @@
 	font-size: 0.6em;
 	font-weight: normal;
 }
-#hasTags{
+#hashTags{
 	background-color: #fff;
 	border-radius: 5px;
 	min-height: 3em;
 	margin: 1em;
+	padding: 0.6em;
+}
+#hashTags .hash{
+	display: inline-block;
+	background: #EC5A28;
+	margin: 0 0.8em 0.8em 0;
+	padding: 0.5em;
+	border-radius: 5px;
+	text-shadow: 0 0 0;
+	color: white;
+}
+/*#hashTags .hash:hover{
+	cursor: pointer;
+	background: hsl(15, 83%, 40%);
+}*/
+#hashTags .hash p{
+	padding: 0;
+	margin: 0;
+	display: inherit;
+}
+#hashTags .hash span{
+	width: 30px;
+	background-color: #b8bdc2;
+	padding: 2px 4px;
+	border-radius: 4px;
+	text-shadow: 0 0 0;
+	color: white;
+	position: relative;
+	top: -14px;
+	font-weight: bold;
+	height: 30px;
+	left: 16px;
+}
+#hashTags .hash:hover span{
+	cursor: pointer;
+	background: hsl(209, 7%, 54%);
 }
 .smt-div-profile-color {
 	margin: 0;

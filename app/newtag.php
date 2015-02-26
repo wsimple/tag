@@ -62,18 +62,16 @@
 					<!-- <div id="div_changeMode" class="smt-div-profile">
 						<input id="button_changeMode" type="button"/>
 					</div> -->
-					<div id="hasTags">
-						sdf
-					</div>
+					<div id="hashTags"></div>
 					<div id="privacy-options">
 						<ul>
-							<li class="privacy-public">
-								<input id="div_publicTag_checkbox" name="privacyOption" type="radio" checked="checked" />
-								<label for="div_publicTag_checkbox" id="publicTagsApp"></label>
-							</li>
 							<li class="privacy-private">
 								<input id="div_privateTag_checkbox" name="privacyOption" type="radio" />
 								<label for="div_privateTag_checkbox" id="privateTagsApp"></label>
+							</li>
+							<li class="privacy-public">
+								<input id="div_publicTag_checkbox" name="privacyOption" type="radio" checked="checked"/>
+								<label for="div_publicTag_checkbox" id="publicTagsApp"></label>
 							</li>
 						</ul>
 					</div>
@@ -84,18 +82,20 @@
 							<div style="font-size:11px;color:#999999;float:left" id="div_leyend_btn_public"></div>
 						</fieldset>
 					</div> -->
+					<div class="clearfix"></div>
 					<div id="div_Private" style="display:none;">
-						<div id="div_shareMails" class="smt-div-profile dnone">
+						<div id="div_shareMails" class="smt-div-profile">
 							<label id="EmailsPublicPrivateTagsApp"></label>
 							<textarea id="emails_shareTag" name="shareMails" style="resize:none;"></textarea>
 							<label id="emails_legend_newtag" style="font-size:10px;"></label>
 						</div>
-						<div id="div_shareFriends" class="smt-div-profile dnone">
+						<div id="div_shareFriends" class="smt-div-profile">
 							<input id="button_shareFriends" type="button" onclick="selectFriendsDialog($.local('code'))"/>
 							<div id="title_pictures_shareTag" style="font-size:10px;text-align:center;height:15px;display:none;"></div>
 							<div id="pictures_shareTag" style="height:40px;margin-bottom:10px;text-align:center;overflow:hidden;"></div>
 						</div>
 					</div>
+					<div class="clearfix"></div>
 				</div>
 			</div>
 		</div>
@@ -168,8 +168,8 @@
 				//$('#publish_newTag'				).html(lang.publish);
 				$('#emails_legend_newtag'		).html(lang.SHARETAG_EMAILSLEGEND);
 				$('#div_leyend_btn_public'		).html(lang.NEWTAG_LEYENDBTNPUBLIC);
-				$('#publicTagsApp'		).html(lang.private);
-				$('#privateTagsApp'		).html(lang.NEWTAG_PRIVATEPUBLICTAG);
+				$('#privateTagsApp'		).html(lang.private);
+				$('#publicTagsApp'		).html(lang.NEWTAG_PRIVATEPUBLICTAG);
 				$('#EmailsPublicPrivateTagsApp'	).html(lang.NEWTAG_EMAILSPRIVATEPUBLICTAG);
 
 				$('#title_pictures_shareTag').html(lang.SHARETAG_TOUCHPICTURE);
@@ -212,16 +212,18 @@
 				var status=1,aStatus=1,single=true;
 				var $bgCheck=$('#checkBackground');
 				// management of private/public
-				$("#div_publicTag_checkbox").change(function() {
+				$("#div_privateTag_checkbox").change(function() {
+					alert(this.checked)
 					if(this.checked){
 						status=1;
-						$('#div_Private').fadeOut('slow');
+						$('#div_Private').fadeIn('slow');
 					}else{
 						status=4;
-						$('#div_Private').fadeIn('slow');
+						$('#div_Private').fadeOut('slow');
 					}
 //					alert(status);
 				});
+				catchHashtags('#topText,#middleText,#bottomText', '#hashTags');
 				// $('#div_changeMode').click(function(){
 				// 	if(single){//cambiar a modo avanzado
 				// 		if(aStatus) status=aStatus;
@@ -381,6 +383,7 @@
 						this.dataset.img64='';
 					}
 				});
+
 				if(CORDOVA){
 					document.addEventListener('deviceready',function(){
 						var cam=Camera,
@@ -518,6 +521,44 @@
 				}
 			}//end after
 		});
+	$('#hashTags').on('click','.hash span', function(){
+		var tag = $(this).parent();
+		var text = $('#'+tag[0].dataset.input).val();
+		text = text.replace($(tag[0]).find('p').text(),'');
+		$('#'+tag[0].dataset.input).val(text.trim());
+		$(tag[0]).remove();
+	});
+	function catchHashtags(inputs,container){
+		var hashing=false,finalHash='',startIn=false, finishIn=false;
+		$(inputs).keypress(function(event) {
+			if (event.charCode == 35) {	//es un sharp (#)
+				if (hashing) {			//Rompe el hash si pone otro
+					finishIn=$(this).val().length;
+					finalHash = $(this).val().substr(startIn,finishIn);
+				}
+				hashing = true;
+				startIn=$(this).val().length;
+			}else if(event.charCode == 32){ //Es un espacio
+				if (hashing) {
+					hashing = false;
+					finishIn=$(this).val().length;
+					finalHash = $(this).val().substr(startIn,finishIn);
+				};
+			}
+			if (finalHash!='' && finalHash.charAt(0) == '#'){
+				$(container).append('<div class="hash" data-input="'+this.id+'"><p>'+finalHash+'</p><span>X</span></div>');
+				finalHash = '';
+			}
+		}).focusout(function(event) {
+			if (hashing) {
+				hashing = false;
+				finishIn=$(this).val().length;
+				finalHash = $(this).val().substr(startIn,finishIn);
+				if (finalHash.charAt(0) == '#') $(container).append('<div class="hash" data-input="'+this.id+'"><p>'+finalHash+'</p><span>X</span></div>');
+				finalHash = '';
+			}
+		});
+	}
 	</script>
 </div>
 <?php include 'inc/footer.php'; ?>
