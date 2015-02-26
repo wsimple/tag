@@ -489,7 +489,7 @@
 #page-lstStoreCategory #menu,#page-lstStoreSubCategory #menu,
 #page-friendUser #menu, #page-friendSearch #menu,
 #page-lstStore #menu, #page-detailsProducts #menu,
-#page-lstMyStore #menu,
+#page-lstStoreCarList #menu, #page-lstMyStore #menu,
 #page-newTag #menu,#page-freeProducts #menu{
 	display: block;
 }
@@ -1524,8 +1524,15 @@ li.userInList h3{
  	float: none; 
 }
 /*end class*/
-#page-lstStoreCarList.ui-page .ui-header{ height: 100px; }
-/*#page-lstStoreCarList.ui-page .ui-content{ margin: 100px 0 0; }*/
+#page-lstStoreCarList.ui-page #data-header{
+	position: relative;
+	top: 5px;
+	left: 0;
+	padding: 5px;
+	background: #8a9b9c;
+	border-top: 1px solid #8a9b9c;
+	color: white;
+}
 #page-lstStoreCarList.ui-page #data-header div{
 	font-weight: bold;
 	font-size: 13px;
@@ -1535,6 +1542,7 @@ li.userInList h3{
 	font-size: 12px;
 }
 #page-lstStoreCarList.ui-page #data-header .total div{ text-align: right;}
+#page-lstStoreCarList.ui-page .list-content .list-wrapper{ top:89px; }
 #page-lstStoreCarList.ui-page #cartList li{
 	border: none;
 	background: none;
@@ -1548,6 +1556,7 @@ li.userInList h3{
 #page-lstStoreCarList.ui-page #cartList li .ui-block-a div.name{
 	font-weight: bold;
 	font-size: 14px;
+	color: #16A085;
 }
 #page-lstStoreCarList.ui-page #cartList .links{
 
@@ -1674,9 +1683,45 @@ li.userInList h3{
 }
 #page-myOrders .nameProduct{ padding: 0; }
 #page-myOrders .price{ color: #F57133; }
-#cate-dialog{
-
+#cate-dialog ul{
+	list-style: none;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0;
+	-webkit-padding-start: 5px;
+	font-size: 14px;
 }
+#cate-dialog ul li{ 
+	margin: 5px 0 0; 
+	float: left;
+}
+#cate-dialog ul li a,#cate-dialog ul li a:active{
+	text-decoration: none;
+	color: black;	
+}
+#cate-dialog ul.user li.myPubli,
+#cate-dialog ul.user li.myPubli+li,
+#cate-dialog ul.user li.myFP,
+#cate-dialog ul.user li.myFP+li{
+	display: none;
+	opacity: 0;
+}
+#cate-dialog ul li ul li{float: none; } 
+#cate-dialog ul li.c{ 
+	width: 90%;
+}
+#cate-dialog ul li.c+li{
+	width: 9%;
+	height: 15px;
+	background-image: url('newdesign/arrow_single.png');
+	background-size: 30%;
+	background-repeat: no-repeat;;
+	background-position: center;
+	background-color: black;
+}
+#cate-dialog ul li ul{ display: none; }
+#cate-dialog ul li.active ul{ display: block; }
 /*Store Ends*/
 /*Media querys*/
 @media screen and (max-width: 600px) {

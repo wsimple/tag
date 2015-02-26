@@ -4,7 +4,7 @@ include ('../../class/class.phpmailer.php');
 	
 	if (isset($_GET['numActShop'])){
 		if ($_SESSION['ws-tags']['ws-user']['id']!='')
-			die(jsonp(array(createSessionCar('','','count'))));
+			die(jsonp(array($_SESSION['ws-tags']['ws-user']['type'],createSessionCar('','','count'))));
 		else die();
 	}
 

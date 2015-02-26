@@ -2,40 +2,22 @@
 <div id="page-freeProducts" data-role="page" data-cache="false" class="no-footer no-header">
 	<div data-role="header" data-position="fixed" data-theme="f">
 		<!-- <h1></h1> -->
-		<div id="menu" class="ui-grid-d" style="top:0px;left:0;padding:0 5px;"></div>
+		<div id="menu" class="ui-grid-d"></div>
 	</div>
 	<div data-role="content" class="list-content">
 		<div>
 			<ul id="infoList" class="list-info ui-grid-a"></ul>
 		</div>
 	</div><!-- content -->
-<!-- 	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
-		<div data-role="navbar">
-			<ul id="storeNav">
-				<li><a href="#" id="goBack" opc="1"></a></li>
-			</ul>
-		</div>
-	</div> -->
 	<script type="text/javascript">
 		pageShow({
 			id:'#page-freeProducts',
-			// title:lang['STORE_FREE_PRODUCTS'],
-			// showmenuButton:true,
 			before:function(){
 				newMenu();
-				//languaje
-                // $('#storeNav #goBack').html(lang.goback+' '+lang.store);
-                $('#menu').html(
-					'<span class="ui-block-a menu-button hover"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
-					// '<span class="ui-block-b menu-button" style="font-size: 9px;"><a href="storeMypublication.html" ><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
-					'<span class="ui-block-b"></span>'+
-					'<span class="ui-block-c"></span>'+
-					'<span class="ui-block-d menu-button"><a href="storeOption.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('wishes','ucw')+'</a></span>'+
-					'<span class="ui-block-c menu-button cart" style="width: 20%;"><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('view cart','ucw')+'</a></span>'
-				);
+                menuStore();
 			},
 			after:function(){
-				var titles=[],indice=($_GET['module']!==undefined?$_GET['module']:'fp'),get='';
+				var titles=[],indice=($_GET['module']!==undefined?$_GET['module']:'fp'),get='',action=3;
 				titles['fp']=lang['STORE_FREE_PRODUCTS'];
 				titles['myPartiFp']=lang['STORE_RAFFLES_PLAYS'];
 				titles['myFp']=lang['STORE_MY_FREE_PRODUCTS'];
@@ -50,17 +32,14 @@
 				$(layer).on('click','li[idPro]',function(){
 					redir(PAGE['detailsproduct']+'?id='+$(this).attr('idPro')+'&fp=1');
 				});				
-    //             $('#storeNav').on('click','li a[opc]',function(){
-				// 	 redir(PAGE['storeCat']);
-				// });
 				switch(indice){
-					case 'myPartiFp': get='&scc=2&myplays=1'; break;
-					case 'myFp': get='&scc=2&my=1'; break;
+					case 'myPartiFp': get='&scc=2&myplays=1'; action=4; break;
+					case 'myFp': get='&scc=2&my=1'; action=2; break;
 				}
-				getFreeProducts(layer,get);
+				getFreeProducts(layer,get,action);
 			}
 		});
-		function getFreeProducts(layer,get){
+		function getFreeProducts(layer,get,action){
 			myAjax({
 				type	:'GET',
 				url		:DOMINIO+'controls/store/listProd.json.php?module=raffle&limit=0&source=mobile'+get,
@@ -92,6 +71,7 @@
 						$(layer).html(out);
 						$('.list-wrapper').jScroll('refresh');
 					}else myDialog('#singleDialog',lang.STORE_NOSTORE_MESSAGE);
+					actionMenuStore(action);
 				}
 			});
 		}

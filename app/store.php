@@ -1,7 +1,7 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-lstStore" data-role="page" data-cache="false" class="no-footer no-header">
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<div id="menu" class="ui-grid-d" style="top:0px;left:0;padding:0 5px;"></div>
+		<div id="menu" class="ui-grid-d"></div>
 	</div>
 	<div data-role="content" class="list-content" style="margin: 50px 0 38px;">
 		<div class="ui-listview-filter ui-bar-c" style="margin: auto;">
@@ -11,17 +11,6 @@
 			<div><ul id="infoList" class="list-info ui-grid-a"></ul></div>
 		</div></div>
 	</div><!-- content -->
-<!-- 	<div id="cart-footer" data-role="footer" data-position="fixed" data-theme="f" style="display: none">
-		<div data-role="navbar"><ul></ul></div>
-	</div> -->
-<!--     <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
-		<div data-role="navbar">
-			<ul id="storeNav">
-				<li><a href="#" id="goBack" opc="1"></a></li>
-				<li><a href="#"  opc="2"></a></li>
-			</ul>
-		</div>
-	</div> -->
 	<script type="text/javascript">
 		pageShow({
 			id:'#page-lstStore',
@@ -29,30 +18,11 @@
 			// backButton:true,
 			before:function(){
 				newMenu();
-				//languaje
-				// $('#category').html(lang.STORE_CATEGORY);
-				// $('#btnGroupCreated').html(lang.GROUPS_TITLEWINDOWSNEW);
-				// $('#searchPreferences').attr('placeholder',lang.PREFERENCES_HOLDERSEARCH);
-				// $('#cart-footer ul').html(
-				// 	'<li>'+
-				// 		'<a class="ui-btn-active">'+
-				// 			lang.STORE_VIEWORDERINCART+
-				// 		'</a>'+
-				// 	'</li>'
-				// );
-                // $('#storeNav #goBack').html(lang.goback+' '+lang.store);
-                $('#menu').html(
-					'<span class="ui-block-a menu-button hover"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
-					// '<span class="ui-block-b menu-button" style="font-size: 9px;"><a href="storeMypublication.html" ><img src="css/newdesign/submenu/store.png"><br>'+lan('publications','ucw')+'</a></span>'+
-					'<span class="ui-block-b"></span>'+
-					'<span class="ui-block-c"></span>'+
-					'<span class="ui-block-d menu-button"><a href="storeOption.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('wishes','ucw')+'</a></span>'+
-					'<span class="ui-block-c menu-button cart" style="width: 20%;"><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('view cart','ucw')+'</a></span>'
-				);
+                menuStore();
 				$('#searc-basic').attr('placeholder',lan('product search','ucw'));
 			},
 			after:function(){
-				var layer='#infoList';
+				var layer='#infoList',category='',subcategory='';
 				// $(layer).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
 				$('.list-wrapper').jScroll({hScroll:false});
 				$('input[data-type="search"]',layer).keyup(function(){
@@ -60,22 +30,20 @@
 				});
 				$(layer).on('click','li[idPro]',function(){
 					redir(PAGE['detailsproduct']+'?id='+$(this).attr('idPro'));
-				});				
-    //             $('#storeNav').on('click','li a[opc]',function(){
-				// 	switch($(this).attr('opc')){
-    //                     case '1': redir(PAGE['storeCat']); break;
-    //                     case '2': redir(PAGE['storeSubCate']+'?id='+$(this).attr('code')); break;
-    //                 }
-				// });
-				getProducts(layer,$_GET['c'], $_GET['sc']);
-				numItemsCart();
+				});
+				if ($_GET['c']!==undefined){
+					category='&c='+$_GET['c'];
+					if ($_GET['sc']!==undefined) subcategory='&sc='+$_GET['sc'];
+				}
+				getProducts(layer,category,subcategory);
+				actionMenuStore();
 				var timeOut;
 				function buscar(request,obj){
                 limit=0;
                 if (request!="" && obj.val().length>1) {
-	                    getProducts(layer,$_GET['c'], $_GET['sc'],'&srh='+request);
+	                    getProducts(layer,category,subcategory,'&srh='+request);
 	                }else if (obj.val().length==0){
-                        getProducts(layer,$_GET['c'], $_GET['sc']);
+                        getProducts(layer,category,subcategory);
 	                }
 	            }
 				$('#searc-basic').keyup(function() {
@@ -88,7 +56,7 @@
 	function getProducts(layer,category,subcategory,get){
 		myAjax({
 			type	:'GET',
-			url		:DOMINIO+'controls/store/listProd.json.php?source=mobile&module=store&limit=0&c='+category+'&sc='+subcategory+(get||''),
+			url		:DOMINIO+'controls/store/listProd.json.php?source=mobile&module=store&limit=0'+category+subcategory+(get||''),
 			// url		:DOMINIO+'controls/store/listProd.json.php?source=mobile&module=store&limit=0&c='+category+'&sc='+subcategory,
 			dataType:'json',
 			error	:function(/*resp,status,error*/){

@@ -1,7 +1,7 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-detailsProducts" data-role="page" data-cache="false" class="no-footer no-header">
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<div id="menu" class="ui-grid-d" style="top:0px;left:0;padding:0 5px;"></div>
+		<div id="menu" class="ui-grid-d"></div>
 	</div><!-- header -->
 	<div data-role="content" class="list-content">
 		<div id="infoDetails"></div>
@@ -22,14 +22,7 @@
 			id:'#page-detailsProducts',
 			before:function(){
                 newMenu();
-
-                $('#menu').html(
-                    '<span class="ui-block-a menu-button" ><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
-                    '<span class="ui-block-b menu-button"><a href="storeCategory.html"><img src="css/newdesign/category.png"><br>'+lang.STORE_CATEGORYS+'</a></span>'+
-                    '<span class="ui-block-c menu-button"><a href="storeCategory.html"><img src="css/newdesign/account_settings.png"><br>'+lan('options','ucw')+'</a></span>'+
-                    '<span class="ui-block-d menu-button"><a href="storeCategory.html"><img src="css/newdesign/invoice_history.png"><br>'+lan('wishes','ucw')+'</a></span>'+
-                    '<span class="ui-block-e menu-button cart hover" ><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('cart','ucw')+'</a></span>'
-                );
+                menuStore(5);
 			},
 			after:function(){
 				var info='#infoDetails';
@@ -48,7 +41,7 @@
                 		},
                 		success	:function(data){
                 		  if (data['prod']){
-                    			var i,photo,product,outLi='',hashS='',video='',stock='',basePhoto='',divPhotos='',nPhotos=0,picClass='';
+                    			var i,photo,product,outLi='',hashS='',video='',stock='',basePhoto='',divPhotos='',nPhotos=0,picClass='',action=false;
                     			product=data['prod'][0];
                                 if(product['typeVideo']){
     								var href='';
@@ -107,9 +100,7 @@
                                     '</div></div></div>';
                     
                     			$(layer).html(outLi);
-                                // $('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+category+'</span></span>').attr('code',idcategory);
                                 $( ".buttonsDetails button,.buttonsDetails a" ).button();
-                                numItemsCart();
                                 $('.list-wrapper').jScroll('refresh');
                                 if (nPhotos>1){
                                     var vright=0;
@@ -148,9 +139,10 @@
                                     }, 1500);
                                     
                                 }
-								if(product['idse']===product['id_user']){									
-                                    // module=='raffle'?
+								if(product['idse']===product['id_user']){
+                                    action=1;									
                                     if (module=='raffle'){
+                                        action=2;
                                         $('#buttonShopping').html(lan('participants')).addClass('exist').prev('span').html(lan('participants','ucw'));
                                         $('#buttonShopping').click(function(){
                                             myDialog({
@@ -176,16 +168,9 @@
                                             redir(PAGE['storeMypubli']);
                                         });
                                     }
-                                    // $('#storeNav #goBack').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.STORE_MYPUBLICATIONS+'</span></span>');
-                                    // $('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.newTag+'</span></span>');
-                                    // $('#storeNav').on('click','li a[opc]',function(){
-                                    //  switch($(this).attr('opc')){
-                                    //      case '1': redir(PAGE['storeMypubli']); break;
-                                    //      case '2': redir(PAGE['newtag']+'?product='+product['id']); break;
-                                    //  }
-                                    // });
                                 }else{
                                     if (module=='raffle'){
+                                        action=3;
                                         if (product['end_date']) $('#buttonShopping').html(lan('closed','ucw')).addClass('exist').prev('span').html(lan('closed','ucw'));
                                         else if (product['joined']){
                                             $('#buttonShopping').html(lan('participants')).addClass('exist').prev('span').html(lan('participants','ucw'));
@@ -227,6 +212,7 @@
                                 }).on('click','div a[nohref]',function(){ //tag-solo-hash-complete
                                     openVideo($(this).attr('nohref'),'#popupVideo');
                                 });
+                                actionMenuStore(action);
                             }else{ myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE); }
                 		}
                 	}); 
@@ -256,9 +242,6 @@
                             }
                             $('#friendsListDialog .container ul').html(ret).listview('refresh');
                             $('#friendsListDialog .list-wrapper').jScroll('refresh');
-                            // $('#friendsListDialog').off().on('click','[code]',function(){
-                            //     redir(PAGE['profile']+'?id='+$(this).attr('code'));
-                            // });
                         },
                         error   : function() {
                             myDialog('#singleDialog', 'ERROR-getMemberGroup');

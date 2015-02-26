@@ -124,11 +124,140 @@ function newMenu(){
 			'<li class="profile"><a href="'+PAGE.profile+'?id='+$.local('code')+'">'+lan('profile')+'</a></li>'+
 			'<li class="friends"><a href="'+PAGE.userfriends+'?type=friends&id_user='+$.local('code')+'">'+lan('friends','ucw')+'</a></li>'+
 			'<li class="createtag"><a href="newtag.html">'+lan('newTag')+'</a></li>'+
-			'<li class="store"><a href="'+PAGE.storeCat+'">'+lan('store')+'</a></li>'+
+			'<li class="store"><a href="store.html">'+lan('store')+'</a></li>'+
 			'<li class="logout"><a href="#" onclick="javascript:logout();">'+lan('logout')+'</a></li>'+
 		'</ul>'+
 	'</div>';
 	$('body').append(menu);
+}
+function menuStore(hover){
+	hover=hover?hover:1;
+	$('#menu').html(
+        '<span class="ui-block-a menu-button store '+(hover==1?'hover':'')+'" ><a href="#"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
+        '<span class="ui-block-b menu-button cate '+(hover==2?'hover':'')+'"><a href="#"><img src="css/newdesign/category.png"><br>'+lang.STORE_CATEGORYS+'</a></span>'+
+        '<span class="ui-block-c menu-button opc '+(hover==3?'hover':'')+'"><a href="#"><img src="css/newdesign/account_settings.png"><br>'+lan('options','ucw')+'</a></span>'+
+        '<span class="ui-block-d menu-button wishes '+(hover==4?'hover':'')+'"><a href="storeOption.html"><img src="css/newdesign/invoice_history.png"><br>'+lan('wishes','ucw')+'</a></span>'+
+        '<span class="ui-block-e menu-button cart '+(hover==5?'hover':'')+'"><a href="storeCartList.html"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('cart','ucw')+'</a></span>'
+    );
+    myAjax({
+		type	:'POST',
+		url		:DOMINIO+'controls/store/shoppingCart.json.php?numActShop=4',
+		dataType:'json',
+		error	:function(/*resp,status,error*/){
+			myDialog('#singleDialog',lan('conectionFail'));
+		},
+		success	:function(data){
+			if (data[0]*1!=1) $('#menu .opc').addClass('user');
+			if (data[1]){
+				if (data[1]*1>0) $('#menu .cart span').html(data[1]*1).addClass('active'); 
+			}
+		}
+	});
+}
+function actionMenuStore(action){
+    var opc={contentCategory:''};
+    $('#menu').on('click','.cate',function(){
+        dialogViewCategorys(action,opc);
+    }).on('click','.store',function(){
+        switch(action){
+            case 1: //mis publicaciones
+                redir(PAGE.storeMypubli); break;
+            case 2: //mis productos gratis
+                redir(PAGE.storeFreeProducts+'?module=myFp'); break;
+            case 3: //productos gratis
+                redir(PAGE.storeFreeProducts); break;
+            case 4: //mis productos gratis
+                redir(PAGE.storeFreeProducts+'?module=myPartiFp'); break;
+            default: redir(PAGE.storePorduct); 
+        }
+    }).on('click','.opc',function(){
+        myDialog({
+            id:'cate-dialog',
+            content :'<ul style="margin: 10px 0" '+($('#menu .opc').hasClass('user')?'class="user"':'')+'>'+
+                        '<li class="c store"><a href="store.html">'+lan('store','ucw')+'</a></li><li></li>'+
+                        '<li class="c myPubli"><a href="storeMypublication.html">'+lan('My publications','ucw')+'</a></li><li></li>'+
+                        '<li class="c cart"><a href="storeCartList.html">'+lan('shopping cart','ucw')+'</a></li><li></li>'+
+                        '<li class="c wish"><a href="storeOption.html">'+lan('wish list','ucw')+'</a></li><li></li>'+
+                        '<li class="c freeP"><a href="storeFreeProducts.html">'+lan('STORE_FREE_PRODUCTS')+'</a></li><li></li>'+
+                        '<li class="c myFP"><a href="storeFreeProducts.html?module=myFp">'+lan('STORE_MY_FREE_PRODUCTS')+'</a></li><li></li>'+
+                        '<li class="c myPartFP"><a href="storeFreeProducts.html?module=myPartiFp">'+lan('STORE_RAFFLES_PLAYS')+'</a></li><li></li>'+
+                        '<li class="c myOrders"><a href="myOrders.html">'+lan('my orders','ucw')+'</a></li><li></li>'+
+                    '<div class="clearfix"></div></ul>',
+            scroll:true,
+            buttons:[],
+            backgroundClose: true
+        });
+    });
+    function dialogViewCategorys(action,opc){
+        console.log('dialogViewCategorys');
+        action=action?action:false;
+        var go='store.html?a',get=''; //store
+        switch(action){
+            case 1: //mis publicaciones
+                get='&scc=2&raffle=1'; go='storeMypublication.html?a';
+            break;
+            case 2: //mis productos gratis
+                get='&scc=2&my=1'; go='storeFreeProducts.html?module=myFp';
+            break;
+            case 3: //productos gratis
+                go='storeFreeProducts.html?a'; get='&module=raffle';
+            break;
+            case 4: //mis participaciones
+                go='storeFreeProducts.html?module=myPartiFp'; get='&scc=2&myplays=1';
+            break;
+        }
+        if (opc.contentCategory==''){
+            myAjax({
+                loader  : true,
+                type    : 'POST',
+                url     : DOMINIO+'controls/store/listProd.json.php?categoryJSON=1'+get,
+                dataType: 'json',
+                success : function(data) {
+                    var options=[],cate,i,category=[],content='';
+                    if (data.category && data.category.length>0){
+                        for (i=0;i<data.category.length; i++) {
+                            cate=data.category[i];
+                            if (!category[cate.id_category]){
+                                category[cate.id_category]=[cate.id_category,cate.category_name];
+                                options[cate.id_category]='';
+                            }
+                            options[cate.id_category]+='<li><a href="'+go+'&c='+cate.mId_category+'&sc='+cate.sub_category_mId+'">'+cate.sub_category_name+'</a></li>';
+                        };
+                        category=category.sort();
+                        for(i in category){
+                            content+='<li class="c">'+category[i][1]+'<br>'+'<ul>'+options[category[i][0]]+'</ul></li><li></li>';
+                        }
+                        if (content!='') content='<ul style="margin: 10px 0">'+content+'<div class="clearfix"></div></ul>';
+                        else content=lan('TAG_CONTENTUNAVAILABLE');
+                        opc.contentCategory=content;
+                        dialogViewCategorys(action,opc);
+                    }
+                },
+                error   : function() { myDialog('#singleDialog', 'ERROR-getMemberGroup'); }
+            });
+        }else{
+            myDialog({
+                id:'cate-dialog',
+                content :opc.contentCategory,
+                after:function(){
+                    $('#cate-dialog ul li.c').click(function(){
+                    	console.log($(this).attr('href'));
+                    	if (!$(this).attr('href'))
+	                    	if ($('ul li a',this).length>1){
+	                            if ($(this).hasClass('active')) $(this).removeClass('active');
+	                            else{
+	                                $('#cate-dialog ul li.c.active').removeClass('active');
+	                                $(this).addClass('active');
+	                            }
+                        	}else redir($('ul li a',this).attr('href'));
+                    });
+                },
+                scroll:true,
+                buttons:[],
+                // backgroundClose: true
+            });
+        }
+    }
 }
 (function(document,window,$,console){
 	function menuActions(data){
@@ -2055,6 +2184,7 @@ function viewCategories(action,idLayer,id){
 			// if(data.sCart) $('#cart-footer').fadeIn();
 			$(idLayer).html(out).listview('refresh');
 			$('.list-wrapper').jScroll('refresh');
+			actionMenuStore();
 		}
 	});
 }
@@ -2305,22 +2435,6 @@ function checkOutShoppingCart(get){
 			}
 		}
 	});
-}
-function numItemsCart(){
-	myAjax({
-		type	:'POST',
-		url		:DOMINIO+'controls/store/shoppingCart.json.php?numActShop=4',
-		dataType:'json',
-		error	:function(/*resp,status,error*/){
-			myDialog('#singleDialog',lan('conectionFail'));
-		},
-		success	:function(data){
-			if (data[0]){ 
-				var num=data[0]*1;
-				if (num>0) $('#menu .cart span').html(num).addClass('active'); 
-			}
-		}
-	});	
 }
 (function(window){//funciones de comentarios
 	function showComments(comments){
