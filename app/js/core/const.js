@@ -112,6 +112,7 @@ is.limited= !is.webkit||is.android;
 		' filter'			:' filtrar',
 		'seller'			:' vendedor',
 		'closed'			:' cerrado',
+		'options'			:' opciones',
 
 		//'':'mover a',
 

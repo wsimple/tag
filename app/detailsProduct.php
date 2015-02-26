@@ -1,7 +1,7 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-detailsProducts" data-role="page" data-cache="false" class="no-footer no-header">
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<div id="menu" class="ui-grid-b" style="top:0px;left:0;padding:0 5px;"></div>
+		<div id="menu" class="ui-grid-d" style="top:0px;left:0;padding:0 5px;"></div>
 	</div><!-- header -->
 	<div data-role="content" class="list-content">
 		<div id="infoDetails"></div>
@@ -24,11 +24,11 @@
                 newMenu();
 
                 $('#menu').html(
-                    '<span class="ui-block-a menu-button" style="width: 20%;"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
-                    // '<span class="ui-block-b"></span>'+
-                    '<span class="ui-block-b" style="width: 60%"><br/><strong>'+lang.STORE_DETAILS+'</strong></span>'+
-                    // '<span class="ui-block-d"></span>'+
-                    '<span class="ui-block-c menu-button cart hover" style="width: 20%;"><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('cart','ucw')+'</a></span>'
+                    '<span class="ui-block-a menu-button" ><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
+                    '<span class="ui-block-b menu-button"><a href="storeCategory.html"><img src="css/newdesign/category.png"><br>'+lang.STORE_CATEGORYS+'</a></span>'+
+                    '<span class="ui-block-c menu-button"><a href="storeCategory.html"><img src="css/newdesign/account_settings.png"><br>'+lan('options','ucw')+'</a></span>'+
+                    '<span class="ui-block-d menu-button"><a href="storeCategory.html"><img src="css/newdesign/invoice_history.png"><br>'+lan('wishes','ucw')+'</a></span>'+
+                    '<span class="ui-block-e menu-button cart hover" ><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('cart','ucw')+'</a></span>'
                 );
 			},
 			after:function(){
@@ -63,7 +63,6 @@
                                     if (video!='') nPhotos++;
                                     for(i in product['photo']){ 
                                         photo=product['photo'][i];
-                                        
                                         picClass=(i*1===0)?' first':(i*1===(nPhotos-1))?' last':'';
                                         // divPhotos+='<div><img src="'+photo['pic']+'" width = "150" /></div>';
                                         // basePhoto+='<div class="pic" style="width:'+(100/nPhotos)+'%;"><span><img src="'+photo['pic']+'" /></span></div>';
@@ -109,7 +108,7 @@
                     
                     			$(layer).html(outLi);
                                 // $('#storeNav li a[opc="2"]').html('<span class="ui-btn-inner"><span class="ui-btn-text">'+lang.goback+' '+category+'</span></span>').attr('code',idcategory);
-                    			$( ".buttonsDetails button,.buttonsDetails a" ).button();
+                                $( ".buttonsDetails button,.buttonsDetails a" ).button();
                                 numItemsCart();
                                 $('.list-wrapper').jScroll('refresh');
                                 if (nPhotos>1){
@@ -140,6 +139,13 @@
                                             $(this).parents('div.photosp').animate({right: '-=100%'},500);
                                         }
                                     });
+                                    setTimeout(function(){ 
+                                        var h=$('.photosp .pic.first').height();
+                                        $('#infoDetails #idProductContent .photosp .pic a:nth-child(1),'+
+                                           '#infoDetails #idProductContent .photosp a.lastVideo,'+
+                                           '#infoDetails #idProductContent .photosp .pic a:nth-child(3)').css('display','inline-block').css('margin','0 15px '+(h/2)+'px');
+                                        if (h>60) $('#infoDetails #idProductContent .photosp .vid img').css('padding',((h-60)/2)+'px 45px');
+                                    }, 1500);
                                     
                                 }
 								if(product['idse']===product['id_user']){									
