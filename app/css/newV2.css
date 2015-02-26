@@ -10,9 +10,22 @@
 	/*border-radius: 5px;*/
 }
 
+
 #friend-options .info{
 	color: #FFF;
 }
+
+.myDialog .content span,.myDialog .content a,
+.myDialog .content strong,.myDialog .content li,
+.myDialog .content p,.myDialog .content em,
+.myDialog .content div,
+.myDialog .content button{
+	color: white; 
+	text-decoration: none;
+	text-shadow: 0 0 0;
+}
+/*End Cuadros de dialogo*/
+
 /*Login, Signin*/
 .ui-page .ui-content.smt-bg, .smt-bg{
 	background: #01a185 url('newdesign/bg-buildings.png') no-repeat top;
@@ -1825,10 +1838,6 @@ li.userInList h3{
 	margin: 5px 0 0; 
 	float: left;
 }
-#cate-dialog ul li a,#cate-dialog ul li a:active{
-	text-decoration: none;
-	color: black;	
-}
 #cate-dialog ul.user li.myPubli,
 #cate-dialog ul.user li.myPubli+li,
 #cate-dialog ul.user li.myFP,
@@ -1847,7 +1856,6 @@ li.userInList h3{
 	background-size: 30%;
 	background-repeat: no-repeat;;
 	background-position: center;
-	background-color: black;
 }
 #cate-dialog ul li ul{ display: none; }
 #cate-dialog ul li.active ul{ display: block; }
