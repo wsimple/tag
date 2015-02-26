@@ -6,21 +6,19 @@
 }
 
 .color-picker {
-	background: #fafafa;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+	background: rgba(0, 0, 0, 0.5);
 
 	width: 243px;
 	padding: 10px 5px 5px 10px;
 
-	border: 1px solid #666;
 
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 
-	-moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+/*	-moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
 	-webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
-	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);*/
 
 	z-index: 2000;
 }
