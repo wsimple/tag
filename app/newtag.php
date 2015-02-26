@@ -213,7 +213,6 @@
 				var $bgCheck=$('#checkBackground');
 				// management of private/public
 				$("#div_privateTag_checkbox").change(function() {
-					alert(this.checked)
 					if(this.checked){
 						status=1;
 						$('#div_Private').fadeIn('slow');
