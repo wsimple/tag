@@ -209,28 +209,26 @@
 			after:function(){
 				$('.ui-loader').css('right','94px'); // Fix Temporal Loader
 				$('#page-newTag').removeClass('default'); //Fix Vista Android
-				var status=1,aStatus=1,single=true;
+				var status=1;
 				var $bgCheck=$('#checkBackground');
 				// management of private/public
 				$("#div_privateTag_checkbox,#div_publicTag_checkbox").change(function() {
-
 					if(this.checked){
 						if (this.id=='div_privateTag_checkbox') {
-							status=1;
+							status=4;
 							$('#div_Private').fadeIn('slow');
 							if($_GET['group']||$_GET['product']){
 								$('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
 							}
 							if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
 						}else{
-							status=4;
+							status=1;
 							$('#div_Private').fadeOut('slow');
 							if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
 							$('#topText,#emails_shareTag').val('');
 							$('#pictures_shareTag').html('');
 						}
 					}
-					single=!single;
 				});
 				catchHashtags('#topText,#middleText,#bottomText', '#hashTags');
 				// colour picker
