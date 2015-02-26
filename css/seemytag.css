@@ -323,7 +323,7 @@ page content{
 page wrapper button,page wrapper input[type="submit"],page wrapper input[type="reset"],page wrapper input[type="button"],.button{
     border:none;
     color:white;
-    background-color:#3DB5E8;
+    background-color:#06c5ac;
     padding:6px 19px;
     font-size:14px;
     cursor:pointer;
@@ -1539,7 +1539,7 @@ footer a:hover{ text-decoration:none; }
 .color_red{ color:red !important; }
 .color_red_dark{ color:#900 !important; }
 .color-pro{
-	color: #71cbe9;
+	color: #34495e;
 	text-decoration: none;
 	font-size: 13px;
 }
@@ -1791,7 +1791,7 @@ container .left-panel .menus ul li.selected>span{
 /* menu left - general options */
 container .left-panel .menus ul li#store a{
 	text-decoration:none;
-	color:#71cbe9;
+	color:#34495e;
 }
 container .left-panel .menus ul li#cretationTag{
 	background-color: #03A993;
@@ -1828,7 +1828,7 @@ container .left-panel .menus ul li,#storeCategory .menus ul li{
 	background-position:5px 3px;
 	padding:8px 0 0 0;
 	text-indent: 50px;
-	color:#71cbe9;
+	color:#34495e;
 	margin:0px;
 	min-height:30px;
 	cursor:pointer;
@@ -2223,7 +2223,7 @@ input[type="search"]:hover,input[type="search"]:focus{
 	background-color:#ddd;
 }
 input[type="checkbox"]+label.ui-state-active{
-	background-color:#3DB5E8;
+	background-color:#06c5ac;
 }
 */
 
@@ -3285,7 +3285,7 @@ height: 150px;}
 #externalProfile #eProfileInfo #externalProfilePrefe span{right: inherit;}
 
 #externalProfile #eProfileInfo #externalProfilePrefe .externalPre{
-	color: #71cbe9;text-decoration: none;
+	color: #34495e;text-decoration: none;
 }
 
 #externalProfile #eProfileInfo #externalProfilePrefe .externalPre:hover{
@@ -5940,7 +5940,7 @@ container #pageNews .news-wrapper #news-here div[tipo="30"]{
 	height: 228px;
 }
 .side-box.menu{
-	color:#71cbe9;
+	color:#34495e;
 }
 .side-box.menu>header span{
 	background-image:url('tbum/box-title/tag.png');
@@ -6052,8 +6052,8 @@ container #pageNews .news-wrapper #news-here div[tipo="30"]{
 	font-size:10px;
 }
 #radio .ui-state-active,#taglist-box .ui-state-active,#radio-buttons .ui-state-active{
-	border:1px solid #3DB5E8;
-	background:#3DB5E8;
+	border:1px solid #06c5ac;
+	background:#06c5ac;
 	font-weight:normal;
 	color:#444;
 }
@@ -6167,7 +6167,7 @@ td.ui-smt-help {
 td.ui-smt-help #urlTag{
 	width: 330px;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 20px;
 	height: 30px;
 }
 #boxUserLstSeemytag img{ border-radius: 50%; }

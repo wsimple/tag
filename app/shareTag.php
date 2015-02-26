@@ -33,11 +33,11 @@
 							<textarea id="message" style="resize:none;border-radius:5px;height:50px;"></textarea>
 						</fieldset>
 					</div>
-					<div id="tag_shareTag" class="smt-tag-content" style="max-width:70%;margin: 0 auto;">
-						<div data-role="fieldcontain" style="border:none;">
+					<div id="tag_shareTag" class="smt-tag-content" style="max-width:90%;margin: 0 auto; padding-top: 5px;">
+						
 						<fieldset data-role="controlgroup" data-mini="true">
-							<input id="urlTag" type="text" value="">
-						</fieldset></div>
+							<input id="urlTag" type="text" style="border-radius:5px; font-weight: bold; text-align: center; font-size: 25px;" value="">
+						</fieldset>
 					</div>
 				</div>
 			</div>
@@ -148,12 +148,12 @@
 						setTimeout(function(){$('#fs-wrapper').jScroll('refresh'),300});
 					}
 				});
-				$('#tag_shareTag').append(	'<div style="width: 35%;margin: 0 auto;display: inline-block;padding-right: 5%;">'+
-												'<iframe src="'+SERVERS.main+'views/tags/share/facebook.php?tag='+idTag+'"  frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="width: 100%;"></iframe>'+
-												'<div class="clearfix"></div></div>'+
-											'<div style="width: 35%;margin: 0 auto;display: inline-block;padding-left: 5%;">'+
-												'<iframe src="'+SERVERS.main+'views/tags/share/twitter.php?tag='+idTag+'"  frameborder="0" scrolling="no" height="30px" allowtransparency="true" style="width: 100%;"></iframe>'+
-												'<div class="clearfix"></div></div>');
+				$('#tag_shareTag').append(	'<div style="margin-left: 5px ; float:left;  padding: 1.3em 3em;">'+
+												'<iframe src="'+SERVERS.main+'views/tags/share/facebook.php?tag='+idTag+'"  frameborder="0" scrolling="no"  allowtransparency="true" style=" transform: scale(2.3); -webkit-transform: scale(2.3); -moz-transform: scale(2.3); -o-transform: scale(2.3); -ms-transform: scale(2.3); height:36px;width:80px;"></iframe>'+
+												'</div>'+
+											'<div style="margin: 0 ; float:right;  padding: 0.7em 1em;" >'+
+												'<iframe src="'+SERVERS.main+'views/tags/share/twitter.php?tag='+idTag+'"  frameborder="0" scrolling="no"   allowtransparency="true" style=" transform: scale(1.5); -webkit-transform: scale(1.5); -moz-transform: scale(1.5); -o-transform: scale(1.5); -ms-transform: scale(1.5); height:36px;width:84px;"></iframe>'+
+												'</div>');
 			}
 		});
 	</script>
