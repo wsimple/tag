@@ -62,7 +62,7 @@
 					<!-- <div id="div_changeMode" class="smt-div-profile">
 						<input id="button_changeMode" type="button"/>
 					</div> -->
-					<div id="hashTags"></div>
+					<div id="hashTags" class="dnone"></div>
 					<div id="privacy-options">
 						<ul>
 							<li class="privacy-private">
@@ -521,6 +521,7 @@
 			}//end after
 		});
 	$('#hashTags').on('click','.hash span', function(){
+		if ($('#hashTags .hash').length == 1) {$('#hashTags').slideUp('slow');};
 		var tag = $(this).parent();
 		var text = $('#'+tag[0].dataset.input).val();
 		text = text.replace($(tag[0]).find('p').text(),'');
@@ -546,6 +547,7 @@
 			}
 			if (finalHash!='' && finalHash.charAt(0) == '#'){
 				$(container).append('<div class="hash" data-input="'+this.id+'"><p>'+finalHash+'</p><span>X</span></div>');
+				$(container).slideDown('slow');
 				finalHash = '';
 			}
 		}).focusout(function(event) {
@@ -553,7 +555,10 @@
 				hashing = false;
 				finishIn=$(this).val().length;
 				finalHash = $(this).val().substr(startIn,finishIn);
-				if (finalHash.charAt(0) == '#') $(container).append('<div class="hash" data-input="'+this.id+'"><p>'+finalHash+'</p><span>X</span></div>');
+				if (finalHash.charAt(0) == '#'){ 
+					$(container).append('<div class="hash" data-input="'+this.id+'"><p>'+finalHash+'</p><span>X</span></div>');
+				}
+				$(container).slideDown('slow');
 				finalHash = '';
 			}
 		});

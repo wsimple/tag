@@ -212,6 +212,10 @@
 	width:5px;position:absolute;z-index:200;right:10px;
 }
 
+#privacy-options{
+	margin-top: 1em;
+}
+
 #privacy-options .ui-btn-up-c{
 	background: none;
 	background-image: none;
