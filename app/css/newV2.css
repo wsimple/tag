@@ -4,12 +4,11 @@
 	background: hsla(210, 26%, 30%, 0.8);
 	border-radius: 5px;
 }
-.myDialog #scroller{
+.myDialog #scroller, .myDialog .title{
 	/*background: hsla(0, 0%, 20%, 0.85);*/ /*porcia miharbi dice que no es el color*/
 	background: transparent;
 	/*border-radius: 5px;*/
 }
-
 
 #friend-options .info{
 	color: #FFF;
@@ -19,7 +18,8 @@
 .myDialog .content strong,.myDialog .content li,
 .myDialog .content p,.myDialog .content em,
 .myDialog .content div,
-.myDialog .content button{
+.myDialog .content button,
+.myDialog .title{
 	color: white; 
 	text-decoration: none;
 	text-shadow: 0 0 0;
@@ -1119,6 +1119,21 @@ li.userInList h3{
 #page-profile #closeBtn{
 	text-align: center;
 	text-decoration: none;
+}
+
+#page-profile ::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #525A6F;
+}
+#page-profile :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #525A6F;
+   opacity:  1;
+}
+#page-profile ::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #525A6F;
+   opacity:  1;
+}
+#page-profile :-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #525A6F;
 }
 
 /*Profile Ends*/
