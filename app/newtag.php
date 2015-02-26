@@ -230,7 +230,6 @@
 							$('#pictures_shareTag').html('');
 						}
 					}
-//					alert(status);
 					single=!single;
 				});
 				catchHashtags('#topText,#middleText,#bottomText', '#hashTags');
@@ -505,7 +504,7 @@
 			}//end after
 		});
 	$('#hashTags').on('click','.hash span', function(){
-		if ($('#hashTags .hash').length == 1) {$('#hashTags').slideUp('slow');};
+		if ($('#hashTags .hash').length == 1) {$('#hashTags').slideUp('slow');}; //Oculta menu de hastags si es el ultimo
 		var tag = $(this).parent();
 		var text = $('#'+tag[0].dataset.input).val();
 		text = text.replace($(tag[0]).find('p').text(),'');

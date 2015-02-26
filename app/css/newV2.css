@@ -148,19 +148,19 @@
 	display: list-item !important;
 }
 /*new tag*/
-::-webkit-input-placeholder {
+.inputs-tag ::-webkit-input-placeholder {
    color: white;
 }
 
-:-moz-placeholder { /* Firefox 18- */
+.inputs-tag :-moz-placeholder { /* Firefox 18- */
    color: white;  
 }
 
-::-moz-placeholder {  /* Firefox 19+ */
+.inputs-tag ::-moz-placeholder {  /* Firefox 19+ */
    color: white;  
 }
 
-:-ms-input-placeholder {  
+.inputs-tag :-ms-input-placeholder {  
    color: white;  
 }
 #div_middleText .ui-input-text.ui-shadow-inset.ui-corner-all.ui-btn-shadow.ui-body-c{/*Fix Caliche para jquery mobile*/
