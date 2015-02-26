@@ -4,6 +4,11 @@
 	background: hsla(210, 26%, 30%, 0.8);
 	border-radius: 5px;
 }
+.myDialog #scroller{
+	/*background: hsla(0, 0%, 20%, 0.85);*/ /*porcia miharbi dice que no es el color*/
+	background: transparent;
+	/*border-radius: 5px;*/
+}
 /*Login, Signin*/
 .ui-page .ui-content.smt-bg, .smt-bg{
 	background: #01a185 url('newdesign/bg-buildings.png') no-repeat top;
