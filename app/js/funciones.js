@@ -80,36 +80,118 @@ function readTxt(url){
 
 //-- SearchPopUp --//
 function createSearchPopUp(container){
-	var popcontent = '<div data-role="popup" id="searchPopUp" data-overlay-theme="a" data-transition="fade" >'+
-	'<div style="height:120px;margin:19px;">'+
-		'<div id="wrap">'+
-			'<div id="contents">'+
-					'<img src="css/newdesign/tagbum_orange_logo_letters.png" alt="" style="max-height:100px;">'+
-					'<div style="clear: both;"></div>'+
-			   '</div>'+
-			'</div>'+
-		'</div>'+
-		'<form role="search" action="search.html" id="searchfrom" name="searchfrom">'+
-			'<div>'+
-				'<label for="srh" class="ui-hidden-accessible">'+lan('search')+':</label>'+
-				'<input type="text" name="srh" id="srh" placeholder="'+lan('search')+'">'+
-				'<div class="center-wrapper">'+
-					'<div id="seacrh-btn" data-role="button" data-theme="m" onclick="searchfrom.submit();">'+
-						'<div class="imagebox"></div>'+
-					'</div>'+
+	var popcontent = '	<div data-role="popup" id="searchPopUp" data-overlay-theme="a" data-transition="fade" >'+
+		'<div style="height:120px;margin:19px;">'+
+			'<div id="wrap">'+
+				'<div id="contents">'+
+						'<img src="css/newdesign/tagbum_orange_logo_letters.png" alt="" style="max-height:90px;">'+
+						'<div style="clear: both;"></div>'+
+				   '</div>'+
 				'</div>'+
 			'</div>'+
-		'</form>'+
-		'<div style="height:90px;margin:40px;">'+
-			'<div id="wrap">'+
-			   '<div id="contents">'+
-					'<div style="clear: both;"></div>'+
-			   '</div>'+
+			'<div class="center-wrapper">'+
+				'<div id="seacrh-btn2" data-role="button" data-theme="m" style="float:right;height:37px;width:37px;">'+
+					'<div class="imagebox2"></div>'+
+				'</div>'+
+				'<ul id="autocomplete" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Search..." data-filter-theme="d"></ul>'+
+				'<div style="clear: both;"></div>'+
+			'</div>'+
+			'<div class="center-wrapper" style="margin:10px;">'+
+				'<div id="seacrh-btn" data-role="button" data-theme="m" >'+
+					'<div class="imagebox"></div>'+
+				'</div>'+
+			'</div>'+
+			'<div style="height:90px;margin:40px;">'+
+				'<div id="wrap">'+
+				   '<div id="contents">'+
+						'<div style="clear: both;"></div>'+
+				   '</div>'+
+				'</div>'+
 			'</div>'+
 		'</div>'+
 	'</div>';
 	$(container).append(popcontent);	
 }
+
+		$(document).on( "pageinit", function() {
+			$('#searchPopUp input[data-type="search"]').on('keydown', function(e) {
+				var code = (e.keyCode ? e.keyCode : e.which);
+				if (code == 13) { //Enter keycode
+					var seacrhq = $('#searchPopUp input[data-type="search"]').val();
+					//alert(seacrhq);
+					window.location.href = "search.html?srh="+seacrhq;
+				}
+			});
+
+			$("#autocomplete").on("click","li",function() {
+				var tipobox = $(this).attr('srctype');
+				switch(tipobox){
+					case 'people': redir(PAGE['profile']+'?id='+$(this).attr('code')); break;
+					case 'group':redir('tagsList.html?current=group&id='+$(this).attr('code')); break;
+					case 'hash': redir('tagsList.html?current=hash&hash='+$(this).attr('code')); break;
+					case 'store': redir('detailsProduct.html?id='+$(this).attr('code')); break;
+				};
+			});
+
+			$("#searchPopUp").on("click","#seacrh-btn",function() {
+				var seacrhq = $('#searchPopUp input[data-type="search"]').val();
+				window.location.href = "search.html?srh="+seacrhq;
+			});
+
+			$("#searchPopUp").on("click","#seacrh-btn2",function() {
+				var seacrhq = $('#searchPopUp input[data-type="search"]').val();
+				window.location.href = "search.html?srh="+seacrhq;
+			});
+
+		    $("#autocomplete").on("listviewbeforefilter", function (e, data) {
+		        var $ul = $( this ),
+		            $input = $( data.input ),
+		            value = $input.val(),
+		            html = "";
+		        $ul.html( "" );
+		        if ( value && value.length > 2 ) {
+		            $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
+		            $ul.listview( "refresh" );
+					myAjax({
+                		type	:'POST',
+                		url		:DOMINIO+'controls/search/search.json.php?mobile&search='+$input.val()+'&limit=basic',
+                		error	:function(/*resp,status,error*/){
+                			myDialog('#singleDialog',lang.conectionFail);
+                		},		            
+                		success	:function(data){
+                			if (data['friends']!=''){
+                				for(i=0;i<data['friends'].length;i++){
+                					friend=data['friends'][i];
+                					html += '<li srctype="people" code="'+friend.code_friend+'">'+lan('people','ucw')+': '+friend.name_user+'</li>';
+                				}
+                			}
+                			if (data['groups']!=''){
+                				for(i=0;i<data['groups'].length;i++){
+                					group=data['groups'][i];
+                					html += '<li srctype="group" code="'+group.id+'">'+lan('group','ucw')+': '+group.name+'</li>';
+                				}
+                			}
+                			if (data['hash']!=''){
+                				for(i=0;i<data['hash'].length;i++){
+                					dato=data['hash'][i];
+                					html += '<li srctype="hash" code="'+dato+'">'+lan('hashTags','ucw')+': '+dato+'</li>';
+                				}
+                			}
+                			if (data['store']!=''){
+                				for(i=0;i<data['store'].length;i++){
+                					dato=data['store'][i];
+                					html += '<li srctype="store" code="'+dato.id+'">'+lan('store','ucw')+': '+dato.name+'</li>';
+                				}
+                			}
+			                $ul.html( html );
+			                $ul.listview( "refresh" );
+			                $ul.trigger( "updatelayout");
+                		}
+                	});
+		        };
+		    });
+		});
+//-- End Search PopUp --//
 
 //-- Menu --//
 function newMenu(){
