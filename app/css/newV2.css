@@ -16,6 +16,7 @@
 .myDialog .content button{
 	color: white; 
 	text-decoration: none;
+	text-shadow: 0 0 0;
 }
 /*End Cuadros de dialogo*/
 /*Login, Signin*/

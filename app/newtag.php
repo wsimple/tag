@@ -212,44 +212,28 @@
 				var status=1,aStatus=1,single=true;
 				var $bgCheck=$('#checkBackground');
 				// management of private/public
-				$("#div_privateTag_checkbox").change(function() {
+				$("#div_privateTag_checkbox,#div_publicTag_checkbox").change(function() {
+
 					if(this.checked){
-						status=1;
-						$('#div_Private').fadeIn('slow');
-					}else{
-						status=4;
-						$('#div_Private').fadeOut('slow');
+						if (this.id=='div_privateTag_checkbox') {
+							status=1;
+							$('#div_Private').fadeIn('slow');
+							if($_GET['group']||$_GET['product']){
+								$('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
+							}
+							if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
+						}else{
+							status=4;
+							$('#div_Private').fadeOut('slow');
+							if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
+							$('#topText,#emails_shareTag').val('');
+							$('#pictures_shareTag').html('');
+						}
 					}
 //					alert(status);
+					single=!single;
 				});
 				catchHashtags('#topText,#middleText,#bottomText', '#hashTags');
-				// $('#div_changeMode').click(function(){
-				// 	if(single){//cambiar a modo avanzado
-				// 		if(aStatus) status=aStatus;
-				// 		$('#div_changeMode').fadeOut(function(){
-				// 			$('#div_changeMode .ui-btn-text').html(lang.NEWTAG_BUTTON_QUICK);
-				// 			$('#div_changeMode,#div_shareMails,#div_shareFriends,#div_publicTag').fadeIn(function(){
-				// 				//hide controls provate tag if isset group
-				// 				if($_GET['group']||$_GET['product']){
-				// 					$('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
-				// 				}
-				// 				if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
-				// 			});
-				// 		});
-				// 	}else{//cambiar a modo simple
-				// 		aStatus=status;
-				// 		status=1;
-				// 		$('#div_changeMode,#div_shareMails,#div_shareFriends,#div_publicTag').fadeOut(function(){
-				// 			$('#div_changeMode .ui-btn-text').html(lang.NEWTAG_BUTTON_ADVANCED);
-				// 			$('#div_changeMode').fadeIn(function(){
-				// 				if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
-				// 			});
-				// 			$('#topText,#emails_shareTag').val('');
-				// 			$('#pictures_shareTag').html('');
-				// 		});
-				// 	}
-				// 	single=!single;
-				// })
 				// colour picker
 				//fill palletes
 				paletteColorPicker('#divColorPickerTop,#divColorPickerMiddle,#divColorPickerBottom');
