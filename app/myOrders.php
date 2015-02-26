@@ -1,8 +1,7 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-myOrders" data-role="page" data-cache="false">
 	<div data-role="header" data-position="fixed" data-theme="f">
-    <!-- <h1></h1> -->
-        <div id="menu" class="ui-grid-b" style="top:0px;left:0;padding:0 5px;"></div>
+        <div id="menu" class="ui-grid-d" ></div>
     </div>
 	<div data-role="content" >
         <div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">
@@ -21,12 +20,6 @@
             </div>
         </div>
 	</div>
-<!-- 	<div id="myOrders-footer" data-role="footer" data-position="fixed" data-theme="f" >
-        <div data-role="navbar"><ul>
-            <li class="summary"><a></a></li>
-            <li class="filter"><a></a></li>
-        </ul></div>
-    </div> -->
 	<script>
 		pageShow({
 			id:'#page-myOrders',
@@ -36,13 +29,7 @@
                 newMenu();
                 $('#rowTitle .summary').html(lan('summary','ucw'));
                 $('#rowTitle .filter').html(lan(' filter','ucw'));
-                $('#menu').html(
-                    '<span class="ui-block-a menu-button hover" style="width: 20%;"><a href="storeCategory.html"><img src="css/newdesign/submenu/store.png"><br>'+lan('store','ucw')+'</a></span>'+
-                    // '<span class="ui-block-b"></span>'+
-                    '<span class="ui-block-b" style="width: 60%"><br/><strong>'+lan('my orders','ucw')+'</strong></span>'+
-                    // '<span class="ui-block-d"></span>'+
-                    '<span class="ui-block-c menu-button cart" style="width: 20%;"><a href="storeCartList.html" title="cart"><span></span><img src="css/newdesign/menu/store.png"><br>'+lan('cart','ucw')+'</a></span>'
-                );
+                menuStore(3);
             },after:function(){
 				var el='#resultList';
 				$('.fs-wrapper').jScroll({hScroll:false});
@@ -189,7 +176,8 @@
                                         });
                                     });
                                 }
-                            }else myDialog('#singleDialog',lang.STORE_NO_AVAILABLE_ORDERS);                                    
+                            }else myDialog('#singleDialog',lang.STORE_NO_AVAILABLE_ORDERS);
+                            actionMenuStore();                                
                     	}
                 	});   
                 }

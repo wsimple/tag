@@ -1,32 +1,20 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-lstStoreCarList" data-role="page" data-cache="false">
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<div id="data-header" class="ui-grid-a" style="top:0px;left:0;padding:5px;"></div>
-        <!-- <h1></h1> -->
-		<!-- <a id="buttonCheckOut" href="#" data-icon="arrow-r">&nbsp;</a> -->
+        <div id="menu" class="ui-grid-d"></div>
         <input id="dollarApp" value="no" type="hidden"/>
         <input id="productApp" value="no" type="hidden"/>
-	</div>
-	<div data-role="content" class="list-content">
+    </div>
+    <div data-role="content" class="list-content">
+		<div id="data-header" class="ui-grid-a"></div>
         <ul id="cartList" data-role="listview" class="list-friends"></ul>
-		<!-- <ul id="cartList" data-role="listview" data-filter="true" class="list-friends"></ul> -->
 	</div>
     <div data-role="footer" id="footerPay"></div>
-<!--     <div id="footer" data-role="footer" data-position="fixed" data-theme="f">
-		<div data-role="navbar">
-			<ul>
-				<li><a href="#" id="gotoStore"></a></li>
-				<li><a href="#" id="gotoWish"></a></li>
-                <li><a href="#" id="deleteShopping"></a></li>
-			</ul>
-		</div>
-	</div> -->
 	<script>
 		pageShow({
 			id:'#page-lstStoreCarList',
-			// title:lang.STORE_SHOPPING_CART,
-			// backButton:true,
 			before:function(){
+                menuStore(5);
 				$('#data-header').html(
                     '<div class="ui-block-a">'+lan('invoice','ucw')+'</div>'+
                     '<div class="ui-block-b date">'+lan('date','ucw')+' <span>'+lan('Day/Month/Year')+'</span></div>'+
@@ -35,28 +23,15 @@
                     '<div class="ui-block-a name"></div>'+
                     '<div class="ui-block-b total">'+lan('total amount','ucw')+'<div></div></div>'
                 );
-                // $('#buttonCheckOut').html(lang.STORE_SHOPPING_CHECKOUT);
-                // $('#gotoStore').html(lan('store','ucw'));
-                // $('#gotoWish').html(lan('wish list','ucw'));
-                // $('#deleteShopping').html(lang.STORE_SHOPPING_DELETE);
 			},
 			after:function(){
 				var el=$('#cartList')[0],msgShipp={msg:''};
 				$(el).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
 				$('.list-wrapper').jScroll({hScroll:false});
-				// $('input[data-type="search"]',el).keyup(function(){
-				// 	$('.list-wrapper').jScroll('refresh');
-				// });
 				$(el).on('click','a[code]',function(){
 					redir(PAGE['storePorduct']+'?sc='+$(this).attr('code')+'&c='+$_GET['id']);
 				});
 				getCartList(msgShipp);
-    //             $('#footer').on('click','li a',function(){
-                //  switch($(this).attr('id')){
-    //                     case 'gotoStore':   redir(PAGE['storeCat']); break;
-    //                     case 'gotoWish':    redir(PAGE['storeOption']); break;
-    //                 }
-                // });
                 function getCartList(msgShipp){
                     myAjax({
                         type    :'POST',
@@ -158,6 +133,7 @@
                                 $('#buttonCheckOut,#footer li.ui-block-c').remove();
                                 // $('#footer ul li').css('width','50%');
                             }
+                        actionMenuStore();
                 		}
                 	});
                 }
@@ -186,7 +162,7 @@
                         cost=(data.datosCar[i].sale_points*data.datosCar[i].cant);
                         if(data.datosCar[i].formPayment=='1'){ $('#dollarApp').val('si'); }
                         out+='<li id="'+data.datosCar[i].mId+'" '+(i+1==data.datosCar.length?'class="last"':'')+'>'+
-                                '<div class="ui-grid-a" style="top:0px;left:0;padding:0 5px;">'+
+                                '<div class="ui-grid-a">'+
                                     '<div class="ui-block-a" style="width: 80%;">'+
                                         '<div class="name">'+data.datosCar[i].name+'</div>'+
                                         '<div>'+lan('by','ucw')+' '+data.datosCar[i].nameUser+'</div>'+
