@@ -739,7 +739,7 @@
 	max-width:165px;
 	background: #F7F8FD;
 	background:-webkit-gradient(linear,right top,left top,color-stop(0%,#F7F8FD),color-stop(40%,#fff));
-	color:#3ABBE5;
+	color:#2f4154;
 	font-size:14px;
 	font-family:arial;
 /*	text-shadow:0px 1px 1px #000;*/
@@ -889,10 +889,24 @@
 	opacity:1;
 }
 .ui-icon-loading{
-	background:url('loaders/loader-f82-fff.gif') no-repeat;
-	background-position:50% 50%;
-	background-repeat:no-repeat;
+	  
+	  background:url('images/iScroll.png') no-repeat;
+	  -webkit-background-size:45px 90px; 
+	  background-size:45px 90px;
+	  background-position:0 100%;
+	
+	-webkit-transform:rotate(0deg) translateZ(0);
+	-webkit-transition-duration:0ms;
+	-webkit-animation-name:spin;
+	-webkit-animation-duration:2s;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-timing-function:linear;
 }
+@-webkit-keyframes spin {
+	from { -webkit-transform:rotate(0deg) translateZ(0); }
+	to { -webkit-transform:rotate(360deg) translateZ(0); }
+}
+
 loader,.loader{
 	position:relative;
 	display:inline-block;
