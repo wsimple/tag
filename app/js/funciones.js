@@ -1190,7 +1190,6 @@ function playComment(tagtId, opc){
 			if(!opc.actions||action=='reload'){
 				opc.actions={refresh:{},more:{}};
 				opc.date='';
-				$(layer).html('');
 			}
 			act=opc.actions[action=='refresh'?'refresh':'more'];
 			if(loader) $.loader('show');
@@ -1208,6 +1207,7 @@ function playComment(tagtId, opc){
 					if(cancel()){
 						console.log('Cancelada carga de '+current+'.'); return;
 					}else{
+						if(action=='reload'){$(layer).html('');}
 						if (action=='reload' && opc.title && data.rtitle) $('#pageTitle, #rowTitle').append(': '+data.rtitle);
 						if(action=='more'&&(!data.tags||data.tags.length<1)) act.more=false;
 						if(data.tags && data.tags.length>0){
