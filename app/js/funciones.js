@@ -1542,6 +1542,8 @@ function linkUser(layer,$wrapper){
 		var te="e",text=lan('follow'); 
 		var perfiltag = lan('USER_PROFILE');
 		var redirprofile = PAGE['profile']+'?id='+this.dataset.link;
+		var redirSelfProfile = PAGE['profile'];
+		var followButonAction = DOMINIO+'controls/users/follow.json.php?uid='+this.dataset.unlink;
 		if (this.dataset.known == 1) te="a",text=lan('unfollow');
 /*
 			'<fieldset class="ui-grid-a">'+
@@ -1570,7 +1572,31 @@ function linkUser(layer,$wrapper){
 			style:{'padding-right':5},
 			buttons:{ 
 				Profile:function(){ redir(redirprofile); },
-				Follow:'close' 
+				Follow:function(){ 
+					myAjax({
+								type:'GET',
+								url:followButonAction,
+								error:function() {
+									console.log('follow button ERROR');
+								},
+								success:function(data){
+									console.log('follow button OK');
+									/*if(!data['error']){
+										setFriendsButtons(data['friend']);
+										// $follow.fadeOut('slow', function () {
+											// setFollowButton(!data['unlink']);
+											// $follow.fadeIn('slow');
+										// });
+									}else{
+										$follow.fadeOut('slow', function () {
+											setFollowButton($follow.attr('data-theme')=="u");
+											$follow.fadeIn('slow');
+										});u
+									}*/
+								}
+							});
+					redir(redirSelfProfile);
+				} 
 			},
 			backgroundClose: true
 		});
