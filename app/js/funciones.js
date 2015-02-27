@@ -1857,7 +1857,7 @@ function myDialog(){
 	o.close=function(calle){
 		console.log(calle);
 		if(calle.type=='click'){
-			alert(calle.target.tagName+' = '+calle.target.className);
+			//alert(calle.target.tagName+' = '+calle.target.className);
 			//console.log(calle.target.tagName);
 			if((calle.target.className=='closedialog')||(calle.target.className=='cell')||(calle.target.className=='table')||(calle.target.className=='div')){
 				//alert('cerrar ' + calle.target.tagName+' = '+calle.target.className);
