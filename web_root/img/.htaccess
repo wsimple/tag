@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+Options +FollowSymLinks -indexes
+RewriteEngine On
+
+#servidor principal
+RewriteCond %{HTTP_HOST} ^(www\.)?tagbum\.com|68\.109\.244\.199 [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ http://i.tagbum.com/$1 [L]
+
+#general
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ - [L,R=404]
+</IfModule>

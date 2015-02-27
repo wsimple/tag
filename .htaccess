@@ -3,33 +3,28 @@ Options +FollowSymLinks -indexes
 RewriteEngine On
 
 #redireccion de errores
-#ErrorDocument 403 errors/403.php
-#ErrorDocument 404 errors/404.php
+ErrorDocument 400 "Error 400"
+ErrorDocument 401 "Error 401"
+ErrorDocument 403 "Error 403: Forbidden"
+ErrorDocument 404 "Error 404: File not found"
+ErrorDocument 500 "Error 500: Internal server error"
 
-#redireccion a app
-RewriteCond %{SERVER_NAME} !^app\.
-RewriteCond %{SERVER_NAME} \.com$
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^app(\/?.*)$ http://app.tagbum.com$1 [L]
+#app
+RewriteCond %{SERVER_NAME} ^app\.
+RewriteRule ^/?(.*)$ app_root/$1 [L]
+#img
+RewriteCond %{SERVER_NAME} ^i(mg)?\.
+RewriteRule ^/?(.*)$ img_root/$1 [L]
+#video
+RewriteCond %{SERVER_NAME} ^v(ideo)?\.
+RewriteRule ^/?(.*)$ video_root/$1 [L]
+#global
+RewriteCond %{REQUEST_URI} !^/(app|img|video|web)_root/
+RewriteRule ^(app|img|video|web)([\?/].*$|$) $1_root$2 [NC,L]
 
 #main
-RewriteCond %{SERVER_NAME} !^app\.
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [L]
-
-#app server
-RewriteCond %{SERVER_NAME} ^app\.
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)\.html$ $1.php [L]
-
-RewriteCond %{SERVER_NAME} ^app\.
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^.*$ - [L,R=404]
-
+RewriteCond %{REQUEST_URI} !^/web_root/
+RewriteRule ^(.*)$ web_root/$1 [L]
 
 ## Begin - Rewrite rules to block out some common exploits.
 # If you experience problems on your site block out the operations listed below
