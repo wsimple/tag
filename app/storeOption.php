@@ -7,7 +7,6 @@
 			<div id="storeOption"></div>
 			<ul data-role="listview" id="lstStoreOption" data-divider-theme="b" class="list-info"></ul>
 	</div><!-- content -->
-    <div data-role="footer" id="footerPay"></div>
 	<script>
 		pageShow({
 			id:'#page-lstStoreOption',
@@ -25,34 +24,43 @@
                                                         '</select>'+
                                                         '<input type="text" name="city" id="city" placeholder="'+lang.BUSINESSCARD_LBLCITY+'" value="">'+
                                                         '<input type="text" name="zipCode" id="zipCode" placeholder="'+lang.SIGNUP_ZIPCODE+'" value="">'+
-                                                        '<input name="address" id="address" placeholder="'+lang.BUSINESSCARD_LBLADDRESS+'"/>'+
-                                                        // '<textarea cols="40" rows="8" name="address" id="address" placeholder="'+lang.BUSINESSCARD_LBLADDRESS+'"></textarea>'+
-                                                        '<select name="home_code" id="home_code" >'+
-                                                            '<option value="">'+lang.USERPROFILE_LBLCBOAREASCODE+'</option>'+
-                                                        '</select>'+
-                                                        '<input type="text" name="phoneHome" id="phoneHome" placeholder="'+lang.USERPROFILE_LBLHOMEPHONE+'" value="" onkeypress="return enterNumber(event)">'+
-                                                        '<select name="work_code" id="work_code" >'+
-                                                            '<option value="">'+lang.USERPROFILE_LBLCBOAREASCODE+'</option>'+
-                                                        '</select>'+
-                                                        '<input type="text" name="phoneWork" id="phoneWork" placeholder="'+lang.USERPROFILE_LBLWORKPHONE+'" value="" onkeypress="return enterNumber(event)">'+
-                                                        '<select name="mobile_code" id="mobile_code" >'+
-                                                            '<option value="">'+lang.USERPROFILE_LBLCBOAREASCODE+'</option>'+
-                                                        '</select>'+
-                                                        '<input type="text" name="phoneMobile" id="phoneMobile" placeholder="'+lang.USERPROFILE_LBLMOBILEPHONE+'" value="" onkeypress="return enterNumber(event)">'+
+                                                        '<input name="address" id="address" placeholder="'+lang.BUSINESSCARD_LBLADDRESS+'"/>';
+                                                        // '<textarea cols="40" rows="8" name="address" id="address" placeholder="'+lang.BUSINESSCARD_LBLADDRESS+'"></textarea>';
+                            if ($('#menu .opc').hasClass('user')) 
+                                            formulario+='<div class="ui-grid-a"><div class="ui-block-a">'+
+                                                            '<select name="home_code" id="home_code" class="short">'+
+                                                                '<option value="">'+lang.USERPROFILE_LBLCBOAREASCODE+'</option>'+
+                                                            '</select>'+
+                                                        '</div><div class="ui-block-b">'+
+                                                            '<input data-mini="true" type="text" name="phoneHome" id="phoneHome" placeholder="'+lang.USERPROFILE_LBLHOMEPHONE+'" value="" onkeypress="return enterNumber(event)">'+
+                                                        '</div></div>';
+                                            formulario+='<div class="ui-grid-a"><div class="ui-block-a">'+
+                                                            '<select name="work_code" id="work_code" class="short">'+
+                                                                '<option value="">'+lang.USERPROFILE_LBLCBOAREASCODE+'</option>'+
+                                                            '</select>'+                                                        
+                                                        '</div><div class="ui-block-b">'+
+                                                            '<input data-mini="true" type="text" name="phoneWork" id="phoneWork" placeholder="'+lang.USERPROFILE_LBLWORKPHONE+'" value="" onkeypress="return enterNumber(event)">'+
+                                                        '</div></div>'+
+                                                        '<div class="ui-grid-a"><div class="ui-block-a">'+
+                                                            '<select name="mobile_code" id="mobile_code" class="short">'+
+                                                                '<option value="">'+lang.USERPROFILE_LBLCBOAREASCODE+'</option>'+
+                                                            '</select>'+
+                                                        '</div><div class="ui-block-b">'+
+                                                            '<input data-mini="true" type="text" name="phoneMobile" id="phoneMobile" placeholder="'+lang.USERPROFILE_LBLMOBILEPHONE+'" value="" onkeypress="return enterNumber(event)">'+
+                                                        '</div></div>'+
                                                     '</form>'+
-				                              '</div>'+
-				                              '<div id="error"></div>'+
+                                                '</div>'+
+                                                '<div id="error"></div>'+
+                                                '<div class="iconButtons">'+
+                                                    '<div class="ui-grid-a"><div class="ui-block-a">'+
+                                                        '<a id="buttonCheckOutOption" href="#"><img src="css/newdesign/newtag/publish.png"><br/>'+lan('STORE_SHOPPING_CHECKOUT')+'</a>'+
+                                                    '</div><div class="ui-block-b">'+
+                                                        '<a id="cancel" href="storeCartList.html"><img src="css/newdesign/newtag/cancel.png"><br/>'+lan('cancel')+'</a>'+
+                                                    '</div></div>'+
+                                                '</div>'+
 			                               '</div>';
                                 $('#storeOption').html(formulario).addClass('fs-wrapper');
                                 $('#lstStoreOption').remove();
-                                $('#footerPay').html('<div class="ui-grid-solo">'+
-                                            '<div class="ui-block-a">'+
-                                                '<button id="buttonCheckOutOption" data-theme="e">'+lan('STORE_SHOPPING_CHECKOUT')+'</button>'+
-                                            '</div>'+
-                                        '</div>');
-                                $('#bottom-menu').remove();
-
-                                // $( "#footerPay button" ).button();
                         break;
                     }   
                 }else{ 
@@ -92,10 +100,16 @@
                                         $('#phoneWork').val(data['datosCar']['nwork']);
                                         $('#phoneMobile').val(data['datosCar']['nmobile']);
                                         // $('#buttonCheckOutOption').css('display','inline-block');
-                                        $('#footerPay').removeAttr('class');
+                                        $('#storeOption form select.short').change();
                                     }
                                 }
                         	});
+                            $('#storeOption form select.short').change(function(){
+                                var obj=$(this).prev('span.ui-btn-inner').find('.ui-btn-text span'),
+                                    text=$(obj).text().trim().split('(');
+                                if (text[1]) $(obj).html('('+text[1]);
+                                else $(obj).html(text[0]);
+                            });
                             $('#buttonCheckOutOption').click(function(){
                                 var string='';
                                 if ($('#country').val()==''){   string+=lang.STORE_COUNTRY+'<br/>'; }
