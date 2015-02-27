@@ -1190,7 +1190,6 @@ function playComment(tagtId, opc){
 			if(!opc.actions||action=='reload'){
 				opc.actions={refresh:{},more:{}};
 				opc.date='';
-				$(layer).html('');
 			}
 			act=opc.actions[action=='refresh'?'refresh':'more'];
 			if(loader) $.loader('show');
@@ -1208,6 +1207,7 @@ function playComment(tagtId, opc){
 					if(cancel()){
 						console.log('Cancelada carga de '+current+'.'); return;
 					}else{
+						if(action=='reload'){$(layer).html('');}
 						if (action=='reload' && opc.title && data.rtitle) $('#pageTitle, #rowTitle').append(': '+data.rtitle);
 						if(action=='more'&&(!data.tags||data.tags.length<1)) act.more=false;
 						if(data.tags && data.tags.length>0){
@@ -1350,18 +1350,6 @@ function playComment(tagtId, opc){
 		return false;
 	};
 })(window,jQuery,console);
-
-function bodyFriendsList2(friend, temp){
-	var known = (friend.conocido)?1:0;
-	console.log('Resultado:'+friend.conocido);
-	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain" data-icon="false">'+
-		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
-			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/></br>'+
-			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
-		'</a>'+
-	'</li>';
-	return out;
-}
 
 function bodyFriendsList(friend, temp){
 	temp = temp || 'a';
@@ -1552,13 +1540,10 @@ function linkUser(layer,$wrapper){
 		//console.log('Posicion del click:'+e.pageY)
 		var photo = $(this).find('a img').attr('src');
 		var te="e",text=lan('follow'); 
+		var perfiltag = lan('USER_PROFILE');
+		var redirprofile = PAGE['profile']+'?id='+this.dataset.link;
 		if (this.dataset.known == 1) te="a",text=lan('unfollow');
-		myDialog({
-			id:'#friend-options',
-			content:
-			'<div>'+
-			'<div class="photo"><img src="'+photo+'" alt="photo" /></div><br />'+
-			'<div class="info">'+lan('name','ucf')+': '+this.dataset.usrname+'</div>'+
+/*
 			'<fieldset class="ui-grid-a">'+
 				'<div class="ui-block-a">'+
 					'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
@@ -1573,9 +1558,20 @@ function linkUser(layer,$wrapper){
 					'</div>'+
 				'</div>'+
 			'</fieldset>'+
+*/
+
+		myDialog({
+			id:'#friend-options',
+			content:
+			'<div>'+
+			'<div class="photo"><img src="'+photo+'" alt="photo" /></div><br />'+
+			'<div class="info">'+lan('name','ucf')+': '+this.dataset.usrname+'</div>'+
 			'</div>',
 			style:{'padding-right':5},
-			buttons:{},
+			buttons:{ 
+				Profile:function(){ redir(redirprofile); },
+				Follow:'close' 
+			},
 			backgroundClose: true
 		});
 
@@ -1856,26 +1852,39 @@ function myDialog(){
 	restoreInputs=disableInputs(o.id);
 	o.close=function(calle){
 		console.log(calle);
-		if(calle.type=='click'){
-			//alert(calle.target.tagName+' = '+calle.target.className);
-			//console.log(calle.target.tagName);
-			if((calle.target.className=='closedialog')||(calle.target.className=='cell')||(calle.target.className=='table')||(calle.target.className=='div')){
-				//alert('cerrar ' + calle.target.tagName+' = '+calle.target.className);
-				//console.log(calle.target);
+		if(typeof calle !== 'undefined'){
+			if(calle.type=='click'){
+				//alert(calle.target.tagName+' = '+calle.target.className);
+				//console.log('en click');
+				//console.log(calle);
+				if((calle.target.className=='closedialog')||(calle.target.className=='cell')||(calle.target.className=='table')||(calle.target.className=='div')){
+					//alert('cerrar ' + calle.target.tagName+' = '+calle.target.className);
+					//console.log(calle.target);
+					$('.window',$d).fadeOut('fast',function(){
+						if(typeof calle==='function')
+							$d.fadeOut('fast',calle);
+						else
+							$d.fadeOut('fast');
+					});
+				}else{
+					//alert('no cerrar');
+					//alert(calle.target.tagName+' = '+calle.target.className);
+					//console.log(calle);
+				}
+			}else{
+				//alert('no es click');
+				//console.log('no es click');
+				//console.log(calle);
 				$('.window',$d).fadeOut('fast',function(){
 					if(typeof calle==='function')
 						$d.fadeOut('fast',calle);
 					else
 						$d.fadeOut('fast');
 				});
-			}else{
-				//alert('no cerrar');
-				//alert(calle.target.tagName+' = '+calle.target.className);
-				//console.log(calle);
 			}
 		}else{
-			//alert('no es click');
-			console.log(calle);
+			//console.log('no es evento');
+			//console.log(calle);
 			$('.window',$d).fadeOut('fast',function(){
 				if(typeof calle==='function')
 					$d.fadeOut('fast',calle);
