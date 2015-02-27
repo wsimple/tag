@@ -16,16 +16,17 @@
                 if ($_GET['option']){
                     switch($_GET['option']){
                         case '1': menuStore(5);
-                            // $('#buttonCheckOutOption').html(lang.STORE_SHOPPING_CHECKOUT);
+                            $('#page-lstStoreOption').addClass('shipping');
 			                var formulario='<div id="scroller">'+
-				                              '<div>'+
+				                              '<div style="margin: 20px 0;">'+
                                                     '<form action="" method="get">'+
                                                         '<select name="country" id="country">'+
                                                             '<option value="">'+lang.STORE_COUNTRY+'</option>'+
                                                         '</select>'+
                                                         '<input type="text" name="city" id="city" placeholder="'+lang.BUSINESSCARD_LBLCITY+'" value="">'+
                                                         '<input type="text" name="zipCode" id="zipCode" placeholder="'+lang.SIGNUP_ZIPCODE+'" value="">'+
-                                                        '<textarea cols="40" rows="8" name="address" id="address" placeholder="'+lang.BUSINESSCARD_LBLADDRESS+'"></textarea>'+
+                                                        '<input name="address" id="address" placeholder="'+lang.BUSINESSCARD_LBLADDRESS+'"/>'+
+                                                        // '<textarea cols="40" rows="8" name="address" id="address" placeholder="'+lang.BUSINESSCARD_LBLADDRESS+'"></textarea>'+
                                                         '<select name="home_code" id="home_code" >'+
                                                             '<option value="">'+lang.USERPROFILE_LBLCBOAREASCODE+'</option>'+
                                                         '</select>'+
@@ -42,7 +43,7 @@
 				                              '</div>'+
 				                              '<div id="error"></div>'+
 			                               '</div>';
-                                $('#storeOption').before('<img class="bg" src="css/smt/bg.png" />').html(formulario).addClass('fs-wrapper');
+                                $('#storeOption').html(formulario).addClass('fs-wrapper');
                                 $('#lstStoreOption').remove();
                                 $('#footerPay').html('<div class="ui-grid-solo">'+
                                             '<div class="ui-block-a">'+
