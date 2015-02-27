@@ -1351,18 +1351,6 @@ function playComment(tagtId, opc){
 	};
 })(window,jQuery,console);
 
-function bodyFriendsList3(friend, temp){
-	var known = (friend.conocido)?1:0;
-	console.log('Resultado:'+friend.conocido);
-	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain" data-icon="false">'+
-		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
-			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/></br>'+
-			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
-		'</a>'+
-	'</li>';
-	return out;
-}
-
 function bodyFriendsList(friend, temp){
 	temp = temp || 'a';
 	// if (friend.conocido) var te="a",text=lan('unfollow');
