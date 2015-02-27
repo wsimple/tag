@@ -1855,16 +1855,27 @@ function myDialog(){
 	}
 	restoreInputs=disableInputs(o.id);
 	o.close=function(calle){
+		console.log(calle);
+		if(calle.type=='click'){
+			//alert(calle.target.tagName+' = '+calle.target.className);
+			console.log(calle.target.tagName);
+			if((calle.target.className=='cell')||(calle.target.className=='table')||(calle.target.className=='div')){
+				//alert('cerrar ' + calle.target.tagName+' = '+calle.target.className);
+				$('.window',$d).fadeOut('fast',function(){
+					if(typeof calle==='function')
+						$d.fadeOut('fast',calle);
+					else
+						$d.fadeOut('fast');
+				});
+			}else{
+				//alert('no cerrar');
+				//alert(calle.target.tagName+' = '+calle.target.className);
+			}
+		}
 		restoreInputs();
-		$('.window',$d).fadeOut('fast',function(){
-			if(typeof calle==='function')
-				$d.fadeOut('fast',calle);
-			else
-				$d.fadeOut('fast');
-		});
 	};
 	if(o.backgroundClose){
-		$(o.id+'.myDialog>.table').one('click',o.close);
+		$(o.id+'.myDialog>.table').on('click',o.close);
 	}
 	$('.closedialog',$d).one('click',o.close);
 	if(!o.buttons){
