@@ -114,10 +114,12 @@ is.limited= !is.webkit||is.android;
 		'seller'			:' vendedor',
 		'closed'			:' cerrado',
 		'options'			:' opciones',
+		'Creates a tag'		:'Crea una tag',
 
 		//'':'mover a',
 
 		//Traducciones al estilo antiguo
+		NEWTAG_NO_BACKGROUNDS           :'Aun no tienes imagenes de fondo, pero no te preocupes puedes publicar tags sin fondo',
 		ACTIONSTAGS_REPORTTAG_TITLESELECT:'Todos los informes son estrictamente confidenciales. Qué etiqueta describe mejor esto?',
 		goback							:'Volver a',
 		batterylow						:'Batería baja, se cerrará la aplicación.',
@@ -146,7 +148,7 @@ is.limited= !is.webkit||is.android;
 		follow							:'Seguir',
 		FOUNDATION_DATE					:'Desde',
 		FRIENDS_TITLE					:'Amigos',
-		friendSearh_title				:'Buscar Amigos',
+		friendSearh_title				:'Busqueda de Amigos',
 		GROUPS_ALLGROUPS				:'Todos los Grupos',
 		GROUPS_ASSIGNADMIN				:'Asignar Admin',
 		GROUPS_BACKMAIN					:'Regresar',
@@ -599,6 +601,7 @@ is.limited= !is.webkit||is.android;
 		NEWTAG_BUTTON_SHARE				:'People who can see this tag',
 		NEWTAG_LEYENDBTNPUBLIC			:'Uncheck for private',
 		NEWTAG_BACKGROUNDAPP			:'Backgrounds',
+		NEWTAG_NO_BACKGROUNDS           :'You dont have backgrounds yet, but dont worry you can make tags without it',
 
 		SIGNUP_CTRERRORNAME				:'First Name Required',
 		SIGNUP_CTRERRORNAMENTER			:'Advertiser or Company Name Required',

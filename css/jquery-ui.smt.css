@@ -126,8 +126,8 @@ button.smt-button::-moz-focus-inner{ border:0;padding:0; }/*reset extra padding 
 	color:#444;
 }
 .ui-buttonset .ui-state-active {
-	border:1px solid #3DB5E8;
-	background:#3DB5E8;
+	border:1px solid #06c5ac;
+	background:#06c5ac;
 	font-weight:normal;
 	color:#444;
 }

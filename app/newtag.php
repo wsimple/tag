@@ -86,7 +86,7 @@
 					<div id="div_Private" style="display:none;">
 						<div id="div_shareMails" class="smt-div-profile">
 							<label id="EmailsPublicPrivateTagsApp"></label>
-							<textarea id="emails_shareTag" name="shareMails" style="resize:none;"></textarea>
+							<textarea id="emails_shareTag" name="shareMails" style="resize:none; margin-bottom: 0px;"></textarea>
 							<label id="emails_legend_newtag" style="font-size:10px;"></label>
 						</div>
 						<div id="div_shareFriends" class="smt-div-profile">
@@ -209,47 +209,28 @@
 			after:function(){
 				$('.ui-loader').css('right','94px'); // Fix Temporal Loader
 				$('#page-newTag').removeClass('default'); //Fix Vista Android
-				var status=1,aStatus=1,single=true;
+				var status=1;
 				var $bgCheck=$('#checkBackground');
 				// management of private/public
-				$("#div_privateTag_checkbox").change(function() {
+				$("#div_privateTag_checkbox,#div_publicTag_checkbox").change(function() {
 					if(this.checked){
-						status=1;
-						$('#div_Private').fadeIn('slow');
-					}else{
-						status=4;
-						$('#div_Private').fadeOut('slow');
+						if (this.id=='div_privateTag_checkbox') {
+							status=4;
+							$('#div_Private').fadeIn('slow');
+							if($_GET['group']||$_GET['product']){
+								$('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
+							}
+							if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
+						}else{
+							status=1;
+							$('#div_Private').fadeOut('slow');
+							if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
+							$('#topText,#emails_shareTag').val('');
+							$('#pictures_shareTag').html('');
+						}
 					}
-//					alert(status);
 				});
 				catchHashtags('#topText,#middleText,#bottomText', '#hashTags');
-				// $('#div_changeMode').click(function(){
-				// 	if(single){//cambiar a modo avanzado
-				// 		if(aStatus) status=aStatus;
-				// 		$('#div_changeMode').fadeOut(function(){
-				// 			$('#div_changeMode .ui-btn-text').html(lang.NEWTAG_BUTTON_QUICK);
-				// 			$('#div_changeMode,#div_shareMails,#div_shareFriends,#div_publicTag').fadeIn(function(){
-				// 				//hide controls provate tag if isset group
-				// 				if($_GET['group']||$_GET['product']){
-				// 					$('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
-				// 				}
-				// 				if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
-				// 			});
-				// 		});
-				// 	}else{//cambiar a modo simple
-				// 		aStatus=status;
-				// 		status=1;
-				// 		$('#div_changeMode,#div_shareMails,#div_shareFriends,#div_publicTag').fadeOut(function(){
-				// 			$('#div_changeMode .ui-btn-text').html(lang.NEWTAG_BUTTON_ADVANCED);
-				// 			$('#div_changeMode').fadeIn(function(){
-				// 				if(!is['limited']) $('.fs-wrapper').jScroll('refresh');
-				// 			});
-				// 			$('#topText,#emails_shareTag').val('');
-				// 			$('#pictures_shareTag').html('');
-				// 		});
-				// 	}
-				// 	single=!single;
-				// })
 				// colour picker
 				//fill palletes
 				paletteColorPicker('#divColorPickerTop,#divColorPickerMiddle,#divColorPickerBottom');
@@ -325,8 +306,10 @@
 						xhrFields:{withCredentials:true},
 						headers:{},
 						success:function(data){
-							if(!data||!data['files']) return;
+
 							var list='';
+							if(data['files'].length === 0){list="<div class='tcAlert'>"+lang.NEWTAG_NO_BACKGROUNDS+"</div>";} 
+							
 							data['files'].forEach(function(el){
 								list+=
 								'<div style="background-image:url('+el.url+');" '+
@@ -477,6 +460,7 @@
 												if($_GET['group'] && $_GET['group'] != '' ) {
 													redir(PAGE['tagslist']+'?current=group&id='+$_GET['group']);
 												}else{
+
 													redir(PAGE['timeline']+nonpublic);
 												}
 											}
@@ -488,7 +472,12 @@
 									}else if($_GET['product'] && $_GET['product'] !== ''){
 										redir(PAGE['storeMypubli']);
 									}else{
-										localStorage.removeItem('timeLine');
+										if(data['status']==4){ 
+											
+											$.local('timeLine', {'last_tab':'privateTags'}); 
+										}else{
+											localStorage.removeItem('timeLine');
+										}
 										redir(PAGE['timeline']+nonpublic);
 									}
 								}
@@ -521,7 +510,7 @@
 			}//end after
 		});
 	$('#hashTags').on('click','.hash span', function(){
-		if ($('#hashTags .hash').length == 1) {$('#hashTags').slideUp('slow');};
+		if ($('#hashTags .hash').length == 1) {$('#hashTags').slideUp('slow');}; //Oculta menu de hastags si es el ultimo
 		var tag = $(this).parent();
 		var text = $('#'+tag[0].dataset.input).val();
 		text = text.replace($(tag[0]).find('p').text(),'');

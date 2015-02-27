@@ -930,8 +930,14 @@ function playComment(tagtId, opc){
 								$(layer).prepend(tags);
 						}else if(action=='reload'){
 							$(opc.layer).html(
-								'<div><div class="tag-loading smt-container" style="max-height:300px;height:300px;"><div id="noTags" class="smt-content" style="z-index:4;">'+notag+'</div></div><div class="smt-tag"><img src="../img/placaFondo.png" class="tag-img" style="z-index:3;"></div></div>'
+								'<div><div class="tag-loading smt-container" style="max-height:300px;height:300px;"><div id="noTags" class="smt-content" style="z-index:4;">'+notag+'</div></div><div class="smt-tag"><img src="../img/placaFondo.png" class="tag-img" style="z-index:3;"></div></div>'+
+	
+									'<button id="noresult-tags" data-role="button" data-theme="f"  class="ui-btn"  data-icon="plus" data-iconpos="right">'+
+										lan("Creates a tag")+
+									'</button>'
 							);
+							$('#noresult-tags').button();
+							$('#noresult-tags').click(function(){ redir(PAGE['newtag']); });	
 							if(current=='group'){
 								verifyGroupMembership(opc.id,opc.code,function(data){
 //									alert(opc.code);
@@ -1556,9 +1562,25 @@ function getFriends(id,groups,like){
 							'</div>'+
 						'</li>';
 			}
-			// ret=ret+'<li data-icon="false" ></li>';
+			if(data['datos'].length===0){
+					
+					ret='</ul>'+
+							'<div class="tcAlert">'+lang.GROUPS_MESSAGEMPTY+'</div>'+
+							'<button id="noresult-findfriends" data-role="button" data-theme="f"  class="ui-btn"  data-icon="plus" data-iconpos="right">'+
+								lan('friendSearh_title')+
+							'</button>'+
+						'<ul>';
+			}
+			
+
 			$(content).html(ret).listview('refresh');
 			$('.list-wrapper').jScroll('refresh');
+
+			
+			if(data['datos'].length===0){
+				$('#noresult-findfriends').button();
+				$('#noresult-findfriends').click(function(){ redir(PAGE.findfriends); });
+			}	
 
 			$(content+' li').click(function(){
 				if (!$('input',this).is(':checked')){
