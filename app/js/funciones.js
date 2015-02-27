@@ -1857,10 +1857,11 @@ function myDialog(){
 	o.close=function(calle){
 		console.log(calle);
 		if(calle.type=='click'){
-			//alert(calle.target.tagName+' = '+calle.target.className);
-			console.log(calle.target.tagName);
-			if((calle.target.className=='cell')||(calle.target.className=='table')||(calle.target.className=='div')){
+			alert(calle.target.tagName+' = '+calle.target.className);
+			//console.log(calle.target.tagName);
+			if((calle.target.className=='closedialog')||(calle.target.className=='cell')||(calle.target.className=='table')||(calle.target.className=='div')){
 				//alert('cerrar ' + calle.target.tagName+' = '+calle.target.className);
+				//console.log(calle.target);
 				$('.window',$d).fadeOut('fast',function(){
 					if(typeof calle==='function')
 						$d.fadeOut('fast',calle);
@@ -1870,14 +1871,24 @@ function myDialog(){
 			}else{
 				//alert('no cerrar');
 				//alert(calle.target.tagName+' = '+calle.target.className);
+				//console.log(calle);
 			}
+		}else{
+			//alert('no es click');
+			console.log(calle);
+			$('.window',$d).fadeOut('fast',function(){
+				if(typeof calle==='function')
+					$d.fadeOut('fast',calle);
+				else
+					$d.fadeOut('fast');
+			});
 		}
 		restoreInputs();
 	};
 	if(o.backgroundClose){
 		$(o.id+'.myDialog>.table').on('click',o.close);
 	}
-	$('.closedialog',$d).one('click',o.close);
+	$('.closedialog',$d).on('click',o.close);
 	if(!o.buttons){
 		o.buttons={Ok:o.close};
 	}
