@@ -7,7 +7,9 @@
 
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-define('RELPATH','../');
+	$relpath=str_replace('\\','/',dirname(__FILE__));
+	$relpath=preg_replace('/\/[^\/]+$/','',$relpath);
+define('RELPATH',"$relpath/");
 include RELPATH.'includes/config.php';
 include RELPATH.'includes/session.php';
 // include RELPATH.'includes/functions.php';
@@ -31,7 +33,7 @@ include RELPATH.'includes/languages.config.php';
 				$tag['tag']=createTag($tag['id'],true);
 				CON::update('tags','img="'.$tag['tag'].'"','id="'.$tag['id'].'"');
 				$count++;
-				$html.='ID tag: '.$tag['id'].', img: '.$tag['tag'].'<br/>';
+				$html.="ID tag: {$tag['id']}, img: {$tag['tag']}, url: {$config->img_server}tag/{$tag['tag']}.jpg<br/>";
 			}
 			$html.="<hr/>Tags created:$count<br/>";
 		}
@@ -45,7 +47,7 @@ include RELPATH.'includes/languages.config.php';
 	<title>Create Tag</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <?php
-	if($data['more']>0){
+	if(empty($_GET['id'])&&$data['more']>0){
 		$pos=strrpos($_SERVER["PHP_SELF"],'/');
 		echo '<META HTTP-EQUIV="refresh" CONTENT="0;URL='.substr($_SERVER["PHP_SELF"],$pos+1).'">';
 	}
@@ -57,7 +59,7 @@ include RELPATH.'includes/languages.config.php';
 	if(is_debug('createtag')) echo '<br/>debug';
 	echo '<hr/>Tags done:'.$data['done'];
 	echo '<br/>Tags pending:'.$data['more'];
-	if($_GET['id']!='') echo '<br/>Tag:<br/><img src="'.tagURL($_GET['id']).'"/>';
+	if(!empty($_GET['id'])) echo '<br/>Tag:<br/><img src="'.tagURL($_GET['id']).'"/>';
 ?>
 </body>
 </html>
