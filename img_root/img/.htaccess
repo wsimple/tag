@@ -21,6 +21,7 @@ Options +FollowSymLinks -indexes
 RewriteEngine On
 
 #general
+RewriteCond %{SERVER_NAME} ^(52\.|68\.109\.)|tagbum.com$
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ http://68.109.244.201/img/$1 [L]
