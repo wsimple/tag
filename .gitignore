@@ -23,9 +23,9 @@ video_server/*
 
 main/views/templates/tags.php
 
-local/xdk/*.html
-local/xdk/*.xdk*
-local/xdk/js/min.js
+local/xdk/*
+local/xdk/css/*
+local/xdk/js/*
 
 js/funciones_es.js
 app/css/smt/old/
