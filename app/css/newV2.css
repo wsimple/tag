@@ -510,9 +510,9 @@ input.ui-input-text, textarea.ui-input-text{
 	text-shadow: none;
 	z-index: 103;
 	height: 3.8em;
-	position: relative;
 	top: 56px;
 	background: #b3b9bd;
+	position: relative;
 }
 
 #sub-menu ul{
@@ -522,8 +522,9 @@ input.ui-input-text, textarea.ui-input-text{
 }
 #sub-menu ul li{
 	background-color: #b3b9bd;
-	display: table;
 	height: 3.9em;
+	text-align: center;
+	border-right: 1px solid #a1afb0;
 }
 #sub-menu ul li.hover{
 	background-color: hsl(204, 7%, 60%);
@@ -535,24 +536,22 @@ input.ui-input-text, textarea.ui-input-text{
 #sub-menu a{
 	text-align: center;
 	height: 100%;
-	display: table-cell;
 	font-weight: normal;
 	color: #384e63;
-	border-right: 1px solid #a1afb0;
-	vertical-align: bottom;
 	font-size: small;
+	line-height: 7.8em;
 }
 #sub-menu li.timeline{
 	background: #b3b9bd url('newdesign/submenu/timeline.png') no-repeat center 4px;
-	background-size: 50%;
+	background-size: auto 50%;
 }
 #sub-menu li.newtag{
 	background: #b3b9bd url('newdesign/submenu/create_tag.png') no-repeat center 4px;
-	background-size: 50%;
+	background-size: auto 50%;
 }
 #sub-menu li.store{
 	background: #b3b9bd url('newdesign/submenu/store.png') no-repeat center 4px;
-	background-size: 50%;
+	background-size: auto 50%;
 }
 #sub-menu li:last-child a{
 	border-right: none;
@@ -1867,28 +1866,7 @@ li.userInList h3{
 #cate-dialog ul li.active ul{ display: block; }
 /*Store Ends*/
 /*Media querys*/
-@media screen and (max-width: 600px) {
-	#sub-menu li.timeline{
-		background-size: 23%;
-	}
-	#sub-menu li.newtag{
-		background-size: 23%;
-	}
-	#sub-menu li.store{
-		background-size: 23%;
-	}
-}
-
 @media screen and (min-width: 600px) {
-	#sub-menu li.timeline{
-		background-size: 20%;
-	}
-	#sub-menu li.newtag{
-		background-size: 20%;
-	}
-	#sub-menu li.store{
-		background-size: 20%;
-	}
 	#page-freeProducts .list-info li,
 	#page-lstMyStore .list-info li,
 	#page-lstStore .list-info li{  height: 200px; }
@@ -1915,18 +1893,6 @@ li.userInList h3{
 	#page-myOrders #rowTitle .ui-block-b div{
 		background-size: 40%;
 		width:20%;
-	}
-}
-
-@media screen and (min-width: 1200px) {
-	#sub-menu li.timeline{
-		background-size: 16%;
-	}
-	#sub-menu li.newtag{
-		background-size: 16%;
-	}
-	#sub-menu li.store{
-		background-size: 16%;
 	}
 }
 /*End Media querys*/
