@@ -155,6 +155,14 @@
 	display: list-item !important;
 }
 /*new tag*/
+textarea.ui-input-text{
+	height: 100%;
+	line-height: 1em;
+}
+
+input.ui-input-text, textarea.ui-input-text{
+	max-height: inherit;
+}
 .inputs-tag ::-webkit-input-placeholder {
    color: white;
 }
@@ -183,10 +191,10 @@
 .inputs-tag{
 	position: absolute;
 	z-index: 200;
-	margin: auto;
-	top: 0; left: 0; bottom: 0; right: 0;
+	margin: auto; left: 0; bottom: 0; right: 0;
 	width: 80%;
 	height: 65%;
+	top: -2.5em;
 
 }
 .inputs-tag .ui-input-text.ui-focus{
@@ -658,7 +666,7 @@ li.userInList h3{
 	background-color: hsla(210, 26%, 30%, 0.8);
 }
 
-#bottom-menu > div{
+#bottom-menu > div{ /*Flechita*/
 	width: 100%;
 	height: 36px;
 	background: transparent url('newdesign/menu/open_menu.png') no-repeat center 2px;
@@ -671,90 +679,88 @@ li.userInList h3{
 }
 
 #bottom-menu ul{
+	list-style: none;
 	width: 90%;
 	margin: 0 auto;
-	padding: 0;
-	list-style: none;
 	margin-top: 12px;
+	padding: 0;
 }
 
 #bottom-menu ul li{
-	width: 20%;
+	text-shadow: 0 0 0;
+	padding: 0;
 	float: left;
 	height: 3em;
+	width: 20%;
 	margin: 0 0 4px 0;
-	text-shadow: 0 0 0;
-	display: table;
-	padding: 0;
 }
 
 #bottom-menu ul li.toptags{
 	background: transparent url('newdesign/menu/top_tags.png') no-repeat center top;
-	-webkit-background-size: 45% 60%;
-	background-size: 45% 60%;
+	-webkit-background-size:auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li.news{
 	background: transparent url('newdesign/menu/news.png') no-repeat center top;
-	-webkit-background-size: 45% 60%;
-	background-size: 45% 60%;
+	-webkit-background-size: auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li.notifications{
 	background: transparent url('newdesign/menu/notifications.png') no-repeat center top;
-	-webkit-background-size: 45% 60%;
-	background-size: 45% 60%;
+	-webkit-background-size: auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li.groups{
 	background: transparent url('newdesign/menu/groups.png') no-repeat center top;
-	-webkit-background-size: 45% 60%;
-	background-size: 45% 60%;
+	-webkit-background-size: auto 60%;
+	background-size: auto 60%;
 }
 #bottom-menu ul li.chat{
 	background: transparent url('newdesign/menu/chat.png') no-repeat center top;
-	-webkit-background-size: 45% 60%;
-	background-size: 45% 60%;
+	-webkit-background-size: auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li.profile{
 	background: transparent url('newdesign/menu/profile.png') no-repeat center top;
-	-webkit-background-size: 45% 60%;
-	background-size: 45% 60%;
+	-webkit-background-size: auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li.friends{
 	background: transparent url('newdesign/menu/friends.png') no-repeat center top;
-	-webkit-background-size: 45% 60%;
-	background-size: 45% 60%;
+	-webkit-background-size: auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li.createtag{
 	background: transparent url('newdesign/menu/create_tag.png') no-repeat center top;
-	-webkit-background-size: 45% 60%;
-	background-size: 45% 60%;
+	-webkit-background-size: auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li.store{
 	background: transparent url('newdesign/menu/store.png') no-repeat center top;
-	-webkit-background-size: 45% 60%;
-	background-size: 45% 60%;
+	-webkit-background-size: auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li.logout{
 	background: transparent url('newdesign/menu/logout.png') no-repeat center top;
-	-webkit-background-size: 45% 60%;
-	background-size: 45% 60%;
+	-webkit-background-size: auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li a{
-	font-weight: normal;
 	color: white;
 	font-size: 0.7em;
-	display: table-cell;
-	text-align: center;
-	vertical-align: bottom;
 	text-decoration: none;
+	font-weight: normal;
+	line-height: 7.5em;
+	text-align: center;
 }
 
 /* SignUp */
@@ -1870,56 +1876,6 @@ li.userInList h3{
 	}
 	#sub-menu li.store{
 		background-size: 23%;
-	}
-}
-@media screen and (max-width: 1200px) {
-	#bottom-menu ul li.toptags{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.news{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.notifications{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.groups{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-	#bottom-menu ul li.chat{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.profile{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.friends{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.createtag{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.store{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
-	}
-
-	#bottom-menu ul li.logout{
-		-webkit-background-size: 24% 60%;
-		background-size: 24% 60%;
 	}
 }
 
