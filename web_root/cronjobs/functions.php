@@ -557,7 +557,10 @@ function redimensionar($original,$img_nueva,$width,$height=''){
 	if($type=='gif'||$type=='png'){
 		#se mantiene la transparencia de la imagen
 		$colorTransparancia=imagecolortransparent($img);#devuelve el color usado como transparencia o -1 si no tiene transparencias
-		if($colorTransparancia!=-1)$colorTransparente=imagecolorsforindex($img,$colorTransparancia);//devuelve un array con las componentes de lso colores RGB + alpha
+		if($colorTransparancia>-1)
+			$colorTransparente=imagecolorsforindex($img,$colorTransparancia);//devuelve colores RGB + alpha
+		else
+			$colorTransparente=array('red'=>0,'green'=>0,'blue'=>0,'alpha'=>0);
 		$idColorTransparente=imagecolorallocatealpha($thumb,$colorTransparente['red'],$colorTransparente['green'],$colorTransparente['blue'],$colorTransparente['alpha']);//Asigna un color en una imagen retorna identificador de color o FALSO o -1 apartir de la version 5.1.3
 		imagefill($thumb,0,0,$idColorTransparente);//rellena de color desde una cordenada,en este caso todo rellenado del color que se definira como transparente
 		imagecolortransparent($thumb,$idColorTransparente);//Ahora definimos que en la nueva imagen el color transparente sera el que hemos pintado el fondo.
@@ -1287,9 +1290,10 @@ function replaceCharacters($cad){
 	return mysql_real_escape_string($cad);
 }
 function tagURL($tag,$mini=false){
+	global $config;
 	$tid=substr(intToMd5($tag),-16);
 	// return $config->img_server_path.'img/templates/'.$tid.($mini?'.m':'').'.jpg';
-	return FILESERVER.'img/tags/'.$tid.($mini?'.m':'').'.jpg';
+	return $config->img_server.'img/tags/'.$tid.($mini?'.m':'').'.jpg';
 }
 function createTag($tag,$force=false,$msg=false){
 	global $config;
@@ -1308,11 +1312,11 @@ function createTag($tag,$force=false,$msg=false){
 	$photom=$tid.'.m.jpg';
 	$photopath=$path.'/'.$photo;
 	$photompath=$path.'/'.$photom;
-	$_path=$config->local?RELPATH:$config->img_server_path;
+	$_path=$config->img_server_path;
 	//Se busca la imagen de la tag
 	if(!$force) $im=imagecreatefromany($_path.$photopath);
 	//Si la imagen de la tag no existe,se crea
-	if(!$im||$debug){
+	if(@$im||$debug){
 		if(!is_array($tag)) $tag=getTagData($tid);
 		$tag['fondoTag']=preg_replace('/ /','%20',$tag['fondoTag']);
 		//Debugger
@@ -1501,25 +1505,26 @@ function createTag($tag,$force=false,$msg=false){
 			imagepng($im,$phototmp);
 			if (redimensionar($phototmp,RELPATH.$photopath,650)){
 				@unlink($phototmp);
-				FTPupload("tags/$photo");
+				$ftp=FTPupload("tags/$photo");
 				if($msg) echo '<br/>guardada imagen '.$photo;
 			}
 		// }
 	}elseif($msg) echo '<br/>ya existe la imagen '.$photo;
 	//FIN - creacion de la imagen de la tag
 	//creamos la miniatura si no existe
-	if(!fileExists($_path.$photompath)||$force){
+	if(@$im&&(!fileExists($_path.$photompath)||$force)){
 		// if(!$debug){//si estamos en debug no se guarda
 			$phototmp=RELPATH.$path.'/'.$tmpFile.'.png';
 			imagepng($im,$phototmp);
 			if (redimensionar($phototmp,RELPATH.$photompath,200)){
 				@unlink($phototmp);
-				FTPupload("tags/$photom");
+				$ftp=FTPupload("tags/$photom");
 				if($msg) echo '<br/>guardada miniatura '.$photom;
 			}
 		// }
 	}
-	CON::update('tags',"img=?",'id=?',array($tid,$tag['id']));
+	if($debug) echo "<br/>ftp result=$ftp";
+	if(!empty($tag['id'])) CON::update('tags',"img=?",'id=?',array($tid,$tag['id']));
 	return $tid;
 }
 function intToMd5($id){
@@ -1528,7 +1533,7 @@ function intToMd5($id){
 	return $id;
 }
 function getTagData($tid=''){
-	$noTag=array('idTag'=>$tid,'code_number'=>'notag','color_code2'=>'#333','photoOwner'=>'img/users/default.png','fondoTag'=>$tag[fondoTag]);
+	$noTag=array('idTag'=>$tid,'code_number'=>'notag','color_code2'=>'#333','photoOwner'=>'img/users/default.png','fondoTag'=>'empty');
 	if($tid=='') return $noTag;
 	$tid=intToMd5($tid);
 	$where=safe_sql('substring(md5(t.id),-16)=?',array(substr($tid,-16)));
@@ -1626,57 +1631,118 @@ function imagecolorhexallocate(&$im,$hex){
 	$color=HexToRGB($hex);
 	return imagecolorallocate($im,$color['r'],$color['g'],$color['b']);
 }
+
 #subir imagenes por FTP. Usar rutas relativas desde dentro de IMG.
+# Valores retornados:
+# 200: subida exitosa
+# 206: subida exitosa, pero falla al eliminar el original
+# 400: la sintaxis de destino es incorrecta
+# 401: no se pudo crear el archivo
+# 403: no se pudo establecer la conexion
+# 404: el archivo a subir no existe o la ruta es incorrecta
+# 408: sin ftp, indica que no se pudo mover el archivo
+# 409: sin ftp, indica que no se pudo copiar el archivo
+# 412: no se pudo crear/acceder a la(s) carpeta(s) de destino
 function FTPupload($origen,$destino='',$borrar=true){
 	#origen: donde esta la imagen. destino: donde ira la imagen.
 	#borrar: falso si no se quiere eliminar la imagen original
 	#las rutas deben ser relativas a img. si destino es vacio o false, se colocara en la misma ruta del origen
-	global $config;
-	$connected=false;
+	//validaciones previas
+	if(!is_file(RELPATH.'img/'.$origen)) return 404;
 	if($destino=='') $destino=$origen;
-	$count=preg_match('/(.+\/)*/',$destino,$path);
+	$file=end(explode('/',$destino));
+	$error=0;
+	if(!$file) $error=400;
+	global $config;
+	$path=preg_replace('/^\/|\/[^\/]*$/','',$destino);
+	$data=" P:$path F:$file O:$origen D:$destino";
+	if(!$error)
 	if(isset($config->ftp)){
 		if(!$img_ftp_con){
 			$img_ftp_con=ftp_connect($config->ftp->host,21);
-			$connected=ftp_login($img_ftp_con,$config->ftp->user,$config->ftp->pass);
+			$login=@ftp_login($img_ftp_con,$config->ftp->user,$config->ftp->pass);
+			if(!$login){
+				$img_ftp_con=0;
+				return 403;
+			}
 			ftp_pasv($img_ftp_con,true);
-			if(!$connected) return $img_ftp_con=false;
 		}
 		#vamos a la carpeta raiz
 		// ftp_cdup($img_ftp_con);
 		#Nos vamos a la carpeta destino. Se crean las carpetas que no existan.
 		$foldercount=0;
+		$folders=explode('/',$path);
+		foreach($folders as $folder){
+			if($folder!=''){
+				if(@ftp_chdir($img_ftp_con,$folder)){#abrir carpeta
+					$foldercount++;
+				}elseif(@ftp_mkdir($img_ftp_con,$folder)){#crear y abrir carpeta
+					ftp_chdir($img_ftp_con,$folder);
+					$foldercount++;
+					@ftp_put($img_ftp_con,'index.html',RELPATH.'img/index.html',FTP_BINARY);
+				}else{
+					$error=412;
+				}
+			}
+		}
+		if(!$error){
+			$data='PWD:'.ftp_pwd($img_ftp_con).$data;
+			#Copiamos el archivo
+			$error=(@ftp_put($img_ftp_con,$file,RELPATH.'img/'.$origen,FTP_BINARY)) ? 200 : 401;
+			#Borramos la imagen de origen si es requerido
+			if($borrar&&$error==200&&!@unlink(RELPATH.'img/'.$origen)) $error=206;
+		}
+		ftp_quit($img_ftp_con);
+	// }elseif(!$config->local){
+		#Si no es local movemos al servidor de imagenes
+	}else{
+		#movemos al servidor de imagenes
+		if(!is_dir($config->img_server_path.'img/'.$path))
+			if(!@mkdir($config->img_server_path.'img/'.$path,0775,true)) $error=412;
+		if(!$error)
+		if($borrar)
+			$error=(!@rename($_origen,$config->img_server_path.'img/'.$destino))?408:200;
+		else
+			$error=(!@copy($_origen,$config->img_server_path.'img/'.$destino))?409:200;
+/*	}elseif($destino!=$origen){
+		#Cuando no es ftp, y el origen es distinto al destino, se mueve/copia el archivo
+		if(!is_dir(RELPATH.'img/'.$path))
+			if(!@mkdir(RELPATH.'img/'.$path,0777,true)) $error=412;
+		if(!$error)
+		if($borrar)
+			$error=(!@rename(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino))?408:200;
+		else
+			$error=(!@copy(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino))?409:200;
+*/	}
+	return $error;//.$data;#descomentar data si decea ver los mensajes de error
+}
+function FTPcopy($origen,$destino){
+	global $config;
+	$count=preg_match('/(.+\/)*/',$origen,$path);
+	if(isset($config->ftp)){
+		$id_ftp=ftp_connect($config->ftp->host,21);
+		ftp_login($id_ftp,$config->ftp->user,$config->ftp->pass);
+		ftp_pasv ($id_ftp,false);
+		$num=0;
 		$path=$path[1];
 		while(($pos=strpos($path,'/'))!==false){
 			$folder=substr($path,0,$pos);
-			@ftp_mkdir($img_ftp_con,$folder);
-			if(ftp_chdir($img_ftp_con,$folder)){
-				$foldercount++;
-				@ftp_put($img_ftp_con,'index.html',RELPATH.'img/index.html',FTP_BINARY);
+			if(ftp_chdir($id_ftp,$folder)){
+				$num++;
 			}else{
-				ftp_quit($img_ftp_con);
+				ftp_quit($id_ftp);
 				return false;
 			}
 			$path=substr($path,$pos+1);
 		}
-		#Copiamos el archivo
-		$file=end(explode('/',$destino));
-		if($file!=''){
-			@ftp_put($img_ftp_con,$file,RELPATH.'img/'.$origen,FTP_BINARY);
-			ftp_quit($img_ftp_con);
+		$tmp='ftp_'.rand().'.bin';
+		$file=end(explode('/',$origen));
+		//echo ftp_pwd($id_ftp).'<br>id_ftp='.$id_ftp.'<br>file='.$file.'<br>relpath='.RELPATH;
+		if($count&&ftp_get($id_ftp,RELPATH.'img/'.$tmp,$file,FTP_BINARY)){
+			FTPupload($tmp,$destino,true);
 		}
-		#Borramos la imagen de origen si es requerido
-		if($borrar){
-			@unlink(RELPATH.$origen);
-		}
-	}elseif($destino!=$origen){
-		#Cuando no es ftp, y el origen es distinto al destino, se mueve/copia el archivo
-		@mkdir(substr($path[1],0,-1),0777,true);
-		if($borrar)
-			rename(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino);
-		else
-			copy(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino);
+	}else{
+		//echo 'origen:'.$origen.'<br>desti:;'.$destino;
+		copy($config->img_server_path.'img/'.$origen,$config->img_server_path.'img/'.$destino);
 	}
-	return $connected;
 }
-?>

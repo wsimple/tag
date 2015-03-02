@@ -41,6 +41,9 @@ if($data->tipo){
 	$data->path=preg_replace('/[^\/]*$/i','',$_SERVER['SCRIPT_NAME']);
 	$data->basedom='http://'.$_SERVER['SERVER_NAME'];
 	$data->dominio=$data->basedom.$data->path;
+
+	$relpath=str_replace('\\','/',dirname(__FILE__));
+	$relpath=preg_replace('/(\/[^\/]+){2}$/','',$relpath);
 	#tipos
 	if($data->tipo=='main'||$data->tipo=='sec'){
 		$data->base_url='/';
@@ -99,7 +102,7 @@ if($data->tipo){
 		$data->app_server=$data->main_server.'app/';
 		$data->img_server=$data->main_server.'img/';
 		$data->video_server=$data->main_server.'video/';
-		$relpath=preg_replace('/\/[^\/]+$/','',dirname(__FILE__));
+		$data->main_server_path="$relpath/web_root/";
 		$data->img_server_path="$relpath/img_root/";
 		$data->video_server_path="$relpath/video_root/";
 		$data->allow_origin='/^https?:\\/\\/(\\\w+\\\.)?tagbum.com$/i';
@@ -121,12 +124,13 @@ if($data->tipo){
 
 		$data->imgserver=$data->dominio;
 		$data->main_server=$data->dominio;
-		$data->app_server=$data->path.'app_server/';
-		$data->img_server=$data->path.'img_server/';
-		$data->video_server=$data->path.'video_server/';
-		$data->img_server_path=$data->img_server;
-		$data->video_server_path=$data->video_server;
-		$data->allow_origin='/^https?:\\/\\/(localhost|192\\\.168\\\.)/i';
+		$data->app_server=$data->basedom.$data->base_url.'app_server/';
+		$data->img_server=$data->basedom.$data->base_url.'img_root/';
+		$data->video_server=$data->basedom.$data->base_url.'video_root/';
+
+		$data->img_server_path=$relpath.$data->base_url.'img_root/';
+		$data->video_server_path=$relpath.$data->base_url.'video_root/';
+		// $data->allow_origin='/^https?:\\/\\/(localhost|192\\\.168\\\.)/i';
 	}
 	$data->dominio=$data->basedom.$data->base_url;
 	if($data->db){
@@ -145,7 +149,7 @@ if(is_file('.security/security.php')){
 	if($_GET['tipo']) echo 'instalado<br/>';
 	include('.security/security.php');
 	if(isset($_GET['show'])){
-		echo '<pre>';var_dump($config);echo '</pre>';
+		echo '<br>security:<pre>';var_dump($config);echo '</pre>';
 	}
 }
 die();

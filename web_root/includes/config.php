@@ -4,10 +4,11 @@
  * Copy Rights :Tagamation, LLc
  * Date        :02/22/2011
  */
-@define('RELPATH',preg_replace('/([\/][^\/]*)$/','/',dirname(str_replace('\\','/',__FILE__))));
+$tb_relpath=preg_replace('/([\/][^\/]*)$/','/',dirname(str_replace('\\','/',__FILE__)));
+@define('RELPATH',"$tb_relpath/");
+if(!isset($config)) @include("$tb_relpath/.security/security.php");
 if(!isset($config)) @include('security/security.php');
-if(!isset($config)) @include(RELPATH.'.security/security.php');
-$config->relpath=RELPATH;
+$config->relpath=$tb_relpath;
 
 global $section,$params;
 #con secciones se permite manejar parametros en url (ejem: user/preferences)

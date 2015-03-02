@@ -1926,16 +1926,18 @@ function FTPupload($origen,$destino='',$borrar=true){
 			if($borrar&&$error==200&&!@unlink(RELPATH.'img/'.$origen)) $error=206;
 		}
 		ftp_quit($img_ftp_con);
-	}elseif(!$config->local){
+	// }elseif(!$config->local){
 		#Si no es local movemos al servidor de imagenes
+	}else{
+		#movemos al servidor de imagenes
 		if(!is_dir($config->img_server_path.'img/'.$path))
-			if(!@mkdir($config->img_server_path.'img/'.$path,0777,true)) $error=412;
+			if(!@mkdir($config->img_server_path.'img/'.$path,0775,true)) $error=412;
 		if(!$error)
 		if($borrar)
 			$error=(!@rename($_origen,$config->img_server_path.'img/'.$destino))?408:200;
 		else
 			$error=(!@copy($_origen,$config->img_server_path.'img/'.$destino))?409:200;
-	}elseif($destino!=$origen){
+/*	}elseif($destino!=$origen){
 		#Cuando no es ftp, y el origen es distinto al destino, se mueve/copia el archivo
 		if(!is_dir(RELPATH.'img/'.$path))
 			if(!@mkdir(RELPATH.'img/'.$path,0777,true)) $error=412;
@@ -1944,16 +1946,13 @@ function FTPupload($origen,$destino='',$borrar=true){
 			$error=(!@rename(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino))?408:200;
 		else
 			$error=(!@copy(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino))?409:200;
-	}
+*/	}
 	return $error;//.$data;#descomentar data si decea ver los mensajes de error
 }
 function FTPcopy($origen,$destino){
 	global $config;
 	$count=preg_match('/(.+\/)*/',$origen,$path);
-	if(!isset($config->ftp)){
-		//echo 'origen:'.$origen.'<br>desti:;'.$destino;
-		copy($config->img_server_path.'img/'.$origen,$config->img_server_path.'img/'.$destino);
-	}else{
+	if(isset($config->ftp)){
 		$id_ftp=ftp_connect($config->ftp->host,21);
 		ftp_login($id_ftp,$config->ftp->user,$config->ftp->pass);
 		ftp_pasv ($id_ftp,false);
@@ -1975,6 +1974,9 @@ function FTPcopy($origen,$destino){
 		if($count&&ftp_get($id_ftp,RELPATH.'img/'.$tmp,$file,FTP_BINARY)){
 			FTPupload($tmp,$destino,true);
 		}
+	}else{
+		//echo 'origen:'.$origen.'<br>desti:;'.$destino;
+		copy($config->img_server_path.'img/'.$origen,$config->img_server_path.'img/'.$destino);
 	}
 }
 
