@@ -1561,7 +1561,6 @@ function linkUser(layer,$wrapper){
 				'</div>'+
 			'</fieldset>'+
 */
-
 		myDialog({
 			id:'#friend-options',
 			content:
@@ -1574,27 +1573,27 @@ function linkUser(layer,$wrapper){
 				Profile:function(){ redir(redirprofile); },
 				Follow:function(){ 
 					myAjax({
-								type:'GET',
-								url:followButonAction,
-								error:function() {
-									console.log('follow button ERROR');
-								},
-								success:function(data){
-									console.log('follow button OK');
-									/*if(!data['error']){
-										setFriendsButtons(data['friend']);
-										// $follow.fadeOut('slow', function () {
-											// setFollowButton(!data['unlink']);
-											// $follow.fadeIn('slow');
-										// });
-									}else{
-										$follow.fadeOut('slow', function () {
-											setFollowButton($follow.attr('data-theme')=="u");
-											$follow.fadeIn('slow');
-										});u
-									}*/
-								}
-							});
+						type:'GET',
+						url:followButonAction,
+						error:function() {
+							console.log('follow button ERROR');
+						},
+						success:function(data){
+							console.log('follow button OK');
+							/*if(!data['error']){
+								setFriendsButtons(data['friend']);
+								// $follow.fadeOut('slow', function () {
+									// setFollowButton(!data['unlink']);
+									// $follow.fadeIn('slow');
+								// });
+							}else{
+								$follow.fadeOut('slow', function () {
+									setFollowButton($follow.attr('data-theme')=="u");
+									$follow.fadeIn('slow');
+								});u
+							}*/
+						}
+					});
 					redir(redirSelfProfile);
 				} 
 			},
