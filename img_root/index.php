@@ -21,10 +21,10 @@ function __autoload($classname){
 }
 
 $options=null;
-$_referer=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'//localhost';
-$_referer=preg_replace('/^(\w+:)\/\/([^\/]+)(\/.*)?$/','$2',$_referer);
+$_referer=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'localhost';
+$_referer=preg_replace('/^(\w+:\/\/)?([^\/]+)(\/.*)?$/','$2',$_referer);
 header("data-referer: $_referer");
-if(preg_match('/^(localhost|52(\.\d+){3}|(\w+\.)(tagbum|elasticbeanstalk)\.com)$/',$_referer)){
+if(preg_match('/^(localhost|(192|52)(\.\d+){3}|(\w+\.)?tagbum\.com|\w+\.elasticbeanstalk\.com)$/',$_referer)){
 	$options=array(
 		'access_control_allow_origin'=>"http://$_referer",
 		'access_control_allow_credentials'=>true

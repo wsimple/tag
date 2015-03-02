@@ -1,31 +1,22 @@
 .security/*.php
-img/*/
-language/
 img_server/img/
 
 #security
 includes/security/*.php
-img_server/includes/security/*.php
-video_server/includes/security/*.php
 
 local/*.*
 local/app/
-quepeo.php
 video_server/jqueryupload/
-
-cometchat/cache/*
-js/funciones_en.js
-js/funciones_es.js
 
 video_server/videos/pending/*
 video_server/videos/*/*
 video_server/*
 
-main/views/templates/tags.php
 
 local/xdk/*.html
 local/xdk/*.xdk*
 local/xdk/js/min.js
+
 
 js/funciones_es.js
 app/css/smt/old/
@@ -36,12 +27,12 @@ web_root/.security/*.php
 web_root/img/*/
 web_root/language/*.php
 web_root/cometchat/cache/*
-web_root/js/funciones_en.js
-web_root/js/funciones_es.js
+web_root/js/funciones_*.js
 
 #img server
 img_root/includes/security/*.php
 img_root/img/
+img/
 
 #video server
 video_root/includes/security/*.php

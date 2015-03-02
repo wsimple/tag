@@ -336,7 +336,7 @@ function actionMenuStore(action){
                 },
                 scroll:true,
                 buttons:[],
-                // backgroundClose: true
+                backgroundClose: true
             });
         }
     }
@@ -352,7 +352,7 @@ function actionMenuStore(action){
 				func=function(){redir(PAGE[data.opc]);};
 			break;
 			case 'toptags'		:func=function(){redir(PAGE.toptags);};break;
-			case 'store'		:func=function(){redir(PAGE.storeCat);};break;
+			case 'store'		:func=function(){redir(PAGE.storePorduct);};break;
 			case 'cart'			:func=function(){redir(PAGE.shoppingCart);};break;
 			case 'wish'			:func=function(){redir(PAGE.storeOption);};break;
 			case 'myPubli'		:func=function(){redir(PAGE.storeMypubli);};break;
@@ -1366,7 +1366,7 @@ function bodyFriendsList(friend, temp){
 	// else var te="e",text=lan('follow');
 	var known = (friend.conocido)?1:0;
 	console.log('Resultado:'+friend.conocido);
-	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain" data-usrname="'+friend.name_user+'">'+
+	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain" data-usrname="'+friend.name_user+'" >'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
 			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/>'+
 			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
@@ -1401,7 +1401,7 @@ function bodyFriendsList2(friend){
 	if (friend.conocido) var te="a",text=lan('unfollow');
 	else var te="e",text=lan('follow'); 
 	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain" '+
-		'data-icon="info"  data-known="'+known+'" data-usrname="'+friend.name_user+'">'+
+		'data-icon="info"  data-known="'+known+'" data-usrname="'+friend.name_user+'" >'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-username="'+friend.name_user+'" data-theme="e" class="ulbox">'+
 			'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
 			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
@@ -2410,7 +2410,7 @@ function deleteItemCar(id,get,obj){
 		success:function(data){
 			if(data.del!='1'){
 				if(data.del=='all'){
-					if(obj.mod=='car'){redir(PAGE.storeCat);}
+					if(obj.mod=='car'){redir(PAGE.storePorduct);}
 					else if (obj.mod=='wish'){
 						$('#lstStoreOption').html(data.wish.body).listview('refresh');
 						actionButtonsStore();
@@ -2565,7 +2565,7 @@ function moveToWish(id,get,details){
                             content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
                             buttons:[{
                                 name:'Ok',
-                                action:function(){ redir(PAGE.storeCat); }
+                                action:function(){ redir(PAGE.storePorduct); }
                             }]
                         });
 						$('#cartList').empty().html('').listview('refresh');
@@ -2605,7 +2605,7 @@ function checkOutShoppingCart(get){
 					myDialog({
 						id:'#idCheckOutAppDone',
 						style:{'min-height':80},
-						content:lan('PUBLICITY_MSGSUCCESSFULLY')+'. '+lan('RESET_PLEASECHECKEMAIL'),
+						content:lan('STORE_ORDERS_THANKYOU_ORDER1')+'<br/><br/>'+lan('STORE_ORDERS_THANKYOU_ORDER2'),
 						scroll:true,
 						buttons:{ok:function(){ redir(PAGE["myOrders"]); }}
 					});
