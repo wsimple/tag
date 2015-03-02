@@ -81,9 +81,13 @@
                 			myDialog('#singleDialog',lang.conectionFail);
                 		},
                 		success	:function(data){
-                		      var i,out='',outP='',outG='',outH='',outS='',more='',gridpos='';
-                                if (data['friends']!=''){
-                                        out=  '<div data-role="collapsible" class="despliegue">'
+                		      var i,out='',outP='',outG='',outH='',outS='',more='',gridpos='',numTR=0;
+                                if(data['num_friends']>0) numTR++;
+                                if(data['num_groups']>0) numTR++;
+                                if(data['num_hash']>0) numTR++;
+                                if(data['num_store']>0) numTR++;
+                                if (data['friends']!=''){ 
+                                        out=  '<div data-role="collapsible" class="despliegue" '+(numTR==1?'data-collapsed="false"':'')+'>'
                                                 +'<h3>'+lan('peoples','ucw')+'</h3>'
                                                 +'<ul id="resultSP" data-role="listview" data-filter="true" data-divider-theme="e" class="ui-listview ui-corner-all ui-shadow " >';
                             			for(i=0;i<data['friends'].length;i++){
@@ -110,7 +114,7 @@
                                     opc.f_limitIni=opc.f_limitIni+((data['num_friends']==(data['f_maxR']+1))?data['num_friends']-1:data['num_friends']);
                     		      }
                     		      if (data['groups']!=''){ more='';
-                    		          out+=  '<div data-role="collapsible" class="despliegue">'
+                    		          out+=  '<div data-role="collapsible" class="despliegue" '+(numTR==1?'data-collapsed="false"':'')+'>'
                                                 +'<h3>'+lan('group','ucw')+'</h3>'
                                                 +'<ul id="resultSG" data-role="listview"  data-filter="true" data-divider-theme="e">';
                                       for(i=0;i<data['groups'].length;i++){
@@ -136,7 +140,7 @@
                                     opc.g_limitIni=opc.g_limitIni+((data['num_groups']==(data['g_maxR']+1))?data['num_groups']-1:data['num_groups']);
                     		      }
                                   if (data['hash']){
-                                    out+=  '<div data-role="collapsible">'
+                                    out+=  '<div data-role="collapsible" '+(numTR==1?'data-collapsed="false"':'')+'>'
                                                 +'<h3>'+lan('hashTags','ucw')+'</h3>'
                                                 +'<ul id="resultSH" data-role="listview"  data-filter="true" data-divider-theme="e">';
                                       for(i in data['hash']) if(i){
@@ -152,7 +156,7 @@
                     		      }
                                   if (data['store']!=''){ more='';
                                         var prod= data['store'];
-                                        out+=  '<div data-role="collapsible">'
+                                        out+=  '<div data-role="collapsible" '+(numTR==1?'data-collapsed="false"':'')+'>'
                                                 +'<h3>'+lan('store','ucw')+'</h3>'
                                                 +'<ul id="resultSS" data-role="listview"  data-filter="true" data-divider-theme="e">';
                             			for(var i=0;i<prod.length;i++){

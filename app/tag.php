@@ -1,11 +1,15 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-tag" data-role="page" data-cache="false">
-	<div data-role="header" data-theme="f" data-position="fixed">
-		<a href="#" id="buttonBack" data-icon="arrow-l"></a>
-		<h1 class="tag-title is-logged"></h1>
-	</div><!-- /header -->
+
+
+	<div id="sub-menu" style="position:absolute;top:0px;left:0;padding:0px;" data-position="fixed"  >
+		<div style="float: left; margin-left: 10px; margin-top: 20px">
+			<a id="buttonBack" href="#" data-icon="arrow-l" onclick="goBack();"></a>
+		</div>
+	</div>
+
+
 	<div data-role="content">
-		<img class="bg" src="css/smt/bg.png"/>
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
 				<div id="noLoggedEmail" class="logoBackEmail" style="display:none;"></div>
@@ -17,26 +21,15 @@
 			</div>
 		</div>
 	</div>
-	<div id="tag-footer" class="tag-buttons" data-role="footer" data-theme="f" data-position="fixed" data-tap-toggle="false" style="text-align:center;">
-		<!--a id="redist"	style="display:none;"></a>
-		<a id="like"	style="display:none;" class="is-logged"></a>
-		<a id="dislike"	style="display:none;" class="is-logged"></a>
-		<a id="share"	style="display:none;"></a>
-		<a id="sponsor"	style="display:none;"></a>
-		<a id="report"	style="display:none;"></a>
-		<a id="delete"	style="display:none;"></a>
-		<a id="youtube"	style="display:none;" class="video" data-ajax="false"></a>
-		<a id="vimeo"	style="display:none;" class="video" data-ajax="false"></a>
-		<a id="local"	style="display:none;" class="video" data-ajax="false"></a>
-		<a id="comment"	style="display:none;" class="is-logged"></a-->
-		<!-- <a id="qrcode"	style="display:none;"></a> -->
-	</div>
+
 	<div id="popupVideo" data-role="popup" data-overlay-theme="a" data-theme="c" style="padding:7px;"></div>
 	<script>
 		var Change=isLogged();
 		pageShow({
 			id:'#page-tag',
 			before:function(){
+				newMenu();
+				//$('#buttonBack').html(lan('Back'));
 				$('#buttonBack').html(isLogged()?lan('Back'):lang.home).click(function(){ if(isLogged()) goBack(); else redir(PAGE.ini); });
 				$('#tagNoExits').html(lang.TAGS_WHENTAGNOEXIST);
 			},

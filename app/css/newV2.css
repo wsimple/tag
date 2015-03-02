@@ -938,13 +938,40 @@ li.userInList h3{
 }
 /*SignUp Ends*/
 
+/*SingleTag Starts*/
+
+#page-tag,
+#page-tag .ui-content,
+#page-tag #scroller,
+#pd-wrapper,
+#page-tag .fs-wrapper{
+	background-color: #E1E6E7;
+	border: none;
+	box-shadow: none !important;
+}
+
+#page-tag #sub-menu{
+	text-shadow: none;
+	z-index: 103;
+	height: 3.6em;
+	top: 56px;
+	background: #b3b9bd;
+	position: relative;
+}
+
+#page-tag #sub-menu a{
+	line-height: 2em;
+	color: #FFF;
+}
+/*SingleTag Ends*/
+
 /*TagList Starts*/
 
 #page-tagsList #scroller{
 	background-color: #e2e6e7 !important;
 }
 
-#page-tagsList pd-wrapper{
+#page-tagsList #pd-wrapper{
 	background-color: #e2e6e7 !important;
 }
 #page-tagsList .ui-content{
@@ -952,7 +979,7 @@ li.userInList h3{
 	background-color: #e2e6e7 !important;
 }
 
-/*SignUp Ends*/
+/*TagList Ends*/
 
 /*New Tag*/
 #page-newTag .fs-wrapper{
@@ -1456,6 +1483,18 @@ li.userInList h3{
 }
 
 /*SeekPreferences Start*/
+#page-seekPreferences #sub-menu{
+	text-shadow: none;
+	z-index: 103;
+	height: 3.6em;
+	top: 56px;
+	background: #b3b9bd;
+	position: relative;
+}
+
+#page-seekPreferences #sub-menu a{
+	line-height: 2em;
+}
 
 #page-seekPreferences .ui-link, #page-seekPreferences .ui-link:visited{
 	color: #FFF;
@@ -1594,6 +1633,7 @@ li.userInList h3{
 	padding: 2% 10%;
 }
 #page-freeProducts #resultList .ui-input-search,
+#page-search #resultList .ui-input-search,
 #page-myOrders #resultList .ui-input-search,
 #page-lstMyStore #rowTitle .ui-input-search,
 #page-lstStore #rowTitle .ui-input-search{
@@ -1791,8 +1831,10 @@ li.userInList h3{
 	text-align: center;
 }
 #lstStoreOption .buttons a, #cartList .buttons a{ margin: 0;}
+#filterOrdersDialogs .ui-icon-arrow-d,
 #page-lstStoreCarList.ui-page .ui-icon-arrow-d{ display: none; }
 #page-lstStoreCarList.ui-page .ui-select .ui-mini.ui-btn-icon-right .ui-btn-inner{ padding: .6em 20px; }
+#filterOrdersDialogs .ui-select div[data-corners="true"], 
 #page-lstStoreCarList.ui-page .ui-select div[data-corners="true"]{ 
 	border-radius: 5px !important;
 	color: #2c3e4f;
@@ -1835,7 +1877,7 @@ li.userInList h3{
 }
 #lstStoreOption .contentItem .itemDes .name{
 	width: 170px;
-	height: 33px;
+	max-height: 33px;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	/* white-space: nowrap; */
@@ -1932,6 +1974,7 @@ li.userInList h3{
 	box-shadow: 0 0 0;
 
 }
+#page-search #resultList form.ui-listview-filter,
 #page-myOrders #resultList form.ui-listview-filter{
 	background: none;
 	background-color: #8b9b9c;
@@ -1966,6 +2009,9 @@ li.userInList h3{
 }
 #page-myOrders .nameProduct{ padding: 0; }
 #page-myOrders .price{ color: #F57133; }
+#filterOrdersDialogs .ui-btn-inner .ui-btn-text span{
+	color: #2c3e4f;
+}
 #cate-dialog ul{
 	list-style: none;
 	-webkit-margin-before: 0;

@@ -1,4 +1,5 @@
 <?php include 'inc/header.php'; ?>
+<script src="js/core/jquery.panzoom.js"></script>
 <div id="page-newTag" data-role="page" data-cache="false">
 	<style>
 		.smt-tag-bg-mini div{
@@ -7,6 +8,14 @@
 			-o-background-size:100% auto;
 			background-size:100% auto;
 			height:100px;
+		}
+		#backgroundPreview{
+			overflow: hidden;
+			border-radius: 0.875em;
+		}
+		img#backgroundImage{
+			height: auto;
+			max-width: 100%;
 		}
 	</style>
 	<div data-role="header" data-position="fixed" data-theme="f">
@@ -86,7 +95,7 @@
 					<div id="div_Private" style="display:none;">
 						<div id="div_shareMails" class="smt-div-profile">
 							<label id="EmailsPublicPrivateTagsApp"></label>
-							<textarea id="emails_shareTag" name="shareMails" style="resize:none; margin-bottom: 0px;"></textarea>
+							<textarea id="emails_shareTag" name="shareMails" style="resize:none;margin-bottom:0px;"></textarea>
 							<label id="emails_legend_newtag" style="font-size:10px;"></label>
 						</div>
 						<div id="div_shareFriends" class="smt-div-profile">
@@ -306,10 +315,8 @@
 						xhrFields:{withCredentials:true},
 						headers:{},
 						success:function(data){
-
 							var list='';
 							if(data['files'].length === 0){list="<div class='tcAlert'>"+lang.NEWTAG_NO_BACKGROUNDS+"</div>";} 
-							
 							data['files'].forEach(function(el){
 								list+=
 								'<div style="background-image:url('+el.url+');" '+
@@ -352,13 +359,23 @@
 					if(bg){
 						var bgsize=this.naturalWidth>650?100:100*this.naturalWidth/650;
 						bgsize=bgsize+'% auto';
-						$('#backgroundPreview').css({
-						// $('.prew-tag').css({
-							'background-image':'url('+bg+')',
-							'-webkit-background-size':bgsize,
-							'-o-background-size':bgsize,
-							'background-size':bgsize,
-							'background-position':'50%'
+						// $('#backgroundPreview').css({
+						// // $('.prew-tag').css({
+						// 	'background-image':'url('+bg+')',
+						// 	'-webkit-background-size':bgsize,
+						// 	'-o-background-size':bgsize,
+						// 	'background-size':bgsize,
+						// 	'background-position':'50%'
+						// });
+						// bg = 'http://www.scorezero.com/wp-content/uploads/2014/10/gtaV.jpg'; // solo Pruebas
+						$('#backgroundPreview').html('<img id="backgroundImage" src="'+bg+'" alt="">');
+						$("#backgroundImage").panzoom({ minScale: 1,contain:'invert'}).on('panzoomstart',function(){
+							$('.fs-wrapper').jScroll('remove');
+							$('.inputs-tag').css('opacity','0.4');
+						}).on('panzoomend',function(e, panzoom){
+							$('.inputs-tag').css('opacity','1');
+							$('.fs-wrapper').jScroll();
+							console.log(panzoom.getMatrix());
 						});
 						$(this).attr('src','');
 						this.dataset.template='';
@@ -460,7 +477,6 @@
 												if($_GET['group'] && $_GET['group'] != '' ) {
 													redir(PAGE['tagslist']+'?current=group&id='+$_GET['group']);
 												}else{
-
 													redir(PAGE['timeline']+nonpublic);
 												}
 											}
