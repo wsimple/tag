@@ -938,13 +938,40 @@ li.userInList h3{
 }
 /*SignUp Ends*/
 
+/*SingleTag Starts*/
+
+#page-tag,
+#page-tag .ui-content,
+#page-tag #scroller,
+#pd-wrapper,
+#page-tag .fs-wrapper{
+	background-color: #E1E6E7;
+	border: none;
+	box-shadow: none !important;
+}
+
+#page-tag #sub-menu{
+	text-shadow: none;
+	z-index: 103;
+	height: 3.6em;
+	top: 56px;
+	background: #b3b9bd;
+	position: relative;
+}
+
+#page-tag #sub-menu a{
+	line-height: 2em;
+	color: #FFF;
+}
+/*SingleTag Ends*/
+
 /*TagList Starts*/
 
 #page-tagsList #scroller{
 	background-color: #e2e6e7 !important;
 }
 
-#page-tagsList pd-wrapper{
+#page-tagsList #pd-wrapper{
 	background-color: #e2e6e7 !important;
 }
 #page-tagsList .ui-content{
@@ -952,7 +979,7 @@ li.userInList h3{
 	background-color: #e2e6e7 !important;
 }
 
-/*SignUp Ends*/
+/*TagList Ends*/
 
 /*New Tag*/
 #page-newTag .fs-wrapper{
@@ -1456,6 +1483,18 @@ li.userInList h3{
 }
 
 /*SeekPreferences Start*/
+#page-seekPreferences #sub-menu{
+	text-shadow: none;
+	z-index: 103;
+	height: 3.6em;
+	top: 56px;
+	background: #b3b9bd;
+	position: relative;
+}
+
+#page-seekPreferences #sub-menu a{
+	line-height: 2em;
+}
 
 #page-seekPreferences .ui-link, #page-seekPreferences .ui-link:visited{
 	color: #FFF;
