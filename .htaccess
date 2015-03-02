@@ -10,8 +10,8 @@ ErrorDocument 404 "Error 404: File not found"
 ErrorDocument 500 "Error 500: Internal server error"
 
 #app
-RewriteCond %{SERVER_NAME} ^app\.
-RewriteRule ^/?(.*)$ app_root/$1 [L]
+#RewriteCond %{SERVER_NAME} ^app\.
+#RewriteRule ^/?(.*)$ app_root/$1 [L]
 #img
 RewriteCond %{SERVER_NAME} ^i(mg)?\.
 RewriteRule ^/?(.*)$ img_root/$1 [L]
