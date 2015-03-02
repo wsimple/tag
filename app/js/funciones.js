@@ -683,33 +683,42 @@ function actionMenuStore(action){
 			}
 		});
 	}
+	function newMenuAction(menuInstance, show){
+		// show = show||true;
+		var positionY = 0, defaultAnimation1 = {rotate: '-180deg'}, defaultAnimation2 = {  borderSpacing: 0 };
+		if (!show) {
+			positionY = -114;
+			// defaultAnimation1 = {rotate: '0deg'};
+			defaultAnimation2 = {  borderSpacing: 180 };
+		}
+		$(menuInstance).animate({bottom: positionY},500);
+    	// if(show) $(menuInstance).find('div.arrow').animate(defaultAnimation1,200);
+    	$(menuInstance).find('div.arrow').animate(defaultAnimation2, {
+		    step: function(now,fx) {
+		      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
+		      $(this).css('-moz-transform','rotate('+now+'deg)');
+		      $(this).css('transform','rotate('+now+'deg)');
+		    },
+		    duration:'slow'
+		},'linear');
+	}
 	$(function(){
 		putMenu();
 		putMenuOptions();
 		// Menu actions design V2
+		var statusMenu = false;
+		$("#bottom-menu").on('click', function(event) {
+			statusMenu = !statusMenu;
+			newMenuAction(this,statusMenu);
+		});
 		$("#bottom-menu").swipe( {
 	        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
-	        	$(this).animate({bottom: -0},500);
-	        	$(this).find('div.arrow').animate({rotate: '-180deg'},200);
-	        	$(this).find('div.arrow').animate({  borderSpacing: 0 }, {
-				    step: function(now,fx) {
-				      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
-				      $(this).css('-moz-transform','rotate('+now+'deg)');
-				      $(this).css('transform','rotate('+now+'deg)');
-				    },
-				    duration:'slow'
-				},'linear');
+	        	statusMenu = !statusMenu;
+	        	newMenuAction(this,statusMenu);
 	        },threshold:0,
 	        swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
-	        	$(this).animate({bottom: -114},500);
-	        	$(this).find('div.arrow').animate({  borderSpacing: 180 }, {
-				    step: function(now,fx) {
-				      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
-				      $(this).css('-moz-transform','rotate('+now+'deg)');
-				      $(this).css('transform','rotate('+now+'deg)');
-				    },
-				    duration:'slow'
-				},'linear');
+	        	statusMenu = !statusMenu;
+	        	newMenuAction(this,statusMenu);
 	        },threshold:0
         });
         //END Menu actions design V2
@@ -1357,7 +1366,7 @@ function bodyFriendsList(friend, temp){
 	// else var te="e",text=lan('follow');
 	var known = (friend.conocido)?1:0;
 	console.log('Resultado:'+friend.conocido);
-	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain" data-usrname="'+friend.name_user+'">'+
+	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain" data-usrname="'+friend.name_user+'" >'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
 			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/>'+
 			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
@@ -1392,7 +1401,7 @@ function bodyFriendsList2(friend){
 	if (friend.conocido) var te="a",text=lan('unfollow');
 	else var te="e",text=lan('follow'); 
 	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain" '+
-		'data-icon="info"  data-known="'+known+'" data-usrname="'+friend.name_user+'">'+
+		'data-icon="info"  data-known="'+known+'" data-usrname="'+friend.name_user+'" >'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-username="'+friend.name_user+'" data-theme="e" class="ulbox">'+
 			'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
 			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
