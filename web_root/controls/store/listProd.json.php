@@ -330,7 +330,7 @@
 							$sqlPhoto=" SELECT id, picture
 										FROM store_products_picture
 										WHERE md5(id_product) = '".$row['id']."'
-										ORDER BY `order` DESC";
+										ORDER BY `order`";
 							$photos = $GLOBALS['cn']->query($sqlPhoto);
 							while ($photo = mysql_fetch_assoc($photos)){
 								$photo['id'] = md5($photo['id']);

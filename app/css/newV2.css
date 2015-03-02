@@ -1594,6 +1594,7 @@ li.userInList h3{
 	padding: 2% 10%;
 }
 #page-freeProducts #resultList .ui-input-search,
+#page-search #resultList .ui-input-search,
 #page-myOrders #resultList .ui-input-search,
 #page-lstMyStore #rowTitle .ui-input-search,
 #page-lstStore #rowTitle .ui-input-search{
@@ -1791,8 +1792,10 @@ li.userInList h3{
 	text-align: center;
 }
 #lstStoreOption .buttons a, #cartList .buttons a{ margin: 0;}
+#filterOrdersDialogs .ui-icon-arrow-d,
 #page-lstStoreCarList.ui-page .ui-icon-arrow-d{ display: none; }
 #page-lstStoreCarList.ui-page .ui-select .ui-mini.ui-btn-icon-right .ui-btn-inner{ padding: .6em 20px; }
+#filterOrdersDialogs .ui-select div[data-corners="true"], 
 #page-lstStoreCarList.ui-page .ui-select div[data-corners="true"]{ 
 	border-radius: 5px !important;
 	color: #2c3e4f;
@@ -1835,7 +1838,7 @@ li.userInList h3{
 }
 #lstStoreOption .contentItem .itemDes .name{
 	width: 170px;
-	height: 33px;
+	max-height: 33px;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	/* white-space: nowrap; */
@@ -1932,6 +1935,7 @@ li.userInList h3{
 	box-shadow: 0 0 0;
 
 }
+#page-search #resultList form.ui-listview-filter,
 #page-myOrders #resultList form.ui-listview-filter{
 	background: none;
 	background-color: #8b9b9c;
@@ -1966,6 +1970,9 @@ li.userInList h3{
 }
 #page-myOrders .nameProduct{ padding: 0; }
 #page-myOrders .price{ color: #F57133; }
+#filterOrdersDialogs .ui-btn-inner .ui-btn-text span{
+	color: #2c3e4f;
+}
 #cate-dialog ul{
 	list-style: none;
 	-webkit-margin-before: 0;

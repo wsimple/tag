@@ -116,7 +116,8 @@
                                                         (totalMoney!=0?'<strong>'+lan('total money','ucw')+': <span style="color:#F57133;">'+totalMoney+'</span></strong><br/>':'')+
                                                         (totalPoints!=0?'<strong>'+lan('total points','ucw')+': <span style="color:#F57133;">'+totalPoints+'</span></strong><br/>':'')+
                                                     '</div>',
-                                            buttons:{Ok:'close'},
+                                            buttons:{},
+                                            backgroundClose: true
                                         });
                                     });
                                     myAjax({
@@ -141,9 +142,11 @@
                                             }
                                         }
                                         myDialog({
+                                            id: 'filterOrdersDialogs',
                                             content:'<div><form>'+
                                                     '<fieldset data-role="controlgroup" data-type="horizontal">'+
                                                         '<select name="select-native-11" id="select-year">'+
+                                                        // '<select name="select-choice-mini" id="select-year" data-mini="true" data-inline="true">'+
                                                         optionY+
                                                         '</select>'+
                                                         '<select name="select-native-12" id="select-month">'+
@@ -169,10 +172,8 @@
                                                     this.close();
                                                     redir(PAGE["myOrders"]);
                                                 }
-                                            },{
-                                                name:lang.close,
-                                                action:function(){ this.close(); }
-                                            }]
+                                            }],
+                                            backgroundClose: true
                                         });
                                     });
                                 }
