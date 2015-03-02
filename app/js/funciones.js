@@ -336,7 +336,7 @@ function actionMenuStore(action){
                 },
                 scroll:true,
                 buttons:[],
-                // backgroundClose: true
+                backgroundClose: true
             });
         }
     }
@@ -352,7 +352,7 @@ function actionMenuStore(action){
 				func=function(){redir(PAGE[data.opc]);};
 			break;
 			case 'toptags'		:func=function(){redir(PAGE.toptags);};break;
-			case 'store'		:func=function(){redir(PAGE.storeCat);};break;
+			case 'store'		:func=function(){redir(PAGE.storePorduct);};break;
 			case 'cart'			:func=function(){redir(PAGE.shoppingCart);};break;
 			case 'wish'			:func=function(){redir(PAGE.storeOption);};break;
 			case 'myPubli'		:func=function(){redir(PAGE.storeMypubli);};break;
@@ -2402,7 +2402,7 @@ function deleteItemCar(id,get,obj){
 		success:function(data){
 			if(data.del!='1'){
 				if(data.del=='all'){
-					if(obj.mod=='car'){redir(PAGE.storeCat);}
+					if(obj.mod=='car'){redir(PAGE.storePorduct);}
 					else if (obj.mod=='wish'){
 						$('#lstStoreOption').html(data.wish.body).listview('refresh');
 						actionButtonsStore();
@@ -2557,7 +2557,7 @@ function moveToWish(id,get,details){
                             content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
                             buttons:[{
                                 name:'Ok',
-                                action:function(){ redir(PAGE.storeCat); }
+                                action:function(){ redir(PAGE.storePorduct); }
                             }]
                         });
 						$('#cartList').empty().html('').listview('refresh');
@@ -2597,7 +2597,7 @@ function checkOutShoppingCart(get){
 					myDialog({
 						id:'#idCheckOutAppDone',
 						style:{'min-height':80},
-						content:lan('PUBLICITY_MSGSUCCESSFULLY')+'. '+lan('RESET_PLEASECHECKEMAIL'),
+						content:lan('STORE_ORDERS_THANKYOU_ORDER1')+'<br/><br/>'+lan('STORE_ORDERS_THANKYOU_ORDER2'),
 						scroll:true,
 						buttons:{ok:function(){ redir(PAGE["myOrders"]); }}
 					});

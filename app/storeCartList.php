@@ -113,7 +113,7 @@
                                             content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
                                             buttons:[{
                                                 name:'Ok',
-                                                action:function(){ redir(PAGE.storeCat); }
+                                                action:function(){ redir(PAGE.storePorduct); }
                                             }]
                                         }); 
                                     }
@@ -125,11 +125,10 @@
                                     content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
                                     buttons:[{
                                         name:'Ok',
-                                        action:function(){ redir(PAGE.storeCat); }
+                                        action:function(){ redir(PAGE.storePorduct); }
                                     }]
                                 }); 
                                 $('#buttonCheckOut,#footer li.ui-block-c').remove();
-                                // $('#footer ul li').css('width','50%');
                             }
                         actionMenuStore();
                 		}
@@ -141,7 +140,6 @@
                 }
                 function bodyCart(data){
                     var i,out='',num=0,cost='';
-                    // outDivider='<li data-role="list-divider" class="titleDivider">'+lan('STORE_SHOPPING_TOTAL')+' ('+data.nproduct+')';
                     for(i=0;i<data.datosCar.length;i++){
                         var select='';
                         if(data.datosCar[i].place=='1' && parseInt(data.datosCar[i].stock)>0){
@@ -174,44 +172,15 @@
                                     '</div>'+
                                     '<div class="ui-block-b" style="width: 20%;">'+
                                         '<div class="price"> '+(data.datosCar[i].formPayment=='1'?'$'+cost:cost+'Pts')+'</div>'+
-                                        // '<div class="price"> '+data.datosCar[i].sale_points+' '+(data.datosCar[i].formPayment=='1'?lan('STORE_SHOPPING_DOLLARS'):lan('STORE_SHOPPING_POINTSMA'))+'</div>'+
                                     '</div>'+
                                 '</div>'+
-                                // '<div class="contentItem">'+
-                                //     '<div class="itemDes">'+
-                                //         select+
-                                //     '</div>'+
-                                // '</div><br/>'+
-                                // '<div class="buttons">'+
-                                //     '<a func="details" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_SHOPPING_DETAILS')+'</span></span></a>'+
-                                //     '<a func="delete" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_SHOPPING_ITEM')+'</span></span></a>'+
-                                //     '<a func="sendWish" href="#" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-f"><span class="ui-btn-inner"><span class="ui-btn-text">'+lan('STORE_WISH_LIST_MOVE')+'</span></span></a>'+
-                                // '</div>'+
                             '</li>';
                     }
-                    if(data.totalpoints>0){
+                    if(data.totalpoints>0)
                         $('#data-header .total div').append('<div class="points">'+data.totalpoints+'Pts<input type="hidden" value="'+data.totalpoints+'"></div>');
-                    }
-                    if(data.totalmoney>0){
+                    if(data.totalmoney>0)
                         $('#data-header .total div').append('<div class="money">$'+data.totalpoints+'<input type="hidden" value="'+data.totalpoints+'"></div>');
-                    }
-                    // if(data.totalpoints>0){
-                    //     outDivider+='<div class="point">'+
-                    //                     lan('STORE_SHOPPING_TOTAL_PRODUCTS')+
-                    //                     '<span>'+data.totalpoints+'</span>'+
-                    //                     '<input type="hidden" value="'+data.totalpoints+'">'+
-                    //                 '</div>';
-                    // }
-                    // if(data.totalmoney>0){
-                    //     outDivider+='<div class="money">'+
-                    //                     lan('STORE_SHOPPING_TOTAL_PRODUCTSD')+
-                    //                     '<span>'+data.totalmoney+'</span>'+
-                    //                     '<input type="hidden" value="'+data.totalmoney+'">'+
-                    //                 '</div>';
-                    // }
-                    // outDivider+='</li>';
                     return out;
-                    // return outDivider+out;
                 }
 			}
 		});

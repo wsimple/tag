@@ -1955,6 +1955,7 @@ li.userInList h3{
 	font-size: 14px;
 }
 #cate-dialog ul li{ 
+	text-align: left;
 	margin: 10px 0 0; 
 	float: left;
 }
