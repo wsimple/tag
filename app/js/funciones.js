@@ -683,33 +683,40 @@ function actionMenuStore(action){
 			}
 		});
 	}
+	function newMenuAction(menuInstance, show){
+		// show = show||true;
+		var positionY = 0, defaultAnimation1 = {rotate: '-180deg'}, defaultAnimation2 = {  borderSpacing: 0 };
+		if (!show) {
+			positionY = -114;
+			// defaultAnimation1 = {rotate: '0deg'};
+			defaultAnimation2 = {  borderSpacing: 180 };
+		}
+		$(menuInstance).animate({bottom: positionY},500);
+    	// if(show) $(menuInstance).find('div.arrow').animate(defaultAnimation1,200);
+    	$(menuInstance).find('div.arrow').animate(defaultAnimation2, {
+		    step: function(now,fx) {
+		      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
+		      $(this).css('-moz-transform','rotate('+now+'deg)');
+		      $(this).css('transform','rotate('+now+'deg)');
+		    },
+		    duration:'slow'
+		},'linear');
+	}
 	$(function(){
+		var statusMenu = false;
 		putMenu();
 		putMenuOptions();
 		// Menu actions design V2
+		$("#bottom-menu").on('click', function(event) {
+			statusMenu = !statusMenu;
+			newMenuAction(this,statusMenu);
+		});
 		$("#bottom-menu").swipe( {
 	        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
-	        	$(this).animate({bottom: -0},500);
-	        	$(this).find('div.arrow').animate({rotate: '-180deg'},200);
-	        	$(this).find('div.arrow').animate({  borderSpacing: 0 }, {
-				    step: function(now,fx) {
-				      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
-				      $(this).css('-moz-transform','rotate('+now+'deg)');
-				      $(this).css('transform','rotate('+now+'deg)');
-				    },
-				    duration:'slow'
-				},'linear');
+	        	newMenuAction(this,true);
 	        },threshold:0,
 	        swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
-	        	$(this).animate({bottom: -114},500);
-	        	$(this).find('div.arrow').animate({  borderSpacing: 180 }, {
-				    step: function(now,fx) {
-				      $(this).css('-webkit-transform','rotate('+now+'deg)'); 
-				      $(this).css('-moz-transform','rotate('+now+'deg)');
-				      $(this).css('transform','rotate('+now+'deg)');
-				    },
-				    duration:'slow'
-				},'linear');
+	        	newMenuAction(this,false);
 	        },threshold:0
         });
         //END Menu actions design V2
