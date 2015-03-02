@@ -24,14 +24,28 @@ video_server/*
 main/views/templates/tags.php
 
 local/xdk/*.html
-local/xdk/*.xdk
-local/xdk/*.xdke
+local/xdk/*.xdk*
 local/xdk/js/min.js
 
-language/en.php
-language/es.php
-Tag.xdke
-Tag.xdk
 js/funciones_es.js
 app/css/smt/old/
+
+
+#web server
+web_root/.security/*.php
+web_root/img/*/
+web_root/language/*.php
+web_root/cometchat/cache/*
+web_root/js/funciones_en.js
+web_root/js/funciones_es.js
+
+#img server
+img_root/includes/security/*.php
+img_root/img/
+
+#video server
+video_root/includes/security/*.php
+video_root/videos/pending/*
+video_root/videos/*/*
+video_root/jquery*
 

@@ -1,9 +1,58 @@
 <?php include 'inc/header.php'; ?>
-<div id="page-tagsList" data-role="page" data-cache="false" class="smt-no-scroll no-footer">
-	<div data-role="header" data-position="fixed" data-theme="f"><h1 id="pageTitle"></h1>
-		<a id="btnAddTag" data-icon="check" style="display:none;">&nbsp;</a>
+<script>
+	//$.session('countpage',0);
+	if($.session('_post_')){
+		$.session('_post_',null);
+		window.location.reload();
+	}
+</script>
+<div id="singleRedirDialog" class="myDialog" style="display: none;">
+	<div class="table">
+		<div class="cell">
+			<div class="window" style="max-height: 272px; display: block;">
+				<div class="container" style="max-height: 272px;">
+					<div id="scroller" class="content">
+						
+					</div>
+				</div>
+				<div class="buttons">
+					<a action="0" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined">
+						<span class="ui-btn-inner ui-btn-corner-all">
+							<span class="ui-btn-text">Sí</span>
+						</span>
+					</a>
+					<a action="1" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-hover-f ui-btn-up-f ui-btn-up-undefined">
+						<span class="ui-btn-inner ui-btn-corner-all">
+							<span class="ui-btn-text">No</span>
+						</span>
+					</a>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div data-role="content" style="background-color:#fff;">
+<div class="closedialog" style="display:none"></div></div>
+<div id="page-tagsList" data-role="page" data-cache="false" class="smt-no-scroll no-footer">
+	<div  data-role="header" data-theme="f" data-position="fixed">
+		<div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
+			<span class="photo"></span> 
+			<span class="info">
+				<span class="name"></span>
+				<span class="points"></span>
+			</span>
+		</div>
+		<div class="notificacion-area" id="notifications">
+			<span class="notification-num"><a href="notifications.html">0</a></span>
+		</div>
+		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
+		<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
+			<span class="loader"></span>
+		</div> -->
+		<fieldset id="private-select" data-role="controlgroup" data-type="horizontal" data-mini="true" style="position:absolute;top:7px;right:5px;display:none;">
+			<input id="radio-inbox" type="radio" name="radio-in-out" data-theme="a" value="in" checked="checked"/>
+			<input id="radio-outbox" type="radio" name="radio-in-out" data-theme="a" value="out"/>
+		</fieldset>
+	</div>
+	<div data-role="content">
 		<div id="pd-wrapper">
 			<div id="scroller">
 				<div id="pullDown"><div class="smt-tag-content"><span class="pullDownIcon"></span><span class="pullDownLabel"></span></div></div>
@@ -43,8 +92,14 @@
 	<script>
 		pageShow({
 			id:'#page-tagsList',
-			buttons:{showmenu:true},
 			before:function(){
+				newMenu();
+				$('#sub-menu ul').html(
+					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
+					'<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
+					'<li class="ui-block-c points"></li>'+
+					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+				);				
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);
 				$('#buttonBack').html(lan('Back'));
@@ -271,6 +326,12 @@
 						});
 					});
 				}
+
+				get_profile($.local('code'), function(data){
+					$('#profile span.info .name').html($.local('full_name'));
+					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
+				});
+				
 			}//end after
 		});
 	function sendadminGroup(idDialog,id){

@@ -53,7 +53,7 @@
                                 if (out!=''){
                                     $('#footerPay').html('<div class="ui-grid-a">'+
                                                 '<div class="ui-block-a" style="width: 40%">'+
-                                                    '<button id="buttonCancelCheckOut" data-theme="c">'+lan('cancel')+'</button>'+                                        
+                                                    '<button id="buttonCancelCheckOut" data-theme="a">'+lan('cancel')+'</button>'+                                        
                                                 '</div>'+
                                                 '<div class="ui-block-b" style="width: 60%">'+
                                                     '<button id="buttonCheckOut" data-theme="e">'+lan('pay now','ucw')+'</button>'+
@@ -72,15 +72,13 @@
                                                     myDialog({
                                                         id:'defaultDialog',
                                                         content:msgShipp.msg+'<div>'+lang.STORE_SHIPPING_CHANGE+'</div>',
+                                                        backgroundClose: true,
                                                         buttons:[{
                                                                 name:lang.yes,
                                                                 action:function(){ redir(PAGE['storeOption']+'?option=1'); }
                                                             },{
                                                                 name:'No',
                                                                 action:function(){ checkOutShoppingCart('&ned=1'); }
-                                                            },{
-                                                                name:lang.cancel,
-                                                                action:'close'
                                                             }]
                                                     });
                                                 }else{ redir(PAGE['storeOption']+'?option=1'); }

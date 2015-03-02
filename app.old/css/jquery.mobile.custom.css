@@ -104,10 +104,13 @@
 	color:#444;
 	text-shadow:none;
 	border-color:#fc8829;
+	height: 32px;
+	margin-top: -2px;
+	padding-top: 1px;
+	padding-bottom: 0px;
 }
 #private-select .ui-btn-active{
 	/*background:#03A993 url(images/bg_btn_down_1x100.png) 50% 50% repeat-x;*/
-    background: #3db8e1 url('tbum/white_arrow_left.png') no-repeat;
 	color:#444;
 	text-shadow:none;
 	border: none;
@@ -230,7 +233,7 @@
 }
 .ui-btn-up-f, .ui-btn-hover-f{
 	border: none;
-	background: #3db8e1;
+	background: #03A993;
 	color: #FFF;
 	font-weight: bold;
 }
@@ -245,5 +248,5 @@
 	background-color: #ee6323;
 }
 .btn-blue{
-	background-color:#3db8e1;
+	background-color:#03A993;
 }

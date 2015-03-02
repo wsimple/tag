@@ -1190,7 +1190,6 @@ function playComment(tagtId, opc){
 			if(!opc.actions||action=='reload'){
 				opc.actions={refresh:{},more:{}};
 				opc.date='';
-				$(layer).html('');
 			}
 			act=opc.actions[action=='refresh'?'refresh':'more'];
 			if(loader) $.loader('show');
@@ -1208,6 +1207,7 @@ function playComment(tagtId, opc){
 					if(cancel()){
 						console.log('Cancelada carga de '+current+'.'); return;
 					}else{
+						if(action=='reload'){$(layer).html('');}
 						if (action=='reload' && opc.title && data.rtitle) $('#pageTitle, #rowTitle').append(': '+data.rtitle);
 						if(action=='more'&&(!data.tags||data.tags.length<1)) act.more=false;
 						if(data.tags && data.tags.length>0){
@@ -1232,8 +1232,14 @@ function playComment(tagtId, opc){
 								$(layer).prepend(tags);
 						}else if(action=='reload'){
 							$(opc.layer).html(
-								'<div><div class="tag-loading smt-container" style="max-height:300px;height:300px;"><div id="noTags" class="smt-content" style="z-index:4;">'+notag+'</div></div><div class="smt-tag"><img src="../img/placaFondo.png" class="tag-img" style="z-index:3;"></div></div>'
+								'<div><div class="tag-loading smt-container" style="max-height:300px;height:300px;"><div id="noTags" class="smt-content" style="z-index:4;">'+notag+'</div></div><div class="smt-tag"><img src="../img/placaFondo.png" class="tag-img" style="z-index:3;"></div></div>'+
+	
+									'<button id="noresult-tags" data-role="button" data-theme="f"  class="ui-btn"  data-icon="plus" data-iconpos="right">'+
+										lan("Creates a tag")+
+									'</button>'
 							);
+							$('#noresult-tags').button();
+							$('#noresult-tags').click(function(){ redir(PAGE['newtag']); });
 							if(current=='group'){
 								verifyGroupMembership(opc.id,opc.code,function(data){
 //									alert(opc.code);
@@ -1344,18 +1350,6 @@ function playComment(tagtId, opc){
 		return false;
 	};
 })(window,jQuery,console);
-
-function bodyFriendsList2(friend, temp){
-	var known = (friend.conocido)?1:0;
-	console.log('Resultado:'+friend.conocido);
-	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain" data-icon="false">'+
-		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
-			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/></br>'+
-			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
-		'</a>'+
-	'</li>';
-	return out;
-}
 
 function bodyFriendsList(friend, temp){
 	temp = temp || 'a';
@@ -1546,13 +1540,12 @@ function linkUser(layer,$wrapper){
 		//console.log('Posicion del click:'+e.pageY)
 		var photo = $(this).find('a img').attr('src');
 		var te="e",text=lan('follow'); 
+		var perfiltag = lan('USER_PROFILE');
+		var redirprofile = PAGE['profile']+'?id='+this.dataset.link;
+		var redirSelfProfile = PAGE['profile'];
+		var followButonAction = DOMINIO+'controls/users/follow.json.php?uid='+this.dataset.unlink;
 		if (this.dataset.known == 1) te="a",text=lan('unfollow');
-		myDialog({
-			id:'#friend-options',
-			content:
-			'<div>'+
-			'<div class="photo"><img src="'+photo+'" alt="photo" /></div><br />'+
-			'<div class="info">'+lan('name','ucf')+': '+this.dataset.usrname+'</div>'+
+/*
 			'<fieldset class="ui-grid-a">'+
 				'<div class="ui-block-a">'+
 					'<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" data-disabled="false" class="ui-submit ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all" aria-disabled="false">'+
@@ -1567,9 +1560,43 @@ function linkUser(layer,$wrapper){
 					'</div>'+
 				'</div>'+
 			'</fieldset>'+
+*/
+		myDialog({
+			id:'#friend-options',
+			content:
+			'<div>'+
+			'<div class="photo"><img src="'+photo+'" alt="photo" /></div><br />'+
+			'<div class="info">'+lan('name','ucf')+': '+this.dataset.usrname+'</div>'+
 			'</div>',
 			style:{'padding-right':5},
-			buttons:{},
+			buttons:{ 
+				Profile:function(){ redir(redirprofile); },
+				Follow:function(){ 
+					myAjax({
+						type:'GET',
+						url:followButonAction,
+						error:function() {
+							console.log('follow button ERROR');
+						},
+						success:function(data){
+							console.log('follow button OK');
+							/*if(!data['error']){
+								setFriendsButtons(data['friend']);
+								// $follow.fadeOut('slow', function () {
+									// setFollowButton(!data['unlink']);
+									// $follow.fadeIn('slow');
+								// });
+							}else{
+								$follow.fadeOut('slow', function () {
+									setFollowButton($follow.attr('data-theme')=="u");
+									$follow.fadeIn('slow');
+								});u
+							}*/
+						}
+					});
+					redir(redirSelfProfile);
+				} 
+			},
 			backgroundClose: true
 		});
 
@@ -1849,18 +1876,53 @@ function myDialog(){
 	}
 	restoreInputs=disableInputs(o.id);
 	o.close=function(calle){
+		console.log(calle);
+		if(typeof calle !== 'undefined'){
+			if(calle.type=='click'){
+				//alert(calle.target.tagName+' = '+calle.target.className);
+				//console.log('en click');
+				//console.log(calle);
+				if((calle.target.className=='closedialog')||(calle.target.className=='cell')||(calle.target.className=='table')||(calle.target.className=='div')){
+					//alert('cerrar ' + calle.target.tagName+' = '+calle.target.className);
+					//console.log(calle.target);
+					$('.window',$d).fadeOut('fast',function(){
+						if(typeof calle==='function')
+							$d.fadeOut('fast',calle);
+						else
+							$d.fadeOut('fast');
+					});
+				}else{
+					//alert('no cerrar');
+					//alert(calle.target.tagName+' = '+calle.target.className);
+					//console.log(calle);
+				}
+			}else{
+				//alert('no es click');
+				//console.log('no es click');
+				//console.log(calle);
+				$('.window',$d).fadeOut('fast',function(){
+					if(typeof calle==='function')
+						$d.fadeOut('fast',calle);
+					else
+						$d.fadeOut('fast');
+				});
+			}
+		}else{
+			//console.log('no es evento');
+			//console.log(calle);
+			$('.window',$d).fadeOut('fast',function(){
+				if(typeof calle==='function')
+					$d.fadeOut('fast',calle);
+				else
+					$d.fadeOut('fast');
+			});
+		}
 		restoreInputs();
-		$('.window',$d).fadeOut('fast',function(){
-			if(typeof calle==='function')
-				$d.fadeOut('fast',calle);
-			else
-				$d.fadeOut('fast');
-		});
 	};
 	if(o.backgroundClose){
-		$(o.id+'.myDialog>.table').one('click',o.close);
+		$(o.id+'.myDialog>.table').on('click',o.close);
 	}
-	$('.closedialog',$d).one('click',o.close);
+	$('.closedialog',$d).on('click',o.close);
 	if(!o.buttons){
 		o.buttons={Ok:o.close};
 	}
@@ -1912,6 +1974,7 @@ function checkAllCheckboxs(value,container){
 	return false;
 }
 function getFriends(id,groups,like){
+	console.log('getFriends');
 	like=like?'&like='+like:'';
 	var emails=[],content='.list-wrapper #scroller ul',
 		url=DOMINIO+'controls/users/people.json.php?nosugg&action=friendsAndFollow&code'+like;
@@ -1945,9 +2008,29 @@ function getFriends(id,groups,like){
 							'</div>'+
 						'</li>';
 			}
-			// ret=ret+'<li data-icon="false" ></li>';
+			
+			if(data['datos'].length===0){
+					
+					ret='</ul>'+
+							'<div class="tcAlert">'+lang.GROUPS_MESSAGEMPTY+'</div>'+
+							'<button id="noresult-findfriends" data-role="button" data-theme="f"  class="ui-btn"  data-icon="plus" data-iconpos="right">'+
+								lan('friendSearh_title')+
+							'</button>'+
+						'<ul>';
+			}
+			
+
 			$(content).html(ret).listview('refresh');
 			$('.list-wrapper').jScroll('refresh');
+
+			
+			if(data['datos'].length===0){
+				$('#noresult-findfriends').button();
+				$('#noresult-findfriends').click(function(){ redir(PAGE.findfriends); });
+			}	
+
+			
+	
 
 			$(content+' li').click(function(){
 				if (!$('input',this).is(':checked')){
@@ -1959,7 +2042,9 @@ function getFriends(id,groups,like){
 				} 
 			});
 		},
-		error	:function(){
+	
+		
+		error :function(){
 			myDialog('#singleDialog','ERROR-getFriends');
 		}
 	});
@@ -1969,17 +2054,20 @@ function selectFriendsDialog(id,groups){
 	console.log('selectfriendsdialog');
 	var idDialog='shareTagDialog';
 	if (groups) idDialog='friendsListDialog';
+
 	myDialog({
 		id:idDialog,
 		style:{'min-height':200},
 		buttons:{},
 		after:function(options,dialog){
 			getFriends(id,groups);
+			
 			var timer;
 			$('#like_friend',dialog).unbind('keyup').bind('keyup',function(event){
 				if(event.which==8||event.which>40){
 					if(timer) clearTimeout(timer);
 					timer=setTimeout(function(){
+						
 						getFriends(id,groups,$('#like_friend',dialog).val());
 					},1000);
 				}

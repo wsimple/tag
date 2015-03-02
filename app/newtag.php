@@ -86,7 +86,7 @@
 					<div id="div_Private" style="display:none;">
 						<div id="div_shareMails" class="smt-div-profile">
 							<label id="EmailsPublicPrivateTagsApp"></label>
-							<textarea id="emails_shareTag" name="shareMails" style="resize:none;"></textarea>
+							<textarea id="emails_shareTag" name="shareMails" style="resize:none; margin-bottom: 0px;"></textarea>
 							<label id="emails_legend_newtag" style="font-size:10px;"></label>
 						</div>
 						<div id="div_shareFriends" class="smt-div-profile">
@@ -306,8 +306,10 @@
 						xhrFields:{withCredentials:true},
 						headers:{},
 						success:function(data){
-							if(!data||!data['files']) return;
+
 							var list='';
+							if(data['files'].length === 0){list="<div class='tcAlert'>"+lang.NEWTAG_NO_BACKGROUNDS+"</div>";} 
+							
 							data['files'].forEach(function(el){
 								list+=
 								'<div style="background-image:url('+el.url+');" '+
@@ -458,6 +460,7 @@
 												if($_GET['group'] && $_GET['group'] != '' ) {
 													redir(PAGE['tagslist']+'?current=group&id='+$_GET['group']);
 												}else{
+
 													redir(PAGE['timeline']+nonpublic);
 												}
 											}
@@ -469,7 +472,12 @@
 									}else if($_GET['product'] && $_GET['product'] !== ''){
 										redir(PAGE['storeMypubli']);
 									}else{
-										localStorage.removeItem('timeLine');
+										if(data['status']==4){ 
+											
+											$.local('timeLine', {'last_tab':'privateTags'}); 
+										}else{
+											localStorage.removeItem('timeLine');
+										}
 										redir(PAGE['timeline']+nonpublic);
 									}
 								}

@@ -4,12 +4,11 @@
 	background: hsla(210, 26%, 30%, 0.8);
 	border-radius: 5px;
 }
-.myDialog #scroller{
+.myDialog #scroller, .myDialog .title{
 	/*background: hsla(0, 0%, 20%, 0.85);*/ /*porcia miharbi dice que no es el color*/
 	background: transparent;
 	/*border-radius: 5px;*/
 }
-
 
 #friend-options .info{
 	color: #FFF;
@@ -18,14 +17,26 @@
 .myDialog .content span,.myDialog .content a,
 .myDialog .content strong,.myDialog .content li,
 .myDialog .content p,.myDialog .content em,
-.myDialog .content div,
-.myDialog .content button{
+.myDialog .content div,.myDialog .content,
+.myDialog #scroller,.myDialog .content button,
+.myDialog .title{
 	color: white; 
 	text-decoration: none;
+	text-align: center;
 	text-shadow: 0 0 0;
 }
+.myDialog .buttons{ text-align: center; }
+.myDialog .buttons .ui-btn{
+	background: none;
+	width: auto;
+	display: inline-block;
+}
+.myDialog .buttons .ui-btn .ui-btn-text{ font-size: 20px; }
 /*End Cuadros de dialogo*/
-
+.ui-loader{ 
+	top: inherit;
+	bottom: 0;
+}
 /*Login, Signin*/
 .ui-page .ui-content.smt-bg, .smt-bg{
 	background: #01a185 url('newdesign/bg-buildings.png') no-repeat top;
@@ -481,6 +492,9 @@ input.ui-input-text, textarea.ui-input-text{
 }
 
 /*Time line*/
+#page-lstStoreOption.shipping #fs-wrapper, 
+#page-lstStoreOption.shipping #scroller, 
+#page-lstStoreOption.shipping #frmRegister,
 #page-lstStoreSubCategory #scroller,
 #page-lstStoreCategory #scroller,
 #page-lstMyStore #scroller, #page-lstStore #scroller, 
@@ -808,7 +822,7 @@ li.userInList h3{
 
 #page-signUp #fs-wrapper, 
 #page-signUp #scroller, 
-#page-signUp #frmRegister {
+#page-signUp #frmRegister{
 	background-color: #EB5A28;
 	border: none !important;
 	border-shadow: none;
@@ -922,6 +936,22 @@ li.userInList h3{
 	margin-top: 2px !important;
 	margin-bottom: 2px !important;
 }
+/*SignUp Ends*/
+
+/*TagList Starts*/
+
+#page-tagsList #scroller{
+	background-color: #e2e6e7 !important;
+}
+
+#page-tagsList pd-wrapper{
+	background-color: #e2e6e7 !important;
+}
+#page-tagsList .ui-content{
+	margin-top: 113px;
+	background-color: #e2e6e7 !important;
+}
+
 /*SignUp Ends*/
 
 /*New Tag*/
@@ -1127,6 +1157,21 @@ li.userInList h3{
 #page-profile #closeBtn{
 	text-align: center;
 	text-decoration: none;
+}
+
+#page-profile ::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #525A6F;
+}
+#page-profile :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #525A6F;
+   opacity:  1;
+}
+#page-profile ::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #525A6F;
+   opacity:  1;
+}
+#page-profile :-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #525A6F;
 }
 
 /*Profile Ends*/
@@ -1630,6 +1675,14 @@ li.userInList h3{
 #infoDetails .buttonsDetails div[data-theme="e"]{
 	background: #F57133;
 	border: 1px solid #F57133;
+}
+#page-lstStoreOption #footerPay div[data-theme="a"],
+#page-lstStoreCarList #footerPay div[data-theme="a"],
+#infoDetails .buttonsDetails div[data-theme="a"]{
+	/*background: hsla(0, 0%, 20%, 0.85);*/
+	background: hsla(210, 26%, 30%, 0.8);
+	color: white;
+	border: 1px solid transparent;
 } 
 #infoDetails .tag-hash a,#infoDetails .tag-solo-hash a{ color: #FF6633; }
 #infoDetails .buttonsDetails .video .ui-btn-inner{ padding: .2em;}
@@ -1786,6 +1839,84 @@ li.userInList h3{
 	/* white-space: nowrap; */
 	word-wrap: normal;
 }
+#page-lstStoreOption.shipping #storeOption{
+	margin: 0;
+	padding: 0;
+	-moz-box-shadow: 0 0 0;
+	-webkit-box-shadow: 0 0 0; 
+	box-shadow: 0 0 0; 
+	background: transparent;
+}
+#page-lstStoreOption.shipping #storeOption form{
+	width: 70%;
+	margin: 0 auto;
+}
+#page-lstStoreOption.shipping #storeOption form .ui-btn-up-c,
+#page-lstStoreOption.shipping #storeOption form .ui-btn-active,
+#page-lstStoreOption.shipping #storeOption form .ui-focus,
+#page-lstStoreOption.shipping #storeOption form .ui-btn-hover,
+#page-lstStoreOption.shipping #storeOption form .ui-btn-down-c,
+#page-lstStoreOption.shipping #storeOption form .ui-select,
+#page-lstStoreOption.shipping #storeOption form .ui-input-text{
+	color: #2C3E50 !important;
+	margin: 3px 0;
+	padding: 0;
+	box-shadow: initial !important;
+	border: none !important;
+	border-radius: 5px !important;
+	-ms-border-radius: 5px !important;
+	-moz-border-radius: 5px !important;
+	-webkit-border-radius: 5px !important;
+	-o-border-radius: 5px !important;
+	background-image: none !important;
+	font-weight: normal !important;
+	background-color: #fff !important;
+	font-size: 16px !important;
+	text-shadow: 0 0 0 !important;
+	width: 100%;
+	text-align: left;
+	padding-left: 5px;
+}
+#page-lstStoreOption.shipping #storeOption form .ui-grid-a .ui-btn-up-c,
+#page-lstStoreOption.shipping #storeOption form .ui-grid-a .ui-btn-active,
+#page-lstStoreOption.shipping #storeOption form .ui-grid-a .ui-select .ui-focus,
+#page-lstStoreOption.shipping #storeOption form .ui-grid-a .ui-select{
+	width: 90%;
+}
+#page-lstStoreOption.shipping #storeOption form .ui-grid-a{ width: 103%; }
+#page-lstStoreOption.shipping #storeOption form .ui-grid-a .ui-block-a{ 
+	width: 25%; 
+	margin-right: 2%; 
+}
+#page-lstStoreOption.shipping #storeOption form .ui-grid-a .ui-block-b{ 
+	width: 70%;
+}
+#page-lstStoreOption.shipping #storeOption form .ui-grid-a .ui-select .ui-focus,
+#page-lstStoreOption.shipping #storeOption form .ui-btn-active,
+#page-lstStoreOption.shipping #storeOption form .ui-btn-up-c{ padding: 0; }
+#page-lstStoreOption.shipping #storeOption form .ui-icon-arrow-d{
+	display: none;
+	margin:0;
+	padding: 0;
+	width: 0;
+	height: 0;
+}
+#page-lstStoreOption.shipping #storeOption .iconButtons{
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+}
+#page-lstStoreOption.shipping #storeOption .iconButtons img{
+	width: 30px;
+	height: 30px;
+}
+#page-lstStoreOption.shipping #storeOption .iconButtons a{ color: hsla(210, 26%, 30%, 0.8);}
+#page-lstStoreOption.shipping #storeOption form input.ui-input-text{
+	padding: 5px 0;
+}
+#page-lstStoreOption.shipping #storeOption form .ui-btn-inner{ 
+	padding: 7px 0 8px;
+}
 #page-myOrders #resultList li,
 #page-lstStoreSubCategory #categotyList li,
 #page-lstStoreCategory #categotyList li{
@@ -1843,7 +1974,7 @@ li.userInList h3{
 	font-size: 14px;
 }
 #cate-dialog ul li{ 
-	margin: 5px 0 0; 
+	margin: 10px 0 0; 
 	float: left;
 }
 #cate-dialog ul.user li.myPubli,
@@ -1867,6 +1998,7 @@ li.userInList h3{
 }
 #cate-dialog ul li ul{ display: none; }
 #cate-dialog ul li.active ul{ display: block; }
+.myDialog .msgShipp p{ text-align: left; }
 /*Store Ends*/
 /*Media querys*/
 @media screen and (min-width: 600px) {
@@ -1897,5 +2029,6 @@ li.userInList h3{
 		background-size: 40%;
 		width:20%;
 	}
+	#cate-dialog ul{ font-size: 1.5em; }
 }
 /*End Media querys*/
