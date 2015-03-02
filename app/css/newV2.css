@@ -932,6 +932,17 @@ li.userInList h3{
 
 /*TagList Starts*/
 
+#page-tagsList #scroller{
+	background-color: #e2e6e7 !important;
+}
+
+#page-tagsList pd-wrapper{
+	background-color: #e2e6e7 !important;
+}
+#page-tagsList .ui-content{
+	margin-top: 113px;
+	background-color: #e2e6e7 !important;
+}
 
 /*SignUp Ends*/
 
