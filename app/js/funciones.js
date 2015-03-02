@@ -703,20 +703,22 @@ function actionMenuStore(action){
 		},'linear');
 	}
 	$(function(){
-		var statusMenu = false;
 		putMenu();
 		putMenuOptions();
 		// Menu actions design V2
+		var statusMenu = false;
 		$("#bottom-menu").on('click', function(event) {
 			statusMenu = !statusMenu;
 			newMenuAction(this,statusMenu);
 		});
 		$("#bottom-menu").swipe( {
 	        swipeUp:function(event, direction, distance, duration, fingerCount, fingerData) {
-	        	newMenuAction(this,true);
+	        	statusMenu = !statusMenu;
+	        	newMenuAction(this,statusMenu);
 	        },threshold:0,
 	        swipeDown:function(event, direction, distance, duration, fingerCount, fingerData) {
-	        	newMenuAction(this,false);
+	        	statusMenu = !statusMenu;
+	        	newMenuAction(this,statusMenu);
 	        },threshold:0
         });
         //END Menu actions design V2
