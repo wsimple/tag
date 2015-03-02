@@ -987,6 +987,8 @@ li.userInList h3{
 
 #page-profile .textbox{
 	height: 25px !important;
+	width: 78px !important;
+	max-width: 78px !important;
 	line-height: 25px !important;
 	font-size: 18px !important;
 	float: left;
