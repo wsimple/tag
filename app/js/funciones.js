@@ -703,8 +703,8 @@ function actionMenuStore(action){
 		},'linear');
 	}
 	$(function(){
-		putMenu();
-		putMenuOptions();
+		// putMenu();
+		// putMenuOptions();
 		// Menu actions design V2
 		var statusMenu = false;
 		$("#bottom-menu").on('click', function(event) {

@@ -1346,8 +1346,10 @@ function createTag($tag,$force=false,$msg=false){
 				$config->relpath.'fonts/verdana.ttf',
 				$config->relpath.'fonts/verdanab.ttf'
 			);
-			//Se crea la imagen con el tamaño normal - 650 x 300.
-			$im=imagecreatetruecolor(TAGWIDTH,TAGHEIGHT);
+			//Se crea la imagen con el tamaño normal - 1200 x 554.
+			$im=imagecreatetruecolor(TAGWIDTHHD,TAGHEIGHTHD);
+			//calculo del tamanio base al tamanio HD
+			$basemult = round(TAGWIDTHHD/TAGWIDTH,3);
 			//Crear algunos colores
 			$blanco=imagecolorallocate($im,255,255,255);
 			$negro=imagecolorallocate($im,0,0,0);
@@ -1356,27 +1358,28 @@ function createTag($tag,$force=false,$msg=false){
 			$is=@getimagesize($imagen);
 			if($is[0]>0){
 				$img=WideImage::load($imagen);
-				$img->resizeDown(650);
-				$dy=intval((TAGHEIGHT-$is[1])/2);
+				//$img->resizeDown(650);
+				$img->resizeDown(TAGHEIGHTHD);
+				$dy=intval((TAGHEIGHTHD-$is[1])/2);
 				while($dy>0) $dy-=$is[1];
 				do{
-					$dx=$is[0]>TAGWIDTH?intval((TAGWIDTH-$is[0])/2):0;
+					$dx=$is[0]>TAGWIDTHHD?intval((TAGWIDTHHD-$is[0])/2):0;
 					do{
 						imagecopy($im,$img->getHandle(),$dx,$dy,0,0,$is[0],$is[1]);
 						$dx+=$is[0];
-					}while($dx<TAGWIDTH);
+					}while($dx<TAGWIDTHHD);
 					$dy+=$is[1];
-				}while($dy<TAGHEIGHT);
+				}while($dy<TAGHEIGHTHD);
 				// imagedestroy($img);
 				$img->destroy();
 			}
 			//Bordes redondeados
 			$cr=25;//radio de la curva
-			$mask=imagecreatetruecolor(TAGWIDTH,TAGHEIGHT);
-			imagecopy($mask,$im,0,0,0,0,TAGWIDTH,TAGHEIGHT);
+			$mask=imagecreatetruecolor(TAGWIDTHHD,TAGHEIGHTHD);
+			imagecopy($mask,$im,0,0,0,0,TAGWIDTHHD,TAGHEIGHTHD);
 			$im1=WideImage::loadFromHandle($mask);
 			$im1=$im1->roundCorners(30,$im1->allocateColor(255,255,255), 2,255);
-			imagecopy($im,$im1->getHandle(),0,0,0,0,TAGWIDTH,TAGHEIGHT);
+			imagecopy($im,$im1->getHandle(),0,0,0,0,TAGWIDTHHD,TAGHEIGHTHD);
 			$im1->destroy(); 
 			/**/
 			//Imagen de usuario
@@ -1386,7 +1389,7 @@ function createTag($tag,$force=false,$msg=false){
 			$img=imagecreatefromany($imagen);
 			if($img){
 				$im2=WideImage::loadFromHandle($img);
-				if ($im2->getWidth()!=60 || $im2->getHeight()!=60 ){
+				if ($im2->getWidth()!=round(60*$basemult) || $im2->getHeight()!=round(60*$basemult) ){
 					if ($im2->getWidth()!==$im2->getHeight()){
 						$w=$im2->getWidth();$h=$im2->getHeight();
 						if ($w>$h){
@@ -1400,10 +1403,11 @@ function createTag($tag,$force=false,$msg=false){
 						}
 						$im2 = $im2->crop($x,$y,$t,$t);
 					}
-					$im2=$im2->resize(60,60);
+					$im2=$im2->resize(round(60*$basemult),round(60*$basemult));
 				}
 				$im2=$im2->roundCorners(33,null, 2,255);
-				imagecopy($im,$im2->getHandle(),40,215,0,0,60,60); 
+//				imagecopy($im,$im2->getHandle(),40,215,0,0,60,60); 
+				imagecopy($im,$im2->getHandle(),round(40*$basemult),round(215*$basemult),0,0,round(60*$basemult),round(60*$basemult)); 
 				$im2->destroy();
 			}
 			//Textos de la tag.
@@ -1415,10 +1419,13 @@ function createTag($tag,$force=false,$msg=false){
 			$fuente=$font[1];
 			$texto=strclean($tag['texto']);
 			$color=imagecolorhexallocate($im,$tag['color_code']);
-			$size=15;
+			//$size=15;
+			$size=round(15*$basemult);
 			$txt=imagettfbbox($size,0,$fuente,$texto);
-			$y=73;
-			$mw=600;//max width - ancho maximo
+			//$y=73;
+			$y=round(73*$basemult);
+			//$mw=600;//max width - ancho maximo
+			$mw=TAGWIDTHHD;//max width - ancho maximo
 			$tmp=explode(' ',$texto);
 			$i=0;
 			do{
@@ -1429,7 +1436,7 @@ function createTag($tag,$force=false,$msg=false){
 					if($txt[2]<$mw) $texto.=' '.$tmp[$i++];
 				}
 				$txt=imagettfbbox($size,0,$fuente,$texto);
-				$x=intval((TAGWIDTH-$txt[2])/2);
+				$x=intval((TAGWIDTHHD-$txt[2])/2);
 				imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
 				imagettftext($im,$size,0,$x-1,$y-1,$luz,$fuente,$texto);
 				imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
@@ -1439,12 +1446,14 @@ function createTag($tag,$force=false,$msg=false){
 			$fuente=$font[0];
 			$texto=strtoupper(strclean($tag['code_number']));
 			$color=imagecolorhexallocate($im,$tag['color_code2']);
-			$size=45;
+			//$size=45;
+			$size=round(45*$basemult);
 			$s=0;//separacion entre letras
 			$len=strlen($texto);
 			$txt=imagettfbbox($size,0,$fuente,$texto);
-			$x=intval((TAGWIDTH-$txt[2])/2);
-			$y=165;
+			$x=intval((TAGWIDTHHD-$txt[2])/2);
+			//$y=165;
+			$y=round(165*$basemult);
 			imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
 			imagettftext($im,$size,0,$x-1,$y-1,$luz,$fuente,$texto);
 			imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
@@ -1453,16 +1462,17 @@ function createTag($tag,$force=false,$msg=false){
 			$texto=strclean($tag['nameOwner']);
 			$color=$blanco;
 			$sombra=$negro;
-			$size=15;
-			$x=115;
-			$y=223;
+			$size=round(15*$basemult);
+			$x=round(115*$basemult);
+			$y=round(223*$basemult);
 			imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
 			imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
 			//fecha
 			$txt=imagettfbbox($size,0,$fuente,$texto);
 			$fuente=$font[0];
 			$texto=date('d-M-Y H:i',$tag['date']);
-			$size=8;
+			//$size=8;
+			$size=round(8*$basemult);
 			$x+=$txt[2]+10;
 			imagettftext($im,$size,0,$x+1,$y+1,$sombra,$fuente,$texto);
 			imagettftext($im,$size,0,$x,$y,$color,$fuente,$texto);
@@ -1471,10 +1481,10 @@ function createTag($tag,$force=false,$msg=false){
 			$fuente=$font[1];
 			$texto=strclean($tag['texto2']);
 			$color=imagecolorhexallocate($im,$tag['color_code3']);
-			$size=10;
-			$x=115;
-			$y=241;
-			$mw=430;//max width-ancho maximo
+			$size=round(10*$basemult);
+			$x=round(115*$basemult);
+			$y=round(241*$basemult);
+			$mw=round(430*$basemult);//max width-ancho maximo
 			$tmp=explode(' ',$texto);
 			$i=0;
 			do{
@@ -1491,6 +1501,7 @@ function createTag($tag,$force=false,$msg=false){
 			}while(count($tmp)>$i);
 			//Imagen de placa
 			$imagen=$config->relpath.'img/placaFondo.png';
+			redimensionar($imagen,$imagen->relpath.$photompath,TAGWIDTHHD);
 			$img=imagecreatefromany($imagen);
 			if($img){
 				$is=getimagesize($imagen);
@@ -1502,7 +1513,7 @@ function createTag($tag,$force=false,$msg=false){
 		// if(!$debug){//si estamos en debug no se guarda
 			$phototmp=$config->relpath.$path.'/tmp'.rand().'.png';
 			imagepng($im,$phototmp);
-			if (redimensionar($phototmp,$config->relpath.$photopath,650)){
+			if (redimensionar($phototmp,$config->relpath.$photopath,TAGWIDTHHD)){
 				@unlink($phototmp);
 				$ftp=FTPupload("tags/$photo");
 				if($msg) echo '<br/>guardada imagen '.$photo;

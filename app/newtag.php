@@ -1,23 +1,11 @@
 <?php include 'inc/header.php'; ?>
+<style>
+	.ui-block-b.menu-button{
+		width: 10%;
+	}
+</style>
 <script src="js/core/jquery.panzoom.js"></script>
 <div id="page-newTag" data-role="page" data-cache="false">
-	<style>
-		.smt-tag-bg-mini div{
-			background-position:0 50%;
-			-webkit-background-size:100% auto;
-			-o-background-size:100% auto;
-			background-size:100% auto;
-			height:100px;
-		}
-		#backgroundPreview{
-			overflow: hidden;
-			border-radius: 0.875em;
-		}
-		img#backgroundImage{
-			height: auto;
-			max-width: 100%;
-		}
-	</style>
 	<div data-role="header" data-position="fixed" data-theme="f">
 		<!-- <h1></h1>
 		<a id="publish_newTag" data-icon="check" data-theme="f"></a> -->
@@ -160,9 +148,9 @@
 				//language constants
 				$('#menu').html(
 					'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/submenu/create_tag.png"><br>'+lan('newTag','ucw')+'</a></span>'+
-					(CORDOVA?
-						'<span class="ui-block-b"><a opc="cam">'+lan('camera','ucw')+'</a></span>'+
-						(is['android']&&version.match(/^2\./)?'':'<li><a opc="lib">'+lan('gallery','ucw')+'</a></li>')
+					(true?
+						'<span class="ui-block-b menu-button"><a href="#" opc="cam"><img src="css/newdesign/newtag/camera.png"><br>'+lan('camera','ucw')+'</a></span>'
+						+(is['android']&&version.match(/^2\./)?'':'<span class="ui-block-b menu-button"><a href="#" opc="lib"><img src="css/newdesign/newtag/gallery.png"><br>'+lan('gallery','ucw')+'</a></span>')
 					:'<span class="ui-block-b"></span>')+
 					'<span id="footerPicture" class="ui-block-c menu-button"><a href="#" id="template"><img src="css/newdesign/newtag/images.png"><br>'+lang.NEWTAG_BACKGROUNDAPP+'</a></span>'+
 					'<span class="ui-block-d menu-button"><a href="timeline.html"><img src="css/newdesign/newtag/cancel.png"><br>'+lan('cancel','ucw')+'</a></span>'+
@@ -218,7 +206,7 @@
 			after:function(){
 				$('.ui-loader').css('right','94px'); // Fix Temporal Loader
 				$('#page-newTag').removeClass('default'); //Fix Vista Android
-				var status=1;
+				var status=1,bgMatrix = ['0','0','0','0','0','0'];
 				var $bgCheck=$('#checkBackground');
 				// management of private/public
 				$("#div_privateTag_checkbox,#div_publicTag_checkbox").change(function() {
@@ -343,6 +331,7 @@
 				var img64;
 				$('#checkBackground').load(function(){
 					var bg;
+					var imagePrev = new Image();
 					console.log('cargare bg');
 					if(this.dataset.template){
 						console.log('template');
@@ -356,6 +345,9 @@
 						img64=this.dataset.img64;
 						bg=img64;
 					}
+					imagePrev.src = bg;
+					var img = this;
+					// alert(this.naturalWidth + 'x' + this.naturalHeight);
 					if(bg){
 						var bgsize=this.naturalWidth>650?100:100*this.naturalWidth/650;
 						bgsize=bgsize+'% auto';
@@ -369,13 +361,15 @@
 						// });
 						// bg = 'http://www.scorezero.com/wp-content/uploads/2014/10/gtaV.jpg'; // solo Pruebas
 						$('#backgroundPreview').html('<img id="backgroundImage" src="'+bg+'" alt="">');
-						$("#backgroundImage").panzoom({ minScale: 1,contain:'invert'}).on('panzoomstart',function(){
+						var panzoomOpt = { maxScale: img.naturalWidth / img.clientWidth, minScale: 1,contain:'invert'};
+						window.panzoom = $("#backgroundImage").panzoom(panzoomOpt).on('panzoomstart',function(){
 							$('.fs-wrapper').jScroll('remove');
 							$('.inputs-tag').css('opacity','0.4');
 						}).on('panzoomend',function(e, panzoom){
 							$('.inputs-tag').css('opacity','1');
 							$('.fs-wrapper').jScroll();
-							console.log(panzoom.getMatrix());
+							bgMatrix=panzoom.getMatrix();
+							console.log(bgMatrix);
 						});
 						$(this).attr('src','');
 						this.dataset.template='';
@@ -422,12 +416,15 @@
 									myDialog('Error: '+e);
 								}
 							};
-						$('#footerPicture').on('click','a[opc]',function(){
+						$('#menu').on('click','a[opc]',function(e){
 							getPhoto($(this).attr('opc'));
+							// e.preventDefault();
 						});
 					},false);
 				}
 				function publish(){
+					// alert('['+bgMatrix.toString()+']');
+					// return false;
 					var i,emails=[];
 					if($('#emails_shareTag').length>0){
 						var tmp = $('#emails_shareTag').val().replace(/\s+/g, '');
@@ -458,7 +455,8 @@
 							status		:$_GET['group']?7:status,
 							people		:emails,
 							group		:$_GET['group']||'',
-							product		:$_GET['product']||''
+							product		:$_GET['product']||'',
+							matrix      :'['+bgMatrix.toString()+']'
 						},
 						error:function() {
 							myDialog(lang.conectionFail);

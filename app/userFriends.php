@@ -47,7 +47,7 @@
 				'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/friends.png"><br>'+lan('friends','ucw')+'</a></span>'+
 				'<span class="ui-block-b"></span>'+
 				'<span class="ui-block-c"></span>'+
-				'<span class="ui-block-d menu-button"><a href="suggest.html" title="Suggest"><img src="css/newdesign/menu/friends.png"><br>'+lan('suggest','ucw')+'</a></span>'+
+				'<span class="ui-block-d menu-button"><a href="findFriends.html" title="Suggest"><img src="css/newdesign/menu/friends.png"><br>'+lan('suggest','ucw')+'</a></span>'+
 				'<span class="ui-block-e menu-button"><a href="findFriends.html" title="Search"><img src="css/newdesign/search.png"><br>'+lan('search','ucw')+'</a></span>'
 			);
 			$('#friendsFooter').html(

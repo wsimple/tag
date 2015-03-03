@@ -199,6 +199,22 @@ input.ui-input-text, textarea.ui-input-text{
 	background-color: #ec5a28;
 	border-radius: 0.875em;
 }
+#backgroundsDialog .smt-tag-bg-mini div{
+	background-position:0 50%;
+	-webkit-background-size:100% auto;
+	-o-background-size:100% auto;
+	background-size:100% auto;
+	height:100px;
+}
+#backgroundPreview{
+	overflow: hidden;
+	border-radius: 0.875em;
+}
+img#backgroundImage{
+	height: auto;
+	width: 20.3125em;
+	max-width: 650px;
+}
 .inputs-tag{
 	position: absolute;
 	z-index: 200;
