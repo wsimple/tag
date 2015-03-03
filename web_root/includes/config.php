@@ -95,6 +95,10 @@ define('PATH',$_SERVER['DOCUMENT_ROOT'].$_path);//ruta de la carpeta de trabajo
 define('TAGWIDTH',650);
 define('TAGHEIGHT',300);
 
+#dimensiones de la imagen para la tag para resoluciones mayores
+define('TAGWIDTHHD',1200);
+define('TAGHEIGHTHD',round((TAGWIDTHHD/TAGWIDTH)*TAGHEIGHT));
+
 if(!$config->local){
 	define('SHOWNOTIFIXTMP',1);//temporal para controlar la muestra de notitificaciones
 }

@@ -3,7 +3,7 @@ include '../header.json.php';
 include RELPATH.'class/class.phpmailer.php';
 
 function newTag_json($data,$mobile=false){
-	global $debug;
+	global $debug, $config;
 	//Impulszo de hashtag
 	$trendingHash = '#echaleganas';
 
@@ -173,7 +173,7 @@ function newTag_json($data,$mobile=false){
 	}
 	#background
 	if($data['background']==''&&isset($res['type'])){
-		$folder=opendir(RELPATH.'img/templates/defaults/');
+		$folder=opendir($config->img_server_path.'img/templates/defaults/');
 		$defaultbackgrounds=array();
 		while($pic=@readdir($folder)){
 			$args=explode('.',$pic);
