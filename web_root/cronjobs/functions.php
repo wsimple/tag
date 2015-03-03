@@ -1346,11 +1346,10 @@ function createTag($tag,$force=false,$msg=false){
 				$config->relpath.'fonts/verdana.ttf',
 				$config->relpath.'fonts/verdanab.ttf'
 			);
-			//Se crea la imagen con el tamaño normal - 650 x 300.
+			//Se crea la imagen con el tamaño normal - 1200 x 554.
 			$im=imagecreatetruecolor(TAGWIDTHHD,TAGHEIGHTHD);
 			//calculo del tamanio base al tamanio HD
 			$basemult = round(TAGWIDTHHD/TAGWIDTH,3);
-			//echo '<pre>'.TAGWIDTHHD.' '.TAGHEIGHTHD.' '.$basemult.'</pre>';
 			//Crear algunos colores
 			$blanco=imagecolorallocate($im,255,255,255);
 			$negro=imagecolorallocate($im,0,0,0);
@@ -1359,8 +1358,6 @@ function createTag($tag,$force=false,$msg=false){
 			$is=@getimagesize($imagen);
 			if($is[0]>0){
 				$img=WideImage::load($imagen);
-				//redimensionar($img,$img->relpath.$photompath,TAGWIDTHHD);
-				//echo '<pre> cargando '.$imagen.'</pre>';
 				//$img->resizeDown(650);
 				$img->resizeDown(TAGHEIGHTHD);
 				$dy=intval((TAGHEIGHTHD-$is[1])/2);
@@ -1392,8 +1389,6 @@ function createTag($tag,$force=false,$msg=false){
 			$img=imagecreatefromany($imagen);
 			if($img){
 				$im2=WideImage::loadFromHandle($img);
-//				if ($im2->getWidth()!=60 || $im2->getHeight()!=60 ){
-//				if ($im2->getWidth()!=108 || $im2->getHeight()!=108 ){
 				if ($im2->getWidth()!=round(60*$basemult) || $im2->getHeight()!=round(60*$basemult) ){
 					if ($im2->getWidth()!==$im2->getHeight()){
 						$w=$im2->getWidth();$h=$im2->getHeight();
@@ -1408,7 +1403,6 @@ function createTag($tag,$force=false,$msg=false){
 						}
 						$im2 = $im2->crop($x,$y,$t,$t);
 					}
-//					$im2=$im2->resize(60,60);
 					$im2=$im2->resize(round(60*$basemult),round(60*$basemult));
 				}
 				$im2=$im2->roundCorners(33,null, 2,255);
@@ -1468,9 +1462,6 @@ function createTag($tag,$force=false,$msg=false){
 			$texto=strclean($tag['nameOwner']);
 			$color=$blanco;
 			$sombra=$negro;
-			//$size=15;
-			//$x=115;
-			//$y=223;
 			$size=round(15*$basemult);
 			$x=round(115*$basemult);
 			$y=round(223*$basemult);
@@ -1490,10 +1481,6 @@ function createTag($tag,$force=false,$msg=false){
 			$fuente=$font[1];
 			$texto=strclean($tag['texto2']);
 			$color=imagecolorhexallocate($im,$tag['color_code3']);
-			//$size=10;
-			//$x=115;
-			//$y=241;
-			//$mw=430;//max width-ancho maximo
 			$size=round(10*$basemult);
 			$x=round(115*$basemult);
 			$y=round(241*$basemult);
