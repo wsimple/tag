@@ -1297,6 +1297,7 @@ function tagURL($tag,$mini=false){
 }
 function createTag($tag,$force=false,$msg=false){
 	global $config;
+	$img_path=$config->img_server_path;
 	//Informacion basica para crear la imagen de tag
 	$default='tmp'.rand(0,99);
 	if (!class_exists('WideImage')) require(RELPATH.'class/wideImage/WideImage.php');
@@ -1319,40 +1320,38 @@ function createTag($tag,$force=false,$msg=false){
 	if(@$im||$debug){
 		if(!is_array($tag)) $tag=getTagData($tid);
 		$tag['fondoTag']=preg_replace('/ /','%20',$tag['fondoTag']);
-		//Debugger
-		if($debug){
-			_imprimir($tag);
+		if(!empty($tag['fondoTag'])){
 			//Fondo
 			if(preg_match('/[0-9a-f]{8}_\d+_\d\.jpe?g$/i',$tag['fondoTag']))
 				$imagen=$config->video_server_path.'videos/'.$tag['fondoTag'];
 			else
 				$imagen=$config->img_server_path.'img/templates/'.$tag['fondoTag'];
-			echo '<br/>fondo='.$imagen;
-			echo '<br/>externo='.str_replace($config->img_server_path,$config->img_server,
+		}
+		$user_picture=getUserPicture($tag['photoOwner']);
+		//Debugger
+		if($debug){
+			_imprimir($tag);
+			echo '<br/><br/>fondo='.$imagen;
+			echo '<br/>'.str_replace($img_path,$config->img_server,
 				str_replace($config->video_server_path,$config->video_server,$imagen));
-			echo '<br/>path='.$_path;
-			echo '<br/>photo='.$tag['photoOwner'];
-			echo '<br/>getUserPicture='.getUserPicture($tag['photoOwner']);
+			echo '<br/><br/>photo url='.$img_path.$tag['photoOwner'];
+			echo '<br/>'.$config->img_server.$tag['photoOwner'];
+			echo '<br/><br/>photo used='.$img_path.$user_picture;
+			echo '<br/>'.$config->img_server.$user_picture;
 		}
 		if($tag){
 			$font=array(
-				RELPATH.'fonts/trebuc.ttf',
-				RELPATH.'fonts/trebucbd.ttf',
-				RELPATH.'fonts/verdana.ttf',
-				RELPATH.'fonts/verdanab.ttf'
+				$config->relpath.'fonts/trebuc.ttf',
+				$config->relpath.'fonts/trebucbd.ttf',
+				$config->relpath.'fonts/verdana.ttf',
+				$config->relpath.'fonts/verdanab.ttf'
 			);
 			//Se crea la imagen con el tamaño normal - 650 x 300.
 			$im=imagecreatetruecolor(TAGWIDTH,TAGHEIGHT);
 			//Crear algunos colores
 			$blanco=imagecolorallocate($im,255,255,255);
 			$negro=imagecolorallocate($im,0,0,0);
-			//Fondo
-			if(preg_match('/[0-9a-f]{8}_\d+_\d\.jpe?g$/i',$tag['fondoTag']))
-				$imagen=$config->video_server_path.'videos/'.$tag['fondoTag'];
-			else
-				$imagen=$config->img_server_path.'img/templates/'.$tag['fondoTag'];
-			if ($config->local) $imagen=RELPATH.$imagen;
-			// $imagen=(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
+			// $imagen=(strpos(' '.$tag['fondoTag'],'default')?$config->relpath:$_path).'img/templates/'.$tag['fondoTag'];
 			// $img=imagecreatefromany($imagen);
 			$is=@getimagesize($imagen);
 			if($is[0]>0){
@@ -1491,7 +1490,7 @@ function createTag($tag,$force=false,$msg=false){
 				$y+=15;
 			}while(count($tmp)>$i);
 			//Imagen de placa
-			$imagen=RELPATH.'img/placaFondo.png';
+			$imagen=$config->relpath.'img/placaFondo.png';
 			$img=imagecreatefromany($imagen);
 			if($img){
 				$is=getimagesize($imagen);
@@ -1501,9 +1500,9 @@ function createTag($tag,$force=false,$msg=false){
 		}
 		//subir el archivo al servidor
 		// if(!$debug){//si estamos en debug no se guarda
-			$phototmp=RELPATH.$path.'/tmp'.rand().'.png';
+			$phototmp=$config->relpath.$path.'/tmp'.rand().'.png';
 			imagepng($im,$phototmp);
-			if (redimensionar($phototmp,RELPATH.$photopath,650)){
+			if (redimensionar($phototmp,$config->relpath.$photopath,650)){
 				@unlink($phototmp);
 				$ftp=FTPupload("tags/$photo");
 				if($msg) echo '<br/>guardada imagen '.$photo;
@@ -1514,9 +1513,9 @@ function createTag($tag,$force=false,$msg=false){
 	//creamos la miniatura si no existe
 	if(@$im&&(!fileExists($_path.$photompath)||$force)){
 		// if(!$debug){//si estamos en debug no se guarda
-			$phototmp=RELPATH.$path.'/'.$tmpFile.'.png';
+			$phototmp=$config->relpath.$path.'/'.$tmpFile.'.png';
 			imagepng($im,$phototmp);
-			if (redimensionar($phototmp,RELPATH.$photompath,200)){
+			if (redimensionar($phototmp,$config->relpath.$photompath,200)){
 				@unlink($phototmp);
 				$ftp=FTPupload("tags/$photom");
 				if($msg) echo '<br/>guardada miniatura '.$photom;

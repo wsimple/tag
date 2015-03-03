@@ -59,7 +59,10 @@ include RELPATH.'includes/languages.config.php';
 	if(is_debug('createtag')) echo '<br/>debug';
 	echo '<hr/>Tags done:'.$data['done'];
 	echo '<br/>Tags pending:'.$data['more'];
-	if(!empty($_GET['id'])) echo '<br/>Tag:<br/><img src="'.tagURL($_GET['id']).'"/>';
+	if(!empty($_GET['id'])){
+		echo '<br/>Tag:<br/><img src="'.str_replace('img_root','web_root',tagURL($_GET['id'])).'"/>';
+		echo '<br/>Tag:<br/><img src="'.tagURL($_GET['id']).'"/>';
+	}
 ?>
 </body>
 </html>
