@@ -84,6 +84,11 @@ if($data->tipo){
 		$data->ftp['host']='68.109.244.201';
 		$data->ftp['user']='userimg';
 		$data->ftp['pass']='-t@gvzlA_ftp';
+
+		$data->ftp['host']='172.31.45.179';
+		$data->ftp['user']='webapp';
+		$data->ftp['folder']='img';
+
 		$data->facebook['appId']='824519617598722';
 		$data->facebook['secret']='9c8ec5500c2426a289e58f5bb61b7b3b';
 		$data->paypal['user']='elijose.c-facilitator_api1.gmail.com';
