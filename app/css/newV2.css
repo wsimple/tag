@@ -275,10 +275,6 @@ img#backgroundImage{
 	width:5px;position:absolute;z-index:200;right:10px;
 }
 
-#privacy-options{
-	margin-top: 1em;
-}
-
 #privacy-options .ui-btn-up-c{
 	background: none;
 	background-image: none;
@@ -290,13 +286,14 @@ img#backgroundImage{
 #privacy-options li{
 	font-size: 1em;
 	display: inline;
+	height: 3.8em;
 }
 #privacy-options input{
 	visibility: hidden;
 	display: none;
 	background: transparent;
 	border: 0;
-	background-image: none;;
+	background-image: none;
 }
 .privacy-public,.privacy-private{
 	height: 2.6em;
@@ -306,11 +303,24 @@ img#backgroundImage{
 
 }
 .privacy-public label,.privacy-private label{
-	text-indent: 5000px;
+	height: 2.6em;
 }
 .privacy-public label span.ui-icon,.privacy-private label span.ui-icon{
 	display: none;
 	visibility: hidden;
+}
+/*Fixes*/
+.ui-checkbox .ui-btn-icon-left .ui-btn-inner, .ui-radio .ui-btn-icon-left .ui-btn-inner{
+	padding-left: 0;
+	position: relative;
+	top: 2.8em;
+}
+.privacy-public label .ui-btn-text, .privacy-private label .ui-btn-text{
+	display: block;
+	text-align: center;
+}
+.privacy-public label .ui-btn-inner, .privacy-private .ui-btn-inner{
+	padding: 0;
 }
 #privacy-options .privacy-public{
 	background: #169680 url('newdesign/other/add_friend.png') no-repeat center center;
