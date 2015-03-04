@@ -226,6 +226,7 @@ function newTag_json($data,$mobile=false){
 		
 		$sql='UPDATE tags SET
 				background		    ="'.$data['background'].'",
+				bgmatrix		    ="'.$data['matrix'].'",
 				text				="'.$data['topText'].'",
 				code_number			="'.$data['middleText'].'",
 				text2				="'.$data['bottomText'].'",
@@ -268,6 +269,7 @@ function newTag_json($data,$mobile=false){
 				id_user				="'.$myId.'",
 				id_product			="'.$data['product'].'",
 				background		    ="'.$data['background'].'",
+				bgmatrix		    ="'.$data['matrix'].'",
 				text				="'.$data['topText'].'",
 				code_number			="'.$data['middleText'].'",
 				text2				="'.$data['bottomText'].'",
@@ -416,6 +418,7 @@ if(!$notAjax){
 	$data['group']=$_POST['group']!=''?$_POST['group']:$_GET['group'];
 	$data['bcard']=$_POST['idBusinessC'];
 	$data['tag']=$_POST['tag'];
+	$data['matrix']=$_POST['matrix'];
 	
 	$data['wpanel']=$_POST['wpanel'];
 	

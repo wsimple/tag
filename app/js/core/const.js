@@ -49,6 +49,8 @@ is.limited= !is.webkit||is.android;
 		'peoples'   		:'personas',
 		'people'   			:'persona',
 		'private'			:'Privado',
+		'private'			:'Privado',
+		' private'			:'Privadas',
 		'save'				:'guardar',
 		'see more'			:'ver más',
 		'shopping cart'		:'carrito de compras',
