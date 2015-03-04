@@ -172,15 +172,6 @@
 //					$('#div_publicTag').css('display','none');
 //				}
 				
-				//setting footers buttons
-				// $('#footerPicture').html(
-				// 	(CORDOVA?
-				// 		'<li><a opc="cam">'+lan('camera','ucw')+'</a></li>'+
-				// 		(is['android']&&version.match(/^2\./)?'':'<li><a opc="lib">'+lan('gallery','ucw')+'</a></li>')
-				// 	:'')+
-				// 	'<li><a id="template">'+lang.NEWTAG_BACKGROUNDAPP+'</a></li>'
-				// );
-				//main scroll
 				if(is['limited']){
 					$('#page-newTag').addClass('default');
 				}else{
@@ -400,6 +391,7 @@
 								}
 							};
 						$('#menu').on('click','a[opc]',function(e){
+							console.log('aqui')
 							getPhoto($(this).attr('opc'));
 							// e.preventDefault();
 						});

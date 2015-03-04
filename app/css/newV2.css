@@ -590,8 +590,9 @@ img#backgroundImage{
 	border: none;
 	background-image: url('newdesign/inbox.png');
 	background-repeat: no-repeat;
-	background-size: 50%;
 	background-position: center;
+	background-size: 100%;
+	margin: 6px;
 	
 }
 #private-select label[for="radio-outbox"]{
