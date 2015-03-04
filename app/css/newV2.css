@@ -1532,6 +1532,11 @@ li.userInList h3{
 	margin-top: 113px;
 }
 
+#page-preferences .notification-num,
+#page-preferences .notification-num .ui-link{
+	color: #FFF !important;
+}
+
 #page-preferences .ui-link, #page-preferences .ui-link:visited{
 	color: #FFF;
 }

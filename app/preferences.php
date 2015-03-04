@@ -27,6 +27,7 @@
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
 				<div class="smt-tag-content" style="text-align: left">
+				
 					<fieldset data-role="controlgroup">
 						<legend id="titleOptionPrefe" style="font-weight: bold" data-theme="m" >&nbsp;</legend>
 						<input type="radio" name="radio-choice-1" id="radio-choice-1" value="choice-1" onclick="changePrefe(opc,1);" data-theme="m"  />
@@ -36,6 +37,7 @@
 						<input type="radio" name="radio-choice-1" id="radio-choice-3" value="choice-3" onclick="changePrefe(opc,3);"  data-theme="m" />
 						<label for="radio-choice-3" id="labelTypePrefe3"  data-theme="m" ></label>
 					</fieldset>
+
 					<label id="labelTxtPrefe" for="txtPreFe"></label>
 					<textarea id="txtPrefe" name="txtPrefe" style="resize: none;" ></textarea>
 					<span id="prefere_legend" style="font-size: 10px;display:block;"></span>
