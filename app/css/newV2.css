@@ -310,7 +310,7 @@ img#backgroundImage{
 	visibility: hidden;
 }
 /*Fixes*/
-.ui-checkbox .ui-btn-icon-left .ui-btn-inner, .ui-radio .ui-btn-icon-left .ui-btn-inner{
+.privacy-public .ui-checkbox .ui-btn-icon-left .ui-btn-inner, .privacy-private .ui-radio .ui-btn-icon-left .ui-btn-inner{
 	padding-left: 0;
 	position: relative;
 	top: 2.8em;

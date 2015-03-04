@@ -27,7 +27,7 @@
 		<div id="fs-wrapper" class="fs-wrapper">
 			<div id="scroller">
 				<div class="smt-tag-content" style="text-align: left">
-				
+
 					<fieldset data-role="controlgroup">
 						<legend id="titleOptionPrefe" style="font-weight: bold" data-theme="m" >&nbsp;</legend>
 						<input type="radio" name="radio-choice-1" id="radio-choice-1" value="choice-1" onclick="changePrefe(opc,1);" data-theme="m"  />
