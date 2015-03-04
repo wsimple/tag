@@ -694,7 +694,10 @@ img#backgroundImage{
 	padding: 20px 0;
 }
 #page-friendUser .list-wrapper{ top: 80px; }
-#page-friendUser #rowTitleMove{ top: 52px;}
+#page-friendUser #rowTitleMove{ 
+	top: 52px;
+	 z-index: 1000; 
+}
 /*#page-friendUser #rowTitleMove ul{ height: 20px;}*/
 #page-friendUser #rowTitleMove.no-v{
 	top: -50px;

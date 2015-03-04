@@ -24,6 +24,13 @@
 			</div>
 		</div>
 	</div>
+	<div id="footer" data-role="footer" data-position="fixed" data-theme="f" style="visibility: hidden;">
+		<div data-role="navbar">
+			<ul id="friendsFooter">
+				<li><a href="#" id="seek" onclick="redir(PAGE['findfriends'])"></a></li>
+			</ul>
+		</div>
+	</div>
 </div>
 <script>
 	pageShow({

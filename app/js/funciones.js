@@ -387,21 +387,21 @@ function actionMenuStore(action){
 					'</div>'+
 				'</li>'+
 				'<li opc="videoUpload" onlyif="CORDOVA"><div>'+lan('video upload','ucw')+'</div><arrow/></li>'+
-				'<li opc="timeline" onlyif="!window.location.href.match(/[\\/=]timeline/i)"><img src="css/smt/home_.png"/><div>'+lan('TIMELINE_TITLE')+'</div><arrow/></li>'+
-				'<li opc="toptags" onlyif="!window.location.href.match(/[\\/=]toptags/i)"><img src="css/smt/topTags.png"/><div>'+lan('TOPTAGS_TITLE')+'</div><arrow/></li>'+
-				'<li opc="news" onlyif="!window.location.href.match(/[\\/=]news/i)"><img src="css/smt/news.png"/><div>'+lan('NEWS')+'</div><arrow/></li>'+
-				'<li opc="trendings" onlyif="!window.location.href.match(/[\\/=]trendings/i)"><img src="css/smt/on-fire.png"/><div>'+lan('hot','ucw')+'</div><arrow/></li>'+
-				'<li opc="notif" onlyif="!window.location.href.match(/[\\/=]notif/i)"><img src="css/smt/notifications.png"/><div>'+lan('NOTIFICATIONS')+'</div><span class="push-notifications"></span><arrow/></li>'+
+				'<li opc="timeline" ><img src="css/smt/home_.png"/><div>'+lan('TIMELINE_TITLE')+'</div><arrow/></li>'+
+				'<li opc="toptags" ><img src="css/smt/topTags.png"/><div>'+lan('TOPTAGS_TITLE')+'</div><arrow/></li>'+
+				'<li opc="news"><img src="css/smt/news.png"/><div>#'+lan('NEWS')+'</div><arrow/></li>'+
+				'<li opc="trendings" ><img src="css/smt/on-fire.png"/><div>#'+lan('hot','ucw')+'</div><arrow/></li>'+
+				'<li opc="notif" ><img src="css/smt/notifications.png"/><div>#'+lan('NOTIFICATIONS')+'</div><span class="push-notifications"></span><arrow/></li>'+
 				//'<li class="separator"></li>'+
 				'<li opc="friends"><img src="css/smt/friends.png"/><div>'+lan('friends','ucw')+'</div><arrow/></li>'+
-				'<li opc="friendsSearch"><img src="css/smt/friends.png"/><div>'+lan('friendSearh_title','ucw')+'</div><arrow/></li>'+
+				//'<li opc="friendsSearch"><img src="css/smt/friends.png"/><div>'+lan('friendSearh_title','ucw')+'</div><arrow/></li>'+
 				(PRODUCCION?
 					'<li opc="chat"><img src="css/smt/chat.png"/><div>'+lan('chat')+'</div><arrow/></li>'
 				:'')+
 				//'<li opc="profilepic"><img src="img/profile.png"/><div>'+lan('Profile Picture')+'</div><arrow/></li>'+
 				'<li opc="profile"><img src="css/smt/profile.png"/><div>'+lan('profile')+'</div><arrow/></li>'+
 				'<li goto="store"><img src="css/smt/store.png"/><div>'+lan('store')+'</div><span class="icon"></span></li>'+
-				'<li style="display:none;" goto="groups"><img src="css/smt/group.png"/><div>'+lan('MAINMNU_GROUPS')+'</div><span class="icon"></span></li>'+
+				'<li style="display:none;" goto="groups"><img src="css/smt/group.png"/><div>#'+lan('MAINMNU_GROUPS')+'</div><span class="icon"></span></li>'+
 				//'<li class="title"><img src="img/profile.png"/><div>Groups</div><span class="icon"/></li>'+
 				//'<li goto="test"><div>test change menu</div><span class="icon"/></li>'+
 				'<li opc="logout"><img src="css/smt/logout.png"/><div>'+lan('logout')+'</div><span class="icon"/></li>'+
@@ -703,8 +703,8 @@ function actionMenuStore(action){
 		},'linear');
 	}
 	$(function(){
-		// putMenu();
-		// putMenuOptions();
+		putMenu();
+		putMenuOptions();
 		// Menu actions design V2
 		var statusMenu = false;
 		$("#bottom-menu").on('click', function(event) {
