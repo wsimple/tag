@@ -1378,21 +1378,19 @@ function createTag($tag,$force=false,$msg=false){
 				}
 				//Si tiene zoom la imagen
 				if($matrixscale>1){
+					if($debug) echo 'Image needs rezise from: '.$is[0].'</pre>';
 					$newwidt = round($bgancho*$matrixscale);
 					$newheith = round($bgalto*$matrixscale);
 					$img = $img->resize($newwidt,$newheith);
 					$is[0]=$newwidt;
 					$is[1]=$newheith;
-					echo '<pre>Image needs rezise from crop: '.$is[0].'</pre>';
 				}
 				//Si fue movida la imagen
 				if((abs($matrixX)>0)||(abs($matrixY)>0)){
-					//echo '<pre>La imagen tiene movimiento: is0:'. $is[0] . ' is1:' . $is[1];
-					//echo '<pre>La imagen tiene movimiento: x:'. $matrixX . ' y:' . $matrixY;
+					if($debug) echo '<pre>La imagen tiene movimiento: x:'. $matrixX . ' y:' . $matrixY;
 					$img = $img->crop(abs($matrixX),abs($matrixY));
 					$is[0]=$img->getWidth();
 					$is[1]=$img->getHeight();
-					echo '<pre>La imagen nueva tiene: ancho:'. $is[0] . ' alto:' . $is[1];
 				}
 				if($is[0]<TAGWIDTHHD){
 					$img = $img->resize(TAGWIDTHHD);
