@@ -169,7 +169,7 @@ $query = mysql_query("SELECT id,sectionTour,active FROM tour_section");
 							<td	<?=$style?> title="<?=($row['active']=='1' ? 'Remove' : 'Add' )?> Active">
 								<img style="cursor: pointer; width: 20px; height: 20px;"
 									 onClick="inicio('<?=($row['active']=='1' ? '?url=vistas/tour/createTourSection.view.php&sc='.md5($row['id']).'&sec='.md5($row['sectionTour']).'' : '?url=vistas/tour/createTourSection.view.php&make&sc='.md5($row['id']).'&sec='.md5($row['sectionTour']).'' )?>')"
-									 src="../img/menu_businessCard/<?=($row['active']=='1' ? 'd' : 'makeD')?>efault.png"/>
+									 src="css/menu_businessCard/<?=($row['active']=='1' ? 'd' : 'makeD')?>efault.png"/>
 							</td>
 						</tr>
 						<?php
