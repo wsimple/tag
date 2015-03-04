@@ -1506,8 +1506,8 @@ function viewFriends(method, opc){
 }
 function linkUser(layer,$wrapper){
 	if ($wrapper) {
-	var footerPos = $('#friendsFooter').offset().top,//Para posicion del elemento
-		footerHeight = $('#friendsFooter').height();
+	// var footerPos = $('#friendsFooter').offset().top,//Para posicion del elemento
+	// 	footerHeight = $('#friendsFooter').height();
 	}
 	$(layer).on('click','[userlink]',function(){
 		var id=$(this).attr('userlink'),type=$(this).attr('type'),obj=this;
@@ -1610,16 +1610,16 @@ function linkUser(layer,$wrapper){
 		});
 
 		if ($wrapper) {
-			var eleHeight = $(this).height();
-			var broHeight = $(this).next().height();
-			var total = e.pageY-footerPos+eleHeight+broHeight;
-			//console.log('total:'+total,e);
-			if (total > 0 ) {
-				$wrapper.jScroll(function(){
-					//console.log(this)
-					this.scrollTo(0,total,100,true);
-				}).jScroll('refresh');	
-			};
+			// var eleHeight = $(this).height();
+			// var broHeight = $(this).next().height();
+			// var total = e.pageY-footerPos+eleHeight+broHeight;
+			// //console.log('total:'+total,e);
+			// if (total > 0 ) {
+			// 	$wrapper.jScroll(function(){
+			// 		//console.log(this)
+			// 		this.scrollTo(0,total,100,true);
+			// 	}).jScroll('refresh');	
+			// };
 			
 		}else{
 			$('.list-wrapper').jScroll('refresh');
