@@ -4,9 +4,9 @@ class VideoConvertion extends VideoCaptures
 {
 	protected $pending='pending',$_run;
 
-	function __construct($initialize = true){
+	function __construct($options = null, $initialize = true){
 		#verifica primero si se estan buscando capturas
-		parent::__construct($initialize&&!isset($_GET['convert'])&&!isset($_GET['app']));
+		parent::__construct($options,$initialize&&!isset($_GET['convert'])&&!isset($_GET['app']));
 		if($initialize&&isset($_GET['app'])){
 			$app=new appUpload();
 

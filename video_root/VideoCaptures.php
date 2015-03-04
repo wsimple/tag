@@ -4,17 +4,7 @@ class VideoCaptures extends UploadHandler
 {
 	protected $path='videos';
 
-	function __construct($initialize = true){
-		$options=null;
-		$_referer=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'//localhost';
-		$_referer=preg_replace('/^(\w+:)\/\/([^\/]+)(\/.*)?$/','$2',$_referer);
-		$this->header("data-referer: $_referer");
-		if(preg_match('/^(localhost|52(\.\d+){3}|(\w+\.)(tagbum|elasticbeanstalk)\.com)$/',$_referer)){
-			$options=array(
-				'access_control_allow_origin'=>"http://$_referer",
-				'access_control_allow_credentials'=>true
-			);
-		}
+	function __construct($options = null, $initialize = true){
 		parent::__construct($options,$initialize&&!isset($_GET['captures']),null);
 		if($initialize&&isset($_GET['captures'])){
 			$file_name=isset($_REQUEST['file'])?$_REQUEST['file']:'';
