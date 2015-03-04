@@ -285,25 +285,33 @@ img#backgroundImage{
 }
 #privacy-options ul{
 	list-style: none;
-	width: 300px;
 	padding: 0;
-	margin: 0 auto;
 }
 #privacy-options li{
-	border-radius: 2em;
-	margin: 0 6%;
-	float: left;
-	height: 2.6em;
 	font-size: 1em;
-}
-#privacy-options label,#privacy-options input{
-	position: relative;
-	top: 15px;
+	display: inline;
 }
 #privacy-options input{
-	top: 42px;
+	visibility: hidden;
+	display: none;
+	background: transparent;
+	border: 0;
+	background-image: none;;
 }
+.privacy-public,.privacy-private{
+	height: 2.6em;
+	border-radius: 2em;
+	width: 40%;
+	margin: 0 auto;
 
+}
+.privacy-public label,.privacy-private label{
+	text-indent: 5000px;
+}
+.privacy-public label span.ui-icon,.privacy-private label span.ui-icon{
+	display: none;
+	visibility: hidden;
+}
 #privacy-options .privacy-public{
 	background: #169680 url('newdesign/other/add_friend.png') no-repeat center center;
 	-webkit-background-size: 30%;
@@ -316,10 +324,10 @@ img#backgroundImage{
 }
 
 #privacy-options li label.ui-btn-up-c,#privacy-options li label.ui-btn-hover-c{
-	border:none;
-	background: transparent;
 	background-image: none;
 	margin: 0;
+	background: transparent;
+	border: none;
 }
 #privacy-options li label.ui-btn-up-c .ui-btn-text,#privacy-options li label.ui-btn-hover-c .ui-btn-text{
 	font-size: 0.6em;
