@@ -12,7 +12,7 @@ function login_json($data){
 		return $res;
 	}
 	$sesion=CON::getRow('
-		SELECT *,CONCAT(name," ",last_name) AS full_name,md5(concat(id,"_",email,"_",id)) AS code
+		SELECT *,CONCAT(name," ",last_name) AS full_name,md5(concat(id,"_",email,"_",id)) AS code,profile_image_url AS display_photo
 		FROM users
 		WHERE email=? AND password_user=?
 	',array($login,$pass));
@@ -86,6 +86,7 @@ function login_json($data){
 					$res['from']=2;
 					$res['locals']=array(
 						'full_name'=>$sesion['full_name'],
+						'display_photo'=>FILESERVER.getUserPicture($sesion['code'].'/'.$sesion['display_photo'],'img/users/default.png'),
 						'code'=>$_SESSION['ws-tags']['ws-user']['code'],
 						'lang'=>$_SESSION['ws-tags']['language'],
 						'email'=>$sesion['email']
