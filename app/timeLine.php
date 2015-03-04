@@ -23,10 +23,13 @@
 		<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
 			<span class="loader"></span>
 		</div> -->
-		<fieldset id="private-select" data-role="controlgroup" data-type="horizontal" data-mini="true" style="position:absolute;top:7px;right:5px;display:none;">
-			<input id="radio-inbox" type="radio" name="radio-in-out" data-theme="a" value="in" checked="checked"/>
-			<input id="radio-outbox" type="radio" name="radio-in-out" data-theme="a" value="out"/>
-		</fieldset>
+		<div id="rowTitleMove">
+			<ul class="ui-grid-c"></ul>
+			<fieldset id="private-select" data-role="controlgroup" data-type="horizontal" data-mini="true">
+				<input id="radio-inbox" type="radio" name="radio-in-out" data-theme="a" value="in" checked="checked"/>
+				<input id="radio-outbox" type="radio" name="radio-in-out" data-theme="a" value="out"/>
+			</fieldset>
+		</div>
 	</div>
 	<div data-role="content">
 		<div id="pd-wrapper">
@@ -37,9 +40,9 @@
 			</div>
 		</div>
 	</div>
-	<div id="tl-footer" data-role="footer" data-position="fixed" data-theme="f">
+<!-- 	<div id="tl-footer" data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar"><ul></ul></div>
-	</div>
+	</div> -->
 	<script>
 		var page = $.local('timeLine');
 		var active_tab = 'timeLine';
@@ -61,36 +64,28 @@
 				$('.pullDownLabel').html(lan('SCROLL_PULLDOWN'));
 				$('.pullUpLabel').html(lan('SCROLL_PULLUP'));
 				$('#singleRedirDialog #scroller.content').html(lan('JS_DELETETAG'));
-				// $('#userPoints').html(lan('POINTS_USERS')+' <b><loader/></b>');
-				$('#tl-footer ul').html(//llenado de footer
-					'<li><a opc="timeLine" data-icon="tag-tl" data-iconpos="top" class="ui-btn-active">'+lang.JS_TIMELINE+'</a></li>'+
-					'<li><a opc="myTags" data-icon="tag-mt" data-iconpos="top">'+lang.JS_MYTAGS+'</a></li>'+
-					'<li><a opc="favorites" data-icon="tag-ft" data-iconpos="top">'+lang.JS_FAVORITETAGS+'</a></li>'+
-					'<li><a opc="privateTags" data-icon="tag-pt" data-iconpos="top">'+lang.JS_PRIVATETAGS+'</a></li>'
+				$('#rowTitleMove ul').html(
+					'<li class="ui-block-a" opc="timeLine" >'+lang.JS_TIMELINE+'</li>'+
+					'<li class="ui-block-b" opc="myTags" >'+lang.JS_MYTAGS+'</li>'+
+					'<li class="ui-block-c" opc="favorites" >'+lang.JS_FAVORITETAGS+'</li>'+
+					'<li class="ui-block-d" opc="privateTags" >'+lang.JS_PRIVATETAGS+'</li>'+
+					'<li class="ui-block-e" style="width:100%;"><a><img src="css/newdesign/menu.png"></a><span></span></li>'
 				);
+				var t=$('#rowTitleMove ul li[opc="'+active_tab+'"]').addClass('ui-btn-active').text();
+				$('#rowTitleMove ul li.ui-block-e').addClass('ui-btn-active').find('span').html(t);
+				if(active_tab=='privateTags'){
+					$('#private-select').show();
+					$('#rowTitleMove ul li.ui-block-e span').append('<br><span>('+lan('inbox','ucw')+')</span>');
+				}else{
+					$('#private-select').hide();
+				}
 				$('#private-select').append(
-					'<label for="radio-inbox">'+lan('inbox','ucw')+'</label>'+
-					'<label for="radio-outbox">'+lan('outbox','ucw')+'</label>'
+					'<label for="radio-inbox"></label>'+
+					'<label for="radio-outbox"></label>'
 				);
 
 			},
 			after:function(){
-				
-				$('#creationTag').click(function(){
-					redir(PAGE['newtag']);
-				});
-				// alert(active_tab);
-				if (active_tab != 'timeLine') {
-					$('#tl-footer ul li a').removeClass('ui-btn-active');
-					$('#tl-footer ul li a[opc='+active_tab+']').addClass('ui-btn-active');
-					if(active_tab=='privateTags'){
-						$('#private-select').show();
-						$('.creation').hide();
-					}else{
-						$('#private-select').hide();
-						$('.creation').show();
-					}
-				}
 				var opc={ 
 						current: active_tab,
 						layer:$('#tagsList')[0]
@@ -114,6 +109,30 @@
 						updateTags('reload',opc,true);
 					}
 				});
+				var scroller,v=true,y=-50;
+				$wrapper.jScroll(function(){
+					scroller=this;
+				});
+				$wrapper.bind('touchmove',function(){
+					if (scroller.y>-100){
+						$('#rowTitleMove').removeClass('no-v');
+						$('#page-timeLine #pd-wrapper').css('top','100px');
+					}else{
+						$('#page-timeLine #pd-wrapper').css('top','60px');
+						if (scroller.y<y){
+							if (v){
+								v=false;
+								$('#rowTitleMove').addClass('no-v');
+							}
+						}else{
+							if (!v){
+								v=true;
+								$('#rowTitleMove').removeClass('no-v');													
+							}
+						}
+						y=scroller.y;
+					} 
+				})		
 			// var donde = $('#pd-wrapper #scroller').attr('style').split(';');
 			// donde = donde[donde.lenght];
 			// console.log(donde);
@@ -122,32 +141,43 @@
 					opc.type = '';
 					if(val!=this.value){
 						val=this.value;
-						priv=val=='out'?'&type=outbox':'';
+						if (val=='out'){
+							priv='&type=outbox';
+							$('#rowTitleMove ul li.ui-block-e span span').html('('+lan('outbox','ucw')+')');
+						}else{
+							$('#rowTitleMove ul li.ui-block-e span span').html('('+lan('inbox','ucw')+')');
+						}
 						opc.get=priv;
 						opc.type=val;
 						$wrapper.ptrScroll('reload');
 					}
 				});
-				$('#tl-footer ul').on('click','a',function(){
+				$('#rowTitleMove ul').on('click','li[opc]',function(){
 					var c=$(this).attr('opc');
-					// alert(c);
 					$.local('timeLine', {'last_tab':c});
+					$('#rowTitleMove ul li[opc]').slideUp('fast',function(){
+						$('#rowTitleMove ul li.ui-block-e').slideDown('fast');
+					});
 					if(opc.current!=c){
 						opc.current=c;
+						$('#rowTitleMove ul li').removeClass('ui-btn-active');
+						var t=$('#rowTitleMove ul li[opc="'+c+'"]').addClass('ui-btn-active').text();
+						$('#rowTitleMove ul li.ui-block-e').addClass('ui-btn-active').find('span').html(t);
 						if(opc.current=='privateTags'){
 							opc.get=priv;
-							$('.ui-loader').css('right','130px'); // Fix Temporal Loader
 							$('#private-select').show();
-							$('#creationTag').hide();
+							$('#rowTitleMove ul li.ui-block-e span').append('<br><span>('+lan('inbox','ucw')+')</span>');
 						}else{
-							$('.ui-loader').css('right','50px');
-//							opc.get='';
 							$('#private-select').hide();
-							$('#creationTag').show();
 						}
 						delete opc.on;
 						$wrapper.ptrScroll('reload');
 					}
+				}).on('click','a',function(){
+					$('#private-select').hide();
+					$(this).parents('li').slideUp('fast',function(){
+						$('#rowTitleMove ul li').slideDown('fast');
+					});
 				});
 				
 				if ($_GET['nonpublic']=='1'){ // gives knowing if the tag is either private or public checked="checked"

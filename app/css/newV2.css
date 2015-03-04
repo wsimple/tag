@@ -490,7 +490,44 @@ input.ui-input-text, textarea.ui-input-text{
 	color: white;
 	font-weight: normal;
 }
-
+/*row menu move*/
+#rowTitleMove{
+	position: relative;
+	top: 51px;
+	font-size: 14px;
+	background: #53D1BE;
+	padding: 0;
+	transition: top 0.2s ease-in-out;
+	text-align: center;
+	padding-top: 2px;
+}
+#rowTitleMove.no-v{ top:-0;}
+#rowTitleMove ul{
+	list-style: none;
+	-webkit-padding-start: 0;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	padding: 0;
+	margin: 0;
+	height: 40px;
+}
+#rowTitleMove ul li{
+	padding: 4px 0;
+	height: 100%;
+	display: block;
+	color: white;
+	margin: 0;
+	bottom: 0;
+}
+#rowTitleMove ul li.ui-btn-active{ background-color: #009999; }
+#rowTitleMove ul li[opc]{ display: none; }
+#rowTitleMove ul li.ui-block-e a img{ 
+	height: 25px;
+	float: left;
+	margin-left: 10px;
+	width: 25px;
+}
+/*end row menu move*/
 /*Time line*/
 #page-lstStoreOption.shipping #fs-wrapper, 
 #page-lstStoreOption.shipping #scroller, 
@@ -500,6 +537,33 @@ input.ui-input-text, textarea.ui-input-text{
 #page-lstMyStore #scroller, #page-lstStore #scroller, 
 #page-timeLine #scroller, #page-topTags #scroller{
 	background-color: #e2e6e7 !important;
+}
+#page-timeLine #pd-wrapper{ 
+	top: 100px; 
+	transition: top 0.2s ease-in-out;
+}
+#private-select{ 
+	top:0; 
+	position:absolute;
+	display: none;
+	right: 0;
+}
+#private-select .ui-btn-active{ display: none;}
+#private-select .ui-btn-active,
+#private-select label{
+	background: none;
+	border: none;
+	background-image: url('newdesign/inbox.png');
+	background-repeat: no-repeat;
+	background-size: 50%;
+	background-position: center;
+	
+}
+#private-select label[for="radio-outbox"]{
+	background-image: url('newdesign/outbox.png');
+}
+#private-select input[type="radio"]{
+	display: none;
 }
 .tags-list{
 	margin-top: 15px;
@@ -1862,7 +1926,7 @@ li.userInList h3{
 #page-lstStoreCategory .list-wrapper,
 #page-lstStoreSubCategory .list-wrapper{ top: 68px; }
 #menu .cart .active{
-	font-size: 20px;
+	/*font-size: 20px;*/
 	background-color: #16A085;
 	padding: 3px 8px;
 	border-radius: 50%;
@@ -2011,6 +2075,11 @@ li.userInList h3{
 #page-myOrders .price{ color: #F57133; }
 #filterOrdersDialogs .ui-btn-inner .ui-btn-text span{
 	color: #2c3e4f;
+}
+#page-lstStoreCarList #footerPay .ui-btn-inner,
+#page-detailsProducts .buttonsDetails .ui-btn-inner{
+	text-shadow: none;
+	font-weight: normal; 
 }
 #cate-dialog ul{
 	list-style: none;
