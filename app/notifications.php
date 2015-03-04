@@ -1,6 +1,16 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-notif" data-role="page" data-cache="false" class="no-footer">
-	<div data-role="header" data-position="fixed" data-theme="f"></div>
+	<div data-role="header" data-position="fixed" data-theme="f">
+		<div  data-role="header" data-theme="f" data-position="fixed">
+		<div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
+			<span class="photo"></span> 
+			<span class="info">
+				<span class="name"></span>
+				<span class="points"></span>
+			</span>
+		</div>
+		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
+	</div>
 	<div data-role="content" class="list-content">
 		<div id="pd-wrapper">
 			<div id="scroller">
@@ -13,10 +23,16 @@
 	<script type="text/javascript">
 		pageShow({
 			id:'#page-notif',
-			title:lang['NOTIFICATIONS']+'<span class="push-notifications" style="display:none;">0</span>',
-			buttons:{showmenu:true,creation:true},
+			// title:lang['NOTIFICATIONS']+'<span class="push-notifications" style="display:none;">0</span>',
+			// buttons:{showmenu:true,creation:true},
 			before:function(){
 				newMenu();
+				$('#sub-menu ul').html(
+					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
+					'<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
+					'<li class="ui-block-c points"></li>'+
+					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+				);
 				//languaje
 				$('#labelGroups').html(lang.MAINMNU_GROUPS);
 				$('#labelMyGroups').html(lang.GROUPS_MYGROUPS);
@@ -25,6 +41,10 @@
 			},
 			after:function(){
 				$('#page-notif .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
+				get_profile($.local('code'), function(data){
+					$('#profile span.info .name').html($.local('full_name'));
+					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
+				});
 				var $wrapper=$('#pd-wrapper'),
 					$info=$('#infoList'),
 					opc={

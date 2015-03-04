@@ -583,15 +583,15 @@ img#backgroundImage{
 #page-topTags #rowTitleMove ul{ height:40px; }
 #page-topTags #pd-wrapper{ top:100px; }
 /*#page-timeLine #rowTitleMove{ top: 57px;}*/
-#private-select{ 
+#page-timeLine #private-select{ 
 	top:0; 
 	position:absolute;
 	display: none;
 	right: 0;
 }
-#private-select .ui-btn-active{ display: none;}
-#private-select .ui-btn-active,
-#private-select label{
+#page-timeLine #private-select .ui-btn-active{ display: none;}
+#page-timeLine #private-select .ui-btn-active,
+#page-timeLine #private-select label{
 	background: none;
 	border: none;
 	background-image: url('newdesign/inbox.png');
@@ -600,10 +600,10 @@ img#backgroundImage{
 	background-position: center;
 	
 }
-#private-select label[for="radio-outbox"]{
+#page-timeLine #private-select label[for="radio-outbox"]{
 	background-image: url('newdesign/outbox.png');
 }
-#private-select input[type="radio"]{
+#page-timeLine #private-select input[type="radio"]{
 	display: none;
 }
 .tags-list{
@@ -750,7 +750,7 @@ li.userInList h3{
 #page-notif .ui-bar-b{
 	text-shadow: 0 0 0;
 	background-image: none;
-	background: #2d4480;
+	background: #3498DB;
 }
 #page-notif .list-info .ui-btn-up-c.notiNoRevi{
 	text-shadow: 0 0 0;
@@ -763,6 +763,16 @@ li.userInList h3{
 #page-notif .ui-btn{
 	border-radius: 0;
 }
+#page-notif li[date]{ background: #ECF0F1; }
+#page-notif li[date] p{
+	color: #525A6F;
+	box-shadow: none;
+}
+#page-notif li[date] p.date{
+	color: #06C5AC;
+	box-shadow: none;
+}
+
 /*Navigation menu*/
 #menu{ text-align: center; }
 #menu span{
