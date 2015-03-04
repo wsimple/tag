@@ -1314,6 +1314,9 @@ function createTag($tag,$force=false,$msg=false){
 	$photopath=$path.'/'.$photo;
 	$photompath=$path.'/'.$photom;
 	$_path=$config->img_server_path;
+
+	//$tempmatrix = str_replace('[','',);
+
 	//Se busca la imagen de la tag
 	if(!$force) $im=imagecreatefromany($_path.$photopath);
 	//Si la imagen de la tag no existe,se crea
@@ -1329,6 +1332,13 @@ function createTag($tag,$force=false,$msg=false){
 		}
 		$user_picture=getUserPicture($tag['photoOwner']);
 		//Debugger
+
+		$datamatrix = explode(',',str_replace(']','',str_replace('[','',$tag['bgmatrix'])));
+		$matrixscale = $datamatrix[0] + 0;
+		$matrixX = $datamatrix[4] + 0;
+		$matrixY = $datamatrix[5] + 0;
+		//print_r($datamatrix);
+
 		if($debug){
 			_imprimir($tag);
 			echo '<br/><br/>fondo='.$imagen;
@@ -1357,7 +1367,38 @@ function createTag($tag,$force=false,$msg=false){
 			// $img=imagecreatefromany($imagen);
 			$is=@getimagesize($imagen);
 			if($is[0]>0){
+				list($bgancho, $bgalto, $bgtipo, $bgatributos) = getimagesize($imagen);
+				//echo '<pre>Image :' .$bgancho;
 				$img=WideImage::load($imagen);
+				//Acomodar los fondos viejos para evitar los mozaicos
+				if($is[0]<TAGWIDTHHD){
+					$img = $img->resize(TAGWIDTHHD);
+					$is[0]=$img->getWidth();
+					$is[1]=$img->getHeight();
+				}
+				//Si tiene zoom la imagen
+				if($matrixscale>1){
+					$newwidt = round($bgancho*$matrixscale);
+					$newheith = round($bgalto*$matrixscale);
+					$img = $img->resize($newwidt,$newheith);
+					$is[0]=$newwidt;
+					$is[1]=$newheith;
+					echo '<pre>Image needs rezise from crop: '.$is[0].'</pre>';
+				}
+				//Si fue movida la imagen
+				if((abs($matrixX)>0)||(abs($matrixY)>0)){
+					//echo '<pre>La imagen tiene movimiento: is0:'. $is[0] . ' is1:' . $is[1];
+					//echo '<pre>La imagen tiene movimiento: x:'. $matrixX . ' y:' . $matrixY;
+					$img = $img->crop(abs($matrixX),abs($matrixY));
+					$is[0]=$img->getWidth();
+					$is[1]=$img->getHeight();
+					echo '<pre>La imagen nueva tiene: ancho:'. $is[0] . ' alto:' . $is[1];
+				}
+				if($is[0]<TAGWIDTHHD){
+					$img = $img->resize(TAGWIDTHHD);
+					$is[0]=$img->getWidth();
+					$is[1]=$img->getHeight();
+				}
 				//$img->resizeDown(650);
 				$img->resizeDown(TAGHEIGHTHD);
 				$dy=intval((TAGHEIGHTHD-$is[1])/2);
@@ -1558,6 +1599,7 @@ function getTagQuery($extra=''){ //t=tag,p=product,u=user(owner)
 			t.id,
 			t.id			as idTag,
 			t.background	as fondoTag,
+			t.bgmatrix 		as bgmatrix,
 			t.id_creator	as idOwner,
 			t.id_user		as idUser,
 			if(p.id is null,u.screen_name,p.name) as nameOwner,
