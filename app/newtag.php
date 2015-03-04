@@ -56,9 +56,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- <div id="div_changeMode" class="smt-div-profile">
-						<input id="button_changeMode" type="button"/>
-					</div> -->
 					<div id="hashTags" class="dnone"></div>
 					<div id="privacy-options">
 						<ul class="ui-grid-c">
@@ -78,14 +75,6 @@
 							<li class="ui-block-d"></li>
 						</ul>
 					</div>
-					<!-- <div id="div_publicTag" data-role="fieldcontain" class="smt-tag-content">
-						<fieldset data-role="controlgroup">
-							<input id="div_publicTag_checkbox" name="div_publicTag_checkbox" type="checkbox" class="custom" checked="checked" />
-							<label for="div_publicTag_checkbox" id="publicPrivateTagsApp"></label>
-							<div style="font-size:11px;color:#999999;float:left" id="div_leyend_btn_public"></div>
-						</fieldset>
-					</div> -->
-					<div class="clearfix"></div>
 					<div id="div_Private" style="display:none;">
 						<div id="div_shareMails" class="smt-div-profile">
 							<label id="EmailsPublicPrivateTagsApp"></label>
@@ -104,10 +93,6 @@
 		</div>
 		<div style="display:none;"><img id="checkBackground" src=""></div>
 	</div>
-	<!-- <div data-role="footer" data-position="fixed" data-theme="f" data-tap-toggle="false">
-		<div data-role="navbar"><ul id="footerPicture"></ul></div>
-	</div> -->
-	<!-- dialogs -->
 	<div id="shareTagDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
 			<div class="container" style="font-size: 50%;height:300px;">
@@ -357,14 +342,6 @@
 					if(bg){
 						var bgsize=this.naturalWidth>650?100:100*this.naturalWidth/650;
 						bgsize=bgsize+'% auto';
-						// $('#backgroundPreview').css({
-						// // $('.prew-tag').css({
-						// 	'background-image':'url('+bg+')',
-						// 	'-webkit-background-size':bgsize,
-						// 	'-o-background-size':bgsize,
-						// 	'background-size':bgsize,
-						// 	'background-position':'50%'
-						// });
 						// bg = 'http://www.scorezero.com/wp-content/uploads/2014/10/gtaV.jpg'; // solo Pruebas
 						$('#backgroundPreview').html('<img id="backgroundImage" src="'+bg+'" alt="">');
 						var panzoomOpt = { maxScale: img.naturalWidth / img.clientWidth, minScale: 1,contain:'invert'};

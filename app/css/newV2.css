@@ -296,10 +296,11 @@ img#backgroundImage{
 	background-image: none;
 }
 .privacy-public,.privacy-private{
-	height: 2.6em;
+	height: 2.4em;
 	border-radius: 2em;
-	width: 40%;
 	margin: 0 auto;
+	max-width: 50%;
+	min-width: 76px;
 
 }
 .privacy-public label,.privacy-private label{
