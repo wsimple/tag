@@ -61,15 +61,21 @@
 					</div> -->
 					<div id="hashTags" class="dnone"></div>
 					<div id="privacy-options">
-						<ul>
-							<li class="privacy-private">
-								<input id="div_privateTag_checkbox" name="privacyOption" type="radio" />
-								<label for="div_privateTag_checkbox" id="privateTagsApp"></label>
+						<ul class="ui-grid-c">
+							<li class="ui-block-a"></li>
+							<li class=" ui-block-b">
+								<div class="privacy-private">
+									<input id="div_privateTag_checkbox" name="privacyOption" type="radio" />
+									<label for="div_privateTag_checkbox" id="privateTagsApp"></label>
+								</div>
 							</li>
-							<li class="privacy-public">
-								<input id="div_publicTag_checkbox" name="privacyOption" type="radio" checked="checked"/>
-								<label for="div_publicTag_checkbox" id="publicTagsApp"></label>
+							<li class="ui-block-c">
+								<div class="privacy-public">
+									<input id="div_publicTag_checkbox" name="privacyOption" type="radio" checked="checked"/>
+									<label for="div_publicTag_checkbox" id="publicTagsApp"></label>
+								</div>
 							</li>
+							<li class="ui-block-d"></li>
 						</ul>
 					</div>
 					<!-- <div id="div_publicTag" data-role="fieldcontain" class="smt-tag-content">
@@ -148,7 +154,7 @@
 				//language constants
 				$('#menu').html(
 					'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/submenu/create_tag.png"><br>'+lan('newTag','ucw')+'</a></span>'+
-					(true?
+					(CORDOVA?
 						'<span class="ui-block-b menu-button"><a href="#" opc="cam"><img src="css/newdesign/newtag/camera.png"><br>'+lan('camera','ucw')+'</a></span>'
 						+(is['android']&&version.match(/^2\./)?'':'<span class="ui-block-b menu-button"><a href="#" opc="lib"><img src="css/newdesign/newtag/gallery.png"><br>'+lan('gallery','ucw')+'</a></span>')
 					:'<span class="ui-block-b"></span>')+
@@ -370,6 +376,7 @@
 							$('.fs-wrapper').jScroll();
 							bgMatrix=panzoom.getMatrix();
 							console.log(bgMatrix);
+							console.log('['+bgMatrix.toString()+']');
 						});
 						$(this).attr('src','');
 						this.dataset.template='';
@@ -423,8 +430,6 @@
 					},false);
 				}
 				function publish(){
-					// alert('['+bgMatrix.toString()+']');
-					// return false;
 					var i,emails=[];
 					if($('#emails_shareTag').length>0){
 						var tmp = $('#emails_shareTag').val().replace(/\s+/g, '');

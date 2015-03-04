@@ -205,7 +205,7 @@ if( $_REQUEST[editId] ) { //when editing a newsletter (by clicking on "edit" in 
 			</tr>
 			<tr>
 				<td>
-					<img src="../img/menu_businessCard/<?=$row['status']=='2' ? 'makeD' : 'd' ?>efault.png"
+					<img src="css/menu_businessCard/<?=$row['status']=='2' ? 'makeD' : 'd' ?>efault.png"
 						 style="cursor: pointer; width: 16px; height: 16px"
 						 title="<?=$row['status']=='2' ? 'a' : 'desa' ?>ctivate"
 						 onclick="location.href='?url=vistas/newsletters/newsletters.view.php&<?=$row['status']=='2' ? 'a' : 'desa' ?>ctivate=<?=$row['id']?>'"/>

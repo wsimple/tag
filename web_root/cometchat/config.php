@@ -1,13 +1,6 @@
 <?php
-$numfolders=substr_count($_SERVER['SCRIPT_NAME'],'/')-1;
-if(preg_match('/^(local|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
-	$numfolders--;
-}
-if($numfolders<1) $relpath='./';
-else $relpath=str_repeat('../',$numfolders);
-define('RELPATH',$relpath?$relpath:'./');
-unset($numfolders,$relpath);
-require RELPATH.'includes/config.php';
+$relpath=preg_replace('/([\/][^\/]*)$/','',str_replace('\\','/',dirname(__FILE__)));
+require "$relpath/includes/config.php";
 
 /* TIMEZONE SPECIFIC INFORMATION (DO NOT TOUCH) */
 

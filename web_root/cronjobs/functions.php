@@ -1314,6 +1314,9 @@ function createTag($tag,$force=false,$msg=false){
 	$photopath=$path.'/'.$photo;
 	$photompath=$path.'/'.$photom;
 	$_path=$config->img_server_path;
+
+	//$tempmatrix = str_replace('[','',);
+
 	//Se busca la imagen de la tag
 	if(!$force) $im=imagecreatefromany($_path.$photopath);
 	//Si la imagen de la tag no existe,se crea
@@ -1329,6 +1332,13 @@ function createTag($tag,$force=false,$msg=false){
 		}
 		$user_picture=getUserPicture($tag['photoOwner']);
 		//Debugger
+
+		$datamatrix = explode(',',str_replace(']','',str_replace('[','',$tag['bgmatrix'])));
+		$matrixscale = $datamatrix[0] + 0;
+		$matrixX = $datamatrix[4] + 0;
+		$matrixY = $datamatrix[5] + 0;
+		//print_r($datamatrix);
+
 		if($debug){
 			_imprimir($tag);
 			echo '<br/><br/>fondo='.$imagen;
@@ -1357,7 +1367,38 @@ function createTag($tag,$force=false,$msg=false){
 			// $img=imagecreatefromany($imagen);
 			$is=@getimagesize($imagen);
 			if($is[0]>0){
+				list($bgancho, $bgalto, $bgtipo, $bgatributos) = getimagesize($imagen);
+				//echo '<pre>Image :' .$bgancho;
 				$img=WideImage::load($imagen);
+				//Acomodar los fondos viejos para evitar los mozaicos
+				if($is[0]<TAGWIDTHHD){
+					$img = $img->resize(TAGWIDTHHD);
+					$is[0]=$img->getWidth();
+					$is[1]=$img->getHeight();
+				}
+				//Si tiene zoom la imagen
+				if($matrixscale>1){
+					$newwidt = round($bgancho*$matrixscale);
+					$newheith = round($bgalto*$matrixscale);
+					$img = $img->resize($newwidt,$newheith);
+					$is[0]=$newwidt;
+					$is[1]=$newheith;
+					echo '<pre>Image needs rezise from crop: '.$is[0].'</pre>';
+				}
+				//Si fue movida la imagen
+				if((abs($matrixX)>0)||(abs($matrixY)>0)){
+					//echo '<pre>La imagen tiene movimiento: is0:'. $is[0] . ' is1:' . $is[1];
+					//echo '<pre>La imagen tiene movimiento: x:'. $matrixX . ' y:' . $matrixY;
+					$img = $img->crop(abs($matrixX),abs($matrixY));
+					$is[0]=$img->getWidth();
+					$is[1]=$img->getHeight();
+					echo '<pre>La imagen nueva tiene: ancho:'. $is[0] . ' alto:' . $is[1];
+				}
+				if($is[0]<TAGWIDTHHD){
+					$img = $img->resize(TAGWIDTHHD);
+					$is[0]=$img->getWidth();
+					$is[1]=$img->getHeight();
+				}
 				//$img->resizeDown(650);
 				$img->resizeDown(TAGHEIGHTHD);
 				$dy=intval((TAGHEIGHTHD-$is[1])/2);
@@ -1558,6 +1599,7 @@ function getTagQuery($extra=''){ //t=tag,p=product,u=user(owner)
 			t.id,
 			t.id			as idTag,
 			t.background	as fondoTag,
+			t.bgmatrix 		as bgmatrix,
 			t.id_creator	as idOwner,
 			t.id_user		as idUser,
 			if(p.id is null,u.screen_name,p.name) as nameOwner,
@@ -1659,17 +1701,18 @@ function FTPupload($origen,$destino='',$borrar=true){
 	#las rutas deben ser relativas a img. si destino es vacio o false, se colocara en la misma ruta del origen
 	//validaciones previas
 	if(!is_file(RELPATH.'img/'.$origen)) return 404;
+	global $config;
+	$error=0;
 	if($destino=='') $destino=$origen;
 	$file=end(explode('/',$destino));
-	$error=0;
 	if(!$file) $error=400;
-	global $config;
-	$path=preg_replace('/^\/|\/[^\/]*$/','',$destino);
+	$path=isset($config->ftp->folder)?$config->ftp->folder.'/':'';
+	$path.=preg_replace('/^\/|\/[^\/]*$/','',$destino);
 	$data=" P:$path F:$file O:$origen D:$destino";
 	if(!$error)
 	if(isset($config->ftp)){
-		if(!$img_ftp_con){
-			$img_ftp_con=ftp_connect($config->ftp->host,21);
+		if(!isset($img_ftp_con)){
+			$img_ftp_con=ftp_connect($config->ftp->host,isset($config->ftp->port)?$config->ftp->port:21);
 			$login=@ftp_login($img_ftp_con,$config->ftp->user,$config->ftp->pass);
 			if(!$login){
 				$img_ftp_con=0;
@@ -1696,7 +1739,7 @@ function FTPupload($origen,$destino='',$borrar=true){
 			}
 		}
 		if(!$error){
-			$data='PWD:'.ftp_pwd($img_ftp_con).$data;
+			$data=' PWD:'.ftp_pwd($img_ftp_con).$data;
 			#Copiamos el archivo
 			$error=(@ftp_put($img_ftp_con,$file,RELPATH.'img/'.$origen,FTP_BINARY)) ? 200 : 401;
 			#Borramos la imagen de origen si es requerido
@@ -1724,12 +1767,17 @@ function FTPupload($origen,$destino='',$borrar=true){
 		else
 			$error=(!@copy(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino))?409:200;
 */	}
-	return $error;//.$data;#descomentar data si decea ver los mensajes de error
+	return $error;#.$data;#descomentar data si decea ver los mensajes de error
 }
 function FTPcopy($origen,$destino){
 	global $config;
+	$error=0;
 	$count=preg_match('/(.+\/)*/',$origen,$path);
-	if(isset($config->ftp)){
+	if(!isset($config->ftp)){
+		//echo 'origen:'.$origen.'<br>desti:;'.$destino;
+		// $error=(!@copy($_origen,$config->img_server_path.'img/'.$destino))?409:200;
+		copy(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino);
+	}else{
 		$id_ftp=ftp_connect($config->ftp->host,21);
 		ftp_login($id_ftp,$config->ftp->user,$config->ftp->pass);
 		ftp_pasv ($id_ftp,false);
@@ -1751,8 +1799,5 @@ function FTPcopy($origen,$destino){
 		if($count&&ftp_get($id_ftp,RELPATH.'img/'.$tmp,$file,FTP_BINARY)){
 			FTPupload($tmp,$destino,true);
 		}
-	}else{
-		//echo 'origen:'.$origen.'<br>desti:;'.$destino;
-		copy($config->img_server_path.'img/'.$origen,$config->img_server_path.'img/'.$destino);
 	}
 }

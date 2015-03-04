@@ -21,7 +21,7 @@
 	?>
 
 				<li id="selected_tag_<?=md5($time[idTag])?>" onclick="actionsBusinessCard(3, '<?=md5($time[idTag]).'|'.$_GET['select']?>');" <?=$eventos?> title="<?=$make=='d' ? 'Unl' : 'L' ?>ink" style="margin-right: 20px; margin-left: 20px">
-					<img src="img/menu_businessCard/<?=$make?>efault.png"/>
+					<img src="css/menu_businessCard/<?=$make?>efault.png"/>
 				</li>
 
 				<li id="bc_tag_<?=md5($time[idTag])?>" title="<?=USERPROFILE_BUSINESSCARD?>">

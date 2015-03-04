@@ -84,7 +84,7 @@ if( $_POST[name] || $_POST[last_name] || $_POST[email] ) {
 							<td	<?=$style?> title="<?=($row['super_user']=='1' ? 'Remove' : 'Add' )?> SU">
 								<img style="cursor: pointer; width: 20px; height: 20px;"
 									 onclick="actionSU('<?=($row['super_user']=='1' ? '1' : '0' )?>', '<?=$row['id']?>')"
-									 src="../img/menu_businessCard/<?=($row['super_user']=='1' ? 'd' : 'makeD')?>efault.png"/>
+									 src="css/menu_businessCard/<?=($row['super_user']=='1' ? 'd' : 'makeD')?>efault.png"/>
 							</td>
 						</tr>
 						<?php

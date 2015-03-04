@@ -1,4 +1,5 @@
 <?php
+if(defined('__CF__')) return; else define('__CF__',1);
 /*
  * Developed By:Websarrollo.com & Maoghost.com
  * Copy Rights :Tagamation, LLc
