@@ -1487,9 +1487,10 @@ function viewFriends(method, opc){
 			};
 			if (method=='refresh') {
 				var seemore='';
-				if (opc.perpag && data.datos.length>=opc.perpag) seemore='<li data-theme="f" data-icon="false" id="seemore"><a style="text-align:center;" href="#">'+lan('see more','ucw')+'</a></li>';
+				if (opc.perpag && data.datos.length>=opc.perpag) seemore='<li data-theme="f" data-icon="false" id="seemore" class="ui-block-d" style="width:100%;"><button data-theme="e">'+lan('see more','ucw')+'</button></li><div class="clearfix"></div>';
 				//$(opc.layer).html(divider+out+seemore).listview('refresh');
 				$(opc.layer).html(divider+out+seemore);
+				$( "button",opc.layer).button();
 			}else if(method=='more'){
 				if ($('#findFriends').length == 0) {
 					$(opc.layer+' #seemore').before(out);

@@ -734,8 +734,11 @@ li.userInList h3{
 	padding: 2.5em 1em;
 }
 
-#friend-options .window .photo{
-	text-align: center;
+#friend-options .window .photo{ text-align: center; }
+#friend-options .window .photo img{ 
+	width: 60px;
+	height: 60px;
+	border-radius: 10px;
 }
 
 #friend-options .window .info{
