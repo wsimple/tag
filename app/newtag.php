@@ -232,7 +232,7 @@
 				$('#divColorPickerTop').colourPicker($.extend({},cpOpc,{
 					color:'#F57133',
 					colorChange:function(color){
-						$('#topText').css('color',color);
+						// $('#topText').css('color',color);
 						$('#topColor').val(color);
 					}
 				}));
@@ -240,7 +240,7 @@
 				$('#divColorPickerMiddle').colourPicker($.extend({},cpOpc,{
 					color:'#461',
 					colorChange:function(color){
-						$('#middleText').css('color',color);
+						// $('#middleText').css('color',color);
 						$('#middleColor').val(color);
 					}
 				}));
@@ -248,7 +248,7 @@
 				$('#divColorPickerBottom').colourPicker($.extend({},cpOpc,{
 					color:'#5A5A5D',
 					colorChange:function(color){
-						$('#bottomText').css('color',color);
+						// $('#bottomText').css('color',color);
 						$('#bottomColor').val(color);
 					}
 				}));
@@ -353,6 +353,7 @@
 
 				if(CORDOVA){
 					document.addEventListener('deviceready',function(){
+						alert('Device ready no')
 						var cam=Camera,
 							photoData={
 								targetWidth:650,

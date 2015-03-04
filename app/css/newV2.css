@@ -299,8 +299,9 @@ img#backgroundImage{
 	height: 2.4em;
 	border-radius: 2em;
 	margin: 0 auto;
-	max-width: 50%;
+	max-width: 100px;
 	min-width: 76px;
+	width: 50%;
 
 }
 .privacy-public label,.privacy-private label{
@@ -311,7 +312,7 @@ img#backgroundImage{
 	visibility: hidden;
 }
 /*Fixes*/
-.ui-checkbox .ui-btn-icon-left .ui-btn-inner, .ui-radio .ui-btn-icon-left .ui-btn-inner{
+.privacy-public .ui-checkbox .ui-btn-icon-left .ui-btn-inner,.privacy-private .ui-radio .ui-btn-icon-left .ui-btn-inner{
 	padding-left: 0;
 	position: relative;
 	top: 2.8em;
@@ -397,9 +398,9 @@ img#backgroundImage{
 	border: none !important;
 	/*font-size: 2em;*/
 	text-align: right;
-	background-size: 1.033em !important;
 	color: white;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
+	background-size: 1.433em !important;
 }
 .tag-container [tag] menu li#like div{
 	background-image:url('newdesign/tag/like.png?1');
@@ -409,6 +410,7 @@ img#backgroundImage{
 }
 .tag-container [tag] menu li#comment{
 	background-image:url('newdesign/tag/comments.png?1');
+	background-size:80px;
 }
 .tag-container [tag] menu li#comment:hover{
 	background-image:url('newdesign/tag/comments.png?1');

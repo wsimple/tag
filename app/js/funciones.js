@@ -2252,24 +2252,6 @@ function convertirLinks(text){
 		});
 	};
 })(jQuery,console);
-
-function get_profile(code, callback){
-	myAjax({
-		url:DOMINIO+'controls/users/people.json.php?action=specific&code',
-		data:{uid:code},
-		success:function(response){
-			if (!response['error']){
-				if (typeof callback == 'function') {
-					callback(response);
-				}
-			}
-		},
-		error:function(){
-			console.log('error');
-		}
-	});
-}
-
 function paletteColorPicker(id_layer){
 	var cs=['0','3','6','9','C','F'];
 	function opc(a,b,c){
