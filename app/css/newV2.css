@@ -275,35 +275,53 @@ img#backgroundImage{
 	width:5px;position:absolute;z-index:200;right:10px;
 }
 
-#privacy-options{
-	margin-top: 1em;
-}
-
 #privacy-options .ui-btn-up-c{
 	background: none;
 	background-image: none;
 }
 #privacy-options ul{
 	list-style: none;
-	width: 300px;
 	padding: 0;
-	margin: 0 auto;
 }
 #privacy-options li{
-	border-radius: 2em;
-	margin: 0 6%;
-	float: left;
-	height: 2.6em;
 	font-size: 1em;
-}
-#privacy-options label,#privacy-options input{
-	position: relative;
-	top: 15px;
+	display: inline;
+	height: 3.8em;
 }
 #privacy-options input{
-	top: 42px;
+	visibility: hidden;
+	display: none;
+	background: transparent;
+	border: 0;
+	background-image: none;
 }
+.privacy-public,.privacy-private{
+	height: 2.6em;
+	border-radius: 2em;
+	width: 40%;
+	margin: 0 auto;
 
+}
+.privacy-public label,.privacy-private label{
+	height: 2.6em;
+}
+.privacy-public label span.ui-icon,.privacy-private label span.ui-icon{
+	display: none;
+	visibility: hidden;
+}
+/*Fixes*/
+.ui-checkbox .ui-btn-icon-left .ui-btn-inner, .ui-radio .ui-btn-icon-left .ui-btn-inner{
+	padding-left: 0;
+	position: relative;
+	top: 2.8em;
+}
+.privacy-public label .ui-btn-text, .privacy-private label .ui-btn-text{
+	display: block;
+	text-align: center;
+}
+.privacy-public label .ui-btn-inner, .privacy-private .ui-btn-inner{
+	padding: 0;
+}
 #privacy-options .privacy-public{
 	background: #169680 url('newdesign/other/add_friend.png') no-repeat center center;
 	-webkit-background-size: 30%;
@@ -316,10 +334,10 @@ img#backgroundImage{
 }
 
 #privacy-options li label.ui-btn-up-c,#privacy-options li label.ui-btn-hover-c{
-	border:none;
-	background: transparent;
 	background-image: none;
 	margin: 0;
+	background: transparent;
+	border: none;
 }
 #privacy-options li label.ui-btn-up-c .ui-btn-text,#privacy-options li label.ui-btn-hover-c .ui-btn-text{
 	font-size: 0.6em;
@@ -506,7 +524,44 @@ img#backgroundImage{
 	color: white;
 	font-weight: normal;
 }
-
+/*row menu move*/
+#rowTitleMove{
+	position: relative;
+	top: 51px;
+	font-size: 14px;
+	background: #53D1BE;
+	padding: 0;
+	transition: top 0.2s ease-in-out;
+	text-align: center;
+	padding-top: 2px;
+}
+#rowTitleMove.no-v{ top:-0;}
+#rowTitleMove ul{
+	list-style: none;
+	-webkit-padding-start: 0;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	padding: 0;
+	margin: 0;
+	height: 40px;
+}
+#rowTitleMove ul li{
+	padding: 4px 0;
+	height: 100%;
+	display: block;
+	color: white;
+	margin: 0;
+	bottom: 0;
+}
+#rowTitleMove ul li.ui-btn-active{ background-color: #009999; }
+#rowTitleMove ul li[opc]{ display: none; }
+#rowTitleMove ul li.ui-block-e a img{ 
+	height: 25px;
+	float: left;
+	margin-left: 10px;
+	width: 25px;
+}
+/*end row menu move*/
 /*Time line*/
 #page-lstStoreOption.shipping #fs-wrapper, 
 #page-lstStoreOption.shipping #scroller, 
@@ -516,6 +571,33 @@ img#backgroundImage{
 #page-lstMyStore #scroller, #page-lstStore #scroller, 
 #page-timeLine #scroller, #page-topTags #scroller{
 	background-color: #e2e6e7 !important;
+}
+#page-timeLine #pd-wrapper{ 
+	top: 100px; 
+	transition: top 0.2s ease-in-out;
+}
+#private-select{ 
+	top:0; 
+	position:absolute;
+	display: none;
+	right: 0;
+}
+#private-select .ui-btn-active{ display: none;}
+#private-select .ui-btn-active,
+#private-select label{
+	background: none;
+	border: none;
+	background-image: url('newdesign/inbox.png');
+	background-repeat: no-repeat;
+	background-size: 50%;
+	background-position: center;
+	
+}
+#private-select label[for="radio-outbox"]{
+	background-image: url('newdesign/outbox.png');
+}
+#private-select input[type="radio"]{
+	display: none;
 }
 .tags-list{
 	margin-top: 15px;
@@ -1878,7 +1960,7 @@ li.userInList h3{
 #page-lstStoreCategory .list-wrapper,
 #page-lstStoreSubCategory .list-wrapper{ top: 68px; }
 #menu .cart .active{
-	font-size: 20px;
+	/*font-size: 20px;*/
 	background-color: #16A085;
 	padding: 3px 8px;
 	border-radius: 50%;
@@ -2027,6 +2109,11 @@ li.userInList h3{
 #page-myOrders .price{ color: #F57133; }
 #filterOrdersDialogs .ui-btn-inner .ui-btn-text span{
 	color: #2c3e4f;
+}
+#page-lstStoreCarList #footerPay .ui-btn-inner,
+#page-detailsProducts .buttonsDetails .ui-btn-inner{
+	text-shadow: none;
+	font-weight: normal; 
 }
 #cate-dialog ul{
 	list-style: none;
