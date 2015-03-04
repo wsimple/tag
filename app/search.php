@@ -1,9 +1,26 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-search" data-role="page" data-cache="false">
-    <div id="sub-menu" style="position:absolute;top:0px;left:0;padding:0px;" data-position="fixed"  >
-        <ul class="ui-grid-d"></ul>
+
+    <div data-role="header" data-theme="f" data-position="fixed">
+        <div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
+            <span class="photo"></span> 
+            <span class="info">
+                <span class="name"></span>
+                <span class="points"></span>
+            </span>
+        </div>
+        <div class="notificacion-area" id="notifications">
+            <span class="notification-num"><a href="notifications.html">0</a></span>
+        </div>
+        <div id="sub-menu"><ul class="ui-grid-d"></ul></div>
+        <!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
+            <span class="loader"></span>
+        </div> -->
+        <fieldset id="private-select" data-role="controlgroup" data-type="horizontal" data-mini="true" style="position:absolute;top:7px;right:5px;display:none;">
+            <input id="radio-inbox" type="radio" name="radio-in-out" data-theme="a" value="in" checked="checked"/>
+            <input id="radio-outbox" type="radio" name="radio-in-out" data-theme="a" value="out"/>
+        </fieldset>
     </div>
-    <div data-role="content" data-theme="d" class="no-footer">
 
 	<div data-role="content" >
         <div id="fs-wrapper" class="fs-wrapper">
@@ -18,7 +35,7 @@
 		pageShow({
 			id:'#page-search',
 			title:lang.searchtitle,
-			buttons:{showmenu:true,home:true},
+
 			before:function(){
                 newMenu();
                 createSearchPopUp('#page-search');
@@ -198,6 +215,12 @@
                 }
                 if (srh!=''){ getSearch(opc);
                 }else{ myDialog('#singleDialog',lang.noresultsearch_end); }
+
+                get_profile($.local('code'), function(data){
+                    $('#profile span.info .name').html($.local('full_name'));
+                    $('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
+                });
+
 			}
 		});
 	</script>

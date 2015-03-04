@@ -1067,6 +1067,21 @@ li.userInList h3{
 }
 /*SignUp Ends*/
 
+/*page-login Begins*/
+
+#page-login
+#page-login #fs-wrapper, 
+#page-login #scroller, 
+#page-login #frmRegister{
+	background-color: #EB5A28;
+	border: none !important;
+	border-shadow: none;
+	box-shadow: none;
+}	
+
+
+/*page-login Ends*/
+
 /*SingleTag Starts*/
 
 #page-tag,
@@ -1120,6 +1135,10 @@ li.userInList h3{
 }
 
 /*Profile Start*/
+#page-profile .ui-content{
+	margin-top: 113px !important;
+}
+
 #page-profile #wrap{
     float: left;
     position: relative;
@@ -1493,7 +1512,7 @@ li.userInList h3{
 }
 
 #page-search .ui-content{
-	margin-top: 30px;
+	margin-top: 113px;
 }
 
 #page-search .ui-first-child, #page-search .ui-last-child{
@@ -1508,9 +1527,11 @@ li.userInList h3{
 	min-height: 36px !important;
 }
 
-
-
 /*Preferences Starts*/
+#page-preferences .ui-content{
+	margin-top: 113px;
+}
+
 #page-preferences .ui-link, #page-preferences .ui-link:visited{
 	color: #FFF;
 }
