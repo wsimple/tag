@@ -1,7 +1,6 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-notif" data-role="page" data-cache="false" class="no-footer">
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<div  data-role="header" data-theme="f" data-position="fixed">
 		<div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
 			<span class="photo"></span> 
 			<span class="info">
@@ -29,7 +28,7 @@
 				newMenu();
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
-					'<li class="ui-block-b store"><a href="#">'+lan('store','ucw')+'</a></li>'+
+					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
 					'<li class="ui-block-c points"></li>'+
 					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
 				);

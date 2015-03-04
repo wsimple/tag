@@ -747,27 +747,34 @@ li.userInList h3{
 /*notificaciones*/
 #page-freeProducts .ui-bar-b,
 #page-lstStoreOption .ui-bar-b,
+#page-news .ui-bar-b,
 #page-notif .ui-bar-b{
 	text-shadow: 0 0 0;
 	background-image: none;
 	background: #3498DB;
 }
+#page-news .list-info .ui-btn-up-c.notiNoRevi,
 #page-notif .list-info .ui-btn-up-c.notiNoRevi{
 	text-shadow: 0 0 0;
 	background-image: none;
 }
+#page-news .list-info .ui-btn-up-c.notiNoRevi,
 #page-notif .list-info .ui-btn-up-c.notiNoRevi {
 	border: 1px solid #CCC;
 	background: #FFF;
 }
+#page-news .ui-btn,
 #page-notif .ui-btn{
 	border-radius: 0;
 }
+#page-news li[date],
 #page-notif li[date]{ background: #ECF0F1; }
+#page-news li[date] p,
 #page-notif li[date] p{
 	color: #525A6F;
 	box-shadow: none;
 }
+#page-news li[date] p.date,
 #page-notif li[date] p.date{
 	color: #06C5AC;
 	box-shadow: none;
