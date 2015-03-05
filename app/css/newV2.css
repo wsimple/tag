@@ -915,6 +915,55 @@ li.userInList h3{
 	display: block;
 }
 
+/*Login Starts*/
+
+#page-login #fs-wrapper, 
+#page-login #scroller, 
+#page-login .ui-page{
+	background-color: #EB5A28;
+	border: none !important;
+	border-shadow: none;
+	box-shadow: none;
+}
+
+#page-login .btn-orange{
+	background-color: #EB5A28;
+	position: top;
+}
+
+#page-login ._tr{
+	display:table-cell;
+	margin:0 auto;
+	vertical-align:middle;
+	text-align:right;
+}
+
+#page-login #btn-login{
+	background-color: #EB5A28;
+	color: #FFF;
+}
+
+#page-login #txtLogin,
+#page-login #txtPass{
+	color: #EB5A28;
+}
+
+#btn-signup .ui-icon, 
+#btn-signup .ui-btn-inner, 
+#btn-login .ui-btn-inner{
+	background-image: none !important;
+}
+
+#page-login #forGot{
+	cursor: pointer;
+	color: #FFF;
+	text-decoration: underline;
+	font-weight: normal;
+	font-size: 18px;
+}
+
+/*Login Ends*/
+
 /* SignUp */
 
 #page-signUp .ui-btn-up-n {
