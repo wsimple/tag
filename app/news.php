@@ -26,6 +26,7 @@
 				$('#searchPreferences').attr('placeholder', lang.PREFERENCES_HOLDERSEARCH);
 			},
 			after:function(){
+				newMenu();
 				$('#page-lstGroups .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 				var action={refresh:{refresh:true},more:{}},$info=$('#infoList'),on={};
 				function getNews(action,opc){
