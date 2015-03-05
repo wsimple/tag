@@ -216,11 +216,11 @@ function newMenu(){
 		var content='',news=false,hot=false;
 		if (!$('#page-news').length){
 			news=true;
-			content+='<di><p>'+lang.NEWS+'</p><ul id="newsInfo"></ul></div>';
+			content+='<di><h4>'+lang.NEWS+'</h4><ul id="newsInfo"></ul></div>';
 		}
 		if (!$('#page-trendings').length){
 			hot=true;
-			content+='<di><p>'+lan('hot','ucw')+'</p><ul id="trendings"></ul></div>';
+			content+='<di><h4>'+lan('hot','ucw')+'</h4><ul id="trendings"></ul></div>';
 		}
 		console.log($('#page-news'),$('#page-news').length);
 		myDialog({
@@ -2647,7 +2647,8 @@ function getTrendings(num,preview){
 					}
                 if (outH!=''){ 
                 	$('#trendings').append(outH); 
-                	if (!preview) $('#trendings').listview('refresh'); 
+                	if (!preview) $('#trendings').listview('refresh');
+                	else $('#trendings').append('<a href="trendings.html" class="more">'+lan('see more','ucw')+'</a>');
                 }else if (!preview) myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE); 
                 $('.fs-wrapper').jScroll('refresh');
 	        }else if (!preview) myDialog('#singleDialog',lang.conectionFail);
@@ -2751,6 +2752,7 @@ function getNews(action,opc,on,$info,preview){
 //										$info.append(out).listview('refresh');
 					$info[opc.refresh?'prepend':'append'](out);
 					if (!preview) $info.listview('refresh');
+					else $info.append('<a href="news.html" class="more">'+lan('see more','ucw')+'</a>');
 				}else{
 					// console.log('aqui',$info);
 					// $info.html('');

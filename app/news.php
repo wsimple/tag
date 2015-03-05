@@ -44,7 +44,6 @@
 				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
 			},
 			after:function(){
-				newMenu();
 				$('#page-lstGroups .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 				var action={refresh:{refresh:true},more:{}},$info=$('#infoList'),on={};
 				$info.listview({
