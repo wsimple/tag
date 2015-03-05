@@ -199,7 +199,7 @@ function newMenu(){
 	'<div class="arrow"></div>'+
 		'<ul>'+
 			'<li class="toptags"><a href="'+PAGE.toptags+'">'+lan('TOPTAGS_TITLE')+'</a></li>'+
-			'<li class="news"><a href="#">'+lan('NEWS')+'</a></li>'+
+			'<li class="hot"><a href="#">'+lan('hot','ucw')+'</a></li>'+
 			// '<li class="news"><a href="news.html">'+lan('NEWS')+'</a></li>'+
 			'<li class="notifications"><a href="'+PAGE.notify+'">'+lan('NOTIFICATIONS')+'</a></li>'+
 			'<li class="groups"><a href="#">'+lan('groups')+'</a></li>'+
@@ -212,7 +212,7 @@ function newMenu(){
 		'</ul>'+
 	'</div>';
 	$('body').append(menu);
-	$('#bottom-menu ul li.news').click(function(){
+	$('#bottom-menu ul li.hot').click(function(){
 		var content='',news=false,hot=false;
 		if (!$('#page-news').length){
 			news=true;
@@ -222,7 +222,6 @@ function newMenu(){
 			hot=true;
 			content+='<di><h4>'+lan('hot','ucw')+'</h4><ul id="trendings"></ul></div>';
 		}
-		console.log($('#page-news'),$('#page-news').length);
 		myDialog({
             id:'prevNewsAndHot-dialogs',
             content :content,
@@ -231,7 +230,19 @@ function newMenu(){
             	if (hot) getTrendings(3,true)
             	if (news){
             		var action={refresh:{refresh:true},more:{}},$info=$('#newsInfo'),on={};
-            		getNews('reload',action.more,on,$info,true)
+            		getNews('reload',action.more,on,$info,true);
+            		$info.on('click','li[data-type]',function(){
+						var type=this.dataset.type,
+							source=this.dataset.source,
+							url='';
+						switch(type){
+							case 'tag':url=PAGE['tag']+'?id='+source; break;
+							case 'usr':url=PAGE['profile']+'?id='+source; break;
+							case 'product':url=PAGE['detailsproduct']+'?id='+source; break;
+							default: alert(type);
+						}
+						if(url){ redir(url); }
+					});
             	}
             },
             buttons:[],
@@ -350,7 +361,6 @@ function actionMenuStore(action){
                 content :opc.contentCategory,
                 after:function(){
                     $('#cate-dialog ul li.c').click(function(){
-                    	console.log($(this).attr('href'));
                     	if (!$(this).attr('href'))
 	                    	if ($('ul li a',this).length>1){
 	                            if ($(this).hasClass('active')) $(this).removeClass('active');
@@ -1405,6 +1415,7 @@ function bodyFriendsList(friend, temp){
 		//console.log('No lo sigo');
 		known = 0;
 	}
+
 	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain" data-usrname="'+friend.name_user+'" >'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
 			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/>'+
@@ -1497,7 +1508,6 @@ function viewFriends(method, opc){
 		success:function(data){
 			if (data.error) return;
 			var i,friend,out='',divider,count='';//' <span class="ui-li-count">'+data.num+'</span>';
-			// console.log('cant '+data.datos.length+' user '+opc.user);
 			// if($.local('code')==opc.user){
 			count = data.num;
 			switch(opc.mod){
@@ -1564,7 +1574,6 @@ function linkUser(layer,$wrapper){
 	$(layer).on('click','[userlink]',function(){
 		var id=$(this).attr('userlink'),type=$(this).attr('type'),obj=this;
 		var fr=$(obj).parents('li.ui-body').prev('li.userInList'),theme='e',text=lan('follow'),oldtheme="a",oldText=lan('unfollow');
-		console.log($(obj).attr("data-theme"));
 		if($(obj).attr("data-theme")=="e"){
 			theme='a';oldtheme="e";
 			text=lan('unfollow');oldText=lan('follow');
