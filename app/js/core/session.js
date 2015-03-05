@@ -19,6 +19,10 @@
 				loader:false,
 				//global:false,
 				success:function(data){
+					if (data.photo_thumb) {
+						thumb = data.photo_thumb.substr(0, data.photo_thumb.length-4)+'_thumb'+data.photo_thumb.substr(data.photo_thumb.length-4, data.photo_thumb.length);
+						if (thumb != $.local('display_photo'))$.local('display_photo', thumb);
+					};
 					lastCheck=date;
 					isLogged(data['logged']);
 					if(loginAction) loginAction(data['logged']);
