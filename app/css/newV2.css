@@ -2452,6 +2452,18 @@ li.userInList h3{
 #cate-dialog ul li.active ul{ display: block; }
 .myDialog .msgShipp p{ text-align: left; }
 /*Store Ends*/
+/*Groups*/
+#page-lstGroups #group_title li{
+	background: #ECF0F1;
+	text-shadow:none;
+}
+#page-lstGroups #group_title li a.ui-link-inherit{ color: #F05B28; }
+#page-lstGroups #group_title li a.ui-link-inherit div{ color: #525A6F; }
+#page-lstGroups #group_title li a.ui-link-inherit img{ display: none; }
+#page-lstGroups #group_title li a{
+	text-decoration: none;
+}
+/*End Groups*/
 /*Media querys*/
 @media screen and (min-width: 600px) {
 	#page-freeProducts .list-info li,
