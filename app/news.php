@@ -42,6 +42,7 @@
 				);
 			},
 			after:function(){
+				newMenu();
 				$('#page-lstGroups .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 				get_profile($.local('code'), function(data){
 					$('#profile span.info .name').html($.local('full_name'));

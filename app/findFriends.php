@@ -36,10 +36,10 @@
 		before:function(){
 			newMenu();
 			$('#menu').html(
-				'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/friends.png"><br>'+lang.friendSearh_title+'</a></span>'+
+				'<span class="ui-block-a menu-button"><a href="userFriends.html'+'?type=friends&id_user='+$.local('code')+'"><img src="css/newdesign/friends.png"><br>'+lan('friends','ucw')+'</a></span>'+
 				'<span class="ui-block-b"></span>'+
 				'<span class="ui-block-c"></span>'+
-				'<span class="ui-block-d menu-button"><a href="suggest.html" title="Suggest"><img src="css/newdesign/menu/friends.png"><br>'+lan('suggest','ucw')+'</a></span>'
+				'<span class="ui-block-d menu-button hover"><a href="#" title="Suggest"><img src="css/newdesign/menu/friends.png"><br>'+lan('suggest','ucw')+'</a></span>'
 			);
 			$('#searchFriends').attr('placeholder',lang.inputPlaceHolder);
 			$('#contactList').html('<li data-role="list-divider">'+lan('CONTACTS_LOADING','ucf')+'</li><li class="center"><loader class="s32"/></li>');

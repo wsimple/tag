@@ -561,42 +561,45 @@ function actionMenuStore(action){
 					{left:'0px'},menuTime
 				);
 			});
-			if (isLogged()){
-				$('#userPoints').html(lan('POINTS_USERS')+' <b><loader/></b>').css('font-weight', 'bold');
-				$('#menu').on('click','#userPoints',function(){
-				// $('#userPoints').click(function(){
-					myDialog({
-						id:'msg-points',
-						open:true,
-						content:
-							'<p>'+lan('MAINMENU_POINTS_2')+'</p>'+
-							'<p>'+lan('MAINMENU_POINTS_1')+'</p>',
-						style:{
-							'margin':10,
-							'font-size':14
-						}
-					});
-				});
-				$.ajax({
-					type	:'GET',
-					url		:DOMINIO+'controls/users/getUserPoints.json.php',
-					dataType:'json',
-					success	:function(data){
-						var datos='',pts='';
-						pts=data.split(' ');
-						//alert(pts[1]);
-						if(pts[1]=='CONST_UNITMIL')
-							datos=pts[0]+' K';
-						else if(pts[1]=='CONST_UNITMILLON')
-							datos=pts[0]+' M';
-						else
-							datos=data;
-						$('span.info .points').html(datos+' Pts'); //Agregado V2 para los puntos
-						// $('#userPoints b').html(datos);
+			getUserPoints();
+			hideMenu();
+		}
+	}
+	function getUserPoints(){
+		if (isLogged()){
+			// $('#userPoints').html(lan('POINTS_USERS')+' <b><loader/></b>').css('font-weight', 'bold');
+			$('#profile').on('click','span.info .points',function(){
+			// $('#userPoints').click(function(){
+				myDialog({
+					id:'msg-points',
+					open:true,
+					content:
+						'<p>'+lan('MAINMENU_POINTS_2')+'</p>'+
+						'<p>'+lan('MAINMENU_POINTS_1')+'</p>',
+					style:{
+						'margin':10,
+						'font-size':14
 					}
 				});
-			}
-			hideMenu();
+			});
+			$.ajax({
+				type	:'GET',
+				url		:DOMINIO+'controls/users/getUserPoints.json.php',
+				dataType:'json',
+				success	:function(data){
+					var datos='',pts='';
+					pts=data.split(' ');
+					//alert(pts[1]);
+					if(pts[1]=='CONST_UNITMIL')
+						datos=pts[0]+' K';
+					else if(pts[1]=='CONST_UNITMILLON')
+						datos=pts[0]+' M';
+					else
+						datos=data;
+					$('span.info .points').html(datos+' Pts'); //Agregado V2 para los puntos
+					// $('#userPoints b').html(datos);
+				}
+			});
 		}
 	}
 	function menuRun(func){
@@ -730,8 +733,9 @@ function actionMenuStore(action){
 		},'linear');
 	}
 	$(function(){
-		putMenu();
-		putMenuOptions();
+		getUserPoints();
+		// putMenu();
+		// putMenuOptions();
 		// Menu actions design V2
 		var statusMenu = false;
 		$("#bottom-menu").on('click', function(event) {
@@ -2280,24 +2284,6 @@ function convertirLinks(text){
 		});
 	};
 })(jQuery,console);
-
-function get_profile(code, callback){
-	myAjax({
-		url:DOMINIO+'controls/users/people.json.php?action=specific&code',
-		data:{uid:code},
-		success:function(response){
-			if (!response['error']){
-				if (typeof callback == 'function') {
-					callback(response);
-				}
-			}
-		},
-		error:function(){
-			console.log('error');
-		}
-	});
-}
-
 function paletteColorPicker(id_layer){
 	var cs=['0','3','6','9','C','F'];
 	function opc(a,b,c){
