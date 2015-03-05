@@ -5,38 +5,54 @@
 		right: 10px;
 	}
 </style>
-<div id="page-login" data-role="page" class="no-header no-footer">
-	<div data-role="content" class="smt-bg smt-center">
-		<div class="ui-box-login">
-			<div class="title">
-				<div class="logo-smt-login"></div>
-				<strong id="titleTopLogin"></strong>
-				<span id="titleMidleLogin"></span>
-				<strong id="titleBottonLogin"></strong>
-			</div>
-			<div class="form">
-				<form id="frmLogin" method="post">
-					<div id="loginFields">
-						<p>
-							<input data-theme="b" name="login" id="txtLogin" value="" type="email" placeholder="email" onkeypress="return enterTab(event,this)" onfocus="inputFocus(this)" />
-							<input data-theme="b" name="pwd" id="txtPass" value="" type="password" placeholder="password" class="password-field" onkeypress="return enterSubmit(event,this)" onfocus="inputFocus(this)" />
-						</p>
-						<a id="forGot" onclick="redir(PAGE['forGot']);"></a><br/><br/>
-						<a id="btn-back" data-role="button" data-icon="arrow-l" data-inline="true" data-theme="f" onClick="redir(PAGE.ini)"></a>
-						<a id="btn-login" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" href="#" onClick="$('#frmLogin').submit()">&nbsp;</a>
+
+<div id="page-login" data-role="page" data-cache="false" class="no-header">
+	<div data-role="content">
+		<img class="bg" src="css/smt/bgorange.png"/>
+		<div id="fs-wrapper" class="fs-wrapper">
+			<div id="scroller">
+				<div id="buttons"><div class="_tt"><div class="_tc">
+					<div id="logo_image ">
+						<a data-inline="true" data-theme="f" >
+							<img src="css/newdesign/tagbum_white_logo.png" alt="" style="max-height:100px;"><br>
+							<span id="msgLogo" style="color:#FFF; font-weight:normal;">create.share</span><span id="msgLogob" style="color:#FFF;font-weight:bold;">.reward</span>
+						</a>
 					</div>
-					<div id="loadingTL" style="display:none;color:#fff;padding-top:15px;"></div>
-				</form>
+				</div>
 			</div>
 		</div>
+
+		<div class="form">
+			<form id="frmLogin" method="post">
+				<div id="loginFields">
+					<p>
+						<input data-theme="b" name="login" id="txtLogin" value="" type="email" placeholder="email" onkeypress="return enterTab(event,this)" onfocus="inputFocus(this)" />
+						<input data-theme="b" name="pwd" id="txtPass" value="" type="password" placeholder="password" class="password-field" onkeypress="return enterSubmit(event,this)" onfocus="inputFocus(this)" />
+					</p>
+					<a id="forGot" onclick="redir(PAGE['forGot']);"></a><br/><br/>
+					<div id="buttons">
+						<div class="_tt">
+							<div class="_tl">
+								<a id="btn-back" class="btn-orange" data-role="button" data-inline="true" data-theme="f" onclick="goBack()"  data-iconpos="right"></a>
+							</div>
+							<div class="_tr">
+								<a id="btn-login" class="btn-orange" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" href="#" onClick="$('#frmLogin').submit()">&nbsp;</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="loadingTL" style="display:none;color:#fff;padding-top:15px;"></div>
+			</form>
+		</div>
 	</div>
+
 	<script>
 		pageShow({
 			id:'page-login',
 			before:function(){
 				var exp=CORDOVA?365:1;
 				$.cookie.defaults={expires:exp,path:'/'};
-				$('#forGot').html(lang.MNU_LOSTPASS).css('cursor','pointer').css('color','black').css('text-decoration','underline').css('font-weight','initial').css('font-size','18px');
+				$('#forGot').html(lang.MNU_LOSTPASS);
 				$('#loadingTL').html('<loader class="s32"/><br/>'+lang.JS_APP_LOADING);
 				$('#txtLogin').val($.cookie('last'));
 				$('#btn-login').html(lang.login);

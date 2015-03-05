@@ -12,13 +12,7 @@
 			<span class="notification-num"><a href="notifications.html">0</a></span>
 		</div>
 		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
-		<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
-			<span class="loader"></span>
-		</div> -->
-		<fieldset id="private-select" data-role="controlgroup" data-type="horizontal" data-mini="true" style="position:absolute;top:7px;right:5px;display:none;">
-			<input id="radio-inbox" type="radio" name="radio-in-out" data-theme="a" value="in" checked="checked"/>
-			<input id="radio-outbox" type="radio" name="radio-in-out" data-theme="a" value="out"/>
-		</fieldset>
+		<div id="rowTitleMove"><ul class="ui-grid-c"></ul></div>
 	</div>
 	<div data-role="content" style="background-color:#fff;">
 		<div id="pd-wrapper">
@@ -29,9 +23,9 @@
 			</div>
 		</div>
 	</div>
-	<div data-role="footer" data-position="fixed" data-theme="f">
+<!-- 	<div data-role="footer" data-position="fixed" data-theme="f">
 		<div data-role="navbar"><ul id="footer-icons"></ul></div>
-	</div>
+	</div> -->
 	<script>
 		//if(navigator.app) navigator.app.clearHistory();
 		pageShow({
@@ -48,18 +42,28 @@
 				);
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);
-				$('#footer-icons').html(//llenado de footer
+				$('#rowTitleMove ul').html(//llenado de footer
 					'<li><a opc="1" class="ui-btn-active">'+lang.TOPTAGS_DAILY+'</a></li>'+
 					'<li><a opc="2">'+lang.TOPTAGS_WEEKLY+'</a></li>'+
 					'<li><a opc="3">'+lang.TOPTAGS_MONTHLY+'</a></li>'+
 					'<li><a opc="4">'+lang.TOPTAGS_YEARLY+'</a></li>'+
 					'<li><a opc="0" >'+lang.TOPTAGS_ALWAYS+'</a></li>'
 				);
+				$('#rowTitleMove ul').html(
+					'<li class="ui-block-a" opc="1" >'+lang.TOPTAGS_DAILY+'</li>'+
+					'<li class="ui-block-b" opc="2" >'+lang.TOPTAGS_WEEKLY+'</li>'+
+					'<li class="ui-block-c" opc="3" >'+lang.TOPTAGS_MONTHLY+'</li>'+
+					'<li class="ui-block-d" opc="4" >'+lang.TOPTAGS_YEARLY+'</li>'+
+					'<li class="ui-block-e" opc="0" >'+lang.TOPTAGS_ALWAYS+'</li>'+
+					'<li class="ui-block-z" style="width:100%;"><a><img src="css/newdesign/menu.png"></a><span></span></li>'
+				);
 			},
 			after:function(){
 				$('#page-topTags .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
 				//myAjax({url:DOMINIO+'controls/users/test.json.php',dataType:'json',data:{test:true}});
 				//if($.session('debug')) alert('cordova='+CORDOVA+', app='+$.session('app')+', debug='+$.session('debug'));
+				var t=$('#rowTitleMove ul li[opc="1"]').addClass('ui-btn-active').text();
+				$('#rowTitleMove ul li.ui-block-z').addClass('ui-btn-active').find('span').html(t);
 				function noTagsTxt(val){
 					var txt;
 					switch(parseInt(val)){
@@ -78,9 +82,6 @@
 						get:$_GET['range']?'&range='+$_GET['range']:''
 					},
 					$wrapper=$('#pd-wrapper',this.id);
-				// $(opc.layer).on('click','[tag]',function(){
-				// 	redir(PAGE['tag']+'?id='+$(this).attr('tag'));
-				// });
 				$wrapper.ptrScroll({
 					onPullDown:function(e){
 						updateTags('reload',opc);
@@ -99,8 +100,18 @@
 				/*action menu tag*/
 				actionsTags(opc.layer);
 				/*and action menu tag*/
-				$('#footer-icons').on('click','a',function(){
+				$('#rowTitleMove ul').on('click','li[opc]',function(){
+					$('#rowTitleMove ul li[opc]').slideUp('fast',function(){
+						$('#rowTitleMove ul li.ui-block-z').slideDown('fast');
+					});
+					$('#rowTitleMove ul li').removeClass('ui-btn-active');
+					t=$('#rowTitleMove ul li[opc="'+$(this).attr('opc')+'"]').addClass('ui-btn-active').text();
+					$('#rowTitleMove ul li.ui-block-z').addClass('ui-btn-active').find('span').html(t);
 					$wrapper.ptrScroll('reload',$(this).attr('opc'));
+				}).on('click','.ui-block-z a',function(){
+					$(this).parents('li').slideUp('fast',function(){
+						$('#rowTitleMove ul li[opc]').slideDown('fast');
+					});
 				});
 				//V2
 				$(opc.layer).on('click', 'menu #other-options', function(){
@@ -122,6 +133,30 @@
 							'font-size':14
 						}
 					});
+				});
+				var scroller,v=true,y=-50;
+				$wrapper.jScroll(function(){
+					scroller=this;
+				});
+				$wrapper.bind('touchmove',function(){
+					if (scroller.y>-100){
+						$('#rowTitleMove').removeClass('no-v');
+						$('#page-topTags #pd-wrapper').css('top','100px');
+					}else{
+						$('#page-topTags #pd-wrapper').css('top','60px');
+						if (scroller.y<y){
+							if (v){
+								v=false;
+								$('#rowTitleMove').addClass('no-v');
+							}
+						}else{
+							if (!v){
+								v=true;
+								$('#rowTitleMove').removeClass('no-v');													
+							}
+						}
+						y=scroller.y;
+					} 
 				});
 			}
 		});

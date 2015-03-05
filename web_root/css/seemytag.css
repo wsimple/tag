@@ -3232,7 +3232,7 @@ text-shadow:4px 4px 7px #000; color:#fff;display: inline-block;
 #externalProfile .edit{
     width: 24px;
     height: 24px;
-    background-image: url('../img/menu_businessCard/edit.png');
+    background-image: url('menu_businessCard/edit.png');
     background-repeat: no-repeat;
     display: none;
 }

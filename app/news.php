@@ -1,6 +1,15 @@
 <?php include 'inc/header.php'; ?>
-<div id="page-lstGroups" data-role="page" data-cache="false" class="no-footer">
-	<div data-role="header" data-position="fixed" data-theme="f"><h1></h1></div>
+<div id="page-news" data-role="page" data-cache="false" class="no-footer">
+	<div data-role="header" data-position="fixed" data-theme="f">
+		<div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
+			<span class="photo"></span> 
+			<span class="info">
+				<span class="name"></span>
+				<span class="points"></span>
+			</span>
+		</div>
+		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
+	</div>
 	<div data-role="content" class="list-content">
 		<div id="pd-wrapper">
 			<div id="scroller">
@@ -12,9 +21,9 @@
 	</div><!-- content -->
 	<script type="text/javascript">
 		pageShow({
-			id:'#page-lstGroups',
-			title:lang['NEWS'],
-			buttons:{showmenu:true,creation:true},
+			id:'#page-news',
+			// title:lang['NEWS'],
+			// buttons:{showmenu:true,creation:true},
 			before:function(){
 				//languaje
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
@@ -24,10 +33,20 @@
 				$('#labelMyGroups').html(lang.GROUPS_MYGROUPS);
 				$('#btnGroupCreated').html(lang.GROUPS_TITLEWINDOWSNEW);
 				$('#searchPreferences').attr('placeholder', lang.PREFERENCES_HOLDERSEARCH);
+				$('#sub-menu ul').html(
+					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
+					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
+					'<li class="ui-block-c points"></li>'+
+					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+				);
 			},
 			after:function(){
 				newMenu();
 				$('#page-lstGroups .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
+				get_profile($.local('code'), function(data){
+					$('#profile span.info .name').html($.local('full_name'));
+					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
+				});
 				var action={refresh:{refresh:true},more:{}},$info=$('#infoList'),on={};
 				function getNews(action,opc){
 					function peopleFormat(usr,num){

@@ -344,6 +344,7 @@
 							$('.fs-wrapper').jScroll();
 							bgMatrix=panzoom.getMatrix();
 							console.log(bgMatrix);
+							console.log('['+bgMatrix.toString()+']');
 						});
 						$(this).attr('src','');
 						this.dataset.template='';
@@ -399,8 +400,6 @@
 					},false);
 				}
 				function publish(){
-					// alert('['+bgMatrix.toString()+']');
-					// return false;
 					var i,emails=[];
 					if($('#emails_shareTag').length>0){
 						var tmp = $('#emails_shareTag').val().replace(/\s+/g, '');

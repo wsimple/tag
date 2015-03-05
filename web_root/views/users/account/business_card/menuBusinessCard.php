@@ -4,20 +4,20 @@
 			<?php /* Default Business Card */ ?>
 			<li id="liDefaultBc_<?=md5($bc[id])?>" onclick="actionsBusinessCard(0, '<?=md5($bc['id'])?>');" title="<?=($bc['type'] ? MENU_NO_DEFAULT : MENU_DEFAULT )?>">
 				<img class="imgMakeDefault" style="<?=($bc['type']?'cursor:pointer;':'')?>"
-					 src="<?=($bc['type']?'img/menu_businessCard/makeDefault.png':'img/menu_businessCard/default.png')?>"/>
+					 src="<?=($bc['type']?'css/menu_businessCard/makeDefault.png':'css/menu_businessCard/default.png')?>"/>
 			</li>
 			<?php //delete business card ?>
 			<li onclick="actionConfirm('<?=BUSINESSCARD_DELETE_CONTENT?>','<?=BUSINESSCARD_DELETE_TITTLE?>','url','<?=md5($bc[id])?>|bc');" title="<?=NEWTAG_HELPDELETEBACKGROUNDTEMPLATE?>"
 				style="<?=($bc['type']?'':'display:none;')?>">
-				<img style="cursor:pointer;" src="img/menu_businessCard/trash.png"/>
+				<img style="cursor:pointer;" src="css/menu_businessCard/trash.png"/>
 			</li>
 			<?php /* Add to an Existing Tag */ ?>
 			<li onclick="tagsUser('<?=$_SESSION['ws-tags']['ws-user'][screen_name].' : Tags'?>', '&current=personal&bc_list&edit=0&uid=<?=md5($_SESSION['ws-tags']['ws-user'][id])?>&select=<?=$bc['id']?>');" title="<?=MENU_ADD_TO_TAG?>">
-				<img style="cursor:pointer;" src="img/menu_businessCard/addToTag.png"/>
+				<img style="cursor:pointer;" src="css/menu_businessCard/addToTag.png"/>
 			</li>
 			<?php /* Edit Business Card*/ ?>
 			<li onclick = "actionsBusinessCard(1,'<?=md5($bc['id'])?>');" title="Edit">
-				<img style="cursor:pointer;" src="img/menu_businessCard/edit.png"/>
+				<img style="cursor:pointer;" src="css/menu_businessCard/edit.png"/>
 			</li>
 			<?php if( $_SESSION['ws-tags']['ws-user'][pay_personal_tag]=='1' || $_SESSION['ws-tags']['ws-user'][super_user]=='1' || $_SESSION['ws-tags']['ws-user'][type]=='0' ) { ?>
 				<?php /* Create a tag to this Business Card */ ?>
@@ -31,7 +31,7 @@
 		?>
 			<li id="bc_tag_<?=md5($bc['id'])?>">
 				<img id="makeDefault_<?=$bc['id']?>"
-					 src="img/menu_businessCard/makeDefault.png"
+					 src="css/menu_businessCard/makeDefault.png"
 					 border="0"
 					 title="Link to this BC"
 					 style="cursor:pointer;"
@@ -42,7 +42,7 @@
 								showAndHide('default_<?=$bc['id']?>', 'makeDefault_<?=$bc['id']?>', 500);
 								updateBCTagLink('<?=md5($_GET[id_tag])?>','<?=base64_encode($bc['id'])?>')"/>
 				<img id="default_<?=$bc['id']?>"
-					 src="img/menu_businessCard/default.png"
+					 src="css/menu_businessCard/default.png"
 					 border="0"
 					 title="Unlink from this BC"
 					 style="cursor:pointer;display:none;"
