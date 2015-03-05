@@ -326,11 +326,8 @@
 						});
 					});
 				}
-
-				get_profile($.local('code'), function(data){
-					$('#profile span.info .name').html($.local('full_name'));
-					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
-				});
+				$('#profile span.info .name').html($.local('full_name'));
+				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')||''+'"></a>');
 				
 			}//end after
 		});
