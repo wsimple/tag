@@ -1396,7 +1396,15 @@ function bodyFriendsList(friend, temp){
 	// if (friend.conocido) var te="a",text=lan('unfollow');
 	// else var te="e",text=lan('follow');
 	var known = (friend.conocido)?1:0;
-	console.log('Resultado:'+friend.conocido);
+	//console.log('Resultado bodyFriendsList:'+friend.conocido);
+	//console.log(friend);
+	if(friend.follower > 0){
+		//console.log('Si lo sigo');
+		known = 1;
+	}else{
+		//console.log('No lo sigo');
+		known = 0;
+	}
 	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain" data-usrname="'+friend.name_user+'" >'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
 			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/>'+
@@ -1429,8 +1437,20 @@ function bodyFriendsList(friend, temp){
 
 function bodyFriendsList2(friend){
 	var known = (friend.conocido)?1:0;
+	//console.log('Resultado bodyFriendsList2:'+friend.conocido);
 	if (friend.conocido) var te="a",text=lan('unfollow');
-	else var te="e",text=lan('follow'); 
+	else var te="e",text=lan('follow');
+	if(friend.follower > 0){
+		//console.log('Si lo sigo');
+		te="a";
+		known = 1;
+		text=lan('unfollow');
+	}else{
+		//console.log('No lo sigo');
+		known = 0;
+		te="e";
+		text=lan('follow');
+	}	
 	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain" '+
 		'data-icon="info"  data-known="'+known+'" data-usrname="'+friend.name_user+'" >'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-username="'+friend.name_user+'" data-theme="e" class="ulbox">'+
@@ -1610,6 +1630,7 @@ function linkUser(layer,$wrapper){
 			'<div class="info">'+lan('name','ucf')+': '+this.dataset.usrname+'</div>'+
 			'</div>',
 			style:{'padding-right':5},
+			btntext:{Profile:lan('USER_PROFILE'),Follow:text},
 			buttons:{ 
 				Profile:function(){ redir(redirprofile); },
 				Follow:function(){ 
@@ -1636,7 +1657,7 @@ function linkUser(layer,$wrapper){
 						}
 					});
 					redir(redirSelfProfile);
-				} 
+				}
 			},
 			backgroundClose: true
 		});
@@ -1968,12 +1989,24 @@ function myDialog(){
 		o.buttons={Ok:o.close};
 	}
 	if(!(o.buttons instanceof Array)){
+		//console.log(o.buttons);
+		//console.log(o.btntext);
+		//Ejemplo de o.btntext en Profile para los amigos
 		var button=[];
 		for(i in o.buttons){
-			button.push({
-				text:i,
-				click:o.buttons[i]
-			});
+			if(!(o.btntext instanceof Array)){
+				console.log(o.btntext[i]);
+				button.push({
+					text:o.btntext[i],
+					click:o.buttons[i]
+				});
+			}else{
+				button.push({
+					text:i,
+					click:o.buttons[i]
+				});
+			}
+
 		}
 		o.buttons=button;
 	}
