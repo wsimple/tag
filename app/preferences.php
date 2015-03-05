@@ -91,6 +91,8 @@
 				$('#btnPreferences_update').html(lang.PREFERENCES_BTNUPDATE);
 				$('#txtPrefe').attr('placeholder', lang.PREFERENCES_HOLDERSEARCH);
 				$('.list-wrapper').jScroll({hScroll:false});
+				$('#profile span.info .name').html($.local('full_name'));
+				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
 			},
 			after:function(){
 				opc.type = ($_GET['typePrefe']!=''&&$_GET['typePrefe']!=undefined) ? $_GET['typePrefe'] : ($('#typePre').val()!=''?$('#typePre').val():1);
@@ -99,12 +101,6 @@
 				$('#radio-choice-'+opc.type).attr('checked', true).checkboxradio('refresh');
 				putBoxPreference(opc);
 				$('#typePre').val(opc.type);
-
-				get_profile($.local('code'), function(data){
-					$('#profile span.info .name').html($.local('full_name'));
-					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
-				});
-				
 			}
 		});
 

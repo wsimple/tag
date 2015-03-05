@@ -121,6 +121,8 @@
 					$('#pd-wrapper').css('top','30px');
 					$('div[data-role="content"]').prepend('<div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">'+lang.MAINMNU_PERSONALTAGS+'</div></div>');
 				}
+				$('#profile span.info .name').html($.local('full_name'));
+				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
 			},//end before
 			after:function(){
 				var current=$_GET['current']||'tagsUser',layer='#tagsList',id=$_GET['id'];
@@ -326,9 +328,6 @@
 						});
 					});
 				}
-				$('#profile span.info .name').html($.local('full_name'));
-				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')||''+'"></a>');
-				
 			}//end after
 		});
 	function sendadminGroup(idDialog,id){

@@ -57,6 +57,8 @@
 					'<li class="ui-block-e" opc="0" >'+lang.TOPTAGS_ALWAYS+'</li>'+
 					'<li class="ui-block-z" style="width:100%;"><a><img src="css/newdesign/menu.png"></a><span></span></li>'
 				);
+				$('#profile span.info .name').html($.local('full_name'));
+				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
 			},
 			after:function(){
 				$('#page-topTags .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
@@ -118,8 +120,6 @@
 					$('.sub-menu-tag').find('ul').hide();
 					$(this).find('ul').show();
 				});
-				$('#profile span.info .name').html($.local('full_name'));
-				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')||''+'"></a>');
 				//END V2
 				$('#userPoints').click(function(){
 					myDialog({

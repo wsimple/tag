@@ -89,7 +89,7 @@
 					text+' (<b><loader/></b>)</div>'); 
 				};
 				$('#sub-menu ul').html(
-					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
+					'<li class="ui-block-a timeline"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
 					'<li class="ui-block-c points"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
 					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
@@ -111,6 +111,8 @@
 					lang.USERPROFILE_PREFERENCES_TITLE+' </div>');
 				$('#pictureButton').html(lan(CORDOVA?'change picture':'edit thumbnail','ucw'));
 				$('#shareTagDialog .buttons a').html(lan('exit','ucw'));
+				$('#profile span.info .name').html($.local('full_name'));
+				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
 			},
 			after:function(){
 				$('#page-profile .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
@@ -259,11 +261,6 @@
 					error:function(){
 						console.log('error');
 					}
-				});
-
-				get_profile($.local('code'), function(data){
-					$('#profile span.info .name').html($.local('full_name'));
-					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
 				});
 			}
 		});

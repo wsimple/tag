@@ -81,6 +81,9 @@
 				}
 				$('#private-select').append('<label for="radio-inbox"></label>'+'<label for="radio-outbox"></label>');
 
+				$('#profile span.info .name').html($.local('full_name'));
+				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
+
 			},
 			after:function(){
 				var opc={ 
@@ -220,8 +223,6 @@
 					$('.sub-menu-tag').find('ul').hide();
 					$(this).find('ul').show();
 				});
-				$('#profile span.info .name').html($.local('full_name'));
-				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')||''+'"></a>');
 				//END V2
 			}
 		});
