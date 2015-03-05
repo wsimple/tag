@@ -10,7 +10,7 @@
 	<div data-role="content">
 		<img class="bg" src="css/smt/bgorange.png"/>
 		<div id="fs-wrapper" class="fs-wrapper">
-			<div id="scroller">
+			<div id="scroller" style="margin-top:30px">
 				<div id="buttons"><div class="_tt"><div class="_tc">
 					<div id="logo_image ">
 						<a data-inline="true" data-theme="f" >
@@ -60,7 +60,8 @@
 				$('#txtPass').attr('placeholder',lan('password','ucf'));
 				$('#btn-signup').html(lang.signup);
 				$('#btn-back').html(lan('Back'));
-
+				$('#msgLogo').html(lan('create.share'));
+				$('#msgLogob').html(lan('.reward'));
 				$('#titleTopLogin').html(lang.TITLETOPLOGIN);
 				$('#titleMidleLogin').html(lang.TITLEMIDLELOGIN);
 				$('#titleBottonLogin').html(lang.TITLEBOTTONLOGIN);
