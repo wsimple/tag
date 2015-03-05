@@ -34,7 +34,7 @@
 		}
 		$limitsql="";
 	}
-	if($limitsql=='') $limitsql="LIMIT 0,250";
+	if($limitsql=='') $limitsql="LIMIT 0,50";
 	if ($num){
 		$new=CON::query(
 			"SELECT un.id,
