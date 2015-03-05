@@ -972,6 +972,7 @@ li.userInList h3{
 	border: none !important;
 	border-shadow: none;
 	box-shadow: none;
+	min-height: 90% !important;
 }
 
 #page-login .btn-orange{
@@ -996,8 +997,7 @@ li.userInList h3{
 	color: #EB5A28;
 }
 
-#btn-signup .ui-icon, 
-#btn-signup .ui-btn-inner, 
+#btn-login .ui-icon, 
 #btn-login .ui-btn-inner{
 	background-image: none !important;
 }
@@ -1183,6 +1183,117 @@ li.userInList h3{
 	box-shadow: none;
 }	
 
+/*page-login Ends*/
+
+/*page-resend Begins*/
+
+#page-resend
+#page-resend #fs-wrapper, 
+#page-resend #scroller, 
+#page-resend #frmRegister,
+#page-resend .ui-page,
+#page-resend .ui-content{
+	background-color: #E1E6E7;
+	border: none !important;
+	border-shadow: none;
+	box-shadow: none;
+}
+
+#page-resend #sub-menu{
+	text-shadow: none;
+	z-index: 103;
+	height: 3.6em;
+	top: 56px;
+	background: #b3b9bd;
+	position: relative;
+}
+
+#page-resend #sub-menu a{
+	line-height: 2em;
+}
+
+#page-resend .ui-link, #page-resend .ui-link:visited{
+	color: #FFF;
+}
+
+#page-resend .ui-page, #page-resend .ui-content{
+	margin-top: 60px !important;
+}
+
+#page-resend .ui-corner-all {
+	border-radius: 4px /*{global-radii-blocks}*/;
+	-webkit-border-radius: 4px /*{global-radii-blocks}*/;
+}
+
+#page-resend .ui-selectmenu-list .ui-icon {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+#page-resend .ui-btn-corner-all {
+	-webkit-border-radius: 4px /*{global-radii-buttons}*/;
+	border-radius: 4px /*{global-radii-buttons}*/;
+}
+
+#page-resend .ui-btn {
+	text-align: left;
+	width: 100%;
+	margin-top: 2px !important;
+	margin-bottom: 2px !important;
+	border-radius: 4px /*{global-radii-blocks}*/ !important;
+	-webkit-border-radius: 4px /*{global-radii-blocks}*/ !important;
+}
+
+#page-resend .ui-btn-up-m {
+	border: 1px solid #FFF;
+	background: #FFF;
+	font-weight: bold;
+	color: #EB5A28;
+}
+
+#page-resend .ui-btn-hover-m {
+	border: 1px solid #bbbbbb ;
+	background: #FFF;
+	font-weight: bold;
+	color: #EB5A28 ;
+}
+
+#page-resend .ui-btn-up-n {
+	border: 1px solid #EB5A28 ;
+	background: #EB5A28 ;
+	font-weight: normal;
+	color: #FFF ;
+	width: 100%;
+}
+
+#page-resend .ui-btn-hover-n {
+	border: 1px solid #bbbbbb ;
+	background: #EB5A28 ;
+	font-weight: normal;
+	color: #FFF ;
+	width: 100%;
+}
+
+#page-resend {
+	background-color: #E1E6E7;
+	border: none;
+	border-shadow: none;
+	border:1px solid #E1E6E7;
+	box-shadow: none;
+}
+
+#page-resend #content, #page-resend #scroller, 
+#page-resend #fs-wrapper, #page-resend .smt-tag-content{
+	background-color: #E1E6E7;
+	border: none !important;
+	border-shadow: none;
+	border:1px solid #E1E6E7;
+	box-shadow: none;
+}
+
+#page-resend #fs-wrapper{
+	margin: 0 !important;
+}
 
 /*page-login Ends*/
 

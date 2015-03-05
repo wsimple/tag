@@ -1,12 +1,18 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-resend" data-role="page" data-cache="false">
-	<div data-role="header" data-position="fixed" data-theme="f">
+	<div id="sub-menu" style="position:absolute;top:0px;left:0;padding:0px;" data-position="fixed"  >
+		<div style="float: left; margin-left: 10px; margin-top: 20px">
 		<a id="bntBack" data-icon="arrow-l" href="#"> </a>
 		<div class="titleRP" ></div>
+		<br/>
+		</div>
+		<div style="float: right; margin-right: 20px; margin-top: 20px">
 		<a id="btnResendPas" data-icon="arrow-r" href="#" data-iconpos="right"></a>
 		<br/>
-	</div>
-	<div class="smt-bg smt-center ui-content">
+		</div>	</div>
+
+	<div data-role="content" class="list-content">
+
 		<div class="fs-wrapper">
 			<form id="frmResend" name="frmResend" method="post">
 				<div>
@@ -25,7 +31,9 @@
 				</div>
 			</form>
 		</div>
+
 	</div>
+
 <script>
 	pageShow({
 		id: '#page-resend',
