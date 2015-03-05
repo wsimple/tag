@@ -744,7 +744,7 @@ li.userInList h3{
 #friend-options .window .info{
 	font-size: 1.4em;
 }
-/*notificaciones*/
+/*notificaciones noticias hot*/
 #page-freeProducts .ui-bar-b,
 #page-lstStoreOption .ui-bar-b,
 #page-news .ui-bar-b,
@@ -779,7 +779,51 @@ li.userInList h3{
 	color: #06C5AC;
 	box-shadow: none;
 }
-
+#page-notif .emptyInfo,
+#page-news .emptyInfo{
+	color: #525A6F;
+	border: none;
+	background:#ECF0F1;
+	margin: 5px 0;
+}
+#prevNewsAndHot-dialogs .emptyInfo{ 
+	background: transparent;
+	border: none;
+	color: white;
+}
+#prevNewsAndHot-dialogs .emptyInfo a,
+#page-notif .emptyInfo a,
+#page-news .emptyInfo a{
+	color: #2ECC71;
+	text-decoration: none;
+}
+#prevNewsAndHot-dialogs ul{
+	list-style: none;
+	-webkit-padding-start: 0;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 10px;
+}
+#prevNewsAndHot-dialogs ul li{ 
+	padding: 3px 0;
+	text-align: left;
+}
+#prevNewsAndHot-dialogs ul#newsInfo li p.title{
+	text-align: left;
+	font-size: 13px;
+} 
+#prevNewsAndHot-dialogs ul#newsInfo li p.date{
+	text-align: right;
+	font-size: 11px;
+	margin: 0;
+}
+#page-trendings #fs-wrapper{ 
+	top:65px; 
+	box-shadow: none;
+}
+#page-trendings ul li{
+	background: #ECF0F1;
+}
+/*end notificaciones noticias hot*/
 /*Navigation menu*/
 #menu{ text-align: center; }
 #menu span{

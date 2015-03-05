@@ -7,7 +7,8 @@ if (quitar_inyect()){
     $res=array();$myId=$myId?$myId:$_SESSION['ws-tags']['ws-user']['id'];
     if (isset($_POST['trendings'])){
         $res['trendings']=true;
-        $trendings = get_trending(10);
+        $num=isset($_GET['num'])?$_GET['num']:10;
+        $trendings = get_trending($num);
         while($trending = mysql_fetch_assoc($trendings)){
             $res['datos'][]=$trending['word'];  
         }

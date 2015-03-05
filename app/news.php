@@ -25,6 +25,7 @@
 			// title:lang['NEWS'],
 			// buttons:{showmenu:true,creation:true},
 			before:function(){
+				newMenu();
 				//languaje
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);
@@ -47,137 +48,6 @@
 					$('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
 				});
 				var action={refresh:{refresh:true},more:{}},$info=$('#infoList'),on={};
-				function getNews(action,opc){
-					function peopleFormat(usr,num){
-						num=num||usr.length;
-						var	txt='',len=num>3?3:num;
-						for(var i=0; i<len; i++){
-							if(i>1 && num>3)
-								txt+='<b>'+(num-2)+' [_MORE_]</b>';
-							else
-								txt+='<b>'+usr[i]['name']+'</b>';
-							if(len>1 && i<len-1)
-								txt+=(i<len-2)?', ':' [_AND_] ';
-						}
-						return txt;
-					}
-					function newsFormat(d){return(
-						'<li data-type="'+d.type+'" date="'+d.date+'" data-source="'+d.source+'">'+
-							'<a>'+
-								'<img src="'+d.photo+'"/>'+
-								'<p class="title">'+d.txt+'</p>'+
-								'<p class="date">'+d.date+'</p>'+
-							'</a>'+
-						'</li>'
-					);}
-					var cancel=function(){return action!='reload'&&on['reload'];};
-					if(!cancel()&&!on[action]&&opc.more!==false){
-						on[action]=true;
-						myAjax({
-							url		: DOMINIO+'controls/news/newsjson.php?action='+action,
-							// url		: DOMINIO+'controls/news/news.json.php',
-							dataType: 'json',
-							data	: opc,
-							error	: function(/*resp, status, error*/) {
-								myDialog('#singleDialog', lang.conectionFail);
-							},
-							success	: function(data){
-								eval(data.txtFormat);
-								if(action=='more'&&(!data['info']||data['info'].length<1)) opc.more=false;
-								if(!cancel()&&data['info']&&data['info'].length>0){
-									opc.limit=data['numResult'];
-									var i,j,out='',info,d;
-									opc.date=data['fecha'];
-									if(!opc.refresh) opc.start=(opc.start||0)+data['info'].length;
-									for(i in data['info']){
-										info = data['info'][i];
-										d={
-											type:info['type'],
-											source:info['source'],
-											// txt:lang.info({
-											// 	type:info['id_type'],
-											// 	friends:peopleFormat(info['friend']),
-											// 	usr:'<b>'+info['usrs']['name']+'</b>'
-											// }),
-											date:info['fdate']
-										};
-										var friends=peopleFormat(info['usrs']),
-  		                               	people=peopleFormat(info['friend']);
-										switch(info['type']){
-											case 'tag':
-													d.photo=FILESERVER+'img/tags/'+info['source'].substr(-16)+'.m.jpg';
-		                                            d.txt=txtFormat({
-														type:info['id_type'],
-														people:people,
-		                                                friends:friends,
-														txt:data['txt'],
-														tag:'[_TAG_]'
-													});
-													out+=newsFormat(d);										
-											break;
-											case 'usr':
-												d.source=info['keyUser'];
-												d.photo =info['usrs'][0]['photo']+'" class="userBR" style="height:90%;';
-												d.txt=txtFormat({
-													type:info['id_type'],
-													people:people,
-		                                            friends:friends,
-													txt:data['txt']
-												});
-												out+=newsFormat(d);
-											break;
-											case 'product':
-												d.photo = info['photoS']+'" style="height:90%;';
-												d.txt=txtFormat({
-													type:info['id_type'],
-													people:people,
-													txt:data['txt'],
-													prod:'[_PROD_]'
-												});
-												out+=newsFormat(d);
-											break;
-										}
-										// switch(info['id_type']){
-										// 	case '1': case '2': case '4': case '7': case '8': case '9': case '10':
-										// 		d.type='tag';
-										// 		d.source=info['source'];//info['id_source']
-										// 		d.photo=FILESERVER+'img/tags/'+d.source.substr(-16)+'.m.jpg';
-										// 		out+=newsFormat(d);
-										// 	break;
-										// 	case '5': case '6': case '11':
-										// 		d.type='usrs';
-										// 		d.source = info['usrs']['code'];
-										// 		for(j in info['friend']){
-										// 			if(!d.photo||d.photo.match(/default_thumb.jpg/)) d.photo=info['friend'][j]['photo'];
-										// 		}
-										// 		out+=newsFormat(d);
-										// 	break;
-										// }
-									}
-//									if(opc.refresh)
-//										$info.prepend(out).listview('refresh');
-//									else
-//										$info.append(out).listview('refresh');
-									$info[opc.refresh?'prepend':'append'](out).listview('refresh');
-								}else{
-									// $info.html('');
-									if($info.html()==''){
-										$info.append('<div class="emptyInfo">'+lang.EMPTY_INFO_NEWS+'<br><br><div id="findFriends" style="font-weight:bold">'+lang.FIND_FRIENDS_NOTIFICATION+'</div></div>');
-										$('#pullUp').hide();
-										$('#findFriends').click(function(event) {
-											redir(PAGE['findfriends']);
-										});
-									}
-								}
-								on[action]=false;
-								$('#pd-wrapper').jScroll('refresh');
-							},
-							complete:function(){
-								on[action]=false;
-							}
-						});
-					}
-				}
 				$info.listview({
 					autodividersCounter:true,
 					//autodividersGroup:true,
@@ -203,17 +73,17 @@
 					onPullDown:function(){
 						console.log('refresh');
 						action.refresh.date=action.refresh.date||action.more.date;
-						getNews('refresh',action.refresh);
+						getNews('refresh',action.refresh,on,$info);
 					},
 					onPullUp:function(){
 						console.log('more');
-						getNews('more',action.more);
+						getNews('more',action.more,on,$info);
 					},
 					onReload:function(){
 						console.log('reload');
 						action.more={};
 						$info.html('');
-						getNews('reload',action.more);
+						getNews('reload',action.more,on,$info);
 					}
 				});
 			}

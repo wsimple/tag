@@ -199,7 +199,8 @@ function newMenu(){
 	'<div class="arrow"></div>'+
 		'<ul>'+
 			'<li class="toptags"><a href="'+PAGE.toptags+'">'+lan('TOPTAGS_TITLE')+'</a></li>'+
-			'<li class="news"><a href="news.html">'+lan('NEWS')+'</a></li>'+
+			'<li class="news"><a href="#">'+lan('NEWS')+'</a></li>'+
+			// '<li class="news"><a href="news.html">'+lan('NEWS')+'</a></li>'+
 			'<li class="notifications"><a href="'+PAGE.notify+'">'+lan('NOTIFICATIONS')+'</a></li>'+
 			'<li class="groups"><a href="#">'+lan('groups')+'</a></li>'+
 			'<li class="chat"><a href="cometchat/i.html">'+lan('chat')+'</a></li>'+
@@ -211,6 +212,32 @@ function newMenu(){
 		'</ul>'+
 	'</div>';
 	$('body').append(menu);
+	$('#bottom-menu ul li.news').click(function(){
+		var content='',news=false,hot=false;
+		if (!$('#page-news').length){
+			news=true;
+			content+='<di><p>'+lang.NEWS+'</p><ul id="newsInfo"></ul></div>';
+		}
+		if (!$('#page-trendings').length){
+			hot=true;
+			content+='<di><p>'+lan('hot','ucw')+'</p><ul id="trendings"></ul></div>';
+		}
+		console.log($('#page-news'),$('#page-news').length);
+		myDialog({
+            id:'prevNewsAndHot-dialogs',
+            content :content,
+            scroll:true,
+            after:function(){
+            	if (hot) getTrendings(3,true)
+            	if (news){
+            		var action={refresh:{refresh:true},more:{}},$info=$('#newsInfo'),on={};
+            		getNews('reload',action.more,on,$info,true)
+            	}
+            },
+            buttons:[],
+            backgroundClose: true
+        });
+	});
 }
 function menuStore(hover){
 	hover=hover?hover:1;
@@ -2615,6 +2642,148 @@ function checkOutShoppingCart(get){
 			}
 		}
 	});
+}
+function getTrendings(num,preview){
+    myAjax({
+		type	:'POST',
+		url		:DOMINIO+'controls/search/search.json.php'+(num?'?num='+num:''),
+        data    :{trendings:true},
+		error	:function(/*resp,status,error*/){
+			myDialog('#singleDialog',lang.conectionFail);
+		},
+		success	:function(data){
+            var outH='';
+            if (data['trendings']){
+                for(i in data['datos']) 
+                    if(i){
+						pref = data['datos'][i];  
+						outH +='<li result="'+pref+'"><a href="search.html?srh='+pref.replace('#','%23').replace('<br>',' ')+'">'+pref+'</a></li>';
+					}
+                if (outH!=''){ 
+                	$('#trendings').append(outH); 
+                	if (!preview) $('#trendings').listview('refresh'); 
+                }else if (!preview) myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE); 
+                $('.fs-wrapper').jScroll('refresh');
+	        }else if (!preview) myDialog('#singleDialog',lang.conectionFail);
+        }
+	});   
+}
+function getNews(action,opc,on,$info,preview){
+	function peopleFormat(usr,num){
+		num=num||usr.length;
+		var	txt='',len=num>3?3:num;
+		for(var i=0; i<len; i++){
+			if(i>1 && num>3)
+				txt+='<b>'+(num-2)+' [_MORE_]</b>';
+			else
+				txt+='<b>'+usr[i]['name']+'</b>';
+			if(len>1 && i<len-1)
+				txt+=(i<len-2)?', ':' [_AND_] ';
+		}
+		return txt;
+	}
+	function newsFormat(d){return(
+		'<li data-type="'+d.type+'" date="'+d.date+'" data-source="'+d.source+'">'+
+			'<a>'+
+				(!preview?'<img src="'+d.photo+'"/>':'')+
+				'<p class="title">'+d.txt+'</p>'+
+				'<p class="date">'+d.date+'</p>'+
+			'</a>'+
+		'</li>'
+	);}
+	var cancel=function(){return action!='reload'&&on['reload'];};
+	if(!cancel()&&!on[action]&&opc.more!==false){
+		on[action]=true;
+		myAjax({
+			url		: DOMINIO+'controls/news/newsjson.php?action='+action+(preview?'&limit=3':''),
+			// url		: DOMINIO+'controls/news/news.json.php',
+			dataType: 'json',
+			data	: opc,
+			error	: function(/*resp, status, error*/) {
+				myDialog('#singleDialog', lang.conectionFail);
+			},
+			success	: function(data){
+				eval(data.txtFormat);
+				if(action=='more'&&(!data['info']||data['info'].length<1)) opc.more=false;
+				if(!cancel()&&data['info']&&data['info'].length>0){
+					opc.limit=data['numResult'];
+					var i,j,out='',info,d;
+					opc.date=data['fecha'];
+					if(!opc.refresh) opc.start=(opc.start||0)+data['info'].length;
+					for(i in data['info']){
+						info = data['info'][i];
+						d={
+							type:info['type'],
+							source:info['source'],
+							// txt:lang.info({
+							// 	type:info['id_type'],
+							// 	friends:peopleFormat(info['friend']),
+							// 	usr:'<b>'+info['usrs']['name']+'</b>'
+							// }),
+							date:info['fdate']
+						};
+						var friends=peopleFormat(info['usrs']),
+                           	people=peopleFormat(info['friend']);
+						switch(info['type']){
+							case 'tag':
+									d.photo=FILESERVER+'img/tags/'+info['source'].substr(-16)+'.m.jpg';
+                                    d.txt=txtFormat({
+										type:info['id_type'],
+										people:people,
+                                        friends:friends,
+										txt:data['txt'],
+										tag:'[_TAG_]'
+									});
+									out+=newsFormat(d);										
+							break;
+							case 'usr':
+								d.source=info['keyUser'];
+								d.photo =info['usrs'][0]['photo']+'" class="userBR" style="height:90%;';
+								d.txt=txtFormat({
+									type:info['id_type'],
+									people:people,
+                                    friends:friends,
+									txt:data['txt']
+								});
+								out+=newsFormat(d);
+							break;
+							case 'product':
+								d.photo = info['photoS']+'" style="height:90%;';
+								d.txt=txtFormat({
+									type:info['id_type'],
+									people:people,
+									txt:data['txt'],
+									prod:'[_PROD_]'
+								});
+								out+=newsFormat(d);
+							break;
+						}
+					}
+//									if(opc.refresh)
+//										$info.prepend(out).listview('refresh');
+//									else
+//										$info.append(out).listview('refresh');
+					$info[opc.refresh?'prepend':'append'](out);
+					if (!preview) $info.listview('refresh');
+				}else{
+					// console.log('aqui',$info);
+					// $info.html('');
+					if($info.html()==''){
+						$info.append('<div class="emptyInfo">'+lang.EMPTY_INFO_NEWS+'<br><br><a href="findFriends.html" style="font-weight:bold">'+lang.FIND_FRIENDS_NOTIFICATION+'</a></div>');
+						$('#pullUp').hide();
+						$('#findFriends').click(function(event) {
+							redir(PAGE['findfriends']);
+						});
+					}
+				}
+				on[action]=false;
+				$('#pd-wrapper').jScroll('refresh');
+			},
+			complete:function(){
+				on[action]=false;
+			}
+		});
+	}
 }
 (function(window){//funciones de comentarios
 	function showComments(comments){
