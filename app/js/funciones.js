@@ -706,14 +706,9 @@ function actionMenuStore(action){
 		},'linear');
 	}
 	$(function(){
-<<<<<<< HEAD
 		getUserPoints();
 		// putMenu();
 		// putMenuOptions();
-=======
-		putMenu();
-		putMenuOptions();
->>>>>>> 12e2b5d8fa1722d6117ebd42e1e51bc51c683610
 		// Menu actions design V2
 		var statusMenu = false;
 		$("#bottom-menu").on('click', function(event) {
