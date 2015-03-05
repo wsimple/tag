@@ -560,6 +560,10 @@ img#backgroundImage{
 	bottom: 0;
 	border: none;
 }
+#rowTitleMove ul li a{ 
+	color: white;
+	text-decoration: none;
+}
 #rowTitleMove ul li.ui-btn-active{ background: #009999; }
 #rowTitleMove ul li[opc]{ display: none; }
 #rowTitleMove ul li.ui-block-z a img{ 
@@ -2463,6 +2467,7 @@ li.userInList h3{
 #page-lstGroups #group_title li a{
 	text-decoration: none;
 }
+#page-lstGroups #pd-wrapper{ top: 95px; }
 /*End Groups*/
 /*Media querys*/
 @media screen and (min-width: 600px) {

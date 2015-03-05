@@ -9,6 +9,9 @@
 			</span>
 		</div>
 		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
+		<div id="rowTitleMove">
+			<ul class="ui-grid-a"></ul>
+		</div>
 	</div><!-- header -->
 
 	<div data-role="content" class="list-content">
@@ -29,9 +32,9 @@
 			before:function(){
 				newMenu();
 				//languaje
-				$('#labelGroups').html(lang.MAINMNU_GROUPS);
-				$('#labelMyGroups').html(lang.GROUPS_MYGROUPS);
-				$('#btnGroupCreated').html(lang.GROUPS_TITLEWINDOWSNEW);
+				// $('#labelGroups').html(lang.MAINMNU_GROUPS);
+				// $('#labelMyGroups').html(lang.GROUPS_MYGROUPS);
+				// $('#btnGroupCreated').html(lang.GROUPS_TITLEWINDOWSNEW);
 				$('#searchPreferences').attr('placeholder', lang.PREFERENCES_HOLDERSEARCH);
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
@@ -39,6 +42,19 @@
 					'<li class="ui-block-c points"></li>'+
 					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
 				);
+				$('#rowTitleMove ul').html(
+					'<li class="ui-block-a" opc="my"><a href="lstgroups.html">'+lang.GROUPS_MYGROUPS+'</a></li>'+
+					'<li class="ui-block-b" opc="all"><a href="lstgroups.html?action=2">'+lang.GROUPS_ALLGROUPS+'</a></li>'+
+					'<li class="ui-block-z" style="width:100%;"><a><img src="css/newdesign/menu.png"></a><span></span></li>'
+				);
+				if ($_GET['action'] && $_GET['action']==2)
+					$('#rowTitleMove ul li[opc="all"],#rowTitleMove ul li.ui-block-z').addClass('ui-btn-active').find('span').html(lang.GROUPS_ALLGROUPS);
+                else $('#rowTitleMove ul li[opc="my"],#rowTitleMove ul li.ui-block-z').addClass('ui-btn-active').find('span').html(lang.GROUPS_MYGROUPS);
+                $('#rowTitleMove ul').on('click','a',function(){
+					$(this).parents('li').slideUp('fast',function(){
+						$('#rowTitleMove ul li[opc]').slideDown('fast');
+					});
+				});
 				$('#profile span.info .name').html($.local('full_name'));
 				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
 			},
@@ -63,6 +79,30 @@
                        else $wrapper.jScroll('refresh');
 					},
 					onReload:function(){ cargarList(action,''); }
+				});
+				var scroller,v=true,y=-50;
+				$wrapper.jScroll(function(){
+					scroller=this;
+				});
+				$wrapper.bind('touchmove',function(){
+					if (scroller.y>-100){
+						$('#rowTitleMove').removeClass('no-v');
+						$('#page-lstGroups #pd-wrapper').css('top','95px');
+					}else{
+						$('#page-lstGroups #pd-wrapper').css('top','60px');
+						if (scroller.y<y){
+							if (v){
+								v=false;
+								$('#rowTitleMove').addClass('no-v');
+							}
+						}else{
+							if (!v){
+								v=true;
+								$('#rowTitleMove').removeClass('no-v');													
+							}
+						}
+						y=scroller.y;
+					} 
 				});
                 function cargarList(action,limit){
                     var limit2='&'+(limit!=''?'limit='+limit:'limit=0');
