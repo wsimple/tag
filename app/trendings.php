@@ -30,16 +30,11 @@
                     '<li class="ui-block-c points"></li>'+
                     '<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
                 );
+                $('#profile span.info .name').html($.local('full_name'));
+                $('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
 			},
 			after:function(){
 				$('.fs-wrapper').jScroll({hScroll:false});
-                get_profile($.local('code'), function(data){
-                    $('#profile span.info .name').html($.local('full_name'));
-                    $('#profile .photo').html('<a href="profile.html"><img src="'+data.datos[0].photo_friend+'"></a>');
-                });
-    //             $('#trendings').on('click','li[result]',function(){
-				//     redir(PAGE['search']+'?srh='+$(this).attr('result').replace('#','%23').replace('<br>',' '));
-				// });	
                 getTrendings();
 			}
 	   });

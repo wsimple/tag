@@ -1,12 +1,18 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-resend" data-role="page" data-cache="false">
-	<div data-role="header" data-position="fixed" data-theme="f">
-		<a id="bntBack" data-icon="arrow-l" href="#"> </a>
-		<div class="titleRP" ></div>
-		<a id="btnResendPas" data-icon="arrow-r" href="#" data-iconpos="right"></a>
-		<br/>
+	<div id="sub-menu" style="position:absolute;top:0px;left:0;padding:0px;" data-position="fixed"  >
+		<div style="float: left; margin-left: 10px; margin-top: 20px">
+			<a id="bntBack" data-icon="arrow-l" href="#"> </a>
+			<div class="titleRP" ></div>
+			<br/>
+		</div>
+		<div style="float: right; margin-right: 20px; margin-top: 20px">
+			<a id="btnResendPas" data-icon="arrow-r" href="#" data-iconpos="right"></a>
+			<br/>
+		</div>
 	</div>
-	<div class="smt-bg smt-center ui-content">
+
+	<div data-role="content" class="list-content">
 		<div class="fs-wrapper">
 			<form id="frmResend" name="frmResend" method="post">
 				<div>
@@ -25,6 +31,19 @@
 				</div>
 			</form>
 		</div>
+
+		<div id="fs-wrapper" class="fs-wrapper">
+			<div id="scroller" style="margin-top:30px">
+				<div id="buttons"><div class="_tt"><div class="_tc">
+					<div id="logo_image ">
+						<a data-inline="true" data-theme="f" >
+							<img src="css/newdesign/tagbum_white_logo.png" alt="" style="max-height:100px;"><br>
+							<span id="msgLogo" style="color:#FFF; font-weight:normal;">create.share</span><span id="msgLogob" style="color:#FFF;font-weight:bold;">.reward</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>		
 	</div>
 <script>
 	pageShow({
