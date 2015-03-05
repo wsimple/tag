@@ -63,9 +63,7 @@
 						case 'product':url=PAGE['detailsproduct']+'?id='+source; break;
 						default: alert(type);
 					}
-					if(url){
-						redir(url);
-					}
+					if(url){ redir(url); }
 				});
 				$('#pd-wrapper').ptrScroll({
 					onPullDown:function(){

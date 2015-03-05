@@ -841,8 +841,14 @@ li.userInList h3{
 	top:65px; 
 	box-shadow: none;
 }
-#page-trendings ul li{
+#page-trendings ul li,
+#page-trendings ul li a,
+#page-trendings ul li.ui-btn-active,
+#page-trendings ul li.ui-btn-active a{
 	background: #ECF0F1;
+	box-shadow: none;
+	text-shadow:none;
+	color: #525A6F;
 }
 /*end notificaciones noticias hot*/
 /*Navigation menu*/
