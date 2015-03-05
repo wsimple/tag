@@ -974,6 +974,11 @@ li.userInList h3{
 	-webkit-background-size: auto 60%;
 	background-size: auto 60%;
 }
+#bottom-menu ul li.hot{
+	background: transparent url('newdesign/menu/trend.png') no-repeat center top;
+	-webkit-background-size: auto 60%;
+	background-size: auto 60%;
+}
 
 #bottom-menu ul li a{
 	color: white;
