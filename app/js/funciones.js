@@ -2022,6 +2022,20 @@ function myDialog(){
 		//Ejemplo de o.btntext en Profile para los amigos
 		var button=[];
 		for(i in o.buttons){
+			if(typeof o.btntext !== 'undefined'){
+				button.push({
+					text:o.btntext[i],
+					click:o.buttons[i]
+				});				
+			}else{
+				button.push({
+					text:i,
+					click:o.buttons[i]
+				});				
+			}
+
+
+/*
 			if(!(o.btntext instanceof Array)){
 				console.log(o.btntext[i]);
 				button.push({
@@ -2033,7 +2047,7 @@ function myDialog(){
 					text:i,
 					click:o.buttons[i]
 				});
-			}
+			}*/
 
 		}
 		o.buttons=button;
