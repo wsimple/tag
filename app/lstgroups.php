@@ -40,7 +40,7 @@
 					'<li class="ui-block-a timeline"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
 					'<li class="ui-block-c points"></li>'+
-					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
 				);
 				$('#rowTitleMove ul').html(
 					'<li class="ui-block-a" opc="my"><a href="lstgroups.html">'+lang.GROUPS_MYGROUPS+'</a></li>'+

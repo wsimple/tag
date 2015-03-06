@@ -77,7 +77,7 @@
 					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
                     '<li class="ui-block-c" >&nbsp;</li>'+
                     '<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
-					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
 				);				
 				//languaje
 				$('#buttonBack_preferences').html(lan('Back'));

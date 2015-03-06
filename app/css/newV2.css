@@ -868,10 +868,10 @@ li.userInList h3{
 	top:65px; 
 	box-shadow: none;
 }
-#page-trendings ul li,
-#page-trendings ul li a,
-#page-trendings ul li.ui-btn-active,
-#page-trendings ul li.ui-btn-active a{
+#page-trendings ul#trendings li,
+#page-trendings ul#trendings li a,
+#page-trendings ul#trendings li.ui-btn-active,
+#page-trendings ul#trendings li.ui-btn-active a{
 	background: #ECF0F1;
 	box-shadow: none;
 	text-shadow:none;
@@ -979,6 +979,12 @@ li.userInList h3{
 	height: 3em;
 	width: 20%;
 	margin: 0 0 4px 0;
+}
+
+#bottom-menu ul li.timeline{
+	background: transparent url('newdesign/menu/timeline.png') no-repeat center top;
+	-webkit-background-size:auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li.toptags{
