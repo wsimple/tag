@@ -678,6 +678,10 @@ img#backgroundImage{
 	background: #b3b9bd url('newdesign/submenu/create_tag.png') no-repeat center 4px;
 	background-size: auto 50%;
 }
+#sub-menu li.srcico{
+	background: #b3b9bd url('newdesign/submenu/search.png') no-repeat center 4px;
+	background-size: auto 50%;
+}
 #sub-menu li.store{
 	background: #b3b9bd url('newdesign/submenu/store.png') no-repeat center 4px;
 	background-size: auto 50%;
@@ -688,6 +692,17 @@ img#backgroundImage{
 #sub-menu .ui-block-c{
 	border-right: 1px solid #a1afb0;
 	width: 40%;
+}
+#sub-menu .ui-block-c{
+	border-right: 1px solid #a1afb0;
+	width: 40%;
+}
+#page-news #sub-menu .ui-block-c,
+#page-preferences #sub-menu .ui-block-c,
+#page-profile #sub-menu .ui-block-c,
+#page-search #sub-menu .ui-block-c,
+#page-tagsList #sub-menu .ui-block-c{
+	width: 20% !important;
 }
 /*Find Friends and Friends*/
 #page-myOrders #menu, #page-lstStoreOption #menu,
