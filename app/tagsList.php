@@ -44,13 +44,7 @@
 			<span class="notification-num"><a href="notifications.html">0</a></span>
 		</div>
 		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
-		<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
-			<span class="loader"></span>
-		</div> -->
-		<fieldset id="private-select" data-role="controlgroup" data-type="horizontal" data-mini="true" style="position:absolute;top:7px;right:5px;display:none;">
-			<input id="radio-inbox" type="radio" name="radio-in-out" data-theme="a" value="in" checked="checked"/>
-			<input id="radio-outbox" type="radio" name="radio-in-out" data-theme="a" value="out"/>
-		</fieldset>
+		<div id="rowTitleMove"><ul class="ui-grid-c"></ul></div>
 	</div>
 	<div data-role="content">
 		<div id="pd-wrapper">
@@ -61,16 +55,6 @@
 			</div>
 		</div>
 	</div>
-	<div id="footer" data-role="footer" data-position="fixed" data-theme="f" class="dnone">
-		<div data-role="navbar">
-			<ul>
-				<li><a id="members"></a></li>
-				<li><a id="invite"></a></li>
-				<li><a id="leave"></a></li>
-			</ul>
-		</div>
-	</div>
-	<!-- Dialogs -->
 	<div id="friendsListDialog" class="myDialog"><div class="table"><div class="cell">
 		<div class="window">
 			<div class="container" style="font-size: 50%;height:300px;">
@@ -94,33 +78,45 @@
 			id:'#page-tagsList',
 			before:function(){
 				newMenu();
+				createSearchPopUp('#page-tagsList');
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
-					'<li class="ui-block-c points"></li>'+
-					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+					'<li class="ui-block-c" >&nbsp;</li>'+
+					'<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
+					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
 				);				
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);
-				$('#buttonBack').html(lan('Back'));
-				$('#groupTitle').html(lang.GROUPS_MEMBERSTITLE2);
-				$('#footer #invite').html(lang.GROUPS_INVITEDFRIENDS);
-				$('#footer #members').html(lang.GROUPS_MEMBERSTITLE);
-				$('#footer #leave').html(lang.GROUPS_LEAVE);
+				// $('#groupTitle').html(lang.GROUPS_MEMBERSTITLE2);
 				$('#all,#all2').val(lan('All'));
 				$('#none,#none2').val(lang.none);
-				$('#assignAdminGrp').val(lang.GROUPS_ASSIGNADMIN);
+				// $('#assignAdminGrp').val(lang.GROUPS_ASSIGNADMIN);
 				$('#like_friend').attr('placeholder',lang.inputPlaceHolder);
 				var current=$_GET['current']||'tagsUser';
 				if(current=='tagsUser'){
-					$('#pageTitle').html(lang.MAINMNU_MYTAGS);
-					$('#pd-wrapper').css('top','30px');
-					$('div[data-role="content"]').prepend('<div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">'+lang.MAINMNU_MYTAGS+'</div></div>');
+					$('#rowTitleMove ul').html(
+						'<li class="ui-block-z ui-btn-active nameOwner" style="width:100%;"><span>'+lang.MAINMNU_MYTAGS+'</span></li>'
+					);
+					// $('#pageTitle').html(lang.MAINMNU_MYTAGS);
+					// $('#pd-wrapper').css('top','30px');
+					// $('div[data-role="content"]').prepend('<div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">'+lang.MAINMNU_MYTAGS+'</div></div>');
 				}else if(current=='personalTags'){
-					$('#pageTitle').html(lang.MAINMNU_PERSONALTAGS);
-					$('#pd-wrapper').css('top','30px');
-					$('div[data-role="content"]').prepend('<div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">'+lang.MAINMNU_PERSONALTAGS+'</div></div>');
-				}
+					$('#rowTitleMove ul').html(
+						'<li class="ui-block-z ui-btn-active nameOwner" style="width:100%;"><span>'+lang.MAINMNU_PERSONALTAGS+'</span></li>'
+					);
+					// $('#pageTitle').html(lang.MAINMNU_PERSONALTAGS);
+					// $('#pd-wrapper').css('top','30px');
+					// $('div[data-role="content"]').prepend('<div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">'+lang.MAINMNU_PERSONALTAGS+'</div></div>');
+				}else if(current=='group'){
+					$('#rowTitleMove ul').html(
+						'<li class="ui-block-a" opc="invite" >'+lang.GROUPS_INVITED+'</li>'+
+						'<li class="ui-block-b" opc="members" >'+lang.GROUPS_MEMBERSTITLE+'</li>'+
+						'<li class="ui-block-c" opc="leave" >'+lang.GROUPS_LEAVEABANDONAR+'</li>'+
+						'<li class="ui-block-c" opc="close" >'+lan('Back','ucw')+'</li>'+
+						'<li class="ui-block-z ui-btn-active" style="width:100%;"><a style="display:none;"><img src="css/newdesign/menu.png"></a><span>'+lan('group','ucw')+'</span></li>'
+					);
+				}else{ $('#rowTitleMove').remove(); }
 				$('#profile span.info .name').html($.local('full_name'));
 				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
 			},//end before
@@ -137,9 +133,6 @@
 					opc.code=$.local('code');
 				}
                 if(current=='hash') opc.get='&hash='+$_GET['hash'];
-				$('#buttonBack').click(function(){
-					($_GET['delete'])?((redir(PAGE['tagslist']+'?current=group&id='+id))):goBack();
-				});
 				$('.list-wrapper').jScroll({hScroll:false});
 				/*action menu tag*/
 				actionsTags(opc.layer);
@@ -156,28 +149,52 @@
 						updateTags('reload',opc);
 					}
 				});
+				$(opc.layer).on('click', 'menu #other-options', function(){
+					$('.sub-menu-tag').find('ul').hide();
+					$(this).find('ul').show();
+				});
+				var scroller,v=true,y=-50;
+				$('#pd-wrapper',this.id).jScroll(function(){
+					scroller=this;
+				});
+				$('#pd-wrapper',this.id).bind('touchmove',function(){
+					if (scroller.y>-100){
+						$('#rowTitleMove').removeClass('no-v');
+						$('#page-tagsList #pd-wrapper').css('top','30px');
+					}else{
+						$('#page-tagsList #pd-wrapper').css('top','0px');
+						if (scroller.y<y){
+							if (v){
+								v=false;
+								$('#rowTitleMove').addClass('no-v');
+							}
+						}else{
+							if (!v){
+								v=true;
+								$('#rowTitleMove').removeClass('no-v');													
+							}
+						}
+						y=scroller.y;
+					} 
+				});	
 				if(current=='group'){
 					var admin=false,numAdm=0;
-					$('#pageTitle').html(lan('group','ucw'));
+					// $('#pageTitle').html(lan('group','ucw'));
 					nameMenuGroups(id,0,function(data){
-						$('#pageTitle').html(lan('group','ucw')+': '+data['name']);
+						$('#rowTitleMove .ui-block-z span').html(lan('group','ucw')+': '+data['name']);
 						verifyGroupMembership(id,$.local('code'),function(data){
 							if(data['isMember']){
-								$('.ui-page-active').removeClass('no-footer');
-								$('#footer').show();
-								$('#btnAddTag .ui-btn-text').html(lang.GROUPS_MENUADDTAG);
-								$('#btnAddTag').click(function(){
-									redir(PAGE['newtag']+'?group='+id);
-								});
+								$('#rowTitleMove .ui-block-z a').show();
+								$('#sub-menu .newtag a,#noresult-tags').attr('href',"newtag.html?group="+id);
 								admin=data['admin']=='0'?false:true;
 								numAdm=data['numAdm'];
 							}else{
-								$('#btnAddTag .ui-btn-text').html(lang.GROUPS_JOIN);
-								$('#btnAddTag').click(function(){
+								$('#sub-menu .newtag').removeClass('newtag').addClass('groups')
+								.html('<a>'+lang.GROUPS_JOIN+'</a>')
+								.click(function(){
 									insertUserGroup(id);
 								});
 							}
-							$('#btnAddTag').show();
 						});
 					});
 					function getMembersGroup(){
@@ -215,14 +232,20 @@
 							}
 						});
 					}
-					$('#footer #invite').click(function(){
+					$('#rowTitleMove').on('click','li a',function(){
+						$(this).parents('li').slideUp('fast',function(){
+							$('#rowTitleMove ul li[opc]').slideDown('fast');
+						});
+					}).on('click','li[opc="close"]',function(){
+						$('#rowTitleMove ul li[opc]').slideUp('fast',function(){
+							$('#rowTitleMove ul li.ui-block-z').slideDown('fast');
+						});
+					}).on('click','li[opc="invite"]',function(){
 						selectFriendsDialog($.local('code'),id);
 						$('#friendsListDialog .buttons a').attr('onclick',"sendInvitationMemberGrp('#friendsListDialog','"+id+"');");
 						$('#friendsListDialog .this-button').show();
 						$('#friendsListDialog .this-search').css('width','37%');
-					});
-
-					$('#footer #members').click(function(){
+					}).on('click','li[opc="members"]',function(){
 						myDialog({
 							id:'#friendsListDialog',
 							style:{'min-height':200},
@@ -236,8 +259,7 @@
 								$('.this-search',dialog).css('width','100%');
 							}
 						});
-					});
-					$('#footer #leave').click(function(){
+					}).on('click','li[opc="leave"]',function(){
 						myDialog({
 							id:'#leaveDialog',
 							content: lang.GROUPS_LEAVEMESSAGE,
@@ -399,9 +421,9 @@ function insertUserGroup(idGroup){
 		success	:function(data){
 			switch(data.join){
 				case 'true': case true: location.reload(); break;
-				case 'existe': myDialog('#singleDialog', GROUPS_CLOSE+' '+GROUPS_RESQUEST_SENT); break;
-				case 'private-nosent': myDialog('#singleDialog', GROUPS_CLOSE+' '+GROUPS_RESQUEST_WAIT); break;
-				case 'secrete': myDialog('#singleDialog', GROUPS_PRIVATE+' '+GROUPS_RESQUEST_PRIVATE); break;
+				case 'existe': myDialog('#singleDialog', lang.GROUPS_CLOSE+' '+lang.GROUPS_RESQUEST_SENT); break;
+				case 'private-nosent': myDialog('#singleDialog', lang.GROUPS_CLOSE+' '+lang.GROUPS_RESQUEST_WAIT); break;
+				case 'secrete': myDialog('#singleDialog', lang.GROUPS_PRIVATE+' '+lang.GROUPS_RESQUEST_PRIVATE); break;
 			}
 		}
 	});

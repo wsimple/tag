@@ -195,24 +195,25 @@ function createSearchPopUp(container){
 
 //-- Menu --//
 function newMenu(){
-	var menu = '<div id="bottom-menu">'+
+	var menu = '<div id="bottom-menu"><span id="backbtn" onclick="goBack();"></span>'+
 	'<div class="arrow"></div>'+
 		'<ul>'+
+			'<li class="timeline"><a href="timeLine.html">'+lan('time line','ucw')+'</a></li>'+
 			'<li class="toptags"><a href="'+PAGE.toptags+'">'+lan('TOPTAGS_TITLE')+'</a></li>'+
-			'<li class="news"><a href="#">'+lan('NEWS')+'</a></li>'+
+			'<li class="hot"><a href="#">'+lan('hot','ucw')+'</a></li>'+
 			// '<li class="news"><a href="news.html">'+lan('NEWS')+'</a></li>'+
 			'<li class="notifications"><a href="'+PAGE.notify+'">'+lan('NOTIFICATIONS')+'</a></li>'+
-			'<li class="groups"><a href="#">'+lan('groups')+'</a></li>'+
+			'<li class="groups"><a href="#">'+lan('groups','ucw')+'</a></li>'+
 			'<li class="chat"><a href="cometchat/i.html">'+lan('chat')+'</a></li>'+
 			'<li class="profile"><a href="'+PAGE.profile+'?id='+$.local('code')+'">'+lan('profile')+'</a></li>'+
 			'<li class="friends"><a href="'+PAGE.userfriends+'?type=friends&id_user='+$.local('code')+'">'+lan('friends','ucw')+'</a></li>'+
-			'<li class="createtag"><a href="newtag.html">'+lan('newTag')+'</a></li>'+
+			// '<li class="createtag"><a href="newtag.html">'+lan('newTag')+'</a></li>'+
 			'<li class="store"><a href="store.html">'+lan('store')+'</a></li>'+
 			'<li class="logout"><a href="#" onclick="javascript:logout();">'+lan('logout')+'</a></li>'+
 		'</ul>'+
 	'</div>';
 	$('body').append(menu);
-	$('#bottom-menu ul li.news').click(function(){
+	$('#bottom-menu ul li.hot').click(function(){
 		var content='',news=false,hot=false;
 		if (!$('#page-news').length){
 			news=true;
@@ -222,7 +223,6 @@ function newMenu(){
 			hot=true;
 			content+='<di><h4>'+lan('hot','ucw')+'</h4><ul id="trendings"></ul></div>';
 		}
-		console.log($('#page-news'),$('#page-news').length);
 		myDialog({
             id:'prevNewsAndHot-dialogs',
             content :content,
@@ -231,8 +231,39 @@ function newMenu(){
             	if (hot) getTrendings(3,true)
             	if (news){
             		var action={refresh:{refresh:true},more:{}},$info=$('#newsInfo'),on={};
-            		getNews('reload',action.more,on,$info,true)
+            		getNews('reload',action.more,on,$info,true);
+            		$info.on('click','li[data-type]',function(){
+						var type=this.dataset.type,
+							source=this.dataset.source,
+							url='';
+						switch(type){
+							case 'tag':url=PAGE['tag']+'?id='+source; break;
+							case 'usr':url=PAGE['profile']+'?id='+source; break;
+							case 'product':url=PAGE['detailsproduct']+'?id='+source; break;
+							default: alert(type);
+						}
+						if(url){ redir(url); }
+					});
             	}
+            },
+            buttons:[],
+            backgroundClose: true
+        });
+	});
+
+	//Grupos
+	$('#bottom-menu ul li.groups').click(function(){
+		var content='';
+		
+		content+='<di><h4>'+lan('mygroups','ucw')+'</h4><ul id="myGroups"></ul></div>';
+		content+='<di><h4>'+lan('allgroups','ucw')+'</h4><ul id="allGroups"></ul></div>';
+		
+		myDialog({
+            id:'groups-dialogs',
+            content :content,
+            scroll:true,
+            after:function(){
+            	getGroups($.local('code'),true);
             },
             buttons:[],
             backgroundClose: true
@@ -350,7 +381,6 @@ function actionMenuStore(action){
                 content :opc.contentCategory,
                 after:function(){
                     $('#cate-dialog ul li.c').click(function(){
-                    	console.log($(this).attr('href'));
                     	if (!$(this).attr('href'))
 	                    	if ($('ul li a',this).length>1){
 	                            if ($(this).hasClass('active')) $(this).removeClass('active');
@@ -734,8 +764,8 @@ function actionMenuStore(action){
 	}
 	$(function(){
 		getUserPoints();
-		// putMenu();
-		// putMenuOptions();
+		putMenu();
+		putMenuOptions();
 		// Menu actions design V2
 		var statusMenu = false;
 		$("#bottom-menu").on('click', function(event) {
@@ -1035,7 +1065,58 @@ function actionsTags(layer, forceComments){
 			var tagId = $(e.target).parents('[tag]').attr('tag');
 			var actionId = e.target.id || $(e.target).parent('li').attr('id');
 			switch(actionId){
-				case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
+				// case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
+				case 'report':
+					myDialog({
+						id:'#reportTag-dialog',
+						content: '<h3>'+lang.reportTagTitle+'</h3><div id="txt1" style="margin-top: 15px;">'+lang.MNUTAGREPORT_TEXT1+'</div>'+
+								 '<div id="txt2" style="margin-top: 15px;">'+lang.MNUTAGREPORT_TEXT2+'</div>'+
+								 '<div style="margin-top: 15px; margin-bottom: 30px;">'+
+									'<label id="txt3"><strong>'+lang.ACTIONSTAGS_REPORTTAG_TITLESELECT+'</strong></label>'+
+									'<div style="margin-top: 10px;">'+
+										'<select id="selectReport" name="selectReport">'+
+											'<option value="" selected id="selectReportFirst"></option>'+
+										'</select>'+
+									'</div>'+
+								'</div>',
+						after:function(){
+			            	myAjax({
+								type	: 'POST',
+								url		: DOMINIO+'controls/tags/getTag.json.php?getReportCombo=A',
+								dataType: 'json',
+								success	: function( data ) {
+									// Combo Month
+									for(var x='',i=0; i<data.length; i+=2) {
+										x += '<option value="' + data[i] + '">' + data[i+1] + '</option>';
+									}
+									$('#selectReport').html(x);
+								}
+							});
+			            },
+			            backgroundClose:true,					
+						buttons:[{
+							name:lang.report,
+							action:function(){
+								var firstDialog = this;
+								myAjax({
+									type	: 'POST',
+									url		: DOMINIO+'controls/tags/actionsTags.controls.php?action=8&tag='+tagId+'&type_report='+md5($('#selectReport option:selected').val()),
+									dataType: 'html',
+									success	: function (data){
+										firstDialog.close();
+										myDialog({
+											id:'#singleRedirDialogReport',
+											content:data,
+											buttons:{ 
+												Ok:function(){redir(PAGE['timeline']);}
+											}
+										});
+									}
+								});
+							}
+						}]
+					});
+				break;
 				case 'share':redir(PAGE['sharetag']+'?id_tag='+tagId);break;
 				case 'comment':
 					tagId = $(e.target).parents('[tag]').attr('tag');
@@ -1248,7 +1329,7 @@ function playComment(tagtId, opc){
 						console.log('Cancelada carga de '+current+'.'); return;
 					}else{
 						if(action=='reload'){$(layer).html('');}
-						if (action=='reload' && opc.title && data.rtitle) $('#pageTitle, #rowTitle').append(': '+data.rtitle);
+						if (action=='reload' && opc.title && data.rtitle) $('#rowTitleMove ul li.nameOwner').append(': '+data.rtitle);
 						if(action=='more'&&(!data.tags||data.tags.length<1)) act.more=false;
 						if(data.tags && data.tags.length>0){
 							opc.date=data.date;
@@ -1272,14 +1353,14 @@ function playComment(tagtId, opc){
 								$(layer).prepend(tags);
 						}else if(action=='reload'){
 							$(opc.layer).html(
-								'<div><div class="tag-loading smt-container" style="max-height:300px;height:300px;"><div id="noTags" class="smt-content" style="z-index:4;">'+notag+'</div></div><div class="smt-tag"><img src="../img/placaFondo.png" class="tag-img" style="z-index:3;"></div></div>'+
-	
-									'<button id="noresult-tags" data-role="button" data-theme="f"  class="ui-btn"  data-icon="plus" data-iconpos="right">'+
+								'<div><div class="tag-loading smt-container" style="max-height:300px;height:300px;"><div id="noTags" class="smt-content" style="z-index:4;">'+notag+'</div></div><div class="smt-tag"><img src="css/newdesign/placaFondo.png" class="tag-img" style="z-index:3;"></div></div>'+
+									'<a href="newtag.html" id="noresult-tags" style="text-decoration: none;">'+
+									'<button data-role="button" data-theme="f"  class="ui-btn"  data-icon="plus" data-iconpos="right">'+
 										lan("Creates a tag")+
-									'</button>'
+									'</button></a>'
 							);
-							$('#noresult-tags').button();
-							$('#noresult-tags').click(function(){ redir(PAGE['newtag']); });
+							$('#noresult-tags button').button();
+							// $('#noresult-tags').click(function(){ redir(PAGE['newtag']); });
 							if(current=='group'){
 								verifyGroupMembership(opc.id,opc.code,function(data){
 //									alert(opc.code);
@@ -1396,7 +1477,16 @@ function bodyFriendsList(friend, temp){
 	// if (friend.conocido) var te="a",text=lan('unfollow');
 	// else var te="e",text=lan('follow');
 	var known = (friend.conocido)?1:0;
-	console.log('Resultado:'+friend.conocido);
+	//console.log('Resultado bodyFriendsList:'+friend.conocido);
+	//console.log(friend);
+	if(friend.follower > 0){
+		//console.log('Si lo sigo');
+		known = 1;
+	}else{
+		//console.log('No lo sigo');
+		known = 0;
+	}
+
 	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList ui-block-'+temp+'" data-known="'+known+'" data-link="'+friend.code_friend+'" data-unlink="'+md5(friend.id)+'" data-role="fieldcontain" data-usrname="'+friend.name_user+'" >'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
 			'<img src="'+friend.photo_friend+'"'+'class="userBR" width="60" height="60"/>'+
@@ -1429,8 +1519,20 @@ function bodyFriendsList(friend, temp){
 
 function bodyFriendsList2(friend){
 	var known = (friend.conocido)?1:0;
+	//console.log('Resultado bodyFriendsList2:'+friend.conocido);
 	if (friend.conocido) var te="a",text=lan('unfollow');
-	else var te="e",text=lan('follow'); 
+	else var te="e",text=lan('follow');
+	if(friend.follower > 0){
+		//console.log('Si lo sigo');
+		te="a";
+		known = 1;
+		text=lan('unfollow');
+	}else{
+		//console.log('No lo sigo');
+		known = 0;
+		te="e";
+		text=lan('follow');
+	}	
 	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain" '+
 		'data-icon="info"  data-known="'+known+'" data-usrname="'+friend.name_user+'" >'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-username="'+friend.name_user+'" data-theme="e" class="ulbox">'+
@@ -1477,7 +1579,6 @@ function viewFriends(method, opc){
 		success:function(data){
 			if (data.error) return;
 			var i,friend,out='',divider,count='';//' <span class="ui-li-count">'+data.num+'</span>';
-			// console.log('cant '+data.datos.length+' user '+opc.user);
 			// if($.local('code')==opc.user){
 			count = data.num;
 			switch(opc.mod){
@@ -1544,7 +1645,6 @@ function linkUser(layer,$wrapper){
 	$(layer).on('click','[userlink]',function(){
 		var id=$(this).attr('userlink'),type=$(this).attr('type'),obj=this;
 		var fr=$(obj).parents('li.ui-body').prev('li.userInList'),theme='e',text=lan('follow'),oldtheme="a",oldText=lan('unfollow');
-		console.log($(obj).attr("data-theme"));
 		if($(obj).attr("data-theme")=="e"){
 			theme='a';oldtheme="e";
 			text=lan('unfollow');oldText=lan('follow');
@@ -1610,6 +1710,7 @@ function linkUser(layer,$wrapper){
 			'<div class="info">'+lan('name','ucf')+': '+this.dataset.usrname+'</div>'+
 			'</div>',
 			style:{'padding-right':5},
+			btntext:{Profile:lan('USER_PROFILE'),Follow:text},
 			buttons:{ 
 				Profile:function(){ redir(redirprofile); },
 				Follow:function(){ 
@@ -1636,7 +1737,7 @@ function linkUser(layer,$wrapper){
 						}
 					});
 					redir(redirSelfProfile);
-				} 
+				}
 			},
 			backgroundClose: true
 		});
@@ -1968,12 +2069,30 @@ function myDialog(){
 		o.buttons={Ok:o.close};
 	}
 	if(!(o.buttons instanceof Array)){
+		//console.log(o.buttons);
+		//console.log(o.btntext);
+		//Ejemplo de o.btntext en Profile para los amigos
 		var button=[];
 		for(i in o.buttons){
-			button.push({
-				text:i,
-				click:o.buttons[i]
-			});
+			if(typeof o.btntext !== 'undefined'){
+				if(!(o.btntext instanceof Array)){
+					console.log(o.btntext[i]);
+					button.push({
+						text:o.btntext[i],
+						click:o.buttons[i]
+					});
+				}else{
+					button.push({
+						text:i,
+						click:o.buttons[i]
+					});
+				}
+			}else{
+				button.push({
+					text:i,
+					click:o.buttons[i]
+				});				
+			}
 		}
 		o.buttons=button;
 	}
@@ -2628,6 +2747,46 @@ function checkOutShoppingCart(get){
 			}
 		}
 	});
+}
+function getGroups(code,preview){
+
+	myAjax({
+		type	:'POST',
+		url		:DOMINIO+'controls/groups/menuGroupUser.json.php?action=1&code='+code,
+        dataType:'json',
+		error	:function(/*resp,status,error*/){
+			myDialog('#singleDialog',lang.conectionFail);
+		},
+		success	:function(data){
+            if(data.myGroups){
+            	var group,outItemMyGroups='';
+            	for(i in data.myGroups){
+					group=data.myGroups[i];
+					outItemMyGroups +='<li result="'+md5(group.id)+'"><a href="tagsList.html?current=group&id='+md5(group.id)+'">'+group.name+'</a></li>';
+            	}
+            	if (outItemMyGroups!=''){ 
+                	$('#myGroups').append(outItemMyGroups); 
+                	if (!preview) $('#myGroups').listview('refresh');
+                	else $('#myGroups').append('<a href="lstgroups.html?action=3" class="more">'+lan('see more','ucw')+'</a>');
+                }else if (!preview) myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE);
+                $('.fs-wrapper').jScroll('refresh');
+            }else if (!preview) myDialog('#singleDialog',lang.conectionFail);
+
+            if(data.allGroups){
+            	var group,outItemAllGroups=''
+            	for(i in data.allGroups){
+					group=data.allGroups[i];
+					outItemAllGroups +='<li result="'+md5(group.id)+'"><a href="tagsList.html?current=group&id='+md5(group.id)+'">'+group.name+'</a></li>';
+            	}
+            	if (outItemAllGroups!=''){ 
+                	$('#allGroups').append(outItemAllGroups); 
+                	if (!preview) $('#allGroups').listview('refresh');
+                	else $('#allGroups').append('<a href="lstgroups.html?action=2" class="more">'+lan('see more','ucw')+'</a>');
+                }else if (!preview) myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE);
+                $('.fs-wrapper').jScroll('refresh');
+            }else if (!preview) myDialog('#singleDialog',lang.conectionFail);
+        }
+	}); 
 }
 function getTrendings(num,preview){
     myAjax({

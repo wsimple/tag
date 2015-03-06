@@ -1,7 +1,17 @@
 <?php include 'inc/header.php'; ?>
 <div id="page-lstGroups" data-role="page" data-cache="false" class="no-footer">
 	<div data-role="header" data-position="fixed" data-theme="f">
-		<h1 id="titleGroups">&nbsp;</h1>
+		<div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
+			<span class="photo"></span> 
+			<span class="info">
+				<span class="name"></span>
+				<span class="points"></span>
+			</span>
+		</div>
+		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
+		<div id="rowTitleMove">
+			<ul class="ui-grid-a"></ul>
+		</div>
 	</div><!-- header -->
 
 	<div data-role="content" class="list-content">
@@ -17,14 +27,36 @@
 	<script type="text/javascript">
 		pageShow({
 			id:'#page-lstGroups',
-			title:lang.MAINMNU_GROUPS,
-			showmenuButton:true,
+			// title:lang.MAINMNU_GROUPS,
+			// showmenuButton:true,
 			before:function(){
+				newMenu();
 				//languaje
-				$('#labelGroups').html(lang.MAINMNU_GROUPS);
-				$('#labelMyGroups').html(lang.GROUPS_MYGROUPS);
-				$('#btnGroupCreated').html(lang.GROUPS_TITLEWINDOWSNEW);
+				// $('#labelGroups').html(lang.MAINMNU_GROUPS);
+				// $('#labelMyGroups').html(lang.GROUPS_MYGROUPS);
+				// $('#btnGroupCreated').html(lang.GROUPS_TITLEWINDOWSNEW);
 				$('#searchPreferences').attr('placeholder', lang.PREFERENCES_HOLDERSEARCH);
+				$('#sub-menu ul').html(
+					'<li class="ui-block-a timeline"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
+					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
+					'<li class="ui-block-c points"></li>'+
+					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
+				);
+				$('#rowTitleMove ul').html(
+					'<li class="ui-block-a" opc="my"><a href="lstgroups.html">'+lang.GROUPS_MYGROUPS+'</a></li>'+
+					'<li class="ui-block-b" opc="all"><a href="lstgroups.html?action=2">'+lang.GROUPS_ALLGROUPS+'</a></li>'+
+					'<li class="ui-block-z" style="width:100%;"><a><img src="css/newdesign/menu.png"></a><span></span></li>'
+				);
+				if ($_GET['action'] && $_GET['action']==2)
+					$('#rowTitleMove ul li[opc="all"],#rowTitleMove ul li.ui-block-z').addClass('ui-btn-active').find('span').html(lang.GROUPS_ALLGROUPS);
+                else $('#rowTitleMove ul li[opc="my"],#rowTitleMove ul li.ui-block-z').addClass('ui-btn-active').find('span').html(lang.GROUPS_MYGROUPS);
+                $('#rowTitleMove ul').on('click','a',function(){
+					$(this).parents('li').slideUp('fast',function(){
+						$('#rowTitleMove ul li[opc]').slideDown('fast');
+					});
+				});
+				$('#profile span.info .name').html($.local('full_name'));
+				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
 			},
 			after:function(){
 				$('#page-lstGroups .ui-btn-inner').css('padding-top',' 5px').css('padding-left', '5px');
@@ -47,6 +79,30 @@
                        else $wrapper.jScroll('refresh');
 					},
 					onReload:function(){ cargarList(action,''); }
+				});
+				var scroller,v=true,y=-50;
+				$wrapper.jScroll(function(){
+					scroller=this;
+				});
+				$wrapper.bind('touchmove',function(){
+					if (scroller.y>-100){
+						$('#rowTitleMove').removeClass('no-v');
+						$('#page-lstGroups #pd-wrapper').css('top','95px');
+					}else{
+						$('#page-lstGroups #pd-wrapper').css('top','60px');
+						if (scroller.y<y){
+							if (v){
+								v=false;
+								$('#rowTitleMove').addClass('no-v');
+							}
+						}else{
+							if (!v){
+								v=true;
+								$('#rowTitleMove').removeClass('no-v');													
+							}
+						}
+						y=scroller.y;
+					} 
 				});
                 function cargarList(action,limit){
                     var limit2='&'+(limit!=''?'limit='+limit:'limit=0');

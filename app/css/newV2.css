@@ -559,6 +559,11 @@ img#backgroundImage{
 	margin: 0;
 	bottom: 0;
 	border: none;
+	cursor: pointer;
+}
+#rowTitleMove ul li a{ 
+	color: white;
+	text-decoration: none;
 }
 #rowTitleMove ul li.ui-btn-active{ background: #009999; }
 #rowTitleMove ul li[opc]{ display: none; }
@@ -673,8 +678,16 @@ img#backgroundImage{
 	background: #b3b9bd url('newdesign/submenu/create_tag.png') no-repeat center 4px;
 	background-size: auto 50%;
 }
+#sub-menu li.srcico{
+	background: #b3b9bd url('newdesign/submenu/search.png') no-repeat center 4px;
+	background-size: auto 50%;
+}
 #sub-menu li.store{
 	background: #b3b9bd url('newdesign/submenu/store.png') no-repeat center 4px;
+	background-size: auto 50%;
+}
+#sub-menu li.groups{
+	background: #b3b9bd url('newdesign/submenu/groups.png') no-repeat center 4px;
 	background-size: auto 50%;
 }
 #sub-menu li:last-child a{
@@ -683,6 +696,19 @@ img#backgroundImage{
 #sub-menu .ui-block-c{
 	border-right: 1px solid #a1afb0;
 	width: 40%;
+}
+#sub-menu .ui-block-c{
+	border-right: 1px solid #a1afb0;
+	width: 40%;
+}
+#page-news #sub-menu .ui-block-c,
+#page-preferences #sub-menu .ui-block-c,
+#page-profile #sub-menu .ui-block-c,
+#page-search #sub-menu .ui-block-c,
+#page-tagsList #sub-menu .ui-block-c,
+#page-timeLine #sub-menu .ui-block-c,
+#page-topTags #sub-menu .ui-block-c{
+	width: 20% !important;
 }
 /*Find Friends and Friends*/
 #page-myOrders #menu, #page-lstStoreOption #menu,
@@ -796,6 +822,7 @@ li.userInList h3{
 	color: white;
 }
 #prevNewsAndHot-dialogs .emptyInfo a,
+#groups-dialogs .emptyInfo a,
 #page-notif .emptyInfo a,
 #page-news .emptyInfo a{
 	color: #2ECC71;
@@ -841,10 +868,51 @@ li.userInList h3{
 	top:65px; 
 	box-shadow: none;
 }
-#page-trendings ul li{
+#page-trendings ul#trendings li,
+#page-trendings ul#trendings li a,
+#page-trendings ul#trendings li.ui-btn-active,
+#page-trendings ul#trendings li.ui-btn-active a{
 	background: #ECF0F1;
+	box-shadow: none;
+	text-shadow:none;
+	color: #525A6F;
 }
 /*end notificaciones noticias hot*/
+/*Estilos para Dialog en Grupos*/
+#groups-dialogs .emptyInfo{ 
+	background: transparent;
+	border: none;
+	color: white;
+}
+#groups-dialogs h4{
+	display: block;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0x;
+	font-weight: bold;
+	margin: 3px 0;
+}
+#groups-dialogs ul{
+	list-style: none;
+	-webkit-padding-start: 0;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 10px;
+}
+#groups-dialogs a.more{
+	color: #FF6633;
+	text-decoration: none;
+}
+#groups-dialogs ul li{ 
+	padding: 3px 0;
+	text-align: left;
+	display: none;
+}
+#groups-dialogs ul li:nth-child(1), 
+#groups-dialogs ul li:nth-child(2), 
+#groups-dialogs ul li:nth-child(3){ display: list-item; }
+/*-----------------------------*/
+
 /*Navigation menu*/
 #menu{ text-align: center; }
 #menu span{
@@ -865,9 +933,12 @@ li.userInList h3{
 	font-weight: normal;
 	display: block;
 }
+#page-newTag #menu span.fix-grid{ /*Fix grid jquery ui for 6 icons*/
+	width: 16.65%;
+}
 #menu .menu-button img{
-	width: 30px;
-	height: 30px;
+	height: 55%;
+	width: auto;
 }
 
 /*Main Menu*/
@@ -893,6 +964,18 @@ li.userInList h3{
 	transform: rotate(180deg);
 }
 
+#bottom-menu #backbtn {
+	position: fixed; 
+	left: 0;
+	background: transparent url('newdesign/menu/previous.png') no-repeat center 2px;
+	-webkit-background-size: 22px 25px;
+	background-size: 22px 25px;	
+	width: 40px;
+	height: 36px;
+	z-index: 1000;
+	margin-top: 6px;
+}
+
 #bottom-menu ul{
 	list-style: none;
 	width: 90%;
@@ -908,6 +991,12 @@ li.userInList h3{
 	height: 3em;
 	width: 20%;
 	margin: 0 0 4px 0;
+}
+
+#bottom-menu ul li.timeline{
+	background: transparent url('newdesign/menu/timeline.png') no-repeat center top;
+	-webkit-background-size:auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li.toptags{
@@ -965,6 +1054,11 @@ li.userInList h3{
 
 #bottom-menu ul li.logout{
 	background: transparent url('newdesign/menu/logout.png') no-repeat center top;
+	-webkit-background-size: auto 60%;
+	background-size: auto 60%;
+}
+#bottom-menu ul li.hot{
+	background: transparent url('newdesign/menu/trend.png') no-repeat center top;
 	-webkit-background-size: auto 60%;
 	background-size: auto 60%;
 }
@@ -1349,12 +1443,12 @@ li.userInList h3{
 
 #page-tagsList #pd-wrapper{
 	background-color: #e2e6e7 !important;
+	top: 30px;
 }
 #page-tagsList .ui-content{
 	margin-top: 113px;
 	background-color: #e2e6e7 !important;
 }
-
 /*TagList Ends*/
 
 /*New Tag*/
@@ -2441,7 +2535,29 @@ li.userInList h3{
 #cate-dialog ul li.active ul{ display: block; }
 .myDialog .msgShipp p{ text-align: left; }
 /*Store Ends*/
+/*Groups*/
+#page-lstGroups #group_title li{
+	background: #ECF0F1;
+	text-shadow:none;
+}
+#page-lstGroups #group_title li a.ui-link-inherit{ color: #F05B28; }
+#page-lstGroups #group_title li a.ui-link-inherit div{ color: #525A6F; }
+#page-lstGroups #group_title li a.ui-link-inherit img{ display: none; }
+#page-lstGroups #group_title li a{
+	text-decoration: none;
+}
+#page-lstGroups #pd-wrapper{ top: 95px; }
+/*End Groups*/
 /*Media querys*/
+@media screen and (max-width: 326px){
+	#menu .menu-button{
+		font-size: 11px;
+	}
+
+	#menu span {
+	  height: 5.1em;
+	}
+}
 @media screen and (min-width: 600px) {
 	#page-freeProducts .list-info li,
 	#page-lstMyStore .list-info li,

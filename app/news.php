@@ -26,6 +26,7 @@
 			// buttons:{showmenu:true,creation:true},
 			before:function(){
 				newMenu();
+				createSearchPopUp('#page-news');
 				//languaje
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);
@@ -37,8 +38,9 @@
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
-					'<li class="ui-block-c points"></li>'+
-					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+					'<li class="ui-block-c" >&nbsp;</li>'+
+					'<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
+					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
 				);
 				$('#profile span.info .name').html($.local('full_name'));
 				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
@@ -63,9 +65,7 @@
 						case 'product':url=PAGE['detailsproduct']+'?id='+source; break;
 						default: alert(type);
 					}
-					if(url){
-						redir(url);
-					}
+					if(url){ redir(url); }
 				});
 				$('#pd-wrapper').ptrScroll({
 					onPullDown:function(){

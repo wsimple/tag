@@ -1,9 +1,4 @@
 <?php include 'inc/header.php'; ?>
-<style>
-	.ui-block-b.menu-button{
-		width: 10%;
-	}
-</style>
 <script src="js/core/jquery.panzoom.js"></script>
 <div id="page-newTag" data-role="page" data-cache="false">
 	<div data-role="header" data-position="fixed" data-theme="f">
@@ -113,27 +108,27 @@
 	<script>
 		pageShow({
 			id:'#page-newTag',
-			title:function(){
-				if($_GET['group']){
-					nameMenuGroups($_GET['group'],1,function(data){
-						$('.ui-page-active .ui-header h1').html(lang['newGroupTag']+'&nbsp;('+data['name']+')');
-					});
-					//return lang['newTag']+'&nbsp;<span class="loader s16"></span>';
-					return lang['newGroupTag'];
+			// title:function(){
+			// 	if($_GET['group']){
+			// 		nameMenuGroups($_GET['group'],1,function(data){
+			// 			$('.ui-page-active .ui-header h1').html(lang['newGroupTag']+'&nbsp;('+data['name']+')');
+			// 		});
+			// 		//return lang['newTag']+'&nbsp;<span class="loader s16"></span>';
+			// 		return lang['newGroupTag'];
 					
-				}else if($_GET['product']){
-					return lang['STORE_PRODUCT_TAG'];
-				}else{
-					return lang['newTag'];
-				}
-			},
-			buttons:function(){
-				if($_GET['group']){
-					return { back:true};
-				}else{
-					return { showmenu:false};
-				}
-			},
+			// 	}else if($_GET['product']){
+			// 		return lang['STORE_PRODUCT_TAG'];
+			// 	}else{
+			// 		return lang['newTag'];
+			// 	}
+			// },
+			// buttons:function(){
+			// 	if($_GET['group']){
+			// 		return { back:true};
+			// 	}else{
+			// 		return { showmenu:false};
+			// 	}
+			// },
 			before:function(){
 				newMenu();
 				//language constants
@@ -147,6 +142,9 @@
 					'<span class="ui-block-d menu-button"><a href="timeline.html"><img src="css/newdesign/newtag/cancel.png"><br>'+lan('cancel','ucw')+'</a></span>'+
 					'<span class="ui-block-e menu-button"><a id="publish_newTag" href="#" title="newtag"><img src="css/newdesign/newtag/publish.png"><br>'+lang.publish+'</a></span>'
 				);
+				if (CORDOVA) {
+					$('#menu span').addClass('fix-grid');
+				};
 				$('#topText'					).attr('placeholder',lang.NEWTAG_MESSAGE);
 				$('#middleText'					).attr('placeholder',lang.NEWTAG_MIDDLEMESSAGE);
 				$('#bottomText'					).attr('placeholder',lang.NEWTAG_BOTTOMMESSAGE);
