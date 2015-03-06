@@ -108,27 +108,27 @@
 	<script>
 		pageShow({
 			id:'#page-newTag',
-			title:function(){
-				if($_GET['group']){
-					nameMenuGroups($_GET['group'],1,function(data){
-						$('.ui-page-active .ui-header h1').html(lang['newGroupTag']+'&nbsp;('+data['name']+')');
-					});
-					//return lang['newTag']+'&nbsp;<span class="loader s16"></span>';
-					return lang['newGroupTag'];
+			// title:function(){
+			// 	if($_GET['group']){
+			// 		nameMenuGroups($_GET['group'],1,function(data){
+			// 			$('.ui-page-active .ui-header h1').html(lang['newGroupTag']+'&nbsp;('+data['name']+')');
+			// 		});
+			// 		//return lang['newTag']+'&nbsp;<span class="loader s16"></span>';
+			// 		return lang['newGroupTag'];
 					
-				}else if($_GET['product']){
-					return lang['STORE_PRODUCT_TAG'];
-				}else{
-					return lang['newTag'];
-				}
-			},
-			buttons:function(){
-				if($_GET['group']){
-					return { back:true};
-				}else{
-					return { showmenu:false};
-				}
-			},
+			// 	}else if($_GET['product']){
+			// 		return lang['STORE_PRODUCT_TAG'];
+			// 	}else{
+			// 		return lang['newTag'];
+			// 	}
+			// },
+			// buttons:function(){
+			// 	if($_GET['group']){
+			// 		return { back:true};
+			// 	}else{
+			// 		return { showmenu:false};
+			// 	}
+			// },
 			before:function(){
 				newMenu();
 				//language constants
