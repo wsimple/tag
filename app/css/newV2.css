@@ -682,6 +682,10 @@ img#backgroundImage{
 	background: #b3b9bd url('newdesign/submenu/store.png') no-repeat center 4px;
 	background-size: auto 50%;
 }
+#sub-menu li.groups{
+	background: #b3b9bd url('newdesign/submenu/groups.png') no-repeat center 4px;
+	background-size: auto 50%;
+}
 #sub-menu li:last-child a{
 	border-right: none;
 }
@@ -1365,12 +1369,12 @@ li.userInList h3{
 
 #page-tagsList #pd-wrapper{
 	background-color: #e2e6e7 !important;
+	top: 30px;
 }
 #page-tagsList .ui-content{
 	margin-top: 113px;
 	background-color: #e2e6e7 !important;
 }
-
 /*TagList Ends*/
 
 /*New Tag*/
