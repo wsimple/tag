@@ -41,6 +41,7 @@ is.limited= !is.webkit||is.android;
 		'From'				:'De',
 		'gallery'			:'galería',
 		'group'				:'grupo',
+		'groups'			:'grupos',
 		'mygroups'			:'mis grupos',
 		'allgroups'			:'todos los grupos',
 		'hashtags'  		:'hashtags',
