@@ -96,14 +96,14 @@
 				var current=$_GET['current']||'tagsUser';
 				if(current=='tagsUser'){
 					$('#rowTitleMove ul').html(
-						'<li class="ui-block-z ui-btn-active" style="width:100%;"><span>'+lang.MAINMNU_MYTAGS+'</span></li>'
+						'<li class="ui-block-z ui-btn-active nameOwner" style="width:100%;"><span>'+lang.MAINMNU_MYTAGS+'</span></li>'
 					);
 					// $('#pageTitle').html(lang.MAINMNU_MYTAGS);
 					// $('#pd-wrapper').css('top','30px');
 					// $('div[data-role="content"]').prepend('<div class="ui-listview-filter ui-bar-c" style="margin: auto;"><div id="rowTitle">'+lang.MAINMNU_MYTAGS+'</div></div>');
 				}else if(current=='personalTags'){
 					$('#rowTitleMove ul').html(
-						'<li class="ui-block-z ui-btn-active" style="width:100%;"><span>'+lang.MAINMNU_PERSONALTAGS+'</span></li>'
+						'<li class="ui-block-z ui-btn-active nameOwner" style="width:100%;"><span>'+lang.MAINMNU_PERSONALTAGS+'</span></li>'
 					);
 					// $('#pageTitle').html(lang.MAINMNU_PERSONALTAGS);
 					// $('#pd-wrapper').css('top','30px');

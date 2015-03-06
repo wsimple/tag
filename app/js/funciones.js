@@ -1328,7 +1328,7 @@ function playComment(tagtId, opc){
 						console.log('Cancelada carga de '+current+'.'); return;
 					}else{
 						if(action=='reload'){$(layer).html('');}
-						if (action=='reload' && opc.title && data.rtitle) $('#pageTitle, #rowTitle').append(': '+data.rtitle);
+						if (action=='reload' && opc.title && data.rtitle) $('#rowTitleMove ul li.nameOwner').append(': '+data.rtitle);
 						if(action=='more'&&(!data.tags||data.tags.length<1)) act.more=false;
 						if(data.tags && data.tags.length>0){
 							opc.date=data.date;
