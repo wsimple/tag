@@ -1096,18 +1096,18 @@ function actionsTags(layer, forceComments){
 						buttons:[{
 							name:lang.report,
 							action:function(){
+								var firstDialog = this;
 								myAjax({
 									type	: 'POST',
 									url		: DOMINIO+'controls/tags/actionsTags.controls.php?action=8&tag='+tagId+'&type_report='+md5($('#selectReport option:selected').val()),
 									dataType: 'html',
 									success	: function (data){
+										firstDialog.close();
 										myDialog({
-											id:'#singleRedirDialog',
+											id:'#singleRedirDialogReport',
 											content:data,
-											buttons:{
-												Ok:function(){
-													redir(PAGE['timeline']);
-												}
+											buttons:{ 
+												Ok:function(){redir(PAGE['timeline']);}
 											}
 										});
 									}
