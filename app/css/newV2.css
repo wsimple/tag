@@ -876,9 +876,12 @@ li.userInList h3{
 	font-weight: normal;
 	display: block;
 }
+#page-newTag #menu span.fix-grid{ /*Fix grid jquery ui for 6 icons*/
+	width: 16.65%;
+}
 #menu .menu-button img{
-	width: 30px;
-	height: 30px;
+	height: 55%;
+	width: auto;
 }
 
 /*Main Menu*/
@@ -2471,6 +2474,15 @@ li.userInList h3{
 #page-lstGroups #pd-wrapper{ top: 95px; }
 /*End Groups*/
 /*Media querys*/
+@media screen and (max-width: 326px){
+	#menu .menu-button{
+		font-size: 11px;
+	}
+
+	#menu span {
+	  height: 5.1em;
+	}
+}
 @media screen and (min-width: 600px) {
 	#page-freeProducts .list-info li,
 	#page-lstMyStore .list-info li,

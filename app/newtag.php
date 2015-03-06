@@ -1,9 +1,4 @@
 <?php include 'inc/header.php'; ?>
-<style>
-	.ui-block-b.menu-button{
-		width: 10%;
-	}
-</style>
 <script src="js/core/jquery.panzoom.js"></script>
 <div id="page-newTag" data-role="page" data-cache="false">
 	<div data-role="header" data-position="fixed" data-theme="f">
@@ -147,6 +142,9 @@
 					'<span class="ui-block-d menu-button"><a href="timeline.html"><img src="css/newdesign/newtag/cancel.png"><br>'+lan('cancel','ucw')+'</a></span>'+
 					'<span class="ui-block-e menu-button"><a id="publish_newTag" href="#" title="newtag"><img src="css/newdesign/newtag/publish.png"><br>'+lang.publish+'</a></span>'
 				);
+				if (CORDOVA) {
+					$('#menu span').addClass('fix-grid');
+				};
 				$('#topText'					).attr('placeholder',lang.NEWTAG_MESSAGE);
 				$('#middleText'					).attr('placeholder',lang.NEWTAG_MIDDLEMESSAGE);
 				$('#bottomText'					).attr('placeholder',lang.NEWTAG_BOTTOMMESSAGE);
