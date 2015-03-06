@@ -94,13 +94,13 @@
 			id:'#page-tagsList',
 			before:function(){
 				newMenu();
-				createSearchPopUp('#page-profile');
+				createSearchPopUp('#page-tagsList');
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
 					'<li class="ui-block-c" >&nbsp;</li>'+
 					'<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
-					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
 				);				
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);

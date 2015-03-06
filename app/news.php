@@ -26,7 +26,7 @@
 			// buttons:{showmenu:true,creation:true},
 			before:function(){
 				newMenu();
-				createSearchPopUp('#page-profile');
+				createSearchPopUp('#page-news');
 				//languaje
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);
@@ -40,7 +40,7 @@
 					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
 					'<li class="ui-block-c" >&nbsp;</li>'+
 					'<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
-					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
 				);
 				$('#profile span.info .name').html($.local('full_name'));
 				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');

@@ -701,7 +701,9 @@ img#backgroundImage{
 #page-preferences #sub-menu .ui-block-c,
 #page-profile #sub-menu .ui-block-c,
 #page-search #sub-menu .ui-block-c,
-#page-tagsList #sub-menu .ui-block-c{
+#page-tagsList #sub-menu .ui-block-c,
+#page-timeLine #sub-menu .ui-block-c,
+#page-topTags #sub-menu .ui-block-c{
 	width: 20% !important;
 }
 /*Find Friends and Friends*/
