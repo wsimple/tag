@@ -195,7 +195,7 @@ function createSearchPopUp(container){
 
 //-- Menu --//
 function newMenu(){
-	var menu = '<div id="bottom-menu">'+
+	var menu = '<div id="bottom-menu"><span id="backbtn" onclick="goBack();"></span>'+
 	'<div class="arrow"></div>'+
 		'<ul>'+
 			'<li class="timeline"><a href="timeLine.html">'+lan('time line','ucw')+'</a></li>'+
@@ -1069,7 +1069,7 @@ function actionsTags(layer, forceComments){
 				case 'report':
 					myDialog({
 						id:'#reportTag-dialog',
-						content: '<div id="txt1" style="margin-top: 15px;">'+lang.MNUTAGREPORT_TEXT1+'</div>'+
+						content: '<h3>'+lang.reportTagTitle+'</h3><div id="txt1" style="margin-top: 15px;">'+lang.MNUTAGREPORT_TEXT1+'</div>'+
 								 '<div id="txt2" style="margin-top: 15px;">'+lang.MNUTAGREPORT_TEXT2+'</div>'+
 								 '<div style="margin-top: 15px; margin-bottom: 30px;">'+
 									'<label id="txt3"><strong>'+lang.ACTIONSTAGS_REPORTTAG_TITLESELECT+'</strong></label>'+
