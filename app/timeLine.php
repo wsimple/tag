@@ -53,11 +53,13 @@
 			title:'Time Line',
 			before:function(){
 				newMenu();
+				createSearchPopUp('#page-timeLine');
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
-					'<li class="ui-block-c points"></li>'+
-					'<li class="ui-block-d newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+					'<li class="ui-block-c" >&nbsp;</li>'+
+					'<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
+					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
 				);
 
 				$('#singleRedirDialog #scroller').html(lan('JS_DELETETAG'));
@@ -186,39 +188,6 @@
 					$("#radio-inbox").removeAttr("checked").checkboxradio("refresh");
 					$("#radio-outbox").attr("checked", "checked").checkboxradio("refresh");
 				}
-
-				// $('#userPoints').click(function(){
-				// 	myDialog({
-				// 		id:'msg-points',
-				// 		open:true,
-				// 		content:
-				// 			'<p>'+lang.MAINMENU_POINTS_2+'</p>'+
-				// 			'<p>'+lang.MAINMENU_POINTS_1+'</p>',
-				// 		style:{
-				// 			'margin':10,
-				// 			'font-size':14
-				// 		}
-				// 	});
-				// });
-				//Get User Points
-				// $.ajax({
-				// 	type	:'GET',
-				// 	url		:DOMINIO+'controls/users/getUserPoints.json.php',
-				// 	dataType:'json',
-				// 	success	:function(data){
-				// 		var datos='',pts='';
-				// 		pts=data.split(' ');
-				// 		//alert(pts[1]);
-				// 		if(pts[1]=='CONST_UNITMIL')
-				// 			datos=pts[0]+' K';
-				// 		else if(pts[1]=='CONST_UNITMILLON')
-				// 			datos=pts[0]+' M';
-				// 		else
-				// 			datos=data;
-				// 		$('#userPoints b').html(datos);
-				// 	}
-				// });
-				//V2
 				$(opc.layer).on('click', 'menu #other-options', function(){
 					$('.sub-menu-tag').find('ul').hide();
 					$(this).find('ul').show();
