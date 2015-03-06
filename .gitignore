@@ -1,30 +1,18 @@
 .security/*.php
-img_server/img/
 
 #security
 includes/security/*.php
 
 local/*.*
-local/app/
-video_server/jqueryupload/
-
-video_server/videos/pending/*
-video_server/videos/*/*
-video_server/*
-
-
-local/xdk/*.html
-local/xdk/*.xdk*
-local/xdk/js/min.js
-
+local/app/*
 
 js/funciones_es.js
-app/css/smt/old/
 
+img/*
 
 #web server
 web_root/.security/*.php
-web_root/img/*/
+web_root/img/*
 web_root/language/*.php
 web_root/cometchat/cache/*
 web_root/js/funciones_*.js
@@ -32,11 +20,15 @@ web_root/js/funciones_*.js
 #img server
 img_root/includes/security/*.php
 img_root/img/
-img/
 
 #video server
 video_root/includes/security/*.php
 video_root/videos/pending/*
 video_root/videos/*/*
 video_root/jquery*
+
+#xdk
+local/xdk/*.html
+local/xdk/*.xdk*
+local/xdk/js/min.js
 
