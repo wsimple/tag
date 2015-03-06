@@ -397,9 +397,9 @@ function insertUserGroup(idGroup){
 		success	:function(data){
 			switch(data.join){
 				case 'true': case true: location.reload(); break;
-				case 'existe': myDialog('#singleDialog', GROUPS_CLOSE+' '+GROUPS_RESQUEST_SENT); break;
-				case 'private-nosent': myDialog('#singleDialog', GROUPS_CLOSE+' '+GROUPS_RESQUEST_WAIT); break;
-				case 'secrete': myDialog('#singleDialog', GROUPS_PRIVATE+' '+GROUPS_RESQUEST_PRIVATE); break;
+				case 'existe': myDialog('#singleDialog', lang.GROUPS_CLOSE+' '+lang.GROUPS_RESQUEST_SENT); break;
+				case 'private-nosent': myDialog('#singleDialog', lang.GROUPS_CLOSE+' '+lang.GROUPS_RESQUEST_WAIT); break;
+				case 'secrete': myDialog('#singleDialog', lang.GROUPS_PRIVATE+' '+lang.GROUPS_RESQUEST_PRIVATE); break;
 			}
 		}
 	});
