@@ -30,13 +30,13 @@
 		//if(navigator.app) navigator.app.clearHistory();
 		pageShow({
 			id:'page-topTags',
-			title:lang.TOPTAGS_TITLE,
-			buttons:{showmenu:false,creation:false},
+			// title:lang.TOPTAGS_TITLE,
+			// buttons:{showmenu:false,creation:false},
 			before:function(){
 				newMenu();
 				createSearchPopUp('#page-topTags');
 				$('#sub-menu ul').html(
-					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lang.TOPTAGS_TITLE+'</a></li>'+
+					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b"></li>'+
 					'<li class="ui-block-c" >&nbsp;</li>'+
 					'<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
