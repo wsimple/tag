@@ -153,6 +153,30 @@
 					$('.sub-menu-tag').find('ul').hide();
 					$(this).find('ul').show();
 				});
+				var scroller,v=true,y=-50;
+				$('#pd-wrapper',this.id).jScroll(function(){
+					scroller=this;
+				});
+				$('#pd-wrapper',this.id).bind('touchmove',function(){
+					if (scroller.y>-100){
+						$('#rowTitleMove').removeClass('no-v');
+						$('#page-tagsList #pd-wrapper').css('top','30px');
+					}else{
+						$('#page-tagsList #pd-wrapper').css('top','0px');
+						if (scroller.y<y){
+							if (v){
+								v=false;
+								$('#rowTitleMove').addClass('no-v');
+							}
+						}else{
+							if (!v){
+								v=true;
+								$('#rowTitleMove').removeClass('no-v');													
+							}
+						}
+						y=scroller.y;
+					} 
+				});	
 				if(current=='group'){
 					var admin=false,numAdm=0;
 					// $('#pageTitle').html(lan('group','ucw'));
@@ -161,7 +185,7 @@
 						verifyGroupMembership(id,$.local('code'),function(data){
 							if(data['isMember']){
 								$('#rowTitleMove .ui-block-z a').show();
-								$('#sub-menu .newtag a').attr('href',"newtag.html?group="+id);
+								$('#sub-menu .newtag a,#noresult-tags').attr('href',"newtag.html?group="+id);
 								admin=data['admin']=='0'?false:true;
 								numAdm=data['numAdm'];
 							}else{

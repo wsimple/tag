@@ -1301,14 +1301,14 @@ function playComment(tagtId, opc){
 								$(layer).prepend(tags);
 						}else if(action=='reload'){
 							$(opc.layer).html(
-								'<div><div class="tag-loading smt-container" style="max-height:300px;height:300px;"><div id="noTags" class="smt-content" style="z-index:4;">'+notag+'</div></div><div class="smt-tag"><img src="../img/placaFondo.png" class="tag-img" style="z-index:3;"></div></div>'+
-	
-									'<button id="noresult-tags" data-role="button" data-theme="f"  class="ui-btn"  data-icon="plus" data-iconpos="right">'+
+								'<div><div class="tag-loading smt-container" style="max-height:300px;height:300px;"><div id="noTags" class="smt-content" style="z-index:4;">'+notag+'</div></div><div class="smt-tag"><img src="css/newdesign/placaFondo.png" class="tag-img" style="z-index:3;"></div></div>'+
+									'<a href="newtag.html" id="noresult-tags" style="text-decoration: none;">'+
+									'<button data-role="button" data-theme="f"  class="ui-btn"  data-icon="plus" data-iconpos="right">'+
 										lan("Creates a tag")+
-									'</button>'
+									'</button></a>'
 							);
-							$('#noresult-tags').button();
-							$('#noresult-tags').click(function(){ redir(PAGE['newtag']); });
+							$('#noresult-tags button').button();
+							// $('#noresult-tags').click(function(){ redir(PAGE['newtag']); });
 							if(current=='group'){
 								verifyGroupMembership(opc.id,opc.code,function(data){
 //									alert(opc.code);
