@@ -202,7 +202,7 @@ function newMenu(){
 			'<li class="hot"><a href="#">'+lan('hot','ucw')+'</a></li>'+
 			// '<li class="news"><a href="news.html">'+lan('NEWS')+'</a></li>'+
 			'<li class="notifications"><a href="'+PAGE.notify+'">'+lan('NOTIFICATIONS')+'</a></li>'+
-			'<li class="groups"><a href="#">'+lan('groups')+'</a></li>'+
+			'<li class="groups"><a href="#">'+lan('groups','ucw')+'</a></li>'+
 			'<li class="chat"><a href="cometchat/i.html">'+lan('chat')+'</a></li>'+
 			'<li class="profile"><a href="'+PAGE.profile+'?id='+$.local('code')+'">'+lan('profile')+'</a></li>'+
 			'<li class="friends"><a href="'+PAGE.userfriends+'?type=friends&id_user='+$.local('code')+'">'+lan('friends','ucw')+'</a></li>'+
@@ -763,8 +763,8 @@ function actionMenuStore(action){
 	}
 	$(function(){
 		getUserPoints();
-		// putMenu();
-		// putMenuOptions();
+		putMenu();
+		putMenuOptions();
 		// Menu actions design V2
 		var statusMenu = false;
 		$("#bottom-menu").on('click', function(event) {
@@ -2701,8 +2701,8 @@ function getGroups(code,preview){
 		},
 		success	:function(data){
             if(data.myGroups){
+            	var group,outItemMyGroups='';
             	for(i in data.myGroups){
-            		var group,outItemMyGroups='';
 					group=data.myGroups[i];
 					outItemMyGroups +='<li result="'+md5(group.id)+'"><a href="tagsList.html?current=group&id='+md5(group.id)+'">'+group.name+'</a></li>';
             	}
@@ -2715,8 +2715,8 @@ function getGroups(code,preview){
             }else if (!preview) myDialog('#singleDialog',lang.conectionFail);
 
             if(data.allGroups){
+            	var group,outItemAllGroups=''
             	for(i in data.allGroups){
-            		var group,outItemAllGroups='';
 					group=data.allGroups[i];
 					outItemAllGroups +='<li result="'+md5(group.id)+'"><a href="tagsList.html?current=group&id='+md5(group.id)+'">'+group.name+'</a></li>';
             	}
