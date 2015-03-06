@@ -1045,7 +1045,58 @@ function actionsTags(layer, forceComments){
 			var tagId = $(e.target).parents('[tag]').attr('tag');
 			var actionId = e.target.id || $(e.target).parent('li').attr('id');
 			switch(actionId){
-				case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
+				// case 'report':redir(PAGE['reporttag']+'?id='+tagId);break;
+				case 'report':
+					myDialog({
+						id:'#reportTag-dialog',
+						content: '<div id="txt1" style="margin-top: 15px;">'+lang.MNUTAGREPORT_TEXT1+'</div>'+
+								 '<div id="txt2" style="margin-top: 15px;">'+lang.MNUTAGREPORT_TEXT2+'</div>'+
+								 '<div style="margin-top: 15px; margin-bottom: 30px;">'+
+									'<label id="txt3"><strong>'+lang.ACTIONSTAGS_REPORTTAG_TITLESELECT+'</strong></label>'+
+									'<div style="margin-top: 10px;">'+
+										'<select id="selectReport" name="selectReport">'+
+											'<option value="" selected id="selectReportFirst"></option>'+
+										'</select>'+
+									'</div>'+
+								'</div>',
+						after:function(){
+			            	myAjax({
+								type	: 'POST',
+								url		: DOMINIO+'controls/tags/getTag.json.php?getReportCombo=A',
+								dataType: 'json',
+								success	: function( data ) {
+									// Combo Month
+									for(var x='',i=0; i<data.length; i+=2) {
+										x += '<option value="' + data[i] + '">' + data[i+1] + '</option>';
+									}
+									$('#selectReport').html(x);
+								}
+							});
+			            },
+			            backgroundClose:true,					
+						buttons:[{
+							name:lang.report,
+							action:function(){
+								myAjax({
+									type	: 'POST',
+									url		: DOMINIO+'controls/tags/actionsTags.controls.php?action=8&tag='+tagId+'&type_report='+md5($('#selectReport option:selected').val()),
+									dataType: 'html',
+									success	: function (data){
+										myDialog({
+											id:'#singleRedirDialog',
+											content:data,
+											buttons:{
+												Ok:function(){
+													redir(PAGE['timeline']);
+												}
+											}
+										});
+									}
+								});
+							}
+						}]
+					});
+				break;
 				case 'share':redir(PAGE['sharetag']+'?id_tag='+tagId);break;
 				case 'comment':
 					tagId = $(e.target).parents('[tag]').attr('tag');
