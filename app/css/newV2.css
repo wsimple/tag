@@ -816,6 +816,7 @@ li.userInList h3{
 	color: white;
 }
 #prevNewsAndHot-dialogs .emptyInfo a,
+#groups-dialogs .emptyInfo a,
 #page-notif .emptyInfo a,
 #page-news .emptyInfo a{
 	color: #2ECC71;
@@ -871,6 +872,41 @@ li.userInList h3{
 	color: #525A6F;
 }
 /*end notificaciones noticias hot*/
+/*Estilos para Dialog en Grupos*/
+#groups-dialogs .emptyInfo{ 
+	background: transparent;
+	border: none;
+	color: white;
+}
+#groups-dialogs h4{
+	display: block;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0x;
+	font-weight: bold;
+	margin: 3px 0;
+}
+#groups-dialogs ul{
+	list-style: none;
+	-webkit-padding-start: 0;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 10px;
+}
+#groups-dialogs a.more{
+	color: #FF6633;
+	text-decoration: none;
+}
+#groups-dialogs ul li{ 
+	padding: 3px 0;
+	text-align: left;
+	display: none;
+}
+#groups-dialogs ul li:nth-child(1), 
+#groups-dialogs ul li:nth-child(2), 
+#groups-dialogs ul li:nth-child(3){ display: list-item; }
+/*-----------------------------*/
+
 /*Navigation menu*/
 #menu{ text-align: center; }
 #menu span{

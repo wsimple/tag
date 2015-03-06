@@ -249,6 +249,25 @@ function newMenu(){
             backgroundClose: true
         });
 	});
+
+	//Grupos
+	$('#bottom-menu ul li.groups').click(function(){
+		var content='';
+		
+		content+='<di><h4>'+lan('mygroups','ucw')+'</h4><ul id="myGroups"></ul></div>';
+		content+='<di><h4>'+lan('allgroups','ucw')+'</h4><ul id="allGroups"></ul></div>';
+		
+		myDialog({
+            id:'groups-dialogs',
+            content :content,
+            scroll:true,
+            after:function(){
+            	getGroups($.local('code'),true);
+            },
+            buttons:[],
+            backgroundClose: true
+        });
+	});
 }
 function menuStore(hover){
 	hover=hover?hover:1;
@@ -2670,6 +2689,46 @@ function checkOutShoppingCart(get){
 			}
 		}
 	});
+}
+function getGroups(code,preview){
+
+	myAjax({
+		type	:'POST',
+		url		:DOMINIO+'controls/groups/menuGroupUser.json.php?action=1&code='+code,
+        dataType:'json',
+		error	:function(/*resp,status,error*/){
+			myDialog('#singleDialog',lang.conectionFail);
+		},
+		success	:function(data){
+            if(data.myGroups){
+            	for(i in data.myGroups){
+            		var group,outItemMyGroups='';
+					group=data.myGroups[i];
+					outItemMyGroups +='<li result="'+md5(group.id)+'"><a href="tagsList.html?current=group&id='+md5(group.id)+'">'+group.name+'</a></li>';
+            	}
+            	if (outItemMyGroups!=''){ 
+                	$('#myGroups').append(outItemMyGroups); 
+                	if (!preview) $('#myGroups').listview('refresh');
+                	else $('#myGroups').append('<a href="lstgroups.html?action=3" class="more">'+lan('see more','ucw')+'</a>');
+                }else if (!preview) myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE);
+                $('.fs-wrapper').jScroll('refresh');
+            }else if (!preview) myDialog('#singleDialog',lang.conectionFail);
+
+            if(data.allGroups){
+            	for(i in data.allGroups){
+            		var group,outItemAllGroups='';
+					group=data.allGroups[i];
+					outItemAllGroups +='<li result="'+md5(group.id)+'"><a href="tagsList.html?current=group&id='+md5(group.id)+'">'+group.name+'</a></li>';
+            	}
+            	if (outItemAllGroups!=''){ 
+                	$('#allGroups').append(outItemAllGroups); 
+                	if (!preview) $('#allGroups').listview('refresh');
+                	else $('#allGroups').append('<a href="lstgroups.html?action=2" class="more">'+lan('see more','ucw')+'</a>');
+                }else if (!preview) myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE);
+                $('.fs-wrapper').jScroll('refresh');
+            }else if (!preview) myDialog('#singleDialog',lang.conectionFail);
+        }
+	}); 
 }
 function getTrendings(num,preview){
     myAjax({
