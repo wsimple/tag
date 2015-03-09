@@ -103,7 +103,7 @@
 					var admin=false,numAdm=0;
 					$('#pageTitle').html(lan('group','ucw'));
 					nameMenuGroups(id,0,function(data){
-						$('#pageTitle').html(lan('group','ucw')+': '+data['name']);
+						$('#pageTitle').html(lan('group','ucw')+': '+utf16backtohtml(data['name']));
 						verifyGroupMembership(id,$.local('code'),function(data){
 							if(data['isMember']){
 								$('.ui-page-active').removeClass('no-footer');
