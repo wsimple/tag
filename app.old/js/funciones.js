@@ -58,6 +58,74 @@ function goBack(num){
 	}
 }
 
+function utf16backtohtml(textin){
+	var textout = '';
+	textout = str_replace('\u00c3\u00b3','&oacute;',textin);
+	textout = str_replace("\u00c3\u0080", "&Agrave;",textout);
+	textout = str_replace("\u00c3\u0081", "&Aacute;",textout);
+	textout = str_replace("\u00c3\u0082", "&Acirc;",textout);
+	textout = str_replace("\u00c3\u0083", "&Atilde;",textout);
+	textout = str_replace("\u00c3\u0084", "&Auml;",textout);
+	textout = str_replace("\u00c3\u0085", "&Aring;",textout);
+	textout = str_replace("\u00c3\u0086", "&AElig;",textout);
+	textout = str_replace("\u00c3\u00a0", "&agrave;",textout);
+	textout = str_replace("\u00c3\u00a1", "&aacute;",textout);
+	textout = str_replace("\u00c3\u00a2", "&acirc;",textout);
+	textout = str_replace("\u00c3\u00a3", "&atilde;",textout);
+	textout = str_replace("\u00c3\u00a4", "&auml;",textout);
+	textout = str_replace("\u00c3\u00a5", "&aring;",textout);
+	textout = str_replace("\u00c3\u00a6", "&aelig;",textout);
+	textout = str_replace("\u00c3\u0087", "&Ccedil;",textout);
+	textout = str_replace("\u00c3\u00a7", "&ccedil;",textout);
+	textout = str_replace("\u00c3\u0090", "&ETH;",textout);
+	textout = str_replace("\u00c3\u00b0", "&eth;",textout);
+	textout = str_replace("\u00c3\u0088", "&Egrave;",textout);
+	textout = str_replace("\u00c3\u0089", "&Eacute;",textout);
+	textout = str_replace("\u00c3\u008a", "&Ecirc;",textout);
+	textout = str_replace("\u00c3\u008b", "&Euml;",textout);
+	textout = str_replace("\u00c3\u00a8", "&egrave;",textout);
+	textout = str_replace("\u00c3\u00a9", "&eacute;",textout);
+	textout = str_replace("\u00c3\u00aa", "&ecirc;",textout);
+	textout = str_replace("\u00c3\u00ab", "&euml;",textout);
+	textout = str_replace("\u00c3\u008c", "&Igrave;",textout);
+	textout = str_replace("\u00c3\u008d", "&Iacute;",textout);
+	textout = str_replace("\u00c3\u008e", "&Icirc;",textout);
+	textout = str_replace("\u00c3\u008f", "&Iuml;",textout);
+	textout = str_replace("\u00c3\u00ac", "&igrave;",textout);
+	textout = str_replace("\u00c3\u00ad", "&iacute;",textout);
+	textout = str_replace("\u00c3\u00ae", "&icirc;",textout);
+	textout = str_replace("\u00c3\u00af", "&iuml;",textout);
+	textout = str_replace("\u00c3\u0091", "&Ntilde;",textout);
+	textout = str_replace("\u00c3\u00b1", "&ntilde;",textout);
+	textout = str_replace("\u00c3\u0092", "&Ograve;",textout);
+	textout = str_replace("\u00c3\u0093", "&Oacute;",textout);
+	textout = str_replace("\u00c3\u0094", "&Ocirc;",textout);
+	textout = str_replace("\u00c3\u0095", "&Otilde;",textout);
+	textout = str_replace("\u00c3\u0096", "&Ouml;",textout);
+	textout = str_replace("\u00c3\u0098", "&Oslash;",textout);
+	textout = str_replace("\u00c5\u0092", "&OElig;",textout);
+	textout = str_replace("\u00c3\u00b2", "&ograve;",textout);
+	textout = str_replace("\u00c3\u00b3", "&oacute;",textout);
+	textout = str_replace("\u00c3\u00b4", "&ocirc;",textout);
+	textout = str_replace("\u00c3\u00b5", "&otilde;",textout);
+	textout = str_replace("\u00c3\u00b6", "&ouml;",textout);
+	textout = str_replace("\u00c3\u00b8", "&oslash;",textout);
+	textout = str_replace("\u00c5\u0093", "&oelig;",textout);
+	textout = str_replace("\u00c3\u0099", "&Ugrave;",textout);
+	textout = str_replace("\u00c3\u009a", "&Uacute;",textout);
+	textout = str_replace("\u00c3\u009b", "&Ucirc;",textout);
+	textout = str_replace("\u00c3\u009c", "&Uuml;",textout);
+	textout = str_replace("\u00c3\u00b9", "&ugrave;",textout);
+	textout = str_replace("\u00c3\u00ba", "&uacute;",textout);
+	textout = str_replace("\u00c3\u00bb", "&ucirc;",textout);
+	textout = str_replace("\u00c3\u00bc", "&uuml;",textout);
+	textout = str_replace("\u00c3\u009d", "&Yacute;",textout);
+	textout = str_replace("\u00c5\u00b8", "&Yuml;",textout);
+	textout = str_replace("\u00c3\u00bd", "&yacute;",textout);
+	textout = str_replace("\u00c3\u00bf", "&yuml;",textout);;
+	return textout;
+}
+
 //-- Lectura de archivos de texto --//
 function readTxt(url){
 	var req,txt='';
@@ -329,7 +397,7 @@ function readTxt(url){
 							group=data.myGroups[i];
 							out+=
 								'<li opc="otherGroup" group="'+md5(group.id)+'">'+
-									'<div style="font-size:12px;padding-left:10px">'+group.name+'</div><span class="icon"></span>'+
+									'<div style="font-size:12px;padding-left:10px">'+utf16backtohtml(group.name)+'</div><span class="icon"></span>'+
 								'</li>';
 //							out+=
 //								'<li opc="myGroup" group="'+md5(group.id)+'" >'+
@@ -344,7 +412,7 @@ function readTxt(url){
 							group=data.allGroups[i];
 							out+=
 								'<li opc="otherGroup" group="'+md5(group.id)+'">'+
-									'<div style="font-size: 12px; padding-left: 10px">'+group.name+'</div><span class="icon"></span>'+
+									'<div style="font-size: 12px; padding-left: 10px">'+utf16backtohtml(group.name)+'</div><span class="icon"></span>'+
 								'</li>';
 						}
 						out+='<li opc="moreGroups" action="2"><div style="font-size: 10px; padding-left: 65px">'+lan('GROUPS_MORE')+'</div></li>';
@@ -1055,7 +1123,7 @@ function bodyFriendsList(friend){
 	var out='<li '+(friend.iAm=="0"?'thisshow="1" ':'')+'class="userInList" data-role="fieldcontain">'+
 		'<a '+(friend.iAm=="0"?'':'code="'+friend.code_friend+'"')+' data-theme="e">'+
 			'<img src="'+friend.photo_friend+'"'+'class="ui-li-thumb userBR" width="60" height="60"/>'+
-			'<h3 class="ui-li-heading">'+friend.name_user+'</h3>'+
+			'<h3 class="ui-li-heading">'+utf16backtohtml(friend.name_user)+'</h3>'+
 			'<p class="ui-li-desc">'+
 				lan('friends','ucw')+' <span class="ufriends">('+(friend.friends_count||0)+'),</span>  '+
 				lan('admirers','ucw')+' <span class="ufollowers">('+(friend.followers_count||0)+'),</span>  '+
