@@ -85,7 +85,7 @@ if($data->tipo){
 		$data->ftp['user']='userimg';
 		$data->ftp['pass']='-t@gvzlA_ftp';
 
-		$data->ftp['host']='172.31.45.179';
+		$data->ftp['host']='172.31.45.136';
 		$data->ftp['user']='webapp';
 		$data->ftp['folder']='img';
 
