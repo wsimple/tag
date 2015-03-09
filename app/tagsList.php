@@ -182,7 +182,7 @@
 					var admin=false,numAdm=0;
 					// $('#pageTitle').html(lan('group','ucw'));
 					nameMenuGroups(id,0,function(data){
-						$('#rowTitleMove .ui-block-z span').html(lan('group','ucw')+': '+data['name']);
+						$('#rowTitleMove .ui-block-z span').html(lan('group','ucw')+': '+utf16backtohtml(data['name']));
 						verifyGroupMembership(id,$.local('code'),function(data){
 							if(data['isMember']){
 								$('#tagsList').removeClass('no-join');
