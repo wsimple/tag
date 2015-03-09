@@ -15,7 +15,6 @@
 		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
 		<div id="rowTitleMove"><ul class="ui-grid-b"></ul></div>
 	</div>
-
 	<div data-role="content" class="list-content">
 		<img class="bg" src="css/smt/bg.png" />
 		<div id="fs-wrapper" class="fs-wrapper">
@@ -58,9 +57,9 @@
 					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
 				);
 				$('#rowTitleMove ul').html(
-					'<li class="ui-block-a ui-btn-active" id="labelChoosePre" ><a href="preferences.html">'+lang.PREFERENCES_LBLCHOOSEOPFOOTER+'</a></li>'+
-					'<li class="ui-block-b" id="labelSeekPre" ><a href="seekPreferences.html?type='+$('#typePre').val()+'">'+lang.seek+'</a></li>'+
-					'<li class="ui-block-c" id="labelMyPrefe" onclick="preferencesUsers();" >'+lang.PREFERENCES_BTNMINE+'</li>'
+					'<li class="ui-block-a ui-btn-active" ><a href="preferences.html">'+lang.PREFERENCES_LBLCHOOSEOPFOOTER+'</a></li>'+
+					'<li class="ui-block-b" ><a href="seekPreferences.html?type='+$('#typePre').val()+'">'+lang.seek+'</a></li>'+
+					'<li class="ui-block-c" onclick="preferencesUsers();" >'+lang.PREFERENCES_BTNMINE+'</li>'
 				);
 				//languaje
 				$('#buttonBack_preferences').html(lan('Back'));

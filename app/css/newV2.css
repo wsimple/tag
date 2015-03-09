@@ -701,6 +701,7 @@ img#backgroundImage{
 	border-right: 1px solid #a1afb0;
 	width: 40%;
 }
+#page-seekPreferences #sub-menu .ui-block-c,
 #page-news #sub-menu .ui-block-c,
 #page-notif #sub-menu .ui-block-c,
 #page-preferences #sub-menu .ui-block-c,
@@ -1963,14 +1964,8 @@ li.userInList h3{
 	position: relative;
 }
 
-#page-seekPreferences #sub-menu a{
-	line-height: 2em;
-}
-
-#page-seekPreferences .ui-link, #page-seekPreferences .ui-link:visited{
-	color: #FFF;
-}
-
+#page-seekPreferences div[data-role="content"] #sub-menu a{ line-height: 2em; }
+#page-seekPreferences div[data-role="content"] .ui-link, #page-seekPreferences div[data-role="content"] .ui-link:visited{ color: #FFF; }
 #page-seekPreferences .ui-page, #page-seekPreferences .ui-content{
 	margin-top: 60px !important;
 }
@@ -2046,10 +2041,10 @@ li.userInList h3{
 	box-shadow: none;
 }
 
-#page-seekPreferences #fs-wrapper{
-	margin: 0 !important;
-}
-
+#page-seekPreferences #fs-wrapper{ margin: 0 !important; }
+#page-seekPreferences .list-wrapper{ top: 82px; }
+#page-seekPreferences #group_preferences li{ background: none; }
+#page-seekPreferences #rowTitleMove ul{ height: 40px; }
 /*Store*/
 #page-freeProducts .list-wrapper,
 #page-lstStore .list-wrapper,
