@@ -40,9 +40,6 @@
 			</div>
 		</div>
 	</div>
-<!-- 	<div id="tl-footer" data-role="footer" data-position="fixed" data-theme="f">
-		<div data-role="navbar"><ul></ul></div>
-	</div> -->
 	<script>
 		var page = $.local('timeLine');
 		var active_tab = 'timeLine';
