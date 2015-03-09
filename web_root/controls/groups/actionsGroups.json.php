@@ -50,7 +50,7 @@
 						status		= "1"';
 				$setA=array($_SESSION['ws-tags']['ws-user']['id'],
 							$_POST['category_group'],$_POST['type_content'],
-							$_POST['privacy'],formatText($_POST['name']),formatText($_POST['description']),
+							$_POST['privacy'],$_POST['name'],$_POST['description'],
 							$photo);
 				//creamos el grupo
 				$id_group=CON::insert('groups',$sql,$setA);
@@ -111,8 +111,8 @@
 					$photo=$_POST['bgkphoto']!=''?$_POST['bgkphoto']:'default.jpg';
 					//actualizamos los datos grupo
 					$sql='id_oriented=?,id_privacy=?,name=?,description=?,photo=?,icon=?';
-					$sqlA=array($_POST['type_content'],$_POST['privacy'],formatText($_POST['name']),
-								formatText($_POST['description']),$photo,$_POST['icon'],$id_group);
+					$sqlA=array($_POST['type_content'],$_POST['privacy'],$_POST['name'],
+								$_POST['description'],$photo,$_POST['icon'],$id_group);
 					CON::update("groups",$sql,'id=?',$sqlA);
 					$res['update']='true';
 					//miembros del grupo

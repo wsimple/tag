@@ -84,7 +84,7 @@
 					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
 					'<li class="ui-block-c" >&nbsp;</li>'+
 					'<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
-					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
 				);				
 				$('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 				$('.pullUpLabel').html(lang.SCROLL_PULLUP);
@@ -116,6 +116,7 @@
 						'<li class="ui-block-c" opc="close" >'+lan('Back','ucw')+'</li>'+
 						'<li class="ui-block-z ui-btn-active" style="width:100%;"><a style="display:none;"><img src="css/newdesign/menu.png"></a><span>'+lan('group','ucw')+'</span></li>'
 					);
+					$('#tagsList').addClass('no-join');
 				}else{ $('#rowTitleMove').remove(); }
 				$('#profile span.info .name').html($.local('full_name'));
 				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
@@ -184,6 +185,7 @@
 						$('#rowTitleMove .ui-block-z span').html(lan('group','ucw')+': '+data['name']);
 						verifyGroupMembership(id,$.local('code'),function(data){
 							if(data['isMember']){
+								$('#tagsList').removeClass('no-join');
 								$('#rowTitleMove .ui-block-z a').show();
 								$('#sub-menu .newtag a,#noresult-tags').attr('href',"newtag.html?group="+id);
 								admin=data['admin']=='0'?false:true;
@@ -245,6 +247,8 @@
 						$('#friendsListDialog .buttons a').attr('onclick',"sendInvitationMemberGrp('#friendsListDialog','"+id+"');");
 						$('#friendsListDialog .this-button').show();
 						$('#friendsListDialog .this-search').css('width','37%');
+						$('.list-wrapper').css('top','46px');
+						$('#friendsListDialog .container ul').html('');
 					}).on('click','li[opc="members"]',function(){
 						myDialog({
 							id:'#friendsListDialog',
@@ -255,8 +259,10 @@
 								$('.buttons a',dialog).attr('onclick',"closeDialogmembersGroup('#friendsListDialog');");
 								$('.optional',dialog).addClass('dnone');
 								$('.members',dialog).removeClass('dnone');
-								$('.this-button',dialog).hide();
-								$('.this-search',dialog).css('width','100%');
+								$('.this-search,.this-button',dialog).hide();
+								$('.list-wrapper').css('top',0);
+								$('#friendsListDialog .container ul').html('');
+								// $('.this-search',dialog).css('width','100%');
 							}
 						});
 					}).on('click','li[opc="leave"]',function(){
@@ -283,6 +289,8 @@
 													$('#friendsListDialog .buttons a').attr('onclick',"sendadminGroup('#friendsListDialog','"+id+"');");
 													$('#friendsListDialog .this-button').show();
 													$('#friendsListDialog .this-search').css('width','37%');
+													$('.list-wrapper').css('top','46px');
+													$('#friendsListDialog .container ul').html('');
 												}
 											},{
 												name:lang.GROUPS_LEAVEABANDONAR,

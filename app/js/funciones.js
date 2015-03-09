@@ -196,6 +196,7 @@ function createSearchPopUp(container){
 //-- Menu --//
 function newMenu(){
 	var menu = '<div id="bottom-menu">'+
+	'<a href="javascript:history.back()"><span id="backbtn" onclick="goBack();"></span></a>'+
 	'<div class="arrow"></div>'+
 		'<ul>'+
 			'<li class="toptags"><a href="'+PAGE.toptags+'">'+lan('TOPTAGS_TITLE')+'</a></li>'+

@@ -40,9 +40,6 @@
 			</div>
 		</div>
 	</div>
-<!-- 	<div id="tl-footer" data-role="footer" data-position="fixed" data-theme="f">
-		<div data-role="navbar"><ul></ul></div>
-	</div> -->
 	<script>
 		var page = $.local('timeLine');
 		var active_tab = 'timeLine';
@@ -59,7 +56,7 @@
 					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
 					'<li class="ui-block-c" >&nbsp;</li>'+
 					'<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
-					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
+					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
 				);
 
 				$('#singleRedirDialog #scroller').html(lan('JS_DELETETAG'));

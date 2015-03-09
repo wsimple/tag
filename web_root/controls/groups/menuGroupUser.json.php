@@ -1,8 +1,9 @@
 <?php
 	include '../header.json.php';
     if (isset($_GET['code'])){
-        $users = $GLOBALS['cn']->query("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id)) = '".$_GET['code']."'");
-        $user  = mysql_fetch_assoc($users);
+        $users = CON::query("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id)) = '".$_GET['code']."'");
+        //$users = CON::query("SELECT id FROM users WHERE id = 7 ");
+        $user  = CON::fetchAssoc($users);
         $mnUseGrp = $user['id'];
     }
 
@@ -10,7 +11,7 @@
 		case '1':
         $fecha=explode('-',$_SESSION['ws-tags']['ws-user']['date_birth']);
 		//grupos del usuario
-		 $userGrpName = $GLOBALS['cn']->query("
+		 $userGrpName = CON::query("
 			SELECT DATE(g.date) AS fecha,
 				g.id AS id,
 				g.name AS name
@@ -23,7 +24,8 @@
 			LIMIT 0, 2
 		");
 
-		while ($grpUname = mysql_fetch_array($userGrpName)){
+//		while ($grpUname = mysql_fetch_array($userGrpName)){
+		while ($grpUname = CON::fetchAssoc($userGrpName)){
 			$grpUname['icon'] = (DOMINIO.'img/groups/icons/'. $grpUname['icon']);
 			$arrayMyGroups[] = array(
 				'id'			=> $grpUname['id'],
@@ -32,7 +34,7 @@
 		}
 
 		//grupos en general
-		$GrpNames = $GLOBALS['cn']->query("
+		$GrpNames = CON::query("
 			SELECT DATE(g.date) AS fecha,
 				g.id AS id,
 				g.name AS name,
@@ -51,14 +53,15 @@
 			LIMIT 0, 2
 		");
 
-		while ($grpname = mysql_fetch_array($GrpNames)){
+		//while ($grpname = mysql_fetch_array($GrpNames)){
+		while ($grpname = CON::fetchAssoc($GrpNames)){
 			$grpname['name']=utf8_encode($grpname['name']);
 			$arrayAllGroups[] = $grpname;
 		}
 	break;
 	case '2':
 		//grupos en general
-		$GrpNames = $GLOBALS['cn']->query("
+		$GrpNames = CON::query("
 			SELECT DATE(g.date) AS fecha,
 				g.id AS id,
 				g.id_privacy AS privacy,
@@ -72,14 +75,15 @@
 			ORDER BY g.date DESC
 		");
 
-		while ($grpname = mysql_fetch_array($GrpNames)){
+		//while ($grpname = mysql_fetch_array($GrpNames)){
+		while ($grpname = CON::fetchAssoc($GrpNames)){
 			//orientacion del grupo
 			if($grpname['privacy']=='1'){ $typePrivacy = 'Public'; }
             elseif($grpname['privacy']==2){ $typePrivacy = 'Close';
 			}elseif($grpname['privacy']==3){ $typePrivacy = 'Private'; }
 			//n° de miembros del grupo
-			$members = $GLOBALS['cn']->query("SELECT COUNT(*) AS cant FROM users_groups WHERE id_group ='".$grpname['id']."'");
-			$membersGrp = mysql_fetch_array($members);
+			$members = CON::query("SELECT COUNT(*) AS cant FROM users_groups WHERE id_group ='".$grpname['id']."'");
+			$membersGrp = CON::fetchAssoc($members);
 
 			//$arrayAllGroups[] = $grpname;
 			//$grpname['photo'] = (DOMINIO.'img/groups/'. $grpname['photo']);
@@ -105,7 +109,7 @@
 	break;
 	case '3':
 		//grupos del usuario
-		$userGrpName = $GLOBALS['cn']->query("
+		$userGrpName = CON::query("
 			SELECT DATE(g.date) AS fecha,
 				g.id AS id,
 				g.id_privacy AS privacy,
@@ -119,14 +123,14 @@
 			ORDER BY g.date DESC
 		");
 
-		while ($grpUname = mysql_fetch_array($userGrpName)){
+		while ($grpUname = CON::fetchAssoc($userGrpName)){
 			//orientacion del grupo
 			if($grpUname['privacy']=='1'){ $typePrivacy = 'Public'; }
             elseif($grpUname['privacy']==2){ $typePrivacy = 'Close'; }
             elseif($grpUname['privacy']==3){ $typePrivacy = 'Private'; }
 			//n° de miembros del grupo
-			$members = $GLOBALS['cn']->query("SELECT COUNT(*) AS cant FROM users_groups WHERE id_group ='".$grpUname['id']."'");
-			$membersGrp = mysql_fetch_array($members);
+			$members = CON::query("SELECT COUNT(*) AS cant FROM users_groups WHERE id_group ='".$grpUname['id']."'");
+			$membersGrp = CON::fetchAssoc($members);
 
 			// $arrayMyGroups[] = $grpUname;
 			//$grpUname['photo'] = (DOMINIO.'img/groups/'. $grpUname['photo']);
@@ -149,7 +153,7 @@
 	break;
 	case '4':
 		//nombre del grupos
-		$userGrpName = $GLOBALS['cn']->query('
+		$userGrpName = CON::query('
 			SELECT
 				g.id AS id,
 				g.name AS name
@@ -157,15 +161,17 @@
 			WHERE md5(g.id)="'.$_GET['idGroup'].'"
 		');
 
-		$grpUname = mysql_fetch_array($userGrpName);
+		$grpUname = CON::fetchAssoc($userGrpName);
 
 		//actualizar fecha de actividad en el grupo por el usuario
-		$date_update = $GLOBALS['cn']->query("UPDATE users_groups SET	date_update = now() WHERE id_group='".$grpUname['id']."' AND id_user='".$mnUseGrp."'");
+		$date_update = CON::query("UPDATE users_groups SET	date_update = now() WHERE id_group='".$grpUname['id']."' AND id_user='".$mnUseGrp."'");
 
 		if($_GET['tag']==0){
 			//valida si el usuario esta registrado en el grupo y activa el boton ADD TAG
-			$addTag = $GLOBALS['cn']->query("SELECT id_group FROM users_groups WHERE id_user ='".$mnUseGrp."' AND md5(id_group) = '".$_GET["idGroup"]."' AND status=1");
-			$inGroup = (mysql_num_rows($addTag)>0) ? '1': '0';
+			$addTag = CON::query("SELECT id_group FROM users_groups WHERE id_user ='".$mnUseGrp."' AND md5(id_group) = '".$_GET["idGroup"]."' AND status=1");
+//			$inGroup = (mysql_num_rows($addTag)>0) ? '1': '0';
+			$inGroup = (CON::numRows($addTag)>0) ? '1': '0';
+			
 		}else{
 			$inGroup = '0';
 		}
@@ -182,14 +188,14 @@
 	break;
 	case '5':
         $mnUseGrp;
-		$userGrpPrivacy = $GLOBALS['cn']->query("
+		$userGrpPrivacy = CON::query("
 			SELECT 
                 id_privacy,
                 (SELECT status FROM users_groups WHERE md5(id_group)='".$_GET['idGroup']."' AND id_user='".$mnUseGrp."') AS status
             FROM groups 
             WHERE md5(id)='".$_GET['idGroup']."' LIMIT 1;
                 ");
-        $result=  mysql_fetch_assoc($userGrpPrivacy);
+        $result=  CON::fetchAssoc($userGrpPrivacy);
 		if($result['id_privacy']=='1'){ 
 		  switch($result['status']){
                 case '2': $out = 'invit';  break;

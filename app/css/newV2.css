@@ -562,7 +562,7 @@ img#backgroundImage{
 	cursor: pointer;
 }
 #rowTitleMove ul li a{ 
-	color: white;
+	color: white !important;
 	text-decoration: none;
 }
 #rowTitleMove ul li.ui-btn-active{ background: #009999; }
@@ -702,6 +702,7 @@ img#backgroundImage{
 	width: 40%;
 }
 #page-news #sub-menu .ui-block-c,
+#page-notif #sub-menu .ui-block-c,
 #page-preferences #sub-menu .ui-block-c,
 #page-profile #sub-menu .ui-block-c,
 #page-search #sub-menu .ui-block-c,
@@ -868,10 +869,10 @@ li.userInList h3{
 	top:65px; 
 	box-shadow: none;
 }
-#page-trendings ul li,
-#page-trendings ul li a,
-#page-trendings ul li.ui-btn-active,
-#page-trendings ul li.ui-btn-active a{
+#page-trendings ul#trendings li,
+#page-trendings ul#trendings li a,
+#page-trendings ul#trendings li.ui-btn-active,
+#page-trendings ul#trendings li.ui-btn-active a{
 	background: #ECF0F1;
 	box-shadow: none;
 	text-shadow:none;
@@ -964,6 +965,18 @@ li.userInList h3{
 	transform: rotate(180deg);
 }
 
+#bottom-menu #backbtn {
+	position: fixed; 
+	left: 0;
+	background: transparent url('newdesign/menu/previous.png') no-repeat center 2px;
+	-webkit-background-size: 22px 25px;
+	background-size: 22px 25px;	
+	width: 40px;
+	height: 36px;
+	z-index: 1000;
+	margin-top: 6px;
+}
+
 #bottom-menu ul{
 	list-style: none;
 	width: 90%;
@@ -979,6 +992,12 @@ li.userInList h3{
 	height: 3em;
 	width: 20%;
 	margin: 0 0 4px 0;
+}
+
+#bottom-menu ul li.timeline{
+	background: transparent url('newdesign/menu/timeline.png') no-repeat center top;
+	-webkit-background-size:auto 60%;
+	background-size: auto 60%;
 }
 
 #bottom-menu ul li.toptags{
@@ -1431,6 +1450,7 @@ li.userInList h3{
 	margin-top: 113px;
 	background-color: #e2e6e7 !important;
 }
+#page-tagsList .no-join #panel{ display: none; }
 /*TagList Ends*/
 
 /*New Tag*/
@@ -1839,35 +1859,22 @@ li.userInList h3{
 #page-preferences .ui-content{
 	margin-top: 113px;
 }
-
 #page-preferences .notification-num,
-#page-preferences .notification-num .ui-link{
-	color: #FFF !important;
-}
-
-#page-preferences .ui-link, #page-preferences .ui-link:visited{
-	color: #FFF;
-}
-
-#page-preferences .ui-icon {
-	background-color: #BBB !important;
-}
-
+#page-preferences .notification-num .ui-link{ color: #FFF !important; }
+#page-preferences .ui-link, #page-preferences .ui-link:visited{ color: #FFF; }
+#page-preferences .ui-icon { background-color: #BBB !important; }
 #page-preferences .ui-corner-all {
 	border-radius: 4px /*{global-radii-blocks}*/;
 	-webkit-border-radius: 4px /*{global-radii-blocks}*/;
 }
-
 #page-preferences .ui-selectmenu-list .ui-icon {
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 }
-
 #page-preferences .ui-btn-corner-all {
 	-webkit-border-radius: 4px /*{global-radii-buttons}*/;
 	border-radius: 4px /*{global-radii-buttons}*/;
 }
-
 #page-preferences .ui-btn {
 	text-align: left;
 	width: 100%;
@@ -1876,21 +1883,18 @@ li.userInList h3{
 	border-radius: 4px /*{global-radii-blocks}*/ !important;
 	-webkit-border-radius: 4px /*{global-radii-blocks}*/ !important;
 }
-
 #page-preferences .ui-btn-up-m {
 	border: 1px solid #FFF;
 	background: #FFF;
 	font-weight: bold;
 	color: #EB5A28;
 }
-
 #page-preferences .ui-btn-hover-m {
 	border: 1px solid #bbbbbb ;
 	background: #FFF;
 	font-weight: bold;
 	color: #EB5A28 ;
 }
-
 #page-preferences .ui-btn-up-n {
 	border: 1px solid #EB5A28 ;
 	background: #EB5A28 ;
@@ -1901,7 +1905,6 @@ li.userInList h3{
 	width: 99%;
 	text-shadow: 0 0px 0 #FFF;	
 }
-
 #page-preferences .ui-btn-hover-n {
 	border: 1px solid #bbbbbb ;
 	background: #EB5A28 ;
@@ -1912,7 +1915,6 @@ li.userInList h3{
 	width: 99%;
 	text-shadow: 0 0px 0 #FFF;	
 }
-
 #page-preferences {
 	background-color: #E1E6E7;
 	border: none;
@@ -1920,7 +1922,6 @@ li.userInList h3{
 	border:1px solid #E1E6E7;
 	box-shadow: none;
 }
-
 #page-preferences #content, #page-preferences #scroller, 
 #page-preferences #fs-wrapper, #page-preferences .smt-tag-content{
 	background-color: #E1E6E7;
@@ -1929,22 +1930,29 @@ li.userInList h3{
 	border:1px solid #E1E6E7;
 	box-shadow: none;
 }
-
-#page-preferences #fs-wrapper{
-	margin: 0 !important;
+#page-preferences #fs-wrapper{ 
+	margin: 0 !important; 
+	top: 20px;
 }
-
 #page-preferences .ui-radio-on{
 	background-color: #EB5A28;
 	border-color: #EB5A28;
 	color: #FFF;
 	text-decoration: none;
 }
-
-#page-preferences .ui-link, #page-preferences .ui-link:visited{
-	color: #505F60;
+#page-preferences .ui-link, #page-preferences .ui-link:visited{ color: #505F60; }
+#page-preferences .save{
+	margin: 20px 0 40px;
+	height: 65px;
+	text-align:center;
 }
-
+#page-preferences .save img{
+	height: 30px;
+	width: 30px;
+}
+#preferencesDialog ul#ulMyPrefe li{ text-align: left;}
+#preferencesDialog #ulMyPrefe li img{ margin-right: 20px; }
+/*End Preferences*/
 /*SeekPreferences Start*/
 #page-seekPreferences #sub-menu{
 	text-shadow: none;

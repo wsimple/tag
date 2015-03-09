@@ -13,13 +13,7 @@
 			<span class="notification-num"><a href="notifications.html">0</a></span>
 		</div>
 		<div id="sub-menu"><ul class="ui-grid-d"></ul></div>
-		<!-- div id="userPoints" class="ui-btn-right" data-iconshadow="true" data-wrapperels="span">
-			<span class="loader"></span>
-		</div> -->
-		<fieldset id="private-select" data-role="controlgroup" data-type="horizontal" data-mini="true" style="position:absolute;top:7px;right:5px;display:none;">
-			<input id="radio-inbox" type="radio" name="radio-in-out" data-theme="a" value="in" checked="checked"/>
-			<input id="radio-outbox" type="radio" name="radio-in-out" data-theme="a" value="out"/>
-		</fieldset>
+		<div id="rowTitleMove"><ul class="ui-grid-b"></ul></div>
 	</div>
 
 	<div data-role="content" class="list-content">
@@ -42,28 +36,11 @@
 					<textarea id="txtPrefe" name="txtPrefe" style="resize: none;" ></textarea>
 					<span id="prefere_legend" style="font-size: 10px;display:block;"></span>
 					<input id="typePre" name="typePre" type="hidden" value="" />
-
-					<div style="margin-top: 20px;">
-						<div style="float: left;">
-							<a id="buttonBack_preferences" href="#" data-icon="arrow-l" onclick="goBack();" style="color: #505F6D"></a>
-						</div>
-						<div style="float: right">
-							<a id="btnPreferences_update" style="display:none" href="#" onClick="savePreferences(opc);" data-icon="check" style="color: #505F6D"></a>
-						</div>
+					<div class="save">
+						<a id="btnPreferences_update" style="display:none" href="#" onClick="savePreferences(opc);"><img src="css/newdesign/newtag/publish.png"><br/></a>
 					</div>
-
 				</div>
 			</div>
-		</div>
-	</div>
-
-	<div id="footer" data-role="footer" data-position="fixed" data-theme="f" style="background-color: #E1E6E7 !important;">
-		<div data-role="navbar">
-			<ul>
-				<li><a id="labelChoosePre" class="ui-btn-active" onclick="redir(PAGE['preferences']);" >&nbsp;</a></li>
-				<li><a id="labelSeekPre" onclick="redir(PAGE['seekpreferences']+'?type='+$('#typePre').val());">&nbsp;</a></li>
-				<li><a id="labelMyPrefe" onclick="preferencesUsers();"></a></li>
-			</ul>
 		</div>
 	</div>
 	<script>
@@ -72,13 +49,19 @@
 			title:lang.USERPROFILE_PREFERENCES,
 			before:function(){
 				createSearchPopUp('#page-preferences');
+				newMenu();
 				$('#sub-menu ul').html(
 					'<li class="ui-block-a timeline hover"><a href="timeLine.html">'+lan('timeline','ucw')+'</a></li>'+
 					'<li class="ui-block-b store"><a href="store.html">'+lan('store','ucw')+'</a></li>'+
                     '<li class="ui-block-c" >&nbsp;</li>'+
                     '<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
-					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newtag','ucw')+'</a></li>'
-				);				
+					'<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
+				);
+				$('#rowTitleMove ul').html(
+					'<li class="ui-block-a ui-btn-active" id="labelChoosePre" ><a href="preferences.html">'+lang.PREFERENCES_LBLCHOOSEOPFOOTER+'</a></li>'+
+					'<li class="ui-block-b" id="labelSeekPre" ><a href="seekPreferences.html?type='+$('#typePre').val()+'">'+lang.seek+'</a></li>'+
+					'<li class="ui-block-c" id="labelMyPrefe" onclick="preferencesUsers();" >'+lang.PREFERENCES_BTNMINE+'</li>'
+				);
 				//languaje
 				$('#buttonBack_preferences').html(lan('Back'));
 				$('#labelTypePrefe1').html(lang.PREFERENCES_WHATILIKE);
@@ -87,18 +70,13 @@
 				$('#titleOptionPrefe').html('<strong>'+lang.PREFERENCES_LBLCHOOSEOP+':</strong>');
 				$('#labelTxtPrefe').html('<strong>'+lang.USERPROFILE_PREFERENCES_TITLE+':</strong>');
 				$('#prefere_legend').html(lang.PREFERENCES_HOLDERSEARCH);
-				$('#labelSeekPre').html(lang.seek);
-				$('#labelChoosePre').html(lang.PREFERENCES_LBLCHOOSEOPFOOTER);
-				$('#labelMyPrefe').html(lang.PREFERENCES_BTNMINE);
-				$('#btnPreferences_update').html(lang.PREFERENCES_BTNUPDATE);
+				$('#btnPreferences_update').append(lang.PREFERENCES_BTNUPDATE);
 				$('#txtPrefe').attr('placeholder', lang.PREFERENCES_HOLDERSEARCH);
-				$('.list-wrapper').jScroll({hScroll:false});
 				$('#profile span.info .name').html($.local('full_name'));
 				$('#profile .photo').html('<a href="profile.html"><img src="'+$.local('display_photo')+'"></a>');
 			},
 			after:function(){
 				opc.type = ($_GET['typePrefe']!=''&&$_GET['typePrefe']!=undefined) ? $_GET['typePrefe'] : ($('#typePre').val()!=''?$('#typePre').val():1);
-
 				$('.fs-wrapper').jScroll({hScroll:false});
 				$('#radio-choice-'+opc.type).attr('checked', true).checkboxradio('refresh');
 				putBoxPreference(opc);
@@ -122,6 +100,7 @@
 					}else opc.dato=new Array("","","","");
 					$('#txtPrefe').val(opc.dato[opc.type]);
 					$("#btnPreferences_update").show();
+					$('.fs-wrapper').jScroll('refresh');
 				}
 			});
 		}
@@ -152,18 +131,21 @@
 					if (data['insert'])
 						myDialog({
 							id:'#prefeExitoDialog',
+							style:{height:'60px'},
 							content:'<br/>'+lang.PREFERENCES_MSJSUCESSFULLY+'<br/>',
-							buttons:{
-								'Close':function(){ this.close();	}
-							}
+							backgroundClose: true,
+							buttons:[]
 						});
 					else 
 						myDialog({
 							id:'#prefeExitoDialog',
 							content:'<br/>'+lang.TAG_DELETEDERROR+'<br/>',
-							buttons:{
-								'Close':function(){ location.reload();	}
-							}
+							close:function(){ location.reload(); },
+							backgroundClose: true,
+							buttons:[]
+							// buttons:{
+							// 	'Close':function(){ location.reload();	}
+							// }
 						});
 				}
 			});
