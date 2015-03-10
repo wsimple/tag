@@ -13,6 +13,8 @@ File Encoding         : 65001
 Date: 2015-03-10 08:47:20
 */
 
+CREATE DATABASE tagbum_prod CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -26,7 +28,7 @@ CREATE TABLE `action_points` (
   `points_user` int(11) NOT NULL DEFAULT '0',
   `status` smallint(5) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for activity_users
@@ -41,7 +43,7 @@ CREATE TABLE `activity_users` (
   `HTTP_USER_AGENT` varchar(200) CHARACTER SET utf8 NOT NULL,
   `session_id` varchar(50) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17030 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for album
@@ -55,7 +57,7 @@ CREATE TABLE `album` (
   `id_image_cover` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1152 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for banners
@@ -69,7 +71,7 @@ CREATE TABLE `banners` (
   `id_publi` int(11) DEFAULT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for banners_picture
@@ -84,7 +86,7 @@ CREATE TABLE `banners_picture` (
   `text` text,
   `class` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for business_card
@@ -106,7 +108,7 @@ CREATE TABLE `business_card` (
   `background_url` varchar(100) DEFAULT NULL,
   `text_color` varchar(7) NOT NULL DEFAULT '#000000',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4800 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for chat
@@ -114,13 +116,13 @@ CREATE TABLE `business_card` (
 DROP TABLE IF EXISTS `chat`;
 CREATE TABLE `chat` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `from` varchar(255) CHARACTER SET latin1 NOT NULL DEFAULT '',
-  `to` varchar(255) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `from` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `to` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `message` text NOT NULL,
   `sent` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `recd` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2975 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for chat_typing
@@ -132,7 +134,7 @@ CREATE TABLE `chat_typing` (
   `status` char(1) NOT NULL,
   `send` char(1) NOT NULL,
   PRIMARY KEY (`from`,`to`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cities
@@ -150,7 +152,7 @@ CREATE TABLE `cities` (
   `log` varchar(100) CHARACTER SET utf8 NOT NULL,
   `last_modification` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat
@@ -170,7 +172,7 @@ CREATE TABLE `cometchat` (
   KEY `direction` (`direction`),
   KEY `read` (`read`),
   KEY `sent` (`sent`)
-) ENGINE=InnoDB AUTO_INCREMENT=18224 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_announcements
@@ -232,7 +234,7 @@ CREATE TABLE `cometchat_chatroommessages` (
   KEY `userid` (`userid`),
   KEY `chatroomid` (`chatroomid`),
   KEY `sent` (`sent`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_chatrooms
@@ -250,7 +252,7 @@ CREATE TABLE `cometchat_chatrooms` (
   KEY `lastactivity` (`lastactivity`),
   KEY `createdby` (`createdby`),
   KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_chatrooms_users
@@ -313,7 +315,7 @@ CREATE TABLE `cometchat_messages_old` (
   KEY `direction` (`direction`),
   KEY `read` (`read`),
   KEY `sent` (`sent`)
-) ENGINE=InnoDB AUTO_INCREMENT=12642 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_status
@@ -356,10 +358,10 @@ CREATE TABLE `comments` (
   `id_source` int(11) NOT NULL,
   `id_user_from` int(11) NOT NULL,
   `id_user_to` int(11) NOT NULL,
-  `comment` mediumtext CHARACTER SET latin1 NOT NULL,
+  `comment` mediumtext CHARACTER SET utf8 NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7836 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for config_system
@@ -396,7 +398,7 @@ CREATE TABLE `config_system` (
   `emails_admin_reports_tags` text,
   `porcen_reporta_tag` varchar(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cost_points
@@ -411,7 +413,7 @@ CREATE TABLE `cost_points` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `cost` decimal(6,4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cost_publicity
@@ -427,7 +429,7 @@ CREATE TABLE `cost_publicity` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `cost` decimal(6,4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for countries
@@ -439,7 +441,7 @@ CREATE TABLE `countries` (
   `code_area` varchar(10) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=235 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for currency
@@ -451,7 +453,7 @@ CREATE TABLE `currency` (
   `status` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for dialogs
@@ -468,7 +470,7 @@ CREATE TABLE `dialogs` (
   `paypal` mediumtext,
   `blog` mediumtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for dislikes
@@ -481,7 +483,7 @@ CREATE TABLE `dislikes` (
   `date` datetime NOT NULL,
   `type` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1677 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for empresas
@@ -491,7 +493,7 @@ CREATE TABLE `empresas` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(250) COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2013 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- ----------------------------
 -- Table structure for feedback
@@ -505,7 +507,7 @@ CREATE TABLE `feedback` (
   `description` varchar(200) NOT NULL,
   `votes` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for feedback_ip
@@ -515,7 +517,7 @@ CREATE TABLE `feedback_ip` (
   `id_feedback` varchar(64) NOT NULL,
   `ip` varchar(32) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for followers
@@ -525,7 +527,7 @@ CREATE TABLE `followers` (
   `id_user` int(11) NOT NULL,
   `id_follower` int(11) NOT NULL,
   `status` char(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for geo_ip
@@ -539,7 +541,7 @@ CREATE TABLE `geo_ip` (
   `cc` char(2) NOT NULL,
   `cn` varchar(50) NOT NULL,
   `idioma` char(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for groups
@@ -559,7 +561,7 @@ CREATE TABLE `groups` (
   `status` char(1) NOT NULL DEFAULT '',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for groups_category
@@ -574,7 +576,7 @@ CREATE TABLE `groups_category` (
   `id_template` int(11) DEFAULT NULL,
   `id_template_sum` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for groups_oriented
@@ -586,7 +588,7 @@ CREATE TABLE `groups_oriented` (
   `rule` smallint(11) DEFAULT NULL,
   `status` char(1) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for groups_privacy
@@ -598,7 +600,7 @@ CREATE TABLE `groups_privacy` (
   `description` varchar(50) NOT NULL DEFAULT '',
   `status` char(1) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for images
@@ -613,7 +615,7 @@ CREATE TABLE `images` (
   `id_images_type` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2091 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for images_type
@@ -623,7 +625,7 @@ CREATE TABLE `images_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for languages
@@ -635,7 +637,7 @@ CREATE TABLE `languages` (
   `status` char(1) CHARACTER SET utf8 NOT NULL,
   `cod` char(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for likes
@@ -648,7 +650,7 @@ CREATE TABLE `likes` (
   `date` datetime NOT NULL,
   `type` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=205932 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for log_actions
@@ -661,7 +663,7 @@ CREATE TABLE `log_actions` (
   `id_user` int(10) unsigned NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=234741 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for newsletters
@@ -678,7 +680,7 @@ CREATE TABLE `newsletters` (
   `status` char(1) NOT NULL DEFAULT '1',
   `date_sent` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for orders
@@ -692,7 +694,7 @@ CREATE TABLE `orders` (
   `amount` decimal(10,2) NOT NULL,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for paypal
@@ -708,7 +710,7 @@ CREATE TABLE `paypal` (
   `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for personas
@@ -718,7 +720,7 @@ CREATE TABLE `personas` (
   `email` varchar(250) COLLATE utf8_spanish_ci DEFAULT NULL,
   `id` int(10) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80297 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- ----------------------------
 -- Table structure for points_publicity
@@ -734,7 +736,7 @@ CREATE TABLE `points_publicity` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `factor` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for preference_details
@@ -745,7 +747,7 @@ CREATE TABLE `preference_details` (
   `id_preference` int(5) NOT NULL,
   `detail` mediumtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2317 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2317 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for preferences
@@ -755,7 +757,7 @@ CREATE TABLE `preferences` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for products_user
@@ -771,7 +773,7 @@ CREATE TABLE `products_user` (
   `picture` varchar(250) NOT NULL,
   `url` varchar(250) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sections_page
@@ -781,7 +783,7 @@ CREATE TABLE `sections_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sex
@@ -791,7 +793,7 @@ CREATE TABLE `sex` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `label` mediumtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for spam_empresas
@@ -801,7 +803,7 @@ CREATE TABLE `spam_empresas` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(250) COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2013 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- ----------------------------
 -- Table structure for spam_personas
@@ -811,7 +813,7 @@ CREATE TABLE `spam_personas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(250) COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80296 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- ----------------------------
 -- Table structure for status
@@ -821,7 +823,7 @@ CREATE TABLE `status` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_category
@@ -834,7 +836,7 @@ CREATE TABLE `store_category` (
   `name` mediumtext,
   `photo` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_logs
@@ -847,7 +849,7 @@ CREATE TABLE `store_logs` (
   `sesion` int(11) NOT NULL,
   `dateAction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_orders
@@ -859,7 +861,7 @@ CREATE TABLE `store_orders` (
   `id_user` int(11) DEFAULT NULL,
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_orders_detail
@@ -875,7 +877,7 @@ CREATE TABLE `store_orders_detail` (
   `id_status` int(11) DEFAULT NULL,
   `formPayment` char(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_products
@@ -897,9 +899,9 @@ CREATE TABLE `store_products` (
   `place` char(1) DEFAULT NULL,
   `formPayment` char(2) NOT NULL DEFAULT '0',
   `hits` bigint(11) NOT NULL DEFAULT '0',
-  `video_url` varchar(200) CHARACTER SET latin1 NOT NULL,
+  `video_url` varchar(200) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_products_picture
@@ -911,7 +913,7 @@ CREATE TABLE `store_products_picture` (
   `picture` varchar(100) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_raffle
@@ -928,7 +930,7 @@ CREATE TABLE `store_raffle` (
   `status` int(11) NOT NULL,
   `winner` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_raffle_join
@@ -940,7 +942,7 @@ CREATE TABLE `store_raffle_join` (
   `id_raffle` int(11) NOT NULL,
   `date_join` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_raffle_users
@@ -950,7 +952,7 @@ CREATE TABLE `store_raffle_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(250) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_sub_category
@@ -963,7 +965,7 @@ CREATE TABLE `store_sub_category` (
   `id_template` int(11) DEFAULT NULL,
   `name` mediumtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for subscribers
@@ -973,7 +975,7 @@ CREATE TABLE `subscribers` (
   `email` varchar(250) NOT NULL,
   `subscribed_at` datetime NOT NULL,
   PRIMARY KEY (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for subscription_plans
@@ -987,7 +989,7 @@ CREATE TABLE `subscription_plans` (
   `description` tinytext CHARACTER SET utf8,
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for subscription_plans_detail
@@ -1002,7 +1004,7 @@ CREATE TABLE `subscription_plans_detail` (
   `num_banners` smallint(1) DEFAULT '0',
   `features` mediumtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tags
@@ -1013,30 +1015,30 @@ CREATE TABLE `tags` (
   `id_user` int(10) unsigned NOT NULL,
   `id_creator` int(10) unsigned NOT NULL,
   `id_product` int(10) unsigned NOT NULL,
-  `background` varchar(100) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `background` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `bgmatrix` varchar(50) DEFAULT NULL,
-  `code_number` varchar(12) CHARACTER SET latin1 NOT NULL DEFAULT '000000000',
-  `color_code` varchar(7) CHARACTER SET latin1 NOT NULL DEFAULT '#FFFFFF',
-  `color_code2` varchar(7) CHARACTER SET latin1 NOT NULL DEFAULT '#FFFFFF',
-  `color_code3` varchar(7) CHARACTER SET latin1 NOT NULL DEFAULT '#FFFFFF',
-  `text` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `text2` varchar(200) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `code_number` varchar(12) CHARACTER SET utf8 NOT NULL DEFAULT '000000000',
+  `color_code` varchar(7) CHARACTER SET utf8 NOT NULL DEFAULT '#FFFFFF',
+  `color_code2` varchar(7) CHARACTER SET utf8 NOT NULL DEFAULT '#FFFFFF',
+  `color_code3` varchar(7) CHARACTER SET utf8 NOT NULL DEFAULT '#FFFFFF',
+  `text` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `text2` varchar(200) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `geo_lat` decimal(10,5) NOT NULL,
   `geo_lon` decimal(10,5) NOT NULL,
   `geo_log` decimal(10,5) NOT NULL,
-  `profile_img_url` varchar(75) CHARACTER SET latin1 NOT NULL DEFAULT '',
-  `video_url` varchar(200) CHARACTER SET latin1 NOT NULL,
+  `profile_img_url` varchar(75) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `video_url` varchar(200) CHARACTER SET utf8 NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` char(2) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `status` char(2) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `points` int(10) unsigned NOT NULL,
   `source` bigint(20) unsigned NOT NULL,
   `hits` int(11) NOT NULL DEFAULT '0',
   `id_business_card` int(10) unsigned NOT NULL,
   `id_group` int(10) unsigned NOT NULL DEFAULT '0',
-  `img` varchar(20) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `img` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `redist` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=91006 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tags_comments
@@ -1050,7 +1052,7 @@ CREATE TABLE `tags_comments` (
   `comment` varchar(200) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3136 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tags_delete_backgrounds
@@ -1062,7 +1064,7 @@ CREATE TABLE `tags_delete_backgrounds` (
   `background` varchar(100) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=237 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tags_favorites
@@ -1078,7 +1080,7 @@ CREATE TABLE `tags_favorites` (
   `text` varchar(200) NOT NULL,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2186 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tags_hits
@@ -1090,7 +1092,7 @@ CREATE TABLE `tags_hits` (
   `date` date NOT NULL,
   `hits` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=167158 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tags_privates
@@ -1103,7 +1105,7 @@ CREATE TABLE `tags_privates` (
   `id_tag` int(11) NOT NULL,
   `status_tag` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=568 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tags_report
@@ -1118,7 +1120,7 @@ CREATE TABLE `tags_report` (
   `type_report` int(11) NOT NULL,
   `status` char(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=538 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tags_share_mails
@@ -1131,7 +1133,7 @@ CREATE TABLE `tags_share_mails` (
   `email_destiny` varchar(250) NOT NULL,
   `view` char(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13539 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tags_type
@@ -1143,7 +1145,7 @@ CREATE TABLE `tags_type` (
   `description` mediumtext NOT NULL,
   `cost` decimal(10,2) NOT NULL,
   `status` char(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for template
@@ -1160,7 +1162,7 @@ CREATE TABLE `template` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for template_type
@@ -1172,7 +1174,7 @@ CREATE TABLE `template_type` (
   `description` mediumtext NOT NULL,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for test_events
@@ -1182,7 +1184,7 @@ CREATE TABLE `test_events` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `event` tinytext CHARACTER SET utf8,
   PRIMARY KEY (`date`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tour_comment
@@ -1199,7 +1201,7 @@ CREATE TABLE `tour_comment` (
   `active` tinyint(2) DEFAULT NULL,
   `sectionActive` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tour_hash
@@ -1212,7 +1214,7 @@ CREATE TABLE `tour_hash` (
   `ip` varchar(15) NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8153 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tour_position
@@ -1222,7 +1224,7 @@ CREATE TABLE `tour_position` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `position` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tour_section
@@ -1233,7 +1235,7 @@ CREATE TABLE `tour_section` (
   `sectionTour` varchar(30) NOT NULL,
   `active` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for translations
@@ -1249,7 +1251,7 @@ CREATE TABLE `translations` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `cod` char(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1422 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for translations_template
@@ -1264,7 +1266,7 @@ CREATE TABLE `translations_template` (
   `text_help` mediumtext NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1766 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for trending_toping
@@ -1276,7 +1278,7 @@ CREATE TABLE `trending_toping` (
   `count` int(10) unsigned DEFAULT '1',
   `day` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1160 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for type_actions
@@ -1291,7 +1293,7 @@ CREATE TABLE `type_actions` (
   `label_name` varchar(70) DEFAULT NULL,
   `label_desc` varchar(70) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for type_banners
@@ -1303,7 +1305,7 @@ CREATE TABLE `type_banners` (
   `status` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for type_notifications
@@ -1319,7 +1321,7 @@ CREATE TABLE `type_notifications` (
   `status` char(1) NOT NULL,
   `reference` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for type_publicity
@@ -1331,7 +1333,7 @@ CREATE TABLE `type_publicity` (
   `status` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for type_tag_report
@@ -1341,7 +1343,7 @@ CREATE TABLE `type_tag_report` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descrip` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for user_type
@@ -1352,7 +1354,7 @@ CREATE TABLE `user_type` (
   `description` varchar(150) NOT NULL,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users
@@ -1369,7 +1371,7 @@ CREATE TABLE `users` (
   `profile_image_url` varchar(200) DEFAULT NULL,
   `updatePicture` char(1) NOT NULL,
   `location` varchar(30) DEFAULT NULL,
-  `url` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `url` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
   `country` varchar(200) DEFAULT NULL,
   `state` varchar(200) DEFAULT NULL,
@@ -1418,7 +1420,7 @@ CREATE TABLE `users` (
   `wish_to` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4729 DEFAULT CHARSET=utf8 PACK_KEYS=0;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 PACK_KEYS=0;
 
 -- ----------------------------
 -- Table structure for users_config_notifications
@@ -1429,7 +1431,7 @@ CREATE TABLE `users_config_notifications` (
   `id_user` int(11) NOT NULL,
   `id_notification` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=381 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_device_login
@@ -1446,7 +1448,7 @@ CREATE TABLE `users_device_login` (
   `is_mobile` char(1) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33979 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_groups
@@ -1461,7 +1463,7 @@ CREATE TABLE `users_groups` (
   `date_update` datetime DEFAULT NULL,
   `status` char(2) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2075 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_links
@@ -1473,7 +1475,7 @@ CREATE TABLE `users_links` (
   `id_friend` bigint(20) NOT NULL,
   `is_friend` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84148 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_notifications
@@ -1488,7 +1490,7 @@ CREATE TABLE `users_notifications` (
   `revised` char(1) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=328637 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_panel
@@ -1504,7 +1506,7 @@ CREATE TABLE `users_panel` (
   `code` varchar(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `modulos` mediumtext CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_plan_purchase
@@ -1518,7 +1520,7 @@ CREATE TABLE `users_plan_purchase` (
   `end_date` date NOT NULL,
   `notes` mediumtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=215 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_points_purchase
@@ -1533,7 +1535,7 @@ CREATE TABLE `users_points_purchase` (
   `points_bought` int(11) DEFAULT NULL,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_preferences
@@ -1543,7 +1545,7 @@ CREATE TABLE `users_preferences` (
   `id_user` bigint(20) NOT NULL,
   `id_preference` bigint(5) NOT NULL,
   `preference` mediumtext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_profile_showbirthday
@@ -1553,7 +1555,7 @@ CREATE TABLE `users_profile_showbirthday` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_publicity
@@ -1576,7 +1578,7 @@ CREATE TABLE `users_publicity` (
   `click_current` int(11) NOT NULL,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=233 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_publicity_validation
@@ -1589,7 +1591,7 @@ CREATE TABLE `users_publicity_validation` (
   `ip` varchar(16) NOT NULL,
   `timep` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=372 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_relations
@@ -1600,7 +1602,7 @@ CREATE TABLE `users_relations` (
   `label` varchar(20) NOT NULL,
   `description` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_search_preferences
@@ -1613,7 +1615,7 @@ CREATE TABLE `users_search_preferences` (
   `min_age` tinyint(3) unsigned NOT NULL,
   `max_age` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_sex_preferences
@@ -1624,7 +1626,7 @@ CREATE TABLE `users_sex_preferences` (
   `label` varchar(15) DEFAULT NULL,
   `description` varchar(35) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_wish_to
@@ -1635,7 +1637,7 @@ CREATE TABLE `users_wish_to` (
   `label` varchar(10) NOT NULL,
   `descripcion` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for zip_codes
@@ -1674,4 +1676,4 @@ CREATE TABLE `zip_codes` (
   KEY `AREA_CODE` (`AREA_CODE`),
   KEY `HOUSEHOLDS_PER_ZIPCODE` (`HOUSEHOLDS_PER_ZIPCODE`),
   KEY `ZIP_CODE` (`ZIP_CODE`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
