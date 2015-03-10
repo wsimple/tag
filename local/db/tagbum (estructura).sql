@@ -19,6 +19,7 @@ SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
 -- Table structure for action_points
+-- Usado en cronjob para entrega de puntos a participantes de una rifa
 -- ----------------------------
 DROP TABLE IF EXISTS `action_points`;
 CREATE TABLE `action_points` (
@@ -32,21 +33,23 @@ CREATE TABLE `action_points` (
 
 -- ----------------------------
 -- Table structure for activity_users
+-- Usuarios Activos en la web, con información de navegador, ip, etc.
 -- ----------------------------
 DROP TABLE IF EXISTS `activity_users`;
 CREATE TABLE `activity_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_user` int(10) unsigned NOT NULL,
-  `code` char(32) CHARACTER SET utf8 NOT NULL,
+  `code` char(32) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `REMOTE_ADDR` varchar(25) CHARACTER SET utf8 NOT NULL,
-  `HTTP_USER_AGENT` varchar(200) CHARACTER SET utf8 NOT NULL,
-  `session_id` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `REMOTE_ADDR` varchar(25) NOT NULL,
+  `HTTP_USER_AGENT` varchar(200) NOT NULL,
+  `session_id` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=' Usuarios Activos en la web, con información de navegador, ip, etc.';
 
 -- ----------------------------
 -- Table structure for album
+-- Foto del usuario, Vista picture.view, Control photo.control, Usado para álbum de fotos de perfil(No incluye foto de portada).
 -- ----------------------------
 DROP TABLE IF EXISTS `album`;
 CREATE TABLE `album` (
@@ -57,10 +60,11 @@ CREATE TABLE `album` (
   `id_image_cover` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Foto del usuario, Vista picture.view, Control photo.control, Usado para álbum de fotos de perfil(No incluye foto de portada).\r\nCampos:\r\n- `leyend` mediumtext -- Campo sin uso.';
 
 -- ----------------------------
 -- Table structure for banners
+-- Información de la publicidad
 -- ----------------------------
 DROP TABLE IF EXISTS `banners`;
 CREATE TABLE `banners` (
@@ -71,10 +75,11 @@ CREATE TABLE `banners` (
   `id_publi` int(11) DEFAULT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Información de la publicidad';
 
 -- ----------------------------
 -- Table structure for banners_picture
+-- Imágenes de publicidad y su relación a dicha publicidad
 -- ----------------------------
 DROP TABLE IF EXISTS `banners_picture`;
 CREATE TABLE `banners_picture` (
@@ -86,10 +91,11 @@ CREATE TABLE `banners_picture` (
   `text` text,
   `class` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Imágenes de publicidad y su relación a dicha publicidad\r\nCampos:\r\n- `class` varchar(10) -- Sin uso aparente en el sistema';
 
 -- ----------------------------
 -- Table structure for business_card
+-- Tarjeta de Negocio
 -- ----------------------------
 DROP TABLE IF EXISTS `business_card`;
 CREATE TABLE `business_card` (
@@ -108,25 +114,26 @@ CREATE TABLE `business_card` (
   `background_url` varchar(100) DEFAULT NULL,
   `text_color` varchar(7) NOT NULL DEFAULT '#000000',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tarjetas de Negocio';
 
 -- ----------------------------
--- Table structure for cities
+-- Table structure for cities                                       --NOTA:Solo es usado el campo name
+-- Ciudades para residencia de usuarios y dirección de factura de la Store.
 -- ----------------------------
 DROP TABLE IF EXISTS `cities`;
 CREATE TABLE `cities` (
   `id` int(10) NOT NULL,
-  `name` varchar(200) CHARACTER SET utf8 NOT NULL,
-  `country` varchar(3) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `name` varchar(200) NOT NULL,
+  `country` varchar(3) NOT NULL DEFAULT '',
   `district` varchar(20) NOT NULL,
   `population` bigint(20) NOT NULL,
   `elevation` int(10) NOT NULL,
   `timezone` int(10) NOT NULL,
-  `lat` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `log` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `lat` varchar(100) NOT NULL,
+  `log` varchar(100) NOT NULL,
   `last_modification` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Ciudades para residencia de usuarios y dirección de factura de la Store.\r\nCampos:\r\n- Solo es usado el campo `name` varchar(200).';
 
 -- ----------------------------
 -- Table structure for cometchat
@@ -324,6 +331,8 @@ CREATE TABLE `cometchat_videochatsessions` (
 */
 -- ----------------------------
 -- Table structure for comments
+-- Tabla unificada de comentarios(Tags y productos).
+-- ----------------------------
 -- ----------------------------
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
@@ -332,13 +341,14 @@ CREATE TABLE `comments` (
   `id_source` int(11) NOT NULL,
   `id_user_from` int(11) NOT NULL,
   `id_user_to` int(11) NOT NULL,
-  `comment` mediumtext CHARACTER SET utf8 NOT NULL,
+  `comment` mediumtext NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla unificada de comentarios(Tags y productos).';
 
 -- ----------------------------
 -- Table structure for config_system
+-- Configuración del sistema, precios de cuentas empresa, costos de businnes cards adicionales etc.
 -- ----------------------------
 DROP TABLE IF EXISTS `config_system`;
 CREATE TABLE `config_system` (
@@ -372,10 +382,11 @@ CREATE TABLE `config_system` (
   `emails_admin_reports_tags` text,
   `porcen_reporta_tag` varchar(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Configuración del sistema, precios de cuentas empresa, costos de businnes cards adicionales etc.';
 
 -- ----------------------------
 -- Table structure for cost_points
+-- Costo de venta de punto por rango(aunque actualmente solo se usa uno solo).
 -- ----------------------------
 DROP TABLE IF EXISTS `cost_points`;
 CREATE TABLE `cost_points` (
@@ -387,10 +398,11 @@ CREATE TABLE `cost_points` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `cost` decimal(6,4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Costo de venta de punto por rango(aunque actualmente solo se usa uno solo).';
 
 -- ----------------------------
 -- Table structure for cost_publicity
+-- Costo de la publicidad sus rangos y sus click/costo.
 -- ----------------------------
 DROP TABLE IF EXISTS `cost_publicity`;
 CREATE TABLE `cost_publicity` (
@@ -403,10 +415,11 @@ CREATE TABLE `cost_publicity` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `cost` decimal(6,4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Costo de la publicidad sus rangos y sus click/costo.';
 
 -- ----------------------------
 -- Table structure for countries
+-- Países para residencia de usuarios y dirección de factura de la Store.
 -- ----------------------------
 DROP TABLE IF EXISTS `countries`;
 CREATE TABLE `countries` (
@@ -415,10 +428,12 @@ CREATE TABLE `countries` (
   `code_area` varchar(10) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Países para residencia de usuarios y dirección de factura de la Store.\r\nCampos:\r\n- `code` varchar(5),                         --NOTA:Sin uso aparente en el sistema';
 
 -- ----------------------------
 -- Table structure for currency
+-- Tipos de monedas para pagos de puntos,productos,tipos de cuenta empresa.
+-- Tabla pequeña con pocas opciones de crecimiento mejor usar UN ARRAY
 -- ----------------------------
 DROP TABLE IF EXISTS `currency`;
 CREATE TABLE `currency` (
@@ -427,10 +442,12 @@ CREATE TABLE `currency` (
   `status` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tipos de monedas para pagos de puntos,productos,tipos de cuenta empresa.\r\nTabla pequeña con pocas opciones de crecimiento mejor usar UN ARRAY.\r\nCampos:\r\n-Cual es el uso de un date en formato de moneda?';
 
 -- ----------------------------
 -- Table structure for dialogs
+-- Tabla de constantes de traducción para: Termino, privacidad, ayuda, acerca de... etc.
+-- Al ser una tabla de un solo registro y solo para almacenar constantes fijas es mejor usar un array
 -- ----------------------------
 DROP TABLE IF EXISTS `dialogs`;
 CREATE TABLE `dialogs` (
@@ -444,10 +461,11 @@ CREATE TABLE `dialogs` (
   `paypal` mediumtext,
   `blog` mediumtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla de constantes de traducción para: Termino, privacidad, ayuda, acerca de... etc.\r\nAl ser una tabla de un solo registro y solo para almacenar constantes fijas es mejor usar un array';
 
 -- ----------------------------
 -- Table structure for dislikes
+-- No me gusta en las tags.
 -- ----------------------------
 DROP TABLE IF EXISTS `dislikes`;
 CREATE TABLE `dislikes` (
@@ -457,44 +475,11 @@ CREATE TABLE `dislikes` (
   `date` datetime NOT NULL,
   `type` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for empresas
--- ----------------------------
-DROP TABLE IF EXISTS `empresas`;
-CREATE TABLE `empresas` (
-  `id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(250) COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- ----------------------------
--- Table structure for followers
--- ----------------------------
-DROP TABLE IF EXISTS `followers`;
-CREATE TABLE `followers` (
-  `id_user` int(11) NOT NULL,
-  `id_follower` int(11) NOT NULL,
-  `status` char(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for geo_ip
--- ----------------------------
-DROP TABLE IF EXISTS `geo_ip`;
-CREATE TABLE `geo_ip` (
-  `start_ip` char(15) NOT NULL,
-  `end_ip` char(15) NOT NULL,
-  `start` int(10) unsigned NOT NULL,
-  `end` int(10) unsigned NOT NULL,
-  `cc` char(2) NOT NULL,
-  `cn` varchar(50) NOT NULL,
-  `idioma` char(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='No me gusta en las tags.';
 
 -- ----------------------------
 -- Table structure for groups
+-- Información sobre grupo(Tipo, Categoría, Nombre, Foto).
 -- ----------------------------
 DROP TABLE IF EXISTS `groups`;
 CREATE TABLE `groups` (
@@ -503,7 +488,7 @@ CREATE TABLE `groups` (
   `id_category` int(10) unsigned DEFAULT NULL,
   `id_oriented` smallint(11) NOT NULL,
   `id_privacy` smallint(11) DEFAULT NULL,
-  `code` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
+  `code` varchar(40) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `description` mediumtext,
   `photo` varchar(250) DEFAULT NULL,
@@ -511,10 +496,11 @@ CREATE TABLE `groups` (
   `status` char(1) NOT NULL DEFAULT '',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Información sobre grupo(Tipo, Categoría, Nombre, Foto).';
 
 -- ----------------------------
 -- Table structure for groups_category
+-- Categorías a las que puede pertenecer un grupo
 -- ----------------------------
 DROP TABLE IF EXISTS `groups_category`;
 CREATE TABLE `groups_category` (
@@ -526,10 +512,10 @@ CREATE TABLE `groups_category` (
   `id_template` int(11) DEFAULT NULL,
   `id_template_sum` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Categorías a las que puede pertenecer un grupo';
 -- ----------------------------
 -- Table structure for groups_oriented
+-- Contantes descriptivas de la orientación de los grupos.
 -- ----------------------------
 DROP TABLE IF EXISTS `groups_oriented`;
 CREATE TABLE `groups_oriented` (
@@ -538,10 +524,12 @@ CREATE TABLE `groups_oriented` (
   `rule` smallint(11) DEFAULT NULL,
   `status` char(1) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contantes descriptivas de la orientación de los grupos.';
 
 -- ----------------------------
 -- Table structure for groups_privacy
+-- Constantes para la privacidad de los grupos(Privado, Publico, Oculto).
+-- Posiblemente sea mejor pasar esto a un arreglo ya que son pocos registros(Si no los agrega usuario de wpanel)
 -- ----------------------------
 DROP TABLE IF EXISTS `groups_privacy`;
 CREATE TABLE `groups_privacy` (
@@ -550,7 +538,7 @@ CREATE TABLE `groups_privacy` (
   `description` varchar(50) NOT NULL DEFAULT '',
   `status` char(1) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Constantes para la privacidad de los grupos(Privado, Publico, Oculto).\r\nPosiblemente sea mejor pasar esto a un arreglo ya que son pocos registros(Si no los agrega usuario de wpanel)';
 
 -- ----------------------------
 -- Table structure for images
