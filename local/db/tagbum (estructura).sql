@@ -558,14 +558,15 @@ CREATE TABLE `groups_privacy` (
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
-  `id_album` int(11) NOT NULL,
-  `image_path` varchar(150) NOT NULL,
-  `leyend` mediumtext,
+  `id_user` int(11) NOT NULL COMMENT 'Usuario a quien pertenece la imagen',
+  `id_album` int(11) NOT NULL COMMENT 'Solo se usa al momento del upload de una imagen',
+  `image_path` varchar(150) NOT NULL COMMENT 'Direccion fisica de la imagen',
+  `leyend` mediumtext COMMENT 'Actualmente no se encuentra en uso en el sitio',
   `id_images_type` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Momento en que fue agregada la imagen',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2091 DEFAULT CHARSET=utf8 COMMENT='Conjunto de imagenes que han sido almacenadas en el server, principalmente desde los usuarios';
+
 
 -- ----------------------------
 -- Table structure for images_type
@@ -575,7 +576,7 @@ CREATE TABLE `images_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Actualmente no contiene data, pero el ID parece estar siendo usado como 2 desde los uploads de las imagenes';
 
 -- ----------------------------
 -- Table structure for languages
@@ -583,11 +584,11 @@ CREATE TABLE `images_type` (
 DROP TABLE IF EXISTS `languages`;
 CREATE TABLE `languages` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `status` char(1) CHARACTER SET utf8 NOT NULL,
-  `cod` char(2) NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8 NOT NULL COMMENT 'Nombre del idioma',
+  `status` char(1) CHARACTER SET utf8 NOT NULL COMMENT 'marca para validar si se usa o no el idioma, pero no esta en uso',
+  `cod` char(2) NOT NULL COMMENT 'Codigo ISO 639-1 del idioma, ej. EN english',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tabla maestro para los idiomas del sitio, contiene el codigo ISO de los idiomas, ej. EN ENGLISH';
 
 -- ----------------------------
 -- Table structure for likes
@@ -595,12 +596,12 @@ CREATE TABLE `languages` (
 DROP TABLE IF EXISTS `likes`;
 CREATE TABLE `likes` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `id_user` bigint(11) NOT NULL,
-  `id_source` bigint(11) NOT NULL,
+  `id_user` bigint(11) NOT NULL COMMENT 'Usuario que realiza el like',
+  `id_source` bigint(11) NOT NULL COMMENT 'Elemento que recibe el like',
   `date` datetime NOT NULL,
   `type` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=205932 DEFAULT CHARSET=utf8 COMMENT='Contiene el registro de los likes hechos por los usuarios';
 
 -- ----------------------------
 -- Table structure for log_actions
@@ -608,12 +609,12 @@ CREATE TABLE `likes` (
 DROP TABLE IF EXISTS `log_actions`;
 CREATE TABLE `log_actions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `id_type` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `id_type` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Tipo de la accion almacenada proviene de type_actions',
   `id_source` int(10) unsigned NOT NULL DEFAULT '0',
-  `id_user` int(10) unsigned NOT NULL DEFAULT '0',
+  `id_user` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Usuario que realiza la accion',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=234741 DEFAULT CHARSET=utf8 COMMENT='Bitacora de las acciones que se toman dentro del site, en uso actualmente desde cronjobs';
 
 -- ----------------------------
 -- Table structure for newsletters
@@ -630,7 +631,7 @@ CREATE TABLE `newsletters` (
   `status` char(1) NOT NULL DEFAULT '1',
   `date_sent` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tabla de los envios masivos de correo, parece necesitar otra tabla llamada newsletters_batch, por lo cual parece no estar en uso\r\n';
 
 -- ----------------------------
 -- Table structure for orders
@@ -644,7 +645,7 @@ CREATE TABLE `orders` (
   `amount` decimal(10,2) NOT NULL,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Actualmente parece estar reemplazada por store_orders';
 
 -- ----------------------------
 -- Table structure for paypal
@@ -660,7 +661,7 @@ CREATE TABLE `paypal` (
   `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8 COMMENT='Usada desde el pay.controls como formato de pago para paypal';
 
 -- ----------------------------
 -- Table structure for points_publicity
@@ -676,7 +677,7 @@ CREATE TABLE `points_publicity` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `factor` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Usada desde el sellpublicity.control como lectura, no tiene inserts en el site normal';
 
 -- ----------------------------
 -- Table structure for preference_details
@@ -684,10 +685,10 @@ CREATE TABLE `points_publicity` (
 DROP TABLE IF EXISTS `preference_details`;
 CREATE TABLE `preference_details` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `id_preference` int(5) NOT NULL,
-  `detail` mediumtext NOT NULL,
+  `id_preference` int(5) NOT NULL COMMENT 'Tipo de preferencia a la que se usa',
+  `detail` mediumtext NOT NULL COMMENT 'Contenido de la preferencia, puede ser seleccionada por los usuarios',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2317 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2317 DEFAULT CHARSET=utf8 COMMENT='contiene los valores ingresados para los distintos tipos de preferencias';
 
 -- ----------------------------
 -- Table structure for preferences
@@ -697,7 +698,7 @@ CREATE TABLE `preferences` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Contiene los tipos para preference_details 1=like, 2=want, 3=need';
 
 -- ----------------------------
 -- Table structure for products_user
@@ -721,19 +722,19 @@ CREATE TABLE `products_user` (
 DROP TABLE IF EXISTS `sections_page`;
 CREATE TABLE `sections_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL COMMENT 'Nombre de la pagina o seccion del sitio',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COMMENT='Usadas desde el wpanel y como complemento de las ayudas';
 
 -- ----------------------------
 -- Table structure for sex
 -- ----------------------------
 DROP TABLE IF EXISTS `sex`;
 CREATE TABLE `sex` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `label` mediumtext,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Contiene los IDs para los sexos',
+  `label` mediumtext COMMENT 'nombre a usar para el sexo',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Contiene los IDs para los sexos\r\n';
 
 -- ----------------------------
 -- Table structure for status
@@ -743,7 +744,7 @@ CREATE TABLE `status` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_category
@@ -752,11 +753,11 @@ DROP TABLE IF EXISTS `store_category`;
 CREATE TABLE `store_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id_status` int(11) DEFAULT NULL,
-  `id_template` int(11) DEFAULT NULL,
+  `id_template` int(11) DEFAULT NULL COMMENT 'template de la traduccion',
   `name` mediumtext,
   `photo` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='Categorias de las tiendas, refiere tambien a las traducciones';
 
 -- ----------------------------
 -- Table structure for store_orders
@@ -765,10 +766,10 @@ DROP TABLE IF EXISTS `store_orders`;
 CREATE TABLE `store_orders` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id_status` int(11) DEFAULT NULL,
-  `id_user` int(11) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL COMMENT 'usuario que puso la orden',
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8 COMMENT='contiene los ids de las ordenes que los usuarios han ingresado al store';
 
 -- ----------------------------
 -- Table structure for store_orders_detail
@@ -779,12 +780,12 @@ CREATE TABLE `store_orders_detail` (
   `id_order` int(11) NOT NULL,
   `id_product` int(11) NOT NULL,
   `id_user` int(11) DEFAULT NULL,
-  `cant` int(11) NOT NULL,
-  `price` int(11) DEFAULT NULL,
+  `cant` int(11) NOT NULL COMMENT 'cantidad',
+  `price` int(11) DEFAULT NULL COMMENT 'presio al que se metio a la compra el producto',
   `id_status` int(11) DEFAULT NULL,
-  `formPayment` char(1) DEFAULT '0',
+  `formPayment` char(1) DEFAULT '0' COMMENT 'Si se paga con puntos o con moneda',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8 COMMENT='contenido de las ordenes, referencia a los productos y el precio al que fueron/son comprados';
 
 -- ----------------------------
 -- Table structure for store_products
@@ -798,17 +799,17 @@ CREATE TABLE `store_products` (
   `id_sub_category` int(11) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `description` mediumtext,
-  `stock` int(11) DEFAULT NULL,
-  `sale_points` int(11) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL COMMENT 'cantidad disponible',
+  `sale_points` int(11) DEFAULT NULL COMMENT 'cuanto cuesta en puntos',
   `photo` varchar(100) DEFAULT NULL,
   `join_date` date DEFAULT NULL,
   `update_date` date DEFAULT NULL,
   `place` char(1) DEFAULT NULL,
   `formPayment` char(2) NOT NULL DEFAULT '0',
   `hits` bigint(11) NOT NULL DEFAULT '0',
-  `video_url` varchar(200) CHARACTER SET utf8 NOT NULL,
+  `video_url` varchar(200) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Contiene los productos ofrecidos por los usuarios';
 
 -- ----------------------------
 -- Table structure for store_products_picture
@@ -820,7 +821,7 @@ CREATE TABLE `store_products_picture` (
   `picture` varchar(100) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Imagenes almacenadas para los productos';
 
 -- ----------------------------
 -- Table structure for store_raffle
@@ -830,14 +831,14 @@ CREATE TABLE `store_raffle` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_product` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `points` int(11) NOT NULL,
-  `cant_users` int(11) NOT NULL,
+  `points` int(11) NOT NULL COMMENT 'cuantos puntos cuesta entrar en la rifa',
+  `cant_users` int(11) NOT NULL COMMENT 'cantidad de usuarios que se han registrado',
   `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `end_date` date DEFAULT NULL,
   `status` int(11) NOT NULL,
   `winner` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Las rifas de productos creadas desde el site';
 
 -- ----------------------------
 -- Table structure for store_raffle_join
@@ -849,7 +850,7 @@ CREATE TABLE `store_raffle_join` (
   `id_raffle` int(11) NOT NULL,
   `date_join` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='Tabla para registrar la particcipacion de los usuarios';
 
 -- ----------------------------
 -- Table structure for store_raffle_users
@@ -859,7 +860,7 @@ CREATE TABLE `store_raffle_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(250) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='contiene los correos de los usuarios que se registran para una rifa';
 
 -- ----------------------------
 -- Table structure for store_sub_category
