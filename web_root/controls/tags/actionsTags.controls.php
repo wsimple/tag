@@ -194,68 +194,68 @@
 					}else echo '<div class="error_message"><img src="'.$config->main_server.'imgs/message_error.png" /> '.$lang["ACTIONTAG_REPORTERROR1"].'</div>';
 				}else echo '<div class="error_message"><img src="'.$config->main_server.'imgs/message_error.png" /> '.$lang["ACTIONTAG_REPORTERROR2"].'</div>';
 			break;//END report
-			// luego del preview (9)
-				case 9:
-					if(false){
-						if ($_SESSION['ws-tags']['ws-user']['update_tag_id']!=''){
-							//borramos la tag ya que estamos en un preview
-//								$delete = $GLOBALS['cn']->query("
-//									DELETE FROM tags
-//									WHERE
-//										id = '".$_SESSION['ws-tags']['ws-user']['update_tag_id']."' AND
-//										id_creator = '".$_SESSION['ws-tags']['ws-user']['id']."'
-//									LIMIT 1
-//								");
-							//borrado de las tags_privates temporales del usuario
-							$delete = $GLOBALS['cn']->query("
-								DELETE FROM tags_privates
-								WHERE
-									id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND
-									id_tag = '".$_SESSION['ws-tags']['ws-user']['update_tag_id']."'
-							");
-							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 1); //comentarios
-							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 2); //redistribuciones
-							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 3); //likes
-							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 4); //notificaciones
-							$_SESSION['ws-tags']['ws-user']['update_tag_id']='';
+// 			// luego del preview (9) ***todo esto no se usa
+// 				case 9:
+// 					if(false){
+// 						if ($_SESSION['ws-tags']['ws-user']['update_tag_id']!=''){
+// 							//borramos la tag ya que estamos en un preview
+// //								$delete = $GLOBALS['cn']->query("
+// //									DELETE FROM tags
+// //									WHERE
+// //										id = '".$_SESSION['ws-tags']['ws-user']['update_tag_id']."' AND
+// //										id_creator = '".$_SESSION['ws-tags']['ws-user']['id']."'
+// //									LIMIT 1
+// //								");
+// 							//borrado de las tags_privates temporales del usuario
+// 							$delete = $GLOBALS['cn']->query("
+// 								DELETE FROM tags_privates
+// 								WHERE
+// 									id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND
+// 									id_tag = '".$_SESSION['ws-tags']['ws-user']['update_tag_id']."'
+// 							");
+// 							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 1); //comentarios
+// 							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 2); //redistribuciones
+// 							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 3); //likes
+// 							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 4); //notificaciones
+// 							$_SESSION['ws-tags']['ws-user']['update_tag_id']='';
 
-						}// if $_POST[update]
-						//verificamos si es un tag privado
-						$query	= $GLOBALS['cn']->query("SELECT id_tag FROM tags_privates WHERE id_tag = '".$tag['id']."'");
+// 						}// if $_POST[update]
+// 						//verificamos si es un tag privado
+// 						$query	= $GLOBALS['cn']->query("SELECT id_tag FROM tags_privates WHERE id_tag = '".$tag['id']."'");
 
-						//asiganamos el status de la nueva tag
-						$status	= (mysql_num_rows($query)==0) ? 1 : 4;
-						//actualizamos tabla tags
-						$update	= $GLOBALS['cn']->query("UPDATE tags SET status = '".$status."' WHERE source = '".$tag['id']."' AND id_creator = '".$_SESSION['ws-tags']['ws-user']['id']."' AND status = '0' ");
-						//updating users data, se verifica que sea un tag valido
-						if ($status!='0'){
-							$points = getCreatingTagPoints();
-							//updateUserCounters ($_SESSION['ws-tags']['ws-user']['id'], "tags_count", '1', '+');//numero de tags
-							updateUserCounters($_SESSION['ws-tags']['ws-user']['id'], 'accumulated_points', $points, '+');//puntos del usuarios
-							updateUserCounters($_SESSION['ws-tags']['ws-user']['id'], 'current_points', $points, '+');//puntos del usuarios
-						}
-						if ($status==4){
-							//actualizamos tabla privates_tags
-							$update = $GLOBALS['cn']->query("UPDATE tags_privates SET status_tag = '".$status."'
-														 WHERE id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND
-															   id_tag  = '".$tag['id']."' AND
-															   status_tag = '0'");
-							$friends = $GLOBALS['cn']->query("SELECT id_friend, id_tag
-															  FROM tags_privates
-															  WHERE id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND
-																	id_tag  = '".$tag['id']."' AND
-																	status_tag = '4'");
-							while ($friend = mysql_fetch_assoc($friends)){
-									notifications($friend['id_friend'], $friend['id_tag'], 1, md5($friend['id_tag']));
-							} //while
-						}
-						$status =$GLOBALS['cn']->query("SELECT status, id_group, id_business_card
-															  FROM tags
-															  WHERE id  = '".$tag['id']."' ");
-						$status=mysql_fetch_assoc($status);
-						echo $status['status'].'|'.md5($status['id_group']).'|'.$status['id_business_card'];
-					}
-				break;
+// 						//asiganamos el status de la nueva tag
+// 						$status	= (mysql_num_rows($query)==0) ? 1 : 4;
+// 						//actualizamos tabla tags
+// 						$update	= $GLOBALS['cn']->query("UPDATE tags SET status = '".$status."' WHERE source = '".$tag['id']."' AND id_creator = '".$_SESSION['ws-tags']['ws-user']['id']."' AND status = '0' ");
+// 						//updating users data, se verifica que sea un tag valido
+// 						if ($status!='0'){
+// 							$points = getCreatingTagPoints();
+// 							//updateUserCounters ($_SESSION['ws-tags']['ws-user']['id'], "tags_count", '1', '+');//numero de tags
+// 							updateUserCounters($_SESSION['ws-tags']['ws-user']['id'], 'accumulated_points', $points, '+');//puntos del usuarios
+// 							updateUserCounters($_SESSION['ws-tags']['ws-user']['id'], 'current_points', $points, '+');//puntos del usuarios
+// 						}
+// 						if ($status==4){
+// 							//actualizamos tabla privates_tags
+// 							$update = $GLOBALS['cn']->query("UPDATE tags_privates SET status_tag = '".$status."'
+// 														 WHERE id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND
+// 															   id_tag  = '".$tag['id']."' AND
+// 															   status_tag = '0'");
+// 							$friends = $GLOBALS['cn']->query("SELECT id_friend, id_tag
+// 															  FROM tags_privates
+// 															  WHERE id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND
+// 																	id_tag  = '".$tag['id']."' AND
+// 																	status_tag = '4'");
+// 							while ($friend = mysql_fetch_assoc($friends)){
+// 									notifications($friend['id_friend'], $friend['id_tag'], 1, md5($friend['id_tag']));
+// 							} //while
+// 						}
+// 						$status =$GLOBALS['cn']->query("SELECT status, id_group, id_business_card
+// 															  FROM tags
+// 															  WHERE id  = '".$tag['id']."' ");
+// 						$status=mysql_fetch_assoc($status);
+// 						echo $status['status'].'|'.md5($status['id_group']).'|'.$status['id_business_card'];
+// 					}
+// 				break;
 			// END - luego del preview (9)
 				//sponsor tag
 				case 10:
