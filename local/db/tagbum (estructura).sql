@@ -15,6 +15,8 @@ Date: 2015-03-10 08:47:20
 
 CREATE DATABASE tagbum_prod CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+USE tagbum_prod;
+
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -131,197 +133,197 @@ CREATE TABLE `cities` (
 -- ----------------------------
 -- Table structure for cometchat
 -- ----------------------------
-/*DROP TABLE IF EXISTS `cometchat`;
-CREATE TABLE `cometchat` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `from` int(10) unsigned NOT NULL,
-  `to` int(10) unsigned NOT NULL,
-  `message` text NOT NULL,
-  `sent` int(10) unsigned NOT NULL DEFAULT '0',
-  `read` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `direction` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `to` (`to`),
-  KEY `from` (`from`),
-  KEY `direction` (`direction`),
-  KEY `read` (`read`),
-  KEY `sent` (`sent`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat`;
+-- CREATE TABLE `cometchat` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `from` int(10) unsigned NOT NULL,
+--   `to` int(10) unsigned NOT NULL,
+--   `message` text NOT NULL,
+--   `sent` int(10) unsigned NOT NULL DEFAULT '0',
+--   `read` tinyint(1) unsigned NOT NULL DEFAULT '0',
+--   `direction` tinyint(1) unsigned NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`id`),
+--   KEY `to` (`to`),
+--   KEY `from` (`from`),
+--   KEY `direction` (`direction`),
+--   KEY `read` (`read`),
+--   KEY `sent` (`sent`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_announcements
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_announcements`;
-CREATE TABLE `cometchat_announcements` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `announcement` text NOT NULL,
-  `time` int(10) unsigned NOT NULL,
-  `to` int(10) NOT NULL,
-  `recd` int(1) NOT NULL DEFAULT '0',
-  `integer` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `to` (`to`),
-  KEY `time` (`time`),
-  KEY `to_id` (`to`,`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_announcements`;
+-- CREATE TABLE `cometchat_announcements` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `announcement` text NOT NULL,
+--   `time` int(10) unsigned NOT NULL,
+--   `to` int(10) NOT NULL,
+--   `recd` int(1) NOT NULL DEFAULT '0',
+--   `integer` int(1) NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`id`),
+--   KEY `to` (`to`),
+--   KEY `time` (`time`),
+--   KEY `to_id` (`to`,`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_apehistory
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_apehistory`;
-CREATE TABLE `cometchat_apehistory` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `channel` varchar(255) NOT NULL,
-  `message` text NOT NULL,
-  `sent` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `channel` (`channel`),
-  KEY `sent` (`sent`),
-  KEY `channel_sent` (`channel`,`sent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_apehistory`;
+-- CREATE TABLE `cometchat_apehistory` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `channel` varchar(255) NOT NULL,
+--   `message` text NOT NULL,
+--   `sent` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `channel` (`channel`),
+--   KEY `sent` (`sent`),
+--   KEY `channel_sent` (`channel`,`sent`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_block
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_block`;
-CREATE TABLE `cometchat_block` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `fromid` int(10) unsigned NOT NULL,
-  `toid` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fromid` (`fromid`),
-  KEY `toid` (`toid`),
-  KEY `fromid_toid` (`fromid`,`toid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_block`;
+-- CREATE TABLE `cometchat_block` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `fromid` int(10) unsigned NOT NULL,
+--   `toid` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `fromid` (`fromid`),
+--   KEY `toid` (`toid`),
+--   KEY `fromid_toid` (`fromid`,`toid`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_chatroommessages
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_chatroommessages`;
-CREATE TABLE `cometchat_chatroommessages` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `userid` int(10) unsigned NOT NULL,
-  `chatroomid` int(10) unsigned NOT NULL,
-  `message` text NOT NULL,
-  `sent` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `userid` (`userid`),
-  KEY `chatroomid` (`chatroomid`),
-  KEY `sent` (`sent`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_chatroommessages`;
+-- CREATE TABLE `cometchat_chatroommessages` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `userid` int(10) unsigned NOT NULL,
+--   `chatroomid` int(10) unsigned NOT NULL,
+--   `message` text NOT NULL,
+--   `sent` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `userid` (`userid`),
+--   KEY `chatroomid` (`chatroomid`),
+--   KEY `sent` (`sent`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_chatrooms
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_chatrooms`;
-CREATE TABLE `cometchat_chatrooms` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `lastactivity` int(10) unsigned NOT NULL,
-  `createdby` int(10) unsigned NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `type` tinyint(1) unsigned NOT NULL,
-  `vidsession` varchar(512) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `lastactivity` (`lastactivity`),
-  KEY `createdby` (`createdby`),
-  KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_chatrooms`;
+-- CREATE TABLE `cometchat_chatrooms` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `name` varchar(255) NOT NULL,
+--   `lastactivity` int(10) unsigned NOT NULL,
+--   `createdby` int(10) unsigned NOT NULL,
+--   `password` varchar(255) NOT NULL,
+--   `type` tinyint(1) unsigned NOT NULL,
+--   `vidsession` varchar(512) DEFAULT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `lastactivity` (`lastactivity`),
+--   KEY `createdby` (`createdby`),
+--   KEY `type` (`type`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_chatrooms_users
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_chatrooms_users`;
-CREATE TABLE `cometchat_chatrooms_users` (
-  `userid` int(10) unsigned NOT NULL,
-  `chatroomid` int(10) unsigned NOT NULL,
-  `lastactivity` int(10) unsigned NOT NULL,
-  `isbanned` int(1) DEFAULT '0',
-  PRIMARY KEY (`userid`,`chatroomid`) USING BTREE,
-  KEY `chatroomid` (`chatroomid`),
-  KEY `lastactivity` (`lastactivity`),
-  KEY `userid` (`userid`),
-  KEY `userid_chatroomid` (`chatroomid`,`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_chatrooms_users`;
+-- CREATE TABLE `cometchat_chatrooms_users` (
+--   `userid` int(10) unsigned NOT NULL,
+--   `chatroomid` int(10) unsigned NOT NULL,
+--   `lastactivity` int(10) unsigned NOT NULL,
+--   `isbanned` int(1) DEFAULT '0',
+--   PRIMARY KEY (`userid`,`chatroomid`) USING BTREE,
+--   KEY `chatroomid` (`chatroomid`),
+--   KEY `lastactivity` (`lastactivity`),
+--   KEY `userid` (`userid`),
+--   KEY `userid_chatroomid` (`chatroomid`,`userid`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_comethistory
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_comethistory`;
-CREATE TABLE `cometchat_comethistory` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `channel` varchar(255) NOT NULL,
-  `message` text NOT NULL,
-  `sent` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `channel` (`channel`),
-  KEY `sent` (`sent`),
-  KEY `channel_sent` (`channel`,`sent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_comethistory`;
+-- CREATE TABLE `cometchat_comethistory` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `channel` varchar(255) NOT NULL,
+--   `message` text NOT NULL,
+--   `sent` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `channel` (`channel`),
+--   KEY `sent` (`sent`),
+--   KEY `channel_sent` (`channel`,`sent`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_guests
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_guests`;
-CREATE TABLE `cometchat_guests` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `lastactivity` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `lastactivity` (`lastactivity`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_guests`;
+-- CREATE TABLE `cometchat_guests` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `name` varchar(255) NOT NULL,
+--   `lastactivity` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `lastactivity` (`lastactivity`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_messages_old
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_messages_old`;
-CREATE TABLE `cometchat_messages_old` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `from` int(10) unsigned NOT NULL,
-  `to` int(10) unsigned NOT NULL,
-  `message` text NOT NULL,
-  `sent` int(10) unsigned NOT NULL DEFAULT '0',
-  `read` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `direction` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `to` (`to`),
-  KEY `from` (`from`),
-  KEY `direction` (`direction`),
-  KEY `read` (`read`),
-  KEY `sent` (`sent`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_messages_old`;
+-- CREATE TABLE `cometchat_messages_old` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `from` int(10) unsigned NOT NULL,
+--   `to` int(10) unsigned NOT NULL,
+--   `message` text NOT NULL,
+--   `sent` int(10) unsigned NOT NULL DEFAULT '0',
+--   `read` tinyint(1) unsigned NOT NULL DEFAULT '0',
+--   `direction` tinyint(1) unsigned NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`id`),
+--   KEY `to` (`to`),
+--   KEY `from` (`from`),
+--   KEY `direction` (`direction`),
+--   KEY `read` (`read`),
+--   KEY `sent` (`sent`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_status
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_status`;
-CREATE TABLE `cometchat_status` (
-  `userid` int(10) unsigned NOT NULL,
-  `message` text,
-  `status` enum('available','away','busy','invisible','offline') DEFAULT NULL,
-  `typingto` int(10) unsigned DEFAULT NULL,
-  `typingtime` int(10) unsigned DEFAULT NULL,
-  `isdevice` int(1) unsigned NOT NULL DEFAULT '0',
-  `lastactivity` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`userid`),
-  KEY `typingto` (`typingto`),
-  KEY `typingtime` (`typingtime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_status`;
+-- CREATE TABLE `cometchat_status` (
+--   `userid` int(10) unsigned NOT NULL,
+--   `message` text,
+--   `status` enum('available','away','busy','invisible','offline') DEFAULT NULL,
+--   `typingto` int(10) unsigned DEFAULT NULL,
+--   `typingtime` int(10) unsigned DEFAULT NULL,
+--   `isdevice` int(1) unsigned NOT NULL DEFAULT '0',
+--   `lastactivity` int(10) unsigned NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`userid`),
+--   KEY `typingto` (`typingto`),
+--   KEY `typingtime` (`typingtime`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_videochatsessions
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_videochatsessions`;
-CREATE TABLE `cometchat_videochatsessions` (
-  `username` varchar(255) NOT NULL,
-  `identity` varchar(255) NOT NULL,
-  `timestamp` int(10) unsigned DEFAULT '0',
-  PRIMARY KEY (`username`),
-  KEY `username` (`username`),
-  KEY `identity` (`identity`),
-  KEY `timestamp` (`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-*/
+-- DROP TABLE IF EXISTS `cometchat_videochatsessions`;
+-- CREATE TABLE `cometchat_videochatsessions` (
+--   `username` varchar(255) NOT NULL,
+--   `identity` varchar(255) NOT NULL,
+--   `timestamp` int(10) unsigned DEFAULT '0',
+--   PRIMARY KEY (`username`),
+--   KEY `username` (`username`),
+--   KEY `identity` (`identity`),
+--   KEY `timestamp` (`timestamp`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- ----------------------------
 -- Table structure for comments
 -- ----------------------------
