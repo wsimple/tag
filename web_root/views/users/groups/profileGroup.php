@@ -1,7 +1,24 @@
 <div class="group-details" id="taglist-box">
+
 	<div class="ui-single-box-title" style="display: none;">
-		<span style="float:left;"><a href="<?=base_url('groups')?>" title=""><?=$lang['GROUPS_TITLENAMEGROUPPREFIJO']?></a>&nbsp;>&nbsp;</span><div id="groupTitleStyle" title=""></span></div>
-		<ul id="subMenuAdminGroups" class="mainMenu" style="float: right; background: #FFF;">
+		
+		<span style="float:left;">
+			<a href="<?=base_url('groups')?>" title=""><?=$lang['GROUPS_TITLENAMEGROUPPREFIJO']?></a>&nbsp;>&nbsp;
+		</span>
+		<div id="groupTitleStyle" title=""></div>
+		
+		<!-- <a id="btncreateTags" class="float-right" ><?=$lang['MAINMNU_CREATETAG']?></a> -->
+		<form>
+			<div class="tags-size">
+				<?=$lang['RADIOBTN_VIEW']?>:
+				<input type="radio" name="radio" id="normal" <?=$_SESSION['ws-tags']['ws-user']['view_type_timeline']==0?'checked="checked"':''?>/><label title="Normal Tags" for="normal">&nbsp;</label>
+				<input type="radio" name="radio" id="mini" <?=$_SESSION['ws-tags']['ws-user']['view_type_timeline']!=0?'checked="checked"':''?>/><label title="Mini Tags" for="mini">&nbsp;</label>
+			</div>
+		</form>
+	</div>
+		<div class="ui-single-box-title" >
+	    
+		<ul id="subMenuAdminGroups" class="mainMenu float-left" style=" background: #FFF;">
 			<li>
 				<a class="fNiv mo" ><?=$lang['GROUPS_MENUADMINISTRATION']?></a>
 				<ul>
@@ -13,15 +30,9 @@
 				</ul>
 			</li>
 		</ul>
-		<a id="btnNewGroup" class="float-right" style="margin-left:90px"><?=$lang['GROUPS_TITLEWINDOWSNEW']?></a>
-		<!-- <a id="btncreateTags" class="float-right" ><?=$lang['MAINMNU_CREATETAG']?></a> -->
-		<form>
-			<div class="tags-size">
-				<?=$lang['RADIOBTN_VIEW']?>:
-				<input type="radio" name="radio" id="normal" <?=$_SESSION['ws-tags']['ws-user']['view_type_timeline']==0?'checked="checked"':''?>/><label title="Normal Tags" for="normal">&nbsp;</label>
-				<input type="radio" name="radio" id="mini" <?=$_SESSION['ws-tags']['ws-user']['view_type_timeline']!=0?'checked="checked"':''?>/><label title="Mini Tags" for="mini">&nbsp;</label>
-			</div>
-		</form>
+		<a id="btnNewGroup" class="float-left" ><?=$lang['GROUPS_TITLEWINDOWSNEW']?></a>
+		
+	
 	</div>
 	<br/>
     <div id="info-top-groups"></div>
