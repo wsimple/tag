@@ -2933,7 +2933,6 @@ a.plus:hover{
 #groupTitleStyle{
 	height:20px;
 	word-wrap:break-word;
-	width:100%;
 	text-overflow:ellipsis;
 	overflow:hidden;
 	white-space:nowrap;

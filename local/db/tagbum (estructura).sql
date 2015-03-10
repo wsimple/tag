@@ -15,6 +15,8 @@ Date: 2015-03-10 08:47:20
 
 CREATE DATABASE tagbum_prod CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+USE tagbum_prod;
+
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -138,197 +140,197 @@ CREATE TABLE `cities` (
 -- ----------------------------
 -- Table structure for cometchat
 -- ----------------------------
-/*DROP TABLE IF EXISTS `cometchat`;
-CREATE TABLE `cometchat` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `from` int(10) unsigned NOT NULL,
-  `to` int(10) unsigned NOT NULL,
-  `message` text NOT NULL,
-  `sent` int(10) unsigned NOT NULL DEFAULT '0',
-  `read` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `direction` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `to` (`to`),
-  KEY `from` (`from`),
-  KEY `direction` (`direction`),
-  KEY `read` (`read`),
-  KEY `sent` (`sent`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat`;
+-- CREATE TABLE `cometchat` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `from` int(10) unsigned NOT NULL,
+--   `to` int(10) unsigned NOT NULL,
+--   `message` text NOT NULL,
+--   `sent` int(10) unsigned NOT NULL DEFAULT '0',
+--   `read` tinyint(1) unsigned NOT NULL DEFAULT '0',
+--   `direction` tinyint(1) unsigned NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`id`),
+--   KEY `to` (`to`),
+--   KEY `from` (`from`),
+--   KEY `direction` (`direction`),
+--   KEY `read` (`read`),
+--   KEY `sent` (`sent`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_announcements
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_announcements`;
-CREATE TABLE `cometchat_announcements` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `announcement` text NOT NULL,
-  `time` int(10) unsigned NOT NULL,
-  `to` int(10) NOT NULL,
-  `recd` int(1) NOT NULL DEFAULT '0',
-  `integer` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `to` (`to`),
-  KEY `time` (`time`),
-  KEY `to_id` (`to`,`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_announcements`;
+-- CREATE TABLE `cometchat_announcements` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `announcement` text NOT NULL,
+--   `time` int(10) unsigned NOT NULL,
+--   `to` int(10) NOT NULL,
+--   `recd` int(1) NOT NULL DEFAULT '0',
+--   `integer` int(1) NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`id`),
+--   KEY `to` (`to`),
+--   KEY `time` (`time`),
+--   KEY `to_id` (`to`,`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_apehistory
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_apehistory`;
-CREATE TABLE `cometchat_apehistory` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `channel` varchar(255) NOT NULL,
-  `message` text NOT NULL,
-  `sent` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `channel` (`channel`),
-  KEY `sent` (`sent`),
-  KEY `channel_sent` (`channel`,`sent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_apehistory`;
+-- CREATE TABLE `cometchat_apehistory` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `channel` varchar(255) NOT NULL,
+--   `message` text NOT NULL,
+--   `sent` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `channel` (`channel`),
+--   KEY `sent` (`sent`),
+--   KEY `channel_sent` (`channel`,`sent`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_block
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_block`;
-CREATE TABLE `cometchat_block` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `fromid` int(10) unsigned NOT NULL,
-  `toid` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fromid` (`fromid`),
-  KEY `toid` (`toid`),
-  KEY `fromid_toid` (`fromid`,`toid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_block`;
+-- CREATE TABLE `cometchat_block` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `fromid` int(10) unsigned NOT NULL,
+--   `toid` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `fromid` (`fromid`),
+--   KEY `toid` (`toid`),
+--   KEY `fromid_toid` (`fromid`,`toid`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_chatroommessages
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_chatroommessages`;
-CREATE TABLE `cometchat_chatroommessages` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `userid` int(10) unsigned NOT NULL,
-  `chatroomid` int(10) unsigned NOT NULL,
-  `message` text NOT NULL,
-  `sent` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `userid` (`userid`),
-  KEY `chatroomid` (`chatroomid`),
-  KEY `sent` (`sent`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_chatroommessages`;
+-- CREATE TABLE `cometchat_chatroommessages` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `userid` int(10) unsigned NOT NULL,
+--   `chatroomid` int(10) unsigned NOT NULL,
+--   `message` text NOT NULL,
+--   `sent` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `userid` (`userid`),
+--   KEY `chatroomid` (`chatroomid`),
+--   KEY `sent` (`sent`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_chatrooms
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_chatrooms`;
-CREATE TABLE `cometchat_chatrooms` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `lastactivity` int(10) unsigned NOT NULL,
-  `createdby` int(10) unsigned NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `type` tinyint(1) unsigned NOT NULL,
-  `vidsession` varchar(512) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `lastactivity` (`lastactivity`),
-  KEY `createdby` (`createdby`),
-  KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_chatrooms`;
+-- CREATE TABLE `cometchat_chatrooms` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `name` varchar(255) NOT NULL,
+--   `lastactivity` int(10) unsigned NOT NULL,
+--   `createdby` int(10) unsigned NOT NULL,
+--   `password` varchar(255) NOT NULL,
+--   `type` tinyint(1) unsigned NOT NULL,
+--   `vidsession` varchar(512) DEFAULT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `lastactivity` (`lastactivity`),
+--   KEY `createdby` (`createdby`),
+--   KEY `type` (`type`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_chatrooms_users
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_chatrooms_users`;
-CREATE TABLE `cometchat_chatrooms_users` (
-  `userid` int(10) unsigned NOT NULL,
-  `chatroomid` int(10) unsigned NOT NULL,
-  `lastactivity` int(10) unsigned NOT NULL,
-  `isbanned` int(1) DEFAULT '0',
-  PRIMARY KEY (`userid`,`chatroomid`) USING BTREE,
-  KEY `chatroomid` (`chatroomid`),
-  KEY `lastactivity` (`lastactivity`),
-  KEY `userid` (`userid`),
-  KEY `userid_chatroomid` (`chatroomid`,`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_chatrooms_users`;
+-- CREATE TABLE `cometchat_chatrooms_users` (
+--   `userid` int(10) unsigned NOT NULL,
+--   `chatroomid` int(10) unsigned NOT NULL,
+--   `lastactivity` int(10) unsigned NOT NULL,
+--   `isbanned` int(1) DEFAULT '0',
+--   PRIMARY KEY (`userid`,`chatroomid`) USING BTREE,
+--   KEY `chatroomid` (`chatroomid`),
+--   KEY `lastactivity` (`lastactivity`),
+--   KEY `userid` (`userid`),
+--   KEY `userid_chatroomid` (`chatroomid`,`userid`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_comethistory
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_comethistory`;
-CREATE TABLE `cometchat_comethistory` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `channel` varchar(255) NOT NULL,
-  `message` text NOT NULL,
-  `sent` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `channel` (`channel`),
-  KEY `sent` (`sent`),
-  KEY `channel_sent` (`channel`,`sent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_comethistory`;
+-- CREATE TABLE `cometchat_comethistory` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `channel` varchar(255) NOT NULL,
+--   `message` text NOT NULL,
+--   `sent` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `channel` (`channel`),
+--   KEY `sent` (`sent`),
+--   KEY `channel_sent` (`channel`,`sent`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_guests
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_guests`;
-CREATE TABLE `cometchat_guests` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `lastactivity` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `lastactivity` (`lastactivity`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_guests`;
+-- CREATE TABLE `cometchat_guests` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `name` varchar(255) NOT NULL,
+--   `lastactivity` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `lastactivity` (`lastactivity`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_messages_old
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_messages_old`;
-CREATE TABLE `cometchat_messages_old` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `from` int(10) unsigned NOT NULL,
-  `to` int(10) unsigned NOT NULL,
-  `message` text NOT NULL,
-  `sent` int(10) unsigned NOT NULL DEFAULT '0',
-  `read` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `direction` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `to` (`to`),
-  KEY `from` (`from`),
-  KEY `direction` (`direction`),
-  KEY `read` (`read`),
-  KEY `sent` (`sent`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_messages_old`;
+-- CREATE TABLE `cometchat_messages_old` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `from` int(10) unsigned NOT NULL,
+--   `to` int(10) unsigned NOT NULL,
+--   `message` text NOT NULL,
+--   `sent` int(10) unsigned NOT NULL DEFAULT '0',
+--   `read` tinyint(1) unsigned NOT NULL DEFAULT '0',
+--   `direction` tinyint(1) unsigned NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`id`),
+--   KEY `to` (`to`),
+--   KEY `from` (`from`),
+--   KEY `direction` (`direction`),
+--   KEY `read` (`read`),
+--   KEY `sent` (`sent`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_status
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_status`;
-CREATE TABLE `cometchat_status` (
-  `userid` int(10) unsigned NOT NULL,
-  `message` text,
-  `status` enum('available','away','busy','invisible','offline') DEFAULT NULL,
-  `typingto` int(10) unsigned DEFAULT NULL,
-  `typingtime` int(10) unsigned DEFAULT NULL,
-  `isdevice` int(1) unsigned NOT NULL DEFAULT '0',
-  `lastactivity` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`userid`),
-  KEY `typingto` (`typingto`),
-  KEY `typingtime` (`typingtime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE IF EXISTS `cometchat_status`;
+-- CREATE TABLE `cometchat_status` (
+--   `userid` int(10) unsigned NOT NULL,
+--   `message` text,
+--   `status` enum('available','away','busy','invisible','offline') DEFAULT NULL,
+--   `typingto` int(10) unsigned DEFAULT NULL,
+--   `typingtime` int(10) unsigned DEFAULT NULL,
+--   `isdevice` int(1) unsigned NOT NULL DEFAULT '0',
+--   `lastactivity` int(10) unsigned NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`userid`),
+--   KEY `typingto` (`typingto`),
+--   KEY `typingtime` (`typingtime`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cometchat_videochatsessions
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat_videochatsessions`;
-CREATE TABLE `cometchat_videochatsessions` (
-  `username` varchar(255) NOT NULL,
-  `identity` varchar(255) NOT NULL,
-  `timestamp` int(10) unsigned DEFAULT '0',
-  PRIMARY KEY (`username`),
-  KEY `username` (`username`),
-  KEY `identity` (`identity`),
-  KEY `timestamp` (`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-*/
+-- DROP TABLE IF EXISTS `cometchat_videochatsessions`;
+-- CREATE TABLE `cometchat_videochatsessions` (
+--   `username` varchar(255) NOT NULL,
+--   `identity` varchar(255) NOT NULL,
+--   `timestamp` int(10) unsigned DEFAULT '0',
+--   PRIMARY KEY (`username`),
+--   KEY `username` (`username`),
+--   KEY `identity` (`identity`),
+--   KEY `timestamp` (`timestamp`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- ----------------------------
 -- Table structure for comments
 -- Tabla unificada de comentarios(Tags y productos).
@@ -546,14 +548,15 @@ CREATE TABLE `groups_privacy` (
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
-  `id_album` int(11) NOT NULL,
-  `image_path` varchar(150) NOT NULL,
-  `leyend` mediumtext,
+  `id_user` int(11) NOT NULL COMMENT 'Usuario a quien pertenece la imagen',
+  `id_album` int(11) NOT NULL COMMENT 'Solo se usa al momento del upload de una imagen',
+  `image_path` varchar(150) NOT NULL COMMENT 'Direccion fisica de la imagen',
+  `leyend` mediumtext COMMENT 'Actualmente no se encuentra en uso en el sitio',
   `id_images_type` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Momento en que fue agregada la imagen',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2091 DEFAULT CHARSET=utf8 COMMENT='Conjunto de imagenes que han sido almacenadas en el server, principalmente desde los usuarios';
+
 
 -- ----------------------------
 -- Table structure for images_type
@@ -563,7 +566,7 @@ CREATE TABLE `images_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Actualmente no contiene data, pero el ID parece estar siendo usado como 2 desde los uploads de las imagenes';
 
 -- ----------------------------
 -- Table structure for languages
@@ -571,11 +574,11 @@ CREATE TABLE `images_type` (
 DROP TABLE IF EXISTS `languages`;
 CREATE TABLE `languages` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `status` char(1) CHARACTER SET utf8 NOT NULL,
-  `cod` char(2) NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8 NOT NULL COMMENT 'Nombre del idioma',
+  `status` char(1) CHARACTER SET utf8 NOT NULL COMMENT 'marca para validar si se usa o no el idioma, pero no esta en uso',
+  `cod` char(2) NOT NULL COMMENT 'Codigo ISO 639-1 del idioma, ej. EN english',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tabla maestro para los idiomas del sitio, contiene el codigo ISO de los idiomas, ej. EN ENGLISH';
 
 -- ----------------------------
 -- Table structure for likes
@@ -583,12 +586,12 @@ CREATE TABLE `languages` (
 DROP TABLE IF EXISTS `likes`;
 CREATE TABLE `likes` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `id_user` bigint(11) NOT NULL,
-  `id_source` bigint(11) NOT NULL,
+  `id_user` bigint(11) NOT NULL COMMENT 'Usuario que realiza el like',
+  `id_source` bigint(11) NOT NULL COMMENT 'Elemento que recibe el like',
   `date` datetime NOT NULL,
   `type` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=205932 DEFAULT CHARSET=utf8 COMMENT='Contiene el registro de los likes hechos por los usuarios';
 
 -- ----------------------------
 -- Table structure for log_actions
@@ -596,12 +599,12 @@ CREATE TABLE `likes` (
 DROP TABLE IF EXISTS `log_actions`;
 CREATE TABLE `log_actions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `id_type` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `id_type` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Tipo de la accion almacenada proviene de type_actions',
   `id_source` int(10) unsigned NOT NULL DEFAULT '0',
-  `id_user` int(10) unsigned NOT NULL DEFAULT '0',
+  `id_user` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Usuario que realiza la accion',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=234741 DEFAULT CHARSET=utf8 COMMENT='Bitacora de las acciones que se toman dentro del site, en uso actualmente desde cronjobs';
 
 -- ----------------------------
 -- Table structure for newsletters
@@ -618,7 +621,7 @@ CREATE TABLE `newsletters` (
   `status` char(1) NOT NULL DEFAULT '1',
   `date_sent` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tabla de los envios masivos de correo, parece necesitar otra tabla llamada newsletters_batch, por lo cual parece no estar en uso\r\n';
 
 -- ----------------------------
 -- Table structure for orders
@@ -632,7 +635,7 @@ CREATE TABLE `orders` (
   `amount` decimal(10,2) NOT NULL,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Actualmente parece estar reemplazada por store_orders';
 
 -- ----------------------------
 -- Table structure for paypal
@@ -648,7 +651,7 @@ CREATE TABLE `paypal` (
   `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8 COMMENT='Usada desde el pay.controls como formato de pago para paypal';
 
 -- ----------------------------
 -- Table structure for points_publicity
@@ -664,7 +667,7 @@ CREATE TABLE `points_publicity` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `factor` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Usada desde el sellpublicity.control como lectura, no tiene inserts en el site normal';
 
 -- ----------------------------
 -- Table structure for preference_details
@@ -672,10 +675,10 @@ CREATE TABLE `points_publicity` (
 DROP TABLE IF EXISTS `preference_details`;
 CREATE TABLE `preference_details` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `id_preference` int(5) NOT NULL,
-  `detail` mediumtext NOT NULL,
+  `id_preference` int(5) NOT NULL COMMENT 'Tipo de preferencia a la que se usa',
+  `detail` mediumtext NOT NULL COMMENT 'Contenido de la preferencia, puede ser seleccionada por los usuarios',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2317 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2317 DEFAULT CHARSET=utf8 COMMENT='contiene los valores ingresados para los distintos tipos de preferencias';
 
 -- ----------------------------
 -- Table structure for preferences
@@ -685,7 +688,7 @@ CREATE TABLE `preferences` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Contiene los tipos para preference_details 1=like, 2=want, 3=need';
 
 -- ----------------------------
 -- Table structure for products_user
@@ -709,19 +712,19 @@ CREATE TABLE `products_user` (
 DROP TABLE IF EXISTS `sections_page`;
 CREATE TABLE `sections_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL COMMENT 'Nombre de la pagina o seccion del sitio',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COMMENT='Usadas desde el wpanel y como complemento de las ayudas';
 
 -- ----------------------------
 -- Table structure for sex
 -- ----------------------------
 DROP TABLE IF EXISTS `sex`;
 CREATE TABLE `sex` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `label` mediumtext,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Contiene los IDs para los sexos',
+  `label` mediumtext COMMENT 'nombre a usar para el sexo',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Contiene los IDs para los sexos\r\n';
 
 -- ----------------------------
 -- Table structure for status
@@ -731,7 +734,7 @@ CREATE TABLE `status` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_category
@@ -740,11 +743,11 @@ DROP TABLE IF EXISTS `store_category`;
 CREATE TABLE `store_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id_status` int(11) DEFAULT NULL,
-  `id_template` int(11) DEFAULT NULL,
+  `id_template` int(11) DEFAULT NULL COMMENT 'template de la traduccion',
   `name` mediumtext,
   `photo` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='Categorias de las tiendas, refiere tambien a las traducciones';
 
 -- ----------------------------
 -- Table structure for store_orders
@@ -753,10 +756,10 @@ DROP TABLE IF EXISTS `store_orders`;
 CREATE TABLE `store_orders` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id_status` int(11) DEFAULT NULL,
-  `id_user` int(11) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL COMMENT 'usuario que puso la orden',
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8 COMMENT='contiene los ids de las ordenes que los usuarios han ingresado al store';
 
 -- ----------------------------
 -- Table structure for store_orders_detail
@@ -767,12 +770,12 @@ CREATE TABLE `store_orders_detail` (
   `id_order` int(11) NOT NULL,
   `id_product` int(11) NOT NULL,
   `id_user` int(11) DEFAULT NULL,
-  `cant` int(11) NOT NULL,
-  `price` int(11) DEFAULT NULL,
+  `cant` int(11) NOT NULL COMMENT 'cantidad',
+  `price` int(11) DEFAULT NULL COMMENT 'presio al que se metio a la compra el producto',
   `id_status` int(11) DEFAULT NULL,
-  `formPayment` char(1) DEFAULT '0',
+  `formPayment` char(1) DEFAULT '0' COMMENT 'Si se paga con puntos o con moneda',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8 COMMENT='contenido de las ordenes, referencia a los productos y el precio al que fueron/son comprados';
 
 -- ----------------------------
 -- Table structure for store_products
@@ -786,17 +789,17 @@ CREATE TABLE `store_products` (
   `id_sub_category` int(11) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `description` mediumtext,
-  `stock` int(11) DEFAULT NULL,
-  `sale_points` int(11) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL COMMENT 'cantidad disponible',
+  `sale_points` int(11) DEFAULT NULL COMMENT 'cuanto cuesta en puntos',
   `photo` varchar(100) DEFAULT NULL,
   `join_date` date DEFAULT NULL,
   `update_date` date DEFAULT NULL,
   `place` char(1) DEFAULT NULL,
   `formPayment` char(2) NOT NULL DEFAULT '0',
   `hits` bigint(11) NOT NULL DEFAULT '0',
-  `video_url` varchar(200) CHARACTER SET utf8 NOT NULL,
+  `video_url` varchar(200) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Contiene los productos ofrecidos por los usuarios';
 
 -- ----------------------------
 -- Table structure for store_products_picture
@@ -808,7 +811,7 @@ CREATE TABLE `store_products_picture` (
   `picture` varchar(100) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Imagenes almacenadas para los productos';
 
 -- ----------------------------
 -- Table structure for store_raffle
@@ -818,14 +821,14 @@ CREATE TABLE `store_raffle` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_product` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `points` int(11) NOT NULL,
-  `cant_users` int(11) NOT NULL,
+  `points` int(11) NOT NULL COMMENT 'cuantos puntos cuesta entrar en la rifa',
+  `cant_users` int(11) NOT NULL COMMENT 'cantidad de usuarios que se han registrado',
   `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `end_date` date DEFAULT NULL,
   `status` int(11) NOT NULL,
   `winner` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Las rifas de productos creadas desde el site';
 
 -- ----------------------------
 -- Table structure for store_raffle_join
@@ -837,7 +840,7 @@ CREATE TABLE `store_raffle_join` (
   `id_raffle` int(11) NOT NULL,
   `date_join` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='Tabla para registrar la particcipacion de los usuarios';
 
 -- ----------------------------
 -- Table structure for store_raffle_users
@@ -847,23 +850,25 @@ CREATE TABLE `store_raffle_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(250) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='contiene los correos de los usuarios que se registran para una rifa';
 
 -- ----------------------------
 -- Table structure for store_sub_category
+-- tabla requerida del store, guarda la descripción de una sub-categoría de las categoría
 -- ----------------------------
 DROP TABLE IF EXISTS `store_sub_category`;
 CREATE TABLE `store_sub_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id_status` int(11) DEFAULT NULL,
   `id_category` int(11) DEFAULT NULL,
-  `id_template` int(11) DEFAULT NULL,
-  `name` mediumtext,
+  `id_template` int(11) DEFAULT NULL COMMENT 'este no es necesario ya que se posee la template, en dado caso usar o el id o la template, es mas recomendable la template para no hacer join',         
+  `name` mediumtext COMMENT 'este tipo de dato es muy pesado para un label, con un VARCHAR seria más optimo',                          
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla requerida del store, guarda la descripción de una sub-categoría de las categoría';
 
 -- ----------------------------
 -- Table structure for subscription_plans
+-- tabla requerida, guarda los plan de subcripcion que pueden adquirir los usuarios tipo empresas despues del registro
 -- ----------------------------
 DROP TABLE IF EXISTS `subscription_plans`;
 CREATE TABLE `subscription_plans` (
@@ -874,10 +879,11 @@ CREATE TABLE `subscription_plans` (
   `description` tinytext CHARACTER SET utf8,
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla requerida, guarda los plan de subcripcion que pueden adquirir los usuarios tipo empresas despues del registro';
 
 -- ----------------------------
 -- Table structure for subscription_plans_detail
+-- tabla requerida, guarda los detalles del beneficio que posee cada plan de subcripcion
 -- ----------------------------
 DROP TABLE IF EXISTS `subscription_plans_detail`;
 CREATE TABLE `subscription_plans_detail` (
@@ -885,14 +891,19 @@ CREATE TABLE `subscription_plans_detail` (
   `id_plan` int(11) NOT NULL,
   `ads` smallint(1) DEFAULT '0',
   `banners` smallint(1) DEFAULT '0',
-  `num_ads` smallint(1) DEFAULT '0',
-  `num_banners` smallint(1) DEFAULT '0',
+  `num_ads` smallint(1) DEFAULT '0' COMMENT 'este campo no se usa',
+  `num_banners` smallint(1) DEFAULT '0' COMMENT 'este campo no se usa',
   `features` mediumtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla requerida, guarda los detalles del beneficio que posee cada plan de subcripcion';
 
 -- ----------------------------
 -- Table structure for tags
+-- tabla principal de las tags del sistema
+-- la dependencia en cuanto a groups,products,business card,redist se pueden agrupar en dos campos:
+-- source (guarda el id de la dependencia)
+-- type_source (guarda el tipo de dependencia groups,products,business card,redist)
+-- id_user y id_creator se puede usar un solo campo de ser de esta manera
 -- ----------------------------
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE `tags` (
@@ -915,32 +926,18 @@ CREATE TABLE `tags` (
   `video_url` varchar(200) CHARACTER SET utf8 NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` char(2) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `points` int(10) unsigned NOT NULL,
+  `points` int(10) unsigned NOT NULL COMMENT 'este campo es un constante de 100, no posee ningun uso aparente',
   `source` bigint(20) unsigned NOT NULL,
   `hits` int(11) NOT NULL DEFAULT '0',
   `id_business_card` int(10) unsigned NOT NULL,
   `id_group` int(10) unsigned NOT NULL DEFAULT '0',
-  `img` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `redist` int(10) unsigned DEFAULT NULL,
+  `img` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'este campo no se encuentra en uso',                           
+  `redist` int(10) unsigned DEFAULT NULL COMMENT 'este campo no se encuentra en uso',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla principal de las tags del sistema';
 
 -- ----------------------------
--- Table structure for tags_comments
--- ----------------------------
-DROP TABLE IF EXISTS `tags_comments`;
-CREATE TABLE `tags_comments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_tag` int(11) NOT NULL,
-  `id_user_from` int(11) NOT NULL,
-  `id_user_to` int(11) NOT NULL,
-  `comment` varchar(200) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for tags_delete_backgrounds
+-- Table structure for tags_delete_backgrounds (***se usaba en la vista de las templates para mostrar o eliminar, actualmente no se usa, solo en algunos cronjobs)
 -- ----------------------------
 DROP TABLE IF EXISTS `tags_delete_backgrounds`;
 CREATE TABLE `tags_delete_backgrounds` (
@@ -952,23 +949,8 @@ CREATE TABLE `tags_delete_backgrounds` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for tags_favorites
--- ----------------------------
-DROP TABLE IF EXISTS `tags_favorites`;
-CREATE TABLE `tags_favorites` (
-  `id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `id_user_fav` bigint(11) NOT NULL,
-  `id_tag` bigint(11) NOT NULL,
-  `id_user` bigint(11) NOT NULL,
-  `id_creator` bigint(11) NOT NULL,
-  `background` varchar(200) NOT NULL,
-  `text` varchar(200) NOT NULL,
-  `date` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for tags_hits
+-- tabla que controla los hits que poseen las tags, indispensable para el toptags
 -- ----------------------------
 DROP TABLE IF EXISTS `tags_hits`;
 CREATE TABLE `tags_hits` (
@@ -977,10 +959,11 @@ CREATE TABLE `tags_hits` (
   `date` date NOT NULL,
   `hits` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla que controla los hits que poseen las tags, indispensable para el toptags';
 
 -- ----------------------------
 -- Table structure for tags_privates
+-- tabla para llebar el registro de las tags privadas, indispensable para este modulo
 -- ----------------------------
 DROP TABLE IF EXISTS `tags_privates`;
 CREATE TABLE `tags_privates` (
@@ -990,10 +973,11 @@ CREATE TABLE `tags_privates` (
   `id_tag` int(11) NOT NULL,
   `status_tag` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla para llebar el registro de las tags privadas, indispensable para este modulo';
 
 -- ----------------------------
 -- Table structure for tags_report
+-- tabla para llebar el registro de las tags reportadas por los usuarios, indispensable para este modulo
 -- ----------------------------
 DROP TABLE IF EXISTS `tags_report`;
 CREATE TABLE `tags_report` (
@@ -1005,10 +989,10 @@ CREATE TABLE `tags_report` (
   `type_report` int(11) NOT NULL,
   `status` char(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla para llebar el registro de las tags reportadas por los usuarios, indispensable para este modulo';
 
 -- ----------------------------
--- Table structure for tags_share_mails
+-- Table structure for tags_share_mails (***se registra datos cada vez que un usuario comparte una tag por email, pero no posee funcion aparente, porque se llama en la vista viewTag.php que no se utiliza en ninguna parte)
 -- ----------------------------
 DROP TABLE IF EXISTS `tags_share_mails`;
 CREATE TABLE `tags_share_mails` (
@@ -1021,19 +1005,8 @@ CREATE TABLE `tags_share_mails` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for tags_type
--- ----------------------------
-DROP TABLE IF EXISTS `tags_type`;
-CREATE TABLE `tags_type` (
-  `id` int(5) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `description` mediumtext NOT NULL,
-  `cost` decimal(10,2) NOT NULL,
-  `status` char(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for tour_comment
+-- tabla necesaria para construir el tour en el sistema
 -- ----------------------------
 DROP TABLE IF EXISTS `tour_comment`;
 CREATE TABLE `tour_comment` (
@@ -1047,10 +1020,11 @@ CREATE TABLE `tour_comment` (
   `active` tinyint(2) DEFAULT NULL,
   `sectionActive` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla necesaria para construir el tour en el sistema';
 
 -- ----------------------------
 -- Table structure for tour_hash
+-- tabla que registra los usuarios que han visto determinado sección del tour
 -- ----------------------------
 DROP TABLE IF EXISTS `tour_hash`;
 CREATE TABLE `tour_hash` (
@@ -1060,20 +1034,22 @@ CREATE TABLE `tour_hash` (
   `ip` varchar(15) NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla que registra los usuarios que han visto determinado sección del tour';
 
 -- ----------------------------
 -- Table structure for tour_position
+-- tabla para mostrar los tipos de posiciones que podria tener el tour
 -- ----------------------------
 DROP TABLE IF EXISTS `tour_position`;
 CREATE TABLE `tour_position` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `position` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla para mostrar los tipos de posiciones que podria tener el tour';
 
 -- ----------------------------
--- Table structure for tour_section
+-- Table structure for tour_section 
+-- tabla para mostrar lugares qse visualizara el tour
 -- ----------------------------
 DROP TABLE IF EXISTS `tour_section`;
 CREATE TABLE `tour_section` (
@@ -1081,10 +1057,11 @@ CREATE TABLE `tour_section` (
   `sectionTour` varchar(30) NOT NULL,
   `active` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla para mostrar lugares qse visualizara el tour';
 
 -- ----------------------------
 -- Table structure for translations
+-- tabla de traducciones
 -- ----------------------------
 DROP TABLE IF EXISTS `translations`;
 CREATE TABLE `translations` (
@@ -1097,10 +1074,11 @@ CREATE TABLE `translations` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `cod` char(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla de traducciones';
 
 -- ----------------------------
 -- Table structure for translations_template
+-- tabla de etiquetas de traduccion
 -- ----------------------------
 DROP TABLE IF EXISTS `translations_template`;
 CREATE TABLE `translations_template` (
@@ -1112,10 +1090,11 @@ CREATE TABLE `translations_template` (
   `text_help` mediumtext NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla de etiquetas de traduccion';
 
 -- ----------------------------
--- Table structure for trending_toping
+-- Table structure for trending_toping 
+-- tabla indispensable para el uso y asignacion del hot
 -- ----------------------------
 DROP TABLE IF EXISTS `trending_toping`;
 CREATE TABLE `trending_toping` (
@@ -1124,10 +1103,11 @@ CREATE TABLE `trending_toping` (
   `count` int(10) unsigned DEFAULT '1',
   `day` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla indispensable para el uso y asignacion del hot';
 
 -- ----------------------------
 -- Table structure for type_actions
+-- tabla que lleva el registro de los tipos de acciones pueden realizar el usuario y notificaciones que genera el sistema
 -- ----------------------------
 DROP TABLE IF EXISTS `type_actions`;
 CREATE TABLE `type_actions` (
@@ -1139,10 +1119,11 @@ CREATE TABLE `type_actions` (
   `label_name` varchar(70) DEFAULT NULL,
   `label_desc` varchar(70) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla que lleva el registro de los tipos de acciones pueden realizar el usuario y notificaciones que genera el sistema';
 
 -- ----------------------------
 -- Table structure for type_banners
+-- tabla que define la posicion de los banners de las publicidades
 -- ----------------------------
 DROP TABLE IF EXISTS `type_banners`;
 CREATE TABLE `type_banners` (
@@ -1151,23 +1132,7 @@ CREATE TABLE `type_banners` (
   `status` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for type_notifications
--- ----------------------------
-DROP TABLE IF EXISTS `type_notifications`;
-CREATE TABLE `type_notifications` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `icon` varchar(50) NOT NULL,
-  `message_sent` varchar(100) NOT NULL,
-  `message_link` varchar(100) NOT NULL,
-  `message_description` varchar(100) DEFAULT NULL,
-  `status` char(1) NOT NULL,
-  `reference` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla que define la posicion de los banners de las publicidades';
 
 -- ----------------------------
 -- Table structure for type_publicity
