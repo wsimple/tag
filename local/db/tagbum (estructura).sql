@@ -111,32 +111,6 @@ CREATE TABLE `business_card` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for chat
--- ----------------------------
-DROP TABLE IF EXISTS `chat`;
-CREATE TABLE `chat` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `from` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `to` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `message` text NOT NULL,
-  `sent` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `recd` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for chat_typing
--- ----------------------------
-DROP TABLE IF EXISTS `chat_typing`;
-CREATE TABLE `chat_typing` (
-  `from` varchar(50) NOT NULL,
-  `to` varchar(50) NOT NULL,
-  `status` char(1) NOT NULL,
-  `send` char(1) NOT NULL,
-  PRIMARY KEY (`from`,`to`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for cities
 -- ----------------------------
 DROP TABLE IF EXISTS `cities`;
@@ -157,7 +131,7 @@ CREATE TABLE `cities` (
 -- ----------------------------
 -- Table structure for cometchat
 -- ----------------------------
-DROP TABLE IF EXISTS `cometchat`;
+/*DROP TABLE IF EXISTS `cometchat`;
 CREATE TABLE `cometchat` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `from` int(10) unsigned NOT NULL,
@@ -347,7 +321,7 @@ CREATE TABLE `cometchat_videochatsessions` (
   KEY `identity` (`identity`),
   KEY `timestamp` (`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+*/
 -- ----------------------------
 -- Table structure for comments
 -- ----------------------------
@@ -494,30 +468,6 @@ CREATE TABLE `empresas` (
   `email` varchar(250) COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- ----------------------------
--- Table structure for feedback
--- ----------------------------
-DROP TABLE IF EXISTS `feedback`;
-CREATE TABLE `feedback` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `id_user` varchar(64) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `idea` varchar(100) NOT NULL,
-  `description` varchar(200) NOT NULL,
-  `votes` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for feedback_ip
--- ----------------------------
-DROP TABLE IF EXISTS `feedback_ip`;
-CREATE TABLE `feedback_ip` (
-  `id_feedback` varchar(64) NOT NULL,
-  `ip` varchar(32) NOT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for followers
@@ -713,16 +663,6 @@ CREATE TABLE `paypal` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for personas
--- ----------------------------
-DROP TABLE IF EXISTS `personas`;
-CREATE TABLE `personas` (
-  `email` varchar(250) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- ----------------------------
 -- Table structure for points_publicity
 -- ----------------------------
 DROP TABLE IF EXISTS `points_publicity`;
@@ -796,26 +736,6 @@ CREATE TABLE `sex` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for spam_empresas
--- ----------------------------
-DROP TABLE IF EXISTS `spam_empresas`;
-CREATE TABLE `spam_empresas` (
-  `id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(250) COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- ----------------------------
--- Table structure for spam_personas
--- ----------------------------
-DROP TABLE IF EXISTS `spam_personas`;
-CREATE TABLE `spam_personas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(250) COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- ----------------------------
 -- Table structure for status
 -- ----------------------------
 DROP TABLE IF EXISTS `status`;
@@ -837,19 +757,6 @@ CREATE TABLE `store_category` (
   `photo` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for store_logs
--- ----------------------------
-DROP TABLE IF EXISTS `store_logs`;
-CREATE TABLE `store_logs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
-  `action` varchar(100) NOT NULL,
-  `sesion` int(11) NOT NULL,
-  `dateAction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store_orders
@@ -966,16 +873,6 @@ CREATE TABLE `store_sub_category` (
   `name` mediumtext,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for subscribers
--- ----------------------------
-DROP TABLE IF EXISTS `subscribers`;
-CREATE TABLE `subscribers` (
-  `email` varchar(250) NOT NULL,
-  `subscribed_at` datetime NOT NULL,
-  PRIMARY KEY (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for subscription_plans
@@ -1148,45 +1045,6 @@ CREATE TABLE `tags_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for template
--- ----------------------------
-DROP TABLE IF EXISTS `template`;
-CREATE TABLE `template` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `id_template_type` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_creator` int(11) NOT NULL,
-  `background` varchar(200) NOT NULL,
-  `text` varchar(256) NOT NULL,
-  `profile_img_url` varchar(200) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` char(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for template_type
--- ----------------------------
-DROP TABLE IF EXISTS `template_type`;
-CREATE TABLE `template_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(150) NOT NULL,
-  `description` mediumtext NOT NULL,
-  `status` char(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for test_events
--- ----------------------------
-DROP TABLE IF EXISTS `test_events`;
-CREATE TABLE `test_events` (
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `event` tinytext CHARACTER SET utf8,
-  PRIMARY KEY (`date`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for tour_comment
 -- ----------------------------
 DROP TABLE IF EXISTS `tour_comment`;
@@ -1344,17 +1202,6 @@ CREATE TABLE `type_tag_report` (
   `descrip` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for user_type
--- ----------------------------
-DROP TABLE IF EXISTS `user_type`;
-CREATE TABLE `user_type` (
-  `id` int(5) NOT NULL,
-  `description` varchar(150) NOT NULL,
-  `status` char(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users
