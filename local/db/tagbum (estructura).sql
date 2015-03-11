@@ -864,7 +864,7 @@ CREATE TABLE `store_sub_category` (
   `id_template` int(11) DEFAULT NULL COMMENT 'este no es necesario ya que se posee la template, en dado caso usar o el id o la template, es mas recomendable la template para no hacer join',         
   `name` mediumtext COMMENT 'este tipo de dato es muy pesado para un label, con un VARCHAR seria más optimo',                          
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla requerida del store, guarda la descripción de una sub-categoría de las categoría';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla requerida del store, guarda la descripción de una sub-categoría de las categoría';
 
 -- ----------------------------
 -- Table structure for subscription_plans
@@ -879,7 +879,7 @@ CREATE TABLE `subscription_plans` (
   `description` tinytext CHARACTER SET utf8,
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla requerida, guarda los plan de subcripcion que pueden adquirir los usuarios tipo empresas despues del registro';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla requerida, guarda los plan de subcripcion que pueden adquirir los usuarios tipo empresas despues del registro';
 
 -- ----------------------------
 -- Table structure for subscription_plans_detail
@@ -934,7 +934,7 @@ CREATE TABLE `tags` (
   `img` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'este campo no se encuentra en uso',                           
   `redist` int(10) unsigned DEFAULT NULL COMMENT 'este campo no se encuentra en uso',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla principal de las tags del sistema';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla principal de las tags del sistema';
 
 -- ----------------------------
 -- Table structure for tags_delete_backgrounds (***se usaba en la vista de las templates para mostrar o eliminar, actualmente no se usa, solo en algunos cronjobs)
@@ -959,11 +959,11 @@ CREATE TABLE `tags_hits` (
   `date` date NOT NULL,
   `hits` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla que controla los hits que poseen las tags, indispensable para el toptags';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla que controla los hits que poseen las tags, indispensable para el toptags';
 
 -- ----------------------------
 -- Table structure for tags_privates
--- tabla para llebar el registro de las tags privadas, indispensable para este modulo
+-- tabla para llevar el registro de las tags privadas, indispensable para este modulo
 -- ----------------------------
 DROP TABLE IF EXISTS `tags_privates`;
 CREATE TABLE `tags_privates` (
@@ -973,11 +973,11 @@ CREATE TABLE `tags_privates` (
   `id_tag` int(11) NOT NULL,
   `status_tag` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla para llebar el registro de las tags privadas, indispensable para este modulo';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla para llevar el registro de las tags privadas, indispensable para este modulo';
 
 -- ----------------------------
 -- Table structure for tags_report
--- tabla para llebar el registro de las tags reportadas por los usuarios, indispensable para este modulo
+-- tabla para llevar el registro de las tags reportadas por los usuarios, indispensable para este modulo
 -- ----------------------------
 DROP TABLE IF EXISTS `tags_report`;
 CREATE TABLE `tags_report` (
@@ -989,7 +989,7 @@ CREATE TABLE `tags_report` (
   `type_report` int(11) NOT NULL,
   `status` char(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla para llebar el registro de las tags reportadas por los usuarios, indispensable para este modulo';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla para llevar el registro de las tags reportadas por los usuarios, indispensable para este modulo';
 
 -- ----------------------------
 -- Table structure for tags_share_mails (***se registra datos cada vez que un usuario comparte una tag por email, pero no posee funcion aparente, porque se llama en la vista viewTag.php que no se utiliza en ninguna parte)
@@ -1020,7 +1020,7 @@ CREATE TABLE `tour_comment` (
   `active` tinyint(2) DEFAULT NULL,
   `sectionActive` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla necesaria para construir el tour en el sistema';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla necesaria para construir el tour en el sistema';
 
 -- ----------------------------
 -- Table structure for tour_hash
@@ -1034,7 +1034,7 @@ CREATE TABLE `tour_hash` (
   `ip` varchar(15) NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla que registra los usuarios que han visto determinado sección del tour';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla que registra los usuarios que han visto determinado sección del tour';
 
 -- ----------------------------
 -- Table structure for tour_position
@@ -1045,7 +1045,7 @@ CREATE TABLE `tour_position` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `position` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla para mostrar los tipos de posiciones que podria tener el tour';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla para mostrar los tipos de posiciones que podria tener el tour';
 
 -- ----------------------------
 -- Table structure for tour_section 
@@ -1057,7 +1057,7 @@ CREATE TABLE `tour_section` (
   `sectionTour` varchar(30) NOT NULL,
   `active` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla para mostrar lugares qse visualizara el tour';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla para mostrar lugares qse visualizara el tour';
 
 -- ----------------------------
 -- Table structure for translations
@@ -1074,7 +1074,7 @@ CREATE TABLE `translations` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `cod` char(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla de traducciones';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla de traducciones';
 
 -- ----------------------------
 -- Table structure for translations_template
@@ -1090,7 +1090,7 @@ CREATE TABLE `translations_template` (
   `text_help` mediumtext NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla de etiquetas de traduccion';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla de etiquetas de traduccion';
 
 -- ----------------------------
 -- Table structure for trending_toping 
@@ -1103,7 +1103,7 @@ CREATE TABLE `trending_toping` (
   `count` int(10) unsigned DEFAULT '1',
   `day` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla indispensable para el uso y asignacion del hot';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla indispensable para el uso y asignacion del hot';
 
 -- ----------------------------
 -- Table structure for type_actions
@@ -1132,7 +1132,7 @@ CREATE TABLE `type_banners` (
   `status` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT 'tabla que define la posicion de los banners de las publicidades';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='tabla que define la posicion de los banners de las publicidades';
 
 -- ----------------------------
 -- Table structure for type_publicity
@@ -1144,7 +1144,7 @@ CREATE TABLE `type_publicity` (
   `status` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Tipos de Publicidad';
 
 -- ----------------------------
 -- Table structure for type_tag_report
@@ -1154,7 +1154,7 @@ CREATE TABLE `type_tag_report` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descrip` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Contiene el tipo de Reporte (Privacidad)';
 
 -- ----------------------------
 -- Table structure for users
@@ -1220,7 +1220,7 @@ CREATE TABLE `users` (
   `wish_to` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 PACK_KEYS=0;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 PACK_KEYS=0 COMMENT='Usuarios del Sistema';
 
 -- ----------------------------
 -- Table structure for users_config_notifications
@@ -1231,7 +1231,7 @@ CREATE TABLE `users_config_notifications` (
   `id_user` int(11) NOT NULL,
   `id_notification` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Tipos de notificaciones que recibira un usuario';
 
 -- ----------------------------
 -- Table structure for users_device_login
@@ -1248,7 +1248,7 @@ CREATE TABLE `users_device_login` (
   `is_mobile` char(1) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Auditoria de acceso';
 
 -- ----------------------------
 -- Table structure for users_groups
@@ -1263,7 +1263,7 @@ CREATE TABLE `users_groups` (
   `date_update` datetime DEFAULT NULL,
   `status` char(2) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Auditoria de acceso';
 
 -- ----------------------------
 -- Table structure for users_links
@@ -1275,7 +1275,7 @@ CREATE TABLE `users_links` (
   `id_friend` bigint(20) NOT NULL,
   `is_friend` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Relacion de amistad entre usuarios';
 
 -- ----------------------------
 -- Table structure for users_notifications
@@ -1290,7 +1290,7 @@ CREATE TABLE `users_notifications` (
   `revised` char(1) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Todas las notificaciones a usuarios';
 
 -- ----------------------------
 -- Table structure for users_panel
@@ -1306,7 +1306,7 @@ CREATE TABLE `users_panel` (
   `code` varchar(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `modulos` mediumtext CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Usuarios del WPANEL';
 
 -- ----------------------------
 -- Table structure for users_plan_purchase
@@ -1320,7 +1320,7 @@ CREATE TABLE `users_plan_purchase` (
   `end_date` date NOT NULL,
   `notes` mediumtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Planes comprados por los usuarios';
 
 -- ----------------------------
 -- Table structure for users_points_purchase
@@ -1335,7 +1335,7 @@ CREATE TABLE `users_points_purchase` (
   `points_bought` int(11) DEFAULT NULL,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Compras de puntos realizadas por los usuarios';
 
 -- ----------------------------
 -- Table structure for users_preferences
@@ -1345,17 +1345,18 @@ CREATE TABLE `users_preferences` (
   `id_user` bigint(20) NOT NULL,
   `id_preference` bigint(5) NOT NULL,
   `preference` mediumtext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Preferencias por usuarios';
 
 -- ----------------------------
 -- Table structure for users_profile_showbirthday
+-- Esta tabla creo es innecesaria. Deberia estar como un campo en la tabla users
 -- ----------------------------
 DROP TABLE IF EXISTS `users_profile_showbirthday`;
 CREATE TABLE `users_profile_showbirthday` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Indica el cumpleaños del usuario';
 
 -- ----------------------------
 -- Table structure for users_publicity
@@ -1378,7 +1379,7 @@ CREATE TABLE `users_publicity` (
   `click_current` int(11) NOT NULL,
   `status` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='';
 
 -- ----------------------------
 -- Table structure for users_publicity_validation
