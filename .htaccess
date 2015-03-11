@@ -9,6 +9,11 @@ ErrorDocument 403 "Error 403: Forbidden"
 ErrorDocument 404 "Error 404: File not found"
 ErrorDocument 500 "Error 500: Internal server error"
 
+#global
+RewriteCond %{REQUEST_URI} !^/(app|img|video|web)_root/
+RewriteRule ^(app|img|video|web)([\?/].*$|$) $1_root$2 [NC,L]
+RewriteRule ^(controls|cometchat)/(.*)$ web_root/$1/$2 [L]
+
 #app
 RewriteCond %{SERVER_NAME} !^app\.
 RewriteRule ^app(\?.*)$ app/$1 [R]
@@ -23,9 +28,6 @@ RewriteRule ^/?(.*)$ img_root/$1 [L]
 #video
 RewriteCond %{SERVER_NAME} ^v(ideo)?\.
 RewriteRule ^/?(.*)$ video_root/$1 [L]
-#global
-RewriteCond %{REQUEST_URI} !^/(app|img|video|web)_root/
-RewriteRule ^(app|img|video|web)([\?/].*$|$) $1_root$2 [NC,L]
 #main
 RewriteCond %{REQUEST_URI} !^/web_root/
 RewriteRule ^(.*)$ web_root/$1 [L]
