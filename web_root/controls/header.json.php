@@ -5,7 +5,6 @@ if(!$_header_json){
 		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
 	else
 		error_reporting(0);
-	global $debug,$myId,$mobile,$_origin;
 	header('Access-Control-Allow-Methods: POST, GET');
 	header('Access-Control-Allow-Origin: '.($_origin!=''?$_origin:'http://localhost'));
 	header('Access-Control-Allow-Credentials: true');
@@ -14,28 +13,17 @@ if(!$_header_json){
 	header('Cache-Control: no-cache, must-revalidate');
 	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 	header('Content-type: application/'.(isset($_GET['callback'])?'javascript':'json'));
+	$path=preg_replace('/([\/][^\/]*)$/','',str_replace('\\','/',dirname(__FILE__)));
+	@define('RELPATH',"$path/");
+	include_once("$path/includes/config.php");
+	include "$path/includes/session.php";
+	include "$path/includes/functions.php";
+	include "$path/includes/functions_mails.php";
+	include "$path/class/wconecta.class.php";
 	$_head=array();
-	if(!function_exists('apache_request_headers')){
-		function apache_request_headers(){
-			$arh=array();
-			$rx_http='/\AHTTP_/';
-			foreach($_SERVER as $key=>$val){
-				if(preg_match($rx_http,$key)){
-					$arh_key=preg_replace($rx_http,'',$key);
-					$arh[$arh_key]=$val;
-				}
-			}
-			return($arh);
-		}
-	}
 	$_head=apache_request_headers();
 	$mobile=($_POST['CROSSDOMAIN']||$_head['SOURCEFORMAT']=='mobile');
-	$path=str_repeat('../',1+substr_count(end(explode('controls/',$_SERVER['PHP_SELF'])),'/'));
-	include_once($path.'includes/config.php');
-	include $config->relpath.'includes/session.php';
-	include $config->relpath.'includes/functions.php';
-	include $config->relpath.'includes/functions_mails.php';
-	include $config->relpath.'class/wconecta.class.php';
+	global $debug,$myId,$mobile,$_origin;
 
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
 	if(!$myId) $myId=0;
@@ -46,4 +34,3 @@ if(!$_header_json){
 }
 $_header_json=true;
 if($_need_login&&!$myId) die('');
-?>
