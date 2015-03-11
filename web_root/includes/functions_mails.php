@@ -265,7 +265,7 @@ function formatShowTagMail($tagId,$iconoTipo,$msj_sent,$msj_link,$msj=''){
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2"><br><p><a href="'.$linkTag.'" target="_blank"><img src="'.$imgTag.'" alt="tag"></a></p><br></td>
+				<td colspan="2"><br><p><a href="'.$linkTag.'" target="_blank"><img src="'.$imgTag.'" alt="tag" width="650"></a></p><br></td>
 			</tr>
 			'.$trMsj.'
 			'.showPublicityMail().'
@@ -337,7 +337,7 @@ function formatShowGroupsMail($id_group,$tipe,$msj='',$tag=false){
     	$linkTag		=$GLOBALS['config']->main_server.'tag?id='.$tag.'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($tag['email']);
 		$imgTag			=tagURL($tag);
 		$trTag='<tr>
-			<td colspan="2"><br><p><a href="'.$linkTag.'" target="_blank"><img src="'.$imgTag.'" alt="tag"></a></p><br></td>
+			<td colspan="2"><br><p><a href="'.$linkTag.'" target="_blank"><img src="'.$imgTag.'" alt="tag" width="650"></a></p><br></td>
 		</tr>';
     }else $trTag='';
     $group=CON::getRow("SELECT name, photo, description AS des 

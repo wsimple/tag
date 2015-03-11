@@ -142,7 +142,7 @@ include("includes/paginator.inc.php");
 					<td style="text-align: center"><?=$tag['cant']?></td>
 					<td><?=$infoT['owner']?></td>
 					<td><?=$infoT['descrip']?></td>
-					<td><img src="<?=tagURL($infoT['id_tag'],true)?>"></td>
+					<td><img src="<?=tagURL($infoT['id_tag'],true)?>" width="650"></td>
 					<td align="center">
 						<a style="font-weight:normal" href="javascript:void(0)" onClick="if(confirm('Are you sure to disabled this tag ?')){redirect('../controls/tags/actionsTags.controls.php?wpanel&action=6&tag=<?=$infoT['id_tag']?>&url=wpanel/?url=vistas/tags/reporTags.view.php&report')}">Disabled Tag</a>
 					</td>
