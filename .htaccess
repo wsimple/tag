@@ -10,8 +10,13 @@ ErrorDocument 404 "Error 404: File not found"
 ErrorDocument 500 "Error 500: Internal server error"
 
 #app
-#RewriteCond %{SERVER_NAME} ^app\.
-#RewriteRule ^/?(.*)$ app_root/$1 [L]
+RewriteCond %{SERVER_NAME} !^app\.
+RewriteRule ^app(\?.*)$ app/$1 [R]
+RewriteCond %{SERVER_NAME} !^app\.
+RewriteRule ^app/cometchat/(.*)$ cometchat/$1 [R]
+
+RewriteCond %{SERVER_NAME} ^app\.
+RewriteRule ^/?(.*)$ app_root/$1 [L]
 #img
 RewriteCond %{SERVER_NAME} ^i(mg)?\.
 RewriteRule ^/?(.*)$ img_root/$1 [L]
@@ -21,7 +26,6 @@ RewriteRule ^/?(.*)$ video_root/$1 [L]
 #global
 RewriteCond %{REQUEST_URI} !^/(app|img|video|web)_root/
 RewriteRule ^(app|img|video|web)([\?/].*$|$) $1_root$2 [NC,L]
-
 #main
 RewriteCond %{REQUEST_URI} !^/web_root/
 RewriteRule ^(.*)$ web_root/$1 [L]
