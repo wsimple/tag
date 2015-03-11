@@ -8,9 +8,9 @@ if(!isset($lang)){
 } if(false){ ?><script><?php }
 ?>
 function pageAction(action,data){
-	$.debug().log({action:action,data:data,opc:opc});
 	data=''+(data||'');
 	var $tag,capa,opc=data.split(',');
+	$.debug().log({action:action,data:data,opc:opc});
 	switch(action){
 		case 'redir'	:redir(data);break;
 		case 'goHome'	:redir();break;
@@ -686,8 +686,8 @@ function showTag(tag){
 			videomini+
 		'</div>'+
 		'<div class="tag-counts">'+
-			'<div id="likeIcon"></div><span>'+tag.num_likes+'</span>'+
-			'<div id="dislikeIcon"></div><span>'+tag.num_disLikes+'</span>'+
+			'<div id="likeIcon" action="UserLikedOrRaffle,l,'+tag['id']+'" data-val="'+tag.num_likes+'"></div><span>'+tag.num_likes+'</span>'+
+			'<div id="dislikeIcon" action="UserLikedOrRaffle,d,'+tag['id']+'" data-val="'+tag.num_disLikes+'"></div><span>'+tag.num_disLikes+'</span>'+
 		'</div>'+
 		'<div class="profilepic" action="profile,'+tag['uid']+'" title="<?=js_string($lang["USERPROFILE_PERSONALINFO"])?>"></div>'+
 		'<div class="profile" action="profile,'+tag['uid']+'" title="<?=js_string($lang["USERPROFILE_PERSONALINFO"])?>"></div>'+
@@ -1192,7 +1192,9 @@ function send_ajax(url,capa,mode,data_type){
 					var $dislikes=capa[3].find('#numDislikes'),$likes=capa[3].find('#numLikes');
 					//console.log([$dislikes[0],$likes[0]]);
 					capa[3].find('.tag-counts #dislikeIcon+span').html(data.split('|')[0]);
+					capa[3].find('.tag-counts #dislikeIcon').each(function(){ this.dataset.val=(data.split('|')[0]); });
 					capa[3].find('.tag-counts #likeIcon+span').html(data.split('|')[1]);
+					capa[3].find('.tag-counts #likeIcon').each(function(){ this.dataset.val=(data.split('|')[1]); });
 
 					// if($dislikes.length>0) $dislikes.html(data.split('|')[0]);
 					// if($likes.length>0) $likes.html(data.split('|')[1]);
@@ -1855,7 +1857,7 @@ function showAndHide(toShow,toHide,speed,order){
 })(window);
 
 function UserLikedOrRaffle(obj,act,sou){
-	if ($(obj).html()*1>0 || act=='r'){
+	if (obj.dataset.val*1>0 || $(obj).html()*1>0 || act=='r'){
 		if (act!='l' && act!='r' && act!='d') return;
 		var titulo=new Array();
 		titulo['l']='<?=$lang["EXTERNALPROFILE_LIKES"]?>';

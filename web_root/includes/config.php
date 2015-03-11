@@ -5,11 +5,11 @@ if(defined('__CF__')) return; else define('__CF__',1);
  * Copy Rights :Tagamation, LLc
  * Date        :02/22/2011
  */
-$tb_relpath=preg_replace('/([\/][^\/]*)$/','/',dirname(str_replace('\\','/',__FILE__)));
-@define('RELPATH',"$tb_relpath/");
-if(!isset($config)) @include("$tb_relpath/.security/security.php");
+$tb_path=preg_replace('/([\/][^\/]*)$/','/',dirname(str_replace('\\','/',__FILE__)));
+@define('RELPATH',"$tb_path/");
+if(!isset($config)) @include("$tb_path/.security/security.php");
 if(!isset($config)) @include('security/security.php');
-$config->relpath=$tb_relpath;
+$config->relpath=$tb_path;
 
 global $section,$params;
 #con secciones se permite manejar parametros en url (ejem: user/preferences)

@@ -157,8 +157,8 @@ if($data['action']=='picture'||$data['action']=='filePhoto'){
 		$x=$x!=''?$x:0;
 		$y=$y!=''?$y:0;
 		header("data-beforcreate-photo: ".$config->img_server_path.$photo);
-		header("data-beforcreate-thumb: ".$config->relpath.$thumb);
-		CreateThumb($config->img_server_path.$photo,$config->relpath.$thumb,60,$x,$y,$size,$size);
+		header("data-beforcreate-thumb: $config->relpath/$thumb");
+		CreateThumb($config->img_server_path.$photo,"$config->relpath/$thumb",60,$x,$y,$size,$size);
 		header("data-aftercreate: 1");
 		FTPupload(end(explode('img/',$thumb)));
 		$_SESSION['ws-tags']['ws-user']['updatePicture']=0;
@@ -334,7 +334,7 @@ if ($data['action']=='fileCover'){
 		$parts         = explode('.', $data['cover']['name']);
 		$ext           = strtolower(end($parts));
 		if( in_array($ext, $imagesAllowed) ) {
-			$path  = $config->relpath.'img/users_cover/'.$_SESSION['ws-tags']['ws-user']['code'].'/';//ruta para crear dir
+			$path  = "$config->relpath/img/users_cover/".$_SESSION['ws-tags']['ws-user']['code'].'/';//ruta para crear dir
 			$photo = $_SESSION['ws-tags']['ws-user']['code'].'/'.md5(str_replace(' ', '', $data['cover']['name'])).'.jpg';
 			//existencia de la folder
 			if(!file_exists($path)){
@@ -347,7 +347,7 @@ if ($data['action']=='fileCover'){
 			// 	$fp=fopen($path.'index.html',"w");
 			// 	fclose($fp);
 			// }// is_dir
-			if(redimensionar($data['cover']['tmp_name'], $config->relpath."img/users_cover/".$photo, 845) ) {
+			if(redimensionar($data['cover']['tmp_name'], "$config->relpath/img/users_cover/".$photo, 845) ) {
 				FTPupload('users_cover/'.$photo);
 				$res['success']='cover';
 				$res['cover']=$photo;
