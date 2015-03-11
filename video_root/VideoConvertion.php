@@ -2,7 +2,7 @@
 
 class VideoConvertion extends VideoCaptures
 {
-	protected $pending='pending',$_run;
+	protected $pending='pending',$_run=array();
 
 	function __construct($options = null, $initialize = true){
 		#verifica primero si se estan buscando capturas
@@ -38,11 +38,12 @@ class VideoConvertion extends VideoCaptures
 		if(preg_match('/\.(mp4|m4v|og[gv])$/i',$destino)) $origen.=" -s 650*300";
 		$run="ffmpeg -i $origen $destino $mas";
 		// echo "$run\n";
-		$this->_run=array(
+		$data=array(
 			'exec'=>$run,
 			'result'=>$this->run($run),
 		);
-		return $this->_run['result'];
+		$this->_run[]=$data;
+		return $data['result'];
 	}
 
 	function get_info($filename){
@@ -111,7 +112,7 @@ class VideoConvertion extends VideoCaptures
 				$capture="$this->path/$capture";
 				$time='00:00:'.str_pad($i*$t+$start,2,'0',STR_PAD_LEFT);
 				$error=$this->ffmpeg_encode("$this->path/$data->video","-ss $time -vframes 1 $capture","-loglevel warning");
-				if(!$error){
+				if(!$error||preg_match('/deprecated/i',$error)){
 					$data->captures[]=$captures[$i];
 					// $img->resize($captures[$i]);
 					$i++;
@@ -125,7 +126,7 @@ class VideoConvertion extends VideoCaptures
 				$warning="Can't create any capture.";	
 			}
 		}
-		$data->last_run=array('cmd'=>$this->_run,'error'=>$error,'warning'=>$warning);
+		if(isset($_COOKIE['__DEBUG__'])) $data->commands=array('cmd'=>$this->_run,'error'=>$error,'warning'=>$warning);
 		if(empty($data->video)) $data->error=$error+$warning;
 
 		$this->json($data);

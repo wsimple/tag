@@ -12,6 +12,7 @@ $show=isset($_COOKIE['_DEBUG_'])?'&show':'';
 <h2>Acceso rapido</h2>
 <?php if($show){ ?><p><a href="<?php echo $security; ?>?show">Solo ver datos actuales.</a></p><?php } ?>
 <p><a href="<?php echo $security; ?>?tipo=local<?php echo $show;?>">Equipo Local</a></p>
+<p><a href="<?php echo $security; ?>?tipo=aws&code<?php echo $show;?>">Servidor AWS</a></p>
 <p><a href="<?php echo $security; ?>?tipo=main&code<?php echo $show;?>">Servidor Principal</a></p>
 <hr/>
 <?php if($show){ ?>
@@ -54,6 +55,47 @@ if($data->tipo){
 		$data->img_server='http://i.tagbum.com/';
 		$data->video_server='http://v.tagbum.com/';
 		$data->allow_origin='/^https?:\\/\\/(\\\w+\\\.)?tagbum.com$/i';
+	}elseif($data->tipo=='aws'){
+		$data->base_url='/';
+		$data->db['host']='tagbumdb-east.c8ncui6mei6z.us-east-1.rds.amazonaws.com';
+		$data->db['user']='tagmaster';
+		$data->db['pass']='-t4gvzlA_mysql';
+		$data->db['data']='tagbumdb';
+		$data->ftp['host']='68.109.244.201';
+		$data->ftp['user']='userimg';
+		$data->ftp['pass']='-t@gvzlA_ftp';
+
+		$data->ftp['host']='172.31.45.136';
+		$data->ftp['user']='webapp';
+		$data->ftp['folder']='img';
+
+		$data->facebook['appId']='824519617598722';
+		$data->facebook['secret']='9c8ec5500c2426a289e58f5bb61b7b3b';
+		$data->paypal['user']='elijose.c-facilitator_api1.gmail.com';
+		$data->paypal['pass']='1370289012';
+		$data->paypal['signature']='AFcWxV21C7fd0v3bYYYRCpSSRl31AnHjJMUATq-eeXv1ffnS7Is.Qqg6';
+		$data->paypal['endpoint']='https://api-3t.sandbox.paypal.com/nvp';
+		$data->email['Port']=465;
+		$data->email['Host']='mailtagbum.com';
+		$data->email['Timeout']=10;
+		$data->email['Username']='no-reply@mailtagbum.com';
+		$data->email['Password']="Nepali13@!";
+		$data->email['SMTPAuth']=true;
+
+		$data->imgserver='http://52.1.70.172/img/';
+		$data->main_server='http://52.1.70.172/';
+		$data->app_server=$data->main_server.'app/';
+		$data->img_server=$data->main_server.'img/';
+		$data->video_server=$data->main_server.'video/';
+		$data->main_server_path="$relpath/web_root/";
+		$data->img_server_path="$relpath/img_root/";
+		$data->video_server_path="$relpath/video_root/";
+		$data->allow_origin='/^https?:\\/\\/(\\\w+\\\.)?tagbum.com$/i';
+
+		$data->app_server='http://app.tagbum.com/';
+		$data->img_server='http://i.tagbum.com/';
+		$data->video_server='http://v.tagbum.com/';
+		$data->img_server_path='http://68.109.244.201/';
 	}elseif($data->tipo=='local'){
 		$data->db['host']='localhost';
 		$data->db['user']='root';
