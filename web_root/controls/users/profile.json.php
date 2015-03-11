@@ -118,7 +118,10 @@ if($data['action']=='picture'||$data['action']=='filePhoto'){
 //		unlink($data['img']['tmp_name']);
 	#datos de redimencion
 	$photo="img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'];
+	header("data-photo: $photo");
+	header("data-photo-path: ".$config->img_server_path.$photo);
 	$thumb=generateThumbPath($photo,true);
+	header("data-thumb: $thumb");
 	#se crea la thumb si se ha subido foto o si se cambio el tamaño
 	if(!strpos($thumb,'default')&&in_array($res['upload'],array('','done'))){
 		if($data['size']){
@@ -130,7 +133,7 @@ if($data['action']=='picture'||$data['action']=='filePhoto'){
 			$y=$data['y'];
 			$size=$data['w']>$data['h']?$data['h']:$data['w'];
 		}elseif(isset($data['img'])){
-			$is=getimagesize(FILESERVER.$photo);
+			$is=getimagesize($config->img_server_path.$photo);
 			$x=$y=abs($is[0]-$is[1])/2;
 			if($is[0]>$is[1]){
 				$y=0;
@@ -141,7 +144,7 @@ if($data['action']=='picture'||$data['action']=='filePhoto'){
 			}
 		}
 		if ($size==''){
-			$is=getimagesize(FILESERVER.$photo);
+			$is=getimagesize($config->img_server_path.$photo);
 			$x=$y=abs($is[0]-$is[1])/2;
 			if($is[0]>$is[1]){
 				$y=0;
@@ -153,7 +156,10 @@ if($data['action']=='picture'||$data['action']=='filePhoto'){
 		}
 		$x=$x!=''?$x:0;
 		$y=$y!=''?$y:0;
-		CreateThumb(FILESERVER.$photo,RELPATH.$thumb,60,$x,$y,$size,$size);
+		header("data-beforcreate-photo: ".$config->img_server_path.$photo);
+		header("data-beforcreate-thumb: ".$config->relpath.$thumb);
+		CreateThumb($config->img_server_path.$photo,$config->relpath.$thumb,60,$x,$y,$size,$size);
+		header("data-aftercreate: 1");
 		FTPupload(end(explode('img/',$thumb)));
 		$_SESSION['ws-tags']['ws-user']['updatePicture']=0;
 		$GLOBALS['cn']->query("UPDATE users SET updatePicture=0 WHERE id='$myId'");
@@ -328,17 +334,20 @@ if ($data['action']=='fileCover'){
 		$parts         = explode('.', $data['cover']['name']);
 		$ext           = strtolower(end($parts));
 		if( in_array($ext, $imagesAllowed) ) {
-			$path  = RELPATH."img/users_cover/".$_SESSION['ws-tags']['ws-user']['code'].'/';//ruta para crear dir
+			$path  = $config->relpath.'img/users_cover/'.$_SESSION['ws-tags']['ws-user']['code'].'/';//ruta para crear dir
 			$photo = $_SESSION['ws-tags']['ws-user']['code'].'/'.md5(str_replace(' ', '', $data['cover']['name'])).'.jpg';
 			//existencia de la folder
-			if( !is_dir ($path) ) {
-				$old = umask(0);
-				mkdir($path,0777);
-				umask($old);
-				$fp=fopen($path.'index.html',"w");
-				fclose($fp);
-			}// is_dir
-			if(redimensionar($data['cover']['tmp_name'], RELPATH."img/users_cover/".$photo, 845) ) {
+			if(!file_exists($path)){
+				mkdir($path,0775,true);
+			}
+			// if( !is_dir ($path) ) {
+			// 	// $old = umask(0);
+			// 	mkdir($path,0777);
+			// 	umask($old);
+			// 	$fp=fopen($path.'index.html',"w");
+			// 	fclose($fp);
+			// }// is_dir
+			if(redimensionar($data['cover']['tmp_name'], $config->relpath."img/users_cover/".$photo, 845) ) {
 				FTPupload('users_cover/'.$photo);
 				$res['success']='cover';
 				$res['cover']=$photo;

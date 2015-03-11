@@ -173,7 +173,7 @@ function newTag_json($data,$mobile=false){
 	}
 	#background
 	if($data['background']==''&&isset($res['type'])){
-		$folder=opendir($config->img_server_path.'img/templates/defaults/');
+		$folder=opendir($config->relpath.'img/templates/defaults/');
 		$defaultbackgrounds=array();
 		while($pic=@readdir($folder)){
 			$args=explode('.',$pic);
