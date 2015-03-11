@@ -1,0 +1,67 @@
+.color-picker-selected {
+	display:inline-block;
+	width:23px;
+	height:20px;
+	border:1px solid #aaa;
+}
+
+.color-picker {
+	background: rgba(0, 0, 0, 0.5);
+
+	width: 243px;
+	padding: 10px 5px 5px 10px;
+
+
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+
+/*	-moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);*/
+
+	z-index: 2000;
+}
+
+.color-picker h2 {
+	margin: 0 0 5px 0;
+	font-size: 14px;
+}
+
+.color-picker ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+
+	+zoom: 1;
+}
+
+#jquery-colour-picker ul:after {
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+	clear: both;
+}
+
+.color-picker ul li {
+	float: left;
+	margin: 0 5px 5px 0;
+}
+
+.color-picker ul li a {
+	display: block;
+
+	width: 20px;
+	height: 20px;
+
+	text-decoration: none;
+	text-indent: -100000px;
+	outline: 0;
+
+	border: 1px solid #aaa;
+}
+
+.color-picker ul li a:hover {
+	border-color: #000;
+}
