@@ -7,13 +7,13 @@
 
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-	$relpath=str_replace('\\','/',dirname(__FILE__));
-	$relpath=preg_replace('/\/[^\/]+$/','',$relpath);
+$relpath=str_replace('\\','/',dirname(__FILE__));
+$relpath=preg_replace('/\/[^\/]+$/','',$relpath);
 define('RELPATH',"$relpath/");
 include RELPATH.'includes/config.php';
 include RELPATH.'includes/session.php';
-// include RELPATH.'includes/functions.php';
-include RELPATH.'cronjobs/functions.php';
+include RELPATH.'includes/functions.php';
+// include 'functions.php';
 include RELPATH.'class/wconecta.class.php';
 include RELPATH.'includes/languages.config.php';
 	$limit=10;
@@ -33,7 +33,7 @@ include RELPATH.'includes/languages.config.php';
 				$tag['tag']=createTag($tag['id'],true);
 				CON::update('tags','img="'.$tag['tag'].'"','id="'.$tag['id'].'"');
 				$count++;
-				$html.="ID tag: {$tag['id']}, img: {$tag['tag']}, url: {$config->img_server}tag/{$tag['tag']}.jpg<br/>";
+				$html.="ID tag: {$tag['id']}, img: {$tag['tag']}, url: ".tagURL($tag['id'])."<br/>";
 			}
 			$html.="<hr/>Tags created:$count<br/>";
 		}
