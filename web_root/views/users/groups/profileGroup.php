@@ -16,8 +16,7 @@
 			</div>
 		</form>
 	</div>
-		<div class="ui-single-box-title" >
-	    
+	<div class="ui-single-box-title" style="display: none;">
 		<ul id="subMenuAdminGroups" class="mainMenu float-left" style=" background: #FFF;">
 			<li>
 				<a class="fNiv mo" ><?=$lang['GROUPS_MENUADMINISTRATION']?></a>
@@ -31,8 +30,6 @@
 			</li>
 		</ul>
 		<a id="btnNewGroup" class="float-left" ><?=$lang['GROUPS_TITLEWINDOWSNEW']?></a>
-		
-	
 	</div>
 	<br/>
     <div id="info-top-groups"></div>
@@ -64,7 +61,6 @@
 						$('div#groupTitleStyle').html(data['list'][0]['name']);
 						if (data['list'][0]['date_join']) $('#divctg').addClass('ctg').find('a#btncreateTagsG').attr('href',BASEURL+'creation?group='+idg).show();
 						if (data['list'][0]['isAdmin']){
-						  console.log(data['list'][0]['sqlw'])
 							$('.group-details .ui-single-box-title').css('display','block');
 							if (data['list'][0]['isAdmin']=='1'){
 								$('li#btneditprofilegroup').html('<a class="linkOptionGrouop"><?=GROUPS_PROFILETITLE?></a>');
@@ -105,6 +101,7 @@
                                 return false;
                             });
 						}else{
+							$('.group-details .ui-single-box-title').remove();
 							if (data['list'][0]['noti']['body']){
 								$('.tags-list').hide().after('<div id="info">'+data['list'][0]['noti']['body']+'</div>');
 								$('#btn input#back').click(function(){ history.back(); });

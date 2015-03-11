@@ -2331,7 +2331,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 							$body ='<div>
 										<div style="background-image: url(\''.$GLOBALS['config']->main_server.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;height: 103px;margin-left: 40px;"></div> 
 										<div style="padding: 25px;text-align: center; font-size: 25px; color:#FA0D1F">'.EMAIL_REPORTS_TAGS.'</div>
-										<div style="text-align: center;"><img src="'.tagURL($id_source).'"></div>
+										<div style="text-align: center;"><img src="'.tagURL($id_source).'" width="650"></div>
 										<div style="text-align: center; font-size: 20px; font-weight:bold; padding:20px 0"><a style="text-decoration: none; color: #514C4C; " href="'.$GLOBALS['config']->main_server.'wpanel/?idtagreport='.md5($id_source).'">'.EMAIL_REPORTS_TAGS_DELETE.'</a></div>
 									</div>';
 							foreach($data['emails'] as $per){
@@ -2358,7 +2358,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 										<img src="'.$GLOBALS['config']->main_server.'css/smt/icon.png" style="height: 80px;"/>
 										'.CONGRATULATIONS.' '.$titulo.' <br><br></td>
 									</tr>
-									<tr><td colspan="2"><br><p><a href="'.$linkTag.'" target="_blank"><img src="'.$imgTag.'" alt="tag"></a></p><br></td></tr>
+									<tr><td colspan="2"><br><p><a href="'.$linkTag.'" target="_blank"><img src="'.$imgTag.'" alt="tag" width="650"></a></p><br></td></tr>
 									</table>';
 							if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$email;
 							$htmlEmail.=formatMail($body,'790');

@@ -7,7 +7,7 @@
 		<?php while($tag=mysql_fetch_assoc($tags)){//echo $tag['id'].'- '.tagURL($tag['id']).'<br>'; ?>
 		<tr>
 			<td align="center">
-				<img src="<?=tagURL($tag['id'])?>"/>
+				<img src="<?=tagURL($tag['id'])?>" width="650"/>
 			</td>
 		</tr>
 		<tr>

@@ -60,8 +60,8 @@ include RELPATH.'includes/languages.config.php';
 	echo '<hr/>Tags done:'.$data['done'];
 	echo '<br/>Tags pending:'.$data['more'];
 	if(!empty($_GET['id'])){
-		echo '<br/>Tag:<br/><img src="'.str_replace('img_root','web_root',tagURL($_GET['id'])).'"/>';
-		echo '<br/>Tag:<br/><img src="'.tagURL($_GET['id']).'"/>';
+		echo '<br/>Tag:<br/><img src="'.str_replace('img_root','web_root',tagURL($_GET['id'])).'" width="650"/>';
+		echo '<br/>Tag:<br/><img src="'.tagURL($_GET['id']).'" width="650"/>';
 	}
 ?>
 </body>
