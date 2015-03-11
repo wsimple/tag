@@ -66,7 +66,7 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 				$photoT=FILESERVER.getUserPicture("$obj->code/$obj->profile_image_url",'img/users/default.png');
 				$photoF=FILESERVER."img/users/$obj->code/$obj->profile_image_url";
 				if($photoF!=$photoT && $logged){
-					$imgDetails='class="imgWithMouseOverEfect" title="'.$lang["EXTERNALPROFILE_VIEWPICTUREALBUM"].'"';
+					$imgDetails='class="imgWithMouseOverEfect" title="'.lan('EXTERNALPROFILE_VIEWPICTUREALBUM').'"';
 				?>
 				<a href="views/photos/picture.view.php?src=<?=$photoF?>&default&id_user=<?=$obj->id?>" class="grouped_PP" rel="PP_1"/>
 				<?php } ?>
@@ -76,12 +76,12 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 			<?php if(numRecord('images',"WHERE id_user=$obj->id AND id_images_type=2")>0 && $logged){
 					echo generateAlbumView($obj->id,$edit,'PP_1','profile');
 			} ?>
-			<h3 style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena("$obj->nameUser's ".$lang["USERPROFILE_PERSONALINFO"])?></h3>
-			<a href="javascript:void(0)" id="seeBusiness" style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena($lang["SEE_BUSINESS_CARD"])?></a>
+			<h3 style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena("$obj->nameUser's ".lan('USERPROFILE_PERSONALINFO'))?></h3>
+			<a href="javascript:void(0)" id="seeBusiness" style="text-shadow:4px 4px 7px #000; color:#fff"><?=formatoCadena(lan('SEE_BUSINESS_CARD'))?></a>
 			<?php if (!$edit && $logged){ ?>
 			<div id="userProfileDialog" style="float:right; margin-top: 43px">
-				<input type="button" <?=$obj->follower?'style="display:none;"':''?> action="linkUser,<?=md5($obj->id)?>" value="<?=$lang["USER_BTNLINK"]?>"/>
-				<input type="button" <?=$obj->follower?'':'style="display:none;"'?>  action="linkUser,<?=md5($obj->id)?>" value="<?=$lang["USER_BTNUNLINK"]?>" class="btn btn-disabled"/>
+				<input type="button" <?=$obj->follower?'style="display:none;"':''?> action="linkUser,<?=md5($obj->id)?>" value="<?=lan('USER_BTNLINK')?>"/>
+				<input type="button" <?=$obj->follower?'':'style="display:none;"'?>  action="linkUser,<?=md5($obj->id)?>" value="<?=lan('USER_BTNUNLINK')?>" class="btn btn-disabled"/>
 			</div>
 			<?php } ?>
 			<div id="coverExternalProfile">
@@ -100,35 +100,35 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 	<div id="eProfileInfo">
 		<div style="float:left;width:380px;">
 			<article id="externalProfileInfo" class="side-box imagenSug">
-				<header><span><?=$lang["INFO_PER"]?></span><?=$edit?$edit:''?></header>
+				<header><span><?=lan('INFO_PER')?></span><?=$edit?$edit:''?></header>
 				<div>
 					<ul>
 						<li class="tituloName"><?=$obj->screen_name?></li>
 						<?php
 							echo ($obj->personal_messages!='')?'<li class="infoPerExter color">'.$obj->personal_messages.'</li>':'';
 						?>
-						<li style="padding:3px 0"><?=$obj->email?></li>
+						<!-- <li style="padding:3px 0"><?=''//$obj->email?></li> -->
 						<?php
 							echo ($obj->country!='')?'<li class="infoPerExter">'.$obj->country.'</li>':'';
 							echo ($obj->url!='')?'<li class="peddingEx"><a target="_blank" href="'.$obj->url.'">'.$obj->url.'</a></li>':'';
 						?>
-						<li><label><?=$lang["USER_LBLFOLLOWERS"]." (</label>$obj->followers_count<label>) - ".$lang["USER_LBLFRIENDS"]." (</label>$obj->friends_count<label>)"?></label></li>
+						<li><label><?=lan('USER_LBLFOLLOWERS')." (</label>$obj->followers_count<label>) - ".lan('USER_LBLFRIENDS')." (</label>$obj->friends_count<label>)"?></label></li>
 						<?php if($obj->type=='0'){
-							echo ($obj->home_phone!=''&&$obj->home_phone!='-')?'<li><label>'.$lang["USERPROFILE_LBLHOMEPHONE"].': </label>'.$obj->home_phone.'</li>':'';
+							echo preg_match('/^\s*(|-|\+\d+-)\s*$/',$obj->home_phone)?'<li><label>'.lan("USERPROFILE_LBLHOMEPHONE").': </label>'.$obj->home_phone.'</li>':'';
 							}
-							echo ($obj->work_phone!=''&&$obj->work_phone!='-')?'<li><label>'.$lang["USERPROFILE_LBLWORKPHONE"].': </label>'.$obj->work_phone.'</li>':'';
-							echo ($obj->mobile_phone!=''&&$obj->mobile_phone!='-')?'<li><label>'.$lang["USERPROFILE_LBLMOBILEPHONE"].': </label>'.$obj->mobile_phone.'</li>':'';
+							echo preg_match('/^\s*(|-|\+\d+-?)\s*$/',$obj->work_phone)?'<li><label>'.lan('USERPROFILE_LBLWORKPHONE').': </label>'.$obj->work_phone.'</li>':'';
+							echo preg_match('/^\s*(|-|\+\d+-?)\s*$/',$obj->mobile_phone)?'<li><label>'.lan('USERPROFILE_LBLMOBILEPHONE').': </label>'.$obj->mobile_phone.'</li>':'';
 						?>
 					</ul>
 				</div>
 				<div class="clearfix"></div>
 			</article>
 			<article id="externalProfilePrefe" class="side-box imagenSug">
-				<header><span style="background-image: url('css/tbum/box-title/preferences.png')"><?=$lang["USERPROFILE_PREFERENCES"]?></span><?=$edit?$edit:''?></header>
+				<header><span style="background-image: url('css/tbum/box-title/preferences.png')"><?=lan('USERPROFILE_PREFERENCES')?></span><?=$edit?$edit:''?></header>
 				<div>
 					<ul>
 						<?php
-							$titles=array(null,$lang["EXTERNALPROFILE_LIKES"],$lang["EXTERNALPROFILE_WANTS"],$lang["EXTERNALPROFILE_NEEDS"]);
+							$titles=array(null,lan('EXTERNALPROFILE_LIKES'),lan('EXTERNALPROFILE_WANTS'),lan('EXTERNALPROFILE_NEEDS'));
 							$prefe=users_preferences($obj->id);
 							if(count($prefe)){
 								for($i=1;$i<4;$i++){
@@ -144,7 +144,7 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 									<?php endif; ?>
 								</li>
 						<?php	}
-							}else echo $lang["SOONEXTERPREFERENCES"].' '.formatoCadena("$obj->nameUser").' '.$lang["SOONEXTERPREFERENCES2"];
+							}else echo lan('SOONEXTERPREFERENCES').' '.formatoCadena("$obj->nameUser").' '.lan('SOONEXTERPREFERENCES2');
 						?>
 					</ul>
 				</div>
@@ -152,7 +152,7 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 			</article>
 		</div>
 		<div id="taglist-box" class="tags mini side-box imagenSug">
-			<header><span style="background-image: url('css/tbum/box-title/tags.png')"><?=$lang["MAINMNU_HOME"]?></span></header>
+			<header><span style="background-image: url('css/tbum/box-title/tags.png')"><?=lan('MAINMNU_HOME')?></span></header>
 			<?php //echo $edit?$edit:'';?>
 			<div class="tags-list">
 				<div class="tag-container"></div>
@@ -162,9 +162,9 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 			<!-- include 'templates/tags/carousel.php';  -->
 			<?php if($logged){ ?>
 			<div style="text-align: center">
-				<a href="<?=$lang['HREF_DEFAULT']?>" class="color-pro" action="tagsUser,1,'',<?=md5($obj->id)?>"><?=$lang["ALL_TAGS"]?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="<?=$lang['HREF_DEFAULT']?>" class="color-pro" action="personalTags,5,<?=md5($obj->id)?>">
-				<?=$lang["MAINMNU_PERSONALTAGS"]?>
+				<a href="<?=lan('HREF_DEFAULT')?>" class="color-pro" action="tagsUser,1,'',<?=md5($obj->id)?>"><?=lan('ALL_TAGS')?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="<?=lan('HREF_DEFAULT')?>" class="color-pro" action="personalTags,5,<?=md5($obj->id)?>">
+				<?=lan('MAINMNU_PERSONALTAGS')?>
 				</a>
 			</div>
 			<div class="clearfix"></div>
