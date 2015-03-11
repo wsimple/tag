@@ -247,9 +247,26 @@ class UploadHandler
 			substr($_SERVER['SCRIPT_NAME'],0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
 	}
 
+	protected $usr;
+	protected function get_code(){
+		if($this->usr) return $this->usr->code();
+		$client=new Client();
+		$code=!empty($_COOKIE['__code__'])?$_COOKIE['__code__']:
+			(!empty($_REQUEST['code'])?$_REQUEST['code']:'');
+		$id=!empty($_COOKIE['__uid__'])?$_COOKIE['__uid__']:
+			(!empty($_REQUEST['id'])?$_REQUEST['id']:'');
+		if($client->valid_code($code)||$client->valid_id($id)){
+			$this->usr=$client;
+			return $this->usr->code();
+		}
+		$this->cancel();
+	}
+
 	protected function get_user_id(){
 		// @session_start();
 		// return session_id();
+		return $this->get_code();
+		#viejo
 		if($this->_code) return $this->_code;
 		$code=isset($_COOKIE['__code__'])?$_COOKIE['__code__']:
 			(isset($_REQUEST['code'])?$_REQUEST['code']:'');
