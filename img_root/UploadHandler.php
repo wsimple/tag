@@ -31,15 +31,16 @@ class UploadHandler
 		$maxwidth=$_REQUEST['maxwidth'];
 		$imagen=false;
 		if($data[0]>$maxwidth){
+			$prop=$maxwidth/$data[0];
 			switch($data[2]){#type:1=gif,2=jpg,3=png
 				case 1:$imagen=imagecreatefromgif ($file_path);break;
 				case 2:$imagen=imagecreatefromjpeg($file_path);break;
 				case 3:$imagen=imagecreatefrompng ($file_path);break;
 			}
 			if(!$imagen) return false;#error
-			$alto=intval(round(650/$data[0]*$data[1]));
-			$img=imagecreatetruecolor(650,$alto);
-			if(imagecopyresized($img,$imagen,0,0,0,0,650,$alto,$data[0],$data[1])){
+			$alto=intval(round($data[1]*$prop));
+			$img=imagecreatetruecolor($maxwidth,$alto);
+			if(imagecopyresized($img,$imagen,0,0,0,0,$maxwidth,$alto,$data[0],$data[1])){
 				switch($data[2]){#type:1=gif,2=jpg,3=png
 					case 1:return imagegif($img,$file_path);
 					case 2:return imagejpeg($img,$file_path,90);
@@ -255,6 +256,8 @@ class UploadHandler
 			(!empty($_REQUEST['code'])?$_REQUEST['code']:'');
 		$id=!empty($_COOKIE['__uid__'])?$_COOKIE['__uid__']:
 			(!empty($_REQUEST['id'])?$_REQUEST['id']:'');
+		#temporal
+		if($code!='') return $code;
 		if($client->valid_code($code)||$client->valid_id($id)){
 			$this->usr=$client;
 			return $this->usr->code();

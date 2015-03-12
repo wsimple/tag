@@ -341,7 +341,7 @@ $(function(){
 		},
 		img={
 			url:'<?=$setting->img_server?>',
-			data:{code:'<?=$client->code?>',folder:'templates',maxwidth:650},
+			data:{code:'<?=$client->code?>',folder:'templates',maxwidth:<?=TAGWIDTHHD?>},
 		};
 	//File upload form
 	$('#fileupload').fileupload({
