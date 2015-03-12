@@ -178,15 +178,17 @@ body{
 	background-color: hsla(0, 0%, 100%, 0.8);
 	background-image: url('newdesign/zoomout.png'), url('newdesign/movebg.png');
 	background-repeat: no-repeat;
-	background-position: center 3px, center 2.1em;
+	background-position: center 3px, center 2.3em;
 	position: absolute;
 	z-index: 220;
 	height: 4em;
-	bottom: 1em;
+	bottom: 8em;
 	border-radius: 12%;
 	width: 2.2em;
 	left: 1em;
 	background-size: 50%;
+	min-width: 22px;
+	min-height: 32px;
 }
 textarea.ui-input-text{
 	height: 100%;
