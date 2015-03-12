@@ -5,7 +5,7 @@ if(defined('__CF__')) return; else define('__CF__',1);
  * Copy Rights :Tagamation, LLc
  * Date        :02/22/2011
  */
-$tb_path=preg_replace('/([\/][^\/]*)$/','/',dirname(str_replace('\\','/',__FILE__)));
+$tb_path=preg_replace('/([\/][^\/]*)$/','',dirname(str_replace('\\','/',__FILE__)));
 @define('RELPATH',"$tb_path/");
 if(!isset($config)) @include("$tb_path/.security/security.php");
 if(!isset($config)) @include('security/security.php');

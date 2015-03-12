@@ -1013,7 +1013,7 @@ function redimensionar($original,$img_nueva,$width,$height=''){
 		case 'jpg':
 		case 'gif'://imagegif($thumb,$img_nueva);break;
 		case 'png'://imagepng($thumb,$img_nueva);break;
-			imagejpeg($thumb,$img_nueva,90);
+			@imagejpeg($thumb,$img_nueva,90);
 	}
 	imagedestroy($img);
 	imagedestroy($thumb);
@@ -1889,7 +1889,8 @@ function FTPupload($origen,$destino='',$borrar=true){
 	#borrar: falso si no se quiere eliminar la imagen original
 	#las rutas deben ser relativas a img. si destino es vacio o false, se colocara en la misma ruta del origen
 	//validaciones previas
-	if(!is_file("$config->relpath/img/$origen")) return 404;
+	global $config;
+	if(!is_file("$config->relpath/img/$origen")) return "404 file $config->relpath/img/$origen not found";
 	global $config;
 	$error=0;
 	if($destino=='') $destino=$origen;
@@ -2956,7 +2957,7 @@ function createTag($tag,$force=false,$msg=false){
 	//Se busca la imagen de la tag
 	if(!$force) $im=imagecreatefromany($_path.$photopath);
 	//Si la imagen de la tag no existe,se crea
-	if(@$im||$debug){
+	if(@$im||$force||$debug){
 		if(!is_array($tag)) $tag=getTagData($tid);
 		$tag['fondoTag']=preg_replace('/ /','%20',$tag['fondoTag']);
 		if(!empty($tag['fondoTag'])){
@@ -3186,9 +3187,9 @@ function createTag($tag,$force=false,$msg=false){
 		}
 		//subir el archivo al servidor
 		// if(!$debug){//si estamos en debug no se guarda
-			$phototmp=$config->relpath.$path.'/tmp'.rand().'.png';
+			$phototmp="$config->relpath/$path/tmp".rand().'.png';
 			imagepng($im,$phototmp);
-			if (redimensionar($phototmp,$config->relpath.$photopath,TAGWIDTHHD)){
+			if (redimensionar($phototmp,"$config->relpath/$photopath",TAGWIDTHHD)){
 				@unlink($phototmp);
 				$ftp=FTPupload("tags/$photo");
 				if($msg) echo '<br/>guardada imagen '.$photo;
@@ -3199,9 +3200,9 @@ function createTag($tag,$force=false,$msg=false){
 	//creamos la miniatura si no existe
 	if(@$im&&(!fileExists($_path.$photompath)||$force)){
 		// if(!$debug){//si estamos en debug no se guarda
-			$phototmp=$config->relpath.$path.'/'.$tmpFile.'.png';
+			$phototmp="$config->relpath/$path/$tmpFile.png";
 			imagepng($im,$phototmp);
-			if (redimensionar($phototmp,$config->relpath.$photompath,200)){
+			if (redimensionar($phototmp,"$config->relpath/$photompath",200)){
 				@unlink($phototmp);
 				$ftp=FTPupload("tags/$photom");
 				if($msg) echo '<br/>guardada miniatura '.$photom;

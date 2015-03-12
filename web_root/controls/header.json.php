@@ -27,7 +27,7 @@ if(!$_header_json){
 
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
 	if(!$myId) $myId=0;
-	if(!$_origin) include $config->relpath.'includes/languages.config.php';
+	if(!$_origin) include RELPATH.'includes/languages.config.php';
 	quitar_inyect();
 	$debug=isset($_REQUEST['debug'])?$_REQUEST['debug']:$_COOKIE['_DEBUG_'];
 	unset($path,$_head);

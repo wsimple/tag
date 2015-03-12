@@ -1351,10 +1351,10 @@ function createTag($tag,$force=false,$msg=false){
 		}
 		if($tag){
 			$font=array(
-				$config->relpath.'fonts/trebuc.ttf',
-				$config->relpath.'fonts/trebucbd.ttf',
-				$config->relpath.'fonts/verdana.ttf',
-				$config->relpath.'fonts/verdanab.ttf'
+				RELPATH.'fonts/trebuc.ttf',
+				RELPATH.'fonts/trebucbd.ttf',
+				RELPATH.'fonts/verdana.ttf',
+				RELPATH.'fonts/verdanab.ttf'
 			);
 			//Se crea la imagen con el tamaño normal - 1200 x 554.
 			$im=imagecreatetruecolor(TAGWIDTHHD,TAGHEIGHTHD);
@@ -1363,7 +1363,7 @@ function createTag($tag,$force=false,$msg=false){
 			//Crear algunos colores
 			$blanco=imagecolorallocate($im,255,255,255);
 			$negro=imagecolorallocate($im,0,0,0);
-			// $imagen=(strpos(' '.$tag['fondoTag'],'default')?$config->relpath:$_path).'img/templates/'.$tag['fondoTag'];
+			// $imagen=(strpos(' '.$tag['fondoTag'],'default')?RELPATH:$_path).'img/templates/'.$tag['fondoTag'];
 			// $img=imagecreatefromany($imagen);
 			$is=@getimagesize($imagen);
 			if($is[0]>0){
@@ -1413,13 +1413,13 @@ function createTag($tag,$force=false,$msg=false){
 				$img->destroy();
 			}
 			//Bordes redondeados
-			$cr=25;//radio de la curva
+			$cr=TAGWIDTHHD/20;//radio de la curva
 			$mask=imagecreatetruecolor(TAGWIDTHHD,TAGHEIGHTHD);
 			imagecopy($mask,$im,0,0,0,0,TAGWIDTHHD,TAGHEIGHTHD);
 			$im1=WideImage::loadFromHandle($mask);
-			$im1=$im1->roundCorners(30,$im1->allocateColor(255,255,255), 2,255);
+			$im1=$im1->roundCorners($cr,$im1->allocateColor(255,255,255),2,255);
 			imagecopy($im,$im1->getHandle(),0,0,0,0,TAGWIDTHHD,TAGHEIGHTHD);
-			$im1->destroy(); 
+			$im1->destroy();
 			/**/
 			//Imagen de usuario
 			if($tag['idProduct']) $imagen=$_path.$tag['photoOwner'];
@@ -1428,10 +1428,10 @@ function createTag($tag,$force=false,$msg=false){
 			$img=imagecreatefromany($imagen);
 			if($img){
 				$im2=WideImage::loadFromHandle($img);
-				if ($im2->getWidth()!=round(60*$basemult) || $im2->getHeight()!=round(60*$basemult) ){
-					if ($im2->getWidth()!==$im2->getHeight()){
+				if($im2->getWidth()!=round(60*$basemult) || $im2->getHeight()!=round(60*$basemult) ){
+					if($im2->getWidth()!==$im2->getHeight()){
 						$w=$im2->getWidth();$h=$im2->getHeight();
-						if ($w>$h){
+						if($w>$h){
 							$y=0;
 							$x=($w-$h)/2;
 							$t=$h;
@@ -1444,7 +1444,7 @@ function createTag($tag,$force=false,$msg=false){
 					}
 					$im2=$im2->resize(round(60*$basemult),round(60*$basemult));
 				}
-				$im2=$im2->roundCorners(33,null, 2,255);
+				$im2=$im2->roundCorners($cr,null, 2,255);
 //				imagecopy($im,$im2->getHandle(),40,215,0,0,60,60); 
 				imagecopy($im,$im2->getHandle(),round(40*$basemult),round(215*$basemult),0,0,round(60*$basemult),round(60*$basemult)); 
 				$im2->destroy();
@@ -1539,7 +1539,7 @@ function createTag($tag,$force=false,$msg=false){
 				$y+=15;
 			}while(count($tmp)>$i);
 			//Imagen de placa
-			$imagen=$config->relpath.'img/placaFondo.png';
+			$imagen=$_path.'img/placaFondo-1200.png';
 			redimensionar($imagen,$imagen->relpath.$photompath,TAGWIDTHHD);
 			$img=imagecreatefromany($imagen);
 			if($img){
@@ -1550,9 +1550,9 @@ function createTag($tag,$force=false,$msg=false){
 		}
 		//subir el archivo al servidor
 		// if(!$debug){//si estamos en debug no se guarda
-			$phototmp=$config->relpath.$path.'/tmp'.rand().'.png';
+			$phototmp=RELPATH.$path.'/tmp'.rand().'.png';
 			imagepng($im,$phototmp);
-			if (redimensionar($phototmp,$config->relpath.$photopath,TAGWIDTHHD)){
+			if (redimensionar($phototmp,RELPATH.$photopath,TAGWIDTHHD)){
 				@unlink($phototmp);
 				$ftp=FTPupload("tags/$photo");
 				if($msg) echo '<br/>guardada imagen '.$photo;
@@ -1563,9 +1563,9 @@ function createTag($tag,$force=false,$msg=false){
 	//creamos la miniatura si no existe
 	if(@$im&&(!fileExists($_path.$photompath)||$force)){
 		// if(!$debug){//si estamos en debug no se guarda
-			$phototmp=$config->relpath.$path.'/'.$tmpFile.'.png';
+			$phototmp=RELPATH.$path.'/'.$tmpFile.'.png';
 			imagepng($im,$phototmp);
-			if (redimensionar($phototmp,$config->relpath.$photompath,200)){
+			if (redimensionar($phototmp,RELPATH.$photompath,200)){
 				@unlink($phototmp);
 				$ftp=FTPupload("tags/$photom");
 				if($msg) echo '<br/>guardada miniatura '.$photom;
@@ -1705,7 +1705,7 @@ function FTPupload($origen,$destino='',$borrar=true){
 	$file=end(explode('/',$destino));
 	if(!$file) $error=400;
 	$path=isset($config->ftp->folder)?$config->ftp->folder.'/':'';
-	$path.=preg_replace('/^\/|\/[^\/]*$/','',$destino);
+	$path.=dirname($destino);
 	$data=" P:$path F:$file O:$origen D:$destino";
 	if(!$error)
 	if(isset($config->ftp)){
@@ -1765,7 +1765,7 @@ function FTPupload($origen,$destino='',$borrar=true){
 		else
 			$error=(!@copy(RELPATH.'img/'.$origen,RELPATH.'img/'.$destino))?409:200;
 */	}
-	return $error;#.$data;#descomentar data si decea ver los mensajes de error
+	return $error.$data;#descomentar data si decea ver los mensajes de error
 }
 function FTPcopy($origen,$destino){
 	global $config;
