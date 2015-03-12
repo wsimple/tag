@@ -276,6 +276,8 @@ img#backgroundImage{
 }
 #topText,#bottomText{
 	font-size: 1em;
+	resize: none !important;
+	overflow: hidden; 
 }
 #topText,#bottomText{
 }
@@ -284,6 +286,8 @@ img#backgroundImage{
 }
 .inputs-tag div.ui-input-text{
 	padding: 0;
+	border: none;
+	background: transparent;
 
 }
 #topCounter,#middleCounter,#bottomCounter{

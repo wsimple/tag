@@ -26,7 +26,7 @@
 									</div>
 									<div id="topCounter" style="width:35px;"></div>
 								</div>
-								<textarea id="topText" name="topText" style="resize:none;"></textarea>
+								<input type="text" name="topText" style="resize:none;" id="topText">
 								<input type="hidden" name="topColor" id="topColor" value="#000" />
 							</div>
 							<div id="div_middleText" class="smt-div-profile-color">
@@ -46,7 +46,7 @@
 									</div>
 									<div id="bottomCounter" style="width:35px;"></div>
 								</div>
-								<textarea id="bottomText" name="bottomText" style="resize:none;"></textarea>
+								<input type="text" id="bottomText" name="bottomText" style="resize:none;">
 								<input type="hidden" name="bottomColor" id="bottomColor" value="#000" />
 							</div>
 						</div>
