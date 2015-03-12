@@ -49,7 +49,7 @@ if ($acceso){  ?>
 	<div id="dialogBck"></div>
 	<div class="tag-container" style="height:auto;">
 		<div id="html_tag_placa">
-			<?=NEWTAG_DIMESIONS.': 650x300px'?>
+			<?=NEWTAG_DIMESIONS.': 1200x554px'?>
 		</div>
 		<!-- mensaje superior -->
 		<div id="inputShortMessage" style="position: absolute; top: 41px; left: 115px; z-index: 999999;">

@@ -1076,6 +1076,8 @@ content.resendEmailPassword input[type='button']{
 	-moz-border-radius:0.875em;/*28px;*/
 	border-radius:0.875em;/*28px;*/
 	-webkit-border-radius:0.875em;/*28px;*/
+	background-size: 100%;
+	background-repeat: no-repeat;
 }
 .tag-container [tag] .minitag,
 .tag-container [tag] div.video,
@@ -2062,6 +2064,8 @@ container .mid-pannel menu#carousel{
 
 #editTag-box #bckSelected{
 	background-position:0 50%;
+	background-size: 100%;
+	background-repeat: no-repeat;
 	height:300px;
 	width:650px;
 	-webkit-border-radius:30px;

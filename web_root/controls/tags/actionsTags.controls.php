@@ -1,7 +1,7 @@
 <?php
 	include '../header.json.php';
 	
-	include $config->relpath.'class/class.phpmailer.php';
+	include $config->relpath.'/class/class.phpmailer.php';
 
 	if (quitar_inyect()){
 		$myId=$myId?$myId:$_SESSION['ws-tags']['ws-user']['id'];
@@ -31,7 +31,7 @@
 											FROM tags
 											WHERE id =?",array($tag['id']));
 					$idTag=mysqli_insert_id(CON::con());
-					createTag($idTag);
+					createTag($idTag,true,is_debug());
 					//act dueño tag
 					CON::update("tags","id_user=?"," id=?",array($myId,$idTag));
 					
