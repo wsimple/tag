@@ -962,33 +962,24 @@ function showTag(tag){//individual tag
 			(isLogged()?
 		'<div id="panel"><menu>'+
 			'<ul>'+
-				'<li id="other-options">...'+
-					'<div class="sub-menu-tag"><ul style="display:none;">'+
-						(tag['uid']?
-						'<li id="users" users="'+tag['uid']+'"><span>profile</span></li>':'')+
-						(btn['redist']?
-						'<li id="redistr" title="Redist"><span>Redist</span></li>':'')+
-						btnSponsor+(btn['trash'] && tag.type != 'out'?
-						'<li id="trash" title="Trash"><span>Trash</span></li>':'')+
-						(tag['typeVideo']?
-						'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>':'')+
-						(tag['product']?
-						'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
-						:'')+
-						(btn['report']?
-							'<li id="report" title="Report"><span>Report</span></li>'
-						:'')+
-					'</ul></div>'+
-				'</li>'+
-				(btn['share']?
-					'<li id="share" title="Share"><span>Share</span></li>'
-				:'')+(!tag['popup']?
-					'<li id="comment" title="Comment"><span>Comment</span></li>'
-				:'')+
+				(true || tag.typeVideo?
+				'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>':'')+
+				(true || tag.product?
+				'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>':'')+
+				(true || tag.uid?
+				'<li id="users" users="'+tag.uid+'"><span>profile</span></li>':'')+
+				btnSponsor+
+				(true || btn.share?
+					'<li id="share" title="Share"><span>Share</span></li>':'')+
+				(true || btn.redist?
+					'<li id="redistr" title="Redist"><span>Redist</span></li>':'')+
+				(!tag.popup?
+					'<li id="comment" title="Comment"><span>Comment</span></li>':'')+
 				'<li id="like" title="Like"><div>'+tag.num_likes+'</div></li>'+
 				'<li id="dislike" title="Dislike"><div>'+tag.num_disLikes+'</div></li>'+
 			'</ul>'+hash+
-		'<div class="clearfix"></div></menu></div>'
+		'<div class="clearfix"></div>'+
+		'</menu></div>'
 		:'<div id="menuTagnoLogged"></div>')+
 		'<div class="tag-icons">'+
 			'<div id="sponsor" '+(tag['sponsor']?'':'style="display:none;"')+'></div>'+
@@ -996,10 +987,12 @@ function showTag(tag){//individual tag
 			'<div id="likeIcon" '+(tag['likeIt']>0?'':'style="display:none;"')+'></div>'+
 			'<div id="dislikeIcon" '+(tag['likeIt']<0?'':'style="display:none;"')+'></div>'+
 		'</div>'+
-		// '<div class="tag-counts">'+
-		// 	'<div id="likeIcon"></div><span>'+tag.num_likes+'</span>'+
-		// 	'<div id="dislikeIcon"></div><span>'+tag.num_disLikes+'</span>'+
-		// '</div>'+
+		'<div class="tag-counts">'+
+			(btn.trash && tag.type != 'out'?
+				'<div id="trash" title="Trash"><div>Trash</div></div>':'')+
+			(btn.report?
+				'<div id="report" title="Report"><div>Report</div></div>':'')+
+		'</div>'+
 		(tag['rid']?'<div class="redist"><div>'+lan('TXT_REDISTBY')+tag['name_redist']+'</div></div>':'')+
 		((tag['product']||tag['typeVideo'])?
 			'<div class="extras"><div>'+
