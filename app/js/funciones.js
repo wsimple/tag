@@ -962,16 +962,16 @@ function showTag(tag){//individual tag
 			(isLogged()?
 		'<div id="panel"><menu>'+
 			'<ul>'+
-				(true || tag.typeVideo?
+				(tag.typeVideo?
 				'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>':'')+
-				(true || tag.product?
+				(tag.product?
 				'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>':'')+
-				(true || tag.uid?
+				(tag.uid?
 				'<li id="users" users="'+tag.uid+'"><span>profile</span></li>':'')+
 				btnSponsor+
-				(true || btn.share?
+				(btn.share?
 					'<li id="share" title="Share"><span>Share</span></li>':'')+
-				(true || btn.redist?
+				(btn.redist?
 					'<li id="redistr" title="Redist"><span>Redist</span></li>':'')+
 				(!tag.popup?
 					'<li id="comment" title="Comment"><span>Comment</span></li>':'')+
