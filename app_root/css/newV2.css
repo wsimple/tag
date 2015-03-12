@@ -765,6 +765,14 @@ img#backgroundImage{
 	background: #b3b9bd url('newdesign/submenu/create_tag.png') no-repeat center 4px;
 	background-size: auto 50%;
 }
+#sub-menu li.newtag a.group{
+	background-color: #b3b9bd;
+	background-image: url('newdesign/submenu/groups.png'),url('newdesign/submenu/create_tag.png');
+	/*background: #b3b9bd url('newdesign/submenu/groups.png') no-repeat bottom 4px;*/
+	background-size: auto 30%, auto 50%;	
+	background-repeat: no-repeat;
+	background-position: right center,top center;
+}
 #sub-menu li.srcico{
 	background: #b3b9bd url('newdesign/submenu/search.png') no-repeat center 4px;
 	background-size: auto 50%;
@@ -1021,6 +1029,12 @@ li.userInList h3{
 	color: #FFF;
 	font-weight: normal;
 	display: block;
+}
+#menu .menu-button a.publish_newTag_group{
+  background-image: url('newdesign/submenu/groups.png');
+  background-size: auto 30%;
+  background-repeat: no-repeat;
+  background-position: right center;
 }
 #page-newTag #menu span.fix-grid{ /*Fix grid jquery ui for 6 icons*/
 	width: 16.65%;
@@ -2659,5 +2673,10 @@ li.userInList h3{
 		width:20%;
 	}
 	#cate-dialog ul{ font-size: 1.5em; }
+	#sub-menu li.newtag a.group{background-size: auto 50%;}
+	#menu .menu-button a.publish_newTag_group{
+		background-size: auto 50%;
+		background-position: 130px center;
+	}
 }
 /*End Media querys*/

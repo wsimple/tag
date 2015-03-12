@@ -165,6 +165,9 @@
 				if($_GET['group']||$_GET['product']){
 					$('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
 				}
+				if($_GET['group']){
+					$('#publish_newTag').addClass('publish_newTag_group');
+				}
 //				console.log($_GET['product']);
 //				if ($_GET['product']){
 //					$('#div_publicTag').css('display','none');
