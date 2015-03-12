@@ -987,7 +987,7 @@ function showTag(tag){//individual tag
 			'<div id="likeIcon" '+(tag['likeIt']>0?'':'style="display:none;"')+'></div>'+
 			'<div id="dislikeIcon" '+(tag['likeIt']<0?'':'style="display:none;"')+'></div>'+
 		'</div>'+
-		'<div class="tag-counts">'+
+		'<div class="other-options">'+
 			(btn.trash && tag.type != 'out'?
 				'<div id="trash" title="Trash"><div>Trash</div></div>':'')+
 			(btn.report?
@@ -1052,7 +1052,7 @@ function actionsTags(layer, forceComments){
 			bigLike(tagId,'like');
 			playLike(tagId,'likeIcon','dislikeIcon',forceComments);
 		});
-		$(layer).on('click', 'menu li', function(e){
+		$(layer).on('click', 'menu li, .other-options div', function(e){
 			if ($(e.target).hasClass('canceled')) return false;
 
 			var tagId = $(e.target).parents('[tag]').attr('tag');

@@ -199,6 +199,7 @@ function newMenu(){
 	'<a href="javascript:history.back()"><span id="backbtn" onclick="goBack();"></span></a>'+
 	'<div class="arrow"></div>'+
 		'<ul>'+
+			'<li class="timeline"><a href="'+PAGE.timeline+'">'+lan('time line', 'ucw')+'</a></li>'+
 			'<li class="toptags"><a href="'+PAGE.toptags+'">'+lan('TOPTAGS_TITLE')+'</a></li>'+
 			'<li class="hot"><a href="#">'+lan('hot','ucw')+'</a></li>'+
 			// '<li class="news"><a href="news.html">'+lan('NEWS')+'</a></li>'+
@@ -207,7 +208,7 @@ function newMenu(){
 			'<li class="chat"><a href="cometchat/i.html">'+lan('chat')+'</a></li>'+
 			'<li class="profile"><a href="'+PAGE.profile+'?id='+$.local('code')+'">'+lan('profile')+'</a></li>'+
 			'<li class="friends"><a href="'+PAGE.userfriends+'?type=friends&id_user='+$.local('code')+'">'+lan('friends','ucw')+'</a></li>'+
-			'<li class="createtag"><a href="newtag.html">'+lan('newTag')+'</a></li>'+
+			// '<li class="createtag"><a href="newtag.html">'+lan('newTag')+'</a></li>'+
 			'<li class="store"><a href="store.html">'+lan('store')+'</a></li>'+
 			'<li class="logout"><a href="#" onclick="javascript:logout();">'+lan('logout')+'</a></li>'+
 		'</ul>'+
@@ -962,33 +963,24 @@ function showTag(tag){//individual tag
 			(isLogged()?
 		'<div id="panel"><menu>'+
 			'<ul>'+
-				'<li id="other-options">...'+
-					'<div class="sub-menu-tag"><ul style="display:none;">'+
-						(tag['uid']?
-						'<li id="users" users="'+tag['uid']+'"><span>profile</span></li>':'')+
-						(btn['redist']?
-						'<li id="redistr" title="Redist"><span>Redist</span></li>':'')+
-						btnSponsor+(btn['trash'] && tag.type != 'out'?
-						'<li id="trash" title="Trash"><span>Trash</span></li>':'')+
-						(tag['typeVideo']?
-						'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>':'')+
-						(tag['product']?
-						'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>'
-						:'')+
-						(btn['report']?
-							'<li id="report" title="Report"><span>Report</span></li>'
-						:'')+
-					'</ul></div>'+
-				'</li>'+
-				(btn['share']?
-					'<li id="share" title="Share"><span>Share</span></li>'
-				:'')+(!tag['popup']?
-					'<li id="comment" title="Comment"><span>Comment</span></li>'
-				:'')+
+				(tag.typeVideo?
+				'<li id="'+tag['typeVideo']+'" vUrl="'+tag['video']+'"><span>video</span><a href="'+tag['video']+' target="_blank" style="display:none"></a></li>':'')+
+				(tag.product?
+				'<li id="qrcode" title="product" p="'+tag['product']['id']+'"><span>Product</span></li>':'')+
+				(tag.uid?
+				'<li id="users" users="'+tag.uid+'"><span>profile</span></li>':'')+
+				btnSponsor+
+				(btn.share?
+					'<li id="share" title="Share"><span>Share</span></li>':'')+
+				(btn.redist?
+					'<li id="redistr" title="Redist"><span>Redist</span></li>':'')+
+				(!tag.popup?
+					'<li id="comment" title="Comment"><span>Comment</span></li>':'')+
 				'<li id="like" title="Like"><div>'+tag.num_likes+'</div></li>'+
 				'<li id="dislike" title="Dislike"><div>'+tag.num_disLikes+'</div></li>'+
 			'</ul>'+hash+
-		'<div class="clearfix"></div></menu></div>'
+		'<div class="clearfix"></div>'+
+		'</menu></div>'
 		:'<div id="menuTagnoLogged"></div>')+
 		'<div class="tag-icons">'+
 			'<div id="sponsor" '+(tag['sponsor']?'':'style="display:none;"')+'></div>'+
@@ -996,10 +988,12 @@ function showTag(tag){//individual tag
 			'<div id="likeIcon" '+(tag['likeIt']>0?'':'style="display:none;"')+'></div>'+
 			'<div id="dislikeIcon" '+(tag['likeIt']<0?'':'style="display:none;"')+'></div>'+
 		'</div>'+
-		// '<div class="tag-counts">'+
-		// 	'<div id="likeIcon"></div><span>'+tag.num_likes+'</span>'+
-		// 	'<div id="dislikeIcon"></div><span>'+tag.num_disLikes+'</span>'+
-		// '</div>'+
+		'<div class="other-options">'+
+			(btn.trash && tag.type != 'out'?
+				'<div id="trash" title="Trash"><div>Trash</div></div>':'')+
+			(btn.report?
+				'<div id="report" title="Report"><div>Report</div></div>':'')+
+		'</div>'+
 		(tag['rid']?'<div class="redist"><div>'+lan('TXT_REDISTBY')+tag['name_redist']+'</div></div>':'')+
 		((tag['product']||tag['typeVideo'])?
 			'<div class="extras"><div>'+
@@ -1059,7 +1053,7 @@ function actionsTags(layer, forceComments){
 			bigLike(tagId,'like');
 			playLike(tagId,'likeIcon','dislikeIcon',forceComments);
 		});
-		$(layer).on('click', 'menu li', function(e){
+		$(layer).on('click', 'menu li,.other-options div', function(e){
 			if ($(e.target).hasClass('canceled')) return false;
 
 			var tagId = $(e.target).parents('[tag]').attr('tag');

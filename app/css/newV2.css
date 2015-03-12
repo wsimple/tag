@@ -397,7 +397,7 @@ img#backgroundImage{
 	background: transparent;
 }
 /*tag*/
-.tag-container [tag] .tag-counts{ /*25px;*/
+.tag-container [tag] .other-options{
 	background-color: rgba(255, 255, 255, 0.4);
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -409,7 +409,28 @@ img#backgroundImage{
 	position: absolute;
 	padding: 5px;
 }
-.tag-container [tag] .tag-counts div{
+.tag-container [tag] .other-options div{
+	display:inline-block;
+	width:0.706em; /*29px;*/
+	height:0.706em; /*29px;*/
+	-webkit-background-size:100% auto;
+	-o-background-size:100% auto;
+	background-size:100% auto;
+	-background-repeat: no-repeat;
+	-webkit-background-position:left center;
+	-moz-background-position:left center;
+	-ms-background-position:left center;
+	-o-background-position:left center;
+	background-position:left center;
+	margin: 0 2px;
+}
+
+.tag-container [tag] .other-options div+span{
+	font-size: 0.6em;
+	position: relative;
+	bottom: 3px;
+}
+.tag-container [tag] .other-options div{
 	background-size:75% auto;
 	background-repeat:no-repeat;
 	background-position:top center;
@@ -417,7 +438,7 @@ img#backgroundImage{
 	height:100%;
 	margin:0;;
 }
-.tag-container [tag] .tag-counts div>div{
+.tag-container [tag] .other-options div>div{
 	color: white;
 	font-size: 0.4em;
 	font-weight: normal;
@@ -425,16 +446,16 @@ img#backgroundImage{
 	top: 6px;
 	text-shadow: none;
 }
-.tag-container [tag] .tag-counts div#trash{
+.tag-container [tag] .other-options div#trash{
 	background-image:url('newdesign/tag/remove.png');
 }
-.tag-container [tag] .tag-counts div#trash:hover{
+.tag-container [tag] .other-options div#trash:hover{
 	background-image:url('newdesign/tag/remove.png');
 }
-.tag-container [tag] .tag-counts div#report{
+.tag-container [tag] .other-options div#report{
 	background-image:url('newdesign/tag/hide.png?1');
 }
-.tag-container [tag] .tag-counts div#report:hover{
+.tag-container [tag] .other-options div#report:hover{
 	background-image:url('newdesign/tag/hide.png?1');
 }
 [tag] menu li{
@@ -451,7 +472,7 @@ img#backgroundImage{
 	margin: 2px;
 }
 .tag-container [tag] menu li#users{
-	background-image:url('newdesign/tag/profile.png');
+	background-image: url('newdesign/tag/profile.png');
 }
 .tag-container [tag] menu li#users:hover,
 .mobile .tag-container [tag] menu li.expand#users{

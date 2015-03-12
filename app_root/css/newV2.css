@@ -1,3 +1,8 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+body{
+	font-family: 'Roboto', sans-serif;
+}
+
 /*Cuadros de dialogo*/
 .myDialog .window{
 	/*background: hsla(0, 0%, 20%, 0.85);*/ /*porcia miharbi dice que no es el color*/
@@ -125,6 +130,9 @@
 	z-index: 2000;
 	position: absolute;
 }
+.tag-container [tag] menu ul{
+	padding: 4px 0;
+}
 .sub-menu-tag ul{
 	width: 100%;
 	list-style-type: none;
@@ -134,7 +142,7 @@
 	border: 1px solid #CCC;
 	position: relative;
 	display: list-item;
-	bottom: 2.8em;
+	bottom: 3.2em;
 	right: 3.8em;
 }
 /* Flecha sub-menu */
@@ -166,6 +174,20 @@
 	display: list-item !important;
 }
 /*new tag*/
+.touch-leyend{
+	background-color: hsla(0, 0%, 100%, 0.8);
+	background-image: url('newdesign/zoomout.png'), url('newdesign/movebg.png');
+	background-repeat: no-repeat;
+	background-position: center 3px, center 2.1em;
+	position: absolute;
+	z-index: 220;
+	height: 4em;
+	bottom: 1em;
+	border-radius: 12%;
+	width: 2.2em;
+	left: 1em;
+	background-size: 50%;
+}
 textarea.ui-input-text{
 	height: 100%;
 	line-height: 1em;
@@ -219,9 +241,9 @@ img#backgroundImage{
 	position: absolute;
 	z-index: 200;
 	margin: auto; left: 0; bottom: 0; right: 0;
-	width: 80%;
-	height: 65%;
+	width: 70%;
 	top: -2.5em;
+	height: 55%;
 
 }
 .inputs-tag .ui-input-text.ui-focus{
@@ -250,7 +272,7 @@ img#backgroundImage{
 #middleText{
 	font-size: 2.2em;
 }
-#bottomText{
+#topText,#bottomText{
 	font-size: 1em;
 }
 #topText,#bottomText{
@@ -394,6 +416,67 @@ img#backgroundImage{
 	background: transparent;
 }
 /*tag*/
+.tag-container [tag] .other-options{
+	background-color: rgba(255, 255, 255, 0.4);
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+	right: 0.781em;
+	top: 0.563em;
+	position: absolute;
+	padding: 5px;
+}
+.tag-container [tag] .other-options div{
+	display:inline-block;
+	width:0.706em; /*29px;*/
+	height:0.706em; /*29px;*/
+	-webkit-background-size:100% auto;
+	-o-background-size:100% auto;
+	background-size:100% auto;
+	-background-repeat: no-repeat;
+	-webkit-background-position:left center;
+	-moz-background-position:left center;
+	-ms-background-position:left center;
+	-o-background-position:left center;
+	background-position:left center;
+	margin: 0 2px;
+}
+
+.tag-container [tag] .other-options div+span{
+	font-size: 0.6em;
+	position: relative;
+	bottom: 3px;
+}
+.tag-container [tag] .other-options div{
+	background-size:75% auto;
+	background-repeat:no-repeat;
+	background-position:top center;
+	width:100%;
+	height:100%;
+	margin:0;;
+}
+.tag-container [tag] .other-options div>div{
+	color: white;
+	font-size: 0.4em;
+	font-weight: normal;
+	position: relative;
+	top: 6px;
+	text-shadow: none;
+}
+.tag-container [tag] .other-options div#trash{
+	background-image:url('newdesign/tag/remove.png');
+}
+.tag-container [tag] .other-options div#trash:hover{
+	background-image:url('newdesign/tag/remove.png');
+}
+.tag-container [tag] .other-options div#report{
+	background-image:url('newdesign/tag/hide.png?1');
+}
+.tag-container [tag] .other-options div#report:hover{
+	background-image:url('newdesign/tag/hide.png?1');
+}
 [tag] menu li{
 	border: none !important;
 	/*font-size: 2em;*/
@@ -401,6 +484,18 @@ img#backgroundImage{
 	color: white;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
 	background-size: 1.433em !important;
+	margin: 0 3px;
+}
+.tag-container [tag] menu li#like, .tag-container [tag] menu li#dislike{
+	padding: 0;
+	margin: 2px;
+}
+.tag-container [tag] menu li#users{
+	background-image: url('newdesign/tag/profile.png');
+}
+.tag-container [tag] menu li#users:hover,
+.mobile .tag-container [tag] menu li.expand#users{
+	background-image:url('newdesign/tag/profile.png');
 }
 .tag-container [tag] menu li#like div{
 	background-image:url('newdesign/tag/like.png?1');
@@ -422,12 +517,6 @@ img#backgroundImage{
 .tag-container [tag] menu li#share:hover{
 	background-image:url('menu/redist_over.png?1');
 	
-}
-.tag-container [tag] menu li#report{
-	background-image:url('newdesign/tag/hide.png?1');
-}
-.tag-container [tag] menu li#report:hover{
-	background-image:url('newdesign/tag/hide.png?1');
 }
 .tag-container [tag] menu li#redistr{
 	background-image:url('newdesign/tag/share.png?1');
@@ -456,10 +545,6 @@ img#backgroundImage{
 .tag-container [tag] menu li#edit:hover,
 .mobile .tag-container [tag] menu li.expand#edit{
 	background-image:url('menu/edit_over.png?1');
-}
-[tag] menu li#like, [tag] menu li#dislike,[tag] menu li#other-options{
-	padding: 0;
-	background-image: none;
 }
 [tag] menu li#like div, [tag] menu li#dislike div{
 	top: -6px;

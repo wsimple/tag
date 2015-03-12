@@ -332,6 +332,7 @@
 						bgsize=bgsize+'% auto';
 						// bg = 'http://www.scorezero.com/wp-content/uploads/2014/10/gtaV.jpg'; // solo Pruebas
 						$('#backgroundPreview').html('<img id="backgroundImage" src="'+bg+'" alt="">');
+						$('.tag-solo').prepend('<div class="touch-leyend"></div>');
 						var panzoomOpt = { maxScale: img.naturalWidth / img.clientWidth, minScale: 1,contain:'invert'};
 						window.panzoom = $("#backgroundImage").panzoom(panzoomOpt).on('panzoomstart',function(){
 							$('.fs-wrapper').jScroll('remove');
