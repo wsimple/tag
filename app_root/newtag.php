@@ -26,7 +26,7 @@
 									</div>
 									<div id="topCounter" style="width:35px;"></div>
 								</div>
-								<textarea id="topText" name="topText" style="resize:none;"></textarea>
+								<input type="text" name="topText" style="resize:none;" id="topText">
 								<input type="hidden" name="topColor" id="topColor" value="#000" />
 							</div>
 							<div id="div_middleText" class="smt-div-profile-color">
@@ -46,7 +46,7 @@
 									</div>
 									<div id="bottomCounter" style="width:35px;"></div>
 								</div>
-								<textarea id="bottomText" name="bottomText" style="resize:none;"></textarea>
+								<input type="text" id="bottomText" name="bottomText" style="resize:none;">
 								<input type="hidden" name="bottomColor" id="bottomColor" value="#000" />
 							</div>
 						</div>
@@ -164,6 +164,9 @@
 				//hide controls provate tag if isset group
 				if($_GET['group']||$_GET['product']){
 					$('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
+				}
+				if($_GET['group']){
+					$('#publish_newTag').addClass('publish_newTag_group');
 				}
 //				console.log($_GET['product']);
 //				if ($_GET['product']){
@@ -332,6 +335,7 @@
 						bgsize=bgsize+'% auto';
 						// bg = 'http://www.scorezero.com/wp-content/uploads/2014/10/gtaV.jpg'; // solo Pruebas
 						$('#backgroundPreview').html('<img id="backgroundImage" src="'+bg+'" alt="">');
+						$('.tag-solo').prepend('<div class="touch-leyend"></div>');
 						var panzoomOpt = { maxScale: img.naturalWidth / img.clientWidth, minScale: 1,contain:'invert'};
 						window.panzoom = $("#backgroundImage").panzoom(panzoomOpt).on('panzoomstart',function(){
 							$('.fs-wrapper').jScroll('remove');

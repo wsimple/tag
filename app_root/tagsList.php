@@ -187,7 +187,7 @@
 							if(data['isMember']){
 								$('#tagsList').removeClass('no-join');
 								$('#rowTitleMove .ui-block-z a').show();
-								$('#sub-menu .newtag a,#noresult-tags').attr('href',"newtag.html?group="+id);
+								$('#sub-menu .newtag a,#noresult-tags').attr('href',"newtag.html?group="+id).addClass('group');
 								admin=data['admin']=='0'?false:true;
 								numAdm=data['numAdm'];
 							}else{
