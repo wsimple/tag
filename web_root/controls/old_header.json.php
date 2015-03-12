@@ -32,12 +32,12 @@ if(!$_header_json){
 	$mobile=($_POST['CROSSDOMAIN']||$_head['SOURCEFORMAT']=='mobile');
 	$path=str_repeat('../',1+substr_count(end(explode('controls/',$_SERVER['PHP_SELF'])),'/'));
 	include_once($path.'includes/config.php');
-	include $config->relpath.'includes/session.php';
-	include $config->relpath.'includes/functions.php';
-	include $config->relpath.'class/wconecta.class.php';
+	include RELPATH.'includes/session.php';
+	include RELPATH.'includes/functions.php';
+	include RELPATH.'class/wconecta.class.php';
 
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
-	if(!$_origin) include $config->relpath.'includes/languages.config.php';
+	if(!$_origin) include RELPATH.'includes/languages.config.php';
 	if(!quitar_inyect()) die();
 	$debug=isset($_REQUEST['debug'])?$_REQUEST['debug']:$_COOKIE['_DEBUG_'];
 	unset($path,$_head);

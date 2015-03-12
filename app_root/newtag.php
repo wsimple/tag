@@ -277,9 +277,8 @@
 				$('.list-wrapper').jScroll({hScroll:false});
 				$('#footerPicture #template').click(function(){
 					$.ajax({
-						url:SERVERS.img,
+						url:SERVERS.img+'?code='+$.local('code')+'&folder=templates',
 						type:'get',
-						data:{folder:'templates'},
 						xhrFields:{withCredentials:true},
 						headers:{},
 						success:function(data){
@@ -288,7 +287,7 @@
 							data['files'].forEach(function(el){
 								list+=
 								'<div style="background-image:url('+el.url+');" '+
-									'data-url="'+el.url+'" data-template="'+el.code+'/'+el.name+'"></div>';
+									'data-url="'+el.url+'" data-template="'+$.local('code')+'/'+el.name+'"></div>';
 							});
 							myDialog({
 								id:'#backgroundsDialog',

@@ -24,14 +24,14 @@ if(!empty($_GET['lang'])){
 }
 if(!$actual) $actual='en';
 
-include($config->relpath."language/en.php");
+include(RELPATH."language/en.php");
 $_tmp=$lang;
-include($config->relpath."main/lang/en.php");
+include(RELPATH."main/lang/en.php");
 $_tmp=array_merge($_tmp,$lang);
 if($actual!='en'){
-	include($config->relpath."language/$actual.php");
+	include(RELPATH."language/$actual.php");
 	$_tmp=array_merge($_tmp,$lang);
-	include($config->relpath."main/lang/$actual.php");
+	include(RELPATH."main/lang/$actual.php");
 	$_tmp=array_merge($_tmp,$lang);
 }
 $lang=$_tmp;

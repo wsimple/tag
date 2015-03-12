@@ -3,7 +3,7 @@ include_once('config.php');
 include_once('resizeimage.inc.php');
 function relative_path($url){
 	global $config;
-	return str_replace($config->dominio,$config->relpath,$url);
+	return str_replace($config->dominio,RELPATH,$url);
 }
 $tipo=$_GET['tipo'];
 $porc=$_GET['porc'];

@@ -99,14 +99,8 @@ if($data->tipo){
 		$data->email['Password']="Nepali13@!";
 		$data->email['SMTPAuth']=true;
 
-		$data->imgserver='http://52.1.70.172/img/';
-		$data->main_server='http://52.1.70.172/';
-		$data->app_server=$data->main_server.'app/';
-		$data->img_server=$data->main_server.'img/';
 		$data->video_server=$data->main_server.'video/';
 		$data->main_server_path="$relpath/web_root/";
-		$data->img_server_path="$relpath/img_root/";
-		$data->video_server_path="$relpath/video_root/";
 		$data->allow_origin='/^https?:\\/\\/(\\\w+\\\.)?tagbum.com$/i';
 		###########
 
@@ -115,14 +109,13 @@ if($data->tipo){
 		$data->ftp['pass']='-t@gvzlA_ftp';
 		$data->ftp['folder']='img';
 
+		$data->main_server='http://tagbum.com/';
 		$data->app_server='http://app.tagbum.com/';
 		$data->img_server='http://i.tagbum.com/';
 		$data->img_server='http://52.1.31.18/';
 		$data->video_server='http://v.tagbum.com/';
 		$data->video_server='http://52.0.138.46/';
-		$data->video_server_path='http://68.109.244.196/';
 		$data->video_server_path='http://172.31.40.43/';
-		$data->img_server_path='http://68.109.244.201/';
 		$data->img_server_path='http://172.31.45.136/';
 	}elseif($data->tipo=='local'){
 		$data->base_url='/tag/';
