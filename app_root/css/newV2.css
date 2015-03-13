@@ -1056,7 +1056,7 @@ li.userInList h3{
 	z-index: 200;
 	bottom: -114px;
 	text-align: center;
-	background-color: hsla(210, 26%, 30%, 0.8);
+	background-color: hsla(210, 26%, 30%, 0.4);
 }
 
 #bottom-menu > div{ /*Flechita*/
