@@ -236,8 +236,7 @@ input.ui-input-text, textarea.ui-input-text{
 }
 img#backgroundImage{
 	height: auto;
-	width: 20.3125em;
-	max-width: 650px;
+	width: 100%;
 }
 .inputs-tag{
 	position: absolute;

@@ -142,7 +142,7 @@
 					'<span class="ui-block-d menu-button"><a href="timeLine.html"><img src="css/newdesign/newtag/cancel.png"><br>'+lan('cancel','ucw')+'</a></span>'+
 					'<span class="ui-block-e menu-button"><a id="publish_newTag" href="#" title="newtag"><img src="css/newdesign/newtag/publish.png"><br>'+lang.publish+'</a></span>'
 				);
-				if (CORDOVA) {
+				if(CORDOVA){
 					$('#menu span').addClass('fix-grid');
 				};
 				$('#topText'					).attr('placeholder',lang.NEWTAG_MESSAGE);
@@ -343,19 +343,26 @@
 						}).on('panzoomend',function(e, panzoom){
 							$('.inputs-tag').css('opacity','1');
 							$('.fs-wrapper').jScroll();
-							bgMatrix=panzoom.getMatrix();
-							console.log(bgMatrix);
-							console.log('['+bgMatrix.toString()+']');
 						});
 						$(this).attr('src','');
 						this.dataset.template='';
 						this.dataset.img64='';
+						var imgWidth=panzoom.width();
+						$(window).off('resize.panzoom,orientationchange.panzoom')
+						.on('resize.panzoom,orientationchange.panzoom',function(){
+							var bgMatrix=panzoom.panzoom('getMatrix');
+							bgMatrix[4]=Math.floor(bgMatrix[4]*panzoom.width()/imgWidth);
+							bgMatrix[5]=Math.floor(bgMatrix[5]*panzoom.width()/imgWidth);
+							imgWidth=panzoom.width();
+							panzoom.panzoom('resetDimensions')
+								.panzoom('setMatrix',JSON.parse('['+bgMatrix.toString()+']'));
+						});
 					}
 				});
 
 				if(CORDOVA){
 					document.addEventListener('deviceready',function(){
-						alert('Device ready no')
+						alert('Device ready no');
 						var cam=Camera,
 							photoData={
 								targetWidth:650,
@@ -413,6 +420,10 @@
 					$('#pictures_shareTag input').each(function(){
 						emails.push($(this).val());
 					});
+					var realWidth=1200,scaledWidth=panzoom.width(),bgMatrix=panzoom.panzoom('getMatrix');
+					bgMatrix[4]=Math.floor(bgMatrix[4]*realWidth/scaledWidth);
+					bgMatrix[5]=Math.floor(bgMatrix[5]*realWidth/scaledWidth);
+					console.log('bgmatrix',bgMatrix);
 					//alert(emails.join());
 					myAjax({
 						type:'POST',
@@ -432,12 +443,12 @@
 							people		:emails,
 							group		:$_GET['group']||'',
 							product		:$_GET['product']||'',
-							matrix      :'['+bgMatrix.toString()+']'
+							matrix		:'['+bgMatrix.toString()+']'
 						},
-						error:function() {
+						error:function(){
 							myDialog(lang.conectionFail);
 						},
-						success:function(data) {
+						success:function(data){
 							var nonpublic = (data['nonpublic']) ? '?nonpublic=1' : '';
 							if(data['done']){
 								localStorage.removeItem('timeLine');
