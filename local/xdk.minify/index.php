@@ -1,6 +1,7 @@
 <?php
-require 'relpath.php';
-$path=$relpath.'app';
+$relpath=preg_replace('/([\/][^\/]*){2}$/','',dirname(str_replace('\\','/',__FILE__)));
+
+$path="$relpath/app_root";
 ?>
 <!DOCTYPE html>
 <html>
