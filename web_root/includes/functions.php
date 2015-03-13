@@ -2976,10 +2976,8 @@ function createTag($tag,$force=false,$msg=false){
 		}
 		$user_picture=getUserPicture($tag['photoOwner']);
 		//Debugger
-		echo $tag['bgmatrix'];
 		$datamatrix = explode(',',str_replace(']','',str_replace('[','',$tag['bgmatrix'])));
 		// $datamatrix = json_decode($tag['bgmatrix']);
-		var_dump($datamatrix);
 		$matrixscale = $datamatrix[0]*1;
 		$matrixX = $datamatrix[4]*1;
 		$matrixY = $datamatrix[5]*1;
@@ -3012,7 +3010,6 @@ function createTag($tag,$force=false,$msg=false){
 			// $imagen=(strpos(' '.$tag['fondoTag'],'default')?"$config->relpath/":$_path).'img/templates/'.$tag['fondoTag'];
 			// $img=imagecreatefromany($imagen);
 			$is=@getimagesize($imagen);
-			var_dump($is);
 			if($is[0]>0){
 				list($bgancho, $bgalto, $bgtipo, $bgatributos) = getimagesize($imagen);
 				//echo '<pre>Image :' .$bgancho;
@@ -3026,16 +3023,7 @@ function createTag($tag,$force=false,$msg=false){
 				#resize
 				if($matrixscale>1||(abs($matrixX)>0)||(abs($matrixY)>0)){
 					$thumb = imagecreatetruecolor(TAGWIDTHHD,TAGHEIGHTHD);
-					// imagecopyresized($thumb,$img->getHandle(),
-					// 	0,0,(TAGWIDTHHD/2)-$matrixX+($is[0]/$matrixscale/2),(TAGHEIGHTHD/2)-$matrixY+($is[1]/$matrixscale/2),
-					// 	TAGWIDTHHD,TAGHEIGHTHD,$is[0]/$matrixscale,$is[1]/$matrixscale);
-					// $img->destroy();
-					// $img=WideImage::loadFromHandle($thumb);
-					// $is[0]=TAGWIDTHHD;
-					// $is[1]=TAGHEIGHTHD;
-					imagecopyresized($thumb,$img->getHandle(),
-						0,0,$is[0]/2-TAGWIDTHHD/$matrixscale/2-$matrixX*$is[0]/TAGWIDTHHD/$matrixscale,(1-1/$matrixscale)*$is[1]/2-$matrixY/$matrixscale,
-						TAGWIDTHHD,TAGHEIGHTHD,TAGWIDTHHD/$matrixscale,TAGHEIGHTHD/$matrixscale);
+					imagecopyresized($thumb,$img->getHandle(),0,0,$is[0]/2-TAGWIDTHHD/$matrixscale/2-$matrixX*$is[0]/TAGWIDTHHD/$matrixscale,(1-1/$matrixscale)*$is[1]/2-$matrixY/$matrixscale,TAGWIDTHHD,TAGHEIGHTHD,TAGWIDTHHD/$matrixscale,TAGHEIGHTHD/$matrixscale);
 					$img->destroy();
 					$img=WideImage::loadFromHandle($thumb);
 					$is[0]=TAGWIDTHHD;
