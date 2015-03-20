@@ -3,13 +3,7 @@
 #security
 includes/security/*.php
 
-local/*.*
-local/app/*
 
-local/xdk/*.html
-local/xdk/
-local/xdk/*.xdk*
-local/xdk/js/min.js
 
 js/funciones_es.js
 
@@ -32,8 +26,5 @@ video_root/videos/pending/*
 video_root/videos/*/*
 video_root/jquery*
 
-#xdk
-local/xdk/*.html
-local/xdk/*.xdk*
-local/xdk/js/min.js
+
 
