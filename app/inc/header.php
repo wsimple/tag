@@ -15,7 +15,7 @@
 	<link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
 <?php if(isset($_GET['minify'])){
 ?>	<script src="<?=isset($_GET['steroids'])?'http://localhost/cordova.js':'cordova.js'?>"></script>
-	<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+<!--	<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script> -->
 <?php } ?>
 	<link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 	<link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>

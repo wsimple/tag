@@ -230,7 +230,7 @@
 							console.log("paso"+data['msg']+data['email']);
 							//message('respuesta','<logo style="width: 130px;height: 50px;"></logo>','<div style="text-align:center;"><strong><?=SMT_SIGNUP_SUCCESS_TRUE?></strong></div>','',300,300,'','#home');
                             $.dialog({
-								title	: '<logo style="width: 130px;height: 50px;"></logo>',
+								title	: '<logo ></logo>',
 								content	: '<div style="text-align:center;"><strong><?=SMT_SIGNUP_SUCCESS_TRUE?></strong></div>',
 								height	: 300,
                                 width	: 300,

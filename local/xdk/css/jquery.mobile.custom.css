@@ -91,7 +91,12 @@
 	border:1px solid #03A993;
 	font-weight:bold;
 	color:#03A993;
-	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#F7F8FD),color-stop(15%,#fff));
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#F7F8FD),color-stop(15%,#FFF));
+	background-image: -webkit-linear-gradient( #F7F8FD, #FFF );
+	background-image:    -moz-linear-gradient( #F7F8FD, #FFF );
+	background-image:     -ms-linear-gradient( #F7F8FD, #FFF );
+	background-image:      -o-linear-gradient( #F7F8FD, #FFF );
+	background-image:         linear-gradient( #F7F8FD, #FFF );
 	text-shadow:none;
 }
 .ui-bar-f.content{
@@ -107,7 +112,7 @@
 }
 #private-select .ui-btn-active{
 	/*background:#03A993 url(images/bg_btn_down_1x100.png) 50% 50% repeat-x;*/
-    background: #3db8e1 url('tbum/white_arrow_left.png') no-repeat;
+    background: #03A993 url('tbum/white_arrow_left.png') no-repeat;
 	color:#444;
 	text-shadow:none;
 	border: none;
@@ -230,7 +235,7 @@
 }
 .ui-btn-up-f, .ui-btn-hover-f{
 	border: none;
-	background: #3db8e1;
+	background: #03A993;
 	color: #FFF;
 	font-weight: bold;
 }
@@ -245,5 +250,5 @@
 	background-color: #ee6323;
 }
 .btn-blue{
-	background-color:#3db8e1;
+	background-color:#03A993;
 }

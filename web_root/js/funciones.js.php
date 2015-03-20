@@ -393,7 +393,7 @@ function validaText(tipo,value){
 		case 'words':		regex=/^([a-zA-Z]+\s*)+$/;break;
 		case 'integer':		regex=/^\d*$/;break;
 		case 'date':		regex=/^\d{1,2}\/\d{1,2}\/\d{2,4}$/;break;//01/01/2009
-		case 'email':		regex=/^[a-zA-Z]([\.-]?\w+)*@[a-zA-Z]([\.-]?\w+)*(\.\w{2,3}){1,2}$/;break;
+		case 'email':		regex=/^[a-zA-Z]([\.-]?\w+)*@[a-zA-Z]([\.-]?\w+)*(\.\w{2,3})?(\.\w{2,})$/;break;
 		case 'tlf':			regex=/^[0-9]{4,4}-?-?[0-9]{6,7}$/;break;
 		case 'url':			regex=/^https?:\/\/[a-zA-Z]\w*([\.\-\w]+)?\.([a-z]{2,4}|travel)(:\d{2,5})?(\/.*)?$/;break;
 //		case 'url':			regex=/^https?:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$/;break;
