@@ -1,6 +1,6 @@
 <?php
 if(preg_match('/^\/app_root/',$_SERVER['REQUEST_URI'])){
-	header('Location:'.preg_replace('/^\/app_root\/(.*)/','/app/$1',$_SERVER['REQUEST_URI']));
+	header('Location:'.preg_replace('/^\/app_root\//','/app/',$_SERVER['REQUEST_URI']));
 	exit();
 }
 	if(isset($_COOKIE['_DEBUG_']))
@@ -31,8 +31,8 @@ if(preg_match('/^\/app_root/',$_SERVER['REQUEST_URI'])){
 	<link rel="stylesheet" href="css/colorPicker.css"/>
 	<link rel="stylesheet" href="css/newV2.css"/>
 <?php if(isset($_GET['minify'])){
-?>	<script src="<?=isset($_GET['steroids'])?'http://localhost/cordova.js':'cordova.js'?>"></script>
-	<!--<script src="http://debug.build.phonegap.com/target/target-script-min.js#82ad4bcc-195f-11e3-af04-22000a98b3d6"></script><!-- -->
+?>	<script src="cordova.js"></script>
+	<!-- <script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script> -->
 <?php } ?>
 	<script src="js/core/const.js" charset="UTF-8"></script>
 	<script src="js/core/md5.js"></script>

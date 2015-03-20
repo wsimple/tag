@@ -8,7 +8,7 @@
 <title>Tagbum Mobile</title>
 <link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
 <script src="cordova.js"></script>
-<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+<!-- <script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script> -->
 <link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 <link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
 <link rel="stylesheet" href="css/jquery.Jcrop.css"/>
@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="css/colorPicker.css"/>
 <link rel="stylesheet" href="css/newV2.css"/>
 <script src="cordova.js"></script>
-<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+<!--<script src="http://debug.build.phonegap.com/target/target-script-min.js#82ad4bcc-195f-11e3-af04-22000a98b3d6"></script><!-- -->
 <script src="js/core/const.js" charset="UTF-8"></script>
 <script src="js/core/md5.js"></script>
 <script src="js/core/jquery-1.10.2.min.js"></script>
@@ -227,7 +227,7 @@ verifyGroupMembership(id,$.local('code'),function(data){
 if(data['isMember']){
 $('#tagsList').removeClass('no-join');
 $('#rowTitleMove .ui-block-z a').show();
-$('#sub-menu .newtag a,#noresult-tags').attr('href',"newtag.html?group="+id).addClass('group');
+$('#sub-menu .newtag a,#noresult-tags').attr('href',"newtag.html?group="+id);
 admin=data['admin']=='0'?false:true;
 numAdm=data['numAdm'];
 }else{

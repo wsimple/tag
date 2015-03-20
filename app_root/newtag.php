@@ -420,10 +420,14 @@
 					$('#pictures_shareTag input').each(function(){
 						emails.push($(this).val());
 					});
-					var realWidth=1200,scaledWidth=panzoom.width(),bgMatrix=panzoom.panzoom('getMatrix');
-					bgMatrix[4]=Math.floor(bgMatrix[4]*realWidth/scaledWidth);
-					bgMatrix[5]=Math.floor(bgMatrix[5]*realWidth/scaledWidth);
-					console.log('bgmatrix',bgMatrix);
+					var bgMatrix=[];
+					if(window.panzoom){
+						var realWidth=1200,scaledWidth=panzoom.width();
+						bgMatrix=panzoom.panzoom('getMatrix');
+						bgMatrix[4]=Math.floor(bgMatrix[4]*realWidth/scaledWidth);
+						bgMatrix[5]=Math.floor(bgMatrix[5]*realWidth/scaledWidth);
+						console.log('bgmatrix',bgMatrix);
+					}
 					//alert(emails.join());
 					myAjax({
 						type:'POST',

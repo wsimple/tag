@@ -8,7 +8,7 @@
 <title>Tagbum Mobile</title>
 <link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
 <script src="cordova.js"></script>
-<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+<!-- <script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script> -->
 <link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 <link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
 <link rel="stylesheet" href="css/jquery.Jcrop.css"/>
@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="css/colorPicker.css"/>
 <link rel="stylesheet" href="css/newV2.css"/>
 <script src="cordova.js"></script>
-<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+<!--<script src="http://debug.build.phonegap.com/target/target-script-min.js#82ad4bcc-195f-11e3-af04-22000a98b3d6"></script><!-- -->
 <script src="js/core/const.js" charset="UTF-8"></script>
 <script src="js/core/md5.js"></script>
 <script src="js/core/jquery-1.10.2.min.js"></script>
@@ -66,7 +66,7 @@
 </div>
 <div id="topCounter" style="width:35px;"></div>
 </div>
-<input type="text" name="topText" style="resize:none;" id="topText">
+<textarea id="topText" name="topText" style="resize:none;"></textarea>
 <input type="hidden" name="topColor" id="topColor" value="#000" />
 </div>
 <div id="div_middleText" class="smt-div-profile-color">
@@ -86,7 +86,7 @@
 </div>
 <div id="bottomCounter" style="width:35px;"></div>
 </div>
-<input type="text" id="bottomText" name="bottomText" style="resize:none;">
+<textarea id="bottomText" name="bottomText" style="resize:none;"></textarea>
 <input type="hidden" name="bottomColor" id="bottomColor" value="#000" />
 </div>
 </div>
@@ -179,10 +179,10 @@ $('#menu').html(
 +(is['android']&&version.match(/^2\./)?'':'<span class="ui-block-b menu-button"><a href="#" opc="lib"><img src="css/newdesign/newtag/gallery.png"><br>'+lan('gallery','ucw')+'</a></span>')
 :'<span class="ui-block-b"></span>')+
 '<span id="footerPicture" class="ui-block-c menu-button"><a href="#" id="template"><img src="css/newdesign/newtag/images.png"><br>'+lang.NEWTAG_BACKGROUNDAPP+'</a></span>'+
-'<span class="ui-block-d menu-button"><a href="timeLine.html"><img src="css/newdesign/newtag/cancel.png"><br>'+lan('cancel','ucw')+'</a></span>'+
+'<span class="ui-block-d menu-button"><a href="timeline.html"><img src="css/newdesign/newtag/cancel.png"><br>'+lan('cancel','ucw')+'</a></span>'+
 '<span class="ui-block-e menu-button"><a id="publish_newTag" href="#" title="newtag"><img src="css/newdesign/newtag/publish.png"><br>'+lang.publish+'</a></span>'
 );
-if(CORDOVA){
+if (CORDOVA) {
 $('#menu span').addClass('fix-grid');
 };
 $('#topText' ).attr('placeholder',lang.NEWTAG_MESSAGE);
@@ -204,9 +204,6 @@ $('#none').val(lang.none);
 //hide controls provate tag if isset group
 if($_GET['group']||$_GET['product']){
 $('#div_shareMails, #div_shareFriends, #div_publicTag').hide();
-}
-if($_GET['group']){
-$('#publish_newTag').addClass('publish_newTag_group');
 }
 // console.log($_GET['product']);
 // if ($_GET['product']){
@@ -320,8 +317,9 @@ stopAtLimit :true
 $('.list-wrapper').jScroll({hScroll:false});
 $('#footerPicture #template').click(function(){
 $.ajax({
-url:SERVERS.img+'?code='+$.local('code')+'&folder=templates',
+url:SERVERS.img,
 type:'get',
+data:{folder:'templates'},
 xhrFields:{withCredentials:true},
 headers:{},
 success:function(data){
@@ -330,7 +328,7 @@ if(data['files'].length === 0){list="<div class='tcAlert'>"+lang.NEWTAG_NO_BACKG
 data['files'].forEach(function(el){
 list+=
 '<div style="background-image:url('+el.url+');" '+
-'data-url="'+el.url+'" data-template="'+$.local('code')+'/'+el.name+'"></div>';
+'data-url="'+el.url+'" data-template="'+el.code+'/'+el.name+'"></div>';
 });
 myDialog({
 id:'#backgroundsDialog',
@@ -375,7 +373,6 @@ var bgsize=this.naturalWidth>650?100:100*this.naturalWidth/650;
 bgsize=bgsize+'% auto';
 // bg = 'http://www.scorezero.com/wp-content/uploads/2014/10/gtaV.jpg'; // solo Pruebas
 $('#backgroundPreview').html('<img id="backgroundImage" src="'+bg+'" alt="">');
-$('.tag-solo').prepend('<div class="touch-leyend"></div>');
 var panzoomOpt = { maxScale: img.naturalWidth / img.clientWidth, minScale: 1,contain:'invert'};
 window.panzoom = $("#backgroundImage").panzoom(panzoomOpt).on('panzoomstart',function(){
 $('.fs-wrapper').jScroll('remove');
@@ -383,26 +380,19 @@ $('.inputs-tag').css('opacity','0.4');
 }).on('panzoomend',function(e, panzoom){
 $('.inputs-tag').css('opacity','1');
 $('.fs-wrapper').jScroll();
+bgMatrix=panzoom.getMatrix();
+console.log(bgMatrix);
+console.log('['+bgMatrix.toString()+']');
 });
 $(this).attr('src','');
 this.dataset.template='';
 this.dataset.img64='';
-var imgWidth=panzoom.width();
-$(window).off('resize.panzoom,orientationchange.panzoom')
-.on('resize.panzoom,orientationchange.panzoom',function(){
-var bgMatrix=panzoom.panzoom('getMatrix');
-bgMatrix[4]=Math.floor(bgMatrix[4]*panzoom.width()/imgWidth);
-bgMatrix[5]=Math.floor(bgMatrix[5]*panzoom.width()/imgWidth);
-imgWidth=panzoom.width();
-panzoom.panzoom('resetDimensions')
-.panzoom('setMatrix',JSON.parse('['+bgMatrix.toString()+']'));
-});
 }
 });
 
 if(CORDOVA){
 document.addEventListener('deviceready',function(){
-alert('Device ready no');
+//alert('Device ready no')
 var cam=Camera,
 photoData={
 targetWidth:650,
@@ -460,14 +450,6 @@ if( isMail(tmp[i]) ) emails.push(tmp[i]);
 $('#pictures_shareTag input').each(function(){
 emails.push($(this).val());
 });
-var bgMatrix=[];
-if(window.panzoom){
-var realWidth=1200,scaledWidth=panzoom.width();
-bgMatrix=panzoom.panzoom('getMatrix');
-bgMatrix[4]=Math.floor(bgMatrix[4]*realWidth/scaledWidth);
-bgMatrix[5]=Math.floor(bgMatrix[5]*realWidth/scaledWidth);
-console.log('bgmatrix',bgMatrix);
-}
 //alert(emails.join());
 myAjax({
 type:'POST',
@@ -489,10 +471,10 @@ group :$_GET['group']||'',
 product :$_GET['product']||'',
 matrix :'['+bgMatrix.toString()+']'
 },
-error:function(){
+error:function() {
 myDialog(lang.conectionFail);
 },
-success:function(data){
+success:function(data) {
 var nonpublic = (data['nonpublic']) ? '?nonpublic=1' : '';
 if(data['done']){
 localStorage.removeItem('timeLine');
