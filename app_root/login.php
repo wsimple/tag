@@ -27,7 +27,7 @@
 				<div id="loginFields">
 					<p>
 						<input data-theme="b" name="login" id="txtLogin" value="" type="email" placeholder="email" onkeypress="return enterTab(event,this)" onfocus="inputFocus(this)" />
-						<input data-theme="b" name="pwd" id="txtPass" value="" type="password" placeholder="password" class="password-field" onkeypress="return enterSubmit(event,this)" onfocus="inputFocus(this)" />
+						<input data-theme="b" name="pwd" id="txtPass" value="" type="password" placeholder="password" class="password-field"  />
 					</p>
 					<a id="forGot" onclick="redir(PAGE['forGot']);"></a><br/><br/>
 					<div id="buttons">
@@ -36,7 +36,8 @@
 								<a id="btn-back" class="btn-orange" data-role="button" data-inline="true" data-theme="f" onclick="goBack()"  data-iconpos="right"></a>
 							</div>
 							<div class="_tr">
-								<a id="btn-login" class="btn-orange" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" href="#" onClick="$('#frmLogin').submit()">&nbsp;</a>
+								<input type="submit" id="btn-login" class="btn-orange" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" />
+								<!-- <a id="btn-login2" class="btn-orange" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" href="#" onClick="$('#frmLogin').submit()"></a> -->
 							</div>
 						</div>
 					</div>
@@ -55,7 +56,7 @@
 				$('#forGot').html(lang.MNU_LOSTPASS);
 				$('#loadingTL').html('<loader class="s32"/><br/>'+lang.JS_APP_LOADING);
 				$('#txtLogin').val($.cookie('last'));
-				$('#btn-login').html(lang.login);
+				$('#btn-login').val(lang.login);
 				$('#txtLogin').attr('placeholder',lan('email','ucf'));
 				$('#txtPass').attr('placeholder',lan('password','ucf'));
 				$('#btn-signup').html(lang.signup);

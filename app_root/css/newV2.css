@@ -1207,6 +1207,8 @@ li.userInList h3{
 	text-align:right;
 }
 
+#page-login div.ui-btn-up-f,
+#page-login div.ui-btn-hover-f,
 #page-login #btn-login{
 	background-color: #EB5A28;
 	color: #FFF;

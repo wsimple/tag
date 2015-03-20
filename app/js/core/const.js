@@ -214,7 +214,7 @@ is.limited= !is.webkit||is.android;
 		LINK_DOWNLOADAPP				:'Descarga nuestra app y disfruta de todas las bondades de nuestra red social',
 		loading							:'Cargando...',
 		loadingTags						:'Cargando tags...',
-		login							:'&nbsp;Entrar',
+		login							:'Entrar',
 		logout							:'Salir',
 		MAINMENU_POINTS_1				:'Usted podrá cambiar sus puntos por los servicios y productos en Tagbum. Mientras mas puntos obtenga, más servicios y productos podrá obtener.',
 		MAINMENU_POINTS_2				:'<strong>Puedes obtener mas puntos:</strong> compartiendo tags, ya sea publicando, redistribuyendo o enviandolas por correo electrónico. Acumula al menos 5000 puntos antes de 31 de diciembre y podrás participar en el sorteo de gift cards de $500.',
@@ -486,7 +486,7 @@ is.limited= !is.webkit||is.android;
 	};//es
 	lang={//ingles por defecto
 		pass							:'Password',
-		login							:'&nbsp;Login',
+		login							:'Login',
 		signup							:'&nbsp;Sign&nbsp;Up&nbsp;',
 		checkLogin						:'Checking Login Session...',
 		conectionFail					:"Can't connect to the server.<br/>Try again later.",
