@@ -3,7 +3,7 @@
  * este archivo agarra todos los archivos js y genera un solo archivo minimizado.
  */
 require '../inc/JSMin.php';
-$path='http://'.$_SERVER['SERVER_NAME'].'/seemytag/app/js/';
+$path='http://'.$_SERVER['SERVER_NAME'].'/seemytag/app_root/js/';
 //$files=array();
 //if($handle=opendir('.')){
 //	while(($entry=readdir($handle))!==false){

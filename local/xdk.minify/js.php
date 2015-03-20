@@ -5,7 +5,7 @@ require 'JSMin.php';
  * este archivo carga todos los archivos js indicados y genera un solo archivo minimizado.
  */
 
-$app_path='http://'.$_SERVER['SERVER_NAME'].'/tag/app';
+$app_path='http://'.$_SERVER['SERVER_NAME'].'/tag/app_root';
 $output_path='../xdk';
 $output_file="$output_path/js/min.js";
 
