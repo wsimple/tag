@@ -25,6 +25,8 @@ video_root/includes/security/*.php
 video_root/videos/pending/*
 video_root/videos/*/*
 video_root/jquery*
+local/xdk/*.xdk*
+
 
 
 
