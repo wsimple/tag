@@ -54,6 +54,10 @@ $.cordova.listener=function(listener,fn,fn2){
 	if(typeof fn2==='function') $.cordova.fail.push(fn2);
 };
 document.addEventListener('deviceready',function(){
+	$('html').addClass('cordova'); //Fixes ios status bar
+	if (navigator.userAgent.match(/(iPad|iPod|iPhone)/)) {
+		$('html').addClass('ios'); //Fixes ios status bar
+	};
 	$.cordova=function(listener,fn){
 		if(typeof listener==='function')
 			listener();

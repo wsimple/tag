@@ -1,4 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+html.ios.cordova .ui-page > .ui-header{
+ 	border-top: 10px solid transparent;
+}
 body{
 	font-family: 'Roboto', sans-serif;
 }
