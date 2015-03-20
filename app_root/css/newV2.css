@@ -236,8 +236,7 @@ input.ui-input-text, textarea.ui-input-text{
 }
 img#backgroundImage{
 	height: auto;
-	width: 20.3125em;
-	max-width: 650px;
+	width: 100%;
 }
 .inputs-tag{
 	position: absolute;
@@ -1056,7 +1055,7 @@ li.userInList h3{
 	z-index: 200;
 	bottom: -114px;
 	text-align: center;
-	background-color: hsla(210, 26%, 30%, 0.8);
+	background-color: hsla(210, 26%, 30%, 0.4);
 }
 
 #bottom-menu > div{ /*Flechita*/

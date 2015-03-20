@@ -1189,6 +1189,7 @@ function getTagQuery($extra=''){ //t=tag,p=product,u=user(owner)
 			t.id,
 			t.id			as idTag,
 			t.background	as fondoTag,
+			t.bgmatrix 		as bgmatrix,
 			t.id_creator	as idOwner,
 			t.id_user		as idUser,
 			if(p.id is null,u.screen_name,p.name) as nameOwner,
@@ -1640,7 +1641,10 @@ function createSession($array,$clear=true){//creacion de las variables de sessio
 		$usr['smt']=$usr['time'].','.md5($usr['id'].md5($usr['time']));
 		$usr['full_name']=$usr['name'].' '.$usr['last_name'];
 		$usr['code']=md5($usr['id'].'_'.$usr['email'].'_'.$usr['id']);
-		$usr['pic']='img/users/'.$usr['code'].'/'.$usr['photo'];
+		if(empty($usr['photo']))
+			$usr['pic']='img/users/default.png';
+		else
+			$usr['pic']='img/users/'.$usr['code'].'/'.$usr['photo'];
 	}
 	$_SESSION['ws-tags']['ws-user']=$usr;
 	//this variable indicates that photo gallery must be shown on page load
@@ -1940,13 +1944,16 @@ function FTPupload($origen,$destino='',$borrar=true){
 		#Si no es local movemos al servidor de imagenes
 	}else{
 		#movemos al servidor de imagenes
+		$_origen=RELPATH.'img/'.$origen;
+		$_destino=$config->img_server_path.'img/'.$destino;
+		$data.="<br>FO: $_origen FD: $_destino";
 		if(!is_dir($config->img_server_path.'img/'.$path))
 			if(!@mkdir($config->img_server_path.'img/'.$path,0775,true)) $error=412;
 		if(!$error)
 		if($borrar)
-			$error=(!@rename($_origen,$config->img_server_path.'img/'.$destino))?408:200;
+			$error=(!@rename($_origen,$_destino))?408:200;
 		else
-			$error=(!@copy($_origen,$config->img_server_path.'img/'.$destino))?409:200;
+			$error=(!@copy($_origen,$_destino))?409:200;
 /*	}elseif($destino!=$origen){
 		#Cuando no es ftp, y el origen es distinto al destino, se mueve/copia el archivo
 		if(!is_dir(RELPATH.'img/'.$path))
@@ -2969,11 +2976,11 @@ function createTag($tag,$force=false,$msg=false){
 		}
 		$user_picture=getUserPicture($tag['photoOwner']);
 		//Debugger
-
 		$datamatrix = explode(',',str_replace(']','',str_replace('[','',$tag['bgmatrix'])));
-		$matrixscale = $datamatrix[0] + 0;
-		$matrixX = $datamatrix[4] + 0;
-		$matrixY = $datamatrix[5] + 0;
+		// $datamatrix = json_decode($tag['bgmatrix']);
+		$matrixscale = $datamatrix[0]*1;
+		$matrixX = $datamatrix[4]*1;
+		$matrixY = $datamatrix[5]*1;
 		//print_r($datamatrix);
 
 		if($debug){
@@ -3010,9 +3017,19 @@ function createTag($tag,$force=false,$msg=false){
 				//Acomodar los fondos viejos para evitar los mozaicos
 				if($is[0]<TAGWIDTHHD){
 					$img = $img->resize(TAGWIDTHHD);
-					$is[0]=$img->getWidth();
-					$is[1]=$img->getHeight();
+					$bgancho=$is[0]=$img->getWidth();
+					$bgalto=$is[1]=$img->getHeight();
 				}
+				#resize
+				if($matrixscale>1||(abs($matrixX)>0)||(abs($matrixY)>0)){
+					$thumb = imagecreatetruecolor(TAGWIDTHHD,TAGHEIGHTHD);
+					imagecopyresized($thumb,$img->getHandle(),0,0,$is[0]/2-TAGWIDTHHD/$matrixscale/2-$matrixX*$is[0]/TAGWIDTHHD/$matrixscale,(1-1/$matrixscale)*$is[1]/2-$matrixY/$matrixscale,TAGWIDTHHD,TAGHEIGHTHD,TAGWIDTHHD/$matrixscale,TAGHEIGHTHD/$matrixscale);
+					$img->destroy();
+					$img=WideImage::loadFromHandle($thumb);
+					$is[0]=TAGWIDTHHD;
+					$is[1]=TAGHEIGHTHD;
+				}
+/*
 				//Si tiene zoom la imagen
 				if($matrixscale>1){
 					if($debug) echo 'Image needs rezise from: '.$is[0].'</pre>';
@@ -3034,6 +3051,7 @@ function createTag($tag,$force=false,$msg=false){
 					$is[0]=$img->getWidth();
 					$is[1]=$img->getHeight();
 				}
+				*/
 				//$img->resizeDown(650);
 				$img->resizeDown(TAGHEIGHTHD);
 				$dy=intval((TAGHEIGHTHD-$is[1])/2);
