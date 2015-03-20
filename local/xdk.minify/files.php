@@ -4,7 +4,7 @@
  * y los transforma en html dentro de la carpeta local.
  * Tambien se realiza una limpieza de espacios para reducir de tamaño los archivos.
  */
-$path_in='../../../app_root/';
+$path_in=__DIR__.'../../../app_root/';
 function clean_spaces($match){
 	return $match[1];
 }

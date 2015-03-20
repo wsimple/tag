@@ -26,7 +26,7 @@ function generatefile($in,$out,$file){
 		echo 'Archivo '.$file.' no pudo ser leido.<hr/>';
 }
 
-$input_path='http://'.$_SERVER['SERVER_NAME'].'/tag/app/';
+$input_path='http://'.$_SERVER['SERVER_NAME'].'/tag/app_root/';
 $output_path='../xdk/';
 $file=$_GET['file'];
 if($file){
