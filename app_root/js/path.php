@@ -10,12 +10,16 @@ if(false){ ?><script><?php } ?>
  * SERVERS: contiene los otros servidores (actualmente principal, de imagenes y de videos)
  */
 (function(window){
+<?php if(preg_match('/^192\.168\./',$_SERVER['SERVER_NAME'])){ ?>
+	SERVERS={main: "/tag/", app: "/tag/app/", img: "/tag/img_root", video: "/tag/video_root"};
+<?php }else{ ?>
 	SERVERS={
 		main:'http://tagbum.com/',
 		app:'http://app.tagbum.com/',
-		img:'http://i.tagbum.com',
+		img:'http://52.1.31.18',
 		video:'http://v.tagbum.com'
 	};
+<?php } ?>
 <?php if(isset($_GET['minify'])){ ?>
 	LOCAL=true;
 	PRODUCCION=true;
