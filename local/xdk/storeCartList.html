@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html><head>
+<link rel="apple-touch-startup-image" href="css/smt/bg.png"/>
+<link rel="apple-touch-icon" href="css/smt/screen-icon.png"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Tagbum Mobile</title>
+<link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
+<script src="cordova.js"></script>
+<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+<link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
+<link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
+<link rel="stylesheet" href="css/jquery.Jcrop.css"/>
+<link rel="stylesheet" href="css/iScroll.css"/>
+<link rel="stylesheet" href="css/ptrScroll.css"/>
+<link rel="stylesheet" href="css/farbtastic.css"/>
+<link rel="stylesheet" href="css/seemytag.css"/>
+<link rel="stylesheet" href="css/colorPicker.css"/>
+<link rel="stylesheet" href="css/newV2.css"/>
+<script src="cordova.js"></script>
+<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+<script src="js/core/const.js" charset="UTF-8"></script>
+<script src="js/core/md5.js"></script>
+<script src="js/core/jquery-1.10.2.min.js"></script>
+<script src="js/core/jquery.cookie.js"></script>
+<script src="js/core/jquery.local.js"></script>
+<script src="js/core/session.js"></script>
+<script src="js/core/jquery.mobile-1.3.2.js"></script>
+<script src="js/core/jquery.form.js"></script>
+<script src="js/core/jquery.textCounter.js"></script>
+<script src="js/core/jquery.Jcrop.js"></script>
+<script src="js/core/iScroll.js"></script>
+<script src="js/core/jScroll.js"></script>
+<script src="js/core/farbtastic.js"></script>
+<script src="js/core/colorPicker.js"></script>
+<script src="js/core/currency/jquery.formatCurrency-1.4.0.js"></script>
+<script type="text/javascript" src="js/core/jquery.touchSwipe.min.js"></script>
+<script src="js/min.js" charset="UTF-8"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
+</head><body><div id="page-lstStoreCarList" data-role="page" data-cache="false">
+<div data-role="header" data-position="fixed" data-theme="f">
+<div id="menu" class="ui-grid-d"></div>
+<input id="dollarApp" value="no" type="hidden"/>
+<input id="productApp" value="no" type="hidden"/>
+</div>
+<div data-role="content" class="list-content">
+<div id="data-header" class="ui-grid-a"></div>
+<ul id="cartList" data-role="listview" class="list-friends"></ul>
+</div>
+<div data-role="footer" id="footerPay"></div>
+<script>
+pageShow({
+id:'#page-lstStoreCarList',
+before:function(){
+menuStore(5);
+$('#data-header').html(
+'<div class="ui-block-a">'+lan('invoice','ucw')+'</div>'+
+'<div class="ui-block-b date">'+lan('date','ucw')+' <span>'+lan('Day/Month/Year')+'</span></div>'+
+'<div class="ui-block-a numF"><span></span></div>'+
+'<div class="ui-block-b">'+lan('method','ucw')+' <span>'+lan('none selected','ucw')+'</span></div>'+
+'<div class="ui-block-a name"></div>'+
+'<div class="ui-block-b total">'+lan('total amount','ucw')+'<div></div></div>'
+);
+},
+after:function(){
+var el=$('#cartList')[0],msgShipp={msg:''};
+$(el).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
+$('.list-wrapper').jScroll({hScroll:false});
+$(el).on('click','a[code]',function(){
+redir(PAGE['storePorduct']+'?sc='+$(this).attr('code')+'&c='+$_GET['id']);
+});
+getCartList(msgShipp);
+function getCartList(msgShipp){
+myAjax({
+type :'POST',
+url :DOMINIO+'controls/store/shoppingCart.json.php?action=16&noEditS=1&shop=1',
+dataType:'json',
+data:{infoI:true},
+error :function(/*resp,status,error*/){
+myDialog('#singleDialog',lang.conectionFail);
+},
+success :function(data){
+var out='';
+if (data['datosCar'][0]['name']){
+msgShipp.msg=data['msgShipp'];
+$('#data-header .date span').html(data['inf']['date']);
+$('#data-header .numF span').html(data['inf']['num']);
+$('#data-header .name').html(data['inf']['user']);
+out=bodyCart(data); 
+$('#cartList').html(out).listview('refresh');
+if (out!=''){
+$('#footerPay').html('<div class="ui-grid-a">'+
+'<div class="ui-block-a" style="width: 40%">'+
+'<button id="buttonCancelCheckOut" data-theme="a">'+lan('cancel')+'</button>'+ 
+'</div>'+
+'<div class="ui-block-b" style="width: 60%">'+
+'<button id="buttonCheckOut" data-theme="e">'+lan('pay now','ucw')+'</button>'+
+'</div>'+
+'</div>');
+$( "#footerPay button" ).button();
+$('#buttonCancelCheckOut').click(function(){
+goBack();
+});
+$('#footerPay').removeAttr('class');
+$('#buttonCheckOut').click(function(){
+if ($('#dollarApp').val()=='si'){ myDialog('#singleDialog',lang.STORE_NOT_CHET_DOLLAR);}
+else {
+if ($('#productApp').val()=='si'){ 
+if (msgShipp.msg!=''){
+myDialog({
+id:'defaultDialog',
+content:msgShipp.msg+'<div>'+lang.STORE_SHIPPING_CHANGE+'</div>',
+backgroundClose: true,
+buttons:[{
+name:lang.yes,
+action:function(){ redir(PAGE['storeOption']+'?option=1'); }
+},{
+name:'No',
+action:function(){ checkOutShoppingCart('&ned=1'); }
+}]
+});
+}else{ redir(PAGE['storeOption']+'?option=1'); }
+}else{ checkOutShoppingCart(); } 
+}
+});
+} 
+var myselect = $( "select.cant-product" );
+if (myselect){
+myselect.selectmenu();
+updateCantP(myselect);
+}
+$('.list-wrapper').jScroll('refresh');
+actionButtonsStore();
+$('#deleteShopping').click(function(){
+if ($('#cartList li').length>0){
+myDialog({
+id:'#idDontStore',
+content:'<center><strong>'+lang.STORE_DELETESHOPPING+'</strong></center>',
+scroll:true,
+buttons:[{
+name:lang.yes,
+action:function(){ deleteAllCar(); }
+},{
+name:'No',
+action: 'close'
+}]
+}); 
+}else{
+myDialog({
+id:'#singleDialog',
+content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
+buttons:[{
+name:'Ok',
+action:function(){ redir(PAGE.storePorduct); }
+}]
+}); 
+}
+});
+if (data['bodyEmerg']){ myDialog('#singleDialog',data['bodyEmerg']); }
+}else{ 
+myDialog({
+id:'#singleDialog',
+content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
+buttons:[{
+name:'Ok',
+action:function(){ redir(PAGE.storePorduct); }
+}]
+}); 
+$('#buttonCheckOut,#footer li.ui-block-c').remove();
+}
+actionMenuStore();
+}
+});
+}
+function deleteAllCar(){
+var get='&all=1&mod=car',obj={mod:'car'};
+deleteItemCar('1',get,obj);
+}
+function bodyCart(data){
+var i,out='',num=0,cost='';
+for(i=0;i<data.datosCar.length;i++){
+var select='';
+if(data.datosCar[i].place=='1' && parseInt(data.datosCar[i].stock)>0){
+$('#productApp').val('si');
+var option='';
+select='<select class="cant-product" name="select-choice-mini" id="select-choice-mini" data-mini="true" data-inline="true"'+
+' cantAct="'+(data.datosCar[i].sale_points*data.datosCar[i].cant)+'" precio="'+data.datosCar[i].sale_points+'" '+((data.datosCar[i].formPayment=='1')?'fr="1"':'fr="0"')+'>';
+for(var j=1;j<=(parseInt(data.datosCar[i].stock));j++){
+option+='<option value="'+j+'" '+(data.datosCar[i].cant==j?'selected':'')+'>'+j+'</option>';
+}
+select=select+option+'</select>';
+}else if(data.datosCar[i].place=='1' && data.datosCar[i].stock<=0){
+$('#productApp').val('si');
+select='<em class="info-top-p">'+lan('TAGS_WHENTAGNOEXIST')+'</em><input type="hidden" class="cant-product" value="'+data.datosCar[i].cant+'">';
+}
+cost=(data.datosCar[i].sale_points*data.datosCar[i].cant);
+if(data.datosCar[i].formPayment=='1'){ $('#dollarApp').val('si'); }
+out+='<li id="'+data.datosCar[i].mId+'" '+(i+1==data.datosCar.length?'class="last"':'')+'>'+
+'<div class="ui-grid-a">'+
+'<div class="ui-block-a" style="width: 80%;">'+
+'<div class="name">'+data.datosCar[i].name+'</div>'+
+'<div>'+lan('by','ucw')+' '+data.datosCar[i].nameUser+'</div>'+
+'<div class="stock">'+lan('in stock','ucw')+'</div>'+
+select+
+'<div class="links buttons">'+
+'<a func="details" href="#" >'+lan('STORE_SHOPPING_DETAILS','ucw')+'</a> | '+
+'<a func="delete" href="#" >'+lan('delete','ucw')+'</a> | '+
+'<a func="sendWish" href="#" >'+lan('STORE_WISH_LIST_ADD')+'</a>'+
+'</div>'+
+'</div>'+
+'<div class="ui-block-b" style="width: 20%;">'+
+'<div class="price"> '+(data.datosCar[i].formPayment=='1'?'$'+cost:cost+'Pts')+'</div>'+
+'</div>'+
+'</div>'+
+'</li>';
+}
+if(data.totalpoints>0)
+$('#data-header .total div').append('<div class="points">'+data.totalpoints+'Pts<input type="hidden" value="'+data.totalpoints+'"></div>');
+if(data.totalmoney>0)
+$('#data-header .total div').append('<div class="money">$'+data.totalpoints+'<input type="hidden" value="'+data.totalpoints+'"></div>');
+return out;
+}
+}
+});
+</script>
+</div>
+</body></html>

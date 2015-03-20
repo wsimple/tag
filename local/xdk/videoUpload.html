@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html><head>
+<link rel="apple-touch-startup-image" href="css/smt/bg.png"/>
+<link rel="apple-touch-icon" href="css/smt/screen-icon.png"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Tagbum Mobile</title>
+<link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
+<script src="cordova.js"></script>
+<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+<link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
+<link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
+<link rel="stylesheet" href="css/jquery.Jcrop.css"/>
+<link rel="stylesheet" href="css/iScroll.css"/>
+<link rel="stylesheet" href="css/ptrScroll.css"/>
+<link rel="stylesheet" href="css/farbtastic.css"/>
+<link rel="stylesheet" href="css/seemytag.css"/>
+<link rel="stylesheet" href="css/colorPicker.css"/>
+<link rel="stylesheet" href="css/newV2.css"/>
+<script src="cordova.js"></script>
+<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+<script src="js/core/const.js" charset="UTF-8"></script>
+<script src="js/core/md5.js"></script>
+<script src="js/core/jquery-1.10.2.min.js"></script>
+<script src="js/core/jquery.cookie.js"></script>
+<script src="js/core/jquery.local.js"></script>
+<script src="js/core/session.js"></script>
+<script src="js/core/jquery.mobile-1.3.2.js"></script>
+<script src="js/core/jquery.form.js"></script>
+<script src="js/core/jquery.textCounter.js"></script>
+<script src="js/core/jquery.Jcrop.js"></script>
+<script src="js/core/iScroll.js"></script>
+<script src="js/core/jScroll.js"></script>
+<script src="js/core/farbtastic.js"></script>
+<script src="js/core/colorPicker.js"></script>
+<script src="js/core/currency/jquery.formatCurrency-1.4.0.js"></script>
+<script type="text/javascript" src="js/core/jquery.touchSwipe.min.js"></script>
+<script src="js/min.js" charset="UTF-8"></script>
+
+<meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
+</head><body><div id="page-videoUpload" data-role="page" data-cache="false">
+<div data-role="header" data-position="fixed" data-theme="f">
+<h1></h1>
+<a id="send" data-icon="check" data-theme="f" style="display:none;"></a>
+</div>
+<div data-role="content">
+<button id="galeryVideo" class="video" style="display:none;">Galery</button>
+<button id="uploadVideo" class="video" style="display:none;">Upload</button>
+<div id="video">
+</div>
+</div>
+<!-- <div data-role="footer" data-position="fixed" data-theme="f" data-tap-toggle="false">
+<div data-role="navbar"><ul id="footerPicture"></ul></div>
+</div> -->
+<script>
+pageShow({
+id:'#page-videoUpload',
+title:lan('video upload','ucw'),
+buttons:{showmenu:true},
+before:function(){
+},
+after:function(){
+$.cordova(function(){
+$(".video").fadeIn(300);
+var cam=Camera,
+Log=function(text,clear){
+if(clear) $('#video').html('');
+$('#video').append(text+'<br/>');
+},
+galerySuccess=function(path_file){
+var file={
+fullPath:path_file,
+name:path_file.replace(/([^\/]*\/)*/g,'')
+};
+Log('galery success',true);
+console.log('galery success:',file);
+uploadFile({file:file});
+},
+captureSuccess=function(mediaFiles){
+var i,path,len;
+Log('capture success',true);
+// Log(JSON.stringify(mediaFiles));
+for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+path = mediaFiles[i].fullPath;
+// do something interesting with the file
+console.log(path);
+uploadFile({file:mediaFiles[i]});
+}
+},
+uploadFile=function(data){
+var path=data.file.fullPath,
+params=data.data||{},
+ft=new FileTransfer();
+params.fileName=data.file.name;
+Log('uploading...');
+ft.upload(path,
+"http://v.tagbum.com/upload.php",
+function(result){
+var data=JSON.parse(result.response);
+Log('Upload success: ' + result.responseCode);
+Log(result.bytesSent + ' bytes sent');
+Log('data:'+JSON.stringify(data));
+console.log('data:',data);
+if(data.urls[0])
+Log('First Link: <a href="http://v.tagbum.com/'+data.urls[0]+'">'+data.urls[0]+'</a>');
+},
+function(error){
+Log('Error uploading file ' + path + ': ' + error.code);
+},
+params
+);
+},
+galeryError=function(){
+Log('galery error',true);
+console.log('galery error');
+},
+captureError=function(error){
+navigator.notification.alert('Error code: '+error.code,null,'Capture Error');
+Log('capture error',true);
+console.log('capture error');
+};
+$('#galeryVideo').click(function(){
+try{
+navigator.camera.getPicture(galerySuccess,galeryError,{
+quality:50,
+destinationType:cam.DestinationType.FILE_URI,
+sourceType:cam.PictureSourceType.PHOTOLIBRARY,
+mediaType:cam.MediaType.VIDEO
+});
+}catch(e){
+myDialog('Error: '+e);
+}
+});
+$('#uploadVideo').click(function(){
+try{
+navigator.device.capture.captureVideo(captureSuccess,captureError,{limit:1});
+}catch(e){
+myDialog('Error: '+e);
+}
+});
+});
+}//end after
+});
+</script>
+</div>
+</body></html>
