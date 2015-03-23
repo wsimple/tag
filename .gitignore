@@ -27,6 +27,9 @@ video_root/videos/*/*
 video_root/jquery*
 local/xdk/*.xdk*
 
-
+#app
+app.old/
+app.new/
+app/
 
 
