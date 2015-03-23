@@ -2977,10 +2977,11 @@ function createTag($tag,$force=false,$msg=false){
 		$user_picture=getUserPicture($tag['photoOwner']);
 		//Debugger
 		$datamatrix = explode(',',str_replace(']','',str_replace('[','',$tag['bgmatrix'])));
-		// $datamatrix = json_decode($tag['bgmatrix']);
-		$matrixscale = $datamatrix[0]*1;
-		$matrixX = $datamatrix[4]*1;
-		$matrixY = $datamatrix[5]*1;
+		if($datamatrix[0]*1>0){
+			$matrixscale = $datamatrix[0]*1;
+			$matrixX = $datamatrix[4]*1;
+			$matrixY = $datamatrix[5]*1;
+		}
 		//print_r($datamatrix);
 
 		if($debug){

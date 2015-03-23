@@ -48,11 +48,10 @@ if ($acceso){  ?>
 	</div>
 	<div id="dialogBck"></div>
 	<div class="tag-container" style="height:auto;">
-		<div id="html_tag_placa">
-			<?=NEWTAG_DIMESIONS.': 1200x554px'?>
-		</div>
+		<div id="html_tag_placa"></div>
+		<div id="dimensions"><span><?=NEWTAG_DIMESIONS.': 1200x554px'?></span></div>
 		<!-- mensaje superior -->
-		<div id="inputShortMessage" style="position: absolute; top: 41px; left: 115px; z-index: 999999;">
+		<div id="inputShortMessage" class="tag-input" style="position: absolute; top: 41px; left: 115px; z-index: 999999;">
 			<div>
 				<input name="txtMsg" id="txtMsg" type="text" class="tag-text" placeholder="<?=NEWTAG_LBLTEXT?>" value="<?=$tag['text']?>" style="border: dashed #222 1px; color:#F57133"/>
 					<div class="colorpickerDiv" style="position: absolute;top: 6px;left: 410px;">
@@ -66,7 +65,7 @@ if ($acceso){  ?>
 		</div>
 		<!-- end mensaje superior -->
 		<!-- mensaje corto -->
-		<div id="inputCode" style="position: absolute; top: 96px; left: 43px; z-index: 999989;">
+		<div id="inputCode" class="tag-input" style="position: absolute; top: 96px; left: 43px; z-index: 999989;">
 			<div>
 				<input name="txtCodeNumber" id="txtCodeNumber" type="text" class="tag-text" value="<?=$tag['code_number']?>" placeholder="<?=NEWTAG_LBLCODENUMBER?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?> style="border: dashed #222 1px;color:#03A993;font-size: 71px;height:71px;width: 524px;font-weight: normal;"/>
 				<div class="colorpickerDiv" style="position: absolute;top: -4px;left: 485px;">
@@ -80,10 +79,10 @@ if ($acceso){  ?>
 		</div>
 		<!-- end mensaje corto -->
 		<!-- mensaje inferior -->
-		<div id="inputLongMessage" style="position: absolute; top: 200px; left: 40px; z-index: 999979;">
+		<div id="inputLongMessage" class="tag-input" style="position: absolute; top: 200px; left: 40px; z-index: 999979;">
 			<div>
 				<input name="txtMsg2" id="txtMsg2" type="hidden" value="<?=$tag['text2']?>"/>
-				<textarea id="textlarg" name="textlarg" class="tag-text textareaComment" rows="3" placeholder="<?=NEWTAG_LBLTEXT?> 2 <?=INVITEUSERS_HELPMSG?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?> style="color:#fff;border: dashed #222 1px;;width: 563px;background: transparent;"><?=$tag['text2']?></textarea>
+				<textarea id="textlarg" name="textlarg" class="tag-text textareaComment" rows="3" placeholder="<?=NEWTAG_LBLTEXT?> 2 <?=INVITEUSERS_HELPMSG?>" <?php if(NEWTAG_LBLCODENUMBER_TITLE!=""){?> title="<?=NEWTAG_LBLCODENUMBER_TITLE?>" <?php }?> style="color:#fff;border: dashed #222 1px;;width: 563px;"><?=$tag['text2']?></textarea>
 				<div class="colorpickerDiv" style="position: absolute;top: -4px;left: 492px;">
 					<input style="border: none" type="text" id="hiddenColor3" tipo="excolor" requerido="<?=HEXADECIMAL_VALITACION?>" name="hiddenColor3" value="<?=$tag['color_code3']?$tag['color_code3']:'#fff'?>"  class="colorBG" />
 					<div id="hiddenColorDiv3"></div>
@@ -96,7 +95,64 @@ if ($acceso){  ?>
 		<!-- end mensaje inferior -->
 
 		<div id="bckSelected" class="tag-container"></div>
+		<input type="hidden" name="matrix" id="matrix" value="[1,0,0,1,0,0]"/>
 	</div>
+	<script src="js/jquery.panzoom.js"></script>
+	<script>
+		(function(){
+			var matrix=$('#matrix')[0],
+				bgMatrix=[1,0,0,1,0,0];
+			function savePanzoom(){
+				if(window.panzoom){
+					var realWidth=<?=TAGWIDTHHD*1>0?TAGWIDTHHD:TAGWIDTH?>,scaledWidth=panzoom.width();
+					bgMatrix=panzoom.panzoom('getMatrix');
+					bgMatrix[4]=Math.floor(bgMatrix[4]*realWidth/scaledWidth);
+					bgMatrix[5]=Math.floor(bgMatrix[5]*realWidth/scaledWidth);
+				}
+				console.log('bgmatrix',bgMatrix);
+				matrix.value='['+bgMatrix+']';
+			}
+			var imgTemp=$('<img src=""/>');
+			window.setBG=function(img){
+				$('#imgTemplate').val(img);
+				var url=(img.match(/[0-9a-f]{8}_\d{14}_\d\.jpe?g$/i)?SERVERS.video+'videos/':SERVERS.img+'img/templates/')+img;
+				imgTemp.attr('src',url);
+			};
+			imgTemp.load(function(){
+				$("#bckSelected").html('<img src="'+imgTemp.attr('src')+'"/>');
+				// $("#bckSelected img").attr('src',imgTemp.attr('src'));
+				var options = {
+					maxScale: imgTemp.naturalWidth / imgTemp.clientWidth,
+					minScale: 1,
+					contain:'invert'
+				};
+				window.panzoom=$("#bckSelected > img").panzoom(options).off('.panz')
+				.on('panzoomstart.panz',function(){
+					$('.inputs-tag').css('opacity','0.4');
+				}).on('panzoomend.panz',function(e, panz){
+					$('.inputs-tag').css('opacity','1');
+					savePanzoom();
+				});
+				$("#editTag-box #bckSelected").on('mousewheel.panz',function(e){
+					e.preventDefault();
+					var delta = e.delta || e.originalEvent.wheelDelta;
+					var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+					panzoom.panzoom('zoom',zoomOut,{
+						increment: 0.1,
+						animate: false,
+						focal: e.delta?e:e.originalEvent
+					});
+					savePanzoom();
+				});
+				$('#html_tag_placa').mouseover(function(event) {
+					$('#editTag-box').addClass('resize');
+				});
+				$('.tag-input,#dimensions').mouseover(function(event) {
+					$('#editTag-box').removeClass('resize');
+				});
+			});
+		})();
+	</script>
 
 	<div id="newTagImput">
 		<div id="BackgroundAndVideo">
@@ -196,11 +252,6 @@ $(function(){
 	$('.topBanner').remove();
 	$('#radio').buttonset();
 	function setType(type){$('#type').val(type||'<?=$idPage?>');}
-	function setBG(img){
-		$('#imgTemplate').val(img);
-		var url=(img.match(/[0-9a-f]{8}_\d{14}_\d\.jpe?g$/i)?SERVERS.video+'videos/':SERVERS.img+'img/templates/')+img;
-		$('#bckSelected').css('background-image','url('+url+')');
-	}
 	if ($('#showPublicPrivate').length>0){ //acciones privacidad
 		$('#showPublicPrivate').chosen({disableSearch:true,width:120});
 		$('#showPrivacy').click(function(event) {

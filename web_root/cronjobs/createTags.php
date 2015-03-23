@@ -23,6 +23,12 @@ include RELPATH.'includes/languages.config.php';
 	$html='';
 	if(isset($_GET['clear'])||isset($_GET['clean'])){
 		$timeLines = CON::update('tags','img=""','img!=""');
+	}elseif(isset($_GET['from'])){
+		$timeLines = CON::update('tags','img=""',"id>=?",array($from));
+	// }elseif(isset($_GET['missing'])){
+	// 	$json=json_decode(file_get_contents($config->img_server_path.'?folder=tags'));
+	// 	foreach($json->files as)
+	// 	$timeLines = CON::update('tags','img=""','img!=""');
 	}else{
 		$timeLines = CON::query("SELECT * FROM tags WHERE $where ORDER BY id DESC LIMIT 0,$limit");
 		$num=CON::numRows($timeLines);
@@ -30,10 +36,10 @@ include RELPATH.'includes/languages.config.php';
 			$count=0;
 			$html.='<br/>';
 			while($tag=CON::fetchAssoc($timeLines)){
-				$tag['tag']=createTag($tag['id'],true);
+				$tag['tag']=createTag($tag['id'],true,!empty($_GET['id']));
 				CON::update('tags','img="'.$tag['tag'].'"','id="'.$tag['id'].'"');
 				$count++;
-				$html.="ID tag: {$tag['id']}, img: {$tag['tag']}, url: ".tagURL($tag['id'])."<br/>";
+				$html.="ID tag: {$tag['id']}, img: {$tag['tag']}, matrix:{$tag['bgmatrix']} url: ".tagURL($tag['id'])."<br/>";
 			}
 			$html.="<hr/>Tags created:$count<br/>";
 		}
@@ -60,8 +66,10 @@ include RELPATH.'includes/languages.config.php';
 	echo '<hr/>Tags done:'.$data['done'];
 	echo '<br/>Tags pending:'.$data['more'];
 	if(!empty($_GET['id'])){
-		echo '<br/>Tag:<br/><img src="'.str_replace('img_root','web_root',tagURL($_GET['id'])).'" width="650"/>';
 		echo '<br/>Tag:<br/><img src="'.tagURL($_GET['id']).'" width="650"/>';
+		$tagURL=preg_replace('/(\/\w+_root)?\/img/','/img_root/img',tagURL($_GET['id']));
+		echo '<br/>Tag:<br/><img src="'.str_replace('img_root','web_root',$tagURL).'" width="650"/>';
+		echo '<br/>Tag:<br/><img src="'.$tagURL.'" width="650"/>';
 	}
 ?>
 </body>

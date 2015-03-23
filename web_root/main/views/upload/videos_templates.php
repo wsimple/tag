@@ -531,6 +531,14 @@ $(function(){
 			}
 		}
 	});
+	/****** select background ******/
+	$('#imageList').on('click','.bg-select',function(){
+		if(window.setBG){
+			setBG(this.dataset.code+'/'+this.dataset.name);
+			var $dialog=$(this).parents('.ui-dialog-content');
+			if($dialog.length) $dialog.dialog('close');
+		}
+	});
 
 	/*******************************        YOUTUBE AND VIMEO             *******************************/
 	var videos=[];
@@ -649,7 +657,7 @@ if(!o.files||!o.files.length){ %}
 			{% if(file.type=='img'){ %}
 				<div class="tag-container img noMenu" style="height: auto;">
 					<div class="template" style="background-image:url({%=file.url%})"></div>
-					<div tag action="tag/bgselect" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="<?=$client->code?>"></div>
+					<div tag class="bg-select" data-url="{%=file.url%}" data-name="{%=file.name%}" data-code="<?=$client->code?>"></div>
 				</div>
 			{% }else if(file.type=='video'){ %}
 				<div class="tag-container video noMenu" style="width: auto;height: auto;">

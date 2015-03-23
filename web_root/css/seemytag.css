@@ -2050,18 +2050,33 @@ container .mid-pannel menu#carousel{
 #editTag-box #html_tag_placa{
 	background-image:url('smt/placa.png');
 	background-repeat:no-repeat;
-	height:23em;
-	width:35em;
+	height:25em;
+	width:100%;
 	position:absolute;
 	z-index:100;
 	font-size:12px;
-	padding:25px 0 0 230px;
+}
+#editTag-box.resize #html_tag_placa{
+	z-index:10;
+}
+
+#editTag-box #dimensions{
+	top:25px;
+	width:auto;
+	text-align:left;
+	z-index:100;
+	font-size:12px;
 	font-style:italic;
 	color:#CCC;
 	text-shadow:1px 1px 1px #000;
 	letter-spacing:1px;
+	margin:0 0 0 50%;
+	position:absolute;
 }
-
+#editTag-box #dimensions>span{
+	right:50%;
+	position:relative;
+}
 #editTag-box #bckSelected{
 	background-position:0 50%;
 	background-size: 100%;
@@ -2071,10 +2086,23 @@ container .mid-pannel menu#carousel{
 	-webkit-border-radius:30px;
 	-moz-border-radius:30px;
 	border-radius:30px;
+	overflow:hidden;
+	position:relative;
+	z-index:50;
 }
+#editTag-box #bckSelected>img{
+	width:100%;
+}
+
+#editTag-box .tag-text{
+	background-color:transparent;
+}
+#editTag-box .tag-text:focus{
+	background-color:rgba(240, 123, 83, 0.5);
+}
+
 #editTag-box #newTagImput{
 	font-size:10pt;
-	/*padding-top:30px;*/
 }
 
 #editTag-box .colorBG,#frmProfileFormContainer .colorBG{

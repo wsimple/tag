@@ -337,13 +337,26 @@
 						$('#backgroundPreview').html('<img id="backgroundImage" src="'+bg+'" alt="">');
 						$('.tag-solo').prepend('<div class="touch-leyend"></div>');
 						var panzoomOpt = { maxScale: img.naturalWidth / img.clientWidth, minScale: 1,contain:'invert'};
-						window.panzoom = $("#backgroundImage").panzoom(panzoomOpt).on('panzoomstart',function(){
+						window.panzoom = $("#backgroundImage").panzoom(panzoomOpt).off('.panz')
+						.on('panzoomstart.panz',function(){
 							$('.fs-wrapper').jScroll('remove');
 							$('.inputs-tag').css('opacity','0.4');
-						}).on('panzoomend',function(e, panzoom){
+						}).on('panzoomend.panz',function(e, panzoom){
 							$('.inputs-tag').css('opacity','1');
 							$('.fs-wrapper').jScroll();
 						});
+						$('.tag-container').on('mousewheel.panz',function(e){
+							console.log('event:',e);
+							e.preventDefault();
+							var delta = e.delta || e.originalEvent.wheelDelta;
+							var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+							panzoom.panzoom('zoom',zoomOut,{
+								increment: 0.1,
+								animate: false,
+								focal: e
+							});
+						});
+
 						$(this).attr('src','');
 						this.dataset.template='';
 						this.dataset.img64='';
