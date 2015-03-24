@@ -32,5 +32,6 @@ $lang=array(
 	'OPEN_RELATIONSHIP' => 'open relationship',
 	'CLOSED_RELATIONSHIP' => 'closed relationship',
 	'NOTE_DATES' => 'You can select one or more of these options',
+	'TAG_ZOOM_NOTE' => 'Now placing the mouse over the background you can move it or make zoom on it with the mousewheel.',
 );
 return $lang;

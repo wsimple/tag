@@ -1,6 +1,12 @@
 <link rel="stylesheet" href="css/fileupload/style.css">
 <link rel="stylesheet" href="css/fileupload/jquery.fileupload.css">
 <link rel="stylesheet" href="css/fileupload/jquery.fileupload-ui.css">
+<style>
+	#editTag-box .note{
+		font-size:12px;
+		text-align:center;
+	}
+</style>
 <?php
 	if(isset($_GET['wpanel'])&&is_array($_SESSION['wpanel_user'])){
 		if($_SESSION['ws-tags']['ws-user']['email']!='wpanel@tagbum.com'){
@@ -97,6 +103,7 @@ if ($acceso){  ?>
 		<div id="bckSelected" class="tag-container"></div>
 		<input type="hidden" name="matrix" id="matrix" value="[1,0,0,1,0,0]"/>
 	</div>
+	<div class="note"><?=TAG_ZOOM_NOTE?></div>
 	<script src="js/jquery.panzoom.js"></script>
 	<script>
 		(function(){

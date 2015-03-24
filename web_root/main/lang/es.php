@@ -71,6 +71,7 @@ $lang=array(
 	'widow' => 'viudo(a)',
 	'wish to' => 'deseos',
 	'relationship' => 'relación',
-	'disassociate' => 'desasociar'
+	'disassociate' => 'desasociar',
+	'TAG_ZOOM_NOTE' => 'Ahora colocando el ratón sobre el fondo podrá moverlo y hacerle zoom con la rueda del ratón.',
 );
 return $lang;
