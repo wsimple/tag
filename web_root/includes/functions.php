@@ -984,14 +984,14 @@ function redimensionar($original,$img_nueva,$width,$height=''){
 		case 'png':$img=imagecreatefrompng($original);break;
 	}
 	//Obtengo la relacion de escala
-	if($_width>$width&&$width>0)
+	if($width>0&&$_width>$width)
 		$percent=(double)(($width*100)/$_width);
-	if($_width<=$width)
+	else
 		$percent=100;
-	if(floor(($_height*$percent)/100)>$height&&$height>0)
-		$percent=(double)(($height*100)/$_height);
-	$width=($_width*$percent)/100;
-	$height=($_height*$percent)/100;
+	if($height>0&&floor($_height*$percent/100)>$height)
+		$percent=(double)($height*100/$_height);
+	$width=$_width*$percent/100;
+	$height=$_height*$percent/100;
 	//crea imagen nueva redimencionada
 	$thumb=imagecreatetruecolor($width,$height);
 	if($type=='gif'||$type=='png'){
@@ -1008,11 +1008,12 @@ function redimensionar($original,$img_nueva,$width,$height=''){
 	#redimensionar imagen original copiandola en la imagen nueva
 	imagecopyresampled($thumb,$img,0,0,0,0,$width,$height,$_width,$_height);
 	#guardar la imagen redimensionada donde indica $img_nueva
+	imageinterlace($thumb,true);#activa bit de imagen progresiva
 	switch($type){
-		case 'jpeg':
-		case 'jpg':
 		case 'gif'://imagegif($thumb,$img_nueva);break;
 		case 'png'://imagepng($thumb,$img_nueva);break;
+		case 'jpeg':
+		case 'jpg':
 			@imagejpeg($thumb,$img_nueva,90);
 	}
 	imagedestroy($img);
