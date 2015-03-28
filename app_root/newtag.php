@@ -375,7 +375,7 @@
 
 				if(CORDOVA){
 					document.addEventListener('deviceready',function(){
-						alert('Device ready no');
+						//alert('Device ready no');
 						var cam=Camera,
 							photoData={
 								targetWidth:650,

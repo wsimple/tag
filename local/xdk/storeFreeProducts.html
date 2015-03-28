@@ -7,8 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Tagbum Mobile</title>
 <link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
-<script src="cordova.js"></script>
-<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+
 <link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 <link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
 <link rel="stylesheet" href="css/jquery.Jcrop.css"/>
@@ -18,8 +17,7 @@
 <link rel="stylesheet" href="css/seemytag.css"/>
 <link rel="stylesheet" href="css/colorPicker.css"/>
 <link rel="stylesheet" href="css/newV2.css"/>
-<script src="cordova.js"></script>
-<!-- <script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script> -->
+
 <script src="js/core/const.js" charset="UTF-8"></script>
 <script src="js/core/md5.js"></script>
 <script src="js/core/jquery-1.10.2.min.js"></script>
@@ -71,7 +69,7 @@ $('.list-wrapper').jScroll('refresh');
 });
 $(layer).on('click','li[idPro]',function(){
 redir(PAGE['detailsproduct']+'?id='+$(this).attr('idPro')+'&fp=1');
-}); 
+});
 switch(indice){
 case 'myPartiFp': get='&scc=2&myplays=1'; action=4; break;
 case 'myFp': get='&scc=2&my=1'; action=2; break;
@@ -95,7 +93,7 @@ switch(a){
 case 'a': a='b';break;
 // case 'b': a='c';break;
 case 'b': a='a';break;
-} 
+}
 out+=
 // (num++<1?' <li data-role="list-divider" style="padding: 12px 0"></li>':'')+
 '<li date="'+prod[i]['start_date']+'" idPro="'+prod[i]['id']+'" class="ui-block-'+a+'">'+

@@ -7,8 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Tagbum Mobile</title>
 <link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
-<script src="cordova.js"></script>
-<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+
 <link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 <link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
 <link rel="stylesheet" href="css/jquery.Jcrop.css"/>
@@ -18,8 +17,7 @@
 <link rel="stylesheet" href="css/seemytag.css"/>
 <link rel="stylesheet" href="css/colorPicker.css"/>
 <link rel="stylesheet" href="css/newV2.css"/>
-<script src="cordova.js"></script>
-<!-- <script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script> -->
+
 <script src="js/core/const.js" charset="UTF-8"></script>
 <script src="js/core/md5.js"></script>
 <script src="js/core/jquery-1.10.2.min.js"></script>
@@ -66,7 +64,7 @@ var formulario='<div id="scroller">'+
 '<input type="text" name="zipCode" id="zipCode" placeholder="'+lang.SIGNUP_ZIPCODE+'" value="">'+
 '<input name="address" id="address" placeholder="'+lang.BUSINESSCARD_LBLADDRESS+'"/>';
 // '<textarea cols="40" rows="8" name="address" id="address" placeholder="'+lang.BUSINESSCARD_LBLADDRESS+'"></textarea>';
-if ($('#menu .opc').hasClass('user')) 
+if ($('#menu .opc').hasClass('user'))
 formulario+='<div class="ui-grid-a"><div class="ui-block-a">'+
 '<select name="home_code" id="home_code" class="short">'+
 '<option value="">'+lang.USERPROFILE_LBLCBOAREASCODE+'</option>'+
@@ -77,7 +75,7 @@ formulario+='<div class="ui-grid-a"><div class="ui-block-a">'+
 formulario+='<div class="ui-grid-a"><div class="ui-block-a">'+
 '<select name="work_code" id="work_code" class="short">'+
 '<option value="">'+lang.USERPROFILE_LBLCBOAREASCODE+'</option>'+
-'</select>'+ 
+'</select>'+
 '</div><div class="ui-block-b">'+
 '<input data-mini="true" type="text" name="phoneWork" id="phoneWork" placeholder="'+lang.USERPROFILE_LBLWORKPHONE+'" value="" onkeypress="return enterNumber(event)">'+
 '</div></div>'+
@@ -102,9 +100,9 @@ formulario+='<div class="ui-grid-a"><div class="ui-block-a">'+
 $('#storeOption').html(formulario).addClass('fs-wrapper');
 $('#lstStoreOption').remove();
 break;
-} 
-}else{ 
-$('#shopping').html(lang.STORE_SHOPPING_CART); 
+}
+}else{
+$('#shopping').html(lang.STORE_SHOPPING_CART);
 $('#storeOption').remove();
 menuStore(4);
 }
@@ -112,7 +110,7 @@ menuStore(4);
 after:function(){
 if ($_GET['option']){
 switch($_GET['option']){
-case '1': 
+case '1':
 $('.fs-wrapper').jScroll({hScroll:false});
 myAjax({
 type: 'GET',
@@ -126,8 +124,8 @@ if (!data['exitSC']){ redir(PAGE['storeCat']); }
 else{
 var timer;
 $('#country').append(data['datosCar']['npais']+data['datosCar']['option']);
-if (data['datosCar']['thome']){ 
-$('#home_code').append(data['datosCar']['thome']+data['datosCar']['option']); 
+if (data['datosCar']['thome']){
+$('#home_code').append(data['datosCar']['thome']+data['datosCar']['option']);
 $('#phoneHome').val(data['datosCar']['nhome']);
 }else { $('#home_code,#phoneHome').remove(); }
 $('#work_code').append(data['datosCar']['twork']+data['datosCar']['option']);
@@ -166,7 +164,7 @@ if ($('#home_code').val()=='' && $('#phoneHome').val()!=$('#home_code').val()){ 
 if ($('#work_code').val()=='' && $('#phoneWork').val()!=$('#work_code').val()){ string+=lang.USERPROFILE_LBLCBOAREASCODE+'---'+lang.USERPROFILE_LBLWORKPHONE+'<br/>'; }
 if ($('#mobile_code').val()=='' && $('#phoneMobile').val()!=$('#mobile_code').val()){ string+=lang.USERPROFILE_LBLCBOAREASCODE+'---'+lang.USERPROFILE_LBLMOBILEPHONE+'<br/>'; }
 }
-if (string!=''){ 
+if (string!=''){
 myDialog('#singleDialog','<div class="msgShipp"><strong>'+lang.STORE_NO_COMPLETE+'</strong><p>'+string+'<br/><strong>'+lang.STORE_NO_COMPLETE_2+'</strong></p></div>');
 }else{
 myAjax({
@@ -205,13 +203,13 @@ action:function(){ redir(PAGE['storeCat']); }
 // }
 }
 });
-} 
+}
 });
 actionMenuStore();
 break;
-} 
-//selectFriendsDialog( 
-}else{ 
+}
+//selectFriendsDialog(
+}else{
 var info='#lstStoreOption';
 $(info).wrap('<div class="list-wrapper"><div id="scroller"></div></div>');
 $('.list-wrapper').jScroll({hScroll:false});

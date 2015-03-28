@@ -18,8 +18,7 @@ if(preg_match('/^\/app_root/',$_SERVER['REQUEST_URI'])){
 	<title>Tagbum Mobile</title>
 	<link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
 <?php if(isset($_GET['minify'])){
-?>	<script src="<?=isset($_GET['steroids'])?'http://localhost/cordova.js':'cordova.js'?>"></script>
-	<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+?>	
 <?php } ?>
 	<link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 	<link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
@@ -31,8 +30,7 @@ if(preg_match('/^\/app_root/',$_SERVER['REQUEST_URI'])){
 	<link rel="stylesheet" href="css/colorPicker.css"/>
 	<link rel="stylesheet" href="css/newV2.css"/>
 <?php if(isset($_GET['minify'])){
-?>	<script src="cordova.js"></script>
-	<!-- <script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script> -->
+?>	
 <?php } ?>
 	<script src="js/core/const.js" charset="UTF-8"></script>
 	<script src="js/core/md5.js"></script>

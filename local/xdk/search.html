@@ -7,8 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Tagbum Mobile</title>
 <link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
-<script src="cordova.js"></script>
-<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+
 <link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 <link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
 <link rel="stylesheet" href="css/jquery.Jcrop.css"/>
@@ -18,8 +17,7 @@
 <link rel="stylesheet" href="css/seemytag.css"/>
 <link rel="stylesheet" href="css/colorPicker.css"/>
 <link rel="stylesheet" href="css/newV2.css"/>
-<script src="cordova.js"></script>
-<!-- <script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script> -->
+
 <script src="js/core/const.js" charset="UTF-8"></script>
 <script src="js/core/md5.js"></script>
 <script src="js/core/jquery-1.10.2.min.js"></script>
@@ -43,7 +41,7 @@
 
 <div data-role="header" data-theme="f" data-position="fixed">
 <div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
-<span class="photo"></span> 
+<span class="photo"></span>
 <span class="info">
 <span class="name"></span>
 <span class="points"></span>
@@ -87,7 +85,7 @@ $('#sub-menu ul').html(
 '<li class="ui-block-c" >&nbsp;</li>'+
 '<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
 '<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
-); 
+);
 //
 },
 after:function(){
@@ -109,7 +107,7 @@ $(this).slideUp();
 getSearch(opc);
 }).on('click','li[hash]',function(){
 redir(PAGE['tagslist']+'?current=hash&hash='+$(this).attr('hash').replace('#','%23').replace('<br>',' '));
-}); 
+});
 linkUser('#resultList');
 $('#resultList').on('collapse','div[data-role="collapsible"]',function(){
 $('.fs-wrapper').jScroll('refresh');
@@ -144,7 +142,7 @@ if(data['num_friends']>0) numTR++;
 if(data['num_groups']>0) numTR++;
 if(data['num_hash']>0) numTR++;
 if(data['num_store']>0) numTR++;
-if (data['friends']!=''){ 
+if (data['friends']!=''){
 out= '<div data-role="collapsible" class="despliegue" '+(numTR==1?'data-collapsed="false"':'')+'>'
 +'<h3>'+lan('peoples','ucw')+'</h3>'
 +'<ul id="resultSP" data-role="listview" data-filter="true" data-divider-theme="e" class="ui-listview ui-corner-all ui-shadow " >';
@@ -202,7 +200,7 @@ out+= '<div data-role="collapsible" '+(numTR==1?'data-collapsed="false"':'')+'>'
 +'<h3>'+lan('hashTags','ucw')+'</h3>'
 +'<ul id="resultSH" data-role="listview" data-filter="true" data-divider-theme="e">';
 for(i in data['hash']) if(i){
-pref = data['hash'][i]; 
+pref = data['hash'][i];
 outH +=
 '<li hash="'+pref+'">'+
 pref+
@@ -239,7 +237,7 @@ $('#resultList').html(out).collapsibleset();
 if (outP!=''){ $('#resultList #resultSP').html(outP).listview(); }
 if (outG!=''){ $('#resultList #resultSG').html(outG).listview(); }
 if (outH!=''){ $('#resultList #resultSH').html(outH).listview(); }
-if (outS!=''){ $('#resultList #resultSS').html(outS).listview(); } 
+if (outS!=''){ $('#resultList #resultSS').html(outS).listview(); }
 }else if(opc.limit=='more'){
 if (outP!=''){ $('#resultList #resultSP').append(outP).listview('refresh'); }
 if (outG!=''){ $('#resultList #resultSG').append(outG).listview('refresh'); }
@@ -252,7 +250,7 @@ myDialog('#singleDialog',lang.noresultsearch_ini+' "'+opc.srh+'" '+lang.noresult
 }
 
 }
-}); 
+});
 }
 if (srh!=''){ getSearch(opc);
 }else{ myDialog('#singleDialog',lang.noresultsearch_end); }

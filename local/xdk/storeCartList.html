@@ -7,8 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Tagbum Mobile</title>
 <link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
-<script src="cordova.js"></script>
-<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+
 <link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 <link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
 <link rel="stylesheet" href="css/jquery.Jcrop.css"/>
@@ -18,8 +17,7 @@
 <link rel="stylesheet" href="css/seemytag.css"/>
 <link rel="stylesheet" href="css/colorPicker.css"/>
 <link rel="stylesheet" href="css/newV2.css"/>
-<script src="cordova.js"></script>
-<!-- <script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script> -->
+
 <script src="js/core/const.js" charset="UTF-8"></script>
 <script src="js/core/md5.js"></script>
 <script src="js/core/jquery-1.10.2.min.js"></script>
@@ -88,12 +86,12 @@ msgShipp.msg=data['msgShipp'];
 $('#data-header .date span').html(data['inf']['date']);
 $('#data-header .numF span').html(data['inf']['num']);
 $('#data-header .name').html(data['inf']['user']);
-out=bodyCart(data); 
+out=bodyCart(data);
 $('#cartList').html(out).listview('refresh');
 if (out!=''){
 $('#footerPay').html('<div class="ui-grid-a">'+
 '<div class="ui-block-a" style="width: 40%">'+
-'<button id="buttonCancelCheckOut" data-theme="a">'+lan('cancel')+'</button>'+ 
+'<button id="buttonCancelCheckOut" data-theme="a">'+lan('cancel')+'</button>'+
 '</div>'+
 '<div class="ui-block-b" style="width: 60%">'+
 '<button id="buttonCheckOut" data-theme="e">'+lan('pay now','ucw')+'</button>'+
@@ -107,7 +105,7 @@ $('#footerPay').removeAttr('class');
 $('#buttonCheckOut').click(function(){
 if ($('#dollarApp').val()=='si'){ myDialog('#singleDialog',lang.STORE_NOT_CHET_DOLLAR);}
 else {
-if ($('#productApp').val()=='si'){ 
+if ($('#productApp').val()=='si'){
 if (msgShipp.msg!=''){
 myDialog({
 id:'defaultDialog',
@@ -122,10 +120,10 @@ action:function(){ checkOutShoppingCart('&ned=1'); }
 }]
 });
 }else{ redir(PAGE['storeOption']+'?option=1'); }
-}else{ checkOutShoppingCart(); } 
+}else{ checkOutShoppingCart(); }
 }
 });
-} 
+}
 var myselect = $( "select.cant-product" );
 if (myselect){
 myselect.selectmenu();
@@ -146,7 +144,7 @@ action:function(){ deleteAllCar(); }
 name:'No',
 action: 'close'
 }]
-}); 
+});
 }else{
 myDialog({
 id:'#singleDialog',
@@ -155,11 +153,11 @@ buttons:[{
 name:'Ok',
 action:function(){ redir(PAGE.storePorduct); }
 }]
-}); 
+});
 }
 });
 if (data['bodyEmerg']){ myDialog('#singleDialog',data['bodyEmerg']); }
-}else{ 
+}else{
 myDialog({
 id:'#singleDialog',
 content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
@@ -167,7 +165,7 @@ buttons:[{
 name:'Ok',
 action:function(){ redir(PAGE.storePorduct); }
 }]
-}); 
+});
 $('#buttonCheckOut,#footer li.ui-block-c').remove();
 }
 actionMenuStore();

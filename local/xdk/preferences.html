@@ -7,8 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Tagbum Mobile</title>
 <link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
-<script src="cordova.js"></script>
-<script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script>
+
 <link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 <link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
 <link rel="stylesheet" href="css/jquery.Jcrop.css"/>
@@ -18,8 +17,7 @@
 <link rel="stylesheet" href="css/seemytag.css"/>
 <link rel="stylesheet" href="css/colorPicker.css"/>
 <link rel="stylesheet" href="css/newV2.css"/>
-<script src="cordova.js"></script>
-<!-- <script src="http://debug-software.intel.com/target/target-script-min.js#kIKo6WaC-JjBDm-nWChZG88_SutVa6o28iuUhD8xTg4"></script> -->
+
 <script src="js/core/const.js" charset="UTF-8"></script>
 <script src="js/core/md5.js"></script>
 <script src="js/core/jquery-1.10.2.min.js"></script>
@@ -43,7 +41,7 @@
 <div id="page-preferences" data-role="page" data-cache="false">
 <div data-role="header" data-theme="f" data-position="fixed">
 <div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
-<span class="photo"></span> 
+<span class="photo"></span>
 <span class="info">
 <span class="name"></span>
 <span class="points"></span>
@@ -135,7 +133,7 @@ success :function(data){
 if (data['dato']){
 opc.dato[1]=configArray(data['dato'][1],true);
 opc.dato[2]=configArray(data['dato'][2],true);
-opc.dato[3]=configArray(data['dato'][3],true); 
+opc.dato[3]=configArray(data['dato'][3],true);
 }else opc.dato=new Array("","","","");
 $('#txtPrefe').val(opc.dato[opc.type]);
 $("#btnPreferences_update").show();
@@ -175,7 +173,7 @@ content:'<br/>'+lang.PREFERENCES_MSJSUCESSFULLY+'<br/>',
 backgroundClose: true,
 buttons:[]
 });
-else 
+else
 myDialog({
 id:'#prefeExitoDialog',
 content:'<br/>'+lang.TAG_DELETEDERROR+'<br/>',
