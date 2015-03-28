@@ -74,7 +74,7 @@ window.location.reload();
 <div id="page-tagsList" data-role="page" data-cache="false" class="smt-no-scroll no-footer">
 <div data-role="header" data-theme="f" data-position="fixed">
 <div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
-<span class="photo"></span> 
+<span class="photo"></span>
 <span class="info">
 <span class="name"></span>
 <span class="points"></span>
@@ -125,7 +125,7 @@ $('#sub-menu ul').html(
 '<li class="ui-block-c" >&nbsp;</li>'+
 '<li class="ui-block-d srcico"><a href="#searchPopUp" data-rel="popup" data-position-to="window">'+lan('search','ucw')+'</a></li>'+
 '<li class="ui-block-e newtag"><a href="newtag.html">'+lan('newTag','ucw')+'</a></li>'
-); 
+);
 $('.pullDownLabel').html(lang.SCROLL_PULLDOWN);
 $('.pullUpLabel').html(lang.SCROLL_PULLUP);
 // $('#groupTitle').html(lang.GROUPS_MEMBERSTITLE2);
@@ -212,12 +212,12 @@ $('#rowTitleMove').addClass('no-v');
 }else{
 if (!v){
 v=true;
-$('#rowTitleMove').removeClass('no-v'); 
+$('#rowTitleMove').removeClass('no-v');
 }
 }
 y=scroller.y;
-} 
-}); 
+}
+});
 if(current=='group'){
 var admin=false,numAdm=0;
 // $('#pageTitle').html(lan('group','ucw'));
@@ -415,7 +415,7 @@ url :DOMINIO+'controls/groups/actionsGroups.json.php?action=6&grp='+id,
 data:{uemails:friends},
 dataType:'JSON',
 success :function(data){
-if(data['asig']=='true') 
+if(data['asig']=='true')
 myDialog({
 id: '#default',
 content: lang.GROUPS_LEAVEMESSAGEFINAL,
@@ -430,7 +430,7 @@ else myDialog('#singleDialog',lang.TAG_DELETEDERROR);
 error :function(){
 myDialog('#singleDialog','ERROR-invitedFriends');
 }
-}); 
+});
 }
 $('.closedialog',idDialog).click();
 }
@@ -454,7 +454,7 @@ if(data['mensj']=='invite') myDialog('#singleDialog',lang.GROUPS_SENDINVITATION)
 error :function(){
 myDialog('#singleDialog','ERROR-invitedFriends');
 }
-}); 
+});
 }
 $('.closedialog',idDialog).click();
 }

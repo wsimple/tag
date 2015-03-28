@@ -75,7 +75,7 @@ var el='#resultList';
 $('.fs-wrapper').jScroll({hScroll:false});
 $('#resultList').on('click','li[prod]',function(){
 redir(PAGE['detailsproduct']+'?id='+$(this).attr('prod'));
-}); 
+});
 $('#resultList').on('collapse','div[data-role="collapsible"]',function(){
 $('.fs-wrapper').jScroll('refresh');
 });
@@ -134,8 +134,8 @@ outS[a]+='<li prod="'+data.datosCar[i]['product_id']+'">'+
 }
 if (out!=''){
 $('#resultList').html(out).collapsibleset();
-if (outS.length>0) 
-for (i=0;i<=a; i++) $('#resultList #result'+i).html(outS[i]).listview(); 
+if (outS.length>0)
+for (i=0;i<=a; i++) $('#resultList #result'+i).html(outS[i]).listview();
 if (totalPoints>0){
 tempEle = $('<span>'+totalPoints+'</span>');
 costFormated = $(tempEle).formatCurrency({symbol:''});
@@ -146,7 +146,7 @@ totalPoints = auxi[0];
 if (totalMoney>0){
 tempEle = $('<span>'+totalMoney+'</span>');
 costFormated = $(tempEle).formatCurrency({symbol:''});
-totalMoney = costFormated.html(); 
+totalMoney = costFormated.html();
 }
 $('#rowTitle .summary').click(function(){
 myDialog({
@@ -204,7 +204,7 @@ buttons:[{
 name:lan('search','ucw'),
 action:function (){
 this.close();
-redir(PAGE.myOrders+"?y="+$("#select-year").val()+"&m="+$("#select-month").val()); 
+redir(PAGE.myOrders+"?y="+$("#select-year").val()+"&m="+$("#select-month").val());
 }
 },{
 name:lan('search','ucw')+' '+lan('current'),
@@ -218,9 +218,9 @@ backgroundClose: true
 });
 }
 }else myDialog('#singleDialog',lang.STORE_NO_AVAILABLE_ORDERS);
-actionMenuStore(); 
+actionMenuStore();
 }
-}); 
+});
 }
 }
 });

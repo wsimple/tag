@@ -89,12 +89,12 @@ if(openVideo){ href='nohref="'+product['video']+'"';
 }else{ href='href="'+product['video']+'" target="_blank"'; }
 video='<a id="'+product['typeVideo']+'" '+href+'>';
 // '<img src="css/newdesign/video.png" alt="" width="27" height="27">'+
-// '</a>'; 
+// '</a>';
 }
 if(product['place']=='1'){
 nPhotos=product['photo'].length;
 if (video!='') nPhotos++;
-for(i in product['photo']){ 
+for(i in product['photo']){
 photo=product['photo'][i];
 picClass=(i*1===0)?' first':(i*1===(nPhotos-1))?' last':'';
 // divPhotos+='<div><img src="'+photo['pic']+'" width = "150" /></div>';
@@ -106,10 +106,10 @@ video='<div class="vid" style="width:'+(100/nPhotos)+'%;"><a href="#" class="las
 }
 }else{ nPhotos=1;
 // divPhotos+='<div><img src="'+product['photo']+'" width = "150" /></div>';
-basePhoto+='<div class="pic"><img src="'+photo['pic']+'" style="width 100%"/></div>'; 
-// basePhoto+='<div class="pic" style="background-image:url(\''+product['photo']+'\');"></div>'; 
+basePhoto+='<div class="pic"><img src="'+photo['pic']+'" style="width 100%"/></div>';
+// basePhoto+='<div class="pic" style="background-image:url(\''+product['photo']+'\');"></div>';
 }
-if (data['hash']){ 
+if (data['hash']){
 for (var jj=0;jj<data['hash'].length;jj++){
 hashS+='<a href="#" hashT="'+data['hash'][jj]+'">'+data['hash'][jj]+'</a>&nbsp;&nbsp;';
 }
@@ -129,7 +129,7 @@ basePhoto+video+
 '<span id="seller">'+lang.STORE_SHOPPING_SELLER+': '+product['seller']+'</span>';
 outLi+='<div class="buttonsDetails"><div class="ui-grid-a">'+
 '<div class="ui-block-a" style="width: 35%">'+
-'<button data-theme="c">'+(module!='raffle'?product['stock']:product['cant_users'])+'</button>'+ 
+'<button data-theme="c">'+(module!='raffle'?product['stock']:product['cant_users'])+'</button>'+
 '</div>'+
 '<div class="ui-block-b" style="width: 65%">'+
 '<button id="buttonShopping" data-theme="e">'+lang.STORE_SHOPPING_ADD+'</button>'+
@@ -155,7 +155,7 @@ swipeRight:function(event, direction, distance, duration, fingerCount, fingerDat
 if (vright>0 && vright<=((nPhotos-1)*100)){
 vright=vright-100;
 $(this[0]).parents('div.photosp').animate({right: '-=100%'},500);
-} 
+}
 },threshold:0
 })
 $(".photosp a:nth-child(3)").click(function(){
@@ -170,7 +170,7 @@ vright=vright-100;
 $(this).parents('div.photosp').animate({right: '-=100%'},500);
 }
 });
-setTimeout(function(){ 
+setTimeout(function(){
 var h=$('.photosp .pic.first').height();
 $('#infoDetails #idProductContent .photosp .pic a:nth-child(1),'+
 '#infoDetails #idProductContent .photosp a.lastVideo,'+
@@ -180,7 +180,7 @@ if (h>60) $('#infoDetails #idProductContent .photosp .vid img').css('padding',((
 
 }
 if(product['idse']===product['id_user']){
-action=1; 
+action=1;
 if (module=='raffle'){
 action=2;
 $('#buttonShopping').html(lan('participants')).addClass('exist').prev('span').html(lan('participants','ucw'));
@@ -190,7 +190,7 @@ id:'#friendsListDialog',
 style:{'min-height':200},
 buttons:{},
 after: function (options,dialog){
-participantsFreeProducts(product['rid']) 
+participantsFreeProducts(product['rid'])
 }
 });
 });
@@ -222,7 +222,7 @@ id:'#friendsListDialog',
 style:{'min-height':200},
 buttons:{},
 after: function (options,dialog){
-participantsFreeProducts(product['rid']) 
+participantsFreeProducts(product['rid'])
 }
 });
 }else joinFreeProducts(product['rid']);
@@ -255,7 +255,7 @@ openVideo($(this).attr('nohref'),'#popupVideo');
 actionMenuStore(action);
 }else{ myDialog('#singleDialog',lang.TAG_CONTENTUNAVAILABLE); }
 }
-}); 
+});
 }
 function participantsFreeProducts(id){
 console.log('participantsFreeProducts');
@@ -307,12 +307,12 @@ myDialog('#singleDialog',lang.conectionFail);
 success :function(data){
 di.close();
 switch(data['action']){
-case 'join': 
-myDialog('#msgDialog',lan('STORE_THANKYOUMEMBERS')); 
+case 'join':
+myDialog('#msgDialog',lan('STORE_THANKYOUMEMBERS'));
 $('#buttonShopping').html(lan('participants')).addClass('exist').prev('span').html(lan('participants','ucw'));
 break;
-case 'end': 
-myDialog('#msgDialog',lan('STORE_THANKYOUFINALMEMBERS')); 
+case 'end':
+myDialog('#msgDialog',lan('STORE_THANKYOUFINALMEMBERS'));
 $('#buttonShopping').html(lan('participants')).addClass('exist').prev('span').html(lan('participants','ucw'));
 break;
 case 'no-points': myDialog('#msgDialog',lan('STORE_SHOPPING_NOPOINTS')); break;
@@ -327,7 +327,7 @@ name:'No',
 action:function(){ this.close(); }
 }]
 });
-} 
+}
 }
 });
 </script>

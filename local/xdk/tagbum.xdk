@@ -6,7 +6,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "",
       "projectGuid": "3e7392ed-1357-44e6-8d6c-63451713a92e",
-      "lastModifiedDate": 1426803119384,
+      "lastModifiedDate": 1427563834603,
       "creationDate": 1415392955499
     },
     "sourceDirectory": "",
@@ -17,19 +17,29 @@
     "libraries": [],
     "cordovaPlugins": [
       {
-        "id": "intel.xdk.cache",
+        "id": "org.apache.cordova.camera",
+        "version": "0.3.4",
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
       },
       {
-        "id": "intel.xdk.camera",
+        "id": "org.apache.cordova.media-capture",
+        "version": "0.3.5",
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
       },
       {
-        "id": "intel.xdk.device",
+        "id": "org.apache.cordova.device-motion",
+        "version": "0.2.11",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
+        "id": "org.apache.cordova.device-orientation",
+        "version": "0.3.10",
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
@@ -44,6 +54,41 @@
       {
         "id": "org.apache.cordova.contacts",
         "version": "0.2.15",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
+        "id": "org.apache.cordova.device",
+        "version": "0.2.13",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
+        "id": "org.apache.cordova.media",
+        "version": "0.2.15",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
+        "id": "org.apache.cordova.battery-status",
+        "version": "0.2.12",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
+        "id": "org.apache.cordova.file",
+        "version": "1.3.2",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
+        "id": "org.apache.cordova.file-transfer",
+        "version": "0.4.8",
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
@@ -77,21 +122,14 @@
         "paramvals": {}
       },
       {
+        "id": "org.apache.cordova.vibration",
+        "version": "0.3.12",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
         "id": "org.apache.cordova.splashscreen",
-        "version": "0.3.5",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.camera",
-        "version": "0.3.4",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.media-capture",
         "version": "0.3.5",
         "selectedState": "Included",
         "data": {},
@@ -105,41 +143,31 @@
         "paramvals": {}
       },
       {
+        "id": "intel.xdk.cache",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
+        "id": "intel.xdk.camera",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
         "id": "intel.xdk.contacts",
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
       },
       {
+        "id": "intel.xdk.device",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
         "id": "intel.xdk.file",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.file",
-        "version": "1.3.2",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.vibration",
-        "version": "0.3.12",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.media",
-        "version": "0.2.15",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.device",
-        "version": "0.2.13",
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
@@ -169,54 +197,54 @@
         ],
         "icons_": [
           {
-            "relPath": "app-icon/48.png",
+            "relPath": "appIcon/36.png",
+            "density": "ldpi",
+            "height": 36,
+            "width": 36
+          },
+          {
+            "relPath": "appIcon/48.png",
             "density": "mdpi",
             "height": 48,
             "width": 48
           },
           {
-            "relPath": "app-icon/96.png",
-            "density": "xhdpi",
-            "height": 96,
-            "width": 96
-          },
-          {
-            "relPath": "app-icon/72.png",
+            "relPath": "appIcon/72.png",
             "density": "hdpi",
             "height": 72,
             "width": 72
           },
           {
-            "relPath": "app-icon/36.png",
-            "density": "ldpi",
-            "height": 36,
-            "width": 36
+            "relPath": "appIcon/96.png",
+            "density": "xhdpi",
+            "height": 96,
+            "width": 96
           }
         ],
         "splashes_": [
           {
-            "relPath": "app-splash/320.png",
+            "relPath": "appSplash/320.png",
             "density": "ldpi",
             "height": 426,
             "width": 320,
             "orientation": "portrait"
           },
           {
-            "relPath": "app-splash/320_2.png",
+            "relPath": "appSplash/320_2.png",
             "density": "mdpi",
             "height": 470,
             "width": 320,
             "orientation": "portrait"
           },
           {
-            "relPath": "app-splash/480.png",
+            "relPath": "appSplash/480.png",
             "density": "hdpi",
             "height": 640,
             "width": 480,
             "orientation": "portrait"
           },
           {
-            "relPath": "app-splash/720.png",
+            "relPath": "appSplash/720.png",
             "density": "xhdpi",
             "height": 960,
             "width": 720,
@@ -226,7 +254,7 @@
         "addlPermissions_": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzZ2ypVLVh9JQDNwuZEoEzplBo/tYejlzvsOXOT/7Da2+FZ8D8pWjkgkacaB91iy1MWovdcNKCi5Xaw/IzFJZUbecYNwtbyWokyu6huFaxC2NXGPh82TinmGXcbZZfZ0/o1/U5sAmA9OhT0blNJzB5MlNg/sSLIKyLKoc2mlps/YokcM1SfDC92ndjniA2+bSg6yeEIea6YOe5QLpc4sXxxgh3F+WmtCMd9pqcUQNlZOwQfLXfxNdplc+Am5s3WZmNzdgXJUvjmLAyYOB7Ht/lXKM87JSo7fPGFqnud8luqNTDHMtVZtNQiFQES5NAqcOoX3o9YnDE9FiWA1fwHYUYwIDAQAB",
         "excludedLibraries_": "",
         "iosProvs_": [],
-        "cordovaCLIVersion_": "4.1.2",
+        "cordovaCLIVersion_": "3.5",
         "appVersion_": "0.2.0",
         "appVersionCode_": "6",
         "crosswalkVersion_": "stable",
@@ -280,73 +308,97 @@
         ],
         "icons_": [
           {
-            "relPath": "app-icon/120.png",
+            "relPath": "appIcon/180.png",
+            "height": 180,
+            "width": 180
+          },
+          {
+            "relPath": "appIcon/120.png",
             "height": 120,
             "width": 120
           },
           {
-            "relPath": "app-icon/60.png",
+            "relPath": "appIcon/60.png",
             "height": 60,
             "width": 60
           },
           {
-            "relPath": "app-icon/152.png",
+            "relPath": "appIcon/152.png",
             "height": 152,
             "width": 152
           },
           {
-            "relPath": "app-icon/76.png",
+            "relPath": "appIcon/76.png",
             "height": 76,
             "width": 76
-          },
-          {
-            "relPath": "app-icon/180.png",
-            "height": 180,
-            "width": 180
           }
         ],
         "splashes_": [
           {
-            "relPath": "app-splash/640.png",
-            "height": 1136,
-            "width": 640,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "app-splash/640_2.png",
-            "height": 960,
-            "width": 640,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "app-splash/320.png",
-            "height": 480,
-            "width": 320,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "app-splash/1536.png",
-            "height": 2008,
-            "width": 1536,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "app-splash/768.png",
-            "height": 1004,
-            "width": 768,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "app-splash/750.png",
+            "relPath": "appSplash/750.png",
             "height": 1334,
             "width": 750,
             "orientation": "portrait"
           },
           {
-            "relPath": "app-splash/1242.png",
+            "relPath": "appSplash/1242.png",
             "height": 2208,
             "width": 1242,
             "orientation": "portrait"
+          },
+          {
+            "relPath": "appSplash/640.png",
+            "height": 1136,
+            "width": 640,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "appSplash/640_2.png",
+            "height": 960,
+            "width": 640,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "appSplash/320_IOS.png",
+            "height": 480,
+            "width": 320,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "appSplash/1536.png",
+            "height": 2008,
+            "width": 1536,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "appSplash/768.png",
+            "height": 1004,
+            "width": 768,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "appSplash/1334.png",
+            "height": 750,
+            "width": 1334,
+            "orientation": "landscape"
+          },
+          {
+            "relPath": "appSplash/2208Land.png",
+            "height": 1242,
+            "width": 2208,
+            "orientation": "landscape"
+          },
+          {
+            "relPath": "appSplash/2048.png",
+            "height": 1496,
+            "width": 2048,
+            "orientation": "landscape"
+          },
+          {
+            "relPath": "appSplash/1024.png",
+            "height": 748,
+            "width": 1024,
+            "orientation": "landscape"
           }
         ],
         "addlPermissions_": "",
@@ -355,12 +407,17 @@
           {
             "relPath": "tagbumTest.mobileprovision",
             "type": "adhoc"
+          },
+          {
+            "relPath": "tagbumTest.mobileprovision",
+            "type": "production"
           }
         ],
         "cordovaCLIVersion_": "4.1.2",
         "appVersion_": "0.1.0",
         "appAuthor_": "Tagamation",
-        "appDescription_": "It’s Social Media with Rewards!"
+        "appDescription_": "Social Media with Rewards",
+        "appVersionCode_": "0.0.1 "
       },
       "Windows8": {
         "platform_": "windows8",

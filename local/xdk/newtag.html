@@ -326,7 +326,7 @@ xhrFields:{withCredentials:true},
 headers:{},
 success:function(data){
 var list='';
-if(data['files'].length === 0){list="<div class='tcAlert'>"+lang.NEWTAG_NO_BACKGROUNDS+"</div>";} 
+if(data['files'].length === 0){list="<div class='tcAlert'>"+lang.NEWTAG_NO_BACKGROUNDS+"</div>";}
 data['files'].forEach(function(el){
 list+=
 '<div style="background-image:url('+el.url+');" '+
@@ -377,13 +377,26 @@ bgsize=bgsize+'% auto';
 $('#backgroundPreview').html('<img id="backgroundImage" src="'+bg+'" alt="">');
 $('.tag-solo').prepend('<div class="touch-leyend"></div>');
 var panzoomOpt = { maxScale: img.naturalWidth / img.clientWidth, minScale: 1,contain:'invert'};
-window.panzoom = $("#backgroundImage").panzoom(panzoomOpt).on('panzoomstart',function(){
+window.panzoom = $("#backgroundImage").panzoom(panzoomOpt).off('.panz')
+.on('panzoomstart.panz',function(){
 $('.fs-wrapper').jScroll('remove');
 $('.inputs-tag').css('opacity','0.4');
-}).on('panzoomend',function(e, panzoom){
+}).on('panzoomend.panz',function(e, panzoom){
 $('.inputs-tag').css('opacity','1');
 $('.fs-wrapper').jScroll();
 });
+$('.tag-container').on('mousewheel.panz',function(e){
+console.log('event:',e);
+e.preventDefault();
+var delta = e.delta || e.originalEvent.wheelDelta;
+var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+panzoom.panzoom('zoom',zoomOut,{
+increment: 0.1,
+animate: false,
+focal: e
+});
+});
+
 $(this).attr('src','');
 this.dataset.template='';
 this.dataset.img64='';
@@ -402,7 +415,7 @@ panzoom.panzoom('resetDimensions')
 
 if(CORDOVA){
 document.addEventListener('deviceready',function(){
-//alert('Device ready no');
+alert('Device ready no');
 var cam=Camera,
 photoData={
 targetWidth:650,
@@ -517,9 +530,9 @@ redir(PAGE['tagslist']+'?current=group&id='+$_GET['group']);
 }else if($_GET['product'] && $_GET['product'] !== ''){
 redir(PAGE['storeMypubli']);
 }else{
-if(data['status']==4){ 
+if(data['status']==4){
 
-$.local('timeLine', {'last_tab':'privateTags'}); 
+$.local('timeLine', {'last_tab':'privateTags'});
 }else{
 localStorage.removeItem('timeLine');
 }
@@ -589,7 +602,7 @@ if (hashing) {
 hashing = false;
 finishIn=$(this).val().length;
 finalHash = $(this).val().substr(startIn,finishIn);
-if (finalHash.charAt(0) == '#'){ 
+if (finalHash.charAt(0) == '#'){
 $(container).append('<div class="hash" data-input="'+this.id+'"><p>'+finalHash+'</p><span>X</span></div>');
 }
 $(container).slideDown('slow');

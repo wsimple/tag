@@ -43,7 +43,7 @@
 <div id="page-preferences" data-role="page" data-cache="false">
 <div data-role="header" data-theme="f" data-position="fixed">
 <div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
-<span class="photo"></span> 
+<span class="photo"></span>
 <span class="info">
 <span class="name"></span>
 <span class="points"></span>
@@ -135,7 +135,7 @@ success :function(data){
 if (data['dato']){
 opc.dato[1]=configArray(data['dato'][1],true);
 opc.dato[2]=configArray(data['dato'][2],true);
-opc.dato[3]=configArray(data['dato'][3],true); 
+opc.dato[3]=configArray(data['dato'][3],true);
 }else opc.dato=new Array("","","","");
 $('#txtPrefe').val(opc.dato[opc.type]);
 $("#btnPreferences_update").show();
@@ -175,7 +175,7 @@ content:'<br/>'+lang.PREFERENCES_MSJSUCESSFULLY+'<br/>',
 backgroundClose: true,
 buttons:[]
 });
-else 
+else
 myDialog({
 id:'#prefeExitoDialog',
 content:'<br/>'+lang.TAG_DELETEDERROR+'<br/>',

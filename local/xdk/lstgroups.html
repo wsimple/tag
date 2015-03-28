@@ -42,7 +42,7 @@
 </head><body><div id="page-lstGroups" data-role="page" data-cache="false" class="no-footer">
 <div data-role="header" data-position="fixed" data-theme="f">
 <div id="profile" style="position:absolute;top:0px;left:0;padding:5px;">
-<span class="photo"></span> 
+<span class="photo"></span>
 <span class="info">
 <span class="name"></span>
 <span class="points"></span>
@@ -138,11 +138,11 @@ $('#rowTitleMove').addClass('no-v');
 }else{
 if (!v){
 v=true;
-$('#rowTitleMove').removeClass('no-v'); 
+$('#rowTitleMove').removeClass('no-v');
 }
 }
 y=scroller.y;
-} 
+}
 });
 function cargarList(action,limit){
 var limit2='&'+(limit!=''?'limit='+limit:'limit=0');
@@ -184,12 +184,12 @@ out +=
 '</div>'+
 '</a>'+
 '</li>';
-} 
+}
 if (limit!='') $('#group_title').append(out).listview('refresh');
 else $('#group_title').html(out).listview('refresh');
 $wrapper.jScroll('refresh');
 }
-}); 
+});
 }
 }
 });

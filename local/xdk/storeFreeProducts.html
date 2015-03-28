@@ -71,7 +71,7 @@ $('.list-wrapper').jScroll('refresh');
 });
 $(layer).on('click','li[idPro]',function(){
 redir(PAGE['detailsproduct']+'?id='+$(this).attr('idPro')+'&fp=1');
-}); 
+});
 switch(indice){
 case 'myPartiFp': get='&scc=2&myplays=1'; action=4; break;
 case 'myFp': get='&scc=2&my=1'; action=2; break;
@@ -95,7 +95,7 @@ switch(a){
 case 'a': a='b';break;
 // case 'b': a='c';break;
 case 'b': a='a';break;
-} 
+}
 out+=
 // (num++<1?' <li data-role="list-divider" style="padding: 12px 0"></li>':'')+
 '<li date="'+prod[i]['start_date']+'" idPro="'+prod[i]['id']+'" class="ui-block-'+a+'">'+

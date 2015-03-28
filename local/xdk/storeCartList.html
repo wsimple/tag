@@ -88,12 +88,12 @@ msgShipp.msg=data['msgShipp'];
 $('#data-header .date span').html(data['inf']['date']);
 $('#data-header .numF span').html(data['inf']['num']);
 $('#data-header .name').html(data['inf']['user']);
-out=bodyCart(data); 
+out=bodyCart(data);
 $('#cartList').html(out).listview('refresh');
 if (out!=''){
 $('#footerPay').html('<div class="ui-grid-a">'+
 '<div class="ui-block-a" style="width: 40%">'+
-'<button id="buttonCancelCheckOut" data-theme="a">'+lan('cancel')+'</button>'+ 
+'<button id="buttonCancelCheckOut" data-theme="a">'+lan('cancel')+'</button>'+
 '</div>'+
 '<div class="ui-block-b" style="width: 60%">'+
 '<button id="buttonCheckOut" data-theme="e">'+lan('pay now','ucw')+'</button>'+
@@ -107,7 +107,7 @@ $('#footerPay').removeAttr('class');
 $('#buttonCheckOut').click(function(){
 if ($('#dollarApp').val()=='si'){ myDialog('#singleDialog',lang.STORE_NOT_CHET_DOLLAR);}
 else {
-if ($('#productApp').val()=='si'){ 
+if ($('#productApp').val()=='si'){
 if (msgShipp.msg!=''){
 myDialog({
 id:'defaultDialog',
@@ -122,10 +122,10 @@ action:function(){ checkOutShoppingCart('&ned=1'); }
 }]
 });
 }else{ redir(PAGE['storeOption']+'?option=1'); }
-}else{ checkOutShoppingCart(); } 
+}else{ checkOutShoppingCart(); }
 }
 });
-} 
+}
 var myselect = $( "select.cant-product" );
 if (myselect){
 myselect.selectmenu();
@@ -146,7 +146,7 @@ action:function(){ deleteAllCar(); }
 name:'No',
 action: 'close'
 }]
-}); 
+});
 }else{
 myDialog({
 id:'#singleDialog',
@@ -155,11 +155,11 @@ buttons:[{
 name:'Ok',
 action:function(){ redir(PAGE.storePorduct); }
 }]
-}); 
+});
 }
 });
 if (data['bodyEmerg']){ myDialog('#singleDialog',data['bodyEmerg']); }
-}else{ 
+}else{
 myDialog({
 id:'#singleDialog',
 content:'<div style="text-align: center;"><strong>'+lang.STORE_NO_SC+'</strong></div>',
@@ -167,7 +167,7 @@ buttons:[{
 name:'Ok',
 action:function(){ redir(PAGE.storePorduct); }
 }]
-}); 
+});
 $('#buttonCheckOut,#footer li.ui-block-c').remove();
 }
 actionMenuStore();
