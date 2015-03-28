@@ -6,7 +6,11 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "",
       "projectGuid": "3e7392ed-1357-44e6-8d6c-63451713a92e",
+<<<<<<< HEAD
       "lastModifiedDate": 1427563834603,
+=======
+      "lastModifiedDate": 1427558200388,
+>>>>>>> origin/master
       "creationDate": 1415392955499
     },
     "sourceDirectory": "",
@@ -46,13 +50,14 @@
       },
       {
         "id": "org.apache.cordova.network-information",
-        "version": "0.2.14",
+        "version": "0.2.8",
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
       },
       {
         "id": "org.apache.cordova.contacts",
+<<<<<<< HEAD
         "version": "0.2.15",
         "selectedState": "Included",
         "data": {},
@@ -103,41 +108,54 @@
       {
         "id": "org.apache.cordova.globalization",
         "version": "0.3.3",
+=======
+        "version": "0.2.10",
+>>>>>>> origin/master
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
       },
       {
         "id": "org.apache.cordova.inappbrowser",
-        "version": "0.5.4",
+        "version": "0.4.0",
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
       },
       {
-        "id": "org.apache.cordova.dialogs",
-        "version": "0.2.11",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
+<<<<<<< HEAD
         "id": "org.apache.cordova.vibration",
         "version": "0.3.12",
+=======
+        "id": "org.apache.cordova.splashscreen",
+        "version": "0.3.0",
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
       },
       {
+        "id": "org.apache.cordova.camera",
+        "version": "0.2.9",
+>>>>>>> origin/master
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {}
+      },
+      {
+<<<<<<< HEAD
         "id": "org.apache.cordova.splashscreen",
         "version": "0.3.5",
+=======
+        "id": "org.apache.cordova.media-capture",
+        "version": "0.3.0",
+>>>>>>> origin/master
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
       },
       {
         "id": "org.apache.cordova.statusbar",
-        "version": "0.1.9",
+        "version": "0.1.7",
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
@@ -149,6 +167,7 @@
         "paramvals": {}
       },
       {
+<<<<<<< HEAD
         "id": "intel.xdk.camera",
         "selectedState": "Included",
         "data": {},
@@ -156,18 +175,32 @@
       },
       {
         "id": "intel.xdk.contacts",
+=======
+        "id": "org.apache.cordova.file",
+        "version": "1.1.0",
+>>>>>>> origin/master
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
       },
       {
+<<<<<<< HEAD
         "id": "intel.xdk.device",
+=======
+        "id": "org.apache.cordova.media",
+        "version": "0.2.10",
+>>>>>>> origin/master
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
       },
       {
+<<<<<<< HEAD
         "id": "intel.xdk.file",
+=======
+        "id": "org.apache.cordova.device",
+        "version": "0.2.9",
+>>>>>>> origin/master
         "selectedState": "Included",
         "data": {},
         "paramvals": {}
@@ -413,11 +446,16 @@
             "type": "production"
           }
         ],
-        "cordovaCLIVersion_": "4.1.2",
+        "cordovaCLIVersion_": "3.5",
         "appVersion_": "0.1.0",
         "appAuthor_": "Tagamation",
+<<<<<<< HEAD
         "appDescription_": "Social Media with Rewards",
         "appVersionCode_": "0.0.1 "
+=======
+        "appDescription_": "It’s Social Media with Rewards!",
+        "appVersionCode_": "0.0.1"
+>>>>>>> origin/master
       },
       "Windows8": {
         "platform_": "windows8",
