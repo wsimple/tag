@@ -148,9 +148,6 @@ var defaultNotificationTypes={types:['usr','tag','group']};
 //-- pageshow --//
 (function(document,window,$,console){
 	//-- agregar clase si el dispositivo es ios --//
-	if(navigator.userAgent.match(/(iPad|iPod|iPhone)/)) {
-		$('html').addClass('ios');
-	};
 	var comeFromAjax= false;
 	var Login=function(logged){
 		if(!logged) redir(PAGE.ini);
