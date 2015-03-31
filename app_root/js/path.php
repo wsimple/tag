@@ -36,7 +36,7 @@ if(false){ ?><script><?php } ?>
 		CORDOVA=$.session('cordova')||false;
 		if(CORDOVA) $.session('cordova',CORDOVA);
 	}
-	var regex	=/(tagbum)\.com/i,
+	var regex	=/tagbum\.com/i,
 		pruebas	='',
 		d		=window.location.host=='localhost'||(($.local('host')||'').match(regex)),
 		dom		=d?'http://tagbum.com/':'../',
@@ -44,11 +44,11 @@ if(false){ ?><script><?php } ?>
 	LOCAL=dom.match(regex)&&!window.location.host.match(regex);
 	PRODUCCION=prod;
 	DOMINIO=dom;
-	FILESERVER=prod?'http://i.tagbum.com/':'http://68.109.244.201/';
+	FILESERVER=prod?'http://i.tagbum.com/':'../img_root/';
 <?php } ?>
 	PAGE={
 		ini:'index.html',
-		chat:'<?=is_dir('../cometchat/extensions')?'cometchat/extensions/mobilewebapp/':'chat'?>',
+		chat:LOCAL?'chat':DOMINIO+'cometchat/extensions/mobilewebapp/',
 		detailsproduct:'detailsProduct.html',
 		home:'timeLine.html',
 		findfriends:'findFriends.html',
