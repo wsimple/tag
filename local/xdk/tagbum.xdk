@@ -5,205 +5,112 @@
       "type": "Import",
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "",
-      "projectGuid": "3e7392ed-1357-44e6-8d6c-63451713a92e",
-<<<<<<< HEAD
-      "lastModifiedDate": 1427563834603,
-=======
-      "lastModifiedDate": 1427558200388,
->>>>>>> origin/master
-      "creationDate": 1415392955499
+      "projectGuid": "05b7c7f6-dcb7-49db-9875-934938267479",
+      "lastModifiedDate": 1427913893268,
+      "creationDate": 1427746620761
     },
     "sourceDirectory": "",
     "cordovaPluginsDirectory": "plugins",
+    "gameAssetDirectory": "asset",
+    "gameMetadata": {},
     "startFile": "index.html",
+    "projectTags": [],
     "projectFiles": {},
     "projectDirectories": {},
     "libraries": [],
     "cordovaPlugins": [
       {
-        "id": "org.apache.cordova.camera",
-        "version": "0.3.4",
+        "id": "org.apache.cordova.device",
+        "version": "0.2.13",
         "selectedState": "Included",
         "data": {},
-        "paramvals": {}
+        "paramvals": {},
+        "dependsOn": [],
+        "dependedBy": []
+      },
+      {
+        "id": "org.apache.cordova.splashscreen",
+        "version": "0.3.5",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {},
+        "dependsOn": [],
+        "dependedBy": []
       },
       {
         "id": "org.apache.cordova.media-capture",
         "version": "0.3.5",
         "selectedState": "Included",
         "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.device-motion",
-        "version": "0.2.11",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.device-orientation",
-        "version": "0.3.10",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.network-information",
-        "version": "0.2.8",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.contacts",
-<<<<<<< HEAD
-        "version": "0.2.15",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.device",
-        "version": "0.2.13",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.media",
-        "version": "0.2.15",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.battery-status",
-        "version": "0.2.12",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
+        "paramvals": {},
+        "dependsOn": [
+          "org.apache.cordova.file"
+        ],
+        "dependedBy": []
       },
       {
         "id": "org.apache.cordova.file",
         "version": "1.3.2",
         "selectedState": "Included",
         "data": {},
-        "paramvals": {}
+        "paramvals": {},
+        "checksum": "ae85da67aca33474ca304ca1b41f756bff87bd687882dbd65a081a1128c62f85",
+        "dependsOn": [],
+        "dependedBy": [
+          "org.apache.cordova.media-capture",
+          "org.apache.cordova.file-transfer",
+          "org.apache.cordova.media"
+        ]
+      },
+      {
+        "id": "org.apache.cordova.camera",
+        "version": "0.3.4",
+        "selectedState": "Included",
+        "data": {},
+        "paramvals": {},
+        "dependsOn": [],
+        "dependedBy": []
       },
       {
         "id": "org.apache.cordova.file-transfer",
         "version": "0.4.8",
         "selectedState": "Included",
         "data": {},
-        "paramvals": {}
+        "paramvals": {},
+        "dependsOn": [
+          "org.apache.cordova.file"
+        ],
+        "dependedBy": []
       },
       {
-        "id": "org.apache.cordova.geolocation",
-        "version": "0.3.11",
+        "id": "org.apache.cordova.media",
+        "version": "0.2.15",
         "selectedState": "Included",
         "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.globalization",
-        "version": "0.3.3",
-=======
-        "version": "0.2.10",
->>>>>>> origin/master
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.inappbrowser",
-        "version": "0.4.0",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-<<<<<<< HEAD
-        "id": "org.apache.cordova.vibration",
-        "version": "0.3.12",
-=======
-        "id": "org.apache.cordova.splashscreen",
-        "version": "0.3.0",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "org.apache.cordova.camera",
-        "version": "0.2.9",
->>>>>>> origin/master
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-<<<<<<< HEAD
-        "id": "org.apache.cordova.splashscreen",
-        "version": "0.3.5",
-=======
-        "id": "org.apache.cordova.media-capture",
-        "version": "0.3.0",
->>>>>>> origin/master
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
+        "paramvals": {},
+        "dependsOn": [
+          "org.apache.cordova.file"
+        ],
+        "dependedBy": []
       },
       {
         "id": "org.apache.cordova.statusbar",
-        "version": "0.1.7",
+        "version": "0.1.9",
         "selectedState": "Included",
         "data": {},
-        "paramvals": {}
+        "paramvals": {},
+        "dependsOn": [],
+        "dependedBy": []
       },
       {
-        "id": "intel.xdk.cache",
+        "id": "org.apache.cordova.contacts",
+        "version": "0.2.15",
         "selectedState": "Included",
         "data": {},
-        "paramvals": {}
-      },
-      {
-<<<<<<< HEAD
-        "id": "intel.xdk.camera",
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-        "id": "intel.xdk.contacts",
-=======
-        "id": "org.apache.cordova.file",
-        "version": "1.1.0",
->>>>>>> origin/master
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-<<<<<<< HEAD
-        "id": "intel.xdk.device",
-=======
-        "id": "org.apache.cordova.media",
-        "version": "0.2.10",
->>>>>>> origin/master
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
-      },
-      {
-<<<<<<< HEAD
-        "id": "intel.xdk.file",
-=======
-        "id": "org.apache.cordova.device",
-        "version": "0.2.9",
->>>>>>> origin/master
-        "selectedState": "Included",
-        "data": {},
-        "paramvals": {}
+        "paramvals": {},
+        "checksum": "62440b3e1f0624274e9c1a538941517969a77ecb3265d51a35f1250b9e3b3aa3",
+        "dependsOn": [],
+        "dependedBy": []
       }
     ],
     "serviceMethods": [],
@@ -214,11 +121,8 @@
         "name_": "Android",
         "preferences_": {
           "android-minSdkVersion": "10",
-          "android-targetSdkVersion": "23",
-          "android-installLocation": "auto",
-          "android-signed": true,
-          "Orientation": "portrait",
-          "Fullscreen": false
+          "android-targetSdkVersion": "19",
+          "android-installLocation": "auto"
         },
         "isActive_": true,
         "appName_": "Tagbum",
@@ -256,13 +160,6 @@
         ],
         "splashes_": [
           {
-            "relPath": "appSplash/320.png",
-            "density": "ldpi",
-            "height": 426,
-            "width": 320,
-            "orientation": "portrait"
-          },
-          {
             "relPath": "appSplash/320_2.png",
             "density": "mdpi",
             "height": 470,
@@ -286,13 +183,12 @@
         ],
         "addlPermissions_": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzZ2ypVLVh9JQDNwuZEoEzplBo/tYejlzvsOXOT/7Da2+FZ8D8pWjkgkacaB91iy1MWovdcNKCi5Xaw/IzFJZUbecYNwtbyWokyu6huFaxC2NXGPh82TinmGXcbZZfZ0/o1/U5sAmA9OhT0blNJzB5MlNg/sSLIKyLKoc2mlps/YokcM1SfDC92ndjniA2+bSg6yeEIea6YOe5QLpc4sXxxgh3F+WmtCMd9pqcUQNlZOwQfLXfxNdplc+Am5s3WZmNzdgXJUvjmLAyYOB7Ht/lXKM87JSo7fPGFqnud8luqNTDHMtVZtNQiFQES5NAqcOoX3o9YnDE9FiWA1fwHYUYwIDAQAB",
         "excludedLibraries_": "",
-        "iosProvs_": [],
-        "cordovaCLIVersion_": "3.5",
-        "appVersion_": "0.2.0",
-        "appVersionCode_": "6",
-        "crosswalkVersion_": "stable",
+        "appVersion_": "2.0.0",
+        "appVersionCode_": "7",
+        "crosswalkVersion_": "10",
+        "cordovaCLIVersion_": "4.1.2",
         "appDescription_": "It’s Social Media with Rewards!",
-        "appAuthor_": "Tagamation"
+        "appAuthor_": "Tagamation TLL"
       },
       "Android-Crosswalk": {
         "platform_": "android",
@@ -300,11 +196,12 @@
         "name_": "Android-Crosswalk",
         "preferences_": {
           "android-minSdkVersion": "14",
-          "android-targetSdkVersion": "19"
+          "android-targetSdkVersion": "19",
+          "android-installLocation": "auto"
         },
         "isActive_": false,
         "appName_": "Tagbum",
-        "appID_": "",
+        "appID_": "not.yet.specified",
         "appAccess_": [
           {
             "origin": "*"
@@ -314,148 +211,34 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "iosProvs_": [],
-        "cordovaCLIVersion_": "3.3",
         "appVersion_": "0.0.1",
         "appVersionCode_": "1",
         "crosswalkVersion_": "10",
-        "appAuthor_": "Tagamation",
-        "appDescription_": "It’s Social Media with Rewards!"
+        "cordovaCLIVersion_": "4.1.2"
       },
       "iOS": {
         "platform_": "ios",
         "runtime_": "Cordova 3.x",
         "name_": "iOS",
         "preferences_": {
-          "ios-target": "8.0",
-          "ios-configuration": "adhoc",
-          "Orientation": "portrait"
+          "ios-target": "6",
+          "ios-configuration": "adhoc"
         },
-        "isActive_": true,
+        "isActive_": false,
         "appName_": "Tagbum",
-        "appID_": "com.tagbum.tagbum",
+        "appID_": "not.yet.specified",
         "appAccess_": [
           {
             "origin": "*"
           }
         ],
-        "icons_": [
-          {
-            "relPath": "appIcon/180.png",
-            "height": 180,
-            "width": 180
-          },
-          {
-            "relPath": "appIcon/120.png",
-            "height": 120,
-            "width": 120
-          },
-          {
-            "relPath": "appIcon/60.png",
-            "height": 60,
-            "width": 60
-          },
-          {
-            "relPath": "appIcon/152.png",
-            "height": 152,
-            "width": 152
-          },
-          {
-            "relPath": "appIcon/76.png",
-            "height": 76,
-            "width": 76
-          }
-        ],
-        "splashes_": [
-          {
-            "relPath": "appSplash/750.png",
-            "height": 1334,
-            "width": 750,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "appSplash/1242.png",
-            "height": 2208,
-            "width": 1242,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "appSplash/640.png",
-            "height": 1136,
-            "width": 640,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "appSplash/640_2.png",
-            "height": 960,
-            "width": 640,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "appSplash/320_IOS.png",
-            "height": 480,
-            "width": 320,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "appSplash/1536.png",
-            "height": 2008,
-            "width": 1536,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "appSplash/768.png",
-            "height": 1004,
-            "width": 768,
-            "orientation": "portrait"
-          },
-          {
-            "relPath": "appSplash/1334.png",
-            "height": 750,
-            "width": 1334,
-            "orientation": "landscape"
-          },
-          {
-            "relPath": "appSplash/2208Land.png",
-            "height": 1242,
-            "width": 2208,
-            "orientation": "landscape"
-          },
-          {
-            "relPath": "appSplash/2048.png",
-            "height": 1496,
-            "width": 2048,
-            "orientation": "landscape"
-          },
-          {
-            "relPath": "appSplash/1024.png",
-            "height": 748,
-            "width": 1024,
-            "orientation": "landscape"
-          }
-        ],
+        "icons_": [],
+        "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "iosProvs_": [
-          {
-            "relPath": "tagbumTest.mobileprovision",
-            "type": "adhoc"
-          },
-          {
-            "relPath": "tagbumTest.mobileprovision",
-            "type": "production"
-          }
-        ],
-        "cordovaCLIVersion_": "3.5",
-        "appVersion_": "0.1.0",
-        "appAuthor_": "Tagamation",
-<<<<<<< HEAD
-        "appDescription_": "Social Media with Rewards",
-        "appVersionCode_": "0.0.1 "
-=======
-        "appDescription_": "It’s Social Media with Rewards!",
-        "appVersionCode_": "0.0.1"
->>>>>>> origin/master
+        "appVersion_": "0.0.1",
+        "cordovaCLIVersion_": "4.1.2",
+        "iosProvs_": []
       },
       "Windows8": {
         "platform_": "windows8",
@@ -474,15 +257,85 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "iosProvs_": [],
-        "cordovaCLIVersion_": "3.3",
         "appVersion_": "0.0.0.1",
-        "appDescription_": "It’s Social Media with Rewards!",
-        "appAuthor_": "Tagamation"
+        "cordovaCLIVersion_": "4.1.2"
+      },
+      "WebApp": {
+        "platform_": "webapp",
+        "runtime_": "W3C",
+        "name_": "WebApp",
+        "preferences_": {},
+        "isActive_": false,
+        "appName_": "Tagbum",
+        "appID_": "not.yet.specified",
+        "appAccess_": [
+          {
+            "origin": "*"
+          }
+        ],
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.1"
+      },
+      "Firefox": {
+        "platform_": "firefoxos",
+        "runtime_": "W3C on Firefox OS",
+        "name_": "Firefox",
+        "preferences_": {},
+        "isActive_": false,
+        "appName_": "Tagbum",
+        "appID_": "not.yet.specified",
+        "appAccess_": [
+          {
+            "origin": "*"
+          }
+        ],
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.1"
+      },
+      "Chrome": {
+        "platform_": "chromeos",
+        "runtime_": "W3C on Chrome OS",
+        "name_": "Chrome",
+        "preferences_": {},
+        "isActive_": false,
+        "appName_": "Tagbum",
+        "appID_": "not.yet.specified",
+        "appAccess_": [
+          {
+            "origin": "*"
+          }
+        ],
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.1"
+      },
+      "Facebook": {
+        "platform_": "facebook",
+        "runtime_": "W3C on Facebook",
+        "name_": "Facebook",
+        "preferences_": {},
+        "isActive_": false,
+        "appName_": "Tagbum",
+        "appID_": "not.yet.specified",
+        "appAccess_": [
+          {
+            "origin": "*"
+          }
+        ],
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.1"
       }
-    },
-    "gameAssetDirectory": "asset",
-    "gameMetadata": {},
-    "projectTags": []
+    }
   }
 }

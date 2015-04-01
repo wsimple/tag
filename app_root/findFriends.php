@@ -7,19 +7,14 @@
 		<div class="ui-listview-filter ui-bar-c">
 			<input id="searchFriends" type="search" placeholder="Search" name="searchFriends" value="" />
 		</div>
-		<div class="list-wrapper">
+		<div class="list-wrapper">		
 			<div id="scroller">
 				<!-- lista de contactos del tlf -->
-				<ul data-role="listview" data-divider-theme="e" id="contactFilter" class="contacts"></ul>
+				<ul data-role="listview" data-divider-theme="e" id="contactFilter" class="contacts menuCordova"></ul>
 				<ul data-role="listview" data-divider-theme="e" id="contactList" class="contacts"></ul>
 				<!-- busqueda en fagbum -->
 				<ul class="list-friends ui-grid-b" id="friendsList"></ul>
 			</div>
-		</div>
-	</div>
-	<div id="footer" data-role="footer" data-position="fixed" data-theme="f">
-		<div data-role="navbar">
-			<ul id="friendsFooter"></ul>
 		</div>
 	</div>
 </div><!-- /page -->
@@ -44,6 +39,7 @@
 			$('#searchFriends').attr('placeholder',lang.inputPlaceHolder);
 			$('#contactList').html('<li data-role="list-divider">'+lan('CONTACTS_LOADING','ucf')+'</li><li class="center"><loader class="s32"/></li>');
 			if(CORDOVA){
+				$("#scroller").prepend('<div data-role="navbar"><ul id="friendsFooter"></ul></div>');
 				$('#friendsList',this.id).addClass('dnone');
 				$('#friendsFooter').html(
 					'<li><a href="#" data-opc=".contacts">'+lan('contacts','ucf')+'</a></li>'+
@@ -135,7 +131,7 @@
 	 * @param  {[string]} filter  [filter cadena para filtrar contactos a buscar por: email, numero telefonio o nombre]
 	 * @return {[boolean or none]}	[none]
 	 */
-	function viewContacsPhone(idLayer,filter){
+	function viewContacsPhone(idLayer,filter){ 
 		if (typeof ContactFindOptions === "undefined") return;
 		var onSuccess=function(c){//c=contactos
 				c=c||[];
@@ -160,7 +156,7 @@
 					$('#contactFilter').html('');
 				else
 				viewFriends('refresh',{
-					layer:'#contactFilter',
+					//layer:'#contactFilter',
 					wrapper:$('.list-wrapper'),
 					mod:'find',
 					divider:lan('TAGBUM_CONTACTS','ucw'),

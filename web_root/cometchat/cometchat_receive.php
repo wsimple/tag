@@ -465,6 +465,7 @@ function fetchMessages() {
 		if ($chat['read'] == 1) {
 			$old = 1;
 		}
+		
 
 		if (!empty($_COOKIE[$cookiePrefix.'lang']) && $self == 0 && $old == 0) {
 
@@ -590,6 +591,12 @@ if(phpversion()>='4.0.4pl1'&&(strstr($useragent,'compatible')||strstr($useragent
 }else{
 	ob_start();
 }
+if($_GET['dd']==2)
+foreach ($response as &$str) {
+    echo $str = str_replace('src=\"\/', 'src=\"', $str);
+    echo "<br>";
+}
+
 if (!empty($_GET['callback'])) {
 	echo $_GET['callback'].'('.json_encode($response).')';
 } else {
