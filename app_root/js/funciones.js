@@ -205,7 +205,7 @@ function newMenu(){
 			// '<li class="news"><a href="news.html">'+lan('NEWS')+'</a></li>'+
 			'<li class="notifications"><a href="'+PAGE.notify+'">'+lan('NOTIFICATIONS')+'</a></li>'+
 			'<li class="groups"><a href="#">'+lan('groups','ucw')+'</a></li>'+
-			'<li class="chat"><a href="cometchat/i.html">'+lan('chat')+'</a></li>'+
+			'<li class="chat"><a href="'+(CORDOVA?'cometchat/i.html':'cometchat/')+">'+lan('chat')+'</a></li>'+
 			'<li class="profile"><a href="'+PAGE.profile+'?id='+$.local('code')+'">'+lan('profile')+'</a></li>'+
 			'<li class="friends"><a href="'+PAGE.userfriends+'?type=friends&id_user='+$.local('code')+'">'+lan('friends','ucw')+'</a></li>'+
 			// '<li class="createtag"><a href="newtag.html">'+lan('newTag')+'</a></li>'+
