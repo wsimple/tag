@@ -579,7 +579,15 @@ if (isset($response['initialize'])) {
 
 if (!empty($messages)) {
 	$response['messages'] = $messages;
+
+	foreach ($response['messages'] as &$str) {
+    	$str = str_replace('src="/web_root', 'src="'.WEB_SERVER, $str);
+    
+	}
 }
+
+
+
 
 $useragent = (isset($_SERVER["HTTP_USER_AGENT"])) ? $_SERVER["HTTP_USER_AGENT"] : '';
 if(phpversion()>='4.0.4pl1'&&(strstr($useragent,'compatible')||strstr($useragent,'Gecko'))){
@@ -591,11 +599,7 @@ if(phpversion()>='4.0.4pl1'&&(strstr($useragent,'compatible')||strstr($useragent
 }else{
 	ob_start();
 }
-if($_GET['dd']==2)
-foreach ($response as &$str) {
-    echo $str = str_replace('src=\"\/', 'src=\"', $str);
-    echo "<br>";
-}
+
 
 if (!empty($_GET['callback'])) {
 	echo $_GET['callback'].'('.json_encode($response).')';

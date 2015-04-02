@@ -250,6 +250,7 @@
                                 }
                             }
                             if(type=='messages'){
+                                if(item)
                                 ccvariable.externalVars["timestamp"] = item[Object.keys(item).sort().reverse()[0]].id;
                                 if(typeof (jqcc[calleeAPI].addMessages)!=='undefined'){
                                     newMessage = jqcc[calleeAPI].addMessages(item);
