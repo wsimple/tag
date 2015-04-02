@@ -3,13 +3,12 @@
 		<meta name="viewport" content="user-scalable=0,width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0">
 		
 		<title>Chat</title>
-
-		<link type="text/css" href="./files/css.css" rel="stylesheet" charset="utf-8">
-
+		<link type="text/css" href="./files/cssAndroid.css" rel="stylesheet" charset="utf-8">
 		<script src="./files/jquery.min.js"></script>
 		<script type="text/javascript" charset="utf-8" src="./files/js.js"></script>
 		<script type="text/javascript" charset="utf-8" src="./files/js(1).js"></script>
-		<script>
+		<script> 
+            
 			var isPhoneTouched = 0;
 			document.addEventListener('touchstart', function() {
 				if (isPhoneTouched == 0) {
@@ -18,21 +17,10 @@
 					isPhoneTouched = 1;
 				}
 			});
-
-			$("#buddy_link").live('click', function() {
-				$('.chatlink_icon').html('<span class="notifier">0</span>');
-				$("#footer #footerbtns .button-group li").find('#buddy_link').addClass('btn-active');
-				$("#footer #footerbtns .button-group li").find('#chatroomlink').removeClass('btn-active');
-				jqcc.mobilewebapp.pathRedirect('#buddy');
-			});
-			$("#chatroomlink").live('click', function() {
-				$("#footer #footerbtns .button-group li").find("#chatroomlink").addClass('btn-active');
-				$("#footer #footerbtns .button-group li").find('#buddy_link').removeClass('btn-active');
-				jqcc.mobilewebapp.pathRedirect('#lobby');
-			});
-
+            
 			$(document).ready(function() {
-				var enableType = '2';
+				var enableType = '2', IOS_=(navigator.userAgent.match(/(iPod|iPhone|iPad)/i));
+
 				$('#options').on('click', function() {
 					$('#cometchat_container_report .cometchat_container_title .cometchat_closebox').click();
 					if($("#opt").is(':visible')) {
@@ -50,16 +38,19 @@
 				$("#chatmessage").on('click', function() {
 					setTimeout(function () {jqcc.mobilewebapp.scrollToBottom();},700);
 				});
-				$("#chatroommessage").keyup(function(event) {
-					if($("#chatroommessage").val() !== '' && event.keyCode == 13 && event.shiftKey == 0) {
-						$("#chatroom_send").click();
-					}
-				});
+				
+				if ( IOS_ ) {
+
+				   $('link[href="./files/cssAndroid.css"]').attr('href','./files/cssIOS.css');
+                              
+
+				}
+				
 			});
 		</script>
 	</head>
 
-	<body cz-shortcut-listen="true" style="height: 640px; min-height: 640px; max-height: 640px; width: 100%;">
+	<body style="height: 667px; min-height: 667px; max-height: 667px; width: 100%;" cz-shortcut-listen="true">
 				<div id="buddy" style="width: 100% !important; display: block; background: inherit;" class="displaynone">
 			<nav class="top-bar" id="header">
 				<div class="small-3 columns" id="home">
@@ -79,7 +70,7 @@
 				</div>
 				<div class="small-3 columns">&nbsp;</div>
 			</nav>
-			<div id="wocontent" style="bottom: 0px; height: 598px; min-height: 598px; max-height: 598px; overflow-y: hidden; outline: none; cursor: -webkit-grab;">
+			<div id="wocontent" style="bottom: 0px; height: 625px; min-height: 625px; max-height: 625px;">
 				<div id="woscroll">
 					<div class="row" id="search">
 						<input type="text" id="searchtxt" onkeyup="jqcc.mobilewebapp.get_user();" placeholder="Search User">
@@ -127,7 +118,7 @@
 				<div id="clear"><img src="./files/clearconversation.png">&nbsp;&nbsp;&nbsp;Clear Conversation</div>
 				<div id="report" style="display: none;"><img src="./files/report.png">&nbsp;&nbsp;Report Conversation</div>
 			</div>
-			<div id="chatcontent" style="overflow-y: scroll; height: 548px; width: 100%; bottom: 50px; outline: none; cursor: -webkit-grab;">
+			<div id="chatcontent" style="overflow-y: scroll; height: 575px; width: 100%; bottom: 50px;">
 				<div id="scroller">
 				</div>
 				<div id="endoftext"></div>
@@ -142,13 +133,12 @@
 					</div>
 				</div>
 			</div>
-		</div>
-
+		</div>	
 
 	<script type="text/javascript">
 		var reportPlugin = 0;
 		var clearPlugin = 0;
-		var plugins = ["smilies","clearconversation","chattime","games","filetransfer","handwrite","chathistory"];
+		var plugins = ["smilies","clearconversation","games","filetransfer","handwrite","chathistory"];
 		if(plugins.indexOf("report") != -1) {
 			reportPlugin = 1;
 		}
@@ -180,4 +170,4 @@
 		}
 		jqcc.mobilewebapp.addscroll();
 	</script>
-<div id="ascrail2000" class="nicescroll-rails" style="width: 7px; z-index: auto; cursor: -webkit-grab; position: fixed; height: 548px; display: none;"><div style="position: relative; top: 0px; float: right; width: 5px; height: 0px; border: 1px solid rgb(255, 255, 255); border-radius: 5px; background-color: rgb(66, 66, 66); background-clip: padding-box;"></div></div><div id="ascrail2001" class="nicescroll-rails" style="width: 7px; z-index: auto; cursor: -webkit-grab; position: fixed; height: 548px; display: none;"><div style="position: relative; top: 0px; float: right; width: 5px; height: 0px; border: 1px solid rgb(255, 255, 255); border-radius: 5px; background-color: rgb(66, 66, 66); background-clip: padding-box;"></div></div><div id="ascrail2002" class="nicescroll-rails" style="width: 7px; z-index: 1; cursor: -webkit-grab; position: fixed; top: 42px; left: 353px; height: 598px; opacity: 0;"><div style="position: relative; top: 0px; float: right; width: 5px; height: 171px; border: 1px solid rgb(255, 255, 255); border-radius: 5px; background-color: rgb(66, 66, 66); background-clip: padding-box;"></div></div><div id="ascrail2003" class="nicescroll-rails" style="width: 7px; z-index: auto; cursor: -webkit-grab; position: absolute; top: 0px; left: 93px; height: 0px; display: none;"><div style="position: relative; top: 0px; float: right; width: 5px; height: 0px; border: 1px solid rgb(255, 255, 255); border-radius: 5px; background-color: rgb(66, 66, 66); background-clip: padding-box;"></div></div></body><div></div></html>
+</body><div></div></html>
