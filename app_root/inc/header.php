@@ -18,7 +18,7 @@ if(preg_match('/^\/app_root/',$_SERVER['REQUEST_URI'])){
 	<title>Tagbum Mobile</title>
 	<link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
 <?php if(isset($_GET['minify'])){
-	<script src="cordova.js"></script>
+	echo '<script src="cordova.js"></script>';
 ?>	
 <?php } ?>
 	<link rel="stylesheet" href="css/jquery.mobile.custom.css"/>

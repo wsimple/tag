@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Tagbum Mobile</title>
 <link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
-
+<script src="cordova.js"></script>
 <link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 <link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
 <link rel="stylesheet" href="css/jquery.Jcrop.css"/>
@@ -172,8 +172,8 @@ newMenu();
 //language constants
 $('#menu').html(
 '<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/submenu/create_tag.png"><br>'+lan('newTag','ucw')+'</a></span>'+
-(CORDOVA?
-'<span class="ui-block-b menu-button"><a href="#" opc="cam"><img src="css/newdesign/newtag/camera.png"><br>'+lan('camera','ucw')+'</a></span>'
+(CORDOVA? // opc="cam"
+'<span class="ui-block-b menu-button"><a href="#" opc="camop"><img src="css/newdesign/newtag/camera.png"><br>'+lan('camera','ucw')+'</a></span>'
 +(is['android']&&version.match(/^2\./)?'':'<span class="ui-block-b menu-button"><a href="#" opc="lib"><img src="css/newdesign/newtag/gallery.png"><br>'+lan('gallery','ucw')+'</a></span>')
 :'<span class="ui-block-b"></span>')+
 '<span id="footerPicture" class="ui-block-c menu-button"><a href="#" id="template"><img src="css/newdesign/newtag/images.png"><br>'+lang.NEWTAG_BACKGROUNDAPP+'</a></span>'+
@@ -437,25 +437,131 @@ switch(type){
 case 'editcam'://camara (editable)
 data.allowEdit=true;
 break;
+
 case 'lib':
 data.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
 break;
+
 case 'album':
 data.sourceType=cam.PictureSourceType.SAVEDPHOTOALBUM;
 break;
-case 'cam':break;//camara - default
+
+case 'camop':
+
+var html = '<div id="shootMenu">'
++ '<p>Take either a Photo or Video</p>'
++ '<hr>'
++ '<a opc="shoot_p">'
++ '<img src="css/newdesign/newtag/camera.png" height="80" >'
++ '</a>'
++ '<a opc="shoot_v">'
++ '<img src="css/newdesign/newtag/video_camera.png" height="80" >'
++ '</a>'
++ '</div>';
+
+myDialog({
+id:'#shootType',
+content: html,
+style:{'padding':5,height:300},
+scroll:true,
+after:function(){
+
+$('#shootMenu').on('click', 'a[opc]', function(e){
+if ($(this).attr('opc')=='shoot_p'){
+navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
+}else{
+var cam=Camera,
+Log=function(text,clear){
+if(clear) $('#video').html('');
+$('#video').append(text+'<br/>');
+},
+galerySuccess=function(path_file){
+var file={
+fullPath:path_file,
+name:path_file.replace(/([^\/]*\/)*/g,'')
+};
+Log('galery success',true);
+console.log('galery success:',file);
+uploadFile({file:file});
+},
+captureSuccess=function(mediaFiles){
+var i,path,len;
+Log('capture success',true);
+// Log(JSON.stringify(mediaFiles));
+for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+path = mediaFiles[i].fullPath;
+// do something interesting with the file
+console.log(path);
+uploadFile({file:mediaFiles[i]});
+}
+},
+uploadFile=function(data){
+var path=data.file.fullPath,
+params=data.data||{},
+ft=new FileTransfer();
+params.fileName=data.file.name;
+Log('uploading...');
+ft.upload(path,
+"http://v.tagbum.com/upload.php",
+function(result){
+var data=JSON.parse(result.response);
+Log('Upload success: ' + result.responseCode);
+Log(result.bytesSent + ' bytes sent');
+Log('data:'+JSON.stringify(data));
+console.log('data:',data);
+if(data.urls[0])
+Log('First Link: <a href="http://v.tagbum.com/'+data.urls[0]+'">'+data.urls[0]+'</a>');
+},
+function(error){
+Log('Error uploading file ' + path + ': ' + error.code);
+},
+params
+);
+},
+// galeryError=function(){
+// Log('galery error',true);
+// console.log('galery error');
+// },
+captureError=function(error){
+navigator.notification.alert('Error code: '+error.code,null,'Capture Error');
+Log('capture error',true);
+console.log('capture error');
+};
+
+try{
+navigator.device.capture.captureVideo(captureSuccess,captureError,{limit:1});
+}catch(e){
+myDialog('Error: '+e);
+}
+
+
+}//else
+});
+}
+});
+
+
+
+break;
+
+case 'cam':
+break;//camara - default
 }
 try{
+if (type!='camop')
 navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
+
 }catch(e){
 myDialog('Error: '+e);
 }
 };
+
 $('#menu').on('click','a[opc]',function(e){
-console.log('aqui')
+console.log('aqui');
 getPhoto($(this).attr('opc'));
 // e.preventDefault();
 });
+
 },false);
 }
 function publish(){
