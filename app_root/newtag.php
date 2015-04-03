@@ -81,6 +81,9 @@
 							<div id="title_pictures_shareTag" style="font-size:10px;text-align:center;height:15px;display:none;"></div>
 							<div id="pictures_shareTag" style="height:40px;margin-bottom:10px;text-align:center;overflow:hidden;"></div>
 						</div>
+						<div>
+							<input type="hidden" name="htxtVideo" id="htxtVideo" value=""> 
+						</div>
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -432,6 +435,9 @@
 														if ($(this).attr('opc')=='shoot_p'){
 															navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
 														}else{
+															// Log('else log...');
+															// console.log('else console');
+															
 															var cam=Camera,
 															Log=function(text,clear){
 																if(clear) $('#video').html('');
@@ -454,6 +460,7 @@
 																	path = mediaFiles[i].fullPath;
 																	// do something interesting with the file
 																	console.log(path);
+																	$.debug().log('success: ', path);
 																	uploadFile({file:mediaFiles[i]});
 																}
 															},
@@ -461,11 +468,21 @@
 																var path=data.file.fullPath,
 																	params=data.data||{},
 																	ft=new FileTransfer();
+																	// video={
+																	// 	url:'<?=$setting->video_server?>',
+																	// 	data:{code:'<?=$client->code?>'},
+																	// 	pending:{code:'<?=$client->code?>',folder:'pending'},
+																	// };
+
 																params.fileName=data.file.name;
+																
 																Log('uploading...');
+																console.log('uploadFile:');
+
 																ft.upload(path,
-																	"http://v.tagbum.com/upload.php",
+																	"<?=$setting->local?'video/test/1':$setting->video_server.'?convert'?>",
 																	function(result){
+																		$.debug().log('result: ', result.response);
 																		var data=JSON.parse(result.response);
 																		Log('Upload success: ' + result.responseCode);
 																		Log(result.bytesSent + ' bytes sent');
@@ -479,6 +496,7 @@
 																	},
 																	params
 																);
+
 															},
 															// galeryError=function(){
 															// 	Log('galery error',true);
@@ -491,6 +509,8 @@
 															};
 
 															try{
+																Log('try - Log');
+																console.log('try - Console');
 																navigator.device.capture.captureVideo(captureSuccess,captureError,{limit:1});
 															}catch(e){
 																myDialog('Error: '+e);
