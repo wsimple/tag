@@ -348,8 +348,6 @@ $(function(){
 		<?php //definimos la url antes de hacer submit, ya que manejamos varios servidores ?>
 		autoUpload:true,
 		beforeSubmit:function(file,options){
-			$.debug().log('beforeSubmit -> 001');
-
 			if(file.type.match(img_supported)){
 				//servidor de imagenes
 				options.url=img.url;
@@ -366,20 +364,17 @@ $(function(){
 		//Uncomment the following to send cross-domain cookies:
 		xhrFields: {withCredentials: true}
 	}).bind('fileuploadadd',function(e,data){
-		$.debug().log('fileuploadadd -> 002');
 		$('.error_message',this).remove();
 		var $this=$(this),
 			that =$this.data('blueimp-fileupload')||$this.data('fileupload');
 		that.options.filesContainer.empty();
 	}).bind('fileuploadsubmit',function(e,data){
-		$.debug().log('fileuploadsubmit -> 003');
 		var $content=$(this).parents('.ui-dialog-content');
 		if($content.length){
 			$content.dialog('option','closeOnEscape',false).dialog('option','closeOnClickOutside',false);
 		}
 		$('.displayUpload').hide();
 	}).bind('fileuploaddone',function(e,data){
-		$.debug().log('-> 004');
 		var json=JSON.parse(data.jqXHR.responseText);
 		if(json.files[0].error)
 			$('#fileupload').prepend('<div class="error_message" style="width: 455px; margin: 0px auto;display:block;text-align:center;"><img src="imgs/message_error.png" width="12" height="12"> <?=$lang->get("ERRORFILEINFO")?></div>');
@@ -389,10 +384,8 @@ $(function(){
 			$('.video .start,.img [tag]',that).click();
 		},1000);
 	}).bind('fileuploadalways',function(e,data){
-		$.debug().log('-> 005');
 		$('.displayUpload').fadeIn('slow');
 	}).bind('fileuploadprocessfail',function(e,data){
-		$.debug().log('fileuploadprocessfail -> 006');
 		$('#fileupload').prepend('<div class="error_message" style="width: 455px; margin: 0px auto;display:block;text-align:center;"><img src="imgs/message_error.png" width="12" height="12"> <?=$lang->get("ERRORFILEINFO")?></div>');
 		var $this=$(this),
 			that =$this.data('blueimp-fileupload')||$this.data('fileupload');
@@ -408,13 +401,11 @@ $(function(){
 		dataType:'json',
 		data:img.data
 	}).always(function(){
-		$.debug().log('-> 007');
 		$(this).removeClass('fileupload-processing');
 		$('.files .tmp',this).remove();
 		if($('.files',this).children().length==0)
 			$('#preVideTags .option-cap').first().click();
 	}).done(function(result){
-		$.debug().log('-> 008');
 		$(this).fileupload('option','done')
 			.call(this,$.Event('done'),{result:result});
 	});
@@ -427,18 +418,15 @@ $(function(){
 		dataType:'json',
 		data:video.data
 	}).always(function(){
-		$.debug().log('-> 008');
 		$(this).removeClass('fileupload-processing');
 		$('.files .tmp',this).remove();
 		if($('.files',this).children().length==0)
 			$('#preVideTags .option-cap').first().click();
 	}).done(function(result){
-		$.debug().log('-> 010');
 		$(this).fileupload('option','done')
 			.call(this,$.Event('done'),{result:result});
 	});
 	$(document).off('.fileupload').on('dragover.fileupload',function(){
-		$.debug().log('-> 011');
 		if($('#fileupload').length>0){
 			$('[data-container="#fileupload"]').click();
 		}else{
@@ -516,7 +504,6 @@ $(function(){
 				}
 			});
 		}else{
-			$.debug().log('-> else upload-panel');
 			var pre=''; 
 			if (that.dataset.type=='youtube' || that.dataset.type=='vimeo'){
 				console.log('here');
