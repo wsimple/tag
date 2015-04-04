@@ -61,20 +61,13 @@ if(!empty($data->tipo)){
 		$data->db['user']='tagmaster';
 		$data->db['pass']='-t4gvzlA_mysql';
 		$data->db['data']='tagbumdb';
-		#ftp (servidor de imagenes)
+		$data->ftp['host']='68.109.244.201';
+		$data->ftp['user']='userimg';
+		$data->ftp['pass']='-t@gvzlA_ftp';
+
 		$data->ftp['host']='172.31.45.136';
 		$data->ftp['user']='webapp';
-		$data->ftp['pass']='-t@gvzlA_ftp';
 		$data->ftp['folder']='img';
-
-		#rutas de acceso entre servidores (local)
-		$data->video_server_path='http://172.31.40.43/';
-		$data->img_server_path='http://172.31.45.136/';
-		#rutas de acceso publico
-		$data->main_server='http://tagbum.com/';
-		$data->app_server='http://app.tagbum.com/';
-		$data->img_server='http://i.tagbum.com/';
-		$data->video_server='http://v.tagbum.com/';
 
 		$data->facebook['appId']='824519617598722';
 		$data->facebook['secret']='9c8ec5500c2426a289e58f5bb61b7b3b';
@@ -88,7 +81,21 @@ if(!empty($data->tipo)){
 		$data->email['Username']='no-reply@mailtagbum.com';
 		$data->email['Password']="Nepali13@!";
 		$data->email['SMTPAuth']=true;
+
+		$data->imgserver='http://52.1.70.172/img/';
+		$data->main_server='http://52.1.70.172/';
+		$data->app_server=$data->main_server.'app/';
+		$data->img_server=$data->main_server.'img/';
+		$data->video_server=$data->main_server.'video/';
+		$data->main_server_path="$relpath/web_root/";
+		$data->img_server_path="$relpath/img_root/";
+		$data->video_server_path="$relpath/video_root/";
 		$data->allow_origin='/^https?:\\/\\/(\\\w+\\\.)?tagbum.com$/i';
+
+		$data->app_server='http://app.tagbum.com/';
+		$data->img_server='http://i.tagbum.com/';
+		$data->video_server='http://v.tagbum.com/';
+		$data->img_server_path='http://68.109.244.201/';
 	}elseif($data->tipo=='local'){
 		$data->db['host']='localhost';
 		$data->db['user']='root';
