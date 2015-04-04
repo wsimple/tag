@@ -539,6 +539,13 @@ $(function(){
 			if($dialog.length) $dialog.dialog('close');
 		}
 	});
+	$('#fileupload').on('click','.bg-select',function(){
+		if(window.setBG){
+			setBG(this.dataset.code+'/'+this.dataset.name);
+			var $dialog=$(this).parents('.ui-dialog-content');
+			if($dialog.length) $dialog.dialog('close');
+		}
+	});
 
 	/*******************************        YOUTUBE AND VIMEO             *******************************/
 	var videos=[];
