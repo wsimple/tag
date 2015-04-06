@@ -64,8 +64,10 @@ if (is_array($_POST['city'])){
 	if (is_numeric($city)) $city=CON::getVal("SELECT name FROM cities WHERE id=?",array($city));
 }else $city=$_POST['city'];
 $data['city']=$city;
-if(isset($_FILES['frmProfile_filePhoto']))
+if(isset($_FILES['frmProfile_filePhoto'])){
 	$data['img']=$_FILES['frmProfile_filePhoto'];
+	$data['action']='picture';
+}
 if(isset($_FILES['img']))
 	$data['img']=$_FILES['img'];
 if(isset($_FILES['background']))
