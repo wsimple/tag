@@ -21,7 +21,12 @@ function __autoload($classname){
 }
 
 $options=null;
-$_referer=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'localhost';
+if(isset($_SERVER['HTTP_REFERER']))
+	$_referer=$_SERVER['HTTP_REFERER'];
+elseif(preg_match('/firefox/i',$_SERVER['HTTP_USER_AGENT']))
+	$_referer=$config->main_server;
+else
+	$_referer='localhost';
 $_referer=preg_replace('/^(\w+:\/\/)?([^\/]+)(\/.*)?$/','$2',$_referer);
 header("data-referer: $_referer");
 if(preg_match('/^(localhost|(192|52)(\.\d+){3}|(\w+\.)?tagbum\.com|\w+\.elasticbeanstalk\.com)$/',$_referer)){
