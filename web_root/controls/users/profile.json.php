@@ -166,6 +166,7 @@ if($data['action']=='picture'||$data['action']=='filePhoto'){
 		$_SESSION['ws-tags']['ws-user']['updatePicture']=0;
 		$GLOBALS['cn']->query("UPDATE users SET updatePicture=0 WHERE id='$myId'");
 		$res['resize']='done';
+		$res['success']='filePhoto';
 	}else{
 		unset($photo);
 	}
