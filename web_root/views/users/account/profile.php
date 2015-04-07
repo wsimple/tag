@@ -25,6 +25,11 @@
 		<?=generateDivMessaje('divError','300',lan('USERPROFILE_ERROR_SAVING'),false)?>
 	<!-- BARRA TITULO -->
 	<h3 class="ui-single-box-title">&nbsp;<?=lan('USERPROFILE_TITLEFIELDSET')?></h3>
+	<form action="controls/users/profile.json.php?action=picture" id="frmChangePhoto" name="frmChangePhoto" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
+		<div id="frmProfile_changePhotoDiv">
+			<input name="frmProfile_filePhoto" type="file" id="frmProfile_filePhoto"/>
+		</div>
+	</form>
 	<form action="controls/users/profile.json.php" id="frmProfile_" name="frmProfile_" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
 	<input type="hidden" id="validaActionAjax" name="validaActionAjax" value="save"/>
 	<div id="frmProfilePhotoContainer">
@@ -36,9 +41,6 @@
 		<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1){ ?>
 			<div id="frmProfile_changePhotoButton" >
 				<a href="javascript:void(0);" class="color-pro <?=!isset($noFails['photo'])?'no-complete':''?>" <?php if(lan('RESETPASS_BTN1_TITLE')!=""){?> title="<?=lan('RESETPASS_BTN1_TITLE')?>"<?php }?>><?=lan('RESETPASS_BTN1')?></a><br><br>
-			</div>
-			<div id="frmProfile_changePhotoDiv">
-				<input name="frmProfile_filePhoto" type="file" id="frmProfile_filePhoto"/>
 			</div>
 			<div id="frmProfile_businessCardDiv">
 				<?php if(!strpos($foto,"default.png")){ ?>
@@ -397,7 +399,7 @@
 			}
 		});
 	});
-	$('#frmProfile_').ajaxForm({
+	$('#frmProfile_,#frmChangePhoto').ajaxForm({
 		dataType:'json',
 		success:function(data){
 			$('loader.page',PAGE).hide();
@@ -517,7 +519,7 @@
 				if ($(this).val()!=''){
 					$("#validaActionAjax").val("filePhoto");
 					$('loader.page',PAGE).show();
-					$("#frmProfile_").submit();
+					$("#frmChangePhoto").submit();
 				}
 			});
 			$("#profileHiddenColor").click(function() {
