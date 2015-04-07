@@ -2684,3 +2684,12 @@ li.userInList h3{
 	}
 }
 /*End Media querys*/
+
+#shootMenu a{
+	margin: 10px 3px 0;
+	height: 85px;
+}
+
+#shootMenu a img{
+	height: 60px;
+}

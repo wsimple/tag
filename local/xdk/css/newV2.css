@@ -580,9 +580,6 @@ img#backgroundImage{
 	-webkit-box-shadow: 0 0 0;
 	box-shadow: 0 0 0;
 }
-html.ios.cordova .ui-page > .ui-header{
- 	border-top: 10px solid transparent;
-}
 #pd-wrapper{
 	top: 60px;
 }
@@ -2687,3 +2684,12 @@ li.userInList h3{
 	}
 }
 /*End Media querys*/
+
+#shootMenu a{
+	margin: 10px 3px 0;
+	height: 85px;
+}
+
+#shootMenu a img{
+	height: 60px;
+}

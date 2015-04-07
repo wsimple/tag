@@ -414,21 +414,20 @@
 									case 'camop': 
 										
 											var html =    '<div id="shootMenu">'
-														+ '<p>Take either a Photo or Video</p>'
+														+ '<p>Photo / Video</p>'
 														+ '<hr>' 
 														+ '<a opc="shoot_p">'
-														+ '<img src="css/newdesign/newtag/camera.png" width="80px" >'
+														+ '<img src="css/newdesign/newtag/camera.png" >'
 														+ '</a>'
 														+ '<a opc="shoot_v">'	
-														+ '<img src="css/newdesign/newtag/video_camera.png" width="80px" >'
+														+ '<img src="css/newdesign/newtag/video_camera.png" >'
 														+ '</a>'
-														+ '<p id="videot"></p>'
 														+ '</div>';
 
 											myDialog({
 												id:'#shootType',
 												content: html,
-												style:{'padding':5,height:300},
+												style:{'padding':5,height:150},
 												scroll:true,
 												after:function(){
 													
