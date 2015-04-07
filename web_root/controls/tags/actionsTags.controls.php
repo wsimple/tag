@@ -180,8 +180,7 @@
 						//porcentaje de seguidores
 						$porcenEmails = $row['porcen_reporta_tag'];
 						//correos destinatarios 
-						$emails = 'rjoserivas@gmail.com';
-						// $emails = $row['emails_admin_reports_tags'];
+						$emails = $row['emails_admin_reports_tags'];
 
 						//calculo del porcentje para enviar los correos
 						$total = (($Nsegui*$porcenEmails)/100);
