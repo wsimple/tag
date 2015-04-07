@@ -57,7 +57,6 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 		<div class="ui-single-box-title">
 			<div class="photoProfile" id="photoProfileChange"><?=$edit?$edit:''?>
 				<form action="controls/users/profile.json.php?action=picture" id="frmChangePhoto" name="frmChangePhoto" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
-					<input type="hidden" name="action" id="action" value="save">
 					<input type="hidden" id="validaActionAjax" name="validaActionAjax" value="save"/>
 					<div id="frmProfile_changePhotoDiv">
 						<input name="frmProfile_filePhoto" type="file" id="frmProfile_filePhoto"/>
