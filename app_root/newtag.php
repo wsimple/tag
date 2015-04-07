@@ -417,11 +417,12 @@
 														+ '<p>Take either a Photo or Video</p>'
 														+ '<hr>' 
 														+ '<a opc="shoot_p">'
-														+ '<img src="css/newdesign/newtag/camera.png" height="80" >'
+														+ '<img src="css/newdesign/newtag/camera.png" width="80px" >'
 														+ '</a>'
 														+ '<a opc="shoot_v">'	
-														+ '<img src="css/newdesign/newtag/video_camera.png" height="80" >'
+														+ '<img src="css/newdesign/newtag/video_camera.png" width="80px" >'
 														+ '</a>'
+														+ '<p id="videot"></p>'
 														+ '</div>';
 
 											myDialog({
@@ -435,88 +436,58 @@
 														if ($(this).attr('opc')=='shoot_p'){
 															navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
 														}else{
-															// Log('else log...');
-															// console.log('else console');
 															
-															var cam=Camera,
-															Log=function(text,clear){
-																if(clear) $('#video').html('');
-																$('#video').append(text+'<br/>');
-															},
-															galerySuccess=function(path_file){
-																var file={
-																	fullPath:path_file,
-																	name:path_file.replace(/([^\/]*\/)*/g,'')
-																};
-																Log('galery success',true);
-																console.log('galery success:',file);
-																uploadFile({file:file});
-															},
-															captureSuccess=function(mediaFiles){
-																var i,path,len;
-																Log('capture success',true);
-																// Log(JSON.stringify(mediaFiles));
-																for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-																	path = mediaFiles[i].fullPath;
-																	// do something interesting with the file
-																	console.log(path);
-																	$.debug().log('success: ', path);
-																	uploadFile({file:mediaFiles[i]});
-																}
-															},
-															uploadFile=function(data){
-																var path=data.file.fullPath,
-																	params=data.data||{},
-																	ft=new FileTransfer();
-																	// video={
-																	// 	url:'<?=$setting->video_server?>',
-																	// 	data:{code:'<?=$client->code?>'},
-																	// 	pending:{code:'<?=$client->code?>',folder:'pending'},
-																	// };
-
-																params.fileName=data.file.name;
-																
-																Log('uploading...');
-																console.log('uploadFile:');
-
-																ft.upload(path,
-																	"<?=$setting->local?'video/test/1':$setting->video_server.'?convert'?>",
-																	function(result){
-																		$.debug().log('result: ', result.response);
-																		var data=JSON.parse(result.response);
-																		Log('Upload success: ' + result.responseCode);
-																		Log(result.bytesSent + ' bytes sent');
-																		Log('data:'+JSON.stringify(data));
-																		console.log('data:',data);
-																		if(data.urls[0])
-																			Log('First Link: <a href="http://v.tagbum.com/'+data.urls[0]+'">'+data.urls[0]+'</a>');
-																	},
-																	function(error){
-																		Log('Error uploading file ' + path + ': ' + error.code);
-																	},
-																	params
-																);
-
-															},
-															// galeryError=function(){
-															// 	Log('galery error',true);
-															// 	console.log('galery error');
-															// },
-															captureError=function(error){
-																navigator.notification.alert('Error code: '+error.code,null,'Capture Error');
-																Log('capture error',true);
-																console.log('capture error');
+														var cam=Camera,
+														galerySuccess=function(path_file){
+															var file={
+																fullPath:path_file,
+																name:path_file.replace(/([^\/]*\/)*/g,'')
 															};
+															uploadFile({file:file});
+														},
+														captureSuccess=function(mediaFiles){
+															var i,len;
+															for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+																uploadFile(mediaFiles[i]);
+															}
+														},
+														uploadFile=function(data){
 
-															try{
-																Log('try - Log');
-																console.log('try - Console');
-																navigator.device.capture.captureVideo(captureSuccess,captureError,{limit:1});
-															}catch(e){
-																myDialog('Error: '+e);
+															var fileURL=data.fullPath,
+															params=data.data||{},
+															ft = new FileTransfer();
+
+															params = {
+																fileName: data.name,
+																data:{code:''},
+																pending: { code:$.local('code'), folder:'pending'}
 															}
 
-															
+															var options = new FileUploadOptions();
+															options.fileName = data.name;
+															options.mimeType = data.type;
+															options.params = params;
+
+															ft.upload(fileURL,
+															encodeURI("http://v.tagbum.com/upload.php"),
+															function(result){
+																var data=JSON.parse(result.response);
+																alert('data:'+JSON.stringify(data));
+																// if(data.urls[0])
+																// $('#videot'),html('<a href="http://v.tagbum.com/'+data.urls[0]+'">'+data.urls[0]+'</a>');
+															},
+															function(error){
+																alert('Error uploading file, Error Code:: ' + error.code + ', Source: ' + error.source +', '+ error.target);
+															},
+															options
+															);
+
+														},
+														captureError=function(error){
+															navigator.notification.alert('Error code: '+error.code,null,'Capture Error');
+														};
+
+														navigator.device.capture.captureVideo(captureSuccess,captureError,{limit:1});
 														}//else
 													});	
 												}
