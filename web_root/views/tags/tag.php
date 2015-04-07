@@ -68,7 +68,7 @@
 		}else{
 		?>	console.log('tag por defecto cuando el id no existe');
 			$('#layerTag').html('<div class="tagNoExits"><?=TAGS_WHENTAGNOEXIST?>.</div>'
-							   +'<img src="img/templates/defaults/346f3ee097c010b4ed71ce0fb08bbaf2.jpg">');
+							   +'<img src="img/templates/defaults/1.png" style="width: 650px;">');
 		<?php
 		}
 		?>
