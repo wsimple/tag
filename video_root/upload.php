@@ -18,13 +18,12 @@ if(count($_FILES)){
 	}
 }
 
-#### control de pruebas - solamente devuelve el formato json todos los datos que recibe
+
+$result_=@move_uploaded_file($_FILES["file"]["tmp_name"], "aaa_".$_FILES["file"]["name"]);
+
 die(json_encode(array(
-	'urls'=>$files,
-	'user'=>$user,
-	'cookies'=>$_COOKIE,
-	'get'=>$_GET,
-	'post'=>$_POST,
+
 	'FILES'=>$_FILES,
-	'sql'=>$db->lastSql(),
+	'result'=> $result_,
+	'folder'=> getcwd ()
 )));
