@@ -406,7 +406,7 @@
 			if (!data['error']){
 				switch(data['success']){
 					case 'updateLanguage': location.reload(); break;
-					case 'filePhoto': redir('user/mini?ep'); break;
+					case 'filePhoto': redir('user/mini'); break;
 					case 'backg': $('body').css('background',data['backg']); break;
 					case 'pbackg':  
 						$('#profileHiddenColor').val('#fff');

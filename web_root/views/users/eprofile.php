@@ -256,7 +256,7 @@ $(function(){
 				console.log(data['success']);
 				switch(data['success']){
 					// case 'updateLanguage': location.reload(); break;
-					case 'filePhoto': redir('user/mini'); break;
+					case 'filePhoto': redir('user/mini?ep'); break;
 					// case 'backg': $('body').css('background',data['backg']); break;
 					case 'cover': $('#coverExpro').css('background-image', 'url("<?=FILESERVER?>img/users_cover/'+data['cover']+'")'); break;
 					// case 'pbackg':  
