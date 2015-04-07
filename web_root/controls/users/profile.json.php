@@ -27,7 +27,7 @@ if (isset($_GET['skipProgress'])){
 $res=array();
 #arreglo de datos que se recibiran
 $data=array();
-$data['action']=isset($_POST['action'])?$_POST['action']:$_POST['validaActionAjax'];
+$data['action']=isset($_REQUEST['action'])?$_REQUEST['action']:$_REQUEST['validaActionAjax'];
 $data['img64']=$_POST['img64'];
 $data['day']=isset($_POST['day'])?$_POST['day']:$_POST['frmProfile_day'];
 $data['month']=isset($_POST['month'])?$_POST['month']:$_POST['frmProfile_month'];
@@ -66,7 +66,7 @@ if (is_array($_POST['city'])){
 $data['city']=$city;
 if(isset($_FILES['frmProfile_filePhoto'])){
 	$data['img']=$_FILES['frmProfile_filePhoto'];
-	$data['action']='picture';
+
 }
 if(isset($_FILES['img']))
 	$data['img']=$_FILES['img'];
