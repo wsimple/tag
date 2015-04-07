@@ -17,10 +17,6 @@ if(preg_match('/^\/app_root/',$_SERVER['REQUEST_URI'])){
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Tagbum Mobile</title>
 	<link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
-<?php if(isset($_GET['minify'])){
-	echo '<script src="cordova.js"></script>';
-?>	
-<?php } ?>
 	<link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 	<link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
 	<link rel="stylesheet" href="css/jquery.Jcrop.css"/>
@@ -30,8 +26,9 @@ if(preg_match('/^\/app_root/',$_SERVER['REQUEST_URI'])){
 	<link rel="stylesheet" href="css/seemytag.css"/>
 	<link rel="stylesheet" href="css/colorPicker.css"/>
 	<link rel="stylesheet" href="css/newV2.css"/>
-<?php if(isset($_GET['minify'])){
-?>	
+<?php if(isset($_GET['minify'])){ ?>
+	<script src="cordova.js"></script>
+	<!--<script src="http://debug-software.intel.com/target/target-script-min.js#O9UiwnKvyTMFbhsyCRAq1lMURMrpfK2o-YGTLKmfwTY"></script> -->
 <?php } ?>
 	<script src="js/core/const.js" charset="UTF-8"></script>
 	<script src="js/core/md5.js"></script>
