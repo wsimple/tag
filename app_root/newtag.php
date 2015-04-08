@@ -386,6 +386,7 @@
 								destinationType:cam.DestinationType.DATA_URL
 							},
 							onPhotoSuccess=function(data){
+								$('#shootType').hide();
 								if(!data.match(/^https?:\/\//i)){//no url = base64
 									data='data:image/jpg;base64,'+data;
 									$bgCheck[0].dataset.img64=data;
@@ -456,24 +457,39 @@
 															params=data.data||{},
 															ft = new FileTransfer();
 
-															params = {
-																fileName: data.name,
-																data:{code:''},
-																pending: { code:$.local('code'), folder:'pending'}
-															}
+															params = { code:$.local('code')};
 
 															var options = new FileUploadOptions();
 															options.fileName = data.name;
 															options.mimeType = data.type;
 															options.params = params;
-
+															$('#shootType').hide();
 															ft.upload(fileURL,
-															encodeURI("http://v.tagbum.com/upload.php"),
+															encodeURI(SERVERS.video+"/upload.php"),
 															function(result){
 																var data=JSON.parse(result.response);
 																alert('data:'+JSON.stringify(data));
-																// if(data.urls[0])
-																// $('#videot'),html('<a href="http://v.tagbum.com/'+data.urls[0]+'">'+data.urls[0]+'</a>');
+																
+															if(data.file){//alert('data:'+data.file+' server:'+SERVERS.video);
+																$.ajax({
+																url:SERVERS.video+'/?convert',
+																dataType:'json',
+																type:'post',
+																xhrFields:{withCredentials:true},
+																data: {code:$.local('code'),file:data.file},
+																success:function(data){
+																	var video=JSON.parse(data.response);
+																	alert('video:'+JSON.stringify(video));
+																},
+																error: function(xhr, status, error) {
+																  var err = eval("(" + xhr.responseText + ")");
+																  alert(err.Message);
+																}
+																});
+
+															} 
+
+
 															},
 															function(error){
 																alert('Error uploading file, Error Code:: ' + error.code + ', Source: ' + error.source +', '+ error.target);

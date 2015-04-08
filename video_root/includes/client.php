@@ -12,6 +12,14 @@ class Client{
 	}
 	function valid_id($id){
 		if(preg_match('/\D/',$id)) $id=$this->db->getVal('SELECT id FROM user WHERE md5(id)=?',array($id))*1;
+		#validacion menos estricta
+		$usr=$this->db->getRowObject(
+			'SELECT id_user,code ,TIMEDIFF(now(),time) as timedif FROM activity_users
+			WHERE id_user=? AND HTTP_USER_AGENT=?',
+			array($id,$_SERVER['HTTP_USER_AGENT'])
+		);
+		return $this->validate($usr);
+		#validacion original
 		$usr=$this->db->getRowObject(
 			'SELECT id_user,code,TIMEDIFF(now(),time) as timedif FROM activity_users
 			WHERE id_user=? AND REMOTE_ADDR=? AND HTTP_USER_AGENT=? AND TIMEDIFF(now(),time)<"00:30:00"',
@@ -20,6 +28,14 @@ class Client{
 		return $this->validate($usr);
 	}
 	function valid_code($code){
+		#validacion menos estricta
+		$usr=$this->db->getRowObject(
+			'SELECT id_user,code,TIMEDIFF(now(),time) as timedif FROM activity_users
+			WHERE code=? AND HTTP_USER_AGENT=?',
+			array($code,$_SERVER['HTTP_USER_AGENT'])
+		);
+		return $this->validate($usr);
+		#validacion original
 		$usr=$this->db->getRowObject(
 			'SELECT id_user,code,TIMEDIFF(now(),time) as timedif FROM activity_users
 			WHERE code=? AND REMOTE_ADDR=? AND HTTP_USER_AGENT=? AND TIMEDIFF(now(),time)<"00:30:00"',
