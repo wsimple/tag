@@ -2685,9 +2685,12 @@ li.userInList h3{
 }
 /*End Media querys*/
 
-#shootMenu a{
-	margin: 10px 3px 0;
-	height: 85px;
+#shootMenu div{
+	display: inline-block;
+	border: 1px solid #FFF;
+	margin: 20px 25px 0 0;
+	padding: 10px;
+	border-radius: 20px;
 }
 
 #shootMenu a img{

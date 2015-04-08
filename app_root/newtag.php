@@ -413,25 +413,25 @@
 
 									case 'camop': 
 										
-											var html =    '<div id="shootMenu">'
-														+ '<p>Photo / Video</p>'
-														+ '<hr>' 
-														+ '<a opc="shoot_p">'
-														+ '<img src="css/newdesign/newtag/camera.png" >'
-														+ '</a>'
-														+ '<a opc="shoot_v">'	
-														+ '<img src="css/newdesign/newtag/video_camera.png" >'
-														+ '</a>'
+											var html =  '<div id="shootMenu">'
+															+ '<p>Take either a Photo or Video</p>'
+															+ '<hr>'
+															+ '<div opc="shoot_p">'
+																+ '<img src="css/newdesign/newtag/camera.png" width="80px" >'
+															+ '</div>'
+															+ '<div opc="shoot_v">'
+																+ '<img src="css/newdesign/newtag/video_camera.png" width="80px" >'
+															+ '</div>'
 														+ '</div>';
 
 											myDialog({
 												id:'#shootType',
 												content: html,
-												style:{'padding':5,height:150},
+												style:{'padding':5,height:180},
 												scroll:true,
 												after:function(){
 													
-													$('#shootMenu').on('click', 'a[opc]', function(e){
+													$('#shootMenu').on('click', 'div[opc]', function(e){
 														if ($(this).attr('opc')=='shoot_p'){
 															navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
 														}else{
