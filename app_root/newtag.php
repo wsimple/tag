@@ -457,23 +457,19 @@
 															params=data.data||{},
 															ft = new FileTransfer();
 
-															params = {
-																fileName: data.name,
-																data:{code:''},
-																pending: { code:$.local('code')}
-															}
+															params = { code:$.local('code')};
 
 															var options = new FileUploadOptions();
 															options.fileName = data.name;
 															options.mimeType = data.type;
 															options.params = params;
-
+															$('#shootType').hide();
 															ft.upload(fileURL,
 															encodeURI(SERVERS.video+"/upload.php"),
 															function(result){
 																var data=JSON.parse(result.response);
-																//alert('data:'+JSON.stringify(data));
-																$('#shootType').hide();
+																alert('data:'+JSON.stringify(data));
+																
 															if(data.file){//alert('data:'+data.file+' server:'+SERVERS.video);
 																$.ajax({
 																url:SERVERS.video+'/?convert',

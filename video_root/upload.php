@@ -9,7 +9,7 @@ if(!$myId){
 }
  if(!$myId) $myId=0;
 
-$folder='/videos/pending/'.$_COOKIE['__code__'];
+$folder='/videos/pending/'.$_POST['code'];
 
 if(!is_dir($folder)){ mkdir($folder,0755,true);}
 
@@ -24,5 +24,4 @@ if(count($_FILES))
 			}
 		}
 	}
-
-die(json_encode(array('file'=>$file_name)));
+die(json_encode(array('file'=>$file_name, 'folder'=>$folder, 'FILE'=>$_FILES, 'GET'=>$_GET, 'POST'=>$_POST)));
