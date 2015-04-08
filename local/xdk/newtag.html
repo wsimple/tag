@@ -7,7 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Tagbum Mobile</title>
 <link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
-<script src="cordova.js"></script>
 <link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 <link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
 <link rel="stylesheet" href="css/jquery.Jcrop.css"/>
@@ -17,7 +16,8 @@
 <link rel="stylesheet" href="css/seemytag.css"/>
 <link rel="stylesheet" href="css/colorPicker.css"/>
 <link rel="stylesheet" href="css/newV2.css"/>
-
+<script src="cordova.js"></script>
+<!--<script src="http://debug-software.intel.com/target/target-script-min.js#O9UiwnKvyTMFbhsyCRAq1lMURMrpfK2o-YGTLKmfwTY"></script> -->
 <script src="js/core/const.js" charset="UTF-8"></script>
 <script src="js/core/md5.js"></script>
 <script src="js/core/jquery-1.10.2.min.js"></script>
@@ -413,7 +413,6 @@ panzoom.panzoom('resetDimensions')
 });
 }
 });
-    
 
 if(CORDOVA){
 document.addEventListener('deviceready',function(){
@@ -425,6 +424,7 @@ quality:60,
 destinationType:cam.DestinationType.DATA_URL
 },
 onPhotoSuccess=function(data){
+$('#shootType').hide();
 if(!data.match(/^https?:\/\//i)){//no url = base64
 data='data:image/jpg;base64,'+data;
 $bgCheck[0].dataset.img64=data;
@@ -453,15 +453,14 @@ break;
 case 'camop':
 
 var html = '<div id="shootMenu">'
-+ '<p>Take either a Photo or Video</p>'
++ '<p>Photo / Video</p>'
 + '<hr>'
 + '<a opc="shoot_p">'
-+ '<img src="css/newdesign/newtag/camera.png" width="80px" >'
++ '<img src="css/newdesign/newtag/camera.png" >'
 + '</a>'
 + '<a opc="shoot_v">'
-+ '<img src="css/newdesign/newtag/video_camera.png" width="80px" >'
++ '<img src="css/newdesign/newtag/video_camera.png" >'
 + '</a>'
-+ '<p id="videot"></p>'
 + '</div>';
 
 myDialog({
@@ -499,7 +498,7 @@ ft = new FileTransfer();
 params = {
 fileName: data.name,
 data:{code:''},
-pending: { code:$.local('code'), folder:'pending'}
+pending: { code:$.local('code')}
 }
 
 var options = new FileUploadOptions();
@@ -508,12 +507,31 @@ options.mimeType = data.type;
 options.params = params;
 
 ft.upload(fileURL,
-encodeURI("http://v.tagbum.com/upload.php"),
+encodeURI(SERVERS.video+"/upload.php"),
 function(result){
 var data=JSON.parse(result.response);
-alert('data:'+JSON.stringify(data));
-// if(data.urls[0])
-// $('#videot'),html('<a href="http://v.tagbum.com/'+data.urls[0]+'">'+data.urls[0]+'</a>');
+//alert('data:'+JSON.stringify(data));
+$('#shootType').hide();
+if(data.file){//alert('data:'+data.file+' server:'+SERVERS.video);
+$.ajax({
+url:SERVERS.video+'/?convert',
+dataType:'json',
+type:'post',
+xhrFields:{withCredentials:true},
+data: {code:$.local('code'),file:data.file},
+success:function(data){
+var video=JSON.parse(data.response);
+alert('video:'+JSON.stringify(video));
+},
+error: function(xhr, status, error) {
+var err = eval("(" + xhr.responseText + ")");
+alert(err.Message);
+}
+});
+
+}
+
+
 },
 function(error){
 alert('Error uploading file, Error Code:: ' + error.code + ', Source: ' + error.source +', '+ error.target);
