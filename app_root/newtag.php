@@ -360,7 +360,7 @@
 						//alert('Device ready no');
 						var cam=Camera,
 							photoData={
-								targetWidth:650,
+								targetWidth:1200,
 								quality:60,
 								destinationType:cam.DestinationType.DATA_URL
 							},
