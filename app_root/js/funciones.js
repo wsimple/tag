@@ -218,11 +218,11 @@ function newMenu(){
 		var content='',news=false,hot=false;
 		if (!$('#page-news').length){
 			news=true;
-			content+='<di><h4>'+lang.NEWS+'</h4><ul id="newsInfo"></ul></div>';
+			content+='<div><h4>'+lang.NEWS+'</h4><ul id="newsInfo"></ul></div>';
 		}
 		if (!$('#page-trendings').length){
 			hot=true;
-			content+='<di><h4>'+lan('hot','ucw')+'</h4><ul id="trendings"></ul></div>';
+			content+='<div><h4>'+lan('hot','ucw')+'</h4><ul id="trendings"></ul></div>';
 		}
 		myDialog({
             id:'prevNewsAndHot-dialogs',

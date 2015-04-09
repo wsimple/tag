@@ -24,4 +24,4 @@ if(count($_FILES))
 			}
 		}
 	}
-die(json_encode(array('file'=>$file_name, 'folder'=>$folder, 'FILE'=>$_FILES, 'GET'=>$_GET, 'POST'=>$_POST)));
+die(json_encode(array('file'=>$file_name)));

@@ -120,8 +120,9 @@ is.limited= !is.webkit||is.android;
 		'closed'			:' cerrado',
 		'options'			:' opciones',
 		'Creates a tag'		:'Crea una tag',
-
-		//'':'mover a',
+		'Your video is uploading, this can take few minutes...' : 'El vídeo está cargando, esto puede tardar unos minutos...',
+		'Video upload'		:'Carga de Video',
+		'Take either a Photo or Video' : 'Tome una Foto o un Video',
 
 		//Traducciones al estilo antiguo
 		NEWTAG_NO_BACKGROUNDS           :'Aun no tienes imagenes de fondo, pero no te preocupes puedes publicar tags sin fondo',

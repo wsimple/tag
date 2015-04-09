@@ -111,35 +111,14 @@
 	<script>
 		pageShow({
 			id:'#page-newTag',
-			// title:function(){
-			// 	if($_GET['group']){
-			// 		nameMenuGroups($_GET['group'],1,function(data){
-			// 			$('.ui-page-active .ui-header h1').html(lang['newGroupTag']+'&nbsp;('+data['name']+')');
-			// 		});
-			// 		//return lang['newTag']+'&nbsp;<span class="loader s16"></span>';
-			// 		return lang['newGroupTag'];
-					
-			// 	}else if($_GET['product']){
-			// 		return lang['STORE_PRODUCT_TAG'];
-			// 	}else{
-			// 		return lang['newTag'];
-			// 	}
-			// },
-			// buttons:function(){
-			// 	if($_GET['group']){
-			// 		return { back:true};
-			// 	}else{
-			// 		return { showmenu:false};
-			// 	}
-			// },
 			before:function(){
 				newMenu();
 				//language constants
 				$('#menu').html(
 					'<span class="ui-block-a menu-button hover"><a href="#"><img src="css/newdesign/submenu/create_tag.png"><br>'+lan('newTag','ucw')+'</a></span>'+
 					(CORDOVA? // opc="cam"
-						'<span class="ui-block-b menu-button"><a href="#" opc="camop"><img src="css/newdesign/newtag/camera.png"><br>'+lan('camera','ucw')+'</a></span>'
-						+(is['android']&&version.match(/^2\./)?'':'<span class="ui-block-b menu-button"><a href="#" opc="lib"><img src="css/newdesign/newtag/gallery.png"><br>'+lan('gallery','ucw')+'</a></span>')
+						'<span class="ui-block-b menu-button"><a href="#" opc="camop"><img src="css/newdesign/newtag/camera.png"><br>'+lan('camera','ucw')+'</a></span>'+
+						(is['android']&&version.match(/^2\./)?'':'<span class="ui-block-b menu-button"><a href="#" opc="lib"><img src="css/newdesign/newtag/gallery.png"><br>'+lan('gallery','ucw')+'</a></span>')
 					:'<span class="ui-block-b"></span>')+
 					'<span id="footerPicture" class="ui-block-c menu-button"><a href="#" id="template"><img src="css/newdesign/newtag/images.png"><br>'+lang.NEWTAG_BACKGROUNDAPP+'</a></span>'+
 					'<span class="ui-block-d menu-button"><a href="timeLine.html"><img src="css/newdesign/newtag/cancel.png"><br>'+lan('cancel','ucw')+'</a></span>'+
@@ -414,8 +393,8 @@
 
 									case 'camop': 
 										
-											var html =  '<div id="shootMenu">'
-															+ '<p>Take either a Photo or Video</p>'
+											var html_ =  '<div id="shootMenu">'
+															+ '<p>'+lan('Take either a Photo or Video')+'</p>'
 															+ '<hr>'
 															+ '<div opc="shoot_p">'
 																+ '<img src="css/newdesign/newtag/camera.png" width="80px" >'
@@ -427,9 +406,9 @@
 
 											myDialog({
 												id:'#shootType',
-												content: html,
+												content: html_,
 												style:{'padding':5,height:180},
-												scroll:true,
+												scroll:false,
 												after:function(){
 													
 													$('#shootMenu').on('click', 'div[opc]', function(e){
@@ -437,74 +416,104 @@
 															navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
 														}else{
 															
-														var cam=Camera,
-														galerySuccess=function(path_file){
-															var file={
-																fullPath:path_file,
-																name:path_file.replace(/([^\/]*\/)*/g,'')
-															};
-															uploadFile({file:file});
-														},
-														captureSuccess=function(mediaFiles){
-															var i,len;
-															for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-																uploadFile(mediaFiles[i]);
-															}
-														},
-														uploadFile=function(data){
-
-															var fileURL=data.fullPath,
-															params=data.data||{},
-															ft = new FileTransfer();
-
-															params = { code:$.local('code')};
-
-															var options = new FileUploadOptions();
-															options.fileName = data.name;
-															options.mimeType = data.type;
-															options.params = params;
-															$('#shootType').hide();
-															ft.upload(fileURL,
-															encodeURI(SERVERS.video+"/upload.php"),
-															function(result){
-																var data=JSON.parse(result.response);
-																alert('data:'+JSON.stringify(data));
-																
-															if(data.file){//alert('data:'+data.file+' server:'+SERVERS.video);
-																$.ajax({
-																url:SERVERS.video+'/?convert',
-																dataType:'json',
-																type:'post',
-																xhrFields:{withCredentials:true},
-																data: {code:$.local('code'),file:data.file},
-																success:function(data){
-																	var video=JSON.parse(data.response);
-																	alert('video:'+JSON.stringify(video));
-																},
-																error: function(xhr, status, error) {
-																  var err = eval("(" + xhr.responseText + ")");
-																  alert(err.Message);
+															var cam=Camera,
+															galerySuccess=function(path_file){
+																var file={
+																	fullPath:path_file,
+																	name:path_file.replace(/([^\/]*\/)*/g,'')
+																};
+																uploadFile({file:file});
+															},
+															captureSuccess=function(mediaFiles){
+																var i,len;
+																for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+																	uploadFile(mediaFiles[i]);
 																}
-																});
+															},
+															uploadFile=function(data){
 
-															} 
+																var fileURL=data.fullPath,
+																params=data.data||{},
+																ft = new FileTransfer();
+																params = { code:$.local('code')};
+																var options = new FileUploadOptions();
+																options.fileName = data.name;
+																options.mimeType = data.type;
+																options.params = params;
+																$('#shootType').hide();
+																contentLoading='<div><h4>'+lan('Video upload')+'</h4><p>'+
+																			   lan('Your video is uploading, this can take few minutes...')+'</br></p></div>'+
+																			   '<div>&nbsp;</div>';
+																myDialog({
+														            id:'LoadingVideo',
+														            content :contentLoading,
+														            buttons:[]
+														        });
 
+																ft.upload(fileURL,
+																encodeURI(SERVERS.video+"/upload.php"),
+																function(result){
+																	var data=JSON.parse(result.response);
+																		
+																	if(data.file){
+																		$.ajax({
+																		url:SERVERS.video+'/?convert',
+																		dataType:'json',
+																		type:'post',
+																		data: {code:$.local('code'),file:data.file},
+																		success:function(data){
+																			var list='';
+																			$('#htxtVideo').val(data.video);
+
+																			if(data.captures.length > 1){ 
+																				for (var i in data.captures) {	
+																					_url=SERVERS.video+'/videos/'+data.captures[i];
+																					list+='<div style="background-image:url('+_url+'); height:150px;" '+
+																						  'data-url="'+_url+'" data-template="'+data.captures[i]+'"></div>';
+																				}
+																				myDialog({
+																					id:'#backgroundsVideoDialog',
+																					content:'<div class="smt-tag-bg-mini">'+list+'</div>',
+																					style:{'padding-right':5,height:450},
+																					scroll:true,
+																					after:function(){
+																						$('#backgroundsVideoDialog div[data-template]').click(function(){
+																							$bgCheck[0].dataset.template=this.dataset.template;
+																							$bgCheck[0].dataset.url=this.dataset.url;
+																							$bgCheck.attr('src',this.dataset.url);
+																							$('#backgroundsVideoDialog .closedialog').click();
+																						});
+																						windowFix();
+																					}
+																				});
+																			}
+																			$('#LoadingVideo').hide();
+																			$bgCheck[0].dataset.template=data.captures[0];
+																			$bgCheck[0].dataset.url=SERVERS.video+'/videos/'+data.captures[0];
+																			$bgCheck.attr('src',SERVERS.video+'/videos/'+data.captures[0]);
+																		},
+																		error: function(xhr, status, error) {
+																		  var err = eval("(" + xhr.responseText + ")");
+																		  alert(err.Message);
+																		}
+																		});
+																	} 
+																},
+																function(error){
+																	alert('Error uploading file, Error Code:: ' + error.code + ', Source: ' + error.source +', '+ error.target);
+																},
+																options
+																);
 
 															},
-															function(error){
-																alert('Error uploading file, Error Code:: ' + error.code + ', Source: ' + error.source +', '+ error.target);
-															},
-															options
-															);
+															captureError=function(error){
+																navigator.notification.alert('Error code: '+error.code,null,'Capture Error');
+															};
 
-														},
-														captureError=function(error){
-															navigator.notification.alert('Error code: '+error.code,null,'Capture Error');
-														};
-
-														navigator.device.capture.captureVideo(captureSuccess,captureError,{limit:1});
+															navigator.device.capture.captureVideo(captureSuccess,captureError,{limit:1});
 														}//else
-													});	
+													});
+													windowFix();	
 												}
 											});
 
@@ -515,19 +524,15 @@
 									case 'cam':
 									break;//camara - default
 								}
-								try{
-									if (type!='camop')
+	
+								if (type!='camop')
 										navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
 
-								}catch(e){
-									myDialog('Error: '+e);
-								}
+							
 							};
 
 							$('#menu').on('click','a[opc]',function(e){
-								console.log('aqui'); 
 								getPhoto($(this).attr('opc'));
-								// e.preventDefault();
 							});
 
 					},false);
@@ -561,6 +566,7 @@
 						data:{
 							type		:'newtag',
 							img64		:img64,
+							htxtVideo   :$('#htxtVideo').val(),
 							imgTemplate	:$('#imgTemplate').val(),
 							topText		:$('#topText').val().substring(0,50),
 							middleText	:$('#middleText').val().substring(0,12),
