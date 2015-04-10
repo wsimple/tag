@@ -13,5 +13,6 @@ if(isset($_SESSION['ws-tags']['ws-user'])){
 	else $url=@$_SESSION['ws-tags']['ws-user']['logins_count']>1?$config->base_url:$config->base_url.'welcome';
 }
 
-if(isset($_COOKIE['_DEBUG_'])) echo 'url='.$url;
-if($_COOKIE['_DEBUG_']!='login') @header("Location:$url");
+//if(isset($_COOKIE['_DEBUG_'])) echo 'url='.$url;
+//if($_COOKIE['_DEBUG_']!='login') 
+	@header("Location:$url");

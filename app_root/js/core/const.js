@@ -123,6 +123,8 @@ is.limited= !is.webkit||is.android;
 		'Your video is uploading, this can take few minutes...' : 'El vídeo está cargando, esto puede tardar unos minutos...',
 		'Video upload'		:'Carga de Video',
 		'Take either a Photo or Video' : 'Tome una Foto o un Video',
+		'Video discard'     :'Descartar video',
+		'Do you want to discard this video?' : 'Quiere descartar este video?',
 
 		//Traducciones al estilo antiguo
 		NEWTAG_NO_BACKGROUNDS           :'Aun no tienes imagenes de fondo, pero no te preocupes puedes publicar tags sin fondo',

@@ -67,6 +67,9 @@
 									<label for="div_publicTag_checkbox" id="publicTagsApp"></label>
 								</div>
 							</li>
+							<li class="ui-block-c">
+								<div class="video-icon"></div>
+							</li>
 							<li class="ui-block-d"></li>
 						</ul>
 					</div>
@@ -353,42 +356,169 @@
 								.panzoom('setMatrix',JSON.parse('['+bgMatrix.toString()+']'));
 						});
 					}
+					$('#middleText, #topText, #bottomText').attr('disabled', '');
+					$('#middleText, #topText, #bottomText').removeAttr('disabled');
 				});
 
 				if(CORDOVA){
+					$('.video-icon').click(function(event) {
+							  contentLoading='<div><h4>'+lan('Video discard')+'</h4><p>'+
+											   lan('Do you want to discard this video?')+'</br></p></div>'+
+											   '<div>&nbsp;</div>';
+								myDialog({
+						            id:'#deleteVideoDialog',
+						            content :contentLoading,
+						            buttons:[{  name:lan('Yes'), 
+						            			action:function(){
+						            			$('#htxtVideo').val('');
+						            			$('.video-icon').hide();
+						            			this.close();	
+
+						            		}},{name:lan('No'),
+						            			action:function(){ 
+						            				this.close(); 
+						            			}
+						            		}]
+						        });
+						
+					});
+				 	function convertVideo(uploadResult){
+								var uploadResult=JSON.parse(uploadResult.response);
+									
+								if(uploadResult.file){
+									$.ajax({
+									url:SERVERS.video+'/?convert',
+									dataType:'json',
+									type:'post',
+									data: {code:$.local('code'),file:uploadResult.file},
+									success:function(convertResult){
+										var list='';
+										$('#htxtVideo').val(convertResult.video);
+										$('.video-icon').show();
+
+										if(convertResult.captures.length > 1){ 
+											for (var i in convertResult.captures) {	
+												_url=SERVERS.video+'/videos/'+convertResult.captures[i];
+												list+='<div style="background-image:url('+_url+'); height:150px;" '+
+													  'data-url="'+_url+'" data-template="'+convertResult.captures[i]+'"></div>';
+											}
+											myDialog({
+												id:'#backgroundsVideoDialog',
+												content:'<div class="smt-tag-bg-mini">'+list+'</div>',
+												style:{'padding-right':5,height:450},
+												scroll:true,
+												after:function(){
+													$('#backgroundsVideoDialog div[data-template]').click(function(){
+														$bgCheck[0].dataset.template=this.dataset.template;
+														$bgCheck[0].dataset.url=this.dataset.url;
+														$bgCheck.attr('src',this.dataset.url);
+														$('#backgroundsVideoDialog .closedialog').click();
+													});
+													windowFix();
+												}
+											});
+										}
+										$('#LoadingVideo').hide();
+										$bgCheck[0].dataset.template=convertResult.captures[0];
+										$bgCheck[0].dataset.url=SERVERS.video+'/videos/'+convertResult.captures[0];
+										$bgCheck.attr('src',SERVERS.video+'/videos/'+convertResult.captures[0]);
+									},
+									error: function(xhr, status, error) {
+									  var err = eval("(" + xhr.responseText + ")");
+									  alert(err.Message);
+									}
+									});
+								} 
+					}//convertVideo
+					function uploadFile(dataUpload){
+
+								var fileURL=dataUpload.fullPath,
+								params=dataUpload.data||{},
+								ft = new FileTransfer();
+								params = { code:$.local('code')};
+								var options = new FileUploadOptions();
+								options.fileName = dataUpload.name;
+								options.mimeType = dataUpload.type;
+								options.params = params;
+								$('#shootType').hide();
+								contentLoading='<div><h4>'+lan('Video upload')+'</h4><p>'+
+											   lan('Your video is uploading, this can take few minutes...')+'</br></p></div>'+
+											   '<div>&nbsp;</div>';
+								myDialog({
+						            id:'#LoadingVideo',
+						            content :contentLoading,
+						            buttons:[]
+						        });
+									
+								ft.upload(fileURL,
+								encodeURI(SERVERS.video+"/upload.php"),
+								convertVideo,
+								function(error){
+									alert('Error uploading file, Error Code:: ' + error.code + ', Source: ' + error.source +', '+ error.target);
+								},
+								options
+								);
+
+					}
 					document.addEventListener('deviceready',function(){
 						//alert('Device ready no');
 						var cam=Camera,
-							photoData={
+							photoConfig={
 								targetWidth:1200,
 								quality:60,
-								destinationType:cam.DestinationType.DATA_URL
+								destinationType:cam.DestinationType.DATA_URL,
+								//allowEdit:true,
+								correctOrientation:true
 							},
 							onPhotoSuccess=function(data){
+								
 								$('#shootType').hide();
-								if(!data.match(/^https?:\/\//i)){//no url = base64
-									data='data:image/jpg;base64,'+data;
-									$bgCheck[0].dataset.img64=data;
-									img64=data;
-									$bgCheck.attr('src',data);
+								if(!data.match(/(\.|\/)(mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i)){ //es foto
+									if(!data.match(/^https?:\/\//i)){//no url = base64
+										data='data:image/jpg;base64,'+data;
+										$bgCheck[0].dataset.img64=data;
+										img64=data;
+										$bgCheck.attr('src',data);
+									}
+
+								}else{// es video
+									
+									var extToMimes = {
+												       'mp4':'video/mp4',
+												       'm4v':'video/mp4',
+												       'mov':'video/quicktime',
+												       'ogv':'video/ogg',
+												       'ogg':'video/ogg',
+												       '3gp':'video/3gpp',
+												       'avi':'video/x-msvideo',
+												       'mkv':'video/x-matroska',
+												       'flv':'video/x-flv',
+												       'mpeg':'video/mpeg',
+												       'mpg':'video/mpeg',
+												       'vob':'video/dvd'
+												    }
+									function getMimeByExt(file) {
+									    var ext = file.substr( (file.lastIndexOf('.') +1));
+									    if (extToMimes.hasOwnProperty(ext)) {
+								           return extToMimes[ext];
+								        }
+								        return false;
+									    
+									}
+
+									uploadFile({fullPath:data,name:data.substr( (data.lastIndexOf('/') +1)),type:getMimeByExt(data)});
 								}
 							},
 							onPhotoFail=function(message){
 								//if(message!='no image selected') myDialog(message);
 							},
 							getPhoto=function(type){
-								var data=$.extend({},photoData);
+								var photoData=$.extend({},photoConfig);
 								switch(type){
-									case 'editcam'://camara (editable)
-										data.allowEdit=true;
-									break;
 
 									case 'lib':
-										data.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
-									break;
-
-									case 'album':
-										data.sourceType=cam.PictureSourceType.SAVEDPHOTOALBUM;
+										photoData.mediaType=cam.MediaType.ALLMEDIA;
+										photoData.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
 									break;
 
 									case 'camop': 
@@ -413,104 +543,20 @@
 													
 													$('#shootMenu').on('click', 'div[opc]', function(e){
 														if ($(this).attr('opc')=='shoot_p'){
-															navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
+															navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,photoData);
 														}else{
-															
 															var cam=Camera,
-															galerySuccess=function(path_file){
-																var file={
-																	fullPath:path_file,
-																	name:path_file.replace(/([^\/]*\/)*/g,'')
-																};
-																uploadFile({file:file});
-															},
 															captureSuccess=function(mediaFiles){
 																var i,len;
 																for (i = 0, len = mediaFiles.length; i < len; i += 1) {
 																	uploadFile(mediaFiles[i]);
 																}
 															},
-															uploadFile=function(data){
-
-																var fileURL=data.fullPath,
-																params=data.data||{},
-																ft = new FileTransfer();
-																params = { code:$.local('code')};
-																var options = new FileUploadOptions();
-																options.fileName = data.name;
-																options.mimeType = data.type;
-																options.params = params;
-																$('#shootType').hide();
-																contentLoading='<div><h4>'+lan('Video upload')+'</h4><p>'+
-																			   lan('Your video is uploading, this can take few minutes...')+'</br></p></div>'+
-																			   '<div>&nbsp;</div>';
-																myDialog({
-														            id:'LoadingVideo',
-														            content :contentLoading,
-														            buttons:[]
-														        });
-
-																ft.upload(fileURL,
-																encodeURI(SERVERS.video+"/upload.php"),
-																function(result){
-																	var data=JSON.parse(result.response);
-																		
-																	if(data.file){
-																		$.ajax({
-																		url:SERVERS.video+'/?convert',
-																		dataType:'json',
-																		type:'post',
-																		data: {code:$.local('code'),file:data.file},
-																		success:function(data){
-																			var list='';
-																			$('#htxtVideo').val(data.video);
-
-																			if(data.captures.length > 1){ 
-																				for (var i in data.captures) {	
-																					_url=SERVERS.video+'/videos/'+data.captures[i];
-																					list+='<div style="background-image:url('+_url+'); height:150px;" '+
-																						  'data-url="'+_url+'" data-template="'+data.captures[i]+'"></div>';
-																				}
-																				myDialog({
-																					id:'#backgroundsVideoDialog',
-																					content:'<div class="smt-tag-bg-mini">'+list+'</div>',
-																					style:{'padding-right':5,height:450},
-																					scroll:true,
-																					after:function(){
-																						$('#backgroundsVideoDialog div[data-template]').click(function(){
-																							$bgCheck[0].dataset.template=this.dataset.template;
-																							$bgCheck[0].dataset.url=this.dataset.url;
-																							$bgCheck.attr('src',this.dataset.url);
-																							$('#backgroundsVideoDialog .closedialog').click();
-																						});
-																						windowFix();
-																					}
-																				});
-																			}
-																			$('#LoadingVideo').hide();
-																			$bgCheck[0].dataset.template=data.captures[0];
-																			$bgCheck[0].dataset.url=SERVERS.video+'/videos/'+data.captures[0];
-																			$bgCheck.attr('src',SERVERS.video+'/videos/'+data.captures[0]);
-																		},
-																		error: function(xhr, status, error) {
-																		  var err = eval("(" + xhr.responseText + ")");
-																		  alert(err.Message);
-																		}
-																		});
-																	} 
-																},
-																function(error){
-																	alert('Error uploading file, Error Code:: ' + error.code + ', Source: ' + error.source +', '+ error.target);
-																},
-																options
-																);
-
-															},
 															captureError=function(error){
 																navigator.notification.alert('Error code: '+error.code,null,'Capture Error');
 															};
 
-															navigator.device.capture.captureVideo(captureSuccess,captureError,{limit:1});
+															navigator.device.capture.captureVideo(captureSuccess,captureError,{limit:1,duration: 60});
 														}//else
 													});
 													windowFix();	
@@ -525,8 +571,9 @@
 									break;//camara - default
 								}
 	
-								if (type!='camop')
-										navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,data);
+								if (type!='camop'){
+									navigator.camera.getPicture(onPhotoSuccess,onPhotoFail,photoData);
+								}		
 
 							
 							};

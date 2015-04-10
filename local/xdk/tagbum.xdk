@@ -6,7 +6,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "",
       "projectGuid": "05b7c7f6-dcb7-49db-9875-934938267479",
-      "lastModifiedDate": 1428537303317,
+      "lastModifiedDate": 1428640860218,
       "creationDate": 1427746620761
     },
     "sourceDirectory": "",
@@ -122,7 +122,8 @@
         "preferences_": {
           "android-minSdkVersion": "10",
           "android-targetSdkVersion": "19",
-          "android-installLocation": "auto"
+          "android-installLocation": "auto",
+          "Orientation": "portrait"
         },
         "isActive_": true,
         "appName_": "Tagbum",
@@ -179,12 +180,19 @@
             "height": 960,
             "width": 720,
             "orientation": "portrait"
+          },
+          {
+            "relPath": "appSplash/320_426.png",
+            "density": "ldpi",
+            "height": 426,
+            "width": 320,
+            "orientation": "portrait"
           }
         ],
         "addlPermissions_": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzZ2ypVLVh9JQDNwuZEoEzplBo/tYejlzvsOXOT/7Da2+FZ8D8pWjkgkacaB91iy1MWovdcNKCi5Xaw/IzFJZUbecYNwtbyWokyu6huFaxC2NXGPh82TinmGXcbZZfZ0/o1/U5sAmA9OhT0blNJzB5MlNg/sSLIKyLKoc2mlps/YokcM1SfDC92ndjniA2+bSg6yeEIea6YOe5QLpc4sXxxgh3F+WmtCMd9pqcUQNlZOwQfLXfxNdplc+Am5s3WZmNzdgXJUvjmLAyYOB7Ht/lXKM87JSo7fPGFqnud8luqNTDHMtVZtNQiFQES5NAqcOoX3o9YnDE9FiWA1fwHYUYwIDAQAB",
         "excludedLibraries_": "",
-        "appVersion_": "2.0.0",
-        "appVersionCode_": "7",
+        "appVersion_": "2.1.0",
+        "appVersionCode_": "8",
         "crosswalkVersion_": "10",
         "cordovaCLIVersion_": "4.1.2",
         "appDescription_": "It’s Social Media with Rewards!",
