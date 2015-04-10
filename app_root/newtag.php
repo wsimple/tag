@@ -473,15 +473,15 @@
 							onPhotoSuccess=function(data){
 								
 								$('#shootType').hide();
-								if(!data.match(/(\.|\/)(mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i)){ //es foto
-									if(!data.match(/^https?:\/\//i)){//no url = base64
-										data='data:image/jpg;base64,'+data;
-										$bgCheck[0].dataset.img64=data;
-										img64=data;
-										$bgCheck.attr('src',data);
-									}
+								
+								if(!data.match(/^https?:\/\//i)&&!data.match(/^file?:\/\//i)){//no url = base64
+									data='data:image/jpg;base64,'+data;
+									$bgCheck[0].dataset.img64=data;
+									img64=data;
+									$bgCheck.attr('src',data);
+								}
 
-								}else{// es video
+								if(data.match(/(\.|\/)(mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i)){// es video
 									
 									var extToMimes = {
 												       'mp4':'video/mp4',

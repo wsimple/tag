@@ -108,6 +108,7 @@ class VideoConvertion extends VideoCaptures
 			$data->captures=array();
 			// $img=new ImgResize(array('max_width'=>650));
 			while($i<$num_captures){
+				$start=($i==0?0:$start);
 				$capture=$captures[$i];
 				$capture="$this->path/$capture";
 				$time='00:00:'.str_pad($i*$t+$start,2,'0',STR_PAD_LEFT);

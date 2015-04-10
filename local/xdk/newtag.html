@@ -8,7 +8,6 @@
 <title>Tagbum Mobile</title>
 <link rel="icon" href="css/smt/favicon.ico" type="image/png"/>
 <script src="cordova.js"></script>
-<script src="http://debug-software.intel.com/target/target-script-min.js#O9UiwnKvyTMFbhsyCRAq1lMURMrpfK2o-YGTLKmfwTY"></script>    
 <link rel="stylesheet" href="css/jquery.mobile.custom.css"/>
 <link rel="stylesheet" href="css/jquery.mobile-1.3.2.css"/>
 <link rel="stylesheet" href="css/jquery.Jcrop.css"/>
@@ -513,15 +512,15 @@ correctOrientation:true
 onPhotoSuccess=function(data){
 
 $('#shootType').hide();
-if(!data.match(/(\.|\/)(mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i)){ //es foto
-if(!data.match(/^https?:\/\//i)){//no url = base64
+
+if(!data.match(/^https?:\/\//i)&&!data.match(/^file?:\/\//i)){//no url = base64
 data='data:image/jpg;base64,'+data;
 $bgCheck[0].dataset.img64=data;
 img64=data;
 $bgCheck.attr('src',data);
 }
 
-}else{// es video
+if(data.match(/(\.|\/)(mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i)){// es video
 
 var extToMimes = {
 'mp4':'video/mp4',
