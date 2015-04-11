@@ -32,9 +32,7 @@
 					<p id="tagBum_info_msg"></p>
 					<p id="app_download_msg"></p>
 					<div class="googlePlay"></div>
-					<!-- <a href="https://play.google.com/store/apps/details?id=com.tagbum.tagbum"></a> -->
 					<div class="appStore"></div>
-					<!-- <a href="https://itunes.apple.com/us/app/tagbum/id938965981?mt=8"></a> -->
 				</div>
 			</div></div></div>
 			<div id="noconection" style="display:none;"><div class="_tt"><div class="_tc">
@@ -85,7 +83,7 @@
 					$('div#buttons').show();
 					if(CORDOVA)	$('.store-info').hide();
 					else{
-						if(is['iOS']){ $('.googlePlay').hide(); $('#app_download_msg').hide(); $('.appStore').hide();}
+						if(is['iOS']) $('.googlePlay').hide(); 
 						if(is['android']) $('.appStore').hide();
 					}
 					$('#btn-facebook').hide();
@@ -202,18 +200,10 @@
 <?php } ?>
 		$('.googlePlay').click(function(event) {
 			redir('https://play.google.com/store/apps/details?id=com.tagbum.tagbum');
-			// myDialog({//Information lang.INVITE_GROUP_TRUE
-			// 	id:'#singleDialog',
-			// 	content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
-			// });
 		});
 
 		$('.appStore').click(function(event) {
 			redir('https://itunes.apple.com/us/app/tagbum/id938965981?mt=8');
-			// myDialog({//Information lang.INVITE_GROUP_TRUE
-			// 	id:'#singleDialog',
-			// 	content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
-			// });
 		});
 	</script>
 </div>
