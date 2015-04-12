@@ -408,6 +408,8 @@
 												style:{'padding-right':5,height:450},
 												scroll:true,
 												after:function(){
+
+													$('.ui-loader').hide();
 													$('#backgroundsVideoDialog div[data-template]').click(function(){
 														$bgCheck[0].dataset.template=this.dataset.template;
 														$bgCheck[0].dataset.url=this.dataset.url;
@@ -441,6 +443,7 @@
 								options.mimeType = dataUpload.type;
 								options.params = params;
 								$('#shootType').hide();
+								$('.ui-loader').show();
 								contentLoading='<div><h4>'+lan('Video upload')+'</h4><p>'+
 											   lan('Your video is uploading, this can take few minutes...')+'</br></p></div>'+
 											   '<div>&nbsp;</div>';
@@ -474,7 +477,7 @@
 								
 								$('#shootType').hide();
 								
-								if(!data.match(/^https?:\/\//i)&&!data.match(/^file?:\/\//i)){//no url = base64
+								if(!data.match(/^https?:\/\//i)){//no url = base64
 									data='data:image/jpg;base64,'+data;
 									$bgCheck[0].dataset.img64=data;
 									img64=data;
@@ -517,7 +520,7 @@
 								switch(type){
 
 									case 'lib':
-										photoData.mediaType=cam.MediaType.ALLMEDIA;
+										photoData.mediaType=cam.MediaType.PICTURE;
 										photoData.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
 									break;
 
