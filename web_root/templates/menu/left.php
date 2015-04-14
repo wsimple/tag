@@ -45,7 +45,7 @@
 					<div class="clearfix"></div>
 				</li>
 				<li id="menu-l-li-wishList" ><a href="<?=base_url('wishList')?>"><?=STORE_WISH_LIST?></a></li>
-				<li><a href="<?=base_url('freeproducts')?>"><?=PRODUCTS_RAFFLE?></a></li>
+				<li><a href="<?=$_SESSION['ws-tags']['ws-user']['type']=='1'?base_url('myfreeproducts'):base_url('freeproducts')?>"><?=PRODUCTS_RAFFLE?></a></li>
 				<li class="menu-l-youOrders"><a href="<?=base_url('orders')?>"><?=STORE_YOURORDES?></a></li>
 				<?php if ($_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0){ ?>
 				<li class="menu-l-youSales" style="display: none;"><a href="<?=base_url('sales')?>"><?=STORE_SALES?></a></li>
