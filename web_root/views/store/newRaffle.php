@@ -14,6 +14,7 @@
 				(select concat(z.name, " ", z.last_name) from users z where z.id=r.winner) AS winner,
 				r.winner AS id_winner,
 				r.id AS id_raffle,
+				r.no_stock AS no_stock,
 				r.end_date AS end_date';
 		$where=' AND md5(r.id)="'.$_GET['idRaffle'].'"';
 		$join=' INNER JOIN store_raffle r ON r.id_product=p.id';
@@ -52,6 +53,12 @@
 					<label><strong><?=STORE_CATEGORIES2?>:</strong><span><?=' '.lan($product['name_category'])?></span></label><br>
 					<label><strong><?=STORE_CATEGORIES3?>:</strong><span><?=' '.lan($product['name_subCategory'])?></span></label><br>
 					<a action="detailProd,<?=$_GET['idProd']?>,dialog"><?=TIMELINE_TITLETAGSPONSOR?></a>
+					<?php if ($product['no_stock']=='1'){ ?>
+						<br><br>
+						<div style="font-size: 12px">
+							<strong style="color:#D90000"><?=STORERAFFLE_TITLENOTE?></strong>&nbsp;<?=STORERAFFLE_MSGNOTE?> 
+						</div>
+					<?php } ?>
 				</div>
 				<div class="detail-box raffle">
 					<div>
@@ -71,9 +78,17 @@
 					<?php } ?>
 					<div>
 						<label ><strong><?=$products_user_cant?></strong></label><br />
-						<?php if($_GET['idRaffle']){ ?>
-						<input type="button" id="usersRaffles" action="usersRaffles,<?=$product['id_raffle']?>" style="color: white;" value="<?=$product['cant_users']?>" />
-						<?php }else{ ?>
+						<?php 
+							if($_GET['idRaffle']){
+								if ($product['cant_users']>0){
+						?>
+									<input type="button" id="usersRaffles" action="usersRaffles,<?=$product['id_raffle']?>" style="color: white;" value="<?=$product['cant_users']?>" />
+						<?php 
+								}else{
+									echo '<small style="font-size:10px;color:#D90000"><em>'.STORERAFFLE_MSGNOUSERSYET.'</em></small>';
+								}
+							}else{ 
+						?>
 						<input name="txtCant" type="text" id="txtCant" size="5" class="txt_box" value="" requerido="<?=PRODUCTS_USER_CANT?>"/>
 						<?php } ?>
 					</div>

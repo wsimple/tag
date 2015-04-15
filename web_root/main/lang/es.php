@@ -77,6 +77,9 @@ $lang=array(
 	'STORERAFFLE_TITLEPLUSPOINTSREQUIERED'=>' ',
 	'STORERAFFLE_TITLEPLUSPOINTSREQUIERED2'=>'Requeridos para participar en la rifa',
 	'STORE_LABELWINNER'=>'Ganador',
-	'STORE_LABELTITLERAFFLEJOIN'=>'Participantes'
+	'STORE_LABELTITLERAFFLEJOIN'=>'Participantes',
+	'STORERAFFLE_TITLENOTE'=>'Nota:',
+	'STORERAFFLE_MSGNOTE'=>'El producto no tenia existencia al momento de ganarse la rifa.',
+	'STORERAFFLE_MSGNOUSERSYET'=>'Hasta el momento no hay participantes'
 );
 return $lang;

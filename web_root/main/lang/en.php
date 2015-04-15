@@ -37,6 +37,9 @@ $lang=array(
 	'STORERAFFLE_TITLEPLUSPOINTSREQUIERED'=>'Required',
 	'STORERAFFLE_TITLEPLUSPOINTSREQUIERED2'=>'To participate in this raffle',
 	'STORE_LABELWINNER'=>'Winner',
-	'STORE_LABELTITLERAFFLEJOIN'=>'Raffle Participants'
+	'STORE_LABELTITLERAFFLEJOIN'=>'Raffle Participants',
+	'STORERAFFLE_TITLENOTE'=>'Note:',
+	'STORERAFFLE_MSGNOTE'=>'By the time when the user won this raffle, the product did not have stock.',
+	'STORERAFFLE_MSGNOUSERSYET'=>'there is no users so far'
 );
 return $lang;

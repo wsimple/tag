@@ -174,7 +174,8 @@ switch ($_GET['acc']) {
 											r.cant_users, 
 											r.points,
 											r.id,
-                                            r.id_user
+                                            r.id_user,
+                                            r.id_product AS id_product
 										FROM store_raffle r
 										LEFT JOIN store_raffle_join rj ON rj.id_raffle = r.id
 										WHERE  md5(r.id)=?;",array($_GET['rfl']));
@@ -193,7 +194,24 @@ switch ($_GET['acc']) {
 								CON::update("users","accumulated_points=accumulated_points-?,current_points=current_points-?","id=?",array($Raffle['points'],$Raffle['points'],$myId));
 								//aumentar los puntos del usuario dueño de la rifa
 								CON::update("users","accumulated_points=accumulated_points+?,current_points=current_points+?","id=?",array($Raffle['points'],$Raffle['points'],$Raffle['id_user']));
-								$res['action']='join';
+								
+                                //decrementar la existencia del producto    
+                                $rProduct = CON::getRow("
+                                    SELECT 
+                                        a.id AS id,
+                                        a.stock AS stock
+                                    FROM store_products a
+                                    WHERE a.id=? 
+                                ", array($Raffle['id_product']));
+
+                                if ($rProduct['stock']>0){
+                                    CON::update("store_products","stock=stock-1","id=?",array($Raffle['id_product']));
+                                }else{
+                                    CON::update("store_raffle","no_stock=1","id=?",array($Raffle['id']));
+                                }    
+
+                                ////
+                                $res['action']='join';
 								if(($Raffle['cant_join']+1)==$Raffle['cant_users']){
 									$res['action'] = 'end';
 									$array=CON::getAssoc("	SELECT r.id_user AS id, u.email 
