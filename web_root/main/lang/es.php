@@ -73,5 +73,10 @@ $lang=array(
 	'relationship' => 'relación',
 	'disassociate' => 'desasociar',
 	'TAG_ZOOM_NOTE' => 'Ahora colocando el ratón sobre el fondo podrá moverlo y hacerle zoom con la rueda del ratón.',
+	#raffle
+	'STORERAFFLE_TITLEPLUSPOINTSREQUIERED'=>' ',
+	'STORERAFFLE_TITLEPLUSPOINTSREQUIERED2'=>'Requeridos para participar en la rifa',
+	'STORE_LABELWINNER'=>'Ganador',
+	'STORE_LABELTITLERAFFLEJOIN'=>'Participantes'
 );
 return $lang;

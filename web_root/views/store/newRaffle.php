@@ -11,6 +11,9 @@
 		$select=',r.cant_users AS cant_users,
 				r.points AS points,
 				r.start_date AS start_date,
+				(select concat(z.name, " ", z.last_name) from users z where z.id=r.winner) AS winner,
+				r.winner AS id_winner,
+				r.id AS id_raffle,
 				r.end_date AS end_date';
 		$where=' AND md5(r.id)="'.$_GET['idRaffle'].'"';
 		$join=' INNER JOIN store_raffle r ON r.id_product=p.id';
@@ -52,17 +55,24 @@
 				</div>
 				<div class="detail-box raffle">
 					<div>
-						<label ><strong><?=$products_price?></strong></label><br />
+						<label ><strong><?=STORERAFFLE_TITLEPLUSPOINTSREQUIERED.' '.$products_price.' '.STORERAFFLE_TITLEPLUSPOINTSREQUIERED2?></strong></label><br />
 						<?php if($_GET['idRaffle']){ ?>
 						<label id="lblCost"><?=$product['points']?></label>
+						<div class="clearfix">
 						<?php }else{ ?>
 						<input name="txtPrice" type="text" id="txtPrice" size="5" class="txt_box" value="" requerido="<?=PRODUCTS_PRICE?>"/>
 						<?php } ?>
 					</div>
+					<?php if($_GET['idRaffle']){ ?>
+					<div>
+						<label><strong><?=STORE_LABELWINNER?></strong></label><br />
+						<label><a href="user/<?=md5($product['id_winner'])?>"><?=$product['winner']?></a></label>
+					</div>
+					<?php } ?>
 					<div>
 						<label ><strong><?=$products_user_cant?></strong></label><br />
 						<?php if($_GET['idRaffle']){ ?>
-						<label><?=$product['cant_users']?></label>
+						<input type="button" id="usersRaffles" action="usersRaffles,<?=$product['id_raffle']?>" style="color: white;" value="<?=$product['cant_users']?>" />
 						<?php }else{ ?>
 						<input name="txtCant" type="text" id="txtCant" size="5" class="txt_box" value="" requerido="<?=PRODUCTS_USER_CANT?>"/>
 						<?php } ?>

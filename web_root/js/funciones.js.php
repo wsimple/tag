@@ -181,6 +181,9 @@ function pageAction(action,data){
 			var $dialogs=$('.ui-dialog');
 			if($dialogs.length>0) $dialogs.find('.ui-dialog-content').dialog('close');
 		break;
+		case 'usersRaffles':
+			message('dialogRiffleJoin','<?=js_string($lang["STORE_LABELTITLERAFFLEJOIN"])?>','','',500,500,DOMINIO+'controls/store/raffleJoin.json.php?raffle='+opc[0],'');
+		break;
 		default:console.log(action);
 	}
 }

@@ -33,5 +33,10 @@ $lang=array(
 	'CLOSED_RELATIONSHIP' => 'closed relationship',
 	'NOTE_DATES' => 'You can select one or more of these options',
 	'TAG_ZOOM_NOTE' => 'Now placing the mouse over the background you can move it or make zoom on it with the mousewheel.',
+	#raffle
+	'STORERAFFLE_TITLEPLUSPOINTSREQUIERED'=>'Required',
+	'STORERAFFLE_TITLEPLUSPOINTSREQUIERED2'=>'To participate in this raffle',
+	'STORE_LABELWINNER'=>'Winner',
+	'STORE_LABELTITLERAFFLEJOIN'=>'Raffle Participants'
 );
 return $lang;
