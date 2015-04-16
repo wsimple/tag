@@ -48,6 +48,11 @@ class APP
 				self::redir($config->app_server."tag.html?id=$tid");
 			case 'setting':
 				self::redir($config->app_server."setting.html");
+			case 'resetPassword':
+				$usr='';
+				if(preg_match('/^[0-9a-f]{32}$/i',$_GET['usr']))
+					$usr=$_GET['tag'];
+				self::redir($config->app_server."resendPass.html?usr=$usr");
 			case 'home': default:
 				self::redir($config->app_server);
 		}
