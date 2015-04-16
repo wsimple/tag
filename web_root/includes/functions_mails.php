@@ -8,192 +8,203 @@
 * @param int $width width body (ancho del cuerpo)
 * @return string
 */
-function formatMail ($body,$width=800){ 
-	return '<table width="'.$width.'" align="center" cellpadding="0" cellspacing="0" style="font-family:\'Lucida Grande\',Tahoma,Verdana,Arial,Sans-Serif;">
-			<tr>
-				<td style="text-align:right;font-size:10px;padding-bottom:5px;">
-					<a href="'.$GLOBALS['config']->main_server.'" style="padding-left:5px;text-decoration:none;color:#2d2d2d;" target="_blank">'.EMAILCONTACTNUMBER.''.EMAILCONTACTLETTER.'</a>
-					<span style="padding-left:5px;">|</span>
-					<a href="'.$GLOBALS['config']->main_server.'signup" style="padding-left:5px;text-decoration:none;color:#2d2d2d;" target="_blank">'.EMAIL_APP.'<br>
+function formatMail ($body,$width=800){
+	global $config;
+	ob_start();
+?>
+<table width="<?=$width?>" align="center" cellpadding="0" cellspacing="0" style="font-family:'Lucida Grande',Tahoma,Verdana,Arial,Sans-Serif;">
+	<tr>
+		<td style="text-align:right;font-size:10px;padding-bottom:5px;">
+			<a href="<?=$config->main_server?>" style="padding-left:5px;text-decoration:none;color:#2d2d2d;" target="_blank"><?=EMAILCONTACTNUMBER.EMAILCONTACTLETTER?></a>
+			<span style="padding-left:5px;">|</span>
+			<a href="<?=$config->main_server?>signup" style="padding-left:5px;text-decoration:none;color:#2d2d2d;" target="_blank"><?=EMAIL_APP?><br>
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<table background="<?=$config->main_server?>css/smt/email/body_bgn2.png" cellpadding="0" cellspacing="0" style="width:100%;border:2px #ccc solid;border-radius:5px;">
+				<tr>
+					<td></td>
+					<td background="<?=$config->main_server?>css/tbum/email/bg_logo.png" id="head-logo" style="text-align:right;padding-top:15px;padding-right:15px;">
+						<table style="width: 100%;"><tr>
+							<td align="left"><a href="<?=$config->main_server?>" target="blank"><img src="<?=$config->main_server?>css/tbum/email/tagbumlogo_1.png" style="border:none; margin: 40px;height:100px;width:85px;" alt="tagbum.com"></a></td>
+							<td align="right"><a href="<?=$config->main_server?>" target="blank"><img src="<?=$config->main_server?>css/tbum/email/tagbumlogo_2.png" style="border:none;margin:40px;height:100px;width:180px" alt="tagbum.com"></a></td>
+						</tr></table>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td style="width:100%;height:25px;text-align:center;">
+						<img src="<?=$config->main_server?>css/smt/horizontal_separator.png">
+					</td>
+				</tr>
+				<tr><td></td>
+					<td id="publicity" style="text-align:center;font-size:11px;padding:5px;color:#999999;">
+						<?=$body?>
+					</td>
+				</tr>
+				<tr><td></td><td style="width:100%;border-top:1px #f4f4f4 solid;"></td></tr>
+				<tr>
+					<td></td><td style="width:100%;border:1px #f4f4f4 solid;text-align:center;height:40px;"><?=ucfirst(USERS_DNOTRECEIVEEMAILS)?> <a href="<?=$config->main_server.'setting?sc=1'?>" target="_blank" style="color:#ff8a28;"><?=SIGNUP_H5TITLE1?></a></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<center>
+							<table cellspacing="0" cellpadding="0" style=" width:390px;">
+								<tr>
+									<td>
+										<table style="text-align:center;">
+											<tr>
+												<td>
+													<center><table>
+														<tr>
+															<td background="<?=$config->main_server?>css/smt/email/yellowbutton_for_points.png" style="background-repeat:no-repeat;color:#ff8a28;font-size:11px;height:50px;">
+																<a href="<?=$config->main_server?>" style="padding:38px 27px 10px 24px;">
+																	<img src="<?=$config->main_server?>css/smt/email/green1000points.png">
+																</a>
+															</td>
+														</tr>
+													</table></center>
+												</td>
+											</tr>
+											<tr>
+												<td style="width:190px;color:#ff8a28;font-size:11px;">
+													<h2 style="-webkit-margin-before:0.23em;-webkit-margin-after:0.23em;">
+														<span style="color:#b7b900;">$</span>
+														<span style="color:#ff8a28;"><?=EMAIL_REDEEMPOINTS?></span>
+														<span style="color:#b7b900;">$</span>
+													</h2>
+													<span style="color:#000"><?=EMAIL_POINTSCollect?></span>
+													<?=EMAIL_POINTS?>
+												</td>
+											</tr>
+										</table>
+									</td>
+									<td >
+										<table background="<?=$config->main_server?>css/smt/email/gray_dotter_line.png" style="background-repeat:no-repeat;padding:12px 33px 31px 49px;">
+											<tr>
+												<td background="<?=$config->main_server?>css/smt/email/yellowbutton_get_started.png" style="background-repeat:no-repeat;width:90px;padding:10px;">
+													<a href="<?=$config->main_server?>" style="color:#2d2d2d;font-size:12px;text-decoration:none;padding:8px 26px 8px 10px;">
+														<strong ><?=EMAIL_INI?></strong>
+													</a>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</center>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td style="text-align:center;">
+						<img src="<?=$config->main_server?>css/smt/email/background_buildings.png" style="text-align:center;">
+					</td>
+				</tr>
+				<tr style="border-buttom:1px #ccc solid;border-radius:2px;">
+					<td></td>
+					<td style="text-align:center;font-size:11px;">
+						<center>
+							<table cellpadding="0" cellspacing="25" class="font-b" style="color:rgb(255,138,40);font-size:11px;">
+								<tr>
+									<td style="text-align:center;">
+										<a href="<?=$config->main_server?>" target="_blank">
+											<img src="<?=$config->main_server?>css/smt/email/creat_tag_icon.png" style=" padding:11px 23px 7px 23px;border:2px #ccc solid;border-radius:5px;"><br>
+										</a>
+										<strong><?=EMAILCREATETAGS?></strong>
+									</td>
+									<td style="text-align:center;">
+										<a href="<?=$config->main_server?>" target="_blank">
+											<img src="<?=$config->main_server?>css/smt/email/share_tag_icon.png" style="padding:11px 23px 7px 23px;border:2px #ccc solid;border-radius:5px;"><br>
+										</a>
+										<strong><?=EMAILSTAGS?></strong>
+									</td>
+									<td style="text-align:center;">
+										<a href="<?=$config->main_server?>" target="_blank">
+											<img src="<?=$config->main_server?>css/smt/email/redistribute_tags_icon.png" style="padding:12px 16px 11px 15px;border:2px #ccc solid;border-radius:5px;"><br>
+										</a>
+										<strong><?=EMAILRTAGS?></strong>
+									</td>
+									<td style="text-align:center;">
+										<a href="<?=$config->main_server?>" target="_blank">
+											<img src="<?=$config->main_server?>css/smt/email/sponsor_tags_icon.png" style="padding:11px 27px 7px 27px;border:2px #ccc solid;border-radius:5px;"><br>
+										</a>
+										<strong><?=EMAILSPTAGS?></strong>
+									</td>
+								</tr>
+							</table>
+						</center>
+					</td>
+				</tr>
+				<tr><td></td><td style="border-bottom:1px #ccc solid;"></td></tr>
+				<tr>
+					<td></td>
+					<td style="font-size:12px;text-align:center;padding:10px;">
+							<?=EMAIL_OPTIONTAGS?> <span style="color:rgb(255,138,40)"><?=EMAIL_OPTIONTag?></span>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td style="padding-top:5px;">
+			<table style="width:100%;">
+				<td id="email-socialMedia">
+					<a href="https://www.facebook.com/pages/Tagbum/182709268463153?ref=ts&fref=ts" target="_blank"><img src="<?=$config->main_server?>css/smt/email/facebook.png" style="text-align:left;border:none;"></a>
+					<a href="https://twitter.com/tag_bum" target="_blank"><img src="<?=$config->main_server?>css/smt/email/twitter.png" style="text-align:left;border:none;"></a>
+					<a href="http://www.linkedin.com/in/tagbum/" target="_blank"><img src="<?=$config->main_server?>css/smt/email/likedIn.png" style="text-align:left;border:none;"></a>
+					<a href="https://plus.google.com/u/0/105016519974283790958" target="_blank"><img src="<?=$config->main_server?>css/smt/email/google.png" style="text-align:left;border:none;"></a>
 				</td>
-			</tr>
-			<tr>
-				<td align="center">
-					<table background="'.$GLOBALS['config']->main_server.'css/smt/email/body_bgn2.png" cellpadding="0" cellspacing="0" style="width:100%;border:2px #ccc solid;border-radius:5px;">
-						<tr>
-							<td></td>
-							<td background="'.$GLOBALS['config']->main_server.'css/tbum/email/bg_logo.png" id="head-logo" style="text-align:right;padding-top:15px;padding-right:15px;">
-								<table style="width: 100%;"><tr>
-									<td align="left"><a href="'.$GLOBALS['config']->main_server.'" target="blank"><img src="'.$GLOBALS['config']->main_server.'css/tbum/email/tagbumlogo_1.png" style="border:none; margin: 40px;height:100px;width:85px;" alt="tagbum.com"></a></td>
-									<td align="right"><a href="'.$GLOBALS['config']->main_server.'" target="blank"><img src="'.$GLOBALS['config']->main_server.'css/tbum/email/tagbumlogo_2.png" style="border:none;margin:40px;height:100px;width:180px" alt="tagbum.com"></a></td>
-								</tr></table>
-							</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td style="width:100%;height:25px;text-align:center;">
-								<img src="'.$GLOBALS['config']->main_server.'css/smt/horizontal_separator.png">
-							</td>
-						</tr>
-						<tr><td></td>
-							<td id="publicity" style="text-align:center;font-size:11px;padding:5px;color:#999999;">
-								'.$body.'
-							</td>
-						</tr>
-						<tr><td></td><td style="width:100%;border-top:1px #f4f4f4 solid;"></td></tr>
-						<tr>
-							<td></td><td style="width:100%;border:1px #f4f4f4 solid;text-align: center;height: 40px;">'.ucfirst(USERS_DNOTRECEIVEEMAILS).' <a href="'.$GLOBALS['config']->main_server.base_url('setting?sc=1').'" target="_blank" style="color:#ff8a28;">'.SIGNUP_H5TITLE1.'</a></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<center>
-									<table cellspacing="0" cellpadding="0" style=" width:390px;">
-										<tr>
-											<td>
-												<table style="text-align:center;">
-													<tr>
-														<td>
-															<center><table>
-																<tr>
-																	<td background="'.$GLOBALS['config']->main_server.'css/smt/email/yellowbutton_for_points.png" style="background-repeat:no-repeat;color:#ff8a28;font-size:11px;height:50px;">
-																		<a href="'.$GLOBALS['config']->main_server.'" style="padding:38px 27px 10px 24px;">
-																			<img src="'.$GLOBALS['config']->main_server.'css/smt/email/green1000points.png">
-																		</a>
-																	</td>
-																</tr>
-															</table></center>
-														</td>
-													</tr>
-													<tr>
-														<td style="width:190px;color:#ff8a28;font-size:11px;">
-															<h2 style="-webkit-margin-before:0.23em;-webkit-margin-after:0.23em;">
-																<span style="color:#b7b900;">$</span>
-																<span style="color:#ff8a28;">'.EMAIL_REDEEMPOINTS.'</span>
-																<span style="color:#b7b900;">$</span>
-															</h2>
-															<span style="color:#000">'.EMAIL_POINTSCollect.'</span>
-															'.EMAIL_POINTS.'
-														</td>
-													</tr>
-												</table>
-											</td>
-											<td >
-												<table background="'.$GLOBALS['config']->main_server.'css/smt/email/gray_dotter_line.png" style="background-repeat:no-repeat;padding:12px 33px 31px 49px;">
-													<tr>
-														<td background="'.$GLOBALS['config']->main_server.'css/smt/email/yellowbutton_get_started.png" style="background-repeat:no-repeat;width:90px;padding:10px;">
-															<a href="'.$GLOBALS['config']->main_server.'" style="color:#2d2d2d;font-size:12px;text-decoration:none;padding:8px 26px 8px 10px;">
-																<strong >'.EMAIL_INI.'</strong>
-															</a>
-														</td>
-													</tr>
-												</table>
-											</td>
-										</tr>
-									</table>
-								</center>
-							</td>
-						</tr>
-						<tr>
-							<td>
-							</td>
-							<td style="text-align:center;">
-								<img src="'.$GLOBALS['config']->main_server.'css/smt/email/background_buildings.png" style="text-align:center;">
-							</td>
-						</tr>
-						<tr style="border-buttom:1px #ccc solid;border-radius:2px;">
-							<td></td>
-							<td style="text-align:center;font-size:11px;">
-								<center>
-									<table cellpadding="0" cellspacing="25" class="font-b" style="color:rgb(255,138,40);font-size:11px;">
-										<tr>
-											<td style="text-align:center;">
-												<a href="'.$GLOBALS['config']->main_server.'signup" target="_blank">
-													<img src="'.$GLOBALS['config']->main_server.'css/smt/email/creat_tag_icon.png" style=" padding:11px 23px 7px 23px;border:2px #ccc solid;border-radius:5px;"><br>
-												</a>
-												<strong>'.EMAILCREATETAGS.'</strong>
-											</td>
-											<td style="text-align:center;">
-												<a href="'.$GLOBALS['config']->main_server.'signup" target="_blank">
-													<img src="'.$GLOBALS['config']->main_server.'css/smt/email/share_tag_icon.png" style="padding:11px 23px 7px 23px;border:2px #ccc solid;border-radius:5px;"><br>
-												</a>
-												<strong>'.EMAILSTAGS.'</strong>
-											</td>
-											<td style="text-align:center;">
-												<a href="'.$GLOBALS['config']->main_server.'signup" target="_blank">
-													<img src="'.$GLOBALS['config']->main_server.'css/smt/email/redistribute_tags_icon.png" style="padding:12px 16px 11px 15px;border:2px #ccc solid;border-radius:5px;"><br>
-												</a>
-												<strong>'.EMAILRTAGS.'</strong>
-											</td>
-											<td style="text-align:center;">
-												<a href="'.$GLOBALS['config']->main_server.'signup" target="_blank">
-													<img src="'.$GLOBALS['config']->main_server.'css/smt/email/sponsor_tags_icon.png" style="padding:11px 27px 7px 27px;border:2px #ccc solid;border-radius:5px;"><br>
-												</a>
-												<strong>'.EMAILSPTAGS.'</strong>
-											</td>
-										</tr>
-									</table>
-								</center>
-							</td>
-						</tr>
-						<tr><td></td><td style="border-bottom:1px #ccc solid;"></td></tr>
-						<tr>
-							<td></td>
-							<td style="font-size:12px;text-align:center;padding:10px;">
-									'.EMAIL_OPTIONTAGS.' <span style="color:rgb(255,138,40)">'.EMAIL_OPTIONTag.'</span>
-							</td>
-						</tr>
-					</table>
+				<td id="email-pie_terms" style="font-size:10px;text-align:right;">
+					<a href="<?=$config->main_server?>terms" style="padding-right:5px;text-decoration:none;color:#2d2d2d;" target="_blank"><?=EMAIL_TERMS?></a>
 				</td>
-			</tr>
-			<tr>
-				<td style="padding-top:5px;">
-					<table style="width:100%;">
-						<td id="email-socialMedia">
-							<a href="https://www.facebook.com/pages/Tagbum/182709268463153?ref=ts&fref=ts" target="_blank"><img src="'.$GLOBALS['config']->main_server.'css/smt/email/facebook.png" style="text-align:left;border:none;"></a>
-							<a href="https://twitter.com/tag_bum" target="_blank"><img src="'.$GLOBALS['config']->main_server.'css/smt/email/twitter.png" style="text-align:left;border:none;"></a>
-							<a href="http://www.linkedin.com/in/tagbum/" target="_blank"><img src="'.$GLOBALS['config']->main_server.'css/smt/email/likedIn.png" style="text-align:left;border:none;"></a>
-							<a href="https://plus.google.com/u/0/105016519974283790958" target="_blank"><img src="'.$GLOBALS['config']->main_server.'css/smt/email/google.png" style="text-align:left;border:none;"></a>
-						</td>
-						<td id="email-pie_terms" style="font-size:10px;text-align:right;">
-							<a href="'.$GLOBALS['config']->main_server.'terms" style="padding-right:5px;text-decoration:none;color:#2d2d2d;" target="_blank">'.EMAIL_TERMS.'</a>
-						</td>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td style="width:100%;font-size:11px;color:#cccccc"><center>'.EMAIL_ENDNOTE.'</center></td>
-			</tr>
-	</table>';
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td style="width:100%;font-size:11px;color:#cccccc"><center><?=EMAIL_ENDNOTE?></center></td>
+	</tr>
+</table>
+<?php
+	$contenido = ob_get_contents();
+	ob_end_clean();
+	return $contenido;
 }
 
 function showInfoUser($id=''){
+	global $config;
 	if ($id!=''){
-		$array = CON::getRow("SELECT u.id,
-			                    CONCAT(u.name,' ', u.last_name) AS full_name,
-			                    md5(concat(u.id,'_',u.email,'_',u.id)) AS code,
-			                    u.profile_image_url AS photo,
-			                    u.username AS username,
-			                    (SELECT a.name FROM countries a WHERE a.id=u.country) AS pais,
-			                    u.followers_count,
-			                    u.friends_count
-	            			FROM users u
-	            			WHERE u.id =?",array($id));		
+		$array = CON::getRow("SELECT
+				u.id,
+				CONCAT(u.name,' ', u.last_name) AS full_name,
+				md5(concat(u.id,'_',u.email,'_',u.id)) AS code,
+				u.profile_image_url AS photo,
+				u.username AS username,
+				(SELECT a.name FROM countries a WHERE a.id=u.country) AS pais,
+				u.followers_count,
+				u.friends_count
+			FROM users u
+			WHERE u.id=?",array($id));
 	}else{
-		if (!isset($_SESSION['ws-tags']['ws-user']['pais']))
-			$_SESSION['ws-tags']['ws-user']['pais']=CON::getVal("SELECT a.name AS pais
-																FROM users u 
-																INNER JOIN countries a ON a.id=u.country
-																WHERE u.id =? LIMIT 1",array($_SESSION['ws-tags']['ws-user']['id']));
+		if(!isset($_SESSION['ws-tags']['ws-user']['pais']))
+			$_SESSION['ws-tags']['ws-user']['pais']=CON::getVal("SELECT
+					a.name AS pais
+				FROM users u
+				INNER JOIN countries a ON a.id=u.country
+				WHERE u.id =? LIMIT 1
+			",array($_SESSION['ws-tags']['ws-user']['id']));
 		$array=$_SESSION['ws-tags']['ws-user'];
 	}
 	$foto_remitente=FILESERVER.getUserPicture("img/users/".$array['code']."/".$array['photo'],'img/users/default.png');
-    if (trim($array['username'])!='') 
-    	$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.':&nbsp;<a href="'.$GLOBALS['config']->main_server.$array['username'].'"  target="_blank">'.$GLOBALS['config']->main_server.formatoCadena($array['username']).'</a>';
-    else $external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.':&nbsp;<a href="'.$GLOBALS['config']->main_server.'user/'.md5($array['id']).'" target="_blank">'.$GLOBALS['config']->main_server.'user/'.md5($array['id']).'</a>';
-    
-    if (trim($array['pais'])!='') $pais=USERS_BROWSERFRIENDSLABELCOUNTRY.':&nbsp;<span>'.$array['pais'].'</span>';
-    else $pais='';
+	if(trim($array['username'])!='')
+		$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.':&nbsp;<a href="'.$config->main_server.$array['username'].'" target="_blank">'.$config->main_server.formatoCadena($array['username']).'</a>';
+	else $external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.':&nbsp;<a href="'.$config->main_server.'user/'.md5($array['id']).'" target="_blank">'.$config->main_server.'user/'.md5($array['id']).'</a>';
+
+	if(trim($array['pais'])!='') $pais=USERS_BROWSERFRIENDSLABELCOUNTRY.':&nbsp;<span>'.$array['pais'].'</span>';
+	else $pais='';
 	return ('<tr><td><table style="width:100%;">
 				<tr>
 					<td width="68" style="padding-left:5px;padding-bottom:20px;font-size:14px;text-align:left">
@@ -230,6 +241,7 @@ function showPublicityMail($data=false){
 			</tr>');
 }
 function formatShowTagMail($tagId,$iconoTipo,$msj_sent,$msj_link,$msj=''){
+	global $config;
 	$tag=CON::getRow("SELECT
 			md5(CONCAT(u.id,'_',u.email,'_',u.id)) AS code,
 			t.id							AS idTag,
@@ -238,8 +250,8 @@ function formatShowTagMail($tagId,$iconoTipo,$msj_sent,$msj_link,$msj=''){
 		FROM tags t JOIN users u ON t.id_creator=u.id
 		WHERE t.id=?",array($tagId));
 	//imagenes del email
-	// $iconoSpon		=$GLOBALS['config']->main_server.'/img/menu_users/publicidad.png';
-	$linkTag		=$GLOBALS['config']->main_server.'tag?id='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($tag['email']);
+	// $iconoSpon		=$config->main_server.'/img/menu_users/publicidad.png';
+	$linkTag		=$config->main_server.'tag?id='.$tag['idTag'].'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($tag['email']);
 	$imgTag			=tagURL($tag['idTag']);
 	$videoTag		=($tag['video_url']!=' ')?$tag['video_url']:' ';
 	if ($msj!=""){
@@ -257,7 +269,7 @@ function formatShowTagMail($tagId,$iconoTipo,$msj_sent,$msj_link,$msj=''){
 							<td style="text-align:left;width:450px;">
 								<strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).'</strong>&nbsp;'.formatoCadena($msj_sent).' '.$msj_link.'
 							</td>
-							<td background="'.$GLOBALS['config']->main_server.'css/smt/email/yellowbutton_get_started2.png" style="width: 150px; height: 40px;  display: inline-block; background-repeat: no-repeat;padding-top: 10px;">
+							<td background="'.$config->main_server.'css/smt/email/yellowbutton_get_started2.png" style="width: 150px; height: 40px;  display: inline-block; background-repeat: no-repeat;padding-top: 10px;">
 								<a style="font-weight:bold;color:#2d2d2d;font-size:12px;text-decoration:none;margin-left: 40px;" href="'.$linkTag.'">'.MENUTAG_CTRSHAREMAILTITLE2.'</a>
 							</td>
 						</tr>
@@ -295,7 +307,7 @@ function formatShowFriendsMail($type){
 		$nameExternal="<a style='color:#999999; text-decoration: none' href='".DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id'])."' onFocus='this.blur();' target='_blank'>".formatoCadena($_SESSION['ws-tags']['ws-user']['full_name'])." (".$_SESSION['ws-tags']['ws-user']['screen_name'].")</a>";
 		$ip = DOMINIO.'user/'.md5($_SESSION['ws-tags']['ws-user']['id']);
 	}
-	$imgPhoto=($GLOBALS['config']->local?DOMINIO:FILESERVER).getUserPicture("img/users/".$_SESSION['ws-tags']['ws-user']['code']."/".$_SESSION['ws-tags']['ws-user']['photo'],'img/users/default.png');
+	$imgPhoto=($config->local?DOMINIO:FILESERVER).getUserPicture("img/users/".$_SESSION['ws-tags']['ws-user']['code']."/".$_SESSION['ws-tags']['ws-user']['photo'],'img/users/default.png');
 	$imgPhoto = '<a href="'.$ip.'" onFocus="this.blur();" target="_blank"><img src="'.$imgPhoto.'" width="60" height="60" style="float:right; border:1px #ccc solid;border-radius: 50%;" /></a>';
 	$body = '<table width="500" border="0" align="center" cellpadding="2" cellspacing="0" style="font-family:Verdana, Geneva, sans-serif; font-size:12px; text-align:left">
 		<tr><td colspan="4" style="text-align:left; font-size:18px; padding:0"><strong>'.$nameExternal.'</strong> '.($type==5?NEWS_FRIENDTAGMSJUSERSENT:MAILFALLOWFRIENDS_SUBJECT).'</td></tr>
@@ -325,27 +337,28 @@ function formatShowFriendsMail($type){
 }
 
 function formatShowGroupsMail($id_group,$tipe,$msj='',$tag=false){
+	global $config;
 	$linkGroup = DOMINIO.base_url('groupsDetails?grp='.md5($id_group));
 	$share=DOMINIO.'css/smt/tag/groups_default.png';
-    //datos de la cabecera del correo del usuario
-    if ($msj!=""){
-        $trMsj = '<tr>
-                    <td style="padding:5px; font-size:12px; color:#000; text-align:justify">'.convertir_especiales_html($msj).'</td>
-                 </tr>';
-    }else{ $trMsj = ''; }
-    if ($tag){
-    	$linkTag		=$GLOBALS['config']->main_server.'tag?id='.$tag.'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($tag['email']);
+	//datos de la cabecera del correo del usuario
+	if ($msj!=""){
+		$trMsj = '<tr>
+					<td style="padding:5px; font-size:12px; color:#000; text-align:justify">'.convertir_especiales_html($msj).'</td>
+					</tr>';
+	}else{ $trMsj = ''; }
+	if ($tag){
+		$linkTag		=$config->main_server.'tag?id='.$tag.'&referee='.$_SESSION['ws-tags']['ws-user']['code'].'&email='.md5($tag['email']);
 		$imgTag			=tagURL($tag);
 		$trTag='<tr>
 			<td colspan="2"><br><p><a href="'.$linkTag.'" target="_blank"><img src="'.$imgTag.'" alt="tag" width="650"></a></p><br></td>
 		</tr>';
-    }else $trTag='';
-    $group=CON::getRow("SELECT name, photo, description AS des 
-    					FROM  groups
-            			WHERE id=? LIMIT 1",array($id_group));
-    // $groupPhoto= file_exists($GLOBALS['config']->main_server.'img/groups/'.$group['photo'])?$GLOBALS['config']->main_server.'img/groups/'.$group['photo']:$GLOBALS['config']->main_server.'css/smt/groups_default.png';
-	$groupPhoto=($GLOBALS['config']->local?DOMINIO:FILESERVER).'img/groups/'.$group['photo'];
-    $groupPhoto=fileExists($groupPhoto)?$groupPhoto:$GLOBALS['config']->main_server.'css/smt/groups_default.png';
+	}else $trTag='';
+	$group=CON::getRow("SELECT name, photo, description AS des
+						FROM  groups
+						WHERE id=? LIMIT 1",array($id_group));
+	// $groupPhoto= file_exists($config->main_server.'img/groups/'.$group['photo'])?$config->main_server.'img/groups/'.$group['photo']:$config->main_server.'css/smt/groups_default.png';
+	$groupPhoto=($config->local?DOMINIO:FILESERVER).'img/groups/'.$group['photo'];
+	$groupPhoto=fileExists($groupPhoto)?$groupPhoto:$config->main_server.'css/smt/groups_default.png';
 	switch ($tipe) {
 		case 6: case 14: $textAction=GROUP_EMAILASUNTOSUGGEST; break;
 		case 10: $textAction=NOTIFICATIONS_TITLEGROUPSTAGUSER_EMAIL; break;
@@ -354,109 +367,116 @@ function formatShowGroupsMail($id_group,$tipe,$msj='',$tag=false){
 		default: $textAction=GROUP_SHAREMAILTITLE1; break;
 	}
 	//cuerpo del email
-	$body  = '<table align="center" width="650" border="0" cellpadding="0" cellspacing="0" style="font-family:Verdana, Geneva, sans-serif; font-size:12px;border-radius:7px; background: #fff; padding-top:5px">
-                '.showInfoUser().'
-                <tr>
-                    <td colspan="2" style="color:#000; padding-left:5px; font-size:14px"><table style="width:100%;">
-                        <tr>
-                            <td style="width:20px;"><img src="'.$share.'" width="16" height="16" border="0" /></td>
-                            <td style="text-align: left; width:450px;">
-                                <strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).'</strong>'.$textAction.'
-                            </td>
-                            <td background="'.$GLOBALS['config']->main_server.'css/smt/email/yellowbutton_get_started2.png" style="width: 150px; height: 40px;  display: inline-block; background-repeat: no-repeat;padding-top: 10px;">
-                                <a style="font-weight: bold; color: #2d2d2d; font-size:12px; text-decoration: none;margin-left: 20px;" href="'.$linkGroup.'">'.GROUP_SHAREMAILTITLE2.'</a>
-                            </td>
-                        </tr>
-                        <tr>
-	                        <td colspan="3" style="padding-top: 25px;">
-	                          	<table style="width:100%;"><tr>
-	                          	<td style="width: 130px;"><img src="'.$groupPhoto.'" style="width:120px;height:80px;border-radius: 8px;-moz-border-radius: 8px; -ms-border-radius: 8px; -o-border-radius: 8px;overflow: hidden;"/></td>
-	                          	<td valign="top" align="left">
-									<div><strong>
-		                          		<img src="'.$GLOBALS['config']->main_server.'css/smt/menu_left/groups.png" alt="Group Icons" width="30" height="30">
-		                          		'.$group['name'].'</strong>
-	                          		</div>
-	                          		<div style="font-size: 10px;">'.$group['des'].'</div>
-	                          	</td>
-	                          	</tr></table>	                          	
-	                        </td>
-	                    </tr>
-                    </table></td>
-                </tr>
-                '.$trTag.'
-                <tr>
-                    <td colspan="2" valign="top"> 
-						<center><table width="100%"><tr><td width="100%">'.$trMsj.'</td></tr></table></center>
-                    </td>
-                </tr>
-				'.showPublicityMail().'
-                <tr>
-					<td colspan="2" valign="top">
-						<table width="100%">
-							<tr><td align="center"style="padding-left:5px; text-align:center">'.
-									GROUP_CTRSHAREMAILTITLE3.': <a href="'.DOMINIO.'">Tagbum.com</a>
-							</td></tr>
-						</table>
-					</td>
-                </tr>
-    </table>';
+	ob_start();
+?>
+<table align="center" width="650" border="0" cellpadding="0" cellspacing="0" style="font-family:Verdana, Geneva, sans-serif; font-size:12px;border-radius:7px; background: #fff; padding-top:5px">
+	<?=showInfoUser()?>
+	<tr>
+		<td colspan="2" style="color:#000; padding-left:5px; font-size:14px"><table style="width:100%;">
+			<tr>
+				<td style="width:20px;"><img src="'.$share.'" width="16" height="16" border="0" /></td>
+				<td style="text-align: left; width:450px;">
+					<strong><?=formatoCadena($_SESSION['ws-tags']['ws-user']['full_name'])?></strong>
+					<?=$textAction?>
+				</td>
+				<td background="<?=$config->main_server?>css/smt/email/yellowbutton_get_started2.png" style="width:150px;height:40px;display:inline-block;background-repeat:no-repeat;padding-top:10px;">
+					<a style="font-weight:bold;color:#2d2d2d;font-size:12px;text-decoration:none;margin-left:20px;" href="<?=$linkGroup?>"><?=GROUP_SHAREMAILTITLE2?></a>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" style="padding-top:25px;">
+					<table style="width:100%;"><tr>
+						<td style="width:130px;"><img src="<?=$groupPhoto?>" style="width:120px;height:80px;border-radius:8px;-moz-border-radius:8px;-ms-border-radius:8px;-o-border-radius:8px;overflow:hidden;"/></td>
+						<td valign="top" align="left">
+							<div><strong>
+								<img src="<?=$config->main_server?>css/smt/menu_left/groups.png" alt="Group Icons" width="30" height="30">
+								<?=$group['name']?>
+							</strong></div>
+							<div style="font-size:10px;"><?=$group['des']?></div>
+						</td>
+					</tr></table>
+				</td>
+			</tr>
+		</table></td>
+	</tr>
+	<?=$trTag?>
+	<tr>
+		<td colspan="2" valign="top">
+			<center><table width="100%"><tr><td width="100%"><?=$trMsj?></td></tr></table></center>
+		</td>
+	</tr>
+	<?=showPublicityMail()?>
+	<tr>
+		<td colspan="2" valign="top">
+			<table width="100%">
+				<tr><td align="center"style="padding-left:5px; text-align:center">
+					<?=GROUP_CTRSHAREMAILTITLE3?>: <a href="<?=DOMINIO?>">Tagbum.com</a>
+				</td></tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<?php
+	$body = ob_get_contents();
+	ob_end_clean();
 	return $body;
 }
 function formatShowProductMail($id_product,$tipe,$msj=''){
+	global $config;
 	$linkGroup = DOMINIO.base_url('detailprod?prd='.md5($id_product));
 	$share=DOMINIO.'css/smt/tag/groups_default.png';
-    //datos de la cabecera del correo del usuario
-    if ($msj!=""){
-        $trMsj = '<tr>
-                    <td style="padding:5px; font-size:12px; color:#000; text-align:justify">'.convertir_especiales_html($msj).'</td>
-                 </tr>';
-    }else{ $trMsj = ''; }
-    $product=CON::getRow("SELECT name, photo, description AS des 
-    					FROM  store_products
-            			WHERE id=? LIMIT 1",array($id_product));
-    
-    $productPhoto = ($GLOBALS['config']->local?DOMINIO:FILESERVER).'img/'.$product['photo'];
-	if(!fileExists($productPhoto)) $productPhoto = $GLOBALS['config']->main_server.'imgs/defaultAvatar.png'; 
-    
+	//datos de la cabecera del correo del usuario
+	if ($msj!=""){
+		$trMsj = '<tr>
+					<td style="padding:5px; font-size:12px; color:#000; text-align:justify">'.convertir_especiales_html($msj).'</td>
+					</tr>';
+	}else{ $trMsj = ''; }
+	$product=CON::getRow("SELECT name, photo, description AS des
+						FROM  store_products
+						WHERE id=? LIMIT 1",array($id_product));
+
+	$productPhoto = ($config->local?DOMINIO:FILESERVER).'img/'.$product['photo'];
+	if(!fileExists($productPhoto)) $productPhoto = $config->main_server.'imgs/defaultAvatar.png';
+
 	switch ($tipe) {
 		case 29: $textAction=NOTIFICATIONS_STORECOMMENTSMSJUSER_EMAIL; break;
 		default: $textAction=NOTIFICATIONS_TITLESTORECOMMENTSMSJUSER_EMAIL; break;
 	}
 	//cuerpo del email
 	$body  = '<table align="center" width="650" border="0" cellpadding="0" cellspacing="0" style="font-family:Verdana, Geneva, sans-serif; font-size:12px;border-radius:7px; background: #fff; padding-top:5px">
-                '.showInfoUser().'
-                <tr>
-                    <td colspan="2" style="color:#000; padding-left:5px; font-size:14px"><table style="width:100%;">
-                        <tr>
-                            <td style="width:20px;"><img src="'.$share.'" width="16" height="16" border="0" /></td>
-                            <td style="text-align: left; width:450px;">
-                                <strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).'</strong>'.$textAction.'
-                            </td>
-                            <td background="'.$GLOBALS['config']->main_server.'css/smt/email/yellowbutton_get_started2.png" style="width: 150px; height: 40px;  display: inline-block; background-repeat: no-repeat;padding-top: 10px;">
-                                <a style="font-weight: bold; color: #2d2d2d; font-size:12px; text-decoration: none;margin-left: 20px;" href="'.$linkGroup.'">'.GROUP_SHAREMAILTITLE2.'</a>
-                            </td>
-                        </tr>
-                        <tr>
-	                        <td colspan="3" style="padding-top: 25px;">
-	                          	<table style="width:100%;"><tr>
-	                          	<td style="width: 130px;"><img src="'.$productPhoto.'" style="float:left;width: 150px;height: 130px;margin: 10px 10px;"></td>
-	                          	<td valign="top" align="left">
+				'.showInfoUser().'
+				<tr>
+					<td colspan="2" style="color:#000; padding-left:5px; font-size:14px"><table style="width:100%;">
+						<tr>
+							<td style="width:20px;"><img src="'.$share.'" width="16" height="16" border="0" /></td>
+							<td style="text-align: left; width:450px;">
+								<strong>'.formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).'</strong>'.$textAction.'
+							</td>
+							<td background="'.$config->main_server.'css/smt/email/yellowbutton_get_started2.png" style="width: 150px; height: 40px;  display: inline-block; background-repeat: no-repeat;padding-top: 10px;">
+								<a style="font-weight: bold; color: #2d2d2d; font-size:12px; text-decoration: none;margin-left: 20px;" href="'.$linkGroup.'">'.GROUP_SHAREMAILTITLE2.'</a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" style="padding-top: 25px;">
+									<table style="width:100%;"><tr>
+									<td style="width: 130px;"><img src="'.$productPhoto.'" style="float:left;width: 150px;height: 130px;margin: 10px 10px;"></td>
+									<td valign="top" align="left">
 									<div style="font-weight: bold;font-size: 16px;">'.PRODUCTS_NAME.': <span style="color: #f57b1a;">'.$product['name'].'</span></div>
-	                          		<div style="font-size: 12px;">'.PRODUCTS_DESCRIPTION.': '.$product['des'].'</div>
-	                          	</td>
-	                          	</tr></table>	                          	
-	                        </td>
-	                    </tr>
-                    </table></td>
-                </tr>
-                '.$trTag.'
-                <tr>
-                    <td colspan="2" valign="top"> 
+										<div style="font-size: 12px;">'.PRODUCTS_DESCRIPTION.': '.$product['des'].'</div>
+									</td>
+									</tr></table>
+							</td>
+						</tr>
+					</table></td>
+				</tr>
+				'.$trTag.'
+				<tr>
+					<td colspan="2" valign="top">
 						<center><table width="100%"><tr><td width="100%">'.$trMsj.'</td></tr></table></center>
-                    </td>
-                </tr>
+					</td>
+				</tr>
 				'.showPublicityMail().'
-                <tr>
+				<tr>
 					<td colspan="2" valign="top">
 						<table width="100%">
 							<tr><td align="center"style="padding-left:5px; text-align:center">'.
@@ -464,8 +484,8 @@ function formatShowProductMail($id_product,$tipe,$msj=''){
 							</td></tr>
 						</table>
 					</td>
-                </tr>
-    </table>';
+				</tr>
+	</table>';
 	return $body;
 }
 
@@ -525,7 +545,7 @@ function storeCarMail($car,$type=16){
 				$productCost=$product['sale_points']*$cant;
 
 //****************************************************************************************************************************************************************
-		
+
 		//armado del arrays que posee todos los datos para la maquetacion del email
 		//a diferencia del carrito el email se agrupa por vendedor por eso es necesario ordenar el array de dicha forma
 			if (isset($acumulado_pedido[$product['id_user']])){
@@ -604,7 +624,7 @@ function storeCarMail($car,$type=16){
 		$external=USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.":&nbsp;<span ><a style='color:#999999' href='".$GLOBALS['config']->main_server.$array['username']."' target='_blank'>".$GLOBALS['config']->main_server.$array['username']."</a><br>";
 	}else{ $external=formatoCadena($array['name_user']); }
 	$pay="";
-	if ($type==17) 
+	if ($type==17)
 		$pay='<td style="width:100%;border:1px #f4f4f4 solid;text-align: center;height: 40px;">
 				<a href="'.DOMINIO.base_url('orders').'" target="_blank" style="color:#ff8a28;">'.SEARCHALL_SEEMORECLKHERE.'</a> '.STORE_TIME_END_ORDER.'</td>';
 	//cabecera del email para el comprador
@@ -631,13 +651,13 @@ function storeCarMail($car,$type=16){
 													<td width="569" style="padding-left:5px;padding-bottom:20px;font-size:12px;text-align:left;">
 														<div>';
 															if($seller[$acumulado['id_user']]['type']=='0')
-																$bodyEmail.='<strong>'.ADDRESSBOOK_LBLHOMEPHOME.': </strong>'.$seller[$acumulado['id_user']]['home_phone'].'<br>';															 
+																$bodyEmail.='<strong>'.ADDRESSBOOK_LBLHOMEPHOME.': </strong>'.$seller[$acumulado['id_user']]['home_phone'].'<br>';
 				$bodyEmail.='								<strong>'.EMAIL_SELLER.': </strong>'.$seller[$acumulado['id_user']]['email'].'<br>
 															<strong>'.USERPROFILE_LBLMOBILEPHONE.': </strong>'.$seller[$acumulado['id_user']]['mobile_phone'].'<br>
 															<strong>'.USERPROFILE_LBLWORKPHONE.': </strong>'.$seller[$acumulado['id_user']]['work_phone'].'</br>
 														</div>
 													</td>
-												 </tr>
+												</tr>
 											</table>
 										</td>
 									</tr>';
@@ -662,7 +682,7 @@ function storeCarMail($car,$type=16){
 				$emailSeller.='								<strong>'.SIGNUP_LBLEMAIL.': </strong>'.$array['email'].'<br>
 														</div>
 													</td>
-												 </tr>
+												</tr>
 											</table>
 										</td>
 									</tr>
@@ -707,7 +727,7 @@ function storeCarMail($car,$type=16){
 				}
 				//si la venta o la compra fueron unos fondos
 				if ($backgrounds[$acumulado['id_user']]){
-				 $bodyEmailP='<tr>
+					$bodyEmailP='<tr>
 									<td style="height:30px;font-size:16px;color:#999;font-weight:bold;text-align:left;">'.NEWTAG_LBLBACKGROUNDS.' <br><br></td>
 								</tr>
 								<tr>
@@ -731,7 +751,7 @@ function storeCarMail($car,$type=16){
 										$totalPuntosAcumulados=$totalPuntosAcumulados+($ordenDetalles['price2']*$ordenDetalles['cant2']);
 									}
 									$photoBack=($GLOBALS['config']->local?DOMINIO:FILESERVER).'img/'.$ordenDetalles['photo'];
-									 $bodyEmail.='<tr style="text-align:center">
+										$bodyEmail.='<tr style="text-align:center">
 														<td style="padding:5px;border-bottom:1px solid #F4F4F4;border-right:1px solid #F4F4F4;">
 														<img src="'.$photoBack.'" style="width: 150px;height: 130px;margin: 10px 10px;"/></td>
 														<td style="border-bottom:1px solid #F4F4F4;border-right:1px solid #F4F4F4;text-align:left;width:400px;">
@@ -740,7 +760,7 @@ function storeCarMail($car,$type=16){
 															<br><span style="color:#AD3838;">'.(($ordenDetalles['formPayment']==1)?'$'.$ordenDetalles['price']:$ordenDetalles['price'].' '.STORE_TITLEPOINTS).'</span>&nbsp;&nbsp;'.QUANTITYSTORE.':'.$ordenDetalles['cant'].'
 														</td>
 													</tr>';
-									 $emailSeller.='<tr style="text-align:center">
+										$emailSeller.='<tr style="text-align:center">
 														<td style="padding:5px;border-bottom:1px solid #F4F4F4;border-right:1px solid #F4F4F4;">
 														<img src="'.$photoBack.'" style="width: 150px;height: 130px;margin: 10px 10px;"/></td>
 														<td style="border-bottom:1px solid #F4F4F4;border-right:1px solid #F4F4F4;text-align:left;width:400px;">
@@ -749,8 +769,6 @@ function storeCarMail($car,$type=16){
 															<br><span style="color:#AD3838;">'.(($ordenDetalles['formPayment']==1)?'$'.$ordenDetalles['price']:$ordenDetalles['price'].' '.STORE_TITLEPOINTS).'</span>&nbsp;&nbsp;'.QUANTITYSTORE.': '.$ordenDetalles['cant'].'
 														</td>
 													</tr>';
-
-
 									}
 								}
 								$bodyEmailP='<tr style="text-align:center">
@@ -777,7 +795,7 @@ function storeCarMail($car,$type=16){
 				}
 				//si la compra o venta fueron unos productos
 				if ($productSC[$acumulado['id_user']]){
-					$bodyEmailP=' <tr>
+					$bodyEmailP='	<tr>
 										<td style="height:30px;font-size:16px;color:#999;font-weight:bold;text-align:left;">'.PRODUCT_TITLE.' <br><br></td>
 									</tr>
 									<tr>
@@ -804,7 +822,7 @@ function storeCarMail($car,$type=16){
 											$photoBack=($GLOBALS['config']->local?DOMINIO:FILESERVER).'img/'.$ordenDetalles['photo'];
 											$bodyEmail.=' <tr style="text-align:center">
 																<td style="padding:5px;border-bottom:1px solid #F4F4F4;border-right:1px solid #F4F4F4;">
-																	<img src="'.$photoBack.'" style="width: 150px;height: 130px;margin: 10px 10px;"/></td>																
+																	<img src="'.$photoBack.'" style="width: 150px;height: 130px;margin: 10px 10px;"/></td>
 																	<td style="border-bottom:1px solid #F4F4F4;border-right:1px solid #F4F4F4;text-align:left;width:400px;">
 																	<strong style="color: #f57b1a;">'.formatoCadena($ordenDetalles['name']).'</strong><br>
 																	<strong>'.STORE_CATEGORIES2.': </strong>'.formatoCadena($ordenDetalles['nameCate']).' <strong>'.STORE_CATEGORIES3.': </strong>'.formatoCadena($ordenDetalles['nameSubCate']).'
@@ -813,7 +831,7 @@ function storeCarMail($car,$type=16){
 															</tr>';
 											$emailSeller.=' <tr style="text-align:center">
 																<td style="padding:5px;border-bottom:1px solid #F4F4F4;border-right:1px solid #F4F4F4;">
-																	<img src="'.$photoBack.'" style="width: 150px;height: 130px;margin: 10px 10px;"/></td>																
+																	<img src="'.$photoBack.'" style="width: 150px;height: 130px;margin: 10px 10px;"/></td>
 																	<td style="border-bottom:1px solid #F4F4F4;border-right:1px solid #F4F4F4;text-align:left;width:400px;">
 																	<strong style="color: #f57b1a;">'.formatoCadena($ordenDetalles['name']).'</strong><br>
 																	<strong>'.STORE_CATEGORIES2.': </strong>'.formatoCadena($ordenDetalles['nameCate']).' <strong>'.STORE_CATEGORIES3.': </strong>'.formatoCadena($ordenDetalles['nameSubCate']).'
@@ -872,29 +890,30 @@ function storeCarMail($car,$type=16){
 		$return['buyer']['html']=formatMail($emailComprador,'790');
 		$return['buyer']['email']=$array['email'];
 		$return['buyer']['name']=$array['name_user'];
-//fin del envio del correo electronico 
+//fin del envio del correo electronico
 //*************************************************************************************************************************************
-	return $return;		
+	return $return;
 }
 
 function storeEndFreeProducts($winner,$id_raffle){
 		$winnerData='<tr><td style="height:30px;font-size:20px;color:#999;font-weight:bold;text-align:center;">'.STORE_RAFFLEWINNER.' <br><br></td></tr>'
 		.showInfoUser($winner);
-		$raffle=CON::getRow("SELECT 
-						 		a.id_user AS id_user, 
-						 		a.id_product AS id_product, 
-						 		u.email AS email,
-						 		p.name AS name,
-						 		p.photo AS photo,
-						 		p.description AS description,
-						 		p.place AS place
-						   FROM store_raffle a
-						   INNER JOIN store_products p ON p.id=a.id_product
-						   INNER JOIN users u ON u.id = a.id_user
-						   WHERE a.id=?;",array($id_raffle));
-		
+		$raffle=CON::getRow("SELECT
+					a.id_user AS id_user,
+					a.id_product AS id_product,
+					u.email AS email,
+					p.name AS name,
+					p.photo AS photo,
+					p.description AS description,
+					p.place AS place
+			FROM store_raffle a
+			INNER JOIN store_products p ON p.id=a.id_product
+			INNER JOIN users u ON u.id = a.id_user
+			WHERE a.id=?;
+		",array($id_raffle));
+
 		$backg = ($GLOBALS['config']->local?DOMINIO:FILESERVER).'img/'.$raffle['photo'];
-		if(!fileExists($backg)) $backg = $GLOBALS['config']->main_server.'imgs/defaultAvatar.png'; 
+		if(!fileExists($backg)) $backg = $GLOBALS['config']->main_server.'imgs/defaultAvatar.png';
 
 		$body='<table border="0" align="center" width="700">
 					<tr>
@@ -997,7 +1016,7 @@ function showPreferencesMail($data){
 	// 			$cadPublicity.='
 	// 						<div style="width:180%;width:180px;float:left;margin-bottom:10px;height:200px;margin:18px;">
 	// 						<div style="display:block;width:160px;height:140px;cursor:pointer;background-position:0 50%;background-repeat:no-repeat;background-color:#FFF">
-	// 							 <img src="'.$GLOBALS['config']->main_server.'includes/imagen.php?ancho=150&alto=120&tipo=2&img='.FILESERVER.'img/publicity/'.$publicity['picture'].'" alt="picture">
+	// 								<img src="'.$GLOBALS['config']->main_server.'includes/imagen.php?ancho=150&alto=120&tipo=2&img='.FILESERVER.'img/publicity/'.$publicity['picture'].'" alt="picture">
 	// 						</div>
 	// 						<div style="display:block;font-size:11px;text-align:left">
 	// 							<strong><a href="'.$publicity['link'].'" onfocus="this.blur()" target="_blank">'.$publicity['title'].'</a></strong>
@@ -1024,7 +1043,7 @@ function showPreferencesMail($data){
 	// 				$cadPublicity.='
 	// 					<div style="width:180%;width:180px;float:left;margin-bottom:10px;height:200px;margin:18px;">
 	// 						<div style="display:block;width:160px;height:140px;cursor:pointer;background-position:0 50%;background-repeat:no-repeat;background-color:#FFF">
-	// 							 <img src="'.$GLOBALS['config']->main_server.'includes/imagen.php?ancho=150&alto=120&tipo=2&img='.FILESERVER.'img/publicity/'.$publicity['picture'].'" alt="picture">
+	// 								<img src="'.$GLOBALS['config']->main_server.'includes/imagen.php?ancho=150&alto=120&tipo=2&img='.FILESERVER.'img/publicity/'.$publicity['picture'].'" alt="picture">
 	// 						</div>
 	// 						<div style="display:block;font-size:11px;text-align:left">
 	// 							<strong><a href="'.$publicity['link'].'" onfocus="this.blur()" target="_blank">'.$publicity['title'].'</a></strong>
@@ -1107,7 +1126,7 @@ function showPreferencesMail($data){
 	// 				$cadPublicity.='
 	// 					<div style="width:180%;width:180px;float:left;margin-bottom:10px;height:200px;margin:18px;">
 	// 						<div style="display:block;width:160px;height:140px;cursor:pointer;background-position:0 50%;background-repeat:no-repeat;background-color:#FFF">
-	// 							 <img src="'.$GLOBALS['config']->main_server.'includes/imagen.php?ancho=150&alto=120&tipo=2&img='.FILESERVER.'img/publicity/'.$publicity['picture'].'" alt="picture">
+	// 								<img src="'.$GLOBALS['config']->main_server.'includes/imagen.php?ancho=150&alto=120&tipo=2&img='.FILESERVER.'img/publicity/'.$publicity['picture'].'" alt="picture">
 	// 						</div>
 	// 						<div style="display:block;font-size:11px;text-align:left">
 	// 							<strong><a href="'.$publicity['link'].'" onfocus="this.blur()" target="_blank">'.$publicity['title'].'</a></strong>
@@ -1169,7 +1188,7 @@ function showPreferencesMailOthers($data){
 	// 		$cadPublicity.='
 	// 			<div style="width:100%;width:180px;float:left;margin-bottom:18px;margin-left:5px;margin-top:18px;margin-right:5px;height:200px;boder:2px #86878a solid;display:inline-block;">
 	// 				<div style="display:block;width:160px;height:123px;cursor:pointer;background-position:0 50%;background-repeat:no-repeat;background-color:#FFF;boder:2px #dbdbdb solid;">
-	// 					 <img src="'.$GLOBALS['config']->main_server.'includes/imagen.php?ancho=155&alto=115&tipo=2&img='.FILESERVER.'img/publicity/'.$publicity['picture'].'" alt="picture">
+	// 						<img src="'.$GLOBALS['config']->main_server.'includes/imagen.php?ancho=155&alto=115&tipo=2&img='.FILESERVER.'img/publicity/'.$publicity['picture'].'" alt="picture">
 	// 				</div>
 	// 				<div style="display:block;font-size:11px;text-align:center;color:#ff8a28;">
 	// 					<strong><a href="'.$publicity['link'].'" onfocus="this.blur()" target="_blank">'.$publicity['title'].'</a></strong>
@@ -1281,7 +1300,7 @@ function showPreferencesMailOthers($data){
 	// 			$cadPublicity.='
 	// 				<div style="width:180%;width:180px;float:left;margin-bottom:18px;margin-left:5px;margin-top:18px;margin-right:5px;height:200px;boder:1px #86878a solid;display:inline-block;">
 	// 					<div style="display:block;width:160px;height:123px;cursor:pointer;background-position:0 50%;background-repeat:no-repeat;background-color:#FFF;boder:1px #dbdbdb solid;">
-	// 						 <img src="'.$GLOBALS['config']->main_server.'includes/imagen.php?ancho=155&alto=115&tipo=2&img='.FILESERVER.'img/publicity/'.$publicity['picture'].'" alt="picture">
+	// 							<img src="'.$GLOBALS['config']->main_server.'includes/imagen.php?ancho=155&alto=115&tipo=2&img='.FILESERVER.'img/publicity/'.$publicity['picture'].'" alt="picture">
 	// 					</div>
 	// 					<div style="display:block;color:#ff8a28;font-size:11px;text-align:center">
 	// 						<strong><a href="'.$publicity['link'].'" onfocus="this.blur()" target="_blank">'.$publicity['title'].'</a></strong>
@@ -1294,4 +1313,3 @@ function showPreferencesMailOthers($data){
 
 	// }
 }
-?>
