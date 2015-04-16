@@ -40,6 +40,10 @@ $lang=array(
 	'STORE_LABELTITLERAFFLEJOIN'=>'Raffle Participants',
 	'STORERAFFLE_TITLENOTE'=>'Note:',
 	'STORERAFFLE_MSGNOTE'=>'By the time when the user won this raffle, the product did not have stock.',
-	'STORERAFFLE_MSGNOUSERSYET'=>'there is no users so far'
+	'STORERAFFLE_MSGNOUSERSYET'=>'there is no users so far',
+	#Errors
+	'MSGERROR_USERPASSBLANK' => 'Username and password are required for admission',
+	'MSGERROR_PASSWINVALID' => 'Invalid password, try again.',
+	'MSGERROR_LOGINMAXTRY' => 'Too many attempts to enter. Wait a few minutes and try again.'
 );
 return $lang;

@@ -80,6 +80,10 @@ $lang=array(
 	'STORE_LABELTITLERAFFLEJOIN'=>'Participantes',
 	'STORERAFFLE_TITLENOTE'=>'Nota:',
 	'STORERAFFLE_MSGNOTE'=>'El producto no tenia existencia al momento de ganarse la rifa.',
-	'STORERAFFLE_MSGNOUSERSYET'=>'Hasta el momento no hay participantes'
+	'STORERAFFLE_MSGNOUSERSYET'=>'Hasta el momento no hay participantes',
+	#Errors
+	'MSGERROR_USERPASSBLANK' => 'Usuario y contraseña son necesarios para el ingreso',
+	'MSGERROR_PASSWINVALID' => 'Contraseña Invalida, intente nuevamente.',
+	'MSGERROR_LOGINMAXTRY' => 'Demasiados intentos para ingresar. Espero unos minutos e intente nuevamente.'
 );
 return $lang;
