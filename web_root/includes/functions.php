@@ -673,8 +673,8 @@ function groups($where='',$limit=10,$ini=0, $suggest=false){
 		'.$join.'
 		WHERE g.status=1 AND g.id_privacy!=3
 		'.$where.'
-        AND ((YEAR(NOW())-'.$fecha[0].')>(SELECT q.rule FROM groups_oriented q WHERE q.id=g.id_oriented) 
-        	OR ((YEAR(NOW())-'.$fecha[0].')=(SELECT rule FROM groups_oriented WHERE id=g.id_oriented) 
+        AND ((YEAR(NOW())-'.$fecha[0].')>(SELECT q.rule FROM groups_oriented q WHERE q.id=g.id_oriented)
+        	OR ((YEAR(NOW())-'.$fecha[0].')=(SELECT rule FROM groups_oriented WHERE id=g.id_oriented)
     				AND '.$fecha[1].'>=MONTH(NOW())))
 		ORDER BY '.$order_by.'
 		LIMIT '.$ini.','.$limit;
@@ -784,7 +784,7 @@ function tags($where='',$limit=5, $suggest=false){
 	$where = 'WHERE CONCAT_WS( " ",t.text,t.text2,t.code_number) LIKE "%'.$where.'%" AND t.status="1"';
 	if ($suggest) {
 		// $where = '
-		// 			WHERE CONCAT(t.text," ",t.text2," ",t.code_number) 
+		// 			WHERE CONCAT(t.text," ",t.text2," ",t.code_number)
 		// 			LIKE CONCAT_WS('%', (SELECT up.preference FROM users_preferences up WHERE up.id_user = "'.$_SESSION['ws-tags']['ws-user']['id'].'")) AND t.status="1"';
 		$where = '
 			WHERE CONCAT(t.text," ",t.text2," ",t.code_number) REGEXP "^#{1}([A-z0-9])+" AND t.status="1"
@@ -798,7 +798,7 @@ function tags($where='',$limit=5, $suggest=false){
 		(SELECT c.id_source AS id, c.comment AS text
 		FROM comments AS c
 		WHERE c.comment LIKE "%'.$srh.'%" AND c.id_type = 4)';
-		$sql = 'SELECT id, text 
+		$sql = 'SELECT id, text
 		FROM('.$sql.') result
 		GROUP BY id
 		ORDER BY id DESC
@@ -870,7 +870,7 @@ function productS($where='',$limit=3){
 	if($where==''){
 		return null;
 	}
-	
+
 	$lim=($limit!='')?"LIMIT 0,".$limit :'';
 
 	return $GLOBALS['cn']->query('
@@ -880,7 +880,7 @@ function productS($where='',$limit=3){
 			(SELECT name FROM store_category WHERE id=t.id_category) AS category,
 			t.photo AS photo
 		FROM store_products t
-		WHERE  CONCAT_WS( " ",t.name,t.description) LIKE "%'.$where.'%" AND t.id_status="1" 
+		WHERE  CONCAT_WS( " ",t.name,t.description) LIKE "%'.$where.'%" AND t.id_status="1"
 		ORDER BY t.update_date DESC,t.id DESC
 		'.$lim
 	);
@@ -1060,7 +1060,7 @@ function CreateThumb($original,$img_nueva,$tamanio,$x,$y,$ancho,$alto){
 // 	}
 // 	//redimensionar imagen original copiandola en la imagen nueva
 // 	imagecopyresampled($thumb,$img,0,0,$x,$y,$tamanio,$tamanio,$ancho,$alto);
-	
+
 // 	//guardar la imagen redimensionada donde indica $img_nueva
 // 	switch($type){
 // 		case 'jpg':
@@ -1379,7 +1379,7 @@ function isValidEmail($email){
 * @param int $return type of data of return, 1=array 2=string (tipo de datos de retorno, 1=array 2=string)
 * @return array
 */
-function users_preferences($usr='',$tipe=false,$return=1){ 
+function users_preferences($usr='',$tipe=false,$return=1){
 	$usr=($usr!='')?$usr:$_SESSION['ws-tags']['ws-user']['id'];
 	$where=$tipe?safe_sql(' AND id_preference=?',array($tipe)):'';
 	$preferences=CON::query("SELECT * FROM users_preferences WHERE md5(id_user)=?".$where,array(intToMd5($usr)));
@@ -1398,7 +1398,7 @@ function users_preferences($usr='',$tipe=false,$return=1){
 					$band=true;
 				}
 			}
-			if (!$band) 
+			if (!$band)
 				if ($return==1) $datos[]=(object)array('id'=>$value,'text'=>$value);
 				else $datos.=($datos!=''?',':'').$subpre['detail'];
 		}
@@ -1416,7 +1416,7 @@ function users_preferences($usr='',$tipe=false,$return=1){
 * @param boolean $random query type (null = no random, false = random if preferences equal 0, true = random), Tipo de consulta (null = no al azar, false = aleatoria si las preferencias son iguales a 0, true = aleatorio)
 * @return array
 */
-function users_publicity($limit=5,$usr='',$tipe=false,$random=false,$noid=false){ 
+function users_publicity($limit=5,$usr='',$tipe=false,$random=false,$noid=false){
 	$usr=($usr!='')?$usr:$_SESSION['ws-tags']['ws-user']['id'];
 	$where=$tipe?safe_sql(' AND id_type_publicity=?',array($tipe)):'';
 	if (!$random){
@@ -1435,7 +1435,7 @@ function users_publicity($limit=5,$usr='',$tipe=false,$random=false,$noid=false)
 	if ($random){ $like='';
 		if ($noid){
 			if (!is_array($noid)) $like=" AND id NOT IN ($noid)";
-			elseif(count($noid)>0){ 
+			elseif(count($noid)>0){
 				$like="AND id NOT IN ("; $c='';
 				foreach ($noid as $key) {
 					$like.=$c.$key;
@@ -1444,8 +1444,8 @@ function users_publicity($limit=5,$usr='',$tipe=false,$random=false,$noid=false)
 				$like.=")";
 			}
 		}
-		$like.=' ORDER BY RAND()';	
-	} 
+		$like.=' ORDER BY RAND()';
+	}
 	if (!isset($like) || $like=='') return array();
 	$publicity=CON::query("SELECT  md5(id) AS id,
 								   id AS id_valida,
@@ -1454,13 +1454,13 @@ function users_publicity($limit=5,$usr='',$tipe=false,$random=false,$noid=false)
 								   picture as picOri,
 								   title,
 								   id_cost,
-								   message 
-							FROM users_publicity 
-							WHERE status = '1' 
+								   message
+							FROM users_publicity
+							WHERE status = '1'
 							AND click_max > click_current $where $like LIMIT 0,$limit");
 	// echo CON::lastSql()."<br><br><br>";
 	$res=array();$num=CON::numRows($publicity);$ids=array();
-	if ($num==0 && $random===false) $res2=users_publicity(5,$usr,$tipe,true);	
+	if ($num==0 && $random===false) $res2=users_publicity(5,$usr,$tipe,true);
 	else while ($row=CON::fetchAssoc($publicity)) {
 		if ($row['id_cost']!='5') {
 			$row['picture']=FILESERVER.getPublicityPicture('img/publicity/'.$row['picture'],'img/publicity/publicity_nofile.png');
@@ -1472,7 +1472,7 @@ function users_publicity($limit=5,$usr='',$tipe=false,$random=false,$noid=false)
 
 		$res[]=$row;$ids[]=$row['id_valida'];
 	}
-	if ($num<$limit && $random===false) $res2=users_publicity($limit-$num,$usr,$tipe,true,$ids);	
+	if ($num<$limit && $random===false) $res2=users_publicity($limit-$num,$usr,$tipe,true,$ids);
 	if (isset($res2)) $res=array_merge($res,$res2);
 	return $res;
 }
@@ -2140,7 +2140,7 @@ function fileExists($file){
 
 function tiempoEjecucionFinal($tiempoInicio,$num)
 {
-			
+
 			echo "Tiempo empleado ($num): " . (microtime(true) - $tiempoInicio)."<br>";
 }
 
@@ -2152,20 +2152,25 @@ function emailRegistered($email){
 }
 
 /**
-* send or delete notifications 
+* send or delete notifications
 * envía o borra notificaciones
 *
 * @param string|int|boolean $id_friend  id friend (id del amigo, si es false son emails de personas no registradas)
 * @param int $id_source source the notifications tags,products or groups (fuente de la notificacion tags, productos o grupos)
-* @param int $id_type type the notifications (tipo de notifications)
-* @param boolean $delete action the delete, if false is insert (accion de borrar, si es false es insertar)
+* @param int $id_type notification type (tipo de notification)
+* @param boolean $delete delete action, insert if false (accion de borrar, inserta si es false)
 * @param string|int $id_user id user, if false is id user in session (id del usuario)
 * @param string|array|boolean $data other data if required  (otros datos si se requieren)
 * @return void
 */
 function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=false,$data=false){
-	require_once(RELPATH.'includes/functions_mails.php');
-	if ($GLOBALS['config']->local && !isset($_SESSION['ws-tags']['email'])) $_SESSION['ws-tags']['email']='';
+	global $config;
+	require_once(__DIR__.'/functions_mails.php');
+	if(isset($_GET['debug'])){
+		var_dump([$id_friend,$id_source,$id_type,$delete,$id_user,$data]);
+		echo '<hr>';
+	}
+	if ($config->local && !isset($_SESSION['ws-tags']['email'])) $_SESSION['ws-tags']['email']='';
 	$id_type*=1; //asegurando que sea numerico
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
 	$id_user=$id_user?$id_user:$myId;
@@ -2176,7 +2181,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 				array($id_type,$id_source,$id_user,$id_friend));
 			CON::update('users','last_update=NOW()','id=? OR id=?',array($id_user,$id_friend));
 		}else $notifi=true;
-		if($notifi){ //si se realizo el INSERT envia correo de notificacion 
+		if($notifi){ //si se realizo el INSERT envia correo de notificacion
 			if ($id_friend)	//verificar si el usuario tiene inactivo el envio de correo
 				$noEmail=CON::getVal('SELECT id FROM users_config_notifications WHERE id_user=? AND id_notification=?',array($id_friend,$id_type));
 			else $noEmail=false;
@@ -2189,26 +2194,26 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 				}
 				switch($id_type){
 					case 1: // private tags
-						$iconoTipo=$GLOBALS['config']->main_server.'css/smt/email/tags.png';
+						$iconoTipo=$config->main_server.'css/smt/email/tags.png';
 						$body=''.formatShowTagMail($id_source,$iconoTipo,LABELTAGSPRIVATE,'').'';
 						if ($id_friend){ //emvio a mis amigos
 							$email=CON::getVal("SELECT email FROM users WHERE id=?",array($id_friend));
-							if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$email;
+							if($config->local) $htmlEmail.='<br><strong>Send To:</strong><hr> '.$email;
 							$htmlEmail.=formatMail($body,'790');
-							if ($email && !$GLOBALS['config']->local) sendMail($htmlEmail,EMAIL_NO_RESPONDA,formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']),formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.LABELTAGSPRIVATE,$email,'../../');
+							if ($email && !$config->local) sendMail($htmlEmail,EMAIL_NO_RESPONDA,formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']),formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.LABELTAGSPRIVATE,$email,'../../');
 						}else{ // envio a correos no registrados
 							if ($data && is_array($data) && count($data)>0)
 								foreach ($data as $email) {
-									if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$email;
+									if ($config->local) $htmlEmail.='<br><strong>Send To:</strong><hr> '.$email;
 									$htmlEmail.=formatMail($body,'790');
-									if ($email && !$GLOBALS['config']->local) sendMail($htmlEmail,EMAIL_NO_RESPONDA,formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']),formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.LABELTAGSPRIVATE,$email,'../../');
+									if ($email && !$config->local) sendMail($htmlEmail,EMAIL_NO_RESPONDA,formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']),formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.LABELTAGSPRIVATE,$email,'../../');
 								}
 						}
 					break;
 					case 2: case 4: case 8: case 9: case 20: //2 email de favorito, 4 email de comentario tag (4- dueño), 8 email de redistribucion, 9 email de patrocinio, 20 dislike (desactivado)
 						if($id_friend && isValidEmail($userEmailAllTag['email'])){
 							$msjLink=NOTIFICATIONS_COMMENTSTAGMSJUSERLINK;
-							$iconoTipo=$GLOBALS['config']->main_server.'css/smt/tag/';
+							$iconoTipo=$config->main_server.'css/smt/tag/';
 							switch ($id_type){
 								case 2: $iconoTipo.='like.png';
 									$msjBody=NOTIFICATIONS_LIKETAGMSJUSERSENT;
@@ -2224,22 +2229,22 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 									$msjBody=NOTIFICATIONS_SPONSORTAGMSJUSERSENT; $msjHead=MENUTAG_MSJASUNTOSPONSORED;
 								break;
 								case 20: $iconoTipo.='dislike.png';
-									$msjBody=NOTIFICATIONS_DISLIKETAGMSJUSERSENT; 
+									$msjBody=NOTIFICATIONS_DISLIKETAGMSJUSERSENT;
 									$msjHead=formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.NOTIFICATIONS_DISLIKETAGMSJUSERSENT.' '.NOTIFICATIONS_COMMENTSTAGMSJUSERLINK;
 								break;
 							}
-							$body=''.formatShowTagMail($id_source,$iconoTipo,$msjBody,$msjLink).'';
-							if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$userEmailAllTag['email'];
+							$body=formatShowTagMail($id_source,$iconoTipo,$msjBody,$msjLink);
+							if ($config->local) $htmlEmail.='<br><strong>Send To:</strong> '.$userEmailAllTag['email'];
 							$htmlEmail.=formatMail($body,'790');
-							if (!$GLOBALS['config']->local) sendMail($htmlEmail,EMAIL_NO_RESPONDA,formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']),$msjHead,$userEmailAllTag['email'],'../../');
+							if(!$config->local) sendMail($htmlEmail,EMAIL_NO_RESPONDA,formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']),$msjHead,$userEmailAllTag['email'],'../../');
 						}
 					break;
 					case 5: case 11: // email de amigos y seguidores
 						if($id_friend && isValidEmail($data['email'])){
 							$body=''.formatShowFriendsMail($id_type).'';
-							if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$data['email'];
+							if ($config->local) $htmlEmail.='<br><strong>Send To:</strong> '.$data['email'];
 							$htmlEmail.=formatMail($body,'790');
-							if (!$GLOBALS['config']->local) sendMail($htmlEmail, EMAIL_NO_RESPONDA, formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), ($id_type==5?NEWS_FRIENDTAGMSJUSERSENT:MAILFALLOWFRIENDS_SUBJECT), $data['email'], '../../');
+							if (!$config->local) sendMail($htmlEmail, EMAIL_NO_RESPONDA, formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']), ($id_type==5?NEWS_FRIENDTAGMSJUSERSENT:MAILFALLOWFRIENDS_SUBJECT), $data['email'], '../../');
 						}
 					break;
 					case 6: case 14: case 12: case 13: //invitacion a grupo, solicitud de grupos, aprobacion de grupo
@@ -2278,13 +2283,13 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 									if(!CON::exist("tags_share_mails","id_tag=? AND referee_number=? AND email_destiny =?",array($id_source,$_SESSION['ws-tags']['ws-user']['code'],$per)))
 										CON::insert("tags_share_mails","id_tag = ?,referee_number =?,email_destiny =?,view = '0'",
 											array($tag['id'],$_SESSION['ws-tags']['ws-user']['code'],$per));
-									return $data; 
+									return $data;
 								}
 							}
 						}
 					break;
 					case 10://tag de grupo
-						if($id_friend && isValidEmail($data['email'])){ 
+						if($id_friend && isValidEmail($data['email'])){
 							$body=''.formatShowGroupsMail($data['grupo'],$id_type,'',$id_source).'';
 							if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$data['email'];
 							$htmlEmail.=formatMail($body,'790');
@@ -2292,7 +2297,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 						}
 					break;
 					case 15: //comentarios productos (15- dueño)
-						if($id_friend){ 
+						if($id_friend){
 							$email=CON::getVal("SELECT email FROM users WHERE id=?",array($id_friend));
 							if ($email){
 								$body=''.formatShowProductMail($id_source,$id_type).'';
@@ -2303,13 +2308,13 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 						}
 					break;
 					case 16: case 17: //orden procesada exitosamente, orden pendiente por pagar
-						if($id_friend){ 
+						if($id_friend){
 							$array=storeCarMail($data,$id_type);
 							if ($id_type==16)
 								foreach ($array['seller'] as $row) {
 									if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$row['email'].$row['html'];
 									else sendMail($row['html'],EMAIL_NO_RESPONDA,formatoCadena($array['buyer']['name']),$row['buyer']['name'].' '.STORE_EMAILMESSAGE,$row['email'],'../../');
-								} 
+								}
 							if (!$noEmail)
 								if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$array['buyer']['email'].$array['buyer']['html'];
 								else sendMail($array['buyer']['html'],EMAIL_NO_RESPONDA,'Tagbum.com',STORE_PURCHASETITLENEW,$array['buyer']['email'],'../../');
@@ -2330,7 +2335,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 										if (!$GLOBALS['config']->local) sendMail($html, EMAIL_NO_RESPONDA,'Tagbum',STORE_RAFFLEEMAILMESSAGE,$row['email'],"../../");
 										else $htmlEmail.='<br><strong>Send To:</strong> '.$row['email'].$html;
 								}
-							}							
+							}
 							if (!$GLOBALS['config']->local) sendMail($htmlOwner, EMAIL_NO_RESPONDA,'Tagbum',STORE_RAFFLEEMAILMESSAGE,$array['owner'],"../../");
 							else $htmlEmail.='<br><strong>Send To:</strong> '.$array['owner'].$htmlOwner;
 						}
@@ -2338,7 +2343,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 					case 21: // report tag, esta no guarda ninguna notificacion
 						if(!$id_friend){
 							$body ='<div>
-										<div style="background-image: url(\''.$GLOBALS['config']->main_server.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;height: 103px;margin-left: 40px;"></div> 
+										<div style="background-image: url(\''.$GLOBALS['config']->main_server.'css/smt/icon.png\');width: 100px;background-repeat: no-repeat;height: 103px;margin-left: 40px;"></div>
 										<div style="padding: 25px;text-align: center; font-size: 25px; color:#FA0D1F">'.EMAIL_REPORTS_TAGS.'</div>
 										<div style="text-align: center;"><img src="'.tagURL($id_source).'" width="650"></div>
 										<div style="text-align: center; font-size: 20px; font-weight:bold; padding:20px 0"><a style="text-decoration: none; color: #514C4C; " href="'.$GLOBALS['config']->main_server.'wpanel/?idtagreport='.md5($id_source).'">'.EMAIL_REPORTS_TAGS_DELETE.'</a></div>
@@ -2350,7 +2355,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 							}
 						}
 					break;
-					case 22:  case 25: case 26: case 27: 
+					case 22:  case 25: case 26: case 27:
 						$email=CON::getVal("SELECT email FROM users WHERE id=?",array($id_friend));
 						if($id_friend && isValidEmail($email)){
 							switch ($id_type) {
@@ -2371,31 +2376,32 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 									</table>';
 							if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$email;
 							$htmlEmail.=formatMail($body,'790');
-							if (!$GLOBALS['config']->local) sendMail($htmlEmail,EMAIL_NO_RESPONDA,TOPTAG_TITLE,CONGRATULATIONS,$email,'../../');						
+							if (!$config->local) sendMail($htmlEmail,EMAIL_NO_RESPONDA,TOPTAG_TITLE,CONGRATULATIONS,$email,'../../');
 						}
 					break;
 					case 28: // comentarios tag (28- otros usuarios que han comentado la tag)
 						if($id_friend && isValidEmail($data['email'])){
-							$iconoTipo=$GLOBALS['config']->main_server.'css/smt/tag/comment.png';
+							$iconoTipo=$config->main_server.'css/smt/tag/comment.png';
 							$body=''.formatShowTagMail($id_source,$iconoTipo,NEWS_COMMENTSTAGMSJUSERSENT,'Tag').'';
 							if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$data['email'];
 							$htmlEmail.=formatMail($body,'790');
-							if (!$GLOBALS['config']->local) sendMail($htmlEmail,EMAIL_NO_RESPONDA,formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']),formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.NEWS_COMMENTSTAGMSJUSERSENT.' Tag',$data['email'],'../../');
+							if (!$config->local) sendMail($htmlEmail,EMAIL_NO_RESPONDA,formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']),formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.NEWS_COMMENTSTAGMSJUSERSENT.' Tag',$data['email'],'../../');
 						}
 					break;
 					case 29: //comentarios productos (29- otros usuarios que han comentado)
-						if($id_friend && isValidEmail($data['email'])){ 
+						if($id_friend && isValidEmail($data['email'])){
 							$body=''.formatShowProductMail($id_source,$id_type).'';
 							if ($GLOBALS['config']->local) $htmlEmail.='<br><strong>Send To:</strong> '.$data['email'];
 							$htmlEmail.=formatMail($body,'790');
-							if (!$GLOBALS['config']->local) sendMail($htmlEmail, EMAIL_NO_RESPONDA, formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']),formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.NOTIFICATIONS_STORECOMMENTSMSJUSER_EMAIL, $data['email'], '../../');
+							if (!$config->local) sendMail($htmlEmail, EMAIL_NO_RESPONDA, formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']),formatoCadena($_SESSION['ws-tags']['ws-user']['full_name']).' '.NOTIFICATIONS_STORECOMMENTSMSJUSER_EMAIL, $data['email'], '../../');
 						}
 					break;
-				} //end switch	
-			if ($GLOBALS['config']->local) $_SESSION['ws-tags']['email'].=$htmlEmail;
+				} //end switch
+				if($config->local) $_SESSION['ws-tags']['email'].=$htmlEmail;
 			}
 		}
 	}else{ //else delete
+		$_SESSION['ws-tags']['email']='';
 		if($id_friend!=$id_user){
 			CON::delete('users_notifications','id_type=? AND id_source=? AND id_user=? AND id_friend=?',array(
 				$id_type,$id_source,$id_user,$id_friend
@@ -2406,6 +2412,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 			));
 		}
 	}
+	return $_SESSION['ws-tags']['email'];
 }
 
 function logAction($id_type,$id_source,$id_user=''){
@@ -2891,8 +2898,8 @@ function getPublicityPicture($photo,$default='img/publicity/publicity_nofile.png
 			if(fileExistsRemote($GLOBALS['config']->main_server.$photo))
 				return $photo;
 		}
-		
-		
+
+
 	}
 	return $default;
 }
@@ -3102,8 +3109,8 @@ function createTag($tag,$force=false,$msg=false){
 					$im2=$im2->resize(round(60*$basemult),round(60*$basemult));
 				}
 				$im2=$im2->roundCorners($cr,null, 2,255);
-//				imagecopy($im,$im2->getHandle(),40,215,0,0,60,60); 
-				imagecopy($im,$im2->getHandle(),round(40*$basemult),round(215*$basemult),0,0,round(60*$basemult),round(60*$basemult)); 
+//				imagecopy($im,$im2->getHandle(),40,215,0,0,60,60);
+				imagecopy($im,$im2->getHandle(),round(40*$basemult),round(215*$basemult),0,0,round(60*$basemult),round(60*$basemult));
 				$im2->destroy();
 			}
 			//Textos de la tag.
@@ -3348,8 +3355,8 @@ function tourHash_json($hashtash){
 }
 
 function get_trending($limit=5, $date = 'CURDATE()'){
-	$sql = 'SELECT id,word 
-			FROM trending_toping 
+	$sql = 'SELECT id,word
+			FROM trending_toping
 			WHERE day BETWEEN DATE_SUB(CURDATE(),INTERVAL 4 DAY) AND '.$date.'
 			ORDER BY count DESC,RAND() LIMIT '.$limit;
 	$trendings = $GLOBALS['cn']->query($sql);
@@ -3410,16 +3417,16 @@ function calculateProgress(){
 			$cant++; if (isset($_SESSION['ws-tags']['ws-user']['last_name']) && $_SESSION['ws-tags']['ws-user']['last_name']!=''){ $complete++; $noFails['lname']=true;  }
 			$cant++; if (isset($_SESSION['ws-tags']['ws-user']['sex']) && $_SESSION['ws-tags']['ws-user']['sex']!=''){ $complete++; $noFails['sex']=true;  }
 			$cant++; if (isset($_SESSION['ws-tags']['ws-user']['interest']) && $_SESSION['ws-tags']['ws-user']['interest']!='' && $_SESSION['ws-tags']['ws-user']['interest']!=0){ $complete++; $noFails['interest']=true;  }
-			$cant++; if (isset($_SESSION['ws-tags']['ws-user']['relationship']) && $_SESSION['ws-tags']['ws-user']['relationship']!='' && $_SESSION['ws-tags']['ws-user']['relationship']!=0){ $complete++; $noFails['relation']=true;  }	
-			$cant++; if (isset($_SESSION['ws-tags']['ws-user']['wish_to']) && $_SESSION['ws-tags']['ws-user']['wish_to']!='' && $_SESSION['ws-tags']['ws-user']['wish_to']!=0){ $complete++; $noFails['wish']=true;  }	
+			$cant++; if (isset($_SESSION['ws-tags']['ws-user']['relationship']) && $_SESSION['ws-tags']['ws-user']['relationship']!='' && $_SESSION['ws-tags']['ws-user']['relationship']!=0){ $complete++; $noFails['relation']=true;  }
+			$cant++; if (isset($_SESSION['ws-tags']['ws-user']['wish_to']) && $_SESSION['ws-tags']['ws-user']['wish_to']!='' && $_SESSION['ws-tags']['ws-user']['wish_to']!=0){ $complete++; $noFails['wish']=true;  }
 		}
 		//$cant++;  if (!isset($_SESSION['ws-tags']['ws-user']['']) && $_SESSION['ws-tags']['ws-user']['']!=''){ $complete++; $noFails['']=true;  }
 		$porcentajePerfil=($complete*100)/$cant;
 		/*porcentaje del progreso de las preferencias*/
 		$complete=CON::getVal("	SELECT COUNT(id_preference) AS num
 								FROM users_preferences
-								WHERE id_user=? 
-								AND preference!='' 
+								WHERE id_user=?
+								AND preference!=''
 								AND preference IS NOT NULL;",array($_SESSION['ws-tags']['ws-user']['id']));
 		if ($complete>0) $porcentajePrefe=($complete*100)/3;
 		else $porcentajePrefe=0;
