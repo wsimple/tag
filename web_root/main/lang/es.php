@@ -84,6 +84,8 @@ $lang=array(
 	#Errors
 	'MSGERROR_USERPASSBLANK' => 'Usuario y contraseña son necesarios para el ingreso',
 	'MSGERROR_PASSWINVALID' => 'Contraseña Invalida, intente nuevamente.',
-	'MSGERROR_LOGINMAXTRY' => 'Demasiados intentos para ingresar. Espero unos minutos e intente nuevamente.'
+	'MSGERROR_LOGINMAXTRY' => 'Demasiados intentos para ingresar. Espero unos minutos e intente nuevamente.',
+	'MSGERROR_USERNOTEXIST' => 'Usuario no registrado.',
+	'MSGERROR_MAXNUMATTEMPTS' => 'Ha superado el numero de intentos permitidos. Intente dentro de 5 minutos.'
 );
 return $lang;

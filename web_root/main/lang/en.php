@@ -44,6 +44,8 @@ $lang=array(
 	#Errors
 	'MSGERROR_USERPASSBLANK' => 'Username and password are required for admission',
 	'MSGERROR_PASSWINVALID' => 'Invalid password, try again.',
-	'MSGERROR_LOGINMAXTRY' => 'Too many attempts to enter. Wait a few minutes and try again.'
+	'MSGERROR_LOGINMAXTRY' => 'Too many attempts to enter. Wait a few minutes and try again.',
+	'MSGERROR_USERNOTEXIST' => 'User Not Registered.',
+	'MSGERROR_MAXNUMATTEMPTS' => 'You have exceeded the number of attempts allowed. Try within 5 minutes.'
 );
 return $lang;

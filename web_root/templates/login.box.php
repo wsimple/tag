@@ -11,7 +11,7 @@
 		<div id="fb-root"></div>
 		<p>
 			<label for="txtLogin"><?=LBL_LOGIN?>:</label>
-			<input type="email" name="txtLogin" id="txtLogin" class="text_box" placeholder="<?=LBL_LOGIN?>" value="<?=$_COOKIE['last']?>" requerido="<?=LBL_LOGIN?>" />
+			<input type="email" name="txtLogin" id="txtLogin" class="text_box" placeholder="<?=LBL_LOGIN?>" value="<?=$_COOKIE['last']?>" requerido="<?=LBL_LOGIN?>" tipo="email" />
 			<span class="legend">tagbum.com/<?=LOGIN_URLUSERSMYID?></span>
 		</p>
 		<p>
@@ -42,7 +42,8 @@
 	var wait=false,send=false,box=$('#login-box form')[0],$keep=$('#keepLogin',box),$go=$('#goto',box), urlFriends = 'friends?sc=2';
 	var _login=function(){
 		$('#hash',box).val(document.location.hash);
-		if(!send&&!wait&&valida(this)){
+		//if(!send&&!wait&&valida(this)){
+		if(!send&&!wait){
 			wait=true;
 			var data={
 				login:$('#txtLogin',box).val(),
@@ -161,6 +162,8 @@
 		js.src="//connect.facebook.net/en_Us/all.js";
 		fjs.parentNode.insertBefore(js,fjs);
 	}(document,'script','facebook-jssdk'));
+
+
 	// window.fbAsyncInit=function(){
 	// 	FB.init({
 	// 		appId:'<?=isset($config->facebook->appId)?$config->facebook->appId:''?>',

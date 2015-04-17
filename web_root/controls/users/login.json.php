@@ -6,7 +6,7 @@ function login_json($data){
 	$login=cls_string($data['login']);
 	$pass=cls_string($data['pwd']);
 	$res=array('logged'=>false);
-	if($login==''||$pass==''){#can't login
+	if($login==''&&$pass==''){#can't login
 		$res['msg']=MSGERROR_USERPASSBLANK;
 		$res['from']=1;
 		return $res;
@@ -17,7 +17,11 @@ function login_json($data){
 	// 	WHERE email=? AND password_user=?
 	// ',array($login,$pass));
 	$sesion=CON::getRow('
-		SELECT *,CONCAT(name," ",last_name) AS full_name,md5(concat(id,"_",email,"_",id)) AS code,profile_image_url AS display_photo
+		SELECT *,
+			CONCAT(name," ",last_name) AS full_name,
+			md5(concat(id,"_",email,"_",id)) AS code,
+			profile_image_url AS display_photo,
+			(UNIX_TIMESTAMP() - UNIX_TIMESTAMP(users.login_lasttime))/60 as minutes_lastlogin
 		FROM users
 		WHERE email=? 
 	',array($login));
@@ -85,7 +89,7 @@ function login_json($data){
 						$myId=$_SESSION['ws-tags']['ws-user']['id'];
 						$res['numFriends']=CON::getVal('SELECT COUNT(id_user) as num from users_links where id_user = ?',array($_SESSION['ws-tags']['ws-user']['id']));
 						//Aumentamos el contador de login
-						CON::update('users','logins_count=logins_count+1','login_lasttime=now()','login_count_fail=0','email=?',array($login));
+						CON::update('users','logins_count=logins_count+1,login_lasttime=NOW(),login_count_fail=0','id=?',array($sesion['id']));
 						$_SESSION['ws-tags']['ws-user']['logins_count']++;
 						#Guardamos el device del ususario.
 						$device=saveDevice($data['mobile']);
@@ -126,12 +130,45 @@ function login_json($data){
 		}
 		else
 		{
-			$res=array(
-			'logged'=>false,
-			'msg'=>MSGERROR_PASSWINVALID,
-			//'msg'=>MSG_DATAERROR1,
-			'from'=>4
-			);
+			//PROCESO DE SEGURIDAD
+			//Registro el intento de login
+			$updtime = 'login_lasttime='.(($sesion['login_count_fail']==0) ? 'NOW()': 'login_lasttime');
+			CON::update('users','login_count_fail=login_count_fail+1,'.$updtime,'id=?',array($sesion['id']));
+
+			if ($sesion['login_count_fail']<=5)
+			{
+				$res=array(
+					'logged'=>false,
+					'msg'=>MSGERROR_PASSWINVALID,
+					'from'=>4
+				);
+			}
+			else
+			{
+				//Si sobrepaso el numero de intentos, validar el tiempo transcurrido 
+				if ($sesion['minutes_lastlogin']<=2)
+				{
+					//Se asume que ya ha intentado mas de 5 veces en un tiempo de 2 min
+					$res=array(
+						'logged'=>false,
+						'msg'=>MSGERROR_MAXNUMATTEMPTS,
+						'from'=>4
+					);
+				}
+				else
+				{
+					//Reinicio el conteo en BD pasados 2 minutos desde el ultimo intento
+					if ($sesion['minutes_lastlogin']>2)
+					{
+						CON::update('users','login_count_fail=1,login_lasttime=NOW()','id=?',array($sesion['id']));
+						$res=array(
+							'logged'=>false,
+							'msg'=>MSGERROR_PASSWINVALID,
+							'from'=>$sesion['minutes_lastlogin']
+						);
+					}
+				}
+			}
 			return $res;
 		}
 	}else{#validacion de login y passowrd
@@ -139,7 +176,6 @@ function login_json($data){
 		$res=array(
 			'logged'=>false,
 			'msg'=>MSGERROR_USERNOTEXIST,
-			//'msg'=>MSG_DATAERROR1,
 			'from'=>4
 		);
 		//_imprimir($res);

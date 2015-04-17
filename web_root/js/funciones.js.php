@@ -211,7 +211,7 @@ function windowChange(){
 (function(window,$,console){
 	var lin,lout;
 	window.login=function(opc){
-		if(lin||!opc||!opc.data){console.log('login cancelado');return;}
+		if(lin||!opc||!opc.data){console.log('login cancelado');return false;}
 		lin=true;
 		$$.ajax({
 			type:'POST',
@@ -236,7 +236,7 @@ function windowChange(){
 				}
 			},
 			success:function(data){
-//				alert(JSON.stringify(data));
+				//alert(JSON.stringify(data));
 				console.log('login success. logged='+data.logged);
 				if(data['logged']){
 					isLogged(true);
@@ -353,7 +353,7 @@ function redirect(url,op){
 
 function valida(form){//requerido=" label", opcional(tamanio="tamanio")
 	if( typeof form==='string' ) form=$('#'+form);
-	var i,msj,tamanio,paso;
+	var i,msj,tamanio,paso=false;
 	var inputs=$('[requerido]',form);
 	for (i=0;i<inputs.length;i++){
 		msj='<b>'+inputs[i].getAttribute('requerido')+'</b>&nbsp;<?=$lang["REQUIREDPROFILE"]?>!\n';
@@ -366,6 +366,7 @@ function valida(form){//requerido=" label", opcional(tamanio="tamanio")
 			paso=true;
 		}
 		if(inputs[i].value.length<tamanio||inputs[i].value=='0,00'||paso==true){
+			//alert(inputs[i].getAttribute('requerido'));
 //			focoActual=inputs[i].id;
 //			message('messages','Alert',msj,inputs[i].id);
 			$.dialog({
