@@ -2327,18 +2327,41 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 							$htmlOwner=formatMail($array['emailOwner'],'790');
 							foreach ($data as $row) {
 								if ($row['id']==$id_friend){
-									if (!CON::getVal('SELECT id FROM users_config_notifications WHERE id_user=? AND id_notification=?',array($row['id'],19)))
-										if (!$GLOBALS['config']->local) sendMail($html, EMAIL_NO_RESPONDA,'Tagbum',STORE_RAFFLEWINNER,$row['email'],"../../");
-										else $htmlEmail.='<br><strong>Send To:</strong> '.$row['email'].$html;
+									if (CON::getVal('SELECT id FROM users_config_notifications WHERE id_user=? AND id_notification=?',array($row['id'],19)))
+									{
+										if (!$GLOBALS['config']->local)
+										{ 
+											sendMail($html, EMAIL_NO_RESPONDA,'Tagbum',STORE_RAFFLEWINNER,$row['email'],"../../");
+										}
+										else
+										{
+											$htmlEmail.='<br><strong>Send To:</strong> '.$row['email'].$html;
+										}
+									}	
 								}else{
-									if (!CON::getVal('SELECT id FROM users_config_notifications WHERE id_user=? AND id_notification=?',array($row['id'],18)))
-										if (!$GLOBALS['config']->local) sendMail($html, EMAIL_NO_RESPONDA,'Tagbum',STORE_RAFFLEEMAILMESSAGE,$row['email'],"../../");
-										else $htmlEmail.='<br><strong>Send To:</strong> '.$row['email'].$html;
+									if (CON::getVal('SELECT id FROM users_config_notifications WHERE id_user=? AND id_notification=?',array($row['id'],18)))
+									{	
+										if (!$GLOBALS['config']->local)
+										{ 
+											sendMail($html, EMAIL_NO_RESPONDA,'Tagbum',STORE_RAFFLEEMAILMESSAGE,$row['email'],"../../");
+										}
+										else
+										{ 
+											$htmlEmail.='<br><strong>Send To:</strong> '.$row['email'].$html;
+										}
+									}	
 								}
-							}
-							if (!$GLOBALS['config']->local) sendMail($htmlOwner, EMAIL_NO_RESPONDA,'Tagbum',STORE_RAFFLEEMAILMESSAGE,$array['owner'],"../../");
-							else $htmlEmail.='<br><strong>Send To:</strong> '.$array['owner'].$htmlOwner;
-						}
+							}//foreach
+
+							if (!$GLOBALS['config']->local)
+							{
+								sendMail($htmlOwner, EMAIL_NO_RESPONDA,'Tagbum',STORE_RAFFLEEMAILMESSAGE,$array['owner'],"../../");
+							} 	
+							else
+							{
+								$htmlEmail.='<br><strong>Send To:</strong> '.$array['owner'].$htmlOwner;
+							} 
+						}//id_friend
 					break;
 					case 21: // report tag, esta no guarda ninguna notificacion
 						if(!$id_friend){
