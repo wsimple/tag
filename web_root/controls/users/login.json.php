@@ -5,12 +5,37 @@ function login_json($data){
 	//se definen los parametros
 	$login=cls_string($data['login']);
 	$pass=cls_string($data['pwd']);
+	$captcha=cls_string($data['recaptcha']);
+	$iscaptcha=$data['iscaptcha'];
 	$res=array('logged'=>false);
 	if($login==''&&$pass==''){#can't login
 		$res['msg']=MSGERROR_USERPASSBLANK;
 		$res['from']=1;
 		return $res;
 	}
+
+	//Captcha reCaptcha
+	if($iscaptcha){
+		//Parameters
+		//--- secret: Token suministrado por google. Se debe asocial todos los dominios y subdominios a una cuenta gmail.
+		//--- response: es lo que envia google luego de responder el Captcha. Este valor se toma de control con ID=g-recaptcha-response. Se envia a esta funcion via JSON
+		$response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LcziQUTAAAAAOk904s3VLveP2D5bSiV-3qH_LYJ&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']);
+		/*$res=array(
+					'logged'=>false,
+					'msg'=>$response,
+					'from'=>4
+				);
+		return $res;*/
+		if($response.success==false){
+			$res=array(
+					'logged'=>false,
+					'msg'=>MSGERROR_CAPTCHAINVALID,
+					'from'=>4
+				);
+			return $res;
+		}
+	}
+
 	// $sesion=CON::getRow('
 	// 	SELECT *,CONCAT(name," ",last_name) AS full_name,md5(concat(id,"_",email,"_",id)) AS code,profile_image_url AS display_photo
 	// 	FROM users
@@ -188,6 +213,8 @@ if(!$notAjax){
 	$data['keep']=isset($_REQUEST['keep'])||isset($_REQUEST['keepLogin']);
 	$data['login']=$_POST['login']!=''?$_POST['login']:$_POST['txtLogin'];
 	$data['pwd']=$_POST['pwd']!=''?$_POST['pwd']:($_POST['pass']!=''?$_POST['pass']:$_POST['txtPass']);
+	$data['recaptcha']=$_POST['recaptcha']!=''?$_POST['recaptcha']:'';
+	$data['iscaptcha']=$_POST['iscaptcha'];
 	$data['mobile']=isset($_REQUEST['mobile']);
 	die(jsonp(login_json($data)));
 }

@@ -71,6 +71,7 @@ if(!ISLOGGED &&'localStorage' in window && window['localStorage']!==null) localS
 <?php }else{//deslogeado ?>
 <link rel="stylesheet" type="text/css" href="<?=$minify?"min/?f=":""?>css/jquery.fullPage.css" />
 <script type="text/javascript" src="<?=$minify?"min/?f=":""?>js/jquery.fullPage.js"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <?php } ?>
 <!-- Compliance patch for Microsoft browsers -->
 <!--[---if lt IE 9]><script src="http://ie7-js.googlecode.com/svn/trunk/lib/IE9.js"></script><![endif]-->

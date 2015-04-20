@@ -22,6 +22,7 @@
 			<input type="checkbox" name="keepLogin" id="keepLogin" <?=isset($_COOKIE['kl'])?' checked="checked"':''?> />
 			<span><?=LOGIN_LBLREMEMBERMELOGIN?></span>
 		</p>
+		<div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LcziQUTAAAAACrwsmGrSfydtkzIG8RWl4O5TFkZ"></div>
 		<!-- <p>
 			<a href="<?=HREF_DEFAULT?>"><?=LOGIN_LBLLINKTROUBLELOGGIN?></a>
 		</p> -->
@@ -29,6 +30,7 @@
 			<input type="submit" name="btnLogin" id="btnLogin" value="<?=BTN_LOGIN?>" style="width:100px;" />
 		</p>
 		<input type="hidden" name="hash" id="hash" value="" />
+		<input type="hidden" name="gcaptcha" id="gcaptcha" value="true" />
 		<?php if($_GET['store']=='1'){ ?><input type="hidden" name="store" value="1" /><?php } ?>
 		<?php if($_GET['wpAddTag']=='1'){ ?><input type="hidden" name="wpAddTag" value="1" /><?php } ?>
 		<input type="hidden" name="goto" id="goto" value="<?=$bodyPage=='main/failure.php'?'':'//'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']?>" />
@@ -47,7 +49,9 @@
 			wait=true;
 			var data={
 				login:$('#txtLogin',box).val(),
-				pwd:$('#txtPass',box).val()
+				pwd:$('#txtPass',box).val(),
+				iscaptcha:$('#gcaptcha',box).val(),
+				recaptcha:$('#g-recaptcha-response',box).val()
 			};
 			if($keep.is(':checked')) data.keep=true;
 			login({
