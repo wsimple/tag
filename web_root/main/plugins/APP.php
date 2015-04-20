@@ -51,7 +51,7 @@ class APP
 			case 'resetPassword':
 				$usr='';
 				if(preg_match('/^[0-9a-f]{32}$/i',$_GET['usr']))
-					$usr=$_GET['tag'];
+					$usr=$_GET['usr'];
 				self::redir($config->app_server."resendPass.html?usr=$usr");
 			case 'home': default:
 				self::redir($config->app_server);
