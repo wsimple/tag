@@ -2167,7 +2167,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 	global $config;
 	require_once(__DIR__.'/functions_mails.php');
 	if(isset($_GET['debug'])){
-		var_dump([$id_friend,$id_source,$id_type,$delete,$id_user,$data]);
+		var_dump($id_friend,$id_source,$id_type,$delete,$id_user,$data);
 		echo '<hr>';
 	}
 	if ($config->local && !isset($_SESSION['ws-tags']['email'])) $_SESSION['ws-tags']['email']='';
