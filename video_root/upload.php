@@ -3,9 +3,9 @@ require_once('includes/client.php');
 
 $validate=true;
 
-$code=isset($_COOKIE['__code__'])?$_COOKIE['__code__']:(isset($_GET['code'])?$_GET['code']:'');
+$code=isset($_COOKIE['__code__'])?$_COOKIE['__code__']:(isset($_REQUEST['code'])?$_REQUEST['code']:'');
 if($validate){
-	$uid=isset($_COOKIE['__uid__'])?$_COOKIE['__uid__']:(isset($_GET['uid'])?$_GET['uid']:'');
+	$uid=isset($_COOKIE['__uid__'])?$_COOKIE['__uid__']:(isset($_REQUEST['uid'])?$_REQUEST['uid']:'');
 	$db=new TAG_db();
 	$user=$db->getRow('SELECT *
 		FROM (SELECT id,email,md5(id) as uid,md5(CONCAT(id,"_",email,"_",id)) as code FROM users)
