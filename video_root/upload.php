@@ -1,15 +1,20 @@
 <?php
 require_once('includes/client.php');
-if(!$myId){
-	$db=new TAG_db();
-	$user=array();
-	$user=$db->getRow('SELECT id,email FROM users WHERE md5(id)=? AND md5(CONCAT(id,"_",email,"_",id))=?',
-		array($_COOKIE['__uid__'],$_COOKIE['__code__']));
-	$myId=$user['id'];
-}
- if(!$myId) $myId=0;
 
-$folder='/videos/pending/'.$_POST['code'];
+$validate=true;
+
+$code=isset($_COOKIE['__code__'])?$_COOKIE['__code__']:(isset($_GET['code'])?$_GET['code']:'');
+if($validate){
+	$uid=isset($_COOKIE['__uid__'])?$_COOKIE['__uid__']:(isset($_GET['uid'])?$_GET['uid']:'');
+	$db=new TAG_db();
+	$user=$db->getRow('SELECT *
+		FROM (SELECT id,email,md5(id) as uid,md5(CONCAT(id,"_",email,"_",id)) as code FROM users)
+		WHERE uid=? AND code=?',array($uid,$code));
+	$myId=isset($user['id'])?$user['id']:0;
+	$code=isset($user['code'])?$user['code']:0;
+}
+
+$folder="/videos/pending/$code";
 
 if(!is_dir($folder)){ mkdir($folder,0755,true);}
 
@@ -19,9 +24,16 @@ if(count($_FILES))
 		if($file['error']==0){
 			//#nombre personalizado
 			$file_name=hash_file('crc32',$file['tmp_name']).'_'.date('YmdHis').'.'.pathinfo($file['name'],PATHINFO_EXTENSION);
-			if(rename($file['tmp_name'],dirname(__FILE__)."$folder/$file_name")){
+			if(rename($file['tmp_name'],__DIR__."$folder/$file_name")){
 				$files[]=array('name'=>$file_name);
 			}
 		}
 	}
 die(json_encode(array('file'=>$file_name)));
+
+die(json_encode(array(
+	'files'=>$files,
+	'folder'=> $folder,
+	// 'request'=> $_REQUEST,
+	// 'upload'=> $_FILES
+)));
