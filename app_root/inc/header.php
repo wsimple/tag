@@ -49,6 +49,7 @@ if(preg_match('/^\/app_root/',$_SERVER['REQUEST_URI'])){
 	<script src="js/core/colorPicker.js"></script>
 	<script src="js/core/currency/jquery.formatCurrency-1.4.0.js"></script>
 	<script type="text/javascript" src="js/core/jquery.touchSwipe.min.js"></script>
+	<script src="https://www.google.com/recaptcha/api.js"></script>
 <?php if(isset($_GET['minify'])){
 ?>	<script src="js/min.js" charset="UTF-8"></script>
 

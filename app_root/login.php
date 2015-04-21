@@ -29,6 +29,7 @@
 						<input data-theme="b" name="login" id="txtLogin" value="" type="email" placeholder="email" onkeypress="return enterTab(event,this)" onfocus="inputFocus(this)" />
 						<input data-theme="b" name="pwd" id="txtPass" value="" type="password" placeholder="password" class="password-field"  />
 					</p>
+					<div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LcziQUTAAAAACrwsmGrSfydtkzIG8RWl4O5TFkZ" style="display: none;"></div>
 					<a id="forGot" onclick="redir(PAGE['forGot']);"></a><br/><br/>
 					<div id="buttons">
 						<div class="_tt">
@@ -37,6 +38,7 @@
 							</div>
 							<div class="_tr">
 								<input type="submit" id="btn-login" class="btn-orange" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" />
+								<input type="hidden" name="gcaptcha" id="gcaptcha" value="false" />
 								<!-- <a id="btn-login2" class="btn-orange" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" href="#" onClick="$('#frmLogin').submit()"></a> -->
 							</div>
 						</div>
@@ -83,6 +85,8 @@
 						var data={
 								login:$('#txtLogin').val(),
 								pwd:$('#txtPass').val(),
+								iscaptcha:$('#gcaptcha').val(),
+								recaptcha:$('#g-recaptcha-response').val(),
 								lng:lang['actual']
 							};
 						if(CORDOVA) data.keep=true;
@@ -103,7 +107,12 @@
 								if(data['from']==='paypal'||data['from']=='renewaccount'){
 									myDialog('#log-msg',lang['MSG_PAYPAL_HELP']+'<br><br><strong style="font-size: 13px;">'+lang['MSG_PAYPAL_HELP_APP']+'</strong>');
 								}else{
+									document.getElementById('g-recaptcha').style.display = ((data['iscaptcha'])?"block":"none");
+									$('#gcaptcha').val( ((data['iscaptcha'])?true:false) );
+
 									myDialog('#log-msg',data['msg']);
+
+									if (data['iscaptcha']) grecaptcha.reset();
 								}
 							},
 							error:function(data){
