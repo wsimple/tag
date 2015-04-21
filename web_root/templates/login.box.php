@@ -22,7 +22,7 @@
 			<input type="checkbox" name="keepLogin" id="keepLogin" <?=isset($_COOKIE['kl'])?' checked="checked"':''?> />
 			<span><?=LOGIN_LBLREMEMBERMELOGIN?></span>
 		</p>
-		<div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LcziQUTAAAAACrwsmGrSfydtkzIG8RWl4O5TFkZ"></div>
+		<div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LcziQUTAAAAACrwsmGrSfydtkzIG8RWl4O5TFkZ" style="display: none;"></div>
 		<!-- <p>
 			<a href="<?=HREF_DEFAULT?>"><?=LOGIN_LBLLINKTROUBLELOGGIN?></a>
 		</p> -->
@@ -30,7 +30,7 @@
 			<input type="submit" name="btnLogin" id="btnLogin" value="<?=BTN_LOGIN?>" style="width:100px;" />
 		</p>
 		<input type="hidden" name="hash" id="hash" value="" />
-		<input type="hidden" name="gcaptcha" id="gcaptcha" value="true" />
+		<input type="hidden" name="gcaptcha" id="gcaptcha" value="false" />
 		<?php if($_GET['store']=='1'){ ?><input type="hidden" name="store" value="1" /><?php } ?>
 		<?php if($_GET['wpAddTag']=='1'){ ?><input type="hidden" name="wpAddTag" value="1" /><?php } ?>
 		<input type="hidden" name="goto" id="goto" value="<?=$bodyPage=='main/failure.php'?'':'//'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']?>" />
@@ -92,6 +92,10 @@
 							}
 						});
 					}else if(data&&data['from']!='paypal'){
+
+						document.getElementById('g-recaptcha').style.display = ((data['iscaptcha'])?"block":"none");
+						$('#gcaptcha',box).val( ((data['iscaptcha'])?true:false) );
+
 						$.dialog({
 							title:'<?=SIGNUP_CTRTITLEALERT?>',
 							resizable:false,
