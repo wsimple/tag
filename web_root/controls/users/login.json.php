@@ -15,7 +15,7 @@ function login_json($data){
 	}
 
 	//Captcha reCaptcha
-	if($iscaptcha){
+	if($iscaptcha) {
 		//Parameters
 		//--- secret: Token suministrado por google. Se debe asociar todos los dominios y subdominios a una cuenta gmail.
 		//--- response: es lo que envia google luego de responder el Captcha. Este valor se toma de control con ID=g-recaptcha-response. Se envia a esta funcion via JSON
@@ -26,6 +26,7 @@ function login_json($data){
 					'logged'=>false,
 					'msg'=>MSGERROR_CAPTCHAINVALID, 
 					'from'=>4,
+					'error'=>'MSGERROR_CAPTCHAINVALID',
 					'iscaptcha'=>true
 				);
 			return $res;
@@ -42,7 +43,7 @@ function login_json($data){
 			CONCAT(name," ",last_name) AS full_name,
 			md5(concat(id,"_",email,"_",id)) AS code,
 			profile_image_url AS display_photo,
-			(UNIX_TIMESTAMP() - UNIX_TIMESTAMP(users.login_lasttime))/60 as minutes_lastlogin
+			IFNULL(((UNIX_TIMESTAMP() - UNIX_TIMESTAMP(users.login_lasttime))/60),0) as minutes_lastlogin
 		FROM users
 		WHERE email=? 
 	',array($login));
@@ -50,6 +51,7 @@ function login_json($data){
 		//Si la contrasena es la correcta, continuar el proceso
 		if($sesion['password_user']==$pass)
 		{
+			
 			//acciones del login
 			switch($sesion['status']){
 				case '3':

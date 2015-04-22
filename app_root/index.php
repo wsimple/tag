@@ -96,9 +96,9 @@
 			},
 			after:function(){
 				$('#btn-login-change .ui-btn-text').css('padding','0 10px');
-				if(is.device && !CORDOVA){
-					if(is['android']) $('.googlePlay').click();
-				}
+				//if(is.device && !CORDOVA){
+				//	if(is['android']) $('.googlePlay').click();
+				//}
 				$('#tagBum_info_msg a').click(function(event){
 					event.preventDefault();
 					switch($(this).attr('class')){

@@ -110,7 +110,7 @@
 									document.getElementById('g-recaptcha').style.display = ((data['iscaptcha'])?"block":"none");
 									$('#gcaptcha').val( ((data['iscaptcha'])?true:false) );
 
-									myDialog('#log-msg',data['msg']);
+									myDialog('#log-msg',data['error']&&lang(data['error'])||data['msg']);
 
 									if (data['iscaptcha']) grecaptcha.reset();
 								}

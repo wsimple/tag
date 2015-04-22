@@ -86,7 +86,7 @@ $lang=array(
 		'MSGERROR_PASSWINVALID'                 => 'Contraseña Invalida, intente nuevamente.',
 		'MSGERROR_LOGINMAXTRY'                  => 'Demasiados intentos para ingresar. Espero unos minutos e intente nuevamente.',
 		'MSGERROR_USERNOTEXIST'                 => 'Usuario no registrado.',
-		'MSGERROR_MAXNUMATTEMPTS'               => 'Ha superado el numero de intentos permitidos. Intente dentro de 5 minutos.',
+		'MSGERROR_MAXNUMATTEMPTS'               => 'Ha superado el numero de intentos permitidos.',
 		'MSGERROR_CAPTCHAINVALID'               => 'Su respuesta al Captcha es inválido o no lo ha respondido.'
 );
 return $lang;

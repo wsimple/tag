@@ -431,6 +431,7 @@ is.limited= !is.webkit||is.android;
 		EMPTY_INFO_ADMIRED				:'Disculpe, no tienes admirados. Haz clic abajo y encuentra a tus amigos.',
 		EMPTY_INFO_FIND					:'Disculpe, no se consiguieron amigos con estas especificaciones.',
 		FIND_FRIENDS_NOTIFICATION		:'Encontrar Amigos',
+		MSGERROR_CAPTCHAINVALID			:'Su respuesta al Captcha es inválido o no lo ha respondido.',
 
 		ACCEPT_THE_TERMS				:'Mediante el uso de TagBum, concedes a las <strong><a href="" class="terms">Condiciones</a>, <a href="" class="cookie">Política de Cookies</a></strong> y <strong><a href="" class="privacy">Política de Privacidad</a>.</strong>',
 		DIALOG_TERMS					:
@@ -656,6 +657,7 @@ is.limited= !is.webkit||is.android;
 		MNUTAGREPORT_TEXT2				:'Your comments and complaints help that there is no spam in the section of the timeline.',
 		ACTIONSTAGS_REPORTTAG_TITLESELECT :'All reports are strictly confidential. What best describes this?',
 		FINDFRIENDS_LEGENDOFSEARCHBAR	:"The scan will start automatically, if there's no letters, you'll get link suggestions.",
+		MSGERROR_CAPTCHAINVALID			:'His response Captcha is invalid or has not responded.',
 		DIALOG_TERMS					:
 			'<p><span style="font-size:large;"><strong>Terms of Service for Tagbum.com</strong></span></p>'+
 			'<p><br/>'+

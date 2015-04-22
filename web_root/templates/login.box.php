@@ -95,7 +95,7 @@
 
 						document.getElementById('g-recaptcha').style.display = ((data['iscaptcha'])?"block":"none");
 						$('#gcaptcha',box).val( ((data['iscaptcha'])?true:false) );
-						
+						if (data['iscaptcha']) grecaptcha.reset();
 						$.dialog({
 							title:'<?=SIGNUP_CTRTITLEALERT?>',
 							resizable:false,
