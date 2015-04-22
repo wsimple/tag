@@ -29,7 +29,7 @@
 						<input data-theme="b" name="login" id="txtLogin" value="" type="email" placeholder="email" onkeypress="return enterTab(event,this)" onfocus="inputFocus(this)" />
 						<input data-theme="b" name="pwd" id="txtPass" value="" type="password" placeholder="password" class="password-field"  />
 					</p>
-					<div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LcziQUTAAAAACrwsmGrSfydtkzIG8RWl4O5TFkZ" style="display: none;"></div>
+					<div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LcziQUTAAAAACrwsmGrSfydtkzIG8RWl4O5TFkZ" style="display: none; width:"></div>
 					<a id="forGot" onclick="redir(PAGE['forGot']);"></a><br/><br/>
 					<div id="buttons">
 						<div class="_tt">
