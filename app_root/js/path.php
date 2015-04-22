@@ -16,7 +16,7 @@ if(false){ ?><script><?php } ?>
 	SERVERS={
 		main:'http://tagbum.com/',
 		app:'http://app.tagbum.com/',
-		img:'http://52.1.31.18',
+		img:'http://i.tagbum.com',
 		video:'http://v.tagbum.com'
 	};
 <?php } ?>
@@ -39,12 +39,12 @@ if(false){ ?><script><?php } ?>
 	var regex	=/tagbum\.com/i,
 		pruebas	='',
 		d		=window.location.host=='localhost'||(($.local('host')||'').match(regex)),
-		dom		=d?'http://tagbum.com/':'../',
+		dom		=d?SERVERS.main:'../',
 		prod	=!!(dom.match(regex)||window.location.host.match(regex));
 	LOCAL=dom.match(regex)&&!window.location.host.match(regex);
 	PRODUCCION=prod;
 	DOMINIO=dom;
-	FILESERVER=prod?'http://i.tagbum.com/':'../img_root/';
+	FILESERVER=prod?SERVERS.img+'/':'../img_root/';
 <?php } ?>
 	PAGE={
 		ini:'index.html',
