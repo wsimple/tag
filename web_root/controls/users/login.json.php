@@ -25,7 +25,7 @@ function login_json($data){
 			$res=array(
 					'logged'=>false,
 					'msg'=>MSGERROR_CAPTCHAINVALID, 
-					'from'=>4,
+					'from'=>2,
 					'error'=>'MSGERROR_CAPTCHAINVALID',
 					'iscaptcha'=>true
 				);
@@ -51,7 +51,7 @@ function login_json($data){
 		//Si la contrasena es la correcta, continuar el proceso
 		if($sesion['password_user']==$pass)
 		{
-			
+
 			//acciones del login
 			switch($sesion['status']){
 				case '3':
@@ -158,7 +158,7 @@ function login_json($data){
 			$updtime = 'login_lasttime='.(($sesion['login_count_fail']==0) ? 'NOW()': 'login_lasttime');
 			CON::update('users','login_count_fail=login_count_fail+1,'.$updtime,'id=?',array($sesion['id']));
 
-			if ($sesion['login_count_fail']<5)
+			if ($sesion['login_count_fail']<4)
 			{
 				$res=array(
 					'logged'=>false,
@@ -170,29 +170,29 @@ function login_json($data){
 			else
 			{
 				//Si sobrepaso el numero de intentos, validar el tiempo transcurrido 
-				if ($sesion['minutes_lastlogin']<=2)
+				if (($sesion['minutes_lastlogin']<=2)||($sesion['login_count_fail']>5))
 				{
 					//Se asume que ya ha intentado mas de 5 veces en un tiempo de 2 min
 					$res=array(
 						'logged'=>false,
 						'msg'=>MSGERROR_PASSWINVALID.' '.MSGERROR_MAXNUMATTEMPTS,
-						'from'=>4,
+						'from'=>5,
 						'iscaptcha'=>true
 					);
 				}
 				else
 				{
 					//Reinicio el conteo en BD pasados 2 minutos desde el ultimo intento
-					if ($sesion['minutes_lastlogin']>2)
+					if ($sesion['minutes_lastlogin']>5)
 					{
 						CON::update('users','login_count_fail=1,login_lasttime=NOW()','id=?',array($sesion['id']));
-						$res=array(
-							'logged'=>false,
-							'msg'=>MSGERROR_PASSWINVALID,
-							'from'=>4,
-							'iscaptcha'=>false
-						);
 					}
+					$res=array(
+						'logged'=>false,
+						'msg'=>MSGERROR_PASSWINVALID,
+						'from'=>6,
+						'iscaptcha'=>$iscaptcha
+					);
 				}
 			}
 			return $res;
@@ -202,7 +202,7 @@ function login_json($data){
 		$res=array(
 			'logged'=>false,
 			'msg'=>MSGERROR_USERNOTEXIST,
-			'from'=>4
+			'from'=>0
 		);
 		//_imprimir($res);
 		ifIsLogged();

@@ -238,7 +238,7 @@
 }
 @media all and (min-width:400px){
 	#frmLogin{
-		width:340px;
+		width:304px; //340px;
 		margin:15px auto 0;
 	}
 }
