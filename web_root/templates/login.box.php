@@ -31,6 +31,7 @@
 		</p>
 		<input type="hidden" name="hash" id="hash" value="" />
 		<input type="hidden" name="gcaptcha" id="gcaptcha" value="false" />
+		<input type="hidden" name="version" id="version" value="2" />
 		<?php if($_GET['store']=='1'){ ?><input type="hidden" name="store" value="1" /><?php } ?>
 		<?php if($_GET['wpAddTag']=='1'){ ?><input type="hidden" name="wpAddTag" value="1" /><?php } ?>
 		<input type="hidden" name="goto" id="goto" value="<?=$bodyPage=='main/failure.php'?'':'//'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']?>" />
@@ -51,7 +52,8 @@
 				login:$('#txtLogin',box).val(),
 				pwd:$('#txtPass',box).val(),
 				iscaptcha:$('#gcaptcha',box).val(),
-				recaptcha:$('#g-recaptcha-response',box).val()
+				recaptcha:$('#g-recaptcha-response',box).val(),
+				version:$('#version',box).val()
 			};
 			if($keep.is(':checked')) data.keep=true;
 			login({

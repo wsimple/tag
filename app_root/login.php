@@ -39,6 +39,7 @@
 							<div class="_tr">
 								<input type="submit" id="btn-login" class="btn-orange" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" />
 								<input type="hidden" name="gcaptcha" id="gcaptcha" value="false" />
+								<input type="hidden" name="version" id="version" value="2" />
 								<!-- <a id="btn-login2" class="btn-orange" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" href="#" onClick="$('#frmLogin').submit()"></a> -->
 							</div>
 						</div>
@@ -87,6 +88,7 @@
 								pwd:$('#txtPass').val(),
 								iscaptcha:$('#gcaptcha').val(),
 								recaptcha:$('#g-recaptcha-response').val(),
+								version:$('#version').val(),
 								lng:lang['actual']
 							};
 						if(CORDOVA) data.keep=true;
@@ -110,7 +112,7 @@
 									document.getElementById('g-recaptcha').style.display = ((data['iscaptcha'])?"block":"none");
 									$('#gcaptcha').val( ((data['iscaptcha'])?true:false) );
 
-									myDialog('#log-msg',data['error']&&lang(data['error'])||data['msg']);
+									myDialog('#log-msg',data['msg']);
 
 									if (data['iscaptcha']) grecaptcha.reset();
 								}

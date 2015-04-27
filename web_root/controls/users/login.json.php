@@ -7,6 +7,7 @@ function login_json($data){
 	$pass=cls_string($data['pwd']);
 	$captcha=cls_string($data['recaptcha']);
 	$iscaptcha=$data['iscaptcha'];
+	$version=cls_string($data['version']);
 	$res=array('logged'=>false);
 	if($login==''&&$pass==''){#can't login
 		$res['msg']=MSGERROR_USERPASSBLANK;
@@ -14,8 +15,10 @@ function login_json($data){
 		return $res;
 	}
 
+	//Debido a que ya existe una version en el APP Store, y que luego de un cambio, este demora en aprobarse, se implementa un flag para saber
+	//si la version de la app es nueva, con implementacion del Captcha. 
 	//Captcha reCaptcha
-	if($iscaptcha) {
+	if (($iscaptcha)&&($version==2)) {
 		//Parameters
 		//--- secret: Token suministrado por google. Se debe asociar todos los dominios y subdominios a una cuenta gmail.
 		//--- response: es lo que envia google luego de responder el Captcha. Este valor se toma de control con ID=g-recaptcha-response. Se envia a esta funcion via JSON
@@ -38,20 +41,37 @@ function login_json($data){
 	// 	FROM users
 	// 	WHERE email=? AND password_user=?
 	// ',array($login,$pass));
+	// $sesion=CON::getRow('
+	// 	SELECT *,
+	// 		CONCAT(name," ",last_name) AS full_name,
+	// 		md5(concat(id,"_",email,"_",id)) AS code,
+	// 		profile_image_url AS display_photo,
+	// 		IFNULL(((UNIX_TIMESTAMP() - UNIX_TIMESTAMP(users.login_lasttime))/60),0) as minutes_lastlogin,
+	// 		login_fail
+	// 	FROM users
+	// 	WHERE email=? 
+	// ',array($login));
 	$sesion=CON::getRow('
 		SELECT *,
 			CONCAT(name," ",last_name) AS full_name,
 			md5(concat(id,"_",email,"_",id)) AS code,
 			profile_image_url AS display_photo,
-			IFNULL(((UNIX_TIMESTAMP() - UNIX_TIMESTAMP(users.login_lasttime))/60),0) as minutes_lastlogin
+			login_fail
 		FROM users
 		WHERE email=? 
 	',array($login));
 	if($sesion['id']!=''){
+
+		$auditlogin = json_decode($sesion['login_fail'], true);
+		
+		if (!$auditlogin)
+		{
+			$auditlogin = array('login_count_fail' => 0, 'login_lasttime' => date("Y-m-d H:i:s"));
+		}
+
 		//Si la contrasena es la correcta, continuar el proceso
 		if($sesion['password_user']==$pass)
 		{
-
 			//acciones del login
 			switch($sesion['status']){
 				case '3':
@@ -112,7 +132,9 @@ function login_json($data){
 						$myId=$_SESSION['ws-tags']['ws-user']['id'];
 						$res['numFriends']=CON::getVal('SELECT COUNT(id_user) as num from users_links where id_user = ?',array($_SESSION['ws-tags']['ws-user']['id']));
 						//Aumentamos el contador de login
-						CON::update('users','logins_count=logins_count+1,login_lasttime=NOW(),login_count_fail=0','id=?',array($sesion['id']));
+						$loginsuccess = "login_fail='".((string)json_encode(array('login_count_fail' => 0, 'login_lasttime' => date("Y-m-d H:i:s"))))."'";
+						CON::update('users','logins_count=logins_count+1,'.$loginsuccess,'id=?',array($sesion['id']));
+						//CON::update('users','logins_count=logins_count+1,login_lasttime=NOW(),login_count_fail=0','id=?',array($sesion['id']));
 						$_SESSION['ws-tags']['ws-user']['logins_count']++;
 						#Guardamos el device del ususario.
 						$device=saveDevice($data['mobile']);
@@ -153,49 +175,73 @@ function login_json($data){
 		}
 		else
 		{
-			//PROCESO DE SEGURIDAD
-			//Registro el intento de login
-			$updtime = 'login_lasttime='.(($sesion['login_count_fail']==0) ? 'NOW()': 'login_lasttime');
-			CON::update('users','login_count_fail=login_count_fail+1,'.$updtime,'id=?',array($sesion['id']));
+			if ($version==2)
+			{
+				//PROCESO DE SEGURIDAD
+				//Registro el intento de login
+				$auditlogin['login_lasttime'] = ($auditlogin['login_count_fail'] == 0) ? date("Y-m-d H:i:s") : $auditlogin['login_lasttime'];
+				$auditlogin['login_count_fail'] ++;
+				//$loginfail = "login_fail='".((string)json_encode($auditlogin))."'";
+				CON::update('users','login_fail=?','id=?',array(json_encode($auditlogin), $sesion['id']));
 
-			if ($sesion['login_count_fail']<4)
-			{
-				$res=array(
-					'logged'=>false,
-					'msg'=>MSGERROR_PASSWINVALID,
-					'from'=>4,
-					'iscaptcha'=>$iscaptcha
-				);
-			}
-			else
-			{
-				//Si sobrepaso el numero de intentos, validar el tiempo transcurrido 
-				if (($sesion['minutes_lastlogin']<=2)||($sesion['login_count_fail']>5))
+				$minutes_lastlogin = (strtotime(date("Y-m-d H:i:s")) - strtotime($auditlogin['login_lasttime']))/60;
+				
+				//$updtime = 'login_lasttime='.(($sesion['login_count_fail']==0) ? 'NOW()': 'login_lasttime');
+				//CON::update('users','login_count_fail=login_count_fail+1,'.$updtime,'id=?',array($sesion['id']));
+
+				//if ($sesion['login_count_fail']<4)
+				if ($auditlogin['login_count_fail'] < 5)
 				{
-					//Se asume que ya ha intentado mas de 5 veces en un tiempo de 2 min
 					$res=array(
 						'logged'=>false,
-						'msg'=>MSGERROR_PASSWINVALID.' '.MSGERROR_MAXNUMATTEMPTS,
-						'from'=>5,
-						'iscaptcha'=>true
+						'msg'=>MSGERROR_PASSWINVALID,
+						'from'=>4,
+						'iscaptcha'=>$iscaptcha
 					);
 				}
 				else
 				{
-					//Reinicio el conteo en BD pasados 2 minutos desde el ultimo intento
-					if ($sesion['minutes_lastlogin']>5)
+					//Si sobrepaso el numero de intentos, validar el tiempo transcurrido 
+					//if (($sesion['minutes_lastlogin']<=2)||$sesion['login_count_fail'] > 5))
+					if (($minutes_lastlogin <= 2)||($auditlogin['login_count_fail'] >= 5))
 					{
-						CON::update('users','login_count_fail=1,login_lasttime=NOW()','id=?',array($sesion['id']));
+						//Se asume que ya ha intentado mas de 5 veces en un tiempo de 2 min
+						$res=array(
+							'logged'=>false,
+							'msg'=>MSGERROR_PASSWINVALID.' '.MSGERROR_MAXNUMATTEMPTS,
+							'from'=>5,
+							'iscaptcha'=>true
+						);
 					}
-					$res=array(
+					else
+					{
+						//Reinicio el conteo en BD pasados 2 minutos desde el ultimo intento
+						//if ($sesion['minutes_lastlogin']>5)
+						if ($minutes_lastlogin > 5)
+						{
+							//CON::update('users','login_count_fail=1,login_lasttime=NOW()','id=?',array($sesion['id']));
+							$loginsuccess = json_encode(array('login_count_fail' => 1, 'login_lasttime' => date("Y-m-d H:i:s")));
+							CON::update('users','login_fail=?','id=?',array($loginsuccess, $sesion['id']));
+						}
+						$res=array(
+							'logged'=>false,
+							'msg'=>MSGERROR_PASSWINVALID,
+							'from'=>6,
+							'iscaptcha'=>$iscaptcha
+						);
+					}
+				}
+				return $res;
+			}
+			else
+			{
+				$res=array(
 						'logged'=>false,
 						'msg'=>MSGERROR_PASSWINVALID,
-						'from'=>6,
-						'iscaptcha'=>$iscaptcha
+						'from'=>7
 					);
-				}
+				return $res;
 			}
-			return $res;
 		}
 	}else{#validacion de login y passowrd
 		#can't login
@@ -215,6 +261,7 @@ if(!$notAjax){
 	$data['login']=$_POST['login']!=''?$_POST['login']:$_POST['txtLogin'];
 	$data['pwd']=$_POST['pwd']!=''?$_POST['pwd']:($_POST['pass']!=''?$_POST['pass']:$_POST['txtPass']);
 	$data['recaptcha']=$_POST['recaptcha']!=''?$_POST['recaptcha']:'';
+	$data['version']=$_POST['version']!=''?$_POST['version']:'';
 	$data['iscaptcha']=$_POST['iscaptcha']=='true'?true:false;
 	$data['mobile']=isset($_REQUEST['mobile']);
 	die(jsonp(login_json($data)));
