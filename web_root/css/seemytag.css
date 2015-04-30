@@ -153,17 +153,19 @@ page container#home .appLinks #titleApp{
 	color: #ee6323
 }
 page container#home .appLinks #iTunes{ 
-	height: 39px;
-	margin: 5px 5px 0 30px;
-	width: 39%;
-	background: url('tbum/icon_appStore.png') no-repeat;
+	height: 50px;
+	margin: 5px 5px 0;
+	width: 145px;
+	/*background: url('tbum/icon_appStore.svg') no-repeat; */
+	/*old: icon_appStore.png */
 	float: left;
 }
 page container#home .appLinks #gPlay{ 
-	height: 40px;
-	margin: 5px 0 0 0;
-	width: 39%;
-	background: url('tbum/icon_googlePlay.png') no-repeat;
+	height: 45px;
+	margin: 7px 0;
+	width: 145px;
+	/*background: url('tbum/icon_googlePlay.svg') no-repeat; */
+	/*old: icon_googlePlay.png  */
 	float: left;
 }
 page.unlogged footer{
