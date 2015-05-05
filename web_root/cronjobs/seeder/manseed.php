@@ -81,7 +81,7 @@ if ($gestor = opendir($src_images)) {
 
 			$id=CON::insert('users','
 				username="",url="",profile_image_url="",description="",state="",city="",password_system="",
-				followers_count=0,friends_count=0,tags_count=0,time_zone="",status=2,created_at=NOW(),last_update=NOW(),show_my_birthday=1,
+				followers_count=0,friends_count=0,tags_count=0,time_zone="",status=1,created_at=NOW(),last_update=NOW(),show_my_birthday=1,
 				email=?,password_user=?,type=?,
 				screen_name=?,name=?,last_name=?,
 				date_birth=?,sex=?,fbid=?,
