@@ -4,6 +4,7 @@
 //
 $src_images = 'images';
 $destination = 'done';
+$numero_intentos = 50;
 
 //Faker
 require_once 'src/autoload.php';
@@ -13,6 +14,7 @@ include '../../includes/session.php';
 include '../../includes/functions.php';
 include '../../class/wconecta.class.php';
 include '../../includes/languages.config.php';
+include '../../includes/funciones_upload.php';
 
 echo '<pre>';
 
@@ -28,25 +30,21 @@ if ($gestor = opendir($src_images)) {
     echo "Gestor de directorio: $gestor\n";
     echo "Entradas:\n";
  
-    while (false !== ($entrada = readdir($gestor))) {
+ 	$contador = 0;
+    while( (false !== ($entrada = readdir($gestor)))&&($contador < $numero_intentos)) {
     	if(($entrada!='.')&&($entrada!='..')){
+    		$contador++;
     		//La cantidad de entradas en el random
     		//marcan la cantidad viable de tipos de usuario 2 US, 2 VE, 1 MX
     		$rdm_locale = $fakerUS->randomElement($array = array ('US','US','VE','VE','MX'));
     		// Se tiene que agrear un faker por cada tipo de usuario a crear
+    		$rdm_preferences = array('carros','amigos','cine','comida','amor','trabajo','paseos','motos','escalar',);
 			switch ($rdm_locale) {
-			    case 'US': $faker = $fakerUS; $lang = 'en'; break;
-			    case 'VE': $faker = $fakerVE; $lang = 'es'; break;
-			    case 'MX': $faker = $fakerMX; $lang = 'es'; break;
+			    case 'US': $faker = $fakerUS; $lang = 'en'; $country= 223; 
+			    	$rdm_preferences = array('cars','friends','movies','food','love','work','rides','bikes','fun',);break;
+			    case 'VE': $faker = $fakerVE; $lang = 'es'; $country= 229; break;
+			    case 'MX': $faker = $fakerMX; $lang = 'es'; $country= 131; break;
 			}
-
-			// $existEmail=CON::exist('users','email=?',array('gustavoocanto@gmail.com'));
-			// if($existEmail){
-			// 	echo 'si existe';
-			// }else{
-			// 	echo 'no existe';
-			// }
-			// exit;
 
 			//Revisa que los correos generados no esten en la BD
 			do {
@@ -75,27 +73,28 @@ if ($gestor = opendir($src_images)) {
 			$data['birthday']=date($format = 'Y-m-d', $max = '-12 years');
 			$data['sex']=$faker->randomElement($array = array ('','1'));
 			$data['fbid']='';
-			$data['zipCode']='';
+			$data['zipCode']=$faker->postcode;
 			$data['lang']=$lang;
-			$data['profile_image_url']=md5($entrada).'.jpg';
-
+			$data['country']=$country;
+			$data['address']=$faker->address;
+			
 			$referee_number='112233';
 			$referee_user='112233';
 			
 			$id=CON::insert('users','
-				username="",url="",description="",country="",state="",city="",address="",password_system="",
-				followers_count=0,friends_count=0,tags_count=0,time_zone="",status=2,created_at=NOW(),last_update=NOW(),show_my_birthday=1,
+				username="",url="",profile_image_url="",description="",state="",city="",password_system="",
+				followers_count=0,friends_count=0,tags_count=0,time_zone="",status=1,created_at=NOW(),last_update=NOW(),show_my_birthday=1,
 				email=?,password_user=?,type=?,
 				screen_name=?,name=?,last_name=?,
 				date_birth=?,sex=?,fbid=?,
 				location=?,zip_code=?,language=?,
-				referee_number=?,referee_user=?,profile_image_url=?
+				referee_number=?,referee_user=?,country=?,address=?
 			',array(
 				$data['email'],$data['password'],0,
 				$data['screenName'],$data['first_name'],$data['last_name'],
 				date('Y-m-d',strtotime($data['birthday'])),$data['sex'],$data['fbid'],
 				$_SERVER['REMOTE_ADDR'],$data['zipCode'],$data['lang'],
-				$referee_number,$referee_user,$data['profile_image_url']
+				$referee_number,$referee_user,$data['country'],$data['address']
 			));
 			$key=md5(md5($id.'+'.$data['email'].'+'.$id));
 			mkdir($destination.'/'.$key);
