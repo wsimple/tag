@@ -335,7 +335,7 @@ if(!empty($_REQUEST['admin'])){
 		@fwrite($fp,$js);
 		@fclose($fp);
 	}
-	$lastModified = filemtime(dirname(__FILE__).DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.$theme.$cbfn.$color.$lang.$type.$name.'.js');
+	$lastModified = @filemtime(dirname(__FILE__).DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.$theme.$cbfn.$color.$lang.$type.$name.'.js');
 }
 if(phpversion()>='4.0.4pl1'&&(strstr($useragent,'compatible')||strstr($useragent,'Gecko'))){
 	if(extension_loaded('zlib')&&GZIP_ENABLED==1){

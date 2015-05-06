@@ -34,6 +34,7 @@
 <script src="js/core/colorPicker.js"></script>
 <script src="js/core/currency/jquery.formatCurrency-1.4.0.js"></script>
 <script type="text/javascript" src="js/core/jquery.touchSwipe.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <script src="js/min.js" charset="UTF-8"></script>
 
 <meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
@@ -67,6 +68,7 @@ right: 10px;
 <input data-theme="b" name="login" id="txtLogin" value="" type="email" placeholder="email" onkeypress="return enterTab(event,this)" onfocus="inputFocus(this)" />
 <input data-theme="b" name="pwd" id="txtPass" value="" type="password" placeholder="password" class="password-field" />
 </p>
+<div id="g-recaptcha" class="g-recaptcha" data-sitekey="6LcziQUTAAAAACrwsmGrSfydtkzIG8RWl4O5TFkZ" style="display: none; transform:scale(0.77);transform-origin:0 0;"></div>
 <a id="forGot" onclick="redir(PAGE['forGot']);"></a><br/><br/>
 <div id="buttons">
 <div class="_tt">
@@ -75,6 +77,7 @@ right: 10px;
 </div>
 <div class="_tr">
 <input type="submit" id="btn-login" class="btn-orange" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" />
+<input type="hidden" name="gcaptcha" id="gcaptcha" value="false" />
 <!-- <a id="btn-login2" class="btn-orange" data-role="button" data-inline="true" data-theme="f" data-icon="arrow-r" data-iconpos="right" href="#" onClick="$('#frmLogin').submit()"></a> -->
 </div>
 </div>
@@ -121,6 +124,8 @@ wait=true;
 var data={
 login:$('#txtLogin').val(),
 pwd:$('#txtPass').val(),
+iscaptcha:$('#gcaptcha').val(),
+recaptcha:$('#g-recaptcha-response').val(),
 lng:lang['actual']
 };
 if(CORDOVA) data.keep=true;
@@ -141,7 +146,12 @@ wait=false;
 if(data['from']==='paypal'||data['from']=='renewaccount'){
 myDialog('#log-msg',lang['MSG_PAYPAL_HELP']+'<br><br><strong style="font-size: 13px;">'+lang['MSG_PAYPAL_HELP_APP']+'</strong>');
 }else{
-myDialog('#log-msg',data['msg']);
+document.getElementById('g-recaptcha').style.display = ((data['iscaptcha'])?"block":"none");
+$('#gcaptcha').val( ((data['iscaptcha'])?true:false) );
+
+myDialog('#log-msg',data['error']&&lang(data['error'])||data['msg']);
+
+if (data['iscaptcha']) grecaptcha.reset();
 }
 },
 error:function(data){

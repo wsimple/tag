@@ -1,8 +1,4 @@
-/*/
- * CometChat
- * Copyright (c) 2014 Inscripts - support@cometchat.com | http://www.cometchat.com | http://www.inscripts.com
- */
- <?php $callbackfn = ''; if (!empty($_GET['callbackfn'])) { $callbackfn = $_GET['callbackfn']; }?>
+<?php $callbackfn = ''; if (!empty($_GET['callbackfn'])) { $callbackfn = $_GET['callbackfn']; }?>
 (function($){
     $.cometchat = $.cometchat||function(){
         var baseUrl = '<?php echo BASE_URL;?>';

@@ -34,6 +34,7 @@
 <script src="js/core/colorPicker.js"></script>
 <script src="js/core/currency/jquery.formatCurrency-1.4.0.js"></script>
 <script type="text/javascript" src="js/core/jquery.touchSwipe.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <script src="js/min.js" charset="UTF-8"></script>
 
 <meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
@@ -149,8 +150,6 @@
 </div>
 </div>
 </div></div></div>
-
-
 <script>
 pageShow({
 id:'#page-newTag',
@@ -356,7 +355,7 @@ imagePrev.src = bg;
 var img = this;
 // alert(this.naturalWidth + 'x' + this.naturalHeight);
 if(bg){
-var bgsize=this.naturalWidth>650?100:100*this.naturalWidth/650;
+var bgsize=this.naturalWidth>1200?100:100*this.naturalWidth/1200;
 bgsize=bgsize+'% auto';
 // bg = 'http://www.scorezero.com/wp-content/uploads/2014/10/gtaV.jpg'; // solo Pruebas
 $('#backgroundPreview').html('<img id="backgroundImage" src="'+bg+'" alt="">');
@@ -422,34 +421,6 @@ this.close();
 });
 
 });
-
-
-
-
-
-
-function convertImgToBase64URL(url, callback, outputFormat){
-    var img = new Image();
-    img.crossOrigin = 'Anonymous';
-    img.onload = function(){
-        var canvas = document.createElement('CANVAS'),
-        ctx = canvas.getContext('2d'), dataURL;
-        canvas.height = img.height;
-        canvas.width = img.width;
-        ctx.drawImage(img, 0, 0);
-        dataURL = canvas.toDataURL(outputFormat);
-        callback(dataURL);
-        canvas = null; 
-    };
-    img.src = url;
-}
-
-
-
-
-
-
-
 function convertVideo(uploadResult){
 var uploadResult=JSON.parse(uploadResult.response);
 
@@ -543,132 +514,42 @@ correctOrientation:true
 },
 onPhotoSuccess=function(data){
 
+$('#shootType').hide();
 
-    alert('data: '+data);
+if(!data.match(/^https?:\/\//i)){//no url = base64
+data='data:image/jpg;base64,'+data;
+$bgCheck[0].dataset.img64=data;
+img64=data;
+$bgCheck.attr('src',data);
+}
 
+if(data.match(/(\.|\/)(mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i)){// es video
 
-    window.resolveLocalFileSystemURL = window.resolveLocalFileSystemURL || window.webkitResolveLocalFileSystemURL;
+var extToMimes = {
+'mp4':'video/mp4',
+'m4v':'video/mp4',
+'mov':'video/quicktime',
+'ogv':'video/ogg',
+'ogg':'video/ogg',
+'3gp':'video/3gpp',
+'avi':'video/x-msvideo',
+'mkv':'video/x-matroska',
+'flv':'video/x-flv',
+'mpeg':'video/mpeg',
+'mpg':'video/mpeg',
+'vob':'video/dvd'
+}
+function getMimeByExt(file) {
+var ext = file.substr( (file.lastIndexOf('.') +1));
+if (extToMimes.hasOwnProperty(ext)) {
+return extToMimes[ext];
+}
+return false;
 
-    /////
-    window.resolveLocalFileSystemURL(data, 
-        function(file){ //win
-            alert('file: '+file.name+', type: '+file.type+', url: '+file.toURL()+', fullPath: '+file.fullPath+', file: '+file.file);
+}
 
-            file.file(
-                function(a){ //win
-
-                    alert('type: '+a.type+', path: '+a.fullPath+', url: '+file.toURL()+', isFile: '+file.isFile);
-
-                    // if (a.type.match(/(\.|\/)(mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i)){// es video
-                    //     alert('video: '+a.type);
-                    //     var extToMimes = {
-                    //         'mp4':'video/mp4',
-                    //         'm4v':'video/mp4',
-                    //         'mov':'video/quicktime',
-                    //         'ogv':'video/ogg',
-                    //         'ogg':'video/ogg',
-                    //         '3gp':'video/3gpp',
-                    //         'avi':'video/x-msvideo',
-                    //         'mkv':'video/x-matroska',
-                    //         'flv':'video/x-flv',
-                    //         'mpeg':'video/mpeg',
-                    //         'mpg':'video/mpeg',
-                    //         'vob':'video/dvd'
-                    //     }
-                    //     function getMimeByExt(file) {
-                    //         var ext = file.substr( (file.lastIndexOf('.') +1));
-                    //         if (extToMimes.hasOwnProperty(ext)) {
-                    //             return extToMimes[ext];
-                    //         }
-                    //         return false;
-                    //     }
-                    //     getMimeByExt(data)
-                    // }
-
-
-
-                },
-                function(e){
-                    alert('>>> '+e.code);
-                }
-            );
-
-        }, 
-        function(e){ //fail
-            alert('Error: '+e.code+', source: '+e.source+', target: '+e.target);
-        });    
-    ///
-
-// window.resolveLocalFileSystemURL = window.resolveLocalFileSystemURL ||
-//                                    window.webkitResolveLocalFileSystemURL;
-
-// var url = 'filesystem:http://example.com/temporary/myfile.png';
-// window.resolveLocalFileSystemURL(url, function(fileEntry) {
-//   ...
-// });
-
-
-
-
-
-
-
-
-//$('#shootType').hide();
-
-// if(!data.match(/^https?:\/\//i)){//no url = base64
-// alert('photo');
-// data='data:image/jpg;base64,'+data;
-// $bgCheck[0].dataset.img64=data;
-// img64=data;
-// $bgCheck.attr('src',data);
-
-// convertImgToBase64URL(data, 
-// 	function (base64Img){
-//     	alert('>> base64: '+base64Img);
-//     	//data='data:image/jpg;base64,'+data;
-// 		data = base64Img;
-// 		$bgCheck[0].dataset.img64=data;
-// 		img64=data;
-// 		$bgCheck.attr('src',data);
-// 	},
-// 	'image/jpeg'
-// );
-
-
-
-
-
-//}
-
-// if(true || data.match(/(\.|\/)(mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i)){// es video
-// alert('video');
-// var extToMimes = {
-// 'mp4':'video/mp4',
-// 'm4v':'video/mp4',
-// 'mov':'video/quicktime',
-// 'ogv':'video/ogg',
-// 'ogg':'video/ogg',
-// '3gp':'video/3gpp',
-// 'avi':'video/x-msvideo',
-// 'mkv':'video/x-matroska',
-// 'flv':'video/x-flv',
-// 'mpeg':'video/mpeg',
-// 'mpg':'video/mpeg',
-// 'vob':'video/dvd'
-// }
-// function getMimeByExt(file) {
-// var ext = file.substr( (file.lastIndexOf('.') +1));
-// if (extToMimes.hasOwnProperty(ext)) {
-// return extToMimes[ext];
-// }
-// return false;
-
-// }
-// alert('data: '+data+', name: '+data.substr( (data.lastIndexOf('/') +1))+', type: '+getMimeByExt(data));
-
-// uploadFile({fullPath:data,name:data.substr( (data.lastIndexOf('/') +1)),type:getMimeByExt(data)});
-// }
+uploadFile({fullPath:data,name:data.substr( (data.lastIndexOf('/') +1)),type:getMimeByExt(data)});
+}
 },
 onPhotoFail=function(message){
 //if(message!='no image selected') myDialog(message);
@@ -678,7 +559,7 @@ var photoData=$.extend({},photoConfig);
 switch(type){
 
 case 'lib':
-photoData.mediaType=cam.MediaType.VIDEO;//PICTURE;
+photoData.mediaType=cam.MediaType.PICTURE;
 photoData.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
 break;
 

@@ -34,6 +34,7 @@
 <script src="js/core/colorPicker.js"></script>
 <script src="js/core/currency/jquery.formatCurrency-1.4.0.js"></script>
 <script type="text/javascript" src="js/core/jquery.touchSwipe.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <script src="js/min.js" charset="UTF-8"></script>
 
 <meta name="alexaVerifyID" content="8YYp0pS3o8YkprRdkaeFqitio5Q"/>
@@ -55,9 +56,7 @@
 <p id="tagBum_info_msg"></p>
 <p id="app_download_msg"></p>
 <div class="googlePlay"></div>
-<!-- <a href="https://play.google.com/store/apps/details?id=com.tagbum.tagbum"></a> -->
 <div class="appStore"></div>
-<!-- <a href="https://itunes.apple.com/us/app/tagbum/id938965981?mt=8"></a> -->
 </div>
 </div></div></div>
 <div id="noconection" style="display:none;"><div class="_tt"><div class="_tc">
@@ -108,7 +107,7 @@ else{
 $('div#buttons').show();
 if(CORDOVA) $('.store-info').hide();
 else{
-if(is['iOS']){ $('.googlePlay').hide(); $('#app_download_msg').hide(); $('.appStore').hide();}
+if(is['iOS']) $('.googlePlay').hide();
 if(is['android']) $('.appStore').hide();
 }
 $('#btn-facebook').hide();
@@ -121,9 +120,9 @@ $('div#noconection').show();
 },
 after:function(){
 $('#btn-login-change .ui-btn-text').css('padding','0 10px');
-if(is.device && !CORDOVA){
-if(is['android']) $('.googlePlay').click();
-}
+//if(is.device && !CORDOVA){
+// if(is['android']) $('.googlePlay').click();
+//}
 $('#tagBum_info_msg a').click(function(event){
 event.preventDefault();
 switch($(this).attr('class')){
@@ -157,18 +156,10 @@ $('#singleDialog #scroller').jScroll('refresh');
 //Login facebook
 $('.googlePlay').click(function(event) {
 redir('https://play.google.com/store/apps/details?id=com.tagbum.tagbum');
-// myDialog({//Information lang.INVITE_GROUP_TRUE
-// id:'#singleDialog',
-// content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
-// });
 });
 
 $('.appStore').click(function(event) {
 redir('https://itunes.apple.com/us/app/tagbum/id938965981?mt=8');
-// myDialog({//Information lang.INVITE_GROUP_TRUE
-// id:'#singleDialog',
-// content:'<div style="text-align:center;"><span style="font-weight:bold">Information</span><br><br>This app is coming soon</div><br>'
-// });
 });
 </script>
 </div>

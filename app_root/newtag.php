@@ -316,7 +316,7 @@
 					var img = this;
 					// alert(this.naturalWidth + 'x' + this.naturalHeight);
 					if(bg){
-						var bgsize=this.naturalWidth>650?100:100*this.naturalWidth/650;
+						var bgsize=this.naturalWidth>1200?100:100*this.naturalWidth/1200;
 						bgsize=bgsize+'% auto';
 						// bg = 'http://www.scorezero.com/wp-content/uploads/2014/10/gtaV.jpg'; // solo Pruebas
 						$('#backgroundPreview').html('<img id="backgroundImage" src="'+bg+'" alt="">');
