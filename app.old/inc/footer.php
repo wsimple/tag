@@ -1,1 +1,0 @@
-<?php die("</body></html>\n"); ?>
