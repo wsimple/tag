@@ -30,7 +30,8 @@ switch ($_GET['action']) {
 					$res['num']=1;
 				}
 			break;
-			case 'unfollow': //admirados
+			case 'unfollow': 
+			case 'followed': //admirados
 				$array['select'].=',md5(ul2.id_user) AS id_user, md5(ul2.id_friend) AS id_friend';
 				$array['where']="ul2.id_user=$uid";
 				$array['join']=' JOIN users_links ul2 ON ul2.id_friend=u.id';
@@ -41,7 +42,8 @@ switch ($_GET['action']) {
 					$res['num']=1;
 				}
 			break;
-			case 'follow': //admiradores
+			case 'follow': 
+			case'followers': //admiradores
 				$numAction=3;
 				$array['select'].=',md5(ul2.id_user) AS id_friend, md5(ul2.id_friend) AS id_user';
 				$array['join']=' JOIN users_links ul2 ON ul2.id_user=u.id';

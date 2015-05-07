@@ -3308,8 +3308,22 @@ height: 150px;}
 }
 #externalProfile #eProfileInfo #externalProfilePrefe span{right: inherit;}
 
-#externalProfile #eProfileInfo #externalProfilePrefe .externalPre{
-	color: #34495e;text-decoration: none;
+#eProfileInfo a{
+
+  text-decoration: none;
+  color: #f0b070;
+  font-size: 11px;
+  padding: 2px;
+  margin: 1px;
+  border-radius: 5px;
+  border: 1px solid #f0b070;
+  background: #faf8f8;
+  transition: 300ms ease all;
+  -webkit-transition: 300ms ease all;
+  -moz-transition: 300ms ease all;
+  -o-transition: 300ms ease all;
+  text-decoration: none;
+  line-height: 21px;
 }
 
 #externalProfile #eProfileInfo #externalProfilePrefe .externalPre:hover{

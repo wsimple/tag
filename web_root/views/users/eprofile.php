@@ -36,7 +36,7 @@ $query=CON::query("
 		(SELECT c.name FROM countries c WHERE c.id=u.country) AS country,
 		(SELECT s.label FROM sex s WHERE s.id=u.sex) AS sex,
 		u.followers_count,
-		u.friends_count,
+		u.following_count,
 		(SELECT id_user FROM users_links WHERE id_friend=u.id AND id_user=$myId LIMIT 1) as follower,
 		(SELECT count(id) FROM tags WHERE id_creator=$myId AND id_user=id_creator AND status=1) AS nTags
 	FROM users u
@@ -53,7 +53,7 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 ?>
 <?php include('views/users/progress.php'); ?>
 <div id="externalProfile" class="ui-single-box" <?=$styleCon?>>
-	<div id="coverExpro" style="background-image: url('<?=FILESERVER?>img/users_cover/<?=$obj->user_cover?>');height:196px;width:846px;position:absolute;top:0;left:0;">
+	<div id="coverExpro" style="<?= $obj->user_cover!=''?"background-image: url('".FILESERVER."img/users_cover/".$obj->user_cover."');":''; ?> height:196px;width:846px;position:absolute;top:0;left:0;">
 		<div class="ui-single-box-title">
 			<div class="photoProfile" id="photoProfileChange"><?=$edit?$edit:''?>
 				<form action="controls/users/profile.json.php?action=picture" id="frmChangePhoto" name="frmChangePhoto" method="post" style="padding:0;margin:0;" enctype="multipart/form-data">
@@ -112,13 +112,28 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 							echo ($obj->country!='')?'<li class="infoPerExter">'.$obj->country.'</li>':'';
 							echo ($obj->url!='')?'<li class="peddingEx"><a target="_blank" href="'.$obj->url.'">'.$obj->url.'</a></li>':'';
 						?>
-						<li><label><?=lan('USER_LBLFOLLOWERS')." (</label>$obj->followers_count<label>) - ".lan('USER_LBLFRIENDS')." (</label>$obj->friends_count<label>)"?></label></li>
-						<?php if($obj->type=='0'){
-							echo preg_match('/^\s*(|-|\+\d+-)\s*$/',$obj->home_phone)?'<li><label>'.lan("USERPROFILE_LBLHOMEPHONE").': </label>'.$obj->home_phone.'</li>':'';
-							}
-							echo preg_match('/^\s*(|-|\+\d+-?)\s*$/',$obj->work_phone)?'<li><label>'.lan('USERPROFILE_LBLWORKPHONE').': </label>'.$obj->work_phone.'</li>':'';
-							echo preg_match('/^\s*(|-|\+\d+-?)\s*$/',$obj->mobile_phone)?'<li><label>'.lan('USERPROFILE_LBLMOBILEPHONE').': </label>'.$obj->mobile_phone.'</li>':'';
+						<li >
+									<strong><?=lan('USER_LBLFOLLOWERS')?>: </strong>
+									<input userF="followers" type="button" id="followers" value="<?=mskPoints($obj->followers_count)?>"/>
+									<strong><?=lan('USER_LBLFRIENDS')?>: </strong>
+									<input userF="followed" type="button" id="followed" value="<?=mskPoints($obj->following_count)?>"/>
+						</li>
+						<?php 
+
+							$patern='/^(?:\+?(\d{1,3}))?[\(\[\s-]{0,2}?\d{3}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i';
+
+
+								if($obj->type=='0'&&preg_match($patern,$obj->home_phone)){
+									echo '<li><label>'.lan("USERPROFILE_LBLHOMEPHONE").': </label><a href="tel:'.$obj->home_phone.'">'.$obj->home_phone.'</a></li>';
+							  	}
+								if(preg_match($patern,$obj->work_phone)){
+									echo '<li><label>'.lan('USERPROFILE_LBLWORKPHONE').': </label><a href="tel:'.$obj->work_phone.'">'.$obj->work_phone.'</a></li>';
+								}	
+								if(preg_match($patern,$obj->mobile_phone)){
+									echo '<li><label>'.lan('USERPROFILE_LBLMOBILEPHONE').': </label><a href="tel:'.$obj->mobile_phone.'">'.$obj->mobile_phone.'</a></li>';
+								}	
 						?>
+
 					</ul>
 				</div>
 				<div class="clearfix"></div>
@@ -134,7 +149,7 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 								for($i=1;$i<4;$i++){
 									if(!isset($prefe[$i])) continue;
 								?>
-								<li style="margin-bottom:5px;"><label><?=$titles[$i].':'?></label>
+								<li  ><label ><?=$titles[$i].':'?></label>
 								<?php
 									foreach($prefe[$i] as $key=>$value)
 									if($logged): ?>
@@ -142,7 +157,7 @@ $styleCon=!$logged?'style="margin-left:100px;"':'';
 									<?php else: ?>
 										<a class="externalPre"><?=$value->text?></a>
 									<?php endif; ?>
-								</li>
+								</li><br>
 						<?php	}
 							}else echo lan('SOONEXTERPREFERENCES').' '.formatoCadena("$obj->nameUser").' '.lan('SOONEXTERPREFERENCES2');
 						?>
@@ -278,6 +293,12 @@ $(function(){
 		}
 	});
 });
+$('#externalProfileInfo li input[userF]').click(function(){
+		if ($(this).val().replace(/K|M|car/gi,'')*1>0){
+			var title=$(this).attr('id')=='followers'?'<?=USER_LBLFRIENDS?>':'<?=USER_LBLFOLLOWERS?>';
+			friendsUser('<?=$obj->screen_name?>: '+title,'<?=md5($obj->id)?>',$(this).attr('id'));
+		}
+	});
 </script>
 <?php
 }else{ $bodyPage='main/failure.php'; }

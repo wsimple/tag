@@ -36,9 +36,9 @@ $friend = CON::getRow("SELECT
 			</li>
 			<li style="margin-bottom:10px;">
 				<strong><?=lan('USER_LBLFOLLOWERS')?>: </strong>
-				<input userF="follow" type="button" id="followers" value="<?=mskPoints($friend['followers_count'])?>"/>
+				<input userF="followers" type="button" id="followers" value="<?=mskPoints($friend['followers_count'])?>"/>
 				<strong><?=lan('USER_LBLFRIENDS')?>: </strong>
-				<input userF="unfollow" type="button" id="friends" value="<?=mskPoints($friend['following_count'])?>"/>
+				<input userF="followed" type="button" id="followed" value="<?=mskPoints($friend['following_count'])?>"/>
 				<strong><?=lan('MAINMNU_HOME')?>: </strong>
 				<input type="button" id="tags" action="tagsUser,<?=$friend['nTags']?>,<?=formatoCadena($friend['screen_name'])?>:Tags,<?=md5($friend['id'])?>" value="<?=$friend['nTags']?>"/>
 			</li>
@@ -72,9 +72,9 @@ $friend = CON::getRow("SELECT
 $(function(){
 	var isOpen=$('#tagsUser').dialog("isOpen");
 	$('#userProfileDialog li input[userF]').click(function(){
-		if ($(this).val()*1>0){
-			var title=$(this).attr('userF')=='unfollow'?'<?=USER_LBLFRIENDS?>':'<?=USER_LBLFOLLOWERS?>';
-			friendsUser('<?=$friend["screen_name"]?>: '+title,'<?=md5($friend["id"])?>',$(this).attr('userF'));
+		if ($(this).val().replace(/K|M|car/gi,'')*1>0){
+			var title=$(this).attr('id')=='follower'?'<?=USER_LBLFRIENDS?>':'<?=USER_LBLFOLLOWERS?>';
+			friendsUser('<?=$friend["screen_name"]?>: '+title,'<?=md5($friend["id"])?>',$(this).attr('id'));
 		}
 	});
 });

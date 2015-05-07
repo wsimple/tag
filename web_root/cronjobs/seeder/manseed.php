@@ -4,7 +4,7 @@
 //
 $src_images = 'images';
 $destination = 'done';
-$numero_intentos = 50;
+$numero_intentos = 1;
 //Faker
 require_once 'src/autoload.php';
 
@@ -13,6 +13,7 @@ include '../../includes/session.php';
 include '../../includes/functions.php';
 include '../../class/wconecta.class.php';
 include '../../includes/languages.config.php';
+include '../../includes/funciones_upload.php';
 
 echo '<pre>';
 
@@ -31,12 +32,12 @@ if ($gestor = opendir($src_images)) {
     		$contador++;
     		//La cantidad de entradas en el random
     		//marcan la cantidad viable de tipos de usuario 2 US, 2 VE, 1 MX
-    		$rdm_locale = $fakerUS->randomElement($array = array ('US','US','US','US','VE','VE','MX','MX'));
+    		$rdm_locale = $fakerUS->randomElement($array = array ('US','US','US','US','US','VE','VE','MX','MX'));
     		// Se tiene que agrear un faker por cada tipo de usuario a crear
-    		$rdm_preferences = array('carros','amigos','cine','comida','amor','trabajo','paseos','motos','escalar','bicicleta','futbol','nadar');
+    		$rdm_preferences = array('Carros','Amigos','Compartir','ir Cine','La Comida','Amor','Paseos','Las Motos','Escalar','Manejar Bicicleta','El Futbol','Nadar');
 			switch ($rdm_locale) {
 			    case 'US': $faker = $fakerUS; $lang = 'en'; $country= 223; 
-			    	$rdm_preferences = array('cars','friends','movies','food','love','work','rides','bikes','fun','bike','Football','Swimming');break;
+			    	$rdm_preferences = array('Cars','Friends','Movies','Mood','Love','Rides','Bikes','Fun','Bike','Football','Swimming');break;
 			    case 'VE': $faker = $fakerVE; $lang = 'es'; $country= 229; break;
 			    case 'MX': $faker = $fakerMX; $lang = 'es'; $country= 131; break;
 			}
@@ -62,12 +63,11 @@ if ($gestor = opendir($src_images)) {
 
 			$data['email']=$mail;
 			$data['password']=$faker->word.$faker->word;
-			$data['screenName']=strtolower($firstName);
+			$data['screenName']=$firstName;
 			$data['first_name']=$firstName;
 			$data['last_name']=$lastName;
 			$data['birthday']=$faker->date('Y-m-d','-13 years');
-			$data['sex']=$faker->randomElement($array = array ('','1'));
-			$data['fbid']='';
+			$data['sex']=$faker->randomElement($array = array ('2','1'));
 			$data['zipCode']=$faker->postcode;
 			$data['lang']=$lang;
 			$data['country']=$country;
@@ -76,7 +76,7 @@ if ($gestor = opendir($src_images)) {
 			$referee_number='112233';
 			$referee_user='112233';
 
-			print_r($data);
+			echo " [[email]]: ".$data['email']." [[first_name]]: ".$data['first_name']." [[last_name]]: ".$data['last_name'];
 
 			$id=CON::insert('users','
 				username="",url="",profile_image_url="",description="",state="",city="",password_system="",
@@ -94,10 +94,7 @@ if ($gestor = opendir($src_images)) {
 				$referee_number,$referee_user,$data['country'],$data['address']
 			));
 			if($id > 0){
-				$key=md5(md5($id.'+'.$data['email'].'+'.$id));
-
-
-
+				$key=md5($id.'_'.$data['email'].'_'.$id);
 
 				$fullpathLocal='../../img/users/'.$key.'/';
 
@@ -108,9 +105,7 @@ if ($gestor = opendir($src_images)) {
 					$fp=fopen($fullpathLocal.'index.html','w');
 					fclose($fp);
 				}
-
 				
-
 				$data['img']=array(
 					'error'    => 1,
 					'name'     => $entrada ,
@@ -119,32 +114,65 @@ if ($gestor = opendir($src_images)) {
 
 				rename ( $src_images.'/'.$entrada , $data['img']['tmp_name']  );
 
-				$url=uploadImage($data['img'],'profile','users',$key,$id);
-				echo $url ."\n";
+				$url=uploadImage($data['img'],'profile','users',$key,$id);// key = userCode
+				echo " [[Url]]: ".$url ." #".$contador."\n";
+
+
+				//numero de usuarios a seguir
+				$aSeguir=$faker->numberBetween(200, 300); //##### aca para evitar hacer dos updates
+
 				if($url!='IMAGE_NOT_ALLOWED'){
-					CON::update("users","profile_image_url=?,updatePicture=1","id=?",array($url,$id));
+					CON::update("users","profile_image_url=?,updatePicture=1,following_count=?","id=?",array($url,$aSeguir,$id));
 				}
 				
 				//Sets random Preferences
-				$preference[1] = $faker->randomElement($rdm_preferences);
-				$preference[2] = $faker->randomElement($rdm_preferences);
-				$preference[3] = $faker->randomElement($rdm_preferences);
+				$preference[1] = $faker->randomElements($rdm_preferences,4);
+				$preference[2] = $faker->randomElements($rdm_preferences,4);
+				$preference[3] = $faker->randomElements($rdm_preferences,4);
 
-				CON::insert('users_preferences','id_user=?,id_preference=1,preference=?',array($id,$preference[1]));
-				CON::insert('users_preferences','id_user=?,id_preference=2,preference=?',array($id,$preference[2]));
-				CON::insert('users_preferences','id_user=?,id_preference=3,preference=?',array($id,$preference[3]));
+				 
+				for ($i=0; $i < $faker->numberBetween(3,15 ); $i++)	array_push ($preference[1],$faker->numberBetween(1, 2500));
+				for ($i=0; $i < $faker->numberBetween(3,15 ); $i++)	array_push ($preference[2],$faker->numberBetween(1, 2500));
+				for ($i=0; $i < $faker->numberBetween(3,15 ); $i++)	array_push ($preference[3],$faker->numberBetween(1, 2500));
+				
 
-				//numero de usuarios a seguir
-				$aSeguir=$faker->numberBetween(1, 250);
+				CON::insert('users_preferences','id_user=?,id_preference=1,preference=?',array($id,implode(',',$preference[1])));
+				CON::insert('users_preferences','id_user=?,id_preference=2,preference=?',array($id,implode(',',$preference[2])));
+				CON::insert('users_preferences','id_user=?,id_preference=3,preference=?',array($id,implode(',',$preference[3])));
 
-				//for ($i=0; $i < $aSeguir ; $i++) { 
-					$idASeguir=2;//$faker->numberBetween(1, $id); 
+
+
+				$folder=opendir("../../img/templates/defaults/");
+				$defaultbackgrounds=array();
+				$imagesAllowed=array('jpg','jpeg','png','gif');
+				while($pic=@readdir($folder)){
+					$args=explode('.',$pic);
+					$extension=strtolower(end($args));
+					if(in_array($extension,$imagesAllowed))
+						$defaultbackgrounds[]=$pic;
+				}
+				$key=array_rand($defaultbackgrounds);
+				$defaultTag='defaults/'.$defaultbackgrounds[$key];
+				
+
+				$idTag=CON::insert('tags','id_user=?,id_creator=?,background=?,code_number="",text="&nbsp",text2="&nbsp",status=1',array($id,$id,$defaultTag));
+				CON::update('tags', 'source=?', 'id=?',array($idTag, $idTag));
+
+				if($idTag) createTag($idTag,true);
+				CON::insert('business_card','id_user=?,email=?,company="Social Media Marketing",middle_text="www.Tagbum.com",type=0',array($id,$data['email']));
+
+				
+
+			    //for ($i=0; $i < $aSeguir ; $i++) { 
+					$idASeguir=2;$faker->numberBetween(1, $id); 
 					CON::insert('users_links','id_user=?,id_friend=?',array($id,$idASeguir));
-					CON::insert('users_notifications','id_type=?,id_source=?,id_user=?,id_friend=?,revised=0',
-													  array(11,$id,$id,$idASeguir));
+					CON::insert('users_notifications','id_type=?,id_source=?,id_user=?,id_friend=?,revised=0',array(11,$id,$id,$idASeguir));
 					
 				//}
-				die();
+				if($url=='IMAGE_NOT_ALLOWED'){//##### para evitar hacer dos updates
+					CON::update("users","following_count=?","id=?",array($aSeguir,$id));
+				}	
+
 
 				//unlink($src_images.'/'.$entrada);
 			}
@@ -152,49 +180,6 @@ if ($gestor = opendir($src_images)) {
     }
  
     closedir($gestor);
-}
-function uploadImage($file,$albumName,$folderName,$userCode,$userID){
-	$imagesAllowed=array('jpg','jpeg','png','gif');
-	$fail='IMAGE_NOT_ALLOWED';
-	$ext=strtolower(end(explode('.',$file['name'])));
-	#se cancela si no es un formato permitido
-	if(!in_array($ext,$imagesAllowed))
-		return $fail;
-	#creamos un md5 que identificara el nombre de archivos
-	$tmp=md5(date('YmdHis').rand());
-	$name="$tmp.$ext";
-	$path="$folderName/$userCode/";
-	$fullpath=RELPATH.'img/'.$path;
-	$image=$path.$name;
-	#crea la carpeta si no existe
-	if(!is_dir($fullpath)){
-		$old=umask(0);
-		mkdir($fullpath,0777);
-		umask($old);
-		$fp=fopen($fullpath.'index.html','w');
-		fclose($fp);
-	}
-	#se cancela si no se pudo guardar la imagen
-	if(!redimensionar($file['tmp_name'],$fullpath.$name,600)||!file_exists($fullpath.$name))
-		return $fail;
-	FTPupload($image,$userCode);
-	$album=current($GLOBALS['cn']->queryRow("SELECT id FROM album WHERE id_user='$userID' AND name='$albumName'"));
-	if($album==''){
-		$GLOBALS['cn']->query("INSERT INTO album SET name='$albumName', id_user='$userID'");
-		$album=mysql_insert_id();
-	}
-	$GLOBALS['cn']->query("
-		INSERT INTO images SET
-			id_user			='$userID',
-			id_album		='$album',
-			image_path		='$userCode/$name',
-			id_images_type	=2
-	");
-	$GLOBALS['cn']->query('
-		UPDATE album SET
-			id_image_cover='.mysql_insert_id().'
-		WHERE id_user='.$userID.' AND name="'.$albumName.'"');
-	return $name;
 }
 
 function normalize_special_characters( $str ) 
