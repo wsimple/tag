@@ -123,6 +123,9 @@ if ($gestor = opendir($src_images)) {
 
 				if($url!='IMAGE_NOT_ALLOWED'){
 					CON::update("users","profile_image_url=?,updatePicture=1,following_count=?","id=?",array($url,$aSeguir,$id));
+				}else{
+
+					$url='';
 				}
 				
 				//Sets random Preferences
@@ -155,7 +158,7 @@ if ($gestor = opendir($src_images)) {
 				$defaultTag='defaults/'.$defaultbackgrounds[$key];
 				
 
-				$idTag=CON::insert('tags','id_user=?,id_creator=?,background=?,code_number="",text="&nbsp",text2="&nbsp",status=1',array($id,$id,$defaultTag));
+				$idTag=CON::insert('tags','id_user=?,id_creator=?,background=?,profile_img_url=?,code_number="",text="&nbsp",text2="&nbsp",status=1',array($id,$id,$defaultTag,$url));
 				CON::update('tags', 'source=?', 'id=?',array($idTag, $idTag));
 
 				if($idTag) createTag($idTag,true);
