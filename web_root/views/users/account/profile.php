@@ -482,6 +482,7 @@
 						showAndHide('divError','divError',2500,true);
 					}
 				$.loader('hide');
+				}
 		});
 		//FIN control de los botones send y back
 		//control del formulario perfil
