@@ -5,6 +5,7 @@ class VideoConvertion extends VideoCaptures
 	protected $pending='pending',$_run=array();
 
 	function __construct($options = null, $initialize = true){
+
 		#verifica primero si se estan buscando capturas
 		parent::__construct($options,$initialize&&!isset($_GET['convert'])&&!isset($_GET['app']));
 		if($initialize&&isset($_GET['app'])){
@@ -25,7 +26,7 @@ class VideoConvertion extends VideoCaptures
 	}
 
 	function run($command,$show=true){
-		return preg_replace('/\r?\n/', '<br/>',shell_exec($command.($show?' 2>&1':'')));
+		return preg_replace('/\r?\n/', '<br/>',shell_exec('timeout 60s '.$command.($show?' 2>&1':'')));
 	}
 
 	function ffmpeg_encode($origen,$destino,$mas=''){

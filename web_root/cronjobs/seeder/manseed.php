@@ -4,7 +4,9 @@
 //
 $src_images = 'images';
 $destination = 'done';
-$numero_intentos = 1;
+$numero_intentos = 40;
+$debug=(isset($_GET['debug']));
+set_time_limit ( 600 );
 //Faker
 require_once 'src/autoload.php';
 
@@ -15,21 +17,36 @@ include '../../class/wconecta.class.php';
 include '../../includes/languages.config.php';
 include '../../includes/funciones_upload.php';
 
-echo '<pre>';
+if($debug)echo '<pre>';
 
 $fakerUS = Faker\Factory::create('en_US');
-//echo $fakerUS->name."\n";
+//if($debug)echo $fakerUS->name."\n";
 $fakerVE = Faker\Factory::create('es_VE');
-//echo $fakerVE->name."\n";
+//if($debug)echo $fakerVE->name."\n";
 $fakerMX = Faker\Factory::create('es_MX');
-//echo $fakerMX->name."\n";
+//if($debug)echo $fakerMX->name."\n";
 
 
 if ($gestor = opendir($src_images)) {
- 	$contador = 0;
-    while( (false !== ($entrada = readdir($gestor)))&&($contador < $numero_intentos)) {
+ 	$contador = 0;$tiempoGeneracion=time();
+
+ 		
+
+
+
+    while( (false !== ($entrada = readdir($gestor)))) {
     	if(($entrada!='.')&&($entrada!='..')){
-    		$contador++;
+    		$entradas[]=$entrada ;
+    	}
+    }
+    $entradasRandom = array_rand($entradas, $numero_intentos);	
+
+	foreach ($entradasRandom as $key  ) {
+			$entrada=$entradas[$key];
+			$args=explode('/',$entrada);
+			$entrada=strtolower(end($args));
+		if($entrada!=''){
+    		
     		//La cantidad de entradas en el random
     		//marcan la cantidad viable de tipos de usuario 2 US, 2 VE, 1 MX
     		$rdm_locale = $fakerUS->randomElement($array = array ('US','US','US','US','US','VE','VE','MX','MX'));
@@ -76,7 +93,9 @@ if ($gestor = opendir($src_images)) {
 			$referee_number='112233';
 			$referee_user='112233';
 
-			echo " [[email]]: ".$data['email']." [[first_name]]: ".$data['first_name']." [[last_name]]: ".$data['last_name'];
+			if($debug)echo "<br>#### -  [[email]]: ".$data['email']." [[first_name]]: ".$data['first_name']." [[last_name]]: ".$data['last_name'];
+
+			if($debug)echo "<br>#### - Antes del primer insert ".(time()-$tiempoGeneracion).'s <br>';
 
 			$id=CON::insert('users','
 				username="",url="",profile_image_url="",description="",state="",city="",password_system="",
@@ -94,6 +113,8 @@ if ($gestor = opendir($src_images)) {
 				$referee_number,$referee_user,$data['country'],$data['address']
 			));
 			if($id > 0){
+
+				if($debug)echo "<br>#### - Despues del primer insert, antes de mover img ".(time()-$tiempoGeneracion).'s <br>'; 
 				$key=md5($id.'_'.$data['email'].'_'.$id);
 
 				$fullpathLocal='../../img/users/'.$key.'/';
@@ -115,14 +136,15 @@ if ($gestor = opendir($src_images)) {
 				rename ( $src_images.'/'.$entrada , $data['img']['tmp_name']  );
 
 				$url=uploadImage($data['img'],'profile','users',$key,$id);// key = userCode
-				echo " [[Url]]: ".$url ." #".$contador."\n";
+				if($debug)echo "<br>#### -  [[Url]]: ".$url ." #".$contador."\n";
 
-
+				if($debug)echo "<br>#### - Despues de mover la img usuario ".(time()-$tiempoGeneracion).'s <br>';
 				//numero de usuarios a seguir
-				$aSeguir=$faker->numberBetween(200, 300); //##### aca para evitar hacer dos updates
+				$aSeguir=$faker->numberBetween(30, 100); //##### aca para evitar hacer dos updates
 
 				if($url!='IMAGE_NOT_ALLOWED'){
 					CON::update("users","profile_image_url=?,updatePicture=1,following_count=?","id=?",array($url,$aSeguir,$id));
+					if($debug)echo "<br>#### - Despues de update Foto de usuario ".(time()-$tiempoGeneracion).'s <br>';
 				}else{
 
 					$url='';
@@ -143,46 +165,51 @@ if ($gestor = opendir($src_images)) {
 				CON::insert('users_preferences','id_user=?,id_preference=2,preference=?',array($id,implode(',',$preference[2])));
 				CON::insert('users_preferences','id_user=?,id_preference=3,preference=?',array($id,implode(',',$preference[3])));
 
+				if($debug)echo "<br>#### - Despues de users_preferences ".(time()-$tiempoGeneracion).'s <br>';
 
 
-				$folder=opendir("../../img/templates/defaults/");
-				$defaultbackgrounds=array();
-				$imagesAllowed=array('jpg','jpeg','png','gif');
-				while($pic=@readdir($folder)){
-					$args=explode('.',$pic);
-					$extension=strtolower(end($args));
-					if(in_array($extension,$imagesAllowed))
-						$defaultbackgrounds[]=$pic;
-				}
-				$key=array_rand($defaultbackgrounds);
-				$defaultTag='defaults/'.$defaultbackgrounds[$key];
+				$files = glob('../../img/templates/0/*.jpg');
+				$numeroTags=$faker->numberBetween(2, 6);
+ 				$imagesTag = array_rand($files, $numeroTags);
+
+ 				foreach ($imagesTag as $key  ) {
+ 					$imgTag=$files[$key];
+ 					$args=explode('/',$imgTag);
+					$imgTag=strtolower(end($args));
+ 					$imgTag='0/'.$imgTag;
+					$idTag=CON::insert('tags','id_user=?,id_creator=?,background=?,profile_img_url=?,code_number="",text="&nbsp",text2="&nbsp",status=1',array($id,$id,$imgTag,$url));
+					CON::update('tags', 'source=?', 'id=?',array($idTag, $idTag));
+					if($idTag) createTag($idTag,true);
+ 				}
 				
+ 				if($debug)echo "<br>#### - Despues de tags ".(time()-$tiempoGeneracion).'s <br>';
 
-				$idTag=CON::insert('tags','id_user=?,id_creator=?,background=?,profile_img_url=?,code_number="",text="&nbsp",text2="&nbsp",status=1',array($id,$id,$defaultTag,$url));
-				CON::update('tags', 'source=?', 'id=?',array($idTag, $idTag));
 
-				if($idTag) createTag($idTag,true);
 				CON::insert('business_card','id_user=?,email=?,company="Social Media Marketing",middle_text="www.Tagbum.com",type=0',array($id,$data['email']));
 
 				
 
-			    //for ($i=0; $i < $aSeguir ; $i++) { 
-					$idASeguir=2;$faker->numberBetween(1, $id); 
+			   for ($i=0; $i < $aSeguir ; $i++) { 
+					$idASeguir=$faker->numberBetween(1, $id); 
 					CON::insert('users_links','id_user=?,id_friend=?',array($id,$idASeguir));
 					CON::insert('users_notifications','id_type=?,id_source=?,id_user=?,id_friend=?,revised=0',array(11,$id,$id,$idASeguir));
 					
-				//}
+				}
+
+				if($debug)echo "<br>#### - Despues de users_links ".(time()-$tiempoGeneracion).'s <br>';
 				if($url=='IMAGE_NOT_ALLOWED'){//##### para evitar hacer dos updates
 					CON::update("users","following_count=?","id=?",array($aSeguir,$id));
 				}	
 
 
 				//unlink($src_images.'/'.$entrada);
-			}
+			}//if insert user
     	}
     }
- 
+ 	echo "<br>#### - Total: ".(time()-$tiempoGeneracion).'s <br>';
     closedir($gestor);
+    $self = $_SERVER['PHP_SELF']; 
+	header("refresh:0; url=$self");
 }
 
 function normalize_special_characters( $str ) 

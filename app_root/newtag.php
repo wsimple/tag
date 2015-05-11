@@ -314,7 +314,6 @@
 					}
 					imagePrev.src = bg;
 					var img = this;
-					// alert(this.naturalWidth + 'x' + this.naturalHeight);
 					if(bg){
 						var bgsize=this.naturalWidth>1200?100:100*this.naturalWidth/1200;
 						bgsize=bgsize+'% auto';
@@ -384,10 +383,12 @@
 					});
 				 	function convertVideo(uploadResult){
 								var uploadResult=JSON.parse(uploadResult.response);
-									
+
+								console.log('Dentro de convert: '+uploadResult.file);
+								alert('ads');	
 								if(uploadResult.file){
 									$.ajax({
-									url:SERVERS.video+'/?convert',
+									url:SERVERS.video+'/?convert&debug',
 									dataType:'json',
 									type:'post',
 									data: {code:$.local('code'),file:uploadResult.file},
@@ -425,9 +426,11 @@
 										$bgCheck[0].dataset.url=SERVERS.video+'/videos/'+convertResult.captures[0];
 										$bgCheck.attr('src',SERVERS.video+'/videos/'+convertResult.captures[0]);
 									},
-									error: function(xhr, status, error) {
-									  var err = eval("(" + xhr.responseText + ")");
-									  alert(err.Message);
+									fail: function(xhr, status, error) {
+									  
+									  console.log('error: '+status);
+									  $('#LoadingVideo').hide();
+
 									}
 									});
 								} 
@@ -451,24 +454,78 @@
 						            id:'#LoadingVideo',
 						            content :contentLoading,
 						            buttons:[]
-						        });
-									
+						        });	
 								ft.upload(fileURL,
 								encodeURI(SERVERS.video+"/upload.php"),
 								convertVideo,
 								function(error){
-									alert('Error uploading file, Error Code:: ' + error.code + ', Source: ' + error.source +', '+ error.target);
+									console.log('Error uploading file, Error Code:: ' + error.code + ', Source: ' + error.source +', '+ error.target);
+									$('#LoadingVideo').hide();
 								},
 								options
 								);
 
 					}
+
+					function removefile(file){
+					    fileSystem.root.getFile(file, {create: false, exclusive: false}, gotRemoveFileEntry, fail);
+					}
+
+					function gotRemoveFileEntry(fileEntry){
+					    console.log(fileEntry);
+					    fileEntry.remove(success, fail);
+					}
+
+					function success(entry) {
+					    console.log("Removal succeeded");
+					}
+
+					function fail(error) {
+					    console.log("Error removing file: " + error.code);
+					}
+
+					var extToMimes = {
+								       'mp4':'video/mp4',
+								       'm4v':'video/mp4',
+								       'mov':'video/quicktime',
+								       'ogv':'video/ogg',
+								       'ogg':'video/ogg',
+								       '3gp':'video/3gpp',
+								       'avi':'video/x-msvideo',
+								       'mkv':'video/x-matroska',
+								       'flv':'video/x-flv',
+								       'mpeg':'video/mpeg',
+								       'mpg':'video/mpeg',
+								       'vob':'video/dvd'
+								    }
+					function getMimeByExt(file) {
+					    var ext = file.substr( (file.lastIndexOf('.') +1));
+					    if (extToMimes.hasOwnProperty(ext)) {
+				           return extToMimes[ext];
+				        }
+				        return false;
+					    
+					}
+					function videoTranscodeSuccess(result) {
+
+						if($.isArray(result)) result=result.fullPath;
+
+					    console.log('videoTranscodeSuccess, result: ' + result);
+					    uploadFile({fullPath:result,name:result.substr( (result.lastIndexOf('/') +1)),type:getMimeByExt(result)});
+					    
+					}
+
+					function videoTranscodeError(err) {
+					    console.log('videoTranscodeError, err: ' + err);
+					}
+
+
 					document.addEventListener('deviceready',function(){
-						//alert('Device ready no');
 						var cam=Camera,
 							photoConfig={
 								targetWidth:1200,
-								quality:60,
+								targetHeight: 554,
+								quality:90,
 								destinationType:cam.DestinationType.DATA_URL,
 								//allowEdit:true,
 								correctOrientation:true
@@ -485,31 +542,23 @@
 								}
 
 								if(data.match(/(\.|\/)(mp4|m4v|mov|ogv|ogg|3gp|avi|mkv|flv|mpe?g|vob)$/i)){// es video
-									
-									var extToMimes = {
-												       'mp4':'video/mp4',
-												       'm4v':'video/mp4',
-												       'mov':'video/quicktime',
-												       'ogv':'video/ogg',
-												       'ogg':'video/ogg',
-												       '3gp':'video/3gpp',
-												       'avi':'video/x-msvideo',
-												       'mkv':'video/x-matroska',
-												       'flv':'video/x-flv',
-												       'mpeg':'video/mpeg',
-												       'mpg':'video/mpeg',
-												       'vob':'video/dvd'
-												    }
-									function getMimeByExt(file) {
-									    var ext = file.substr( (file.lastIndexOf('.') +1));
-									    if (extToMimes.hasOwnProperty(ext)) {
-								           return extToMimes[ext];
-								        }
-								        return false;
-									    
-									}
 
-									uploadFile({fullPath:data,name:data.substr( (data.lastIndexOf('/') +1)),type:getMimeByExt(data)});
+									data=data.replace('data:image/jpg;base64,','');
+
+									name_=data.substr( (data.lastIndexOf('/') +1));
+									var dataOut='';
+									VideoEditor.transcodeVideo(
+								        videoTranscodeSuccess,
+								        videoTranscodeError,
+								        {
+								            fileUri: data, 
+								            outputFileName: Math.random()+'_'+name_, 
+								            quality: VideoEditorOptions.Quality.HIGH_QUALITY,
+								            outputFileType: VideoEditorOptions.OutputFileType.MPEG4,
+								            optimizeForNetworkUse: VideoEditorOptions.OptimizeForNetworkUse.YES,
+								            duration: 60
+								        }
+								    );									
 								}
 							},
 							onPhotoFail=function(message){
@@ -520,7 +569,7 @@
 								switch(type){
 
 									case 'lib':
-										photoData.mediaType=cam.MediaType.PICTURE;
+										photoData.mediaType=cam.MediaType.ALLMEDIA;
 										photoData.sourceType=cam.PictureSourceType.PHOTOLIBRARY;
 									break;
 
@@ -552,11 +601,24 @@
 															captureSuccess=function(mediaFiles){
 																var i,len;
 																for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-																	uploadFile(mediaFiles[i]);
+																	
+																	name_=mediaFiles[i].fullPath.substr( (mediaFiles[i].fullPath.lastIndexOf('/') +1));
+																	VideoEditor.transcodeVideo(
+																        videoTranscodeSuccess,
+																        videoTranscodeError,
+																        {
+																            fileUri: mediaFiles[i].fullPath, 
+																            outputFileName: Math.random()+'_'+name_, 
+																            quality: VideoEditorOptions.Quality.HIGH_QUALITY,
+																            outputFileType: VideoEditorOptions.OutputFileType.MPEG4,
+																            optimizeForNetworkUse: VideoEditorOptions.OptimizeForNetworkUse.YES,
+																            duration: 60
+																        }
+																    );	
 																}
 															},
 															captureError=function(error){
-																navigator.notification.alert('Error code: '+error.code,null,'Capture Error');
+																console.log('Error code: '+error.code,null,'Capture Error');
 															};
 
 															navigator.device.capture.captureVideo(captureSuccess,captureError,{limit:1,duration: 60});
@@ -608,7 +670,6 @@
 						bgMatrix[5]=Math.floor(bgMatrix[5]*realWidth/scaledWidth);
 						console.log('bgmatrix',bgMatrix);
 					}
-					//alert(emails.join());
 					myAjax({
 						type:'POST',
 						url:DOMINIO+'controls/tags/newTag.json.php',
