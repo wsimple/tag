@@ -223,7 +223,7 @@
 						<option value="" >...</option>
 						<option value="1" <?=($_SESSION['ws-tags']['ws-user']['interest']==1?"selected":'')?>><?=lan('men','ucw')?></option>
 						<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']==2?"selected":'')?>><?=lan('women','ucw')?></option>
-						<option value="2" <?=($_SESSION['ws-tags']['ws-user']['interest']===0?"selected":'')?>><?=lan('both','ucw')?></option>
+						<option value="3" <?=($_SESSION['ws-tags']['ws-user']['interest']==3?"selected":'')?>><?=lan('both','ucw')?></option>
 					</select>
 				</div>
 				<div class="left"><?php //relations  ?>
@@ -449,10 +449,10 @@
 						band=true;
 						if ($('#frmProfile_mobile').val()!='' && !validateForm('frmProfile_mobile'))	stri+='<?=USERPROFILE_LBLMOBILEPHONE?>';
 						if ($('#frmProfile_work').val()!='' && !validateForm('frmProfile_work')){	stri+=stri!=''?', <?=USERPROFILE_LBLWORKPHONE?>':'<?=USERPROFILE_LBLWORKPHONE?>';}
-						if (typeUser=='0' && $('#frmProfile_home').val()!='' && !validateForm('frmProfile_home')){	stri+=stri!=''?' <?=ANDLABEL?> <?=USERPROFILE_LBLHOMEPHONE?>':'<?=USERPROFILE_LBLHOMEPHONE?>';}
+						if (typeUser=='0' && $('#frmProfile_home').val()!='' && !validateForm('frmProfile_home')){	stri+=stri!=''?' <?=ORLABEL?> <?=USERPROFILE_LBLHOMEPHONE?>':'<?=USERPROFILE_LBLHOMEPHONE?>';}
 						if ($('#frmProfile_work').val()!='' && $('#work_code_search').val()==''){ select+='<?=USERPROFILE_LBLWORKPHONE?>'; }
 						if (typeUser=='0' && ($('#frmProfile_home').val()!='' && $('#home_code_search').val()=='')){ select+=select!=''?', <?=USERPROFILE_LBLHOMEPHONE?>':'<?=USERPROFILE_LBLHOMEPHONE?>'; }
-						if ($('#frmProfile_mobile').val()!='' && $('#mobile_code_search').val()==''){ select+=select!=''?' <?=ANDLABEL?> <?=USERPROFILE_LBLMOBILEPHONE?>':'<?=USERPROFILE_LBLMOBILEPHONE?>'; }
+						if ($('#frmProfile_mobile').val()!='' && $('#mobile_code_search').val()==''){ select+=select!=''?' <?=ORLABEL?> <?=USERPROFILE_LBLMOBILEPHONE?>':'<?=USERPROFILE_LBLMOBILEPHONE?>'; }
 					}
 					if (stri=='' && select==''){
 						var val = $('#frmProfile_userName').val(),n='';
@@ -471,15 +471,16 @@
 						}
 					}else{
 						band=false;
+						
 						if(select!=''){
-							$('div#divErroPhoneCode span').html(select);
-							showAndHide('divErroPhoneCode','divErroPhoneCode',1500,true);
+							$('div#divError').html('<?=lan("PLEASE_INDICATE")?> '+select);
+							// showAndHide('divErroPhoneCode','divErroPhoneCode',1500,true);
 						}else{
-							$('div#divErroPhone span').prepend(stri);
-							showAndHide('divErroPhone',	'divErroPhone',	1500, true);
+							$('div#divError').html('<?=lan("PLEASE_INDICATE")?> '+stri);
+							// showAndHide('divErroPhone',	'divErroPhone',	1500, true);
 						}
+						showAndHide('divError','divError',2500,true);
 					}
-				}
 				$.loader('hide');
 		});
 		//FIN control de los botones send y back
