@@ -29,11 +29,11 @@ if(count($_FILES))
 			}
 		}
 	}
-$_REQUEST['file']=$files[0];
-$_GET['convert']=true;
-
-include 'index.php';
-die();
+if($_GET['convert']){
+	$_REQUEST['file']=$files[0];
+	include 'index.php';
+	die();
+}
 
 die(json_encode(array('file'=>$file_name)));
 
