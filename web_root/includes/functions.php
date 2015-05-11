@@ -715,12 +715,13 @@ function peoples($array=''){
 	$uid=$_SESSION['ws-tags']['ws-user']['id'];
 	// $from='users u';
 	$from='(select *, TIMESTAMPDIFF(YEAR, date_birth, CURDATE()) AS age from users) u';
+	//se comento el email para evitar robo de emails en el sitio, se debe evitar mostral email en cualquier vista o json
 	$select=' DISTINCT
 		u.id AS id,
 		CONCAT(u.`name`," ",u.last_name) AS name_user,
 		u.username AS username,
 		u.description,
-		u.email as email,
+		--u.email as email,
 		u.country as id_country,
 		u.profile_image_url AS photo_friend,
 		md5(CONCAT(u.id,"_",u.email,"_",u.id)) AS code_friend,

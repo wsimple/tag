@@ -14,7 +14,6 @@ include '../../includes/config.php';
 include '../../includes/session.php';
 include '../../includes/functions.php';
 include '../../class/wconecta.class.php';
-include '../../includes/languages.config.php';
 include '../../includes/funciones_upload.php';
 
 if($debug)echo '<pre>';
@@ -30,22 +29,25 @@ $fakerMX = Faker\Factory::create('es_MX');
 if ($gestor = opendir($src_images)) {
  	$contador = 0;$tiempoGeneracion=time();
 
- 		
-
-
-
     while( (false !== ($entrada = readdir($gestor)))) {
     	if(($entrada!='.')&&($entrada!='..')){
-    		$entradas[]=$entrada ;
+    		$args=explode('/',$entrada);
+			$entrada=strtolower(end($args));
+			if(($entrada!='')&&($entrada!='.ds_store')){
+    			$entradas[]=$entrada ;
+    		}	
     	}
     }
+   closedir($gestor);
+    if(!count($entradas)) die('No hay imagenes para generar usuarios.');
+    if($numero_intentos>count($entradas))$numero_intentos=count($entradas);
+
     $entradasRandom = array_rand($entradas, $numero_intentos);	
 
 	foreach ($entradasRandom as $key  ) {
 			$entrada=$entradas[$key];
-			$args=explode('/',$entrada);
-			$entrada=strtolower(end($args));
-		if($entrada!=''){
+			
+		
     		
     		//La cantidad de entradas en el random
     		//marcan la cantidad viable de tipos de usuario 2 US, 2 VE, 1 MX
@@ -89,6 +91,9 @@ if ($gestor = opendir($src_images)) {
 			$data['lang']=$lang;
 			$data['country']=$country;
 			$data['address']=$faker->address;
+			$data['interest']=$faker->randomElement($array = array ('3','2','1'));
+			$data['relationship']=$faker->randomElement($array = array ('1','2','3','4','5','6','7','8'));
+
 			
 			$referee_number='112233';
 			$referee_user='112233';
@@ -104,13 +109,15 @@ if ($gestor = opendir($src_images)) {
 				screen_name=?,name=?,last_name=?,
 				date_birth=?,sex=?,fbid=?,
 				location=?,zip_code=?,language=?,
-				referee_number=?,referee_user=?,country=?,address=?
+				referee_number=?,referee_user=?,country=?,address=?,interest=?,relationship=?,wish_to=7
 			',array(
 				$data['email'],$data['password'],0,
 				$data['screenName'],$data['first_name'],$data['last_name'],
 				date('Y-m-d',strtotime($data['birthday'])),$data['sex'],$data['fbid'],
 				$_SERVER['REMOTE_ADDR'],$data['zipCode'],$data['lang'],
-				$referee_number,$referee_user,$data['country'],$data['address']
+				$referee_number,$referee_user,$data['country'],$data['address'],
+				$data['interest'],$data['relationship']
+
 			));
 			if($id > 0){
 
@@ -204,12 +211,12 @@ if ($gestor = opendir($src_images)) {
 
 				//unlink($src_images.'/'.$entrada);
 			}//if insert user
-    	}
+    	
     }
- 	echo "<br>#### - Total: ".(time()-$tiempoGeneracion).'s <br>';
-    closedir($gestor);
+ 	
     $self = $_SERVER['PHP_SELF']; 
-	header("refresh:0; url=$self");
+	if(!$debug)header("refresh:0; url=$self");
+	echo "<br>#### - Total: ".(time()-$tiempoGeneracion).'s <br>';
 }
 
 function normalize_special_characters( $str ) 

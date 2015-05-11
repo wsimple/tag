@@ -3301,7 +3301,7 @@ function bodyfriends(friends,Link,unLink){
 		+			'<span class="titleField"><?=$lang["SIGNUP_LBLEMAIL"]?>: </span>'+friends['email']
 		+			'<div class="clearfix"></div>'
 		+			'<span class="titleField"><?=$lang["USER_LBLFOLLOWERS"]?> ('+friends['followers_count']+')</span>'
-		+			'<span class="titleField"><?=$lang["USER_LBLFRIENDS"]?> ('+friends['friends_count']+')</span><div class="clearfix"></div>'
+		+			'<span class="titleField"><?=$lang["USER_LBLFRIENDS"]?> ('+friends['following_count']+')</span><div class="clearfix"></div>'
 		+			country
 		+		'</div>'
 		+		'<div style="height:70px; width:0px; float: right; text-align: right;">'
