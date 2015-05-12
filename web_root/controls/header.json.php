@@ -1,4 +1,5 @@
 <?php
+$t=time();
 global $_header_json;
 if(!$_header_json){
 	if(isset($_COOKIE['_DEBUG_']))
@@ -34,3 +35,5 @@ if(!$_header_json){
 }
 $_header_json=true;
 if($_need_login&&!$myId) die('');
+
+if(is_debug('header')) echo "\nTime:".(time()-$t)."\n";
