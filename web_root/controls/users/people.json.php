@@ -335,14 +335,10 @@ function htmlfriends($row,$numAction=1){
 	if($row['username']!=''){
 	$body.='<span class="titleField">'.USERS_BROWSERFRIENDSLABELEXTERNALPROFILE.':</span>&nbsp;<a style="color:#ccc; font-size:12px;" href="'.base_url($row['username']).'" onFocus="this.blur();" target="_blank">'.DOMINIO.$row['username'].'</a><br><div class="clearfix"></div>';
 	}
-	if (isset($_GET['mod']) && $_GET['mod']=='dates'){
-		$body.='<span class="titleField">'.USER_LBLFOLLOWERS.' ('.$row['followers_count'].')</span> 
-				<span class="titleField">'.USER_LBLFRIENDS.' ('.$row['friends_count'].')</span><br>';		
-	}else{
-		$body.='<span class="titleField">Email:</span>'.$row['email'].'<div class="clearfix"></div>
-				<span class="titleField">'.USER_LBLFOLLOWERS.' ('.$row['followers_count'].')</span> 
-				<span class="titleField">'.USER_LBLFRIENDS.' ('.$row['friends_count'].')</span><br>';
-	}
+
+	$body.='<span class="titleField">'.USER_LBLFOLLOWERS.' ('.$row['followers_count'].')</span> 
+			<span class="titleField">'.USER_LBLFRIENDS.' ('.$row['following_count'].')</span><br>';		
+
 	if($nameCountryUser!=''){
 		$body.='<span class="titleField">'.USERS_BROWSERFRIENDSLABELCOUNTRY.':&nbsp;</span>'.$nameCountryUser['name'].'<div class="clearfix"></div><br>';
 	}

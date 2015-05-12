@@ -37,7 +37,7 @@ for ($x = 0; $x < $numrowsinit; $x++) {
             "id"	   => md5($friend["id_friend"]),
             "name"	   => $friend["name_user"],
             "photo"    => FILESERVER.getUserPicture($friend['code_friend'].'/'.$friend['photo_friend'],'img/users/default.png'),
-            "email"    => $friend['email']
+            "email"    => ''//$friend['email']
         )
     );
 }
