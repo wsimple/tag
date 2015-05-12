@@ -46,30 +46,25 @@ include '../header.json.php';
 	$numfriends=is_numeric($_REQUEST['friends'])?intval($_REQUEST['friends']):3;
 	$dif=($action=='refresh')?'>':'<=';
 	if($types!='1') $types="un.$types";
-	$qinfo=CON::query("
-		SELECT
-			un.id
-		,	un.date
-		,	un.revised
-		,	un.id_type
-		,	(SELECT type_source FROM type_actions WHERE id=un.id_type) AS type
-		,	un.id_source
-		,	un.date
-		,	un.revised
-		,	DATE(un.date) AS fecha
-		FROM users_notifications un
-		JOIN users u ON u.id=un.id_user
-		WHERE un.id_source!=0 AND un.id_user!=0 AND un.id_friend!=un.id_user
-			AND $types
-			AND un.id_friend=?
-			AND un.date $dif ?
-		GROUP BY un.id_type,un.id_source,DATE(un.date),un.revised
-		ORDER BY un.id DESC
-		LIMIT $limit
-	",array(
-		$myId,
-		$res['date']
-	));
+	$qinfo=CON::query("SELECT
+						un.id
+					,	un.date
+					,	un.revised
+					,	un.id_type
+					,	(SELECT type_source FROM type_actions WHERE id=un.id_type) AS type
+					,	un.id_source
+					,	un.date
+					,	un.revised
+					,	DATE(un.date) AS fecha
+					FROM users_notifications un
+					-- JOIN users u ON u.id=un.id_user
+					WHERE un.id_source!=0 AND un.id_user!=0 AND un.id_friend!=un.id_user
+						AND $types
+						AND un.id_friend=?
+						AND un.date $dif ?
+					GROUP BY un.id_type,un.id_source,DATE(un.date),un.revised
+					ORDER BY un.id DESC
+					LIMIT $limit",array($myId,$res['date']));
 	if($debug) $res['_sql_'][]=CON::lastSql();
 	//if($action=='refresh') $res['date']='';
 	$ainfo=array();
@@ -84,15 +79,11 @@ include '../header.json.php';
 				$gid=CON::getVal('SELECT id_group FROM tags WHERE id=? AND status=7',array($info['id_source']));
 			else
 				$gid=$info['id_source'];
-			$group=CON::getRow('
-				SELECT
-					id,
-					name,
-					md5(id) as Mid,
-					(SELECT status FROM users_groups WHERE id_group=id AND id_user=?) AS ug_status
-				FROM groups
-				WHERE id=?
-			',array($myId,$gid));
+			$group=CON::getRow('SELECT
+									id, name, md5(id) as Mid,
+									(SELECT status FROM users_groups WHERE id_group=id AND id_user=?) AS ug_status
+								FROM groups
+								WHERE id=?',array($myId,$gid));
 			if(count($group)>0){
 				$group['name']=ucwords($group['name']);
 				$info['group']=$group;
@@ -114,21 +105,20 @@ include '../header.json.php';
 		}
 
 		#agrupacion de nombres
-		$friends=CON::query('
-			SELECT
-				un.id_user AS id,
-				md5(un.id_user) AS uid,
-				md5(CONCAT(u.id,"_",u.email,"_",u.id)) AS code,
-				concat(u.name," ",u.last_name) AS name,
-				concat("img/users/",md5(CONCAT(u.id,"_",u.email,"_",u.id)),"/",u.profile_image_url) AS photo,
-				un.date
-			FROM users_notifications un
-			JOIN users u ON u.id=un.id_user
-			WHERE un.id_friend!=un.id_user AND '.$date.'
-				AND un.id_user!=? AND un.id_source=? AND un.id_type=?
-			GROUP BY un.id_user
-			ORDER BY un.id DESC
-		',array($myId,$info['id_source'],$info['id_type']));
+		$friends=CON::query('SELECT
+								un.id_user AS id,
+								md5(un.id_user) AS uid,
+								md5(CONCAT(u.id,"_",u.email,"_",u.id)) AS code,
+								concat(u.name," ",u.last_name) AS name,
+								concat("img/users/",md5(CONCAT(u.id,"_",u.email,"_",u.id)),"/",u.profile_image_url) AS photo,
+								un.date
+							FROM users_notifications un
+							INNER JOIN (SELECT id,name,last_name,profile_image_url,email FROM users) u ON u.id=un.id_user
+							WHERE un.id_friend!=un.id_user AND '.$date.'
+								AND un.id_user!=? AND un.id_source=? AND un.id_type=?
+							GROUP BY un.id_user
+							ORDER BY un.id DESC
+						',array($myId,$info['id_source'],$info['id_type']));
 		if($debug&&!$notFirst) $res['_sql_'][]=CON::lastSql();
 		$info['num_friends']=CON::numRows($friends);
 		if($info['num_friends']>0){
