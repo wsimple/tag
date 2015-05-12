@@ -24,4 +24,5 @@ if(	!strpos($_SERVER['PHP_SELF'],'carouselTags.view.php')	&&	!strpos($_SERVER['P
 		die('1');
 }
 #regex dominios: /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/
+session_write_close();
 ?>
