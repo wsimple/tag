@@ -615,25 +615,23 @@ function suggestionFriends($not_ids,$limit=10){
 	$criterio=($not_ids!='')?"u.id NOT IN ($not_ids) AND":'';
 	if (is_int($limit)) $limit="LIMIT 0,".($limit*2);
 	$friends=CON::getAssoc("
-		SELECT
-			u.id AS id_user,
-			u.id AS id_friend,
-			CONCAT(u.`name`,' ',u.last_name) AS name_user,
-			u.username AS username,
-			u.email as email,
-			u.country as country,
-			u.description AS description,
-			u.followers_count,
-			u.friends_count,
-			u.profile_image_url AS photo_friend,
-			md5(CONCAT(u.id,'_',u.email,'_',u.id)) AS code_friend,
+		SELECT u.*,
 			if(u.following_count<3,0,u.followers_count/u.following_count)*
-			if(u.profile_image_url='',1,2) as avg
-		FROM users u
-		LEFT JOIN (SELECT id_friend, id_user FROM users_links) ul ON (ul.id_friend=u.id AND ul.id_user=$myId)
+			if(u.photo_friend='',1,2) as avg
+		FROM (SELECT id AS id_user,
+			id AS id_friend,
+			CONCAT(`name`,' ',last_name) AS name_user,
+			username AS username,
+			email as email,
+			country as country,
+			description AS description,
+			following_count,
+			followers_count,
+			friends_count,
+			profile_image_url AS photo_friend,
+			md5(CONCAT(id,'_',email,'_',id)) AS code_friend FROM users WHERE id!=$myId) u
 		WHERE $criterio
-			u.id!=$myId AND
-			ul.id_friend IS NULL
+			u.id_user NOT IN (SELECT id_friend FROM users_links WHERE id_user=$myId)
 		ORDER BY avg DESC
 		$limit");
 	shuffle($friends);
