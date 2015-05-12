@@ -1,5 +1,22 @@
 <?php
-session_start();
+if($___session___) return;
+$___session___=true;
+
+function load_session(){
+	session_start();
+	session_write_close();
+}
+function save_in_session($data=array()){
+	session_start();
+	$_SESSION=array_merge($_SESSION,$data);
+	session_write_close();
+}
+function with_session($callable){
+	session_start();
+	if(is_callable($callable)) $callable();
+	session_write_close();
+}
+load_session();
 $__val=$_SESSION['ws-tags']['ws-user']['id']!=''?md5($_SESSION['ws-tags']['ws-user']['id']):NULL;
 $__code=$_SESSION['ws-tags']['ws-user']['code']!=''?$_SESSION['ws-tags']['ws-user']['code']:NULL;
 $__t=$__val?60*30:-3600;

@@ -9,7 +9,8 @@
 	+---------------------------------------------------+
 */
 global $config;
-if(!$config) include('config.php');
+include_once('config.php');
+include_once('session.php');
 
 if(!function_exists('base_url')){
 	function base_url($url=''){
@@ -1613,25 +1614,29 @@ function logout(){
 		cookie('_login_',NULL);
 		ifIsLogged();
 	}
-	unset(
-		$_SESSION['ws-tags']['ws-user'],
-		$_SESSION['smt-app'],
-		$_SESSION['car'],
-		$_SESSION['store'],
-		$_SESSION['havePaypalPayment']
-	);
+	with_session(function(){
+		unset(
+			$_SESSION['ws-tags']['ws-user'],
+			$_SESSION['smt-app'],
+			$_SESSION['car'],
+			$_SESSION['store'],
+			$_SESSION['havePaypalPayment']
+		);
+	});
 }
 
 function createSession($array,$clear=true){//creacion de las variables de session del sistema
+	load_session();
+	$sesion['ws-user']=$_SESSION['ws-tags']['ws-user'];
 	unset($array['password'],$array['password_user'],$array['password_system']);
 	if($clear) $usr=$array;
 	else{
-		$usr=$_SESSION['ws-tags']['ws-user'];
+		$usr=$sesion['ws-user'];
 		foreach ($array as $key=>$value){
 			$usr[$key]=$value;
 		}
 	}
-	$usr['fullversion']=$_SESSION['ws-tags']['ws-user']['fullversion'];
+	$usr['fullversion']=$sesion['ws-user']['fullversion'];
 	$usr['showPhotoGallery']=false;
 	if($usr['profile_image_url'] && $usr['photo'] =='') $usr['photo']=$usr['profile_image_url'];
 	if($usr['time']==''){//si esta vacio se captura el tiempo, para control de cache en el cliente
@@ -1646,15 +1651,18 @@ function createSession($array,$clear=true){//creacion de las variables de sessio
 		else
 			$usr['pic']='img/users/'.$usr['code'].'/'.$usr['photo'];
 	}
-	$_SESSION['ws-tags']['ws-user']=$usr;
+	$sesion['ws-user']=$usr;
 	//this variable indicates that photo gallery must be shown on page load
 	if($_POST['lng']!=''){
-		$_SESSION['ws-tags']['language']=$_POST['lng'];
+		$sesion['language']=$_POST['lng'];
 	}elseif($usr['language']!=''){
-		$_SESSION['ws-tags']['language']=$usr['language'];
+		$sesion['language']=$usr['language'];
 	}elseif($_POST['lang']!=''){
-		$_SESSION['ws-tags']['language']=$_POST['lang'];
+		$sesion['language']=$_POST['lang'];
 	}
+	with_session(function()use($sesion){
+		$_SESSION['ws-tags']=$sesion;
+	});
 	createSessionStore();
 	ifIsLogged();
 }
@@ -1716,7 +1724,9 @@ function createSessionCar($id_user='',$code='',$count='',$idproduct='',$idOrder=
 				// if($product['formPayment']==1) $_SESSION['havePaypalPayment']=true;
 			}
 		}
-		$_SESSION['car']=$carrito;
+		with_session(function()use($carrito){
+			$_SESSION['car']=$carrito;
+		});
 		return $carrito;
 	}else{
 		$product=mysql_fetch_array($result);
@@ -1724,6 +1734,7 @@ function createSessionCar($id_user='',$code='',$count='',$idproduct='',$idOrder=
 	}
 }
 function createSessionStore(){
+	load_session();
 	$id_user=$_SESSION['ws-tags']['ws-user']['id'];
 	$sql="
 		SELECT SUM(od.cant) AS cant, o.id_status AS status,o.id
@@ -1759,7 +1770,9 @@ function createSessionStore(){
 		if($row['id']!='') $store['sales']='1';
 	}
 	if(isset($store)){
-		$_SESSION['store']=$store;
+		with_session(function()use($store){
+			$_SESSION['store']=$store;
+		});
 	}
 }
 function userExternalReference($keyusr){ //confirmar suscripcion::login
@@ -1774,7 +1787,9 @@ function userExternalReference($keyusr){ //confirmar suscripcion::login
 		//update - colocamos el status del usuario en 3 con la finalidad de cobrar a los 14 dias su suscripcion al sistema
 		$status=(($array['type']=='1')?3:1);
 		$GLOBALS['cn']->query('UPDATE users SET status="'.$status.'" WHERE id="'.$array['id'].'"');
-		$_SESSION['ws-tags']['ws-user']['status']=$status;
+		with_session(function()use($status){
+			$_SESSION['ws-tags']['ws-user']['status']=$status;
+		});
 		return true;
 	}elseif(mysql_num_rows($query)==0){ //validacion de login
 		return false;
@@ -2169,7 +2184,10 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 		var_dump($id_friend,$id_source,$id_type,$delete,$id_user,$data);
 		echo '<hr>';
 	}
-	if ($config->local && !isset($_SESSION['ws-tags']['email'])) $_SESSION['ws-tags']['email']='';
+	if($config->local && !isset($_SESSION['ws-tags']['email']))
+		with_session(function(){
+			$_SESSION['ws-tags']['email']='';
+		});
 	$id_type*=1; //asegurando que sea numerico
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
 	$id_user=$id_user?$id_user:$myId;
@@ -2423,7 +2441,9 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 			}
 		}
 	}else{ //else delete
-		$_SESSION['ws-tags']['email']='';
+		with_session(function(){
+			$_SESSION['ws-tags']['email']='';
+		});
 		if($id_friend!=$id_user){
 			CON::delete('users_notifications','id_type=? AND id_source=? AND id_user=? AND id_friend=?',array(
 				$id_type,$id_source,$id_user,$id_friend
