@@ -1,5 +1,5 @@
 <?php
-$t=microtime();
+$t=array_sum(explode(' ',microtime()));
 global $_header_json;
 if(!$_header_json){
 	if(isset($_COOKIE['_DEBUG_']))
@@ -36,4 +36,4 @@ if(!$_header_json){
 $_header_json=true;
 if($_need_login&&!$myId) die('');
 
-if(is_debug('header')) echo "\nTime:".(microtime()-$t)."\n";
+if(is_debug('header')) echo "Time:".(array_sum(explode(' ',microtime()))-$t)."\n";
