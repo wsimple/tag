@@ -17,9 +17,9 @@ if(!$_header_json){
 	$path=preg_replace('/([\/][^\/]*)$/','',str_replace('\\','/',dirname(__FILE__)));
 	@define('RELPATH',"$path/");
 	include_once("$path/includes/config.php");
-	if(is_debug('header')) echo "Time config:".(array_sum(explode(' ',microtime()))-$t)."\n";
+	//if(is_debug('header')) echo "Time config:".(array_sum(explode(' ',microtime()))-$t)."\n";
 	include "$path/includes/session.php";
-	if(is_debug('header')) echo "Time session:".(array_sum(explode(' ',microtime()))-$t)."\n";
+	//if(is_debug('header')) echo "Time session:".(array_sum(explode(' ',microtime()))-$t)."\n";
 	include "$path/includes/functions.php";
 	if(is_debug('header')) echo "Time functions:".(array_sum(explode(' ',microtime()))-$t)."\n";
 	include "$path/includes/functions_mails.php";
