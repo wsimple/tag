@@ -1,7 +1,7 @@
 <?php
 require_once('includes/client.php');
 
-$validate=true;
+$validate=false;
 
 $code=isset($_COOKIE['__code__'])?$_COOKIE['__code__']:(isset($_REQUEST['code'])?$_REQUEST['code']:'');
 if($validate){
@@ -29,8 +29,8 @@ if(count($_FILES))
 			}
 		}
 	}
-if($_GET['convert']){
-	$_REQUEST['file']=$files[0];
+if(isset($_GET['convert'])){
+	$_REQUEST['file']=$_GET['file']=$_POST['file']=$file_name;
 	include 'index.php';
 	die();
 }

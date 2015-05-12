@@ -51,7 +51,7 @@ class VideoConvertion extends VideoCaptures
 		#primero validamos el usuario y que exista el archivo
 		$code=$this->get_code();
 		$origen="$this->pending/$code/$filename";
-		if(!is_file("$this->path/$origen")) $this->json();
+		if(!is_file("$this->path/$origen")) $this->json(array('me'=>"$this->path/$origen"));
 
 		$data=new stdClass();
 		$code=$this->usr->code();

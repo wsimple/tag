@@ -381,27 +381,22 @@
 						        });
 						
 					});
-				 	function convertVideo(uploadResult){
-								var uploadResult=JSON.parse(uploadResult.response);
-
-								console.log('Dentro de convert: '+uploadResult.file);
-								alert('ads');	
-								if(uploadResult.file){
-									$.ajax({
-									url:SERVERS.video+'/?convert&debug',
-									dataType:'json',
-									type:'post',
-									data: {code:$.local('code'),file:uploadResult.file},
-									success:function(convertResult){
+				 	function selectBackground(convertResult){
 										var list='';
-										$('#htxtVideo').val(convertResult.video);
-										$('.video-icon').show();
 
-										if(convertResult.captures.length > 1){ 
-											for (var i in convertResult.captures) {	
-												_url=SERVERS.video+'/videos/'+convertResult.captures[i];
+										response=jQuery.parseJSON(convertResult.response);
+
+										$('#htxtVideo').val(response.video);
+										$('.video-icon').show();
+										console.log('selectBackground: '+JSON.stringify(response));
+										
+										captures=response.captures;
+										if(captures.length > 1){ 
+											for (var i in captures) {	
+												_url=SERVERS.video+'/videos/'+captures[i];
+												console.log(_url+' - '+captures[i]);
 												list+='<div style="background-image:url('+_url+'); height:150px;" '+
-													  'data-url="'+_url+'" data-template="'+convertResult.captures[i]+'"></div>';
+													  'data-url="'+_url+'" data-template="'+captures[i]+'"></div>';
 											}
 											myDialog({
 												id:'#backgroundsVideoDialog',
@@ -422,18 +417,10 @@
 											});
 										}
 										$('#LoadingVideo').hide();
-										$bgCheck[0].dataset.template=convertResult.captures[0];
-										$bgCheck[0].dataset.url=SERVERS.video+'/videos/'+convertResult.captures[0];
-										$bgCheck.attr('src',SERVERS.video+'/videos/'+convertResult.captures[0]);
-									},
-									fail: function(xhr, status, error) {
-									  
-									  console.log('error: '+status);
-									  $('#LoadingVideo').hide();
-
-									}
-									});
-								} 
+										$bgCheck[0].dataset.template=captures[0];
+										$bgCheck[0].dataset.url=SERVERS.video+'/videos/'+captures[0];
+										$bgCheck.attr('src',SERVERS.video+'/videos/'+captures[0]);
+									
 					}//convertVideo
 					function uploadFile(dataUpload){
 
@@ -445,6 +432,7 @@
 								options.fileName = dataUpload.name;
 								options.mimeType = dataUpload.type;
 								options.params = params;
+								options.chunkedMode=true;
 								$('#shootType').hide();
 								$('.ui-loader').show();
 								contentLoading='<div><h4>'+lan('Video upload')+'</h4><p>'+
@@ -456,8 +444,8 @@
 						            buttons:[]
 						        });	
 								ft.upload(fileURL,
-								encodeURI(SERVERS.video+"/upload.php"),
-								convertVideo,
+								encodeURI(SERVERS.video+"/upload.php?convert"),
+								selectBackground,
 								function(error){
 									console.log('Error uploading file, Error Code:: ' + error.code + ', Source: ' + error.source +', '+ error.target);
 									$('#LoadingVideo').hide();
