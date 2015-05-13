@@ -6,85 +6,76 @@
 	include ("../../includes/languages.config.php");
 
 	$user_points = campo("users", "id", $_SESSION['ws-tags']['ws-user'][id], "current_points");
-	
-	if( $_GET[p] ) {
 
-		$datos = $GLOBALS['cn']->query("SELECT	id,
-												title,
-												link,
-												cost_investment,
-												message,
-												picture,
-												id_currency,
-												id_type_publicity AS type
-
-										FROM users_publicity
-
-										WHERE md5(id) = '".$_GET[p]."' AND id_user='".$_SESSION['ws-tags']['ws-user'][id]."'");
-
-		$dato = mysql_fetch_assoc($datos);
-
+	if($_GET['p']){
+		$dato=CON::getRow('SELECT
+				id,
+				title,
+				link,
+				cost_investment,
+				message,
+				picture,
+				id_currency,
+				id_type_publicity AS type
+			FROM users_publicity
+			WHERE md5(id) = ? AND id_user=?
+		',array($_GET['p'],$_SESSION['ws-tags']['ws-user']['id']));
 	}// if update
-
-	if( $_GET[n] ) {
-
-		$datos = $GLOBALS['cn']->query("SELECT id, name AS 'title', url AS 'link', picture, description AS message
-
-										FROM products_user
-
-										WHERE md5(id) = '".$_GET['n']."' and id_user='".$_SESSION['ws-tags']['ws-user'][id]."'");
-
-		$dato = mysql_fetch_assoc($datos);
-
+	if($_GET['n']){
+		$dato=CON::getRow('SELECT
+				id,
+				name AS title,
+				url AS link,
+				picture,
+				description AS message
+			FROM products_user
+			WHERE md5(id)=? AND id_user=?
+		',array($_GET['n'],$_SESSION['ws-tags']['ws-user']['id']))
 	}// if new & prod
-
-	$_SESSION['ws-tags'][chkpublicity] = 1;
+	save_in_session(array('ws-tags'=>array('chkpublicity'=>1)));
 ?>
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		// $('#imgTop').css('display', 'none');
-		
-	    $("#type_p").change(function() {
-	    	console.log($("#type_p").val());
-	    	if ($("#type_p").val()==5) {
-	    		 // console.log('dentro '+$("#type_p").val());
-	    		 $('#detailImg').show();
-		    	 function readURL(input) {
-			        if (input.files && input.files[0]) {
-			            var reader = new FileReader();
-			            reader.onload = function (e) {
-			            	console.log(e);
-			                $('#imgTop').attr('src', e.target.result);
-			            }
-			            reader.readAsDataURL(input.files[0]);
-			        }
-			    }
-			    
-			    $("#publi_img").change(function() {
-			    	 readURL(this);
-			    });
+		$("#type_p").change(function() {
+			console.log($("#type_p").val());
+			if ($("#type_p").val()==5) {
+				 // console.log('dentro '+$("#type_p").val());
+				 $('#detailImg').show();
+				 function readURL(input) {
+					if (input.files && input.files[0]) {
+						var reader = new FileReader();
+						reader.onload = function (e) {
+							console.log(e);
+							$('#imgTop').attr('src', e.target.result);
+						}
+						reader.readAsDataURL(input.files[0]);
+					}
+				}
 
-			    $('#imgTop').load(function(){
+				$("#publi_img").change(function() {
+					 readURL(this);
+				});
 
-			    	w=this.naturalWidth;
-			    	h=this.naturalHeight;
-			    	if ($("#type_p").val()==5) {
-				    	console.log(w+'--'+h);
-				    	$('#width').attr('value', w);
-				    	$('#height').attr('value', h);
-				    }
-			    });
+				$('#imgTop').load(function(){
+					w=this.naturalWidth;
+					h=this.naturalHeight;
+					if ($("#type_p").val()==5) {
+						console.log(w+'--'+h);
+						$('#width').attr('value', w);
+						$('#height').attr('value', h);
+					}
+				});
 			}else{
 				$('#detailImg').hide();
 				$('#width').removeAttr('value');
-	    		$('#height').removeAttr('value');
+				$('#height').removeAttr('value');
 			};
-	    });
-	   
-	    ($("#type_p").val()==5)?$('#detailImg').show():$('#detailImg').hide();
+		});
 
-	    // console.log($("#type_p").val());
+		($("#type_p").val()==5)?$('#detailImg').show():$('#detailImg').hide();
+
+		// console.log($("#type_p").val());
 		//contador de caracteres del title
 		$('#theCountertitle').textCounter({
 			target: '#publi_title', // required: string
@@ -106,11 +97,11 @@
 		//Formatea la moneda 
 		$('#publi_amount_1').blur(function(){
 			$(this).val( ( $(this).val()<10?10:$(this).val() ) ); //Montoo minimo de inversion 10
-        	$('#publi_amount_1').formatCurrency({symbol:''});
-        	updateUI(parseFloat( $(this).val().replace(',','') ), 'showBuyedClicks');
-        }).keyup(function(event) {
-        	updateUI(parseFloat( $(this).val().replace(',','') ), 'showBuyedClicks');
-        });
+			$('#publi_amount_1').formatCurrency({symbol:''});
+			updateUI(parseFloat( $(this).val().replace(',','') ), 'showBuyedClicks');
+		}).keyup(function(event) {
+			updateUI(parseFloat( $(this).val().replace(',','') ), 'showBuyedClicks');
+		});
 
 		if( '<?=($_GET[p] ? true : false)?>' ) {
 			if( '<?=$dato[id_currency]=='3' ? true : false?>' ) {
@@ -318,9 +309,9 @@
 					<div id="cost_input">
 						<div id="divInputCost">
 							<input id="publi_amount_1" name="publi_amount_1"
-								   <?=$_GET[p] && !isset($_GET[again]) ? 'disabled' : ''?>
-								   onkeypress="return numbersonly(event, true);"
-								   value="<?=( $dato[cost_investment] ? $dato[cost_investment] : '10.00')?>"/>
+									<?=$_GET[p] && !isset($_GET[again]) ? 'disabled' : ''?>
+									onkeypress="return numbersonly(event, true);"
+									value="<?=( $dato[cost_investment] ? $dato[cost_investment] : '10.00')?>"/>
 						</div>
 						<div id="showClickPublicity">
 							<div><?=PUBLICITY_AVAILABLE_CLICKS?>:</div>
@@ -362,8 +353,8 @@
 			<tr>
 				<td>
 					<?php if($_SESSION['ws-tags']['ws-user']['fullversion']!=1) { $dato[picture] = 'prueba';?>
-						<div  id="photoDIV"  class="invisible">
-							<input name="publi_img" type="file" id="publi_img"  value="<?=$dato[picture]?>" style="width:0px;height: 10px">
+						<div id="photoDIV" class="invisible">
+							<input name="publi_img" type="file" id="publi_img" value="<?=$dato[picture]?>" style="width:0px;height: 10px">
 						</div>
 						<input name="publi_img" type="button" id="buttonPubli" value="<?=NEWTAG_UPLOADBACKGROUND?>" style="width:150px;" />
 						<span id="text_photo"></span>
@@ -376,23 +367,19 @@
 				</td>
 				<td>&nbsp;</td>
 			</tr>
-
-
 			<?php if( $_GET[p] || $_GET[n] ) { ?>
 				<input type="hidden" name="picture" id="picture"
-					   value="<?=(	fileExistsRemote(FILESERVER."img/".($_GET[p]!="" ? 'publicity' : 'products')."/".$dato[picture])?$dato[picture] : "")?>" />
+					value="<?=(	fileExistsRemote(FILESERVER."img/".($_GET[p]!="" ? 'publicity' : 'products')."/".$dato[picture])?$dato[picture] : "")?>" />
 				<tr>
 					<td colspan="2">
 						<?php if( fileExistsRemote(FILESERVER."img/".($_GET[p] ? 'publicity' : 'products')."/".$dato[picture])) { ?>
 							<img src="includes/imagen.php?tipo=1&porc=50&img=<?=FILESERVER?>img/<?=($_GET[p] ? 'publicity' : 'products')?>/<?=$dato[picture]?>" />
 						<?php } else {
-							echo "&nbsp;";
+							echo '&nbsp;';
 						} ?>
 					</td>
 				</tr>
 			<?php } ?>
-
-
 			<tr>
 				<td colspan="2">(*)&nbsp;<?=PUBLICITY_LBLMESAGGE?>:&nbsp;<span>(<?=PUBLICITY_HELPMESSAGE?>)</span></td>
 			</tr>
@@ -402,7 +389,6 @@
 					<span id="theCounter"></span>&nbsp;max
 				</td>
 			</tr>
-
 			<tr>
 				<td colspan="2">
 					<div class="textRequiredPublicity" align="center"> <?=REQUIRED?> </div>
@@ -412,11 +398,9 @@
 					<input type="hidden" name="op" id="op" value="<?=($_GET[p] && !$_GET[resend] ? 2 : '')?>" />
 					<input type="hidden" name="resend" id="resend" value="<?=$_GET[resend]?>" />
 					<?=(isset($_GET[again]) ? '<input type="hidden" name="do" id="do" value="'.$_GET[p].'"/>' : '')?>
-
 				</td>
 			</tr>
 		</table>
-
 		<div style=" <?=$_GET[p] || $_SESSION['ws-tags']['ws-user'][type]==1 ? 'display: none' : ''?>;">
 			<input id="checkboxx" type="checkbox" name="checkboxx"/>
 			<font class="textRequiredPublicity"><?=USERPUBLICITY_KINDOF_PAYMENT?></font>
@@ -427,9 +411,9 @@
 <div class="clearfix"></div>
 <div class="space"></div>
 </div>
-<?php if($_GET[p]!='') {?>
+<?php if($_GET['p']!='') {?>
 <div style="float: right; margin-top: 10px">
-	<input id="cancelPubliData" type="button" value="<?=JS_CANCEL?>">
-	<input id="sendPubliData" type="button" value="<?=JS_CONFIG?>">
+	<input id="cancelPubliData" type="button" value="<?=JS_CANCEL?>" />
+	<input id="sendPubliData" type="button" value="<?=JS_CONFIG?>" />
 </div>
 <?php } ?>

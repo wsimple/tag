@@ -1,7 +1,4 @@
 <?php
-if(@strpos($_SESSION['ws-tags']['ws-user']['pic'],FILESERVER)!==false){
-	$_SESSION['ws-tags']['ws-user']['pic']=getUserPicture('img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo'],'img/users/default.png');
-}
 //$fot_=FILESERVER.generateThumbPath('img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo']).'?'.time();
 //detectar si es mobile
 $detect=new Mobile_Detect();
@@ -45,7 +42,7 @@ unset($detect);
 			<ul>
 				<li class="arrow"></li>
 				<li><a href="<?=base_url('carousel?')?>"><?=MAINMNU_CAROUSEL?></a></li>
-                <li><a href="<?=base_url('timeline?')?>"><?=TIMELINE_TITLE?></a></li>
+				<li><a href="<?=base_url('timeline?')?>"><?=TIMELINE_TITLE?></a></li>
 				<li><a href="<?=base_url('timeline?current=myTags')?>"><?=MAINMNU_MYTAGS?></a></li>
 				<li><a href="<?=base_url('timeline?current=favorites')?>"><?=TIMELINE_FAVORITES?></a></li>
 				<li><a href="<?=base_url('timeline?current=personalTags')?>"><?=MAINMNU_PERSONALTAGS?></a></li>
@@ -106,17 +103,17 @@ unset($detect);
 
 		$('.mainMenu').jMenu();
 		if (location.hash=='#carousel'){ $('#divAllNoti').slideUp(); }
-        else{ $('#divAllNoti').slideDown(); }
+		else{ $('#divAllNoti').slideDown(); }
 		$('#divNoti').load('dialog?pageid=notifications');
 		// $('#divNoti').load('view.php?page=users/notifications.php&dialog');
 		$('#numNoti').click(function(){
-            var o=$(this);
+			var o=$(this);
 			$$.ajax({
 				type	: 'GET',
 				url		: 'controls/notifications/notifications.json.php?checked=1&action=push',
 				dataType: 'json',
 				success	: function (data){
-				    console.log(data);
+					console.log(data);
 					var aux,titulo;
 					titulo = document.title.split('-');
 					aux = titulo[0].split(')'); //alert(aux[0]+', '+aux[1]);
@@ -134,7 +131,7 @@ unset($detect);
 		$(window).hashchange(function(){
 			$('.tipsy').remove();
 			if (window.location.hash=='#carousel'){ $('#divAllNoti').slideUp(); }
-            else{ $('#divAllNoti').slideDown(); }
+			else{ $('#divAllNoti').slideDown(); }
 		});
 		var $search=$('#txtSearchAll'),ac;
 		$search.autocomplete({
@@ -227,10 +224,10 @@ unset($detect);
 			}else if(item.category==='<?=SEARCHALL_HASTASH?>'){
 				if(item.hash.length>40){
 					res = item.hash.substr(0,40);
-					sp  = '...';
+					sp = '...';
 				}else{
 					res = item.hash;
-					sp  = '';
+					sp = '';
 				}
 				item.url=BASEURL+'searchall?srh='+encodeURIComponent(item.hash)+'&in=1';
 				$li.addClass('ui-autocomplete-group')

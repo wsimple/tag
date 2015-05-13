@@ -27,7 +27,7 @@
 	}
 	keepLogin();
 	//se detecta si se navega desde un mobile
-	$detect=new Mobile_Detect();   
+	$detect=new Mobile_Detect();
 	if($detect->isMobile()&&$_GET['ref']!=''){
 		$ref=$_GET['ref'];
 		unset($_GET['ref']);
@@ -75,13 +75,15 @@
 				ORDER BY end_date DESC
 			',array($_SESSION['business_payment']['ws-user']['id']));
 			//status = 1 = active, status = 5 = pending ambos tienen acceso
-			if( $status==1&&$result['access']==1 ){
-				$_SESSION['ws-tags']=$_SESSION['business_payment'];
-				unset($_SESSION['business_payment']);
-				CON::update('users','logins_count=logins_count+1','email=?',array(cls_string($_SESSION['ws-tags']['ws-user']['email'])));
-				$_SESSION['ws-tags']['ws-user']['logins_count']++;
-				header('Location: login.php');
-
+			if($status==1&&$result['access']==1){
+				with_session(function($sesion){
+					$sesion['ws-tags']=$sesion['business_payment'];
+					unset($sesion['business_payment']);
+					CON::update('users','logins_count=logins_count+1','email=?',array(cls_string($sesion['ws-tags']['ws-user']['email'])));
+					$sesion['ws-tags']['ws-user']['logins_count']++;
+					header('Location: login.php');
+					return $sesion;
+				});
 			}
 		}
 
@@ -170,15 +172,15 @@ if($detect->isMobile()&&!$_COOKIE['__FV__']){?>
 </script>
 <!-- Facebook Conversion Code for Tagbum -->
 <script>(function() {
-  var _fbq = window._fbq || (window._fbq = []);
-  if (!_fbq.loaded) {
-    var fbds = document.createElement('script');
-    fbds.async = true;
-    fbds.src = '//connect.facebook.net/en_US/fbds.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(fbds, s);
-    _fbq.loaded = true;
-  }
+	var _fbq = window._fbq || (window._fbq = []);
+	if (!_fbq.loaded) {
+		var fbds = document.createElement('script');
+		fbds.async = true;
+		fbds.src = '//connect.facebook.net/en_US/fbds.js';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(fbds, s);
+		_fbq.loaded = true;
+	}
 })();
 window._fbq = window._fbq || [];
 window._fbq.push(['track', '6018767308743', {'value':'0.00','currency':'USD'}]);

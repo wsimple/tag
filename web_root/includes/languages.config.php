@@ -3,24 +3,27 @@ $actual='';
 if(!empty($_GET['lang'])){
 	$actual=$_GET['lang'];
 }else{
-	//si llego el lenguaje y el usuario esta logueado
-	if(!empty($_SESSION['ws-tags']['ws-user']['language'])){
-		$_SESSION['ws-tags']['language']=$_SESSION['ws-tags']['ws-user']['language'];
-	}elseif(!empty($_POST['lang'])){
-		$_SESSION['ws-tags']['language']=$_POST['lang'];
-		@header('Location:'.$_POST['actualUrl']);//Url Actual donde se cambiara el idioma
-	}
-	//detecta el idioma segun la ip del usuario si no esta logeado
-	if(empty($_GET['lang'])&&empty($_SESSION['ws-tags']['language'])){
-		if(preg_match('/^(local\.|localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
-			$_SESSION['ws-tags']['language']=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
-		}else{
-			$ip_num=sprintf("%u",ip2long($_SERVER['REMOTE_ADDR']));
-			$locale=CON::getVal('SELECT idioma FROM geo_ip WHERE ? BETWEEN start AND end',array($ip_num));
-			$_SESSION['ws-tags']['language']=$locale;
+	with_session(function($sesion){
+		//si llego el lenguaje y el usuario esta logueado
+		if(!empty($sesion['ws-tags']['ws-user']['language'])){
+			$sesion['ws-tags']['language']=$sesion['ws-tags']['ws-user']['language'];
+		}elseif(!empty($_POST['lang'])){
+			$sesion['ws-tags']['language']=$_POST['lang'];
+			@header('Location:'.$_POST['actualUrl']);//Url Actual donde se cambiara el idioma
 		}
-	}
-	$actual=$_SESSION['ws-tags']['language'];
+		//detecta el idioma segun la ip del usuario si no esta logeado
+		if(empty($_GET['lang'])&&empty($sesion['ws-tags']['language'])){
+			if(preg_match('/^(local\.|localhost|127\.|192\.168\.)/',$_SERVER['SERVER_NAME'])){
+				$sesion['ws-tags']['language']=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
+			}else{
+				$ip_num=sprintf("%u",ip2long($_SERVER['REMOTE_ADDR']));
+				$locale=CON::getVal('SELECT idioma FROM geo_ip WHERE ? BETWEEN start AND end',array($ip_num));
+				$sesion['ws-tags']['language']=$locale;
+			}
+		}
+		$actual=$sesion['ws-tags']['language'];
+		return $sesion;
+	});
 }
 if(!$actual) $actual='en';
 
