@@ -13,7 +13,8 @@ function save_in_session($data=array()){
 }
 function with_session($callable){
 	session_start();
-	if(is_callable($callable)) $callable();
+	if(is_callable($callable)) $response=$callable($_SESSION);
+	if(is_array($response)) $_SESSION=$response;
 	session_write_close();
 }
 load_session();

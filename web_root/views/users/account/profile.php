@@ -4,17 +4,20 @@
 	//opciones de muestra de la fecha de nacimiento
 	$shows_birthday=$GLOBALS['cn']->query("SELECT * FROM users_profile_showbirthday ORDER BY id ASC");
 	//codigos de area por pais
-	$countries = CON::getArray("SELECT id,code,code_area,name FROM countries ORDER BY name ASC");
+	$countries=CON::getArray("SELECT id,code,code_area,name FROM countries ORDER BY name ASC");
 	//codigos de area por pais
 	if(isset($_GET['showUploadError'])){
 		mensajes(lan('UPLOAD_IMAGE_ERROR'),lan('PUBLICITY_TITLEMSGSUCCfrmProfileBackgroundESS')." ..!","");
 	}
 	//to fill language list
-	$languages = CON::query("SELECT cod,id, name FROM languages");
+	$languages=CON::query("SELECT cod,id, name FROM languages");
 	$sex=$_SESSION['ws-tags']['ws-user']['sex'];
 	$relationship=CON::getArray("SELECT id,label FROM users_relations");
 	$wish=CON::getArray("SELECT id,label FROM users_wish_to WHERE id>0");
-	if (!isset($_SESSION['ws-tags']['ws-user']['progress'])) $_SESSION['ws-tags']['ws-user']['progress']['value']=calculateProgress();
+	if(!isset($_SESSION['ws-tags']['ws-user']['progress'])) with_session(function($sesion){
+		$sesion['ws-tags']['ws-user']['progress']['value']=calculateProgress();
+		return $sesion;
+	});
 	$value=$_SESSION['ws-tags']['ws-user']['progress']['value']['preferences'];
 	$noFails=$_SESSION['ws-tags']['ws-user']['progress']['value']['noFails'];
 ?>

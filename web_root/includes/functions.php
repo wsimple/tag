@@ -1626,42 +1626,40 @@ function logout(){
 }
 
 function createSession($array,$clear=true){//creacion de las variables de session del sistema
-	load_session();
-	$sesion['ws-user']=$_SESSION['ws-tags']['ws-user'];
-	unset($array['password'],$array['password_user'],$array['password_system']);
-	if($clear) $usr=$array;
-	else{
-		$usr=$sesion['ws-user'];
-		foreach ($array as $key=>$value){
-			$usr[$key]=$value;
+	with_session(function($sesion)use($array,$clear){
+		unset($array['password'],$array['password_user'],$array['password_system']);
+		if($clear) $usr=$array;
+		else{
+			$usr=$sesion['ws-tags']['ws-user'];
+			foreach ($array as $key=>$value){
+				$usr[$key]=$value;
+			}
 		}
-	}
-	$usr['fullversion']=$sesion['ws-user']['fullversion'];
-	$usr['showPhotoGallery']=false;
-	if($usr['profile_image_url'] && $usr['photo'] =='') $usr['photo']=$usr['profile_image_url'];
-	if($usr['time']==''){//si esta vacio se captura el tiempo, para control de cache en el cliente
-		$usr['time']=time();
-	}
-	if($usr['id']){
-		$usr['smt']=$usr['time'].','.md5($usr['id'].md5($usr['time']));
-		$usr['full_name']=$usr['name'].' '.$usr['last_name'];
-		$usr['code']=md5($usr['id'].'_'.$usr['email'].'_'.$usr['id']);
-		if(empty($usr['photo']))
-			$usr['pic']='img/users/default.png';
-		else
-			$usr['pic']='img/users/'.$usr['code'].'/'.$usr['photo'];
-	}
-	$sesion['ws-user']=$usr;
-	//this variable indicates that photo gallery must be shown on page load
-	if($_POST['lng']!=''){
-		$sesion['language']=$_POST['lng'];
-	}elseif($usr['language']!=''){
-		$sesion['language']=$usr['language'];
-	}elseif($_POST['lang']!=''){
-		$sesion['language']=$_POST['lang'];
-	}
-	with_session(function()use($sesion){
-		$_SESSION['ws-tags']=$sesion;
+		$usr['fullversion']=$sesion['ws-tags']['ws-user']['fullversion'];
+		$usr['showPhotoGallery']=false;
+		if($usr['profile_image_url'] && $usr['photo'] =='') $usr['photo']=$usr['profile_image_url'];
+		if($usr['time']==''){//si esta vacio se captura el tiempo, para control de cache en el cliente
+			$usr['time']=time();
+		}
+		if($usr['id']){
+			$usr['smt']=$usr['time'].','.md5($usr['id'].md5($usr['time']));
+			$usr['full_name']=$usr['name'].' '.$usr['last_name'];
+			$usr['code']=md5($usr['id'].'_'.$usr['email'].'_'.$usr['id']);
+			if(empty($usr['photo']))
+				$usr['pic']='img/users/default.png';
+			else
+				$usr['pic']='img/users/'.$usr['code'].'/'.$usr['photo'];
+		}
+		$sesion['ws-tags']['ws-user']=$usr;
+		//this variable indicates that photo gallery must be shown on page load
+		if($_POST['lng']!=''){
+			$sesion['ws-tags']['language']=$_POST['lng'];
+		}elseif($usr['language']!=''){
+			$sesion['ws-tags']['language']=$usr['language'];
+		}elseif($_POST['lang']!=''){
+			$sesion['ws-tags']['language']=$_POST['lang'];
+		}
+		return $sesion;
 	});
 	createSessionStore();
 	ifIsLogged();
@@ -1724,8 +1722,9 @@ function createSessionCar($id_user='',$code='',$count='',$idproduct='',$idOrder=
 				// if($product['formPayment']==1) $_SESSION['havePaypalPayment']=true;
 			}
 		}
-		with_session(function()use($carrito){
-			$_SESSION['car']=$carrito;
+		with_session(function($sesion)use($carrito){
+			$sesion['car']=$carrito;
+			return $sesion;
 		});
 		return $carrito;
 	}else{
@@ -1770,8 +1769,9 @@ function createSessionStore(){
 		if($row['id']!='') $store['sales']='1';
 	}
 	if(isset($store)){
-		with_session(function()use($store){
-			$_SESSION['store']=$store;
+		with_session(function($sesion)use($store){
+			$sesion['store']=$store;
+			return $sesion;
 		});
 	}
 }
@@ -1787,8 +1787,9 @@ function userExternalReference($keyusr){ //confirmar suscripcion::login
 		//update - colocamos el status del usuario en 3 con la finalidad de cobrar a los 14 dias su suscripcion al sistema
 		$status=(($array['type']=='1')?3:1);
 		$GLOBALS['cn']->query('UPDATE users SET status="'.$status.'" WHERE id="'.$array['id'].'"');
-		with_session(function()use($status){
-			$_SESSION['ws-tags']['ws-user']['status']=$status;
+		with_session(function($sesion)use($status){
+			$sesion['ws-tags']['ws-user']['status']=$status;
+			return $sesion;
 		});
 		return true;
 	}elseif(mysql_num_rows($query)==0){ //validacion de login

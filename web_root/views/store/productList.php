@@ -1,28 +1,31 @@
 <?php 
-//ALTER TABLE  `config_system` ADD  `time_in_minutes_shopping_cart_active` INT( 11 ) NOT NULL DEFAULT  '120',
-//ADD  `time_in_minutes_pending_order_payable` INT( 11 ) NOT NULL DEFAULT  '120'
+//ALTER TABLE `config_system` ADD `time_in_minutes_shopping_cart_active` INT( 11 ) NOT NULL DEFAULT '120',
+//ADD `time_in_minutes_pending_order_payable` INT( 11 ) NOT NULL DEFAULT '120'
 $wid=CON::getVal('SELECT users.id FROM users JOIN store_raffle_users ON users.email=store_raffle_users.email WHERE store_raffle_users.email = "'.$_SESSION['ws-tags']['ws-user']['email'].'";');
 //valida el menu left
 $numIt=createSessionCar('','','count');
 $numOrder=$_SESSION['store']['order']?$_SESSION['store']['order']:'';
 $numWish=$_SESSION['store']['wish']?$_SESSION['store']['wish']:'';
 if (!isset($_SESSION['store']['sales']) && ($_SESSION['ws-tags']['ws-user']['type']==1 || $wid>0)){
-    $sql="  SELECT o.id 
-            FROM store_orders o
-            JOIN store_orders_detail od ON od.id_order=o.id
-            WHERE od.id_user='".$_SESSION['ws-tags']['ws-user']['id']."' 
-            AND od.id_status!='1' AND od.id_status!='2' AND od.id_status!='5' 
-            LIMIT 1;";
-    $result=$GLOBALS['cn']->queryRow($sql);
-    $row=current($result);
-    if ($row!='') @$_SESSION['store']['sales']='1';
+	$sql="	SELECT o.id 
+			FROM store_orders o
+			JOIN store_orders_detail od ON od.id_order=o.id
+			WHERE od.id_user='".$_SESSION['ws-tags']['ws-user']['id']."' 
+			AND od.id_status!='1' AND od.id_status!='2' AND od.id_status!='5' 
+			LIMIT 1;";
+	$result=$GLOBALS['cn']->queryRow($sql);
+	$row=current($result);
+	if($row!='') with_session(function($sesion){
+		$sesion['store']['sales']='1';
+		return $sesion;
+	});
 }
 $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 
 //*******************************************************
 //$GLOBALS['cn']->query("UPDATE `users` SET `status`='3' WHERE id IN ('437','438','439');");
-//$GLOBALS['cn']->query("DELETE FROM `users_plan_purchase`  WHERE `id_user` IN ('437','438','439');");
-//$GLOBALS['cn']->query("UPDATE  `users` SET  `logins_count` =  '0' WHERE `id_user` IN ('437','438','439');");
+//$GLOBALS['cn']->query("DELETE FROM `users_plan_purchase` WHERE `id_user` IN ('437','438','439');");
+//$GLOBALS['cn']->query("UPDATE `users` SET `logins_count` = '0' WHERE `id_user` IN ('437','438','439');");
 //*******************************************************
 //variables necesarias para el armado del titulo
 $titleCate='';$titleSubCate='';$href='';$idCate='';
@@ -34,37 +37,36 @@ if($_GET['cate']){
 		$select=',s.name AS subCategory';
 		$AND="AND md5(s.id)='".$_GET['subcate']."'";
 	}
-	$sql="SELECT c.name AS category,
-				c.id AS id_category
-             $select  
+	$sql="	SELECT c.name AS category, c.id AS id_category
+				$select
 			FROM store_category c
 			INNER JOIN store_sub_category s ON s.id_category=c.id
 			WHERE md5(c.id)='".$_GET['cate']."'
 			$AND LIMIT 0,1;";
-	$category = $GLOBALS['cn']->query($sql); 
-	$category = mysql_fetch_assoc($category);
-	$titleCate=  lan($category['category']);
-	$idCate=  $category['id_category'];
+	$category=$GLOBALS['cn']->query($sql); 
+	$category=mysql_fetch_assoc($category);
+	$titleCate=lan($category['category']);
+	$idCate=$category['id_category'];
 	if ($_GET['subcate']) $titleSubCate=lan($category['subCategory']);	
 }
 ?>
 <div class="ui-single-box mini" id="pageStore"> 
-    <div class="ui-single-box-title limitTitle"></div>
-    <div class="store-wrapper">
-        <div class="product-list produc"></div>
-        <div class="product-list sugest"></div>
-        <div id="loaderStore" style="display:none;width: 555px;float: left;"><span class="store-span-loader"><?=JS_LOADING.' '.PRODUCTS_LIST?></span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" /></div>
-        <div class="clearfix"></div>
-        <br><div class="product-list produc_sugg" style="width: inherit;"></div><br>
-        <div class="clearfix"></div>
-        <br><div class="product-list produc_suggSrh" style="width: inherit;"></div><br>
-        <div class="clearfix"></div>
-    </div>
+	<div class="ui-single-box-title limitTitle"></div>
+	<div class="store-wrapper">
+		<div class="product-list produc"></div>
+		<div class="product-list sugest"></div>
+		<div id="loaderStore" style="display:none;width: 555px;float: left;"><span class="store-span-loader"><?=JS_LOADING.' '.PRODUCTS_LIST?></span>&nbsp;&nbsp;<img src="css/smt/loader.gif" width="25" height="25" /></div>
+		<div class="clearfix"></div>
+		<br><div class="product-list produc_sugg" style="width: inherit;"></div><br>
+		<div class="clearfix"></div>
+		<br><div class="product-list produc_suggSrh" style="width: inherit;"></div><br>
+		<div class="clearfix"></div>
+	</div>
 </div>
 <script>	
 $(function() {
 		$.on({
-            open:function(){
+			open:function(){
 				$('.store-wrapper .mainMenu a').css('margin-bottom:','0px');
 				$('aside').css('display','block');
 				//variables necesarias para hacer todas las validaciones referentes a cada lista
@@ -134,12 +136,12 @@ $(function() {
 				//menu de administracion de las rifas
 				switch(SECTION){
 					case 'mypublications': case 'myfreeproducts': case 'myparticipation': case 'freeproducts':
-						var titleFreP=   '	<div>'
+						var titleFreP=	'	<div>'
 										+'	<select class="chzn-b">'
 										+'		<option value=""><?=OPTIONS?></option>'
 										+'		<option value="tag"><?=MAINMNU_CREATETAG?></option>'
 										<?php // if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']==$wid){ ?>
-										<?php  if ($wid>0){ ?>
+										<?php if ($wid>0){ ?>
 										<?php // if ($_SESSION['ws-tags']['ws-user']['id']=='-1000'){ ?>
 										+'		<option value="create"><?=PRODUCTS_NEW_RAFFLE?></option>'
 										+'		<option value="myraffles"		'+(SECTION=='#myfreeproducts'?'selected':'')+'><?=STORE_MYRAFFLE?></option>'
@@ -148,11 +150,11 @@ $(function() {
 										+'	</select>' 
 										+'	</div>'
 						$('#divSubMenuAdminPublications').empty().html(titleFreP);
-                        $('#divSubMenuAdminPublications select').chosen({
-                			menuWidth:172,
-                			width:172,
-                            disableSearch:true
-                		});						
+						$('#divSubMenuAdminPublications select').chosen({
+							menuWidth:172,
+							width:172,
+							disableSearch:true
+						});						
 						break;
 						default:
 							var titleFreP='<div>'
@@ -166,11 +168,11 @@ $(function() {
 										+'	</select>' 
 										+'	</div>' 
 						$('#divSubMenuAdminFilters').empty().html(titleFreP);
-                        $('#divSubMenuAdminFilters select').chosen({
-                			menuWidth:172,
-                			width:172,
-                            disableSearch:true
-                		});
+						$('#divSubMenuAdminFilters select').chosen({
+							menuWidth:172,
+							width:172,
+							disableSearch:true
+						});
 						
 						var no_product='<?=$_GET['no-product']?$_GET['no-product']:''?>'
 						if (no_product!=''){
@@ -196,13 +198,13 @@ $(function() {
 					});
 					//$('#menu-l-li-shoppingCart').css('display','list-item');
 				}
-                $('.shoppingCart').click(function(){
-                    redir('shoppingcart');
-                });
+				$('.shoppingCart').click(function(){
+					redir('shoppingcart');
+				});
 				if (numOrder!=''){ $('.menu-l-youOrders').css('display','list-item'); }
-                //if (numWish!=''){ $('#menu-l-li-wishList').css('display','list-item'); }
-                if (numSales!=''){ $('.menu-l-youSales').css('display','list-item'); }
-                
+				//if (numWish!=''){ $('#menu-l-li-wishList').css('display','list-item'); }
+				if (numSales!=''){ $('.menu-l-youSales').css('display','list-item'); }
+
 				//gallery
 				<?php if($_GET['cate']){ ?>
 					var c = '<?=$_GET['cate'] ?>'; 
@@ -212,7 +214,7 @@ $(function() {
 					array['srh']='';
 					subget+=(subget?'&':'?')+'cate='+c+(subc!='all'?'&subcate='+subc:'');
 					band=armarGetBand(array);
-                    if (rifa) storeRaffle('.product-list.produc', band);
+					if (rifa) storeRaffle('.product-list.produc', band);
 					else storeListProd('.product-list.produc', band);
 				<?php }else{ ?>
 					band=armarGetBand(array);
@@ -229,9 +231,9 @@ $(function() {
 					$(that).slideToggle(300);
 				}
 			}).on('click','#menuStore li a',function(){
-                if ($(this).attr('c')){
+				if ($(this).attr('c')){
 					var get='?cate='+$(this).attr('c')+'&subcate='+$(this).attr('sc');
-                    if (array['radio'] && array['radio']!='') get+='&radio='+array['radio'];
+					if (array['radio'] && array['radio']!='') get+='&radio='+array['radio'];
 					redir(SECTION+get);
 				}else{ redir(SECTION); } 
 				return false;
@@ -250,7 +252,7 @@ $(function() {
 										+'		<option value=""><?=OPTIONS?></option>'
 										+'		<option value="tag"><?=MAINMNU_CREATETAG?></option>'
 										<?php // if ($_SESSION['ws-tags']['ws-user']['type']==1 || $_SESSION['ws-tags']['ws-user']['id']==$wid){ ?>
-										<?php  if ($_SESSION['ws-tags']['ws-user']['id']==$wid){ ?>
+										<?php if ($_SESSION['ws-tags']['ws-user']['id']==$wid){ ?>
 										<?php // if ($_SESSION['ws-tags']['ws-user']['id']=='-1000'){ ?>
 										+'		<option value="create"><?=PRODUCTS_NEW_RAFFLE?></option>'
 										+'		<option value="myraffles"		'+(SECTION=='#myfreeproducts'?'selected':'')+'><?=STORE_MYRAFFLE?></option>'
@@ -259,11 +261,11 @@ $(function() {
 										+'	</select>' 
 										+'	</div>'
 					$('#divSubMenuAdminPublications').empty().html(titleFreP);
-                    $('#divSubMenuAdminPublications select').chosen({
-            			menuWidth:172,
-            			width:172,
-                        disableSearch:true
-            		});	
+					$('#divSubMenuAdminPublications select').chosen({
+						menuWidth:172,
+						width:172,
+						disableSearch:true
+					});	
 					chooseProducts(tag);
 				}else if (string!=''){ redir(string); }
 			});
@@ -272,33 +274,31 @@ $(function() {
 				redir('store');
 			});
 			//Carga productos por filtro
-            var timeOut;
-            function buscar(request,obj){
-                limit=0;
-                if (request!="" && obj.val().length>1) {
-                    //request = encodeURIComponent(request).replace('%20','+');
-                    array['srh']='srh='+request;
-                    band=armarGetBand(array);
-                    if (rifa) storeRaffle('.product-list.produc', band);
-                    else storeListProd('.product-list.produc', band);
-                    obj.show('slow');
-                }else{
-                    if (obj.val().length==0){
-                        array['srh']='';
-                        band=armarGetBand(array);
-                        if (rifa) storeRaffle('.product-list.produc', band);
-                        else storeListProd('.product-list.produc', band);
-                    }
-                }
-            }
+			var timeOut;
+			function buscar(request,obj){
+				limit=0;
+				if (request!="" && obj.val().length>1) {
+					//request = encodeURIComponent(request).replace('%20','+');
+					array['srh']='srh='+request;
+					band=armarGetBand(array);
+					if (rifa) storeRaffle('.product-list.produc', band);
+					else storeListProd('.product-list.produc', band);
+					obj.show('slow');
+				}else{
+					if (obj.val().length==0){
+						array['srh']='';
+						band=armarGetBand(array);
+						if (rifa) storeRaffle('.product-list.produc', band);
+						else storeListProd('.product-list.produc', band);
+					}
+				}
+			}
 			$('#txtSearchProduct').keyup(function() {
 				var request = $(this).val(),obj=$(this);
-                timeOut&&clearTimeout(timeOut);
-                timeOut=setTimeout(buscar(request,obj),1000);
+				timeOut&&clearTimeout(timeOut);
+				timeOut=setTimeout(buscar(request,obj),1000);
 			});
 
-
-		   
 			$('div.store-wrapper').on('click','div.product-list #clickNewProduct',function(){
 				redir('newproduct');
 			}).on('click','div.product-list #clickNewRaffle',function(){
@@ -310,73 +310,73 @@ $(function() {
 					url: 'controls/store/shoppingCart.json.php?action=1&add=si&id='+num,
 					dataType: 'json',
 					success: function(data){						
-                        if (data['datosCar2']['add']=='si'){
-                            if (data['datosCar2']['order']){
-                                $.dialog({
-                                    title	: '<?=SIGNUP_CTRTITLEMSGNOEXITO?>',
-                                    content	: data['datosCar2']['order'],
-                                    height	: 220,
-                                    width	: 300,
-                                    close	: function(){
-                                        $('html,body').animate({scrollTop:'50px'},'slow',function(){
-                                            $('html,body').clearQueue();
-                                            //showAndHide('massageItem',	'massageItem',	1500, true);
-                                        });
-                                    }
-                                });
-                            }else{
-                                $('html,body').animate({scrollTop:'50px'},'slow',function(){
-                                    $('html,body').clearQueue();
-                                    //showAndHide('massageItem',	'massageItem',	1500, true);
-                                });
-                            }
-                            if(data['datosCar2']['new']=='si'){
-                                if (!data['datosCar2']['order']){
-                                    numIt=parseFloat(numIt)+1;
-                                    $('#menu-lshoppingCart').addClass('scale');
-                                    setTimeout(function(){ 
-                                    	$('#menu-lshoppingCart').empty().html(numIt);
-	                                    $('div.shoppingCart div.numCart span').empty().html(numIt);
-                                    	$('#menu-lshoppingCart').removeClass('scale');
-                                    }, 500);
-                                }else{
-                                    numIt=1;
-                                    $('#menu-lshoppingCart').empty().html('1').css('display','block');
-                                    //$('div.shoppingCart').css('display', 'block');
-                                    $('div.shoppingCart div.numCart span').empty().html('1').css('display','inline-block');
-                                    $('div.shoppingCart div.numCart').css('display','inline-block');
-//                                    $('div.shoppingCart').click(function(){
-//                                        redir('shoppingcart');
-//                                    });
-                                    $('#menu-l-li-shoppingCart').css('display','list-item');
-                               }
-                            }
-                        }else if (data['datosCar2']['add']=='no'){
-                            switch(data['datosCar2']['msg']){
-                                case 'no-disponible': 
-                                    $.dialog({
-                                        title	: '<?=SIGNUP_CTRTITLEMSGNOEXITO?>',
-                                        content	: '<?=STORE_PRODUCTO_NO_STATUS?>',
-                                        height	: 200,
-                                        close	: function(){
-                                            $.loader('show');
-                                            location.reload();
-                                        }
-                                    });
-                                    break;
-                                case 'backg': 
-                                        message('information','<?=SIGNUP_CTRTITLEMSGNOEXITO?>','<?=STORE_UNI_BACKG?>','',300,220);
-                                    break;
-                                case 'no-stock': 
-                                    $.dialog({
-                                        title	: '<?=SIGNUP_CTRTITLEMSGNOEXITO?>',
-                                        content	: '<?=STORE_PRODUCTO_NO_STOCK?>',
-                                        height	: 200
-                                    });
-                                    break;
-                                case 'no-product': break;
-                            }
-                        }
+						if (data['datosCar2']['add']=='si'){
+							if (data['datosCar2']['order']){
+								$.dialog({
+									title	: '<?=SIGNUP_CTRTITLEMSGNOEXITO?>',
+									content	: data['datosCar2']['order'],
+									height	: 220,
+									width	: 300,
+									close	: function(){
+										$('html,body').animate({scrollTop:'50px'},'slow',function(){
+											$('html,body').clearQueue();
+											//showAndHide('massageItem',	'massageItem',	1500, true);
+										});
+									}
+								});
+							}else{
+								$('html,body').animate({scrollTop:'50px'},'slow',function(){
+									$('html,body').clearQueue();
+									//showAndHide('massageItem',	'massageItem',	1500, true);
+								});
+							}
+							if(data['datosCar2']['new']=='si'){
+								if (!data['datosCar2']['order']){
+									numIt=parseFloat(numIt)+1;
+									$('#menu-lshoppingCart').addClass('scale');
+									setTimeout(function(){ 
+										$('#menu-lshoppingCart').empty().html(numIt);
+										$('div.shoppingCart div.numCart span').empty().html(numIt);
+										$('#menu-lshoppingCart').removeClass('scale');
+									}, 500);
+								}else{
+									numIt=1;
+									$('#menu-lshoppingCart').empty().html('1').css('display','block');
+									//$('div.shoppingCart').css('display', 'block');
+									$('div.shoppingCart div.numCart span').empty().html('1').css('display','inline-block');
+									$('div.shoppingCart div.numCart').css('display','inline-block');
+//									$('div.shoppingCart').click(function(){
+//										redir('shoppingcart');
+//									});
+									$('#menu-l-li-shoppingCart').css('display','list-item');
+								}
+							}
+						}else if (data['datosCar2']['add']=='no'){
+							switch(data['datosCar2']['msg']){
+								case 'no-disponible': 
+									$.dialog({
+										title	: '<?=SIGNUP_CTRTITLEMSGNOEXITO?>',
+										content	: '<?=STORE_PRODUCTO_NO_STATUS?>',
+										height	: 200,
+										close	: function(){
+											$.loader('show');
+											location.reload();
+										}
+									});
+									break;
+								case 'backg': 
+										message('information','<?=SIGNUP_CTRTITLEMSGNOEXITO?>','<?=STORE_UNI_BACKG?>','',300,220);
+									break;
+								case 'no-stock': 
+									$.dialog({
+										title	: '<?=SIGNUP_CTRTITLEMSGNOEXITO?>',
+										content	: '<?=STORE_PRODUCTO_NO_STOCK?>',
+										height	: 200
+									});
+									break;
+								case 'no-product': break;
+							}
+						}
 					}
 				});
 			}).on('mouseover','.product-list ul li',function(){ 
@@ -395,28 +395,26 @@ $(function() {
 				}
 			});
 			$(document).on('scroll',function(){
-                // if (subget!=''){ var stringS1=SECTION+subget, stringS2=SECTION+subget; }
-                // else{ var stringS1=SECTION, stringS2=SECTION+'?'; }
-                // if (window.location.hash==stringS1||window.location.hash==stringS2){
-                    if ($(document).scrollTop() >= ($(document).height() - $(window).height())*0.4){
-                        if(!posi){
-                            if ($('.product-list.produc .noStoreProductsList').length==0){
-                                posi=true;
-                                var vector=$('.product-list.produc ul li');
-                                if (vector.length%9==0){
-                                    limit=vector.length;
-                                    band=armarGetBand(array);
-                                    if (limit!=0){
-                                        var modulo=rifa?'raffle':'store';
-                                        seeMoreStore('.product-list.produc ul', band, limit, modulo,'#loaderStore');
-                                    }
-                                }
-                            }
-                        }
-                    }else{ posi=false; }
-                // }
-		   });
-			
+				// if (subget!=''){ var stringS1=SECTION+subget, stringS2=SECTION+subget; }
+				// else{ var stringS1=SECTION, stringS2=SECTION+'?'; }
+				// if (window.location.hash==stringS1||window.location.hash==stringS2){
+					if ($(document).scrollTop() >= ($(document).height() - $(window).height())*0.4){
+						if(!posi && $('.product-list.produc .noStoreProductsList').length==0){
+							posi=true;
+							var vector=$('.product-list.produc ul li');
+							if(vector.length%9==0){
+								limit=vector.length;
+								band=armarGetBand(array);
+								if(limit!=0){
+									var modulo=rifa?'raffle':'store';
+									seeMoreStore('.product-list.produc ul', band, limit, modulo,'#loaderStore');
+								}
+							}
+						}
+					}else{ posi=false; }
+				// }
+			});
+
 			function armarGetBand(){
 				var string='?';
 				if (array['scc'] && array['scc']!='')string+=array['scc'];
@@ -429,7 +427,6 @@ $(function() {
 				string+=(string=='?'?'':'&');
 				return string;
 			}
-            
 		},
 		close:function(){
 			$('div.store-wrapper').off();
