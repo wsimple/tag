@@ -2,23 +2,45 @@
 
 class VideoConvertionApp extends VideoCaptures
 {
-	protected $pending='pending',$_run=array();
+	protected $pending='pending',$_run=array(),$options=[];
 
 	function __construct($options = null, $initialize = true){
+		if(is_array($options)) $this->options=$options;
+		if($initialize) $this->run();
+	}
 
-		#verifica primero si se estan buscando capturas
-		parent::__construct($options,$initialize&&!isset($_GET['convert'])&&!isset($_GET['app']));
-		if($initialize&&isset($_GET['app'])){
-			$app=new appUpload();
+	public function run(){
+		$file_name=isset($_REQUEST['file'])?$_REQUEST['file']:'';
+		if(!$file_name) return;
+		//proceso de video
+		$data=$this->get_info($file_name);
+		$this->video_convert($data);
+	}
 
+	public function head(){
+		header('Pragma: no-cache');
+		header('Cache-Control: no-store, no-cache, must-revalidate');
+		// Prevent Internet Explorer from MIME-sniffing the content-type:
+		header('X-Content-Type-Options: nosniff');
+		if ($this->options['access_control_allow_origin']) {
+			$origin=$this->options['access_control_allow_origin'];
+			if(is_array($origin)) foreach($origin as $value)
+				header('Access-Control-Allow-Origin: '.$value);
+			else
+				header('Access-Control-Allow-Origin: '.$origin);
+			// header('Access-Control-Allow-Credentials: '
+			// 	.($this->options['access_control_allow_credentials'] ? 'true' : 'false'));
+			// header('Access-Control-Allow-Methods: '
+			// 	.implode(', ', $this->options['access_control_allow_methods']));
+			// header('Access-Control-Allow-Headers: '
+			// 	.implode(', ', $this->options['access_control_allow_headers']));
+			header('Content-type: application/json');
 		}
-		if($initialize&&(isset($_GET['convert'])||isset($_GET['app']))){
-			$file_name=isset($_REQUEST['file'])?$_REQUEST['file']:'';
-			if(!$file_name) return;
-			//proceso de video
-			$data=$this->get_info($file_name);
-			$this->video_convert($data);
-		}
+	}
+
+	function json($data=false){
+		$this->head();
+		exit($data?json_encode($data):'{}');
 	}
 
 	protected function get_server_var($id) {
