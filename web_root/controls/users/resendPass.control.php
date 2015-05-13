@@ -13,34 +13,33 @@
 
 
 	if( quitar_inyect() ) {
-		$_SESSION['ws-tags']['resendPass']['email']      = $_POST['email'];
-		//$_SESSION['ws-tags'][resendPass][txtCaptcha] = str_replace('-', ' ', strtolower($_POST[txtCaptcha]));
-		$_SESSION['ws-tags']['resendPass']['error']      = array();
-
 		$paso = 1;
+		with_session(function($sesion)use($paso){
+			$sesion['ws-tags']['resendPass']['email']=$_POST['email'];
+			//$sesion['ws-tags'][resendPass][txtCaptcha]=str_replace('-', ' ', strtolower($_POST[txtCaptcha]));
+			$sesion['ws-tags']['resendPass']['error']=array();
 
-		//Email
-		if( !valid::isEmail($_SESSION['ws-tags'][resendPass][email]) ) {
-			$paso  = 0;
-			$_SESSION['ws-tags']['resendPass']['error'][]= "-&nbsp;".SIGNUP_CTRERROREMAIL.".<br/>";
-		}
+			//Email
+			if( !valid::isEmail($sesion['ws-tags'][resendPass][email]) ) {
+				$paso=0;
+				$sesion['ws-tags']['resendPass']['error'][]= "-&nbsp;".SIGNUP_CTRERROREMAIL.".<br/>";
+			}
 
-		//Email exists
-		if( !existe("users", "email", " WHERE email LIKE '".$_SESSION['ws-tags'][resendPass][email]."'") ) {
-			$paso  = 0;
-			$_SESSION['ws-tags']['resendPass']['error'][]= "-&nbsp;".FORGOT_CTRERRORMAIL_NOEXISTE.".<br/>";
-		}
-
+			//Email exists
+			if( !existe("users","email"," WHERE email LIKE '".$sesion['ws-tags'][resendPass][email]."'") ) {
+				$paso=0;
+				$sesion['ws-tags']['resendPass']['error'][]= "-&nbsp;".FORGOT_CTRERRORMAIL_NOEXISTE.".<br/>";
+			}
+			return $sesion;
+		});
 
 		if( $paso==1 ) {
 		    //enviamos el correo
-			$query = $GLOBALS['cn']->query("SELECT
-												md5(CONCAT(id, '+', id, '+', id)) AS code,
-												CONCAT(name, ' ', last_name) AS name
-											FROM users
-											WHERE email LIKE '".$_SESSION['ws-tags'][resendPass][email]."'");
-
-			$array = mysql_fetch_assoc($query);
+			$array=CON::getRow("SELECT
+					md5(CONCAT(id, '+', id, '+', id)) AS code,
+					CONCAT(name, ' ', last_name) AS name
+				FROM users
+				WHERE email LIKE '".$_SESSION['ws-tags']['resendPass']['email']."'");
 			$body = '
 						<table width="700" border="0" align="center" cellpadding="2" cellspacing="2" style="font-family:Verdana, Geneva, sans-serif; font-size:12px; text-align:left">
 						<tr>
@@ -68,7 +67,4 @@
 				echo "1*".$_SESSION['ws-tags']['resendPass']['email'];
 			} else { echo "0*"; }
 		} else { echo "0*"; }
-
-
 	}//quitar_inyect
-?>

@@ -91,8 +91,11 @@
 	//se actualiza la variable de session (status, pay_personal_tag) luego de venir de paypal
 	//if( $_GET['current']=='paypalpayment' ){
 	//$active_pay=CON::getRow('SELECT status,pay_personal_tag FROM users WHERE id=?',array($_SESSION['ws-tags']['ws-user']['id']));
-	//$_SESSION['ws-tags']['ws-user']['status']=$active_pay['status'];
-	//$_SESSION['ws-tags']['ws-user']['pay_perso_tag']=$active_pay['pay_personal_tag'];
+	// with_session(function($sesion)use($active_pay){
+	// 	$sesion['ws-tags']['ws-user']['status']=$active_pay['status'];
+	// 	$sesion['ws-tags']['ws-user']['pay_perso_tag']=$active_pay['pay_personal_tag'];
+	// 	return $sesion;
+	// });
 	//}
 	//mantiene el login si se perdio la sesion y se configuro para mantenerla
 	$logged=$_SESSION['ws-tags']['ws-user']['id']!='';

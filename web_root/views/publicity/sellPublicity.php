@@ -30,7 +30,7 @@
 				description AS message
 			FROM products_user
 			WHERE md5(id)=? AND id_user=?
-		',array($_GET['n'],$_SESSION['ws-tags']['ws-user']['id']))
+		',array($_GET['n'],$_SESSION['ws-tags']['ws-user']['id']));
 	}// if new & prod
 	save_in_session(array('ws-tags'=>array('chkpublicity'=>1)));
 ?>
@@ -148,23 +148,14 @@
 		});
 		$('#number_of_points').keyup(function() {
 			foco = this.id;
-
 			if( <?=$user_points?> >= document.sell_publi.number_of_points.value ) {
-
 				updateUI(document.sell_publi.number_of_points.value, 'showedClicks');
-
 			} else {
-
 				$('#number_of_points').val('<?=$user_points?>');
 				updateUI('<?=$user_points?>', 'showedClicks');
 			}
-
 		});
-
-		
 	});
-
-
 </script>
 
 <?php if(($_GET[p]!='')||($_GET[n]!='')) {?>

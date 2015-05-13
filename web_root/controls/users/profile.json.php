@@ -5,6 +5,7 @@ include RELPATH.'class/validation.class.php';
 
 $myId=$_SESSION['ws-tags']['ws-user']['id'];
 $code=$_SESSION['ws-tags']['ws-user']['code'];
+$sesion=array();
 
 if ($_POST['disAssociateFB']=='1'){
 	$res=array();
@@ -19,9 +20,10 @@ if ($_POST['disAssociateFB']=='1'){
 }
 
 if (isset($_GET['skipProgress'])){
-	$_SESSION['ws-tags']['ws-user']['progress']['omitir']=1;
+	$sesion['ws-tags']['ws-user']['progress']['omitir']=1;
+	save_in_session($sesion);
 	die();
-}else unset($_SESSION['ws-tags']['ws-user']['progress']);
+}else with_session(function(){ unset($_SESSION['ws-tags']['ws-user']['progress']); });
 
 #ini
 $res=array();
@@ -163,7 +165,7 @@ if($data['action']=='picture'||$data['action']=='filePhoto'){
 		CreateThumb($config->img_server_path.$photo,"$config->relpath/$thumb",60,$x,$y,$size,$size);
 		header("data-aftercreate: 1");
 		FTPupload(end(explode('img/',$thumb)));
-		$_SESSION['ws-tags']['ws-user']['updatePicture']=0;
+		$sesion['ws-tags']['ws-user']['updatePicture']=0;
 		$GLOBALS['cn']->query("UPDATE users SET updatePicture=0 WHERE id='$myId'");
 		$res['resize']='done';
 		$res['success']='filePhoto';
@@ -205,8 +207,8 @@ if($data['action']=='save'){
 		}else{
 			$res['error']=lan('USERPROFILE_CTRERRORUSERNAMEDUPLICATE'); die(jsonp($res));
 		}
-		$_SESSION['ws-tags']['ws-user']['username']=$data['username'];
-	}else $_SESSION['ws-tags']['ws-user']['username']='';
+		$sesion['ws-tags']['ws-user']['username']=$data['username'];
+	}else $sesion['ws-tags']['ws-user']['username']='';
 	#si cambia nombre o apellido editamos nombre completo
 	if ($_SESSION['ws-tags']['ws-user']['type']!='1'){
 		if($data['firstname']==''){
@@ -221,37 +223,37 @@ if($data['action']=='save'){
 	$temporal=$data['firstname'].' '.$data['lastname'];
 	if( $_SESSION['ws-tags']['ws-user']['full_name']!=$temporal ) {
 		$name_change=true;
-		$_SESSION['ws-tags']['ws-user']['full_name']=$temporal;
+		$sesion['ws-tags']['ws-user']['full_name']=$temporal;
 	}
-	$_SESSION['ws-tags']['ws-user']['name']=$data['firstname'];
-	$_SESSION['ws-tags']['ws-user']['last_name']=$data['lastname'];
+	$sesion['ws-tags']['ws-user']['name']=$data['firstname'];
+	$sesion['ws-tags']['ws-user']['last_name']=$data['lastname'];
 	#si se cambia el idioma
 	if( $_SESSION['ws-tags']['ws-user']['language']!=$data['lang'] ) {
 		$updateLanguage=true;
-		$_SESSION['ws-tags']['ws-user']['language']=$data['lang'];
+		$sesion['ws-tags']['ws-user']['language']=$data['lang'];
 	}
 	if (isset($data['wish_to'])) $data['wish_to']=array_sum($data['wish_to']);
 	
-	$_SESSION['ws-tags']['ws-user']['screen_name']=$data['screenname'];
-	$_SESSION['ws-tags']['ws-user']['date_birth']=$bdate;
-	$_SESSION['ws-tags']['ws-user']['show_birthday']=$data['showbday'];
-	$_SESSION['ws-tags']['ws-user']['country']=$data['country'];
-	$_SESSION['ws-tags']['ws-user']['city']=$data['city'];
-	$_SESSION['ws-tags']['ws-user']['sex']=$data['sex'];
-	$_SESSION['ws-tags']['ws-user']['taxId']=$data['taxid'];
-	$_SESSION['ws-tags']['ws-user']['paypal']=$data['paypal'];
-	$_SESSION['ws-tags']['ws-user']['interest']=$data['interest'];
-	$_SESSION['ws-tags']['ws-user']['relationship']=$data['relationship'];
-	$_SESSION['ws-tags']['ws-user']['wish_to']=$data['wish_to'];
-	$_SESSION['ws-tags']['ws-user']['personal_messages']=$data['personal_messages'];
+	$sesion['ws-tags']['ws-user']['screen_name']=$data['screenname'];
+	$sesion['ws-tags']['ws-user']['date_birth']=$bdate;
+	$sesion['ws-tags']['ws-user']['show_birthday']=$data['showbday'];
+	$sesion['ws-tags']['ws-user']['country']=$data['country'];
+	$sesion['ws-tags']['ws-user']['city']=$data['city'];
+	$sesion['ws-tags']['ws-user']['sex']=$data['sex'];
+	$sesion['ws-tags']['ws-user']['taxId']=$data['taxid'];
+	$sesion['ws-tags']['ws-user']['paypal']=$data['paypal'];
+	$sesion['ws-tags']['ws-user']['interest']=$data['interest'];
+	$sesion['ws-tags']['ws-user']['relationship']=$data['relationship'];
+	$sesion['ws-tags']['ws-user']['wish_to']=$data['wish_to'];
+	$sesion['ws-tags']['ws-user']['personal_messages']=$data['personal_messages'];
 
 	#telefonos
 	$home_area=$data['home_code']?current($GLOBALS['cn']->queryRow('SELECT code_area FROM countries WHERE id="'.$data['home_code'].'"')):'';
 	$work_area=$data['work_code']?current($GLOBALS['cn']->queryRow('SELECT code_area FROM countries WHERE id="'.$data['work_code'].'"')):'';
 	$mobile_area=$data['mobile_code']?current($GLOBALS['cn']->queryRow('SELECT code_area FROM countries WHERE id="'.$data['mobile_code'].'"')):'';
-	$_SESSION['ws-tags']['ws-user']['home_phone']=$home_area.'-'.$data['home_phone'];
-	$_SESSION['ws-tags']['ws-user']['work_phone']=$work_area.'-'.$data['work_phone'];
-	$_SESSION['ws-tags']['ws-user']['mobile_phone']=$mobile_area.'-'.$data['mobile_phone'];
+	$sesion['ws-tags']['ws-user']['home_phone']=$home_area.'-'.$data['home_phone'];
+	$sesion['ws-tags']['ws-user']['work_phone']=$work_area.'-'.$data['work_phone'];
+	$sesion['ws-tags']['ws-user']['mobile_phone']=$mobile_area.'-'.$data['mobile_phone'];
 
 	#telefono en business card
 	$bc='
@@ -291,7 +293,7 @@ if($data['action']=='save'){
 			//$updateZipCode='2';//ver luego, esto era validando con la tabla zipcodes de usa solamente
 			$updateZipCode='1';
 		}
-		$_SESSION['ws-tags']['ws-user']['zip_code']=$data['zipcode'];
+		$sesion['ws-tags']['ws-user']['zip_code']=$data['zipcode'];
 		$sql_zip_code="zip_code='".$data['zipcode']."',";
 	}else{
 		$updateZipCode='0';
@@ -302,7 +304,7 @@ if($data['action']=='save'){
 if (($data['action']=='save')||($data['action']=='backgroundFile')||($data['action']=='backgroundDefault')||($data['action']=='HiddenColor')){
 	#cambio de fondo
 	if($data['action']=='bg_default'){
-		$_SESSION['ws-tags']['ws-user']['user_background']='';
+		$sesion['ws-tags']['ws-user']['user_background']='';
 	}elseif($data['background']&&$data['background']['error']==0){
 		$allowedImages=array('jpg','jpeg','png','gif');
 		$parts=explode('.',$data['background']['name']);
@@ -319,7 +321,7 @@ if (($data['action']=='save')||($data['action']=='backgroundFile')||($data['acti
 				fclose($fp);
 			}
 			if(copy($data['background']['tmp_name'],RELPATH.'img/users_backgrounds/'.$_fondo)){
-				$_SESSION['ws-tags']['ws-user']['user_background']=$_fondo;
+				$sesion['ws-tags']['ws-user']['user_background']=$_fondo;
 				uploadFTP($fondo,'users_backgrounds');
 			}
 		}else{
@@ -327,7 +329,7 @@ if (($data['action']=='save')||($data['action']=='backgroundFile')||($data['acti
 			die(jsonp($res));
 		}
 	}elseif($data['bg_color']){
-		$_SESSION['ws-tags']['ws-user']['user_background']=$data['bg_color'];
+		$sesion['ws-tags']['ws-user']['user_background']=$data['bg_color'];
 	}
 }
 //cambiando el cover del external rofile
@@ -354,11 +356,13 @@ if ($data['action']=='fileCover'){
 				FTPupload('users_cover/'.$photo);
 				$res['success']='cover';
 				$res['cover']=$photo;
-				$_SESSION['ws-tags']['ws-user']['user_cover'] = $photo;
+				$sesion['ws-tags']['ws-user']['user_cover'] = $photo;
 			}else{ $res['error']=lan('ERROR_UPLOADING_PROFILE_PICTURE'); }
 		}else{ $res['error']=lan('ERROR_UPLOADING_PROFILE_PICTURE'); }
 	}else{ $res['error']=lan('ERROR_UPLOADING_PROFILE_PICTURE'); }
 }
+save_in_session($sesion);
+$sesion=array();
 $user=$_SESSION['ws-tags']['ws-user'];
 
 switch ($data['action']){
@@ -391,8 +395,8 @@ switch ($data['action']){
 				$user['language'],$user['user_background'],$user['country'],$user['city'],$user['sex'],
 				$user['paypal'],$user['zip_code'],$user['interest'],$user['relationship'],$user['wish_to'],
 				$user['personal_messages'],$user['taxId'],$myId));
-		$_SESSION['ws-tags']['ws-user']['progress']['value']=calculateProgress();
-		$res['noFails']=$_SESSION['ws-tags']['ws-user']['progress']['value']['noFails'];
+		$sesion['ws-tags']['ws-user']['progress']['value']=calculateProgress();
+		$res['noFails']=$sesion['ws-tags']['ws-user']['progress']['value']['noFails'];
 	break;
 	case 'filePhoto':#actualizamos solo la imagen
 		CON::update("users","profile_image_url=?","id=?",array($user['photo'],$user['id']));
@@ -415,8 +419,8 @@ switch ($data['action']){
 		$res['success']='updateLanguage';
 	}elseif($url){
 		if(!fileExists(($config->local?RELPATH:$config->imgserver)."img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'])){
-			$_SESSION['ws-tags']['ws-user']['updatePicture']=0;
-			$_SESSION['ws-tags']['ws-user']['photo']='';
+			$sesion['ws-tags']['ws-user']['updatePicture']=0;
+			$sesion['ws-tags']['ws-user']['photo']='';
 			CON::update("users","updatePicture='0'","id=?",array($myId));
 			$res['error']=lan('ERROR_UPLOADING_PROFILE_PICTURE');
 		}else $res['success']='filePhoto';
@@ -429,8 +433,8 @@ switch ($data['action']){
 		$res['success']='save';		
 	}
 
-$_SESSION['ws-tags']['ws-user']['pic']="img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'];
-$_SESSION['ws-tags']['ws-user']['paypal']=$data['paypal'];
+$sesion['ws-tags']['ws-user']['pic']="img/users/$code/".$_SESSION['ws-tags']['ws-user']['photo'];
+$sesion['ws-tags']['ws-user']['paypal']=$data['paypal'];
+save_in_session($sesion);
 
 die(jsonp($res));
-?>

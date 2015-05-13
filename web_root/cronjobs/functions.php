@@ -799,6 +799,7 @@ function fieldsLogin(){ //campos que se listaran al momento de hacer login en el
 }
 
 function createSession($array){ //creacion de las variables de session del sistema
+	session_start();
 	$fullVersion = $_SESSION['ws-tags']['ws-user']['fullversion'];
 	$_SESSION['ws-tags']['ws-user'] = $array;//aqui se construye el vector del usuario
 	$_SESSION['ws-tags']['ws-user']['fullversion'] = $fullVersion;
@@ -810,6 +811,7 @@ function createSession($array){ //creacion de las variables de session del siste
 	// after the user deletes an image, the page refreshes
 	// this variable indicates that photo gallery must be shown on page load
 	$_SESSION['ws-tags']['ws-user']['showPhotoGallery'] = false;
+	session_write_close();
 }
 
 function userExternalReference($keyusr){ //confirmar suscripcion :: login

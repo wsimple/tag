@@ -1719,7 +1719,7 @@ function createSessionCar($id_user='',$code='',$count='',$idproduct='',$idOrder=
 				$product['name']=utf8_encode(formatoCadena($product['name']));
 				$carrito[$product['id']]=$product;//guardamos el producto en el carrito
 				//Para saber si tiene que pagar productos en paypal
-				// if($product['formPayment']==1) $_SESSION['havePaypalPayment']=true;
+				// if($product['formPayment']==1) save_in_session(array('havePaypalPayment'=>true));
 			}
 		}
 		with_session(function($sesion)use($carrito){
@@ -2186,8 +2186,9 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 		echo '<hr>';
 	}
 	if($config->local && !isset($_SESSION['ws-tags']['email']))
-		with_session(function(){
-			$_SESSION['ws-tags']['email']='';
+		with_session(function($sesion){
+			$sesion['ws-tags']['email']='';
+			return $sesion;
 		});
 	$id_type*=1; //asegurando que sea numerico
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
@@ -2442,8 +2443,9 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 			}
 		}
 	}else{ //else delete
-		with_session(function(){
-			$_SESSION['ws-tags']['email']='';
+		with_session(function($sesion){
+			$sesion['ws-tags']['email']='';
+			return $sesion;
 		});
 		if($id_friend!=$id_user){
 			CON::delete('users_notifications','id_type=? AND id_source=? AND id_user=? AND id_friend=?',array(

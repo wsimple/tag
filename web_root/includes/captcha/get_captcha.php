@@ -11,6 +11,7 @@ $word_1 = substr($words[$wordsId[0]],0,7);
 $word_2 = substr($words[$wordsId[1]],0,7);
 
 $_SESSION['ws-tags'][register][img_captcha] = strtolower($word_1.' '.$word_2);
+session_write_close();
 
 $dir = 'fonts/';
 
@@ -29,4 +30,3 @@ imagettftext ($image, 22, 0, 5, 30, $color, $dir.$font, $_SESSION['ws-tags'][reg
 header("Content-type: image/png");
 
 imagepng($image);  
-?>
