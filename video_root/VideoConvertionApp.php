@@ -6,10 +6,10 @@ class VideoConvertionApp extends VideoCaptures
 
 	function __construct($options = null, $initialize = true){
 		if(is_array($options)) $this->options=$options;
-		if($initialize) $this->run();
+		if($initialize) $this->start();
 	}
 
-	public function run(){
+	public function start(){
 		$file_name=isset($_REQUEST['file'])?$_REQUEST['file']:'';
 		if(!$file_name) return;
 		//proceso de video
