@@ -815,33 +815,23 @@ function createSession($array){ //creacion de las variables de session del siste
 }
 
 function userExternalReference($keyusr){ //confirmar suscripcion :: login
-         $query = $GLOBALS['cn']->query("SELECT ".fieldsLogin()."
-
-		                                 FROM users
-
-										 WHERE md5(md5(concat(id,'_',email,'_',id))) = '".$keyusr."'
-
-										");
-
-		$array = mysql_fetch_assoc($query);
-
-		if (mysql_num_rows($query)>0){
-
-            createSession($array);
-
-			//update - colocamos el status del usuario en 3 con la finalidad de cobrar a los 14 dias su suscripcion al sistema
-
-			$status = (($array[type]=='1') ? 3 : 1);
-
-			$update = $GLOBALS['cn']->query("UPDATE users SET status = '".$status."' WHERE id = '".$array[id]."'");
-
-			$_SESSION['ws-tags']['ws-user'][status] = $status;
-
-			return true;
-
-		 }elseif (mysql_num_rows($query)==0){ //validaci�n de login
-		    return false;
-		 }
+	$array=CON::getRow("SELECT
+			".fieldsLogin()."
+		FROM users
+		WHERE md5(md5(concat(id,'_',email,'_',id))) = '$keyusr'
+	");
+	if(count($array)>0){
+		createSession($array);
+		//update - colocamos el status del usuario en 3 con la finalidad de cobrar a los 14 dias su suscripcion al sistema
+		$status = (($array[type]=='1') ? 3 : 1);
+		$update = $GLOBALS['cn']->query("UPDATE users SET status = '".$status."' WHERE id = '".$array[id]."'");
+		session_start();
+		$_SESSION['ws-tags']['ws-user'][status] = $status;
+		session_write_close();
+		return true;
+	}elseif (mysql_num_rows($query)==0){ //validaci�n de login
+		return false;
+	}
 }
 
 //funciones para obtener datos en especifico

@@ -15,4 +15,5 @@ if (!session_is_registered("locale")) { //check if the session variable has alre
 	$locale=mysql_fetch_assoc($result);
 	$_SESSION['locale']=$locale['idioma'];
 }
+session_write_close();
 echo $_SESSION['locale'];

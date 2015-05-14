@@ -2,15 +2,14 @@
 include 'includes/funciones_upload.php';
 include 'class/validation.class.php';
 if (quitar_inyect()){
-	
 	//validating if he comes to save
 	if ($_POST['validaActionAjax']=='save'){
 		// Birth Date
 		if(checkdate($_POST['frmProfile_month'],$_POST['frmProfile_day'],$_POST['frmProfile_year'])){
-           $result=$GLOBALS['cn']->queryRow('SELECT now() FROM users WHERE DATE(NOW())>"'.$_POST['frmProfile_year'].'-'.$_POST['frmProfile_month'].'-'.$_POST['frmProfile_day'].'" LIMIT 1;');  
-           $row=current($result);
-           if ($row){ $date_birth = $_POST['frmProfile_year'].'-'.substr('0'.$_POST['frmProfile_month'],-2).'-'.substr('0'.$_POST['frmProfile_day'],-2); }
-           else{ die('SIGNUP_CTRERRORBIRTHDATE'); }
+			$result=$GLOBALS['cn']->queryRow('SELECT now() FROM users WHERE DATE(NOW())>"'.$_POST['frmProfile_year'].'-'.$_POST['frmProfile_month'].'-'.$_POST['frmProfile_day'].'" LIMIT 1;');
+			$row=current($result);
+			if($row){ $date_birth = $_POST['frmProfile_year'].'-'.substr('0'.$_POST['frmProfile_month'],-2).'-'.substr('0'.$_POST['frmProfile_day'],-2); }
+			else{ die('SIGNUP_CTRERRORBIRTHDATE'); }
 		}else die('SIGNUP_CTRERRORBIRTHDATE');
 		// END - Birth Date
 		// User Name
@@ -28,8 +27,8 @@ if (quitar_inyect()){
 				}
 				$d->close();
 				// END - verificar que no use nombres de carpetas de Tagbum
-				if( !$error_username ) {
-					if( !existe("users", "username", " WHERE username = '".$_POST['frmProfile_userName']."' AND id != '".$_SESSION['ws-tags']['ws-user']['id']."' ") ) {
+				if(!$error_username){
+					if(!existe("users","username"," WHERE username='".$_POST['frmProfile_userName']."' AND id!='".$_SESSION['ws-tags']['ws-user']['id']."' ")){
 						$sql_userName = ", username = '".$_POST['frmProfile_userName']."'";
 					} else { $error_username = "ERROR_USERNAME_DUPLICATE"; }
 				}
@@ -59,12 +58,11 @@ if (quitar_inyect()){
 					fclose($fp);
 				}// is_dir
 
-				if( redimensionar($_FILES[frmProfile_fileCover][tmp_name], RELPATH."img/users_cover/".$photo, 845) ) {
+				if(redimensionar($_FILES[frmProfile_fileCover][tmp_name],RELPATH.'img/users_cover/'.$photo,845)){
 					if(is_debug('filecover')) echo 'users_cover/'.$photo;
 					FTPupload('users_cover/'.$photo);
 					echo $photo;
-					$_SESSION['ws-tags']['ws-user']['user_cover'] = $photo;
-
+					save_in_session(array('ws-tags'=>array('user_cover'=>$photo)));
 				}else{
 					echo '0';//error redimension
 				}//copy
@@ -83,9 +81,11 @@ if (quitar_inyect()){
 		if($_FILES['frmProfile_filePhoto']['error']==0){
 			$profile_image_url=uploadImage($_FILES['frmProfile_filePhoto'],'profile','users',$_SESSION['ws-tags']['ws-user']['code'],$_SESSION['ws-tags']['ws-user']['id']);
 			if($profile_image_url!='IMAGE_NOT_ALLOWED'){
-				$_SESSION['ws-tags']['ws-user']['updatePicture']=1;
-				$GLOBALS['cn']->query("UPDATE users SET updatePicture=1 WHERE id ='".$_SESSION['ws-tags']['ws-user']['id']."'");
-				$_SESSION['ws-tags']['ws-user']['photo']=$profile_image_url;
+				CON::update('users','updatePicture=1','id=?',array($_SESSION['ws-tags']['ws-user']['id']));
+				save_in_session(array('ws-tags'=>array('ws-user'=>array(
+					'updatePicture'=>1,
+					'photo'=>$profile_image_url
+				))));
 				$profile_image_url=true;
 				//thumb image
 				$photo='img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo'];
@@ -121,65 +121,68 @@ if (quitar_inyect()){
 
 	//validating if he comes to save
 	if($_POST['validaActionAjax']=='save'){
+		$user=array();
 		//updating $_SESSION var
 		//if changing first_name OR last_name
 		$temporal = $_POST['frmProfile_firstName'].' '.$_POST['frmProfile_lastName'];
 		if( $_SESSION['ws-tags']['ws-user']['full_name'] != $temporal ) {
 			$name_change	= true;
-			$_SESSION['ws-tags']['ws-user']['full_name']	= $temporal;
+			$user['full_name']	= $temporal;
 		}
 		// END - if changing first_name OR last_name
-		$_SESSION['ws-tags']['ws-user']['name']			= $_POST['frmProfile_firstName'];
-		$_SESSION['ws-tags']['ws-user']['last_name']		= $_POST['frmProfile_lastName'];
+		$user['name']			= $_POST['frmProfile_firstName'];
+		$user['last_name']		= $_POST['frmProfile_lastName'];
 		// if changing display languaje
 			if( $_SESSION['ws-tags']['ws-user']['language'] != $_POST['frmProfile_cboLanguageUsr'] ) {
 				$updateLanguage	= true;
-				$_SESSION['ws-tags']['ws-user']['language']	= $_POST['frmProfile_cboLanguageUsr'];
+				$user['language']	= $_POST['frmProfile_cboLanguageUsr'];
 			}
 		// END - if changing display languaje
 		// if changing username
 		if( !$error_username ) {
-			$_SESSION['ws-tags']['ws-user']['username']	= $_POST['frmProfile_userName'];
+			$user['username']	= $_POST['frmProfile_userName'];
 		}
 		// END - if changing username
-		$_SESSION['ws-tags']['ws-user']['screen_name']   = $_POST['frmProfile_screenName'];
-		$_SESSION['ws-tags']['ws-user']['date_birth']    = $date_birth;
-		$_SESSION['ws-tags']['ws-user']['show_birthday'] = $_POST['frmProfile_showbirthday'];
-		$_SESSION['ws-tags']['ws-user']['country']       = $_POST['frmProfile_cboFrom'];
-		$_SESSION['ws-tags']['ws-user']['sex']           = $_POST['frmProfile_sex'];
-		$_SESSION['ws-tags']['ws-user']['taxId']         = $_POST['frmProfile_taxId'];
-		$_SESSION['ws-tags']['ws-user']['paypal']        = $_POST['frmProfile_paypal'];
-		$_SESSION['ws-tags']['ws-user']['personal_messages'] = $_POST['frmProfile_messagePersonal'];
+		$user['screen_name']   = $_POST['frmProfile_screenName'];
+		$user['date_birth']    = $date_birth;
+		$user['show_birthday'] = $_POST['frmProfile_showbirthday'];
+		$user['country']       = $_POST['frmProfile_cboFrom'];
+		$user['sex']           = $_POST['frmProfile_sex'];
+		$user['taxId']         = $_POST['frmProfile_taxId'];
+		$user['paypal']        = $_POST['frmProfile_paypal'];
+		$user['personal_messages'] = $_POST['frmProfile_messagePersonal'];
 
 		// phone numbers
 		$home_area	= ($_POST['frmProfile_home_code']		? getTableRow('code_area', 'countries', 'id='.$_POST['frmProfile_home_code'])		: "");
 		$work_area	= ($_POST['frmProfile_work_code']		? getTableRow('code_area', 'countries', 'id='.$_POST['frmProfile_work_code'])		: "");
 		$mobile_area= ($_POST['frmProfile_mobile_code']	? getTableRow('code_area', 'countries', 'id='.$_POST['frmProfile_mobile_code'])	: "");
-		$_SESSION['ws-tags']['ws-user']['home_phone']    = ($home_area	&& $_POST['frmProfile_home']		? $home_area	: '').'-'.$_POST['frmProfile_home'];
-		$_SESSION['ws-tags']['ws-user']['work_phone']    = ($work_area	&& $_POST['frmProfile_work']		? $work_area	: '').'-'.$_POST['frmProfile_work'];
-		$_SESSION['ws-tags']['ws-user']['mobile_phone']  = ($mobile_area	&& $_POST['frmProfile_mobile']	? $mobile_area	: '').'-'.$_POST['frmProfile_mobile'];
+		$user['home_phone']    = ($home_area	&& $_POST['frmProfile_home']		? $home_area	: '').'-'.$_POST['frmProfile_home'];
+		$user['work_phone']    = ($work_area	&& $_POST['frmProfile_work']		? $work_area	: '').'-'.$_POST['frmProfile_work'];
+		$user['mobile_phone']  = ($mobile_area	&& $_POST['frmProfile_mobile']	? $mobile_area	: '').'-'.$_POST['frmProfile_mobile'];
 		// END - phone numbers
+		save_in_session(array('ws-tags'=>array('ws-user'=>$user)));
 		//updating business card phone
-		$bc	= '	SELECT	id
-				FROM	business_card
-				WHERE	id_user				= '.$_SESSION['ws-tags']['ws-user']['id'].' AND
-						company				= "Social Media Marketing" AND
-						middle_text			= "www.Tagbum.com" AND
-						address				= "" AND
-						specialty			= "" AND
-						company_logo_url	= "" AND
-						background_url		= "" AND
-						type				= 0 AND
-						text_color			= "#000000"';
-		$bc	= $GLOBALS['cn']->query($bc);
-		if( mysql_num_rows($bc)==1 ) {
-			$n_bc = mysql_fetch_assoc($bc);
-			$bc	= '	UPDATE	business_card
-					SET		home_phone	= "'.$_SESSION['ws-tags']['ws-user']['home_phone'].'",
-							work_phone	= "'.$_SESSION['ws-tags']['ws-user']['work_phone'].'",
-							mobile_phone= "'.$_SESSION['ws-tags']['ws-user']['mobile_phone'].'"
-					WHERE	id			= '.$n_bc['id'];
-			$bc	= $GLOBALS['cn']->query($bc);
+		$bc=CON::getRow('SELECT
+				id
+			FROM business_card
+			WHERE
+				id_user				= ? AND
+				company				= "Social Media Marketing" AND
+				middle_text			= "www.Tagbum.com" AND
+				address				= "" AND
+				specialty			= "" AND
+				company_logo_url	= "" AND
+				background_url		= "" AND
+				type				= 0 AND
+				text_color			= "#000000"
+		',array($_SESSION['ws-tags']['ws-user']['id']));
+		if(count($bc)){
+			CON::update('business_card','home_phone=?,work_phone=?,mobile_phone=?','id=?',array(
+				$_SESSION['ws-tags']['ws-user']['home_phone'],
+				$_SESSION['ws-tags']['ws-user']['work_phone'],
+				$_SESSION['ws-tags']['ws-user']['mobile_phone'],
+				$bc['id']
+			));
 		}
 		// END - updating $_SESSION var
 		// if changing country
@@ -189,19 +192,18 @@ if (quitar_inyect()){
 		// if changing or adding zip_code
 		if($_POST['frmProfile_zipCode']!=$_SESSION['ws-tags']['ws-user']['zip_code']){
 			if($_POST['frmProfile_zipCode']){
+				save_in_session(array('ws-tags'=>array('ws-user'=>array('zip_code'=>$_POST['frmProfile_zipCode']))));
 				$result = $GLOBALS['cn']->query("SELECT ZIP_CODE     FROM     zip_codes     WHERE     ZIP_CODE = '".$_POST['frmProfile_zipCode']."'");
 				if(mysql_num_rows($result)>0){
-					$_SESSION['ws-tags']['ws-user']['zip_code'] = $_POST['frmProfile_zipCode'];
 					$sql_zip_code = "zip_code = '".$_POST['frmProfile_zipCode']."',";
 					$updateZipCode = '1';
 				}else{
 					//$updateZipCode = '2';  // ver luego, esto era validando con la tabla zipcodes de usa solamente
 					$updateZipCode = '1';
-					$_SESSION['ws-tags']['ws-user']['zip_code'] = $_POST['frmProfile_zipCode'];
 					$sql_zip_code = "zip_code = '".$_POST['frmProfile_zipCode']."',";
 				}
 			}else{
-				$_SESSION['ws-tags']['ws-user']['zip_code'] = '';
+				save_in_session(array('ws-tags'=>array('ws-user'=>array('zip_code'=>''))));
 				$sql_zip_code = "zip_code = '',";
 				$updateZipCode = '1';
 			}
@@ -213,12 +215,12 @@ if (quitar_inyect()){
 	if(($_POST['validaActionAjax']=='save')||($_POST['validaActionAjax']=='backgroundFile')||($_POST['validaActionAjax']=='backgroundDefault')||($_POST['validaActionAjax']=='HiddenColor')){
 	//when changing background
 		if($_POST['user_background_url']=="setDefault"){
-			$_SESSION['ws-tags']['ws-user']['user_background']='';
+			save_in_session(array('ws-tags'=>array('ws-user'=>array('user_background'=>''))));
 		}elseif($_FILES['profile_background_file']['error']==0){
 				$allowedImages = array('jpg', 'jpeg', 'png', 'gif');
 				$parts         = explode('.', $_FILES['profile_background_file']['name']);
 				$ext           = strtolower( end($parts) );
-				if( in_array($ext, $allowedImages) ) {
+				if(in_array($ext,$allowedImages)){
 						$path  = "img/users_backgrounds/".$_SESSION['ws-tags']['ws-user']['code'].'/';
 						$fondo = $_SESSION['ws-tags']['ws-user']['code'].'/'.md5($_FILES['profile_background_file']['name']).'.'.$ext;
 						$fondo_=md5($_FILES['profile_background_file']['name']).'.'.$ext;
@@ -230,14 +232,14 @@ if (quitar_inyect()){
 							fclose($fp);
 						}
 						if( copy($_FILES['profile_background_file']['tmp_name'], "img/users_backgrounds/".$fondo) ) {
-							$_SESSION['ws-tags']['ws-user']['user_background'] = $fondo;
-							uploadFTP($fondo_, "users_backgrounds");
+							save_in_session(array('ws-tags'=>array('ws-user'=>array('user_background'=>$fondo))));
+							uploadFTP($fondo_,"users_backgrounds");
 						}
 				}else{
 					die('ERROR_UPLOADING_PROFILE_PICTURE');
 				}
 		}elseif($_POST['profileHiddenColor']){
-				$_SESSION['ws-tags']['ws-user']['user_background'] = $_POST['profileHiddenColor'];
+			save_in_session(array('ws-tags'=>array('ws-user'=>array('user_background'=>$_POST['profileHiddenColor']))));
 		}
 	// END - when changing background
 	}
@@ -245,56 +247,61 @@ if (quitar_inyect()){
 	switch ($_POST['validaActionAjax']){
 		case 'save'		:
 			// updating database
-				$GLOBALS['cn']->query('
-					UPDATE users SET
-						screen_name			= "'.$_SESSION['ws-tags']['ws-user']['screen_name'].		'",
-						name				= "'.$_SESSION['ws-tags']['ws-user']['name'].				'",
-						last_name			= "'.$_SESSION['ws-tags']['ws-user']['last_name'].		'",
-						date_birth			= "'.$_SESSION['ws-tags']['ws-user']['date_birth'].		'",
-						profile_image_url	= "'.$_SESSION['ws-tags']['ws-user']['photo'].			'",
-						show_my_birthday	= "'.$_SESSION['ws-tags']['ws-user']['show_birthday'].	'",
-						home_phone			= "'.$_SESSION['ws-tags']['ws-user']['home_phone'].		'",
-						mobile_phone		= "'.$_SESSION['ws-tags']['ws-user']['mobile_phone'].		'",
-						work_phone			= "'.$_SESSION['ws-tags']['ws-user']['work_phone'].		'",
-						language			= "'.$_SESSION['ws-tags']['ws-user']['language'].			'",
-						user_background		= "'.$_SESSION['ws-tags']['ws-user']['user_background'].	'",
-						country				= "'.$_SESSION['ws-tags']['ws-user']['country'].			'",
-						sex					= "'.$_SESSION['ws-tags']['ws-user']['sex'].'",
-						paypal				= "'.$_POST['frmProfile_paypal'].'",
-						zip_code			= "'.$_SESSION['ws-tags']['ws-user']['zip_code'].'",
-						taxId				= "'.$_SESSION['ws-tags']['ws-user']['taxId'].'",
-						personal_messages	= "'.$_SESSION['ws-tags']['ws-user']['personal_messages'].'"'.
-						$sql_pais.
-						$sql_userName.'
-					WHERE id = "'.$_SESSION['ws-tags']['ws-user'][id].'"
-				');
+			CON::update('users',"
+				screen_name=?,
+				name=?,
+				last_name=?,
+				date_birth=?,
+				profile_image_url=?,
+				show_my_birthday=?,
+				home_phone=?,
+				mobile_phone=?,
+				work_phone=?,
+				language=?,
+				user_background=?,
+				country=?,
+				sex=?,
+				zip_code=?,
+				taxId=?,
+				personal_messages=?,
+				paypal=?,
+				$sql_pais
+				$sql_userName
+			",'id=?',array(
+				$_SESSION['ws-tags']['ws-user']['screen_name'],
+				$_SESSION['ws-tags']['ws-user']['name'],
+				$_SESSION['ws-tags']['ws-user']['last_name'],
+				$_SESSION['ws-tags']['ws-user']['date_birth'],
+				$_SESSION['ws-tags']['ws-user']['photo'],
+				$_SESSION['ws-tags']['ws-user']['show_birthday'],
+				$_SESSION['ws-tags']['ws-user']['home_phone'],
+				$_SESSION['ws-tags']['ws-user']['mobile_phone'],
+				$_SESSION['ws-tags']['ws-user']['work_phone'],
+				$_SESSION['ws-tags']['ws-user']['language'],
+				$_SESSION['ws-tags']['ws-user']['user_background'],
+				$_SESSION['ws-tags']['ws-user']['country'],
+				$_SESSION['ws-tags']['ws-user']['sex'],
+				$_SESSION['ws-tags']['ws-user']['zip_code'],
+				$_SESSION['ws-tags']['ws-user']['taxId'],
+				$_SESSION['ws-tags']['ws-user']['personal_messages'],
+				$_POST['frmProfile_paypal'],
+				$_SESSION['ws-tags']['ws-user']['id']
+			));
 			// END - updating database
 		break;
 		case 'filePhoto':
 			// updating database
-			$GLOBALS['cn']->query('
-				UPDATE users SET
-					profile_image_url="'.$_SESSION['ws-tags']['ws-user']['photo'].'"
-				WHERE id="'.$_SESSION['ws-tags']['ws-user']['id'].'"
-			');
+			CON::update('users','profile_image_url=?','id=?',array($_SESSION['ws-tags']['ws-user']['photo'],$_SESSION['ws-tags']['ws-user']['id']));
 		break;
 		case 'fileCover':
 			// updating database
-			$GLOBALS['cn']->query('
-				UPDATE users SET
-					user_cover="'.$_SESSION['ws-tags']['ws-user']['user_cover'].'"
-				WHERE id="'.$_SESSION['ws-tags']['ws-user']['id'].'"
-			');
+			CON::update('users','user_cover=?','id=?',array($_SESSION['ws-tags']['ws-user']['user_cover'],$_SESSION['ws-tags']['ws-user']['id']));
 		break;
 		case 'backgroundFile':
 		case 'backgroundDefault':
 		case 'HiddenColor':
 			// updating database
-			$GLOBALS['cn']->query('
-				UPDATE users SET
-					user_background="'.$_SESSION['ws-tags']['ws-user']['user_background'].'"
-				WHERE id = "'.$_SESSION['ws-tags']['ws-user']['id'].'"
-			');
+			CON::update('users','user_background=?','id=?',array($_SESSION['ws-tags']['ws-user']['user_background'],$_SESSION['ws-tags']['ws-user']['id']));
 		break;
 	}
 
@@ -308,13 +315,14 @@ if (quitar_inyect()){
 	}elseif($updateLanguage){
 		echo 'updateLanguage';
 	}elseif($profile_image_url){
-		
 		if(fileExists($config->img_server.'img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo'])){
 			echo 'CROP';
 		}else{
-			$_SESSION['ws-tags']['ws-user']['updatePicture']	= 0;
-			$_SESSION['ws-tags']['ws-user']['photo']			= '';
-			$GLOBALS['cn']->query("UPDATE `users` SET `updatePicture` = '0' WHERE `users`.`id` ='".$_SESSION['ws-tags']['ws-user']['id']."'");
+			save_in_session(array('ws-tags'=>array('ws-user'=>array(
+				'updatePicture'=>0,
+				'photo'=>''
+			))));
+			CON::update('users','updatePicture=0','id=?',array($_SESSION['ws-tags']['ws-user']['id']));
 			echo 'ERROR_UPLOADING_PROFILE_PICTURE';
 		}
 	}elseif($error_uploading_pp){

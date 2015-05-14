@@ -23,10 +23,8 @@
 		<?php }	?>
 	</form>
 </div>
-
 <script src="js/jquery.Jcrop.js"></script>
 <link rel="stylesheet" href="css/jquery.Jcrop.css" type="text/css" />
-
 <script language="Javascript">
 	$(function(){
 		var send=(function(){
@@ -64,7 +62,6 @@
 				});
 			};
 		})();
-
 		$('#send').click(send);
 	});
 	$('#formCoordenadas').ajaxForm({
@@ -74,29 +71,28 @@
 	});
 
 	var jcrop_api,boundx,boundy;
-	$(function() {
-		 $('#cropbox').Jcrop({
-		  minSize:[ 60,60 ],
-		  onSelect:updateCoords,
-		   aspectRatio:1
-		 });
+	$(function(){
+		$('#cropbox').Jcrop({
+			minSize:[ 60,60 ],
+			onSelect:updateCoords,
+			aspectRatio:1
+		});
 	});
-
-	function updateCoords( c ) {
+	function updateCoords(c){
 		$('#x').val(c.x);
 		$('#y').val(c.y);
 		$('#w').val(c.w);
 		$('#h').val(c.h);
-	};
+	}
 
-	function checkCoords() {
-		if( parseInt($('#w').val()) ){
+	function checkCoords(){
+		if(parseInt($('#w').val())){
 			return true;
 		}else{
 			message('messages','Alert','<?=USER_THUMBCREATIONERROR?>');
 			return false;
 		}
-	};
+	}
 </script>
 </body>
 </html>

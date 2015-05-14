@@ -1722,10 +1722,7 @@ function createSessionCar($id_user='',$code='',$count='',$idproduct='',$idOrder=
 				// if($product['formPayment']==1) save_in_session(array('havePaypalPayment'=>true));
 			}
 		}
-		with_session(function($sesion)use($carrito){
-			$sesion['car']=$carrito;
-			return $sesion;
-		});
+		save_in_session(array('car'=>$carrito));
 		return $carrito;
 	}else{
 		$product=mysql_fetch_array($result);

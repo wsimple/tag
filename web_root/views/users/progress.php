@@ -14,9 +14,11 @@ if(!isset($_SESSION['ws-tags']['ws-user']['progress'])
 	else $active=false;
 }else $active=false;
 if(isset($_SESSION['ws-tags']['ws-user']['progress']['omitir'])){
-	with_session(function(){
-		$_SESSION['ws-tags']['ws-user']['progress']['omitir']++;
-		if($_SESSION['ws-tags']['ws-user']['progress']['omitir']>=50) unset($_SESSION['ws-tags']['ws-user']['progress']['omitir']);
+	with_session(function($sesion){
+		$sesion['ws-tags']['ws-user']['progress']['omitir']++;
+		if($sesion['ws-tags']['ws-user']['progress']['omitir']>=50)
+			unset($sesion['ws-tags']['ws-user']['progress']['omitir']);
+		return $sesion;
 	});
 }
 

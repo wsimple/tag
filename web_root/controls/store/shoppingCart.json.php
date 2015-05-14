@@ -49,33 +49,38 @@ include ('../../class/class.phpmailer.php');
 					$idOrder=  mysql_fetch_assoc($idOrder);
 					$idOrder=$idOrder['id'];
 					if (!existe('store_orders_detail', 'id', "WHERE id_status = '11' AND id_order='".$idOrder."' AND id_product='".$producto."'")){
-						$_SESSION['car'][$producto]['id'] = $product['id'];
-						$_SESSION['car'][$producto]['seller'] = $product['seller'];
-						$_SESSION['car'][$producto]['id_category'] = $product['id_category'];
-						$_SESSION['car'][$producto]['id_sub_category'] = $product['id_sub_category'];
-						$_SESSION['car'][$producto]['category'] = lan($product['category']);
-						$_SESSION['car'][$producto]['subCategory'] = lan($product['subCategory']);
-						$_SESSION['car'][$producto]['name'] = formatoCadena($product['name']);
-						$_SESSION['car'][$producto]['sale_points'] = $product['sale_points'];
-						$_SESSION['car'][$producto]['photo'] = $product['photo'];
-						$_SESSION['car'][$producto]['place'] = $product['place'];
-						$_SESSION['car'][$producto]['description'] = $product['description'];
-						$_SESSION['car'][$producto]['email_seller'] = $product['email_seller'];
-						$_SESSION['car'][$producto]['formPayment'] = $product['formPayment'];
-						$_SESSION['car'][$producto]['cant'] = '1';
-						$_SESSION['car'][$producto]['paypal'] = $product['paypal_account'];
-
-						//Para saber si tiene que pagar productos en paypal
-						if (PAYPAL_PAYMENTS && $product['formPayment']==1) $_SESSION['havePaypalPayment'] = true;
+						with_session(function($sesion)use($producto,$product){
+							$sesion['car'][$producto]['id'] = $product['id'];
+							$sesion['car'][$producto]['seller'] = $product['seller'];
+							$sesion['car'][$producto]['id_category'] = $product['id_category'];
+							$sesion['car'][$producto]['id_sub_category'] = $product['id_sub_category'];
+							$sesion['car'][$producto]['category'] = lan($product['category']);
+							$sesion['car'][$producto]['subCategory'] = lan($product['subCategory']);
+							$sesion['car'][$producto]['name'] = formatoCadena($product['name']);
+							$sesion['car'][$producto]['sale_points'] = $product['sale_points'];
+							$sesion['car'][$producto]['photo'] = $product['photo'];
+							$sesion['car'][$producto]['place'] = $product['place'];
+							$sesion['car'][$producto]['description'] = $product['description'];
+							$sesion['car'][$producto]['email_seller'] = $product['email_seller'];
+							$sesion['car'][$producto]['formPayment'] = $product['formPayment'];
+							$sesion['car'][$producto]['cant'] = '1';
+							$sesion['car'][$producto]['paypal'] = $product['paypal_account'];
+							//Para saber si tiene que pagar productos en paypal
+							if(PAYPAL_PAYMENTS&&$product['formPayment']==1) $sesion['havePaypalPayment']=true;
+							return $sesion;
+						});
 
 						$price = 0;
 						$nproduct = 0;
 						if ($numIdOrder==0){
 							$GLOBALS['cn']->query("INSERT INTO store_orders SET id_status = '1', id_user = '".$myId."'");
 							$idOrder=  mysql_insert_id();
-							$_SESSION['car']['order']['order']=$idOrder;
-							$_SESSION['car']['order']['comprador']=$myId;
-							$_SESSION['car']['order']['comprador_code']=$_SESSION['ws-tags']['ws-user']['code'];
+							with_session(function($sesion)use($producto,$product){
+								$sesion['car']['order']['order']=$idOrder;
+								$sesion['car']['order']['comprador']=$myId;
+								$sesion['car']['order']['comprador_code']=$sesion['ws-tags']['ws-user']['code'];
+								return $sesion;
+							});
 							$tiempo=getTimeShoppingCarActive();
 							$minuto=$tiempo>=60?intval($tiempo%60):$tiempo;
 							$hora=$tiempo>=60?intval($tiempo/60):'';
@@ -103,7 +108,10 @@ include ('../../class/class.phpmailer.php');
 						if ($product['id_category']=='1'){ $jsonResponse['datosCar2']['msg']='backg'; $jsonResponse['datosCar2']['add'] = 'no';}
                         else{
                             $jsonResponse['datosCar2']['new']='si';
-							$_SESSION['car'][$producto]['cant'] = campo('store_orders_detail', 'id_order', $idOrder, 'cant','AND id_product="'.$producto.'"')+1;
+							with_session(function($sesion)use($producto,$idOrder){
+								$sesion['car'][$producto]['cant'] = campo('store_orders_detail', 'id_order', $idOrder, 'cant','AND id_product="'.$producto.'"')+1;
+								return $sesion;
+							});
 							if ($product['stock']>=$_SESSION['car'][$producto]['cant']){
 								$GLOBALS['cn']->query('	UPDATE store_orders_detail SET cant="'.$_SESSION['car'][$producto]['cant'].'" 
 																	WHERE id_product="'.$producto.'" 
@@ -213,12 +221,12 @@ include ('../../class/class.phpmailer.php');
                         $GLOBALS['cn']->query('UPDATE `store_orders` SET id_status="2" WHERE md5(id)="'.$idOrder.'" AND id_status="'.$statusOrder.'" AND id_user="'.$myId.'"');
                         $jsonResponse['del'] = 'all';
                 }
- 			}else{
-				if ($_GET['mod']=='wish'){  
-                    if (!isset($_SESSION['store']['wish'])){
-                        $_SESSION['store']['wish']=campo('store_orders','id_status','5','id',' AND id_user="'.$myId.'"');
-                    }
-                    $statusOrder='5';$idOrder=$_SESSION['store']['wish'];
+			}else{
+				if($_GET['mod']=='wish'){
+					if(!isset($_SESSION['store']['wish'])){
+						save_in_session(array('store'=>array('wish'=>campo('store_orders','id_status','5','id',' AND id_user="'.$myId.'"'))));
+					}
+					$statusOrder='5';$idOrder=$_SESSION['store']['wish'];
                 }else{
                     $idOrder=$_SESSION['car']['order']['order'];
                     $statusOrder='11';
@@ -516,13 +524,16 @@ include ('../../class/class.phpmailer.php');
 			$mobile_code=explode('---',$mobile_code);
 			$work_code=explode('---',$work_code);
 			$country=explode('---',$country);
-			$_SESSION['ws-tags']['ws-user']['city']=$city;
-			$_SESSION['ws-tags']['ws-user']['address']=$addres;
-			$_SESSION['ws-tags']['ws-user']['home_phone']=$home_code[0].'-'.$phoneHome;
-			$_SESSION['ws-tags']['ws-user']['mobile_phone']=$mobile_code[0].'-'.$phoneMobile;
-			$_SESSION['ws-tags']['ws-user']['work_phone']=$work_code[0].'-'.$phoneWork;
-			$_SESSION['ws-tags']['ws-user']['country']=$country[1];
-			$_SESSION['ws-tags']['ws-user']['zip_code']=$zipCode;
+			with_session(function($sesion){
+				$sesion['ws-tags']['ws-user']['city']=$city;
+				$sesion['ws-tags']['ws-user']['address']=$addres;
+				$sesion['ws-tags']['ws-user']['home_phone']=$home_code[0].'-'.$phoneHome;
+				$sesion['ws-tags']['ws-user']['mobile_phone']=$mobile_code[0].'-'.$phoneMobile;
+				$sesion['ws-tags']['ws-user']['work_phone']=$work_code[0].'-'.$phoneWork;
+				$sesion['ws-tags']['ws-user']['country']=$country[1];
+				$sesion['ws-tags']['ws-user']['zip_code']=$zipCode;
+				return $sesion;
+			});
 			$last='';$home='';
 			if ($_SESSION['ws-tags']['ws-user']['type']==0){ $home="home_phone= '".$_SESSION['ws-tags']['ws-user']['home_phone']."',"; }
 			// updating database
@@ -866,7 +877,7 @@ include ('../../class/class.phpmailer.php');
 						if ($numIdOrder==0){
 							$GLOBALS['cn']->query("INSERT INTO store_orders SET id_status = '5', id_user = '".$myId."'");
 							$idOrder=  mysql_insert_id();
-                            $_SESSION['store']['wish']=$idOrder;
+							save_in_session(array('store'=>array('with'=>$idOrder)));
                             $jsonResponse['nuevo']='si';
 						}
                         if (isset($_GET['car']) && $_GET['car']=='toWish'){
@@ -985,64 +996,52 @@ include ('../../class/class.phpmailer.php');
 			}
 			$datosCar=$datosCar=='no-update'?$datosCar:'update';
 		break;
-        case 16: //consulta para el shipping  
-            $jsonResponse['exitSC']=(isset($_SESSION['car']) && count($_SESSION['car'])>0?true:false);
-            if (is_numeric($_SESSION['ws-tags']['ws-user']['city']))
-            	$_SESSION['ws-tags']['ws-user']['city']=CON::getVal("SELECT name FROM cities WHERE id=?",array($_SESSION['ws-tags']['ws-user']['city']));
-            $city=$_SESSION['ws-tags']['ws-user']['city'];
-			if (!isset($_GET['noEditS'])){
-                    $_SESSION['ws-tags']['ws-user']['yaShipp']='1';
-                    $numIt=createSessionCar('','','count');
-                	$countries=$GLOBALS['cn']->query("SELECT p.id AS id, p.code_area AS code_area, p.name AS country FROM  `countries` p ");
-                	$numberh = explode('-',$_SESSION['ws-tags']['ws-user']['home_phone']);
-                	$numberw = explode('-',$_SESSION['ws-tags']['ws-user']['work_phone']);
-                	$numberm = explode('-',$_SESSION['ws-tags']['ws-user']['mobile_phone']);
-                	$numberp = $_SESSION['ws-tags']['ws-user']['country'];
-                	$options='';$tele_home='';$tele_mobile='';$tele_work;$num_pais='';
-                    
-                	while( $country = mysql_fetch_assoc($countries) ){
-                	       $country['country']=utf8_encode($country['country']);
-                		if ($numberh[0]==$country['code_area']){
-                			$tele_home='<option value="'.$country['code_area'].'---'.$country['id'].'" selected="1">
-                							'.$country['country'].'&nbsp;<span>('.$country['code_area'].')<span>
-                						</option>';
-                		}
-                		if ($numberw[0]==$country['code_area']){
-                			$tele_work='<option value="'.$country['code_area'].'---'.$country['id'].'" selected="1">
-                							'.$country['country'].'&nbsp;<span>('.$country['code_area'].')<span>
-                						</option>';
-                		}
-                		if ($numberm[0]==$country['code_area']){
-                			$tele_mobile='<option value="'.$country['code_area'].'---'.$country['id'].'" selected="1">
-                							'.$country['country'].'&nbsp;<span>('.$country['code_area'].')<span>
-                						</option>';
-                		}
-                		if ($numberp==$country['id']){
-                			$num_pais='<option value="'.$country['code_area'].'---'.$country['id'].'" selected="1">
-                							'.$country['country'].'&nbsp;<span>('.$country['code_area'].')<span>
-                						</option>';
-                		}
-                		$options.='<option value="'.$country['code_area'].'---'.$country['id'].'" >
-                			'.$country['country'].'&nbsp;<span>('.$country['code_area'].')<span>
-                		</option>';
-                	}
-                    $datosCar['zipCode']=$_SESSION['ws-tags']['ws-user']['zip_code'];
-                    $datosCar['address']=$_SESSION['ws-tags']['ws-user']['address'];
-                    
-                    $datosCar['option']=$options;
-                    $datosCar['city2']=$city;
-                    if($_SESSION['ws-tags']['ws-user']['type']=='0'){
-                        $datosCar['thome']=$tele_home;
-                        $datosCar['nhome']=$numberh[1];  
-                    } 
-                    $datosCar['tmobile']=$tele_mobile;
-                    $datosCar['twork']=$tele_work;
-                    $datosCar['npais']=$num_pais;
-                    $datosCar['nmobile']=$numberm[1];
-                    $datosCar['nwork']=$numberw[1];
+		case 16: //consulta para el shipping
+			$jsonResponse['exitSC']=(isset($_SESSION['car']) && count($_SESSION['car'])>0?true:false);
+			if(is_numeric($_SESSION['ws-tags']['ws-user']['city']))
+				save_in_session(array('ws-tags'=>array('ws-user'=>array('city'=>CON::getVal("SELECT name FROM cities WHERE id=?",array($_SESSION['ws-tags']['ws-user']['city']))))));
+			$city=$_SESSION['ws-tags']['ws-user']['city'];
+			if(!isset($_GET['noEditS'])){
+				save_in_session(array('ws-tags'=>array('ws-user'=>array('yaShipp'=>1))));
+				$numIt=createSessionCar('','','count');
+				$countries=$GLOBALS['cn']->query("SELECT p.id AS id, p.code_area AS code_area, p.name AS country FROM `countries` p ");
+				$numberh = explode('-',$_SESSION['ws-tags']['ws-user']['home_phone']);
+				$numberw = explode('-',$_SESSION['ws-tags']['ws-user']['work_phone']);
+				$numberm = explode('-',$_SESSION['ws-tags']['ws-user']['mobile_phone']);
+				$numberp = $_SESSION['ws-tags']['ws-user']['country'];
+				$options='';$tele_home='';$tele_mobile='';$tele_work;$num_pais='';
+				while( $country = mysql_fetch_assoc($countries) ){
+					$country['country']=utf8_encode($country['country']);
+					if ($numberh[0]==$country['code_area']){
+						$tele_home='<option value="'.$country['code_area'].'---'.$country['id'].'" selected="1">'.$country['country'].'&nbsp;<span>('.$country['code_area'].')<span></option>';
+					}
+					if ($numberw[0]==$country['code_area']){
+						$tele_work='<option value="'.$country['code_area'].'---'.$country['id'].'" selected="1">'.$country['country'].'&nbsp;<span>('.$country['code_area'].')<span></option>';
+					}
+					if ($numberm[0]==$country['code_area']){
+						$tele_mobile='<option value="'.$country['code_area'].'---'.$country['id'].'" selected="1">'.$country['country'].'&nbsp;<span>('.$country['code_area'].')<span></option>';
+					}
+					if ($numberp==$country['id']){
+						$num_pais='<option value="'.$country['code_area'].'---'.$country['id'].'" selected="1">'.$country['country'].'&nbsp;<span>('.$country['code_area'].')<span></option>';
+					}
+					$options.='<option value="'.$country['code_area'].'---'.$country['id'].'" >'.$country['country'].'&nbsp;<span>('.$country['code_area'].')<span></option>';
+				}
+				$datosCar['zipCode']=$_SESSION['ws-tags']['ws-user']['zip_code'];
+				$datosCar['address']=$_SESSION['ws-tags']['ws-user']['address'];
+				$datosCar['option']=$options;
+				$datosCar['city2']=$city;
+				if($_SESSION['ws-tags']['ws-user']['type']=='0'){
+					$datosCar['thome']=$tele_home;
+					$datosCar['nhome']=$numberh[1];
+				}
+				$datosCar['tmobile']=$tele_mobile;
+				$datosCar['twork']=$tele_work;
+				$datosCar['npais']=$num_pais;
+				$datosCar['nmobile']=$numberm[1];
+				$datosCar['nwork']=$numberw[1];
 			}else{
-			     unset($_SESSION['ws-tags']['ws-user']['yaShipp']);
-			     if ($_SESSION['ws-tags']['ws-user']['work_phone']!='-' &&
+			    unset($_SESSION['ws-tags']['ws-user']['yaShipp']);
+			    if ($_SESSION['ws-tags']['ws-user']['work_phone']!='-' &&
                     $_SESSION['ws-tags']['ws-user']['country']!='' &&
                     $_SESSION['ws-tags']['ws-user']['city']!='' &&
                     $_SESSION['ws-tags']['ws-user']['zip_code']!='' &&

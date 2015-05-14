@@ -144,10 +144,10 @@ if (quitar_inyect()){
 			if(strpos($srh,',')!==false){
 				$hash=explode(',',$srh); 
                 $array['where'].=safe_sql(' AND p.description LIKE "%??%"',array($hash[0]));
-                $_SESSION['store']['temp']=$hash[0];
+                save_in_session(array('store'=>array('temp'=>$hash[0])));
 			}else{ 
                 $array['where'].=safe_sql(' AND CONCAT_WS( " ",p.name,  p.description) LIKE "%??%"',array($srh)); 
-                $_SESSION['store']['temp']=$srh;
+                save_in_session(array('store'=>array('temp'=>$srh)));
             }
 		}
         $products = array();

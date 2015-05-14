@@ -69,14 +69,14 @@
 		if($findhash!=''){
 			$hash=explode(',',$_GET['srh']);
 //				$where.=" AND CONCAT_WS( " ",p.name,  p.description) LIKE '%".$hash[0]."%'";
-//				@$_SESSION['store']['temp']=$hash[0];
+//				save_in_session(array('store'=>array('temp'=>$hash[0])));
 		}else{ 
 			$hash[0]=$_GET['srh'];
 //				$where.=" AND CONCAT_WS( " ",p.name,  p.description) LIKE '%".$_GET['srh']."%'"; 
-//				@$_SESSION['store']['temp']=$_GET['srh'];
+//				save_in_session(array('store'=>array('temp'=>$_GET['srh'])));
 		}
-		 $where.=" AND p.name LIKE '%".$hash[0]."%'"; 
-		 @$_SESSION['store']['temp']=$hash[0];
+		$where.=" AND p.name LIKE '%".$hash[0]."%'"; 
+		save_in_session(array('store'=>array('temp'=>$hash[0])));
 
 	}elseif(isset($_GET['aso'])){ //aso de asocuacion para filtrar las sugerencias de productos
 		if(count($_SESSION['car'])>0){
@@ -375,7 +375,7 @@
 					if(!in_array($_SESSION['store']['temp'],$vector)){
 						$_SESSION['store']['srh'].='|'.$_SESSION['store']['temp']; 
 					}
-				}else{ $_SESSION['store']['srh']=$_SESSION['store']['temp']; }
+				}else{ save_in_session(array('store'=>array('srh'=>$_SESSION['store']['temp']))); }
 				unset($_SESSION['store']['temp']);
 			}
 			$res[$array['tipo']]=$products;

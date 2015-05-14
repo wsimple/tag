@@ -6,8 +6,7 @@ class TAG_controller{
 	function __construct(){}
 }
 function tagsList_json($data,$mobile=false){
-	global $debug; global $config;
-	$myId=$_SESSION['ws-tags']['ws-user']['id'];
+	global $debug,$config,$myId;
 	//objeto que guarda los datos json a enviar
 	$res=array();
 	if(isset($_REQUEST['getReportCombo'])){
@@ -23,8 +22,8 @@ function tagsList_json($data,$mobile=false){
 	$refresh=($data['action']=='refresh');
 	$uid=$data['uid']==''?$myId:CON::getVal('SELECT id FROM users WHERE md5(id)=?',array(intToMd5($data['uid'])));
 	if ($data['rtitle']){
-			$res['rtitle']=CON::getVal('SELECT CONCAT(name," ",last_name) AS title FROM users WHERE md5(id)=?',array(intToMd5($data['uid'])));
-			$res['rtitle']=formatoCadena($res['rtitle']);
+		$res['rtitle']=CON::getVal('SELECT CONCAT(name," ",last_name) AS title FROM users WHERE md5(id)=?',array(intToMd5($data['uid'])));
+		$res['rtitle']=formatoCadena($res['rtitle']);
 	}
 	$res['date']=$data['date'];
 	$res['info']='';
@@ -158,8 +157,7 @@ function tagsList_json($data,$mobile=false){
 					AND t.status=1
 				';
 				$order='date DESC,rand()';
-
-				$_SESSION['ws-tags']['is_sponsor']=1;
+				save_in_session(array('ws-tags'=>array('is_sponsor'=>1)));
 			}else{
 				$where.=safe_sql(' AND t.status=1 AND ? IN (t.id_user,t.id_creator) ',array($uid));
 			}

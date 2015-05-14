@@ -50,7 +50,10 @@
 						if ($_SESSION['ws-tags']['ws-user']['like']!=null){
 							for ($i=0;$i<count($_SESSION['ws-tags']['ws-user']['like']);$i++)
 								if ($tag['id']==$_SESSION['ws-tags']['ws-user']['like'][$i]) $bandera=true;
-						}else $_SESSION['ws-tags']['ws-user']['like']=array();
+						}else with_session(function($sesion){
+							$sesion['ws-tags']['ws-user']['like']=array();
+							return $sesion;
+						});
 						if ($bandera==false){
 							$i=count($_SESSION['ws-tags']['ws-user']['like']);
 							$select_id = $GLOBALS['cn']->query("SELECT id_creator, id_user FROM tags WHERE id = '".$tag['id']."'");
@@ -79,14 +82,14 @@
 			break; // END - favorite (4)
 			case 5: // share (by mail)
 				$tag = CON::getRow("SELECT 
-										md5(CONCAT(u.id, '_', u.email, '_', u.id)) AS code,
-										u.profile_image_url	 AS photoUser,
-										t.id AS idTag,
-										t.id_user AS idUser,
-										u.email AS email,
-										u.referee_number AS referee_number
-									FROM tags t JOIN users u ON t.id_creator = u.id
-									WHERE t.id =?",array($tag['id']));
+						md5(CONCAT(u.id, '_', u.email, '_', u.id)) AS code,
+						u.profile_image_url	 AS photoUser,
+						t.id AS idTag,
+						t.id_user AS idUser,
+						u.email AS email,
+						u.referee_number AS referee_number
+					FROM tags t JOIN users u ON t.id_creator = u.id
+					WHERE t.id =?",array($tag['id']));
 				incPoints(7,$tag['idTag'],$tag['idUser'],$_SESSION['ws-tags']['ws-user']['id']); //incremento de hits a la tag que se recibe
 				incHitsTag($tag['idTag']);
                 $mails=explode(',',$_POST['mails']);
@@ -115,53 +118,53 @@
 					die(jsonp(array('success'=>$pass,'msg'=>$msgBox)));
 				}
 			break; //share
-				//delete
-				case 6:
-					if(isset($_REQUEST['url'])){
-						$idcre=CON::getVal("SELECT id_creator FROM tags WHERE id=?",array($tag['id']));
-						CON::update("tags","status='2'","id=? AND source =? AND id_creator=? AND status='10' ",array($tag['id'],$tag['id'],$idcre));
+			//delete
+			case 6:
+				if(isset($_REQUEST['url'])){
+					$idcre=CON::getVal("SELECT id_creator FROM tags WHERE id=?",array($tag['id']));
+					CON::update("tags","status='2'","id=? AND source =? AND id_creator=? AND status='10' ",array($tag['id'],$tag['id'],$idcre));
 
-						if (isset($_GET['report'])) {
-							$idcre=CON::getVal("SELECT id_creator FROM tags WHERE id=?",array($tag['id']));
-							CON::update("tags","status='2'","id=? AND source =? AND id_creator=? AND status='1' ",array($tag['id'],$tag['id'],$idcre));
-							CON::update("tags_report","status='2'","id_tag=? AND status='1' ",array($tag['id']));
-						}
-						// echo CON::lastSql();
-						header('Location: '.$config->main_server.$_REQUEST['url'].'');
-					}else{
-						if($tag['status']=='4') {//si la tag es privada
-							// eliminamos los tags privados
-							$delete = CON::delete("tags_privates","id_tag =? AND id_friend=?",array($tag['id'],$myId));
-							// eliminamos las notificaciones de esa tag
-							$delete = CON::delete("users_notifications","id_source =? AND id_friend = ? AND id_type IN (1,2,4,7,8,9,10)",array($tag['id'],$myId));
-							// eliminamos los comentarios de la tag
-							$delete = CON::delete("comments","id_type='4' AND id_source=? AND id_user_from =?",array($tag['id'],$myId));
-							$msgBox = 1;
-						} else {
-							//validamos si la tag es un sponsor activo
-							$validateSponsor = CON::count("users_publicity","id_tag=? AND status ='1'",array($tag['id']));
-							//AND id_user = "'.$myId.'"
-							if ($validateSponsor==0){ //si la tag no es un patrocinio
-								$redist = CON::getVal("SELECT source FROM tags WHERE source !=? AND id!=source AND id=? LIMIT 1",array($tag['id'],$tag['id']));
-								if($redist!=''){//si fue redistribuida se le cambia el estado
-									CON::update("tags","status='2'","id=? AND source=? AND (id_creator=? OR id_user=?)",array($tag['id'],$redist,$myId,$myId));
-								}else{ //si no fue redistribuida  la eliminamos
-									CON::update("tags","status='2'","source=? AND id=source AND (id_creator=? OR id_user=?)",array($tag['id'],$myId,$myId));
-									// eliminamos los tags privados
-									CON::delete("tags_privates","id_tag=?",array($tag['id']));
-									// eliminamos las notificaciones de esa tag
-									CON::delete("users_notifications","id_source=? AND id_type IN (1,2,4,7,8,9,10)",array($tag['id']));
-									// eliminamos los comentarios de la tag
-									CON::delete("comments","id_source=?",array($tag['id']));
-								}
-								//decremento del numero de tags del usuario
-								updateUserCounters(	$_SESSION['ws-tags']['ws-user']['id'], 'tags_count', '1',	'-');
-								$msgBox = 1;
-							}elseif($validateSponsor>0){ //si la tag esta patrocinada
-								$msgBox = MENUTAG_CTRERRORDELETETAGSPONSORED;
-							}
-						}//else delprivate
+					if (isset($_GET['report'])) {
+						$idcre=CON::getVal("SELECT id_creator FROM tags WHERE id=?",array($tag['id']));
+						CON::update("tags","status='2'","id=? AND source =? AND id_creator=? AND status='1' ",array($tag['id'],$tag['id'],$idcre));
+						CON::update("tags_report","status='2'","id_tag=? AND status='1' ",array($tag['id']));
 					}
+					// echo CON::lastSql();
+					header('Location: '.$config->main_server.$_REQUEST['url'].'');
+				}else{
+					if($tag['status']=='4') {//si la tag es privada
+						// eliminamos los tags privados
+						$delete = CON::delete("tags_privates","id_tag =? AND id_friend=?",array($tag['id'],$myId));
+						// eliminamos las notificaciones de esa tag
+						$delete = CON::delete("users_notifications","id_source =? AND id_friend = ? AND id_type IN (1,2,4,7,8,9,10)",array($tag['id'],$myId));
+						// eliminamos los comentarios de la tag
+						$delete = CON::delete("comments","id_type='4' AND id_source=? AND id_user_from =?",array($tag['id'],$myId));
+						$msgBox = 1;
+					} else {
+						//validamos si la tag es un sponsor activo
+						$validateSponsor = CON::count("users_publicity","id_tag=? AND status ='1'",array($tag['id']));
+						//AND id_user = "'.$myId.'"
+						if ($validateSponsor==0){ //si la tag no es un patrocinio
+							$redist = CON::getVal("SELECT source FROM tags WHERE source !=? AND id!=source AND id=? LIMIT 1",array($tag['id'],$tag['id']));
+							if($redist!=''){//si fue redistribuida se le cambia el estado
+								CON::update("tags","status='2'","id=? AND source=? AND (id_creator=? OR id_user=?)",array($tag['id'],$redist,$myId,$myId));
+							}else{ //si no fue redistribuida  la eliminamos
+								CON::update("tags","status='2'","source=? AND id=source AND (id_creator=? OR id_user=?)",array($tag['id'],$myId,$myId));
+								// eliminamos los tags privados
+								CON::delete("tags_privates","id_tag=?",array($tag['id']));
+								// eliminamos las notificaciones de esa tag
+								CON::delete("users_notifications","id_source=? AND id_type IN (1,2,4,7,8,9,10)",array($tag['id']));
+								// eliminamos los comentarios de la tag
+								CON::delete("comments","id_source=?",array($tag['id']));
+							}
+							//decremento del numero de tags del usuario
+							updateUserCounters(	$_SESSION['ws-tags']['ws-user']['id'], 'tags_count', '1',	'-');
+							$msgBox = 1;
+						}elseif($validateSponsor>0){ //si la tag esta patrocinada
+							$msgBox = MENUTAG_CTRERRORDELETETAGSPONSORED;
+						}
+					}//else delprivate
+				}
 			break; //end delete
 			case 8: ////report
 				//validamos si es mi misma tag
@@ -194,132 +197,71 @@
 					}else echo '<div class="error_message"><img src="'.$config->main_server.'imgs/message_error.png" /> '.$lang["ACTIONTAG_REPORTERROR1"].'</div>';
 				}else echo '<div class="error_message"><img src="'.$config->main_server.'imgs/message_error.png" /> '.$lang["ACTIONTAG_REPORTERROR2"].'</div>';
 			break;//END report
-// 			// luego del preview (9) ***todo esto no se usa
-// 				case 9:
-// 					if(false){
-// 						if ($_SESSION['ws-tags']['ws-user']['update_tag_id']!=''){
-// 							//borramos la tag ya que estamos en un preview
-// //								$delete = $GLOBALS['cn']->query("
-// //									DELETE FROM tags
-// //									WHERE
-// //										id = '".$_SESSION['ws-tags']['ws-user']['update_tag_id']."' AND
-// //										id_creator = '".$_SESSION['ws-tags']['ws-user']['id']."'
-// //									LIMIT 1
-// //								");
-// 							//borrado de las tags_privates temporales del usuario
-// 							$delete = $GLOBALS['cn']->query("
-// 								DELETE FROM tags_privates
-// 								WHERE
-// 									id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND
-// 									id_tag = '".$_SESSION['ws-tags']['ws-user']['update_tag_id']."'
-// 							");
-// 							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 1); //comentarios
-// 							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 2); //redistribuciones
-// 							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 3); //likes
-// 							transferTag($_SESSION['ws-tags']['ws-user']['update_tag_id'], $tag['id'], 4); //notificaciones
-// 							$_SESSION['ws-tags']['ws-user']['update_tag_id']='';
+			//sponsor tag
+			case 10:
+				$monto_inversion = str_replace(",","",$_GET['inver']);
 
-// 						}// if $_POST[update]
-// 						//verificamos si es un tag privado
-// 						$query	= $GLOBALS['cn']->query("SELECT id_tag FROM tags_privates WHERE id_tag = '".$tag['id']."'");
+				//sondeo publicitario
+				$valida = $GLOBALS['cn']->query("SELECT id, click_to, cost
+												 FROM cost_publicity
+												 WHERE '".factorPublicity(4, $monto_inversion)."' BETWEEN click_from AND click_to");
 
-// 						//asiganamos el status de la nueva tag
-// 						$status	= (mysql_num_rows($query)==0) ? 1 : 4;
-// 						//actualizamos tabla tags
-// 						$update	= $GLOBALS['cn']->query("UPDATE tags SET status = '".$status."' WHERE source = '".$tag['id']."' AND id_creator = '".$_SESSION['ws-tags']['ws-user']['id']."' AND status = '0' ");
-// 						//updating users data, se verifica que sea un tag valido
-// 						if ($status!='0'){
-// 							$points = getCreatingTagPoints();
-// 							//updateUserCounters ($_SESSION['ws-tags']['ws-user']['id'], "tags_count", '1', '+');//numero de tags
-// 							updateUserCounters($_SESSION['ws-tags']['ws-user']['id'], 'accumulated_points', $points, '+');//puntos del usuarios
-// 							updateUserCounters($_SESSION['ws-tags']['ws-user']['id'], 'current_points', $points, '+');//puntos del usuarios
-// 						}
-// 						if ($status==4){
-// 							//actualizamos tabla privates_tags
-// 							$update = $GLOBALS['cn']->query("UPDATE tags_privates SET status_tag = '".$status."'
-// 														 WHERE id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND
-// 															   id_tag  = '".$tag['id']."' AND
-// 															   status_tag = '0'");
-// 							$friends = $GLOBALS['cn']->query("SELECT id_friend, id_tag
-// 															  FROM tags_privates
-// 															  WHERE id_user = '".$_SESSION['ws-tags']['ws-user']['id']."' AND
-// 																	id_tag  = '".$tag['id']."' AND
-// 																	status_tag = '4'");
-// 							while ($friend = mysql_fetch_assoc($friends)){
-// 									notifications($friend['id_friend'], $friend['id_tag'], 1, md5($friend['id_tag']));
-// 							} //while
-// 						}
-// 						$status =$GLOBALS['cn']->query("SELECT status, id_group, id_business_card
-// 															  FROM tags
-// 															  WHERE id  = '".$tag['id']."' ");
-// 						$status=mysql_fetch_assoc($status);
-// 						echo $status['status'].'|'.md5($status['id_group']).'|'.$status['id_business_card'];
-// 					}
-// 				break;
-			// END - luego del preview (9)
-				//sponsor tag
-				case 10:
-					$monto_inversion = str_replace(",","",$_GET['inver']);
+				if (mysql_num_rows($valida)>0){
+					$_datos = "SELECT id, click_to, cost
+							   FROM cost_publicity
+							   WHERE '".factorPublicity(4, $monto_inversion)."' BETWEEN click_from AND click_to";
 
-					//sondeo publicitario
-					$valida = $GLOBALS['cn']->query("SELECT id, click_to, cost
-													 FROM cost_publicity
-													 WHERE '".factorPublicity(4, $monto_inversion)."' BETWEEN click_from AND click_to");
+				}elseif (mysql_num_rows($valida)==0){
+					$_datos = "SELECT
+							MAX(cost) AS cost,
+							id,
+							click_to
+						FROM cost_publicity
+						WHERE id_typepublicity = '4'
+						GROUP BY cost
+						LIMIT 0, 1
+					";
+				}
 
-					if (mysql_num_rows($valida)>0){
-						$_datos = "SELECT id, click_to, cost
-								   FROM cost_publicity
-								   WHERE '".factorPublicity(4, $monto_inversion)."' BETWEEN click_from AND click_to";
-
-					}elseif (mysql_num_rows($valida)==0){
-						$_datos = "SELECT MAX(cost) AS cost,
-										  id,
-										  click_to
-								   FROM cost_publicity
-								   WHERE id_typepublicity = '4'
-								   GROUP BY cost
-								   LIMIT 0, 1";
+				$costos = $GLOBALS['cn']->query($_datos);
+				$costo  = mysql_fetch_assoc($costos);
+				//insert/update patrocinio
+				if( !$_GET[update] ){
+					$insert = $GLOBALS['cn']->query("
+						INSERT INTO users_publicity SET
+							id_tag				= '".$tag['id']."',
+							id_type_publicity	= '4',
+							id_cost				= '".$costo['id']."',
+							id_user				= '".$_SESSION['ws-tags']['ws-user']['id']."',
+							title				= '',
+							message				= '',
+							link				= '',
+							picture				= '',
+							picture_title_tag	= '',
+							cost_investment		= '".$monto_inversion."',
+							click_max			= '".($_SESSION['ws-tags']['ws-user']['super_user']=='0' ? intval($monto_inversion/$costo['cost']) : 100)."',
+							click_current		= '0',
+							status				= '".($_SESSION['ws-tags']['ws-user']['super_user']=='0' ? 2 : 1)."'
+					");
+					$id_publicity = mysql_insert_id();
+					$tag_sponsor = $GLOBALS['cn']->query("SELECT id_creator FROM tags WHERE id = '".$tag['id']."'");
+					$tag_sponsor_creator  = mysql_fetch_assoc($tag_sponsor);
+					//notificacion de patrocinio - envio de correo
+					notifications($tag_sponsor_creator['id_creator'],$tag['id'],9);
+				}else{
+					//$update = $GLOBALS['cn']->query("UPDATE users_publicity SET link = '".$_GET['link']."' WHERE md5(id) = '".$_GET['p']."'");
+					$id_publicity = campo("users_publicity", "md5(id)", $_GET['p'], "id");
+				}
+				if( $_SESSION['ws-tags']['ws-user']['super_user']=='0' ) {
+					//paypal (se redirecciona a paypal solo cuando se hace el insert de la publicidad)
+					if( $_GET['update']=='' && $_SESSION['ws-tags']['ws-user']['super_user']=='0') {
+						header ("Location: ../../views/pay.view.php?payAcc=personaltag&uid=$id_publicity");
 					}
-
-					$costos = $GLOBALS['cn']->query($_datos);
-					$costo  = mysql_fetch_assoc($costos);
-					//insert/update patrocinio
-					if( !$_GET[update] ){
-						$insert = $GLOBALS['cn']->query("
-							INSERT INTO users_publicity SET
-								id_tag				= '".$tag['id']."',
-								id_type_publicity	= '4',
-								id_cost				= '".$costo['id']."',
-								id_user				= '".$_SESSION['ws-tags']['ws-user']['id']."',
-								title				= '',
-								message				= '',
-								link				= '',
-								picture				= '',
-								picture_title_tag	= '',
-								cost_investment		= '".$monto_inversion."',
-								click_max			= '".($_SESSION['ws-tags']['ws-user']['super_user']=='0' ? intval($monto_inversion/$costo['cost']) : 100)."',
-								click_current		= '0',
-								status				= '".($_SESSION['ws-tags']['ws-user']['super_user']=='0' ? 2 : 1)."'
-						");
-						$id_publicity = mysql_insert_id();
-						$tag_sponsor = $GLOBALS['cn']->query("SELECT id_creator FROM tags WHERE id = '".$tag['id']."'");
-						$tag_sponsor_creator  = mysql_fetch_assoc($tag_sponsor);
-						//notificacion de patrocinio - envio de correo
-						notifications($tag_sponsor_creator['id_creator'],$tag['id'],9);
-					}else{
-						//$update = $GLOBALS['cn']->query("UPDATE users_publicity SET link = '".$_GET['link']."' WHERE md5(id) = '".$_GET['p']."'");
-						$id_publicity = campo("users_publicity", "md5(id)", $_GET['p'], "id");
-					}
-					if( $_SESSION['ws-tags']['ws-user']['super_user']=='0' ) {
-						//paypal (se redirecciona a paypal solo cuando se hace el insert de la publicidad)
-						if( $_GET['update']=='' && $_SESSION['ws-tags']['ws-user']['super_user']=='0') {
-							header ("Location: ../../views/pay.view.php?payAcc=personaltag&uid=$id_publicity");
-						}
-					}
-					////////
-					//echo PUBLICITY_MSGSUCCESSFULLY;
-			   break;//case 10
-		   case 11://add dislikes
+				}
+				////////
+				//echo PUBLICITY_MSGSUCCESSFULLY;
+			break;//case 10
+			case 11://add dislikes
 				if (!CON::getVal("SELECT id FROM dislikes WHERE id_source=? AND id_user=?",array($tag['id'],$myId))){
 					CON::insert("dislikes","id_user=?,id_source=?,date=NOW()",array($myId,$tag['id']));
 					CON::delete("likes","id_user=? AND id_source=?",array($myId,$tag['id']));
@@ -345,20 +287,18 @@
 			break;
 			// END - dislikes (10)
 			// get likes and dislikes (12)
-				case 12:
-					function likes($tag,$id){
-						return $id==''?0:
-						(existe('likes', 'id_source', 'WHERE id_source='.$tag.' AND id_user='.$id)?1:
-						(existe('dislikes','id_source', 'WHERE id_source="'.$tag.'" AND id_user="'.$id.'"')?-1:
-						0));
-					}
-					$taglikeIt = likes($tag['id'],$_SESSION['ws-tags']['ws-user']['id']);
-
-					echo numRecord('likes', 'WHERE id_source = '.$tag['id']).'|'.numRecord('dislikes', 'WHERE id_source = '.$tag['id']).'|'.$taglikeIt;
-				break;
+			case 12:
+				function likes($tag,$id){
+					return $id==''?0:
+					(existe('likes', 'id_source', 'WHERE id_source='.$tag.' AND id_user='.$id)?1:
+					(existe('dislikes','id_source', 'WHERE id_source="'.$tag.'" AND id_user="'.$id.'"')?-1:
+					0));
+				}
+				$taglikeIt = likes($tag['id'],$_SESSION['ws-tags']['ws-user']['id']);
+				echo numRecord('likes', 'WHERE id_source = '.$tag['id']).'|'.numRecord('dislikes', 'WHERE id_source = '.$tag['id']).'|'.$taglikeIt;
+			break;
 		}//switch
 	}else{
 		$msgBox = 'ERROR';
 	}
 	echo $msgBox;
-?>

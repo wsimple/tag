@@ -2,6 +2,7 @@
 include '../header.json.php';
 
 function login_json($data){
+	global $myId;
 	//se definen los parametros
 	$login=cls_string($data['login']);
 	$pass=cls_string($data['pwd']);
@@ -80,8 +81,11 @@ function login_json($data){
 					$res['uid']=md5($sesion['id']);
 					$res['code']=$sesion['code'];
 					$res['msg']=$sesion['code'];
-					if (PAYPAL_PAYMENTS) {
-						$_SESSION['business_payment']=$_SESSION['ws-tags'];
+					if(PAYPAL_PAYMENTS){
+						with_session(function($sesion){
+							$sesion['business_payment']=$sesion['ws-tags'];
+							return $sesion;
+						});
 						$res['from']='paypal';
 						unset($_SESSION['ws-tags']);
 					}else{
@@ -95,7 +99,6 @@ function login_json($data){
 								array($_SESSION['ws-tags']['ws-user']['id']));
 						}
 					}
-					
 					ifIsLogged();
 					return $res;
 				break;
@@ -123,19 +126,21 @@ function login_json($data){
 						$res['msg']=$sesion['code'];
 						$res['from']='renewaccount';
 						createSession($sesion);
-						$_SESSION['business_payment']=$_SESSION['ws-tags'];
+						with_session(function($sesion){
+							$sesion['business_payment']=$sesion['ws-tags'];
+							return $sesion;
+						});
 						unset($_SESSION['ws-tags']);
 						ifIsLogged();
 						return $res;
 					}else{
 						createSession($sesion);
-						$myId=$_SESSION['ws-tags']['ws-user']['id'];
 						$res['numFriends']=CON::getVal('SELECT COUNT(id_user) as num from users_links where id_user = ?',array($_SESSION['ws-tags']['ws-user']['id']));
 						//Aumentamos el contador de login
 						$loginsuccess = "login_fail='".((string)json_encode(array('login_count_fail' => 0, 'login_lasttime' => date("Y-m-d H:i:s"))))."'";
 						CON::update('users','logins_count=logins_count+1,'.$loginsuccess,'id=?',array($sesion['id']));
 						//CON::update('users','logins_count=logins_count+1,login_lasttime=NOW(),login_count_fail=0','id=?',array($sesion['id']));
-						$_SESSION['ws-tags']['ws-user']['logins_count']++;
+						with_session(function($sesion){$_SESSION['ws-tags']['ws-user']['logins_count']++;});
 						#Guardamos el device del ususario.
 						$device=saveDevice($data['mobile']);
 						#enviar resultados de login
@@ -172,26 +177,20 @@ function login_json($data){
 				break;#2
 				default: return $res;
 			}#switch (status)
-		}
-		else
-		{
-			if ($version==2)
-			{
+		}else{
+			if($version==2){
 				//PROCESO DE SEGURIDAD
 				//Registro el intento de login
-				$auditlogin['login_lasttime'] = ($auditlogin['login_count_fail'] == 0) ? date("Y-m-d H:i:s") : $auditlogin['login_lasttime'];
-				$auditlogin['login_count_fail'] ++;
+				$auditlogin['login_lasttime']=($auditlogin['login_count_fail']==0)?date("Y-m-d H:i:s"):$auditlogin['login_lasttime'];
+				$auditlogin['login_count_fail']++;
 				//$loginfail = "login_fail='".((string)json_encode($auditlogin))."'";
-				CON::update('users','login_fail=?','id=?',array(json_encode($auditlogin), $sesion['id']));
-
+				CON::update('users','login_fail=?','id=?',array(json_encode($auditlogin),$sesion['id']));
 				$minutes_lastlogin = (strtotime(date("Y-m-d H:i:s")) - strtotime($auditlogin['login_lasttime']))/60;
-				
 				//$updtime = 'login_lasttime='.(($sesion['login_count_fail']==0) ? 'NOW()': 'login_lasttime');
 				//CON::update('users','login_count_fail=login_count_fail+1,'.$updtime,'id=?',array($sesion['id']));
 
 				//if ($sesion['login_count_fail']<4)
-				if ($auditlogin['login_count_fail'] < 5)
-				{
+				if($auditlogin['login_count_fail']<5){
 					$res=array(
 						'logged'=>false,
 						'msg'=>MSGERROR_PASSWINVALID,
@@ -235,23 +234,22 @@ function login_json($data){
 			}
 			else
 			{
-				$res=array(
-						'logged'=>false,
-						'msg'=>MSGERROR_PASSWINVALID,
-						'from'=>7
-					);
-				return $res;
+				return array(
+					'logged'=>false,
+					'msg'=>MSGERROR_PASSWINVALID,
+					'from'=>7
+				);
 			}
 		}
 	}else{#validacion de login y passowrd
 		#can't login
+		ifIsLogged();
 		$res=array(
 			'logged'=>false,
 			'msg'=>MSGERROR_USERNOTEXIST,
 			'from'=>0
 		);
 		//_imprimir($res);
-		ifIsLogged();
 		return $res;
 	}
 }
@@ -266,4 +264,3 @@ if(!$notAjax){
 	$data['mobile']=isset($_REQUEST['mobile']);
 	die(jsonp(login_json($data)));
 }
-?>
