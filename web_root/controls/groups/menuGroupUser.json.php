@@ -1,5 +1,8 @@
 <?php
 	include '../header.json.php';
+	if (!$myId) {
+		die('{}');
+	}
     if (isset($_GET['code'])){
         $users = CON::query("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id)) = ? ",array($_GET['code']));
         //$users = CON::query("SELECT id FROM users WHERE id = 7 ");
