@@ -261,12 +261,10 @@
 					default:
 
 						if( $_SESSION['ws-tags'][chkpublicity]==1 ) { //se valida que solo pase una vez por aqui
-
-							$_SESSION['ws-tags'][chkpublicity] = 0;
+							save_in_session(array('ws-tags'=>array('chkpublicity'=>0)));
 							$imagesAllowed = array('jpg','jpeg','png','gif');
 							$photo         = "";
 							$save          = 1;
-
 							if( !$_POST[picture] ) {
 								if ($_POST[type_p]!=5) {
 									if( $_FILES[publi_img][error]==0 ) {

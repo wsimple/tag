@@ -47,6 +47,7 @@ class Facebook extends BaseFacebook
   public function __construct($config) {
     if (!session_id()) {
       session_start();
+      session_write_close();
     }
     parent::__construct($config);
     if (!empty($config['sharedSession'])) {
@@ -106,7 +107,9 @@ class Facebook extends BaseFacebook
     }
 
     $session_var_name = $this->constructSessionVariableName($key);
+    session_start();
     $_SESSION[$session_var_name] = $value;
+    session_write_close();
   }
 
   protected function getPersistentData($key, $default = false) {
@@ -127,7 +130,9 @@ class Facebook extends BaseFacebook
     }
 
     $session_var_name = $this->constructSessionVariableName($key);
+    session_start();
     unset($_SESSION[$session_var_name]);
+    session_write_close();
   }
 
   protected function clearAllPersistentData() {

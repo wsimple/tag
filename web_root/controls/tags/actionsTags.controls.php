@@ -54,12 +54,14 @@
 							$sesion['ws-tags']['ws-user']['like']=array();
 							return $sesion;
 						});
-						if ($bandera==false){
-							$i=count($_SESSION['ws-tags']['ws-user']['like']);
+						if($bandera==false){
 							$select_id = $GLOBALS['cn']->query("SELECT id_creator, id_user FROM tags WHERE id = '".$tag['id']."'");
 							$selectUser = mysql_fetch_assoc($select_id);
 							notifications($tag['id_user'],$tag['id'],2);
-							$_SESSION['ws-tags']['ws-user']['like'][$i]=$tag['id'];
+							with_session(function($sesion)use($tag){
+								$sesion['ws-tags']['ws-user']['like'][]=$tag['id'];
+								return $sesion;
+							});
 						}
 					}
 				}

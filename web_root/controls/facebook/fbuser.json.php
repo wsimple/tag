@@ -88,7 +88,8 @@ if($user){
 				$mobile=isset($_GET['mobile'])||$_POST['mobile'];
 				$device=saveDevice($mobile);
 				keepLogin($device);
-				if($user['status']=='2') $_SESSION['ws-tags']['ws-user']['rgfb']=true;
+				if($user['status']=='2')
+					save_in_session(array('ws-tags'=>array('ws-user'=>array('rgfb'=>true))));
 				$res['success']=1;
 				$res['logged']=true;
 			}

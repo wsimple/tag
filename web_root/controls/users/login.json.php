@@ -140,7 +140,10 @@ function login_json($data){
 						$loginsuccess = "login_fail='".((string)json_encode(array('login_count_fail' => 0, 'login_lasttime' => date("Y-m-d H:i:s"))))."'";
 						CON::update('users','logins_count=logins_count+1,'.$loginsuccess,'id=?',array($sesion['id']));
 						//CON::update('users','logins_count=logins_count+1,login_lasttime=NOW(),login_count_fail=0','id=?',array($sesion['id']));
-						with_session(function($sesion){$_SESSION['ws-tags']['ws-user']['logins_count']++;});
+						with_session(function($sesion){
+							$sesion['ws-tags']['ws-user']['logins_count']++;
+							return $sesion;
+						});
 						#Guardamos el device del ususario.
 						$device=saveDevice($data['mobile']);
 						#enviar resultados de login

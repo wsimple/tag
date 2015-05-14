@@ -241,12 +241,9 @@ function hash_call($methodName,$nvpStr)
 	//convrting NVPResponse to an Associative Array
 	$nvpResArray=deformatNVP($response);
 	$nvpReqArray=deformatNVP($nvpreq);
-	// $_SESSION['nvpReqArray']=$nvpReqArray;
 
 	if (curl_errno($ch)) {
 		// moving to display page to display curl errors
-		  // $_SESSION['curl_error_no']=curl_errno($ch) ;
-		  // $_SESSION['curl_error_msg']=curl_error($ch);
 		  // $location = "APIError.php";
 		  // header("Location: $location");
 	 } else {
