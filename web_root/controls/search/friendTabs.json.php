@@ -11,13 +11,12 @@ include '../header.json.php';
 		if($_REQUEST['more']!=1){
 			$ini = 0;
 		}else{
-			with_session(function($sesion){
+			with_session(function(&$sesion){
 				if(!isset($sesion['ws-tags']['see_more']['friendsTabs'])){
 					$sesion['ws-tags']['see_more']['friendsTabs']=10;
 				}else{
 					$sesion['ws-tags']['see_more']['friendsTabs']+=10;
 				}
-				return $sesion;
 			});
 			$ini = $_SESSION['ws-tags']['see_more']['friendsTabs'];
 		}

@@ -59,13 +59,13 @@ include '../header.json.php';
 					$orderShopping[] = $detailsOrders;
 					$i++;
 					$fechaOrder = $detailsOrders['fecha'];
-					unset($_SESSION['carrito']);
+					with_session(function(&$sesion){ unset($sesion['carrito']); });
 			}
 		}else{
 			$totalPrice = 0;
 			$orderShopping = 0;
 			$i = 0;
-			unset($_SESSION['car']);
+			with_session(function(&$sesion){ unset($sesion['car']); });
 		}
 
 		$date=explode(' ',$fechaOrder);

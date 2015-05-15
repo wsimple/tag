@@ -82,12 +82,11 @@ function login_json($data){
 					$res['code']=$sesion['code'];
 					$res['msg']=$sesion['code'];
 					if(PAYPAL_PAYMENTS){
-						with_session(function($sesion){
+						with_session(function(&$sesion){
 							$sesion['business_payment']=$sesion['ws-tags'];
-							return $sesion;
+							unset($sesion['ws-tags']);
 						});
 						$res['from']='paypal';
-						unset($_SESSION['ws-tags']);
 					}else{
 						$res['logged']=true;
 						CON::update('users','type=1,status=1','id=?',array($_SESSION['ws-tags']['ws-user']['id']));
@@ -126,11 +125,10 @@ function login_json($data){
 						$res['msg']=$sesion['code'];
 						$res['from']='renewaccount';
 						createSession($sesion);
-						with_session(function($sesion){
+						with_session(function(&$sesion){
 							$sesion['business_payment']=$sesion['ws-tags'];
-							return $sesion;
+							unset($sesion['ws-tags']);
 						});
-						unset($_SESSION['ws-tags']);
 						ifIsLogged();
 						return $res;
 					}else{
@@ -140,9 +138,8 @@ function login_json($data){
 						$loginsuccess = "login_fail='".((string)json_encode(array('login_count_fail' => 0, 'login_lasttime' => date("Y-m-d H:i:s"))))."'";
 						CON::update('users','logins_count=logins_count+1,'.$loginsuccess,'id=?',array($sesion['id']));
 						//CON::update('users','logins_count=logins_count+1,login_lasttime=NOW(),login_count_fail=0','id=?',array($sesion['id']));
-						with_session(function($sesion){
+						with_session(function(&$sesion){
 							$sesion['ws-tags']['ws-user']['logins_count']++;
-							return $sesion;
 						});
 						#Guardamos el device del ususario.
 						$device=saveDevice($data['mobile']);

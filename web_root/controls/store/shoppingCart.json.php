@@ -49,7 +49,7 @@ include ('../../class/class.phpmailer.php');
 					$idOrder=  mysql_fetch_assoc($idOrder);
 					$idOrder=$idOrder['id'];
 					if (!existe('store_orders_detail', 'id', "WHERE id_status = '11' AND id_order='".$idOrder."' AND id_product='".$producto."'")){
-						with_session(function($sesion)use($producto,$product){
+						with_session(function(&$sesion)use($producto,$product){
 							$sesion['car'][$producto]['id'] = $product['id'];
 							$sesion['car'][$producto]['seller'] = $product['seller'];
 							$sesion['car'][$producto]['id_category'] = $product['id_category'];
@@ -67,7 +67,6 @@ include ('../../class/class.phpmailer.php');
 							$sesion['car'][$producto]['paypal'] = $product['paypal_account'];
 							//Para saber si tiene que pagar productos en paypal
 							if(PAYPAL_PAYMENTS&&$product['formPayment']==1) $sesion['havePaypalPayment']=true;
-							return $sesion;
 						});
 
 						$price = 0;
@@ -75,11 +74,10 @@ include ('../../class/class.phpmailer.php');
 						if ($numIdOrder==0){
 							$GLOBALS['cn']->query("INSERT INTO store_orders SET id_status = '1', id_user = '".$myId."'");
 							$idOrder=  mysql_insert_id();
-							with_session(function($sesion)use($producto,$product){
+							with_session(function(&$sesion)use($producto,$product){
 								$sesion['car']['order']['order']=$idOrder;
 								$sesion['car']['order']['comprador']=$myId;
 								$sesion['car']['order']['comprador_code']=$sesion['ws-tags']['ws-user']['code'];
-								return $sesion;
 							});
 							$tiempo=getTimeShoppingCarActive();
 							$minuto=$tiempo>=60?intval($tiempo%60):$tiempo;
@@ -108,9 +106,8 @@ include ('../../class/class.phpmailer.php');
 						if ($product['id_category']=='1'){ $jsonResponse['datosCar2']['msg']='backg'; $jsonResponse['datosCar2']['add'] = 'no';}
                         else{
                             $jsonResponse['datosCar2']['new']='si';
-							with_session(function($sesion)use($producto,$idOrder){
+							with_session(function(&$sesion)use($producto,$idOrder){
 								$sesion['car'][$producto]['cant'] = campo('store_orders_detail', 'id_order', $idOrder, 'cant','AND id_product="'.$producto.'"')+1;
-								return $sesion;
 							});
 							if ($product['stock']>=$_SESSION['car'][$producto]['cant']){
 								$GLOBALS['cn']->query('	UPDATE store_orders_detail SET cant="'.$_SESSION['car'][$producto]['cant'].'" 
@@ -127,21 +124,21 @@ include ('../../class/class.phpmailer.php');
 		break;
 
 		case 2:
-            if (isset($_GET['all'])){
-                $where='';
-                if (isset($_GET['idOrder'])){ $idOrder=$_GET['idOrder']; }
-                else{ 
-                    if (!isset($_SESSION['car'])) createSessionCar (); 
-                    $idOrder=md5($_SESSION['car']['order']['order']);
-                }
-                switch ($_GET['mod']){
-                    case 'pay': //orden pendiente por pagar //orden que no ha sido cancelada en paypal
-                        $where='md5(id_order)="'.$idOrder.'" AND id_status="11"'; $statusOrder='11';
-                        break;
-                    case 'wish': //lista de deseos 
-                        $where='md5(id_order)="'.$idOrder.'" AND id_status="5"'; $statusOrder='5';
-                        unset($_SESSION['store']['wish']);
-                        break;
+			if (isset($_GET['all'])){
+				$where='';
+				if (isset($_GET['idOrder'])){ $idOrder=$_GET['idOrder']; }
+				else{
+					if (!isset($_SESSION['car'])) createSessionCar();
+					$idOrder=md5($_SESSION['car']['order']['order']);
+				}
+				switch ($_GET['mod']){
+					case 'pay': //orden pendiente por pagar //orden que no ha sido cancelada en paypal
+						$where='md5(id_order)="'.$idOrder.'" AND id_status="11"'; $statusOrder='11';
+					break;
+					case 'wish': //lista de deseos
+						$where='md5(id_order)="'.$idOrder.'" AND id_status="5"'; $statusOrder='5';
+						with_session(function(&$sesion){ unset($sesion['store']['wish']); });
+					break;
                     case 'wish-pend': //productos de la lista de deseos que no poseen stock o han sido eliminados
                         $sqlIN=''; $sql="SELECT p.id 
                                         FROM store_products p
@@ -166,13 +163,15 @@ include ('../../class/class.phpmailer.php');
                         }
                         $where='md5(id_order)="'.$idOrder.'" AND id_product IN ('.$sqlIN.');'; $statusOrder='1';
                         break;
-                    default : //carrito de compras
-                        $where='md5(id_order)="'.$idOrder.'" AND id_status="11";'; $statusOrder='1';
-                        unset($_SESSION['store']['car']);
-                        unset($_SESSION['havePaypalPayment']);
-                        unset($_SESSION['car']);
-                }
-				if ($_GET['mod'] == 'pay'){
+					default : //carrito de compras
+						$where='md5(id_order)="'.$idOrder.'" AND id_status="11";'; $statusOrder='1';
+						with_session(function(&$sesion){
+							unset($sesion['store']['car']);
+							unset($sesion['havePaypalPayment']);
+							unset($sesion['car']);
+						});
+				}
+				if($_GET['mod']=='pay'){
                     $result=$GLOBALS['cn']->query('SELECT 
                                                         d.cant,
                                                         d.id_user,
@@ -200,11 +199,13 @@ include ('../../class/class.phpmailer.php');
                         $num= numRecord('store_orders_detail', "WHERE md5(id_order)='".$idOrder."' AND id_status='".(($statusOrder=='1')?'11':$statusOrder)."'");
                         if ($num==0){
                             $GLOBALS['cn']->query('UPDATE `store_orders` SET id_status="2" WHERE md5(id)="'.$idOrder.'" AND id_status="'.$statusOrder.'" AND id_user="'.$myId.'"');
-                            if ($_GET['mod']=='car-pend'){
-                                unset($_SESSION['store']['car']);
-                                unset($_SESSION['havePaypalPayment']);
-                                unset($_SESSION['car']);
-                            }else{ unset($_SESSION['store']['wish']); }
+							with_session(function(&$sesion){
+								if ($_GET['mod']=='car-pend'){
+									unset($sesion['store']['car']);
+									unset($sesion['havePaypalPayment']);
+									unset($sesion['car']);
+								}else{ unset($sesion['store']['wish']); }
+							});
                             $jsonResponse['del'] = 'all';
                         }else{ 
                             $jsonResponse['del'] = 'no-all'; 
@@ -232,28 +233,30 @@ include ('../../class/class.phpmailer.php');
                     $statusOrder='11';
                 }
                 $GLOBALS['cn']->query('UPDATE store_orders_detail SET id_status="2" WHERE id_order="'.$idOrder.'" AND id_status="'.$statusOrder.'" AND id_product="'.$producto.'"');
-				$num= numRecord('store_orders_detail', "WHERE id_order='".$idOrder."' AND id_status='".$statusOrder."'");
-                if ($num==0){
-                    $GLOBALS['cn']->query('UPDATE store_orders SET id_status="2" WHERE id="'.$idOrder.'" AND id_status="'.($statusOrder=='11'?'1':$statusOrder).'"');
-                    if ($_GET['mod']=='wish'){ unset($_SESSION['store']['wish']);}
-                    else{
-                        unset($_SESSION['car']);
-                        unset($_SESSION['store']['car']);
-                        unset($_SESSION['havePaypalPayment']);
-                    }
-                    $jsonResponse['del'] = 'all';
-                }else{
-                    if ($statusOrder=='11'){
-                        $num2= numRecord('store_orders_detail', "WHERE id_order='".$idOrder."' AND id_status='11' AND formPayment='1'");    
-                        if ($num2==0) unset($_SESSION['havePaypalPayment']);
-                    }
-                    $jsonResponse['del'] = '1'; 
-                    $jsonResponse['numR'] = $num; 
-                    $jsonResponse['delete'] = $code=md5(md5($producto)); 
-                    unset($_SESSION['car'][$producto]);
-                }
+				with_session(function(&$sesion)use($idOrder,$statusOrder,$code,$jsonResponse){
+					$num=numRecord('store_orders_detail', "WHERE id_order='".$idOrder."' AND id_status='".$statusOrder."'");
+					if($num==0){
+						CON::update('store_orders','id_status=2','id=? AND id_status=?',array($idOrder,($statusOrder=='11'?'1':$statusOrder)));
+						if ($_GET['mod']=='wish'){ unset($sesion['store']['wish']);}
+						else{
+							unset($sesion['car']);
+							unset($sesion['store']['car']);
+							unset($sesion['havePaypalPayment']);
+						}
+						$jsonResponse['del'] = 'all';
+					}else{
+						if($statusOrder=='11'){
+							$num2=numRecord('store_orders_detail', "WHERE id_order='".$idOrder."' AND id_status='11' AND formPayment='1'");
+							if($num2==0) unset($sesion['havePaypalPayment']);
+						}
+						$jsonResponse['del'] = '1';
+						$jsonResponse['numR'] = $num;
+						$jsonResponse['delete'] = $code=md5(md5($producto));
+						unset($sesion['car'][$producto]);
+					}
+				});
 			}
-            //$jsonResponse['del'].=$where;
+			//$jsonResponse['del'].=$where;
 		break;
 		case 3:
 			 $products = $GLOBALS['cn']->query('SELECT name FROM store_products WHERE md5(id) = "'.$_GET['id'].'"');
@@ -287,7 +290,9 @@ include ('../../class/class.phpmailer.php');
 							$activo=campo('store_products','id',$carrito['id'],'id_status','AND id_user="'.$carrito['seller'].'"');
 							if($activo=='2'){
 								$GLOBALS['cn']->query('DELETE FROM store_orders_detail WHERE id_order="'.$_SESSION['car']['order']['order'].'" AND id_product="'.$carrito['id'].'" AND id_user="'.$carrito['seller'].'"');
-								unset($_SESSION['car'][$carrito['id']]);
+								with_session(function(&$sesion)use($carrito){ 
+									unset($sesion['car'][$carrito['id']]);
+								});
 								break;
 							}elseif ($activo=='1') {
 								$GLOBALS['cn']->query('	UPDATE store_orders_detail SET cant="'.$result.'" 
@@ -303,7 +308,7 @@ include ('../../class/class.phpmailer.php');
 				}
                 if ($mobile && $jsonResponse['productMobile']){ die(jsonp($jsonResponse)); }
                 else if ($mobile && $jsonResponse['formPaymentD']){ die(jsonp($jsonResponse)); }
-                unset($_SESSION['ws-tags']['ws-user']['yaShipp']);
+				with_session(function(&$sesion){ unset($sesion['ws-tags']['ws-user']['yaShipp']); });
 			}
 			if (!$noValida):
 				$numIt=createSessionCar($comprador,'','count','',$ordeId);
@@ -491,7 +496,7 @@ include ('../../class/class.phpmailer.php');
 						$wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
 						if (!$wid) $wid=CON::getVal('SELECT id FROM users WHERE email="wpanel@tagbum.com" OR email="wpanel@seemytag.com";');
 						notifications($car['order']['comprador'],$car['order']['order'],16,'',$wid,$car);
-						unset($_SESSION['car']);
+						with_session(function(&$sesion){ unset($sesion['car']); });
 					}else{
 						 $datosCar = 'noCredit';
 						 $price = 0;
@@ -524,7 +529,7 @@ include ('../../class/class.phpmailer.php');
 			$mobile_code=explode('---',$mobile_code);
 			$work_code=explode('---',$work_code);
 			$country=explode('---',$country);
-			with_session(function($sesion){
+			with_session(function(&$sesion){
 				$sesion['ws-tags']['ws-user']['city']=$city;
 				$sesion['ws-tags']['ws-user']['address']=$addres;
 				$sesion['ws-tags']['ws-user']['home_phone']=$home_code[0].'-'.$phoneHome;
@@ -532,7 +537,6 @@ include ('../../class/class.phpmailer.php');
 				$sesion['ws-tags']['ws-user']['work_phone']=$work_code[0].'-'.$phoneWork;
 				$sesion['ws-tags']['ws-user']['country']=$country[1];
 				$sesion['ws-tags']['ws-user']['zip_code']=$zipCode;
-				return $sesion;
 			});
 			$last='';$home='';
 			if ($_SESSION['ws-tags']['ws-user']['type']==0){ $home="home_phone= '".$_SESSION['ws-tags']['ws-user']['home_phone']."',"; }
@@ -621,7 +625,9 @@ include ('../../class/class.phpmailer.php');
 									$activo=$result['id_status'];
 									if($activo=='2' || ($result['stock']=='0' || $result['stock']=='')){
 										$GLOBALS['cn']->query('UPDATE store_orders_detail SET id_status="2" WHERE id_order="'.$_SESSION['car']['order']['order'].'" AND id_product="'.$carrito['id'].'" AND id_user="'.$carrito['seller'].'"');
-										unset($_SESSION['car'][$carrito['id']]);
+										with_session(function(&$sesion)use($carrito){
+											unset($sesion['car'][$carrito['id']]);
+										});
 										break;
 									}elseif ($activo=='1' && ($result['stock']!='0' && $result['stock']!='')) {
 										$GLOBALS['cn']->query('	UPDATE store_orders_detail SET cant="'.$result['stock'].'" 
@@ -939,16 +945,18 @@ include ('../../class/class.phpmailer.php');
                             if ($numIt=='0' || $numIt==''){
                                 $GLOBALS['cn']->query(' UPDATE store_orders SET id_status="2"
                                                     WHERE id="'.$_SESSION['car']['order']['order'].'";');
-                                unset($_SESSION['car']);
+								with_session(function(&$sesion){ unset($sesion['car']); });
                             }else{
                                 $productos=  explode(',', $idsUpdates);
-                                foreach ($productos as $id){
-                                    unset($_SESSION['car'][$id]);
-                                    $jsonResponse['delete'][]=md5(md5($id));
-                                }
-                            }
-                            $jsonResponse['numRow']=$numIt; 
-                        }else{
+								with_session(function(&$sesion)use($productos,$jsonResponse){
+									foreach($productos as $id){
+										unset($sesion['car'][$id]);
+										$jsonResponse['delete'][]=md5(md5($id));
+									}
+								});
+							}
+							$jsonResponse['numRow']=$numIt; 
+						}else{
                             $GLOBALS['cn']->query("INSERT INTO store_orders_detail SET id_order = '".$idOrder."',
                                                           id_product = '".$product['id']."',
                                                           id_user = '".$product['seller']."',
@@ -982,15 +990,17 @@ include ('../../class/class.phpmailer.php');
                         $activo=campo('store_products','id',$carrito['id'],'id_status');
                         if($activo=='2'){
                             $GLOBALS['cn']->query('DELETE FROM store_orders_detail WHERE id_order="'.$_SESSION['car']['order']['order'].'" AND id_product="'.$carrito['id'].'"');
-                            unset($_SESSION['car'][$carrito['id']]);
-                            break;
-                        }elseif ($activo=='1') {
-                            $GLOBALS['cn']->query('	UPDATE store_orders_detail SET cant="'.$result['stock'].'" 
-                                                    WHERE id_product="'.$carrito['id'].'" 
-                                                    AND id_order="'.$_SESSION['car']['order']['order'].'"
-                                                    AND id_status=11');
-                        }
-                        break;
+							with_session(function(&$sesion)use($carrito){
+								unset($sesion['car'][$carrito['id']]);
+							});
+							break;
+						}elseif($activo=='1'){
+							CON::update('store_orders_detail',
+								'cant=?',
+								'id_product=? AND id_order=? AND id_status=11',
+								array($result['stock'],$carrito['id'],$_SESSION['car']['order']['order']));
+						}
+						break;
                     }
                 }
 			}
@@ -1040,7 +1050,9 @@ include ('../../class/class.phpmailer.php');
 				$datosCar['nmobile']=$numberm[1];
 				$datosCar['nwork']=$numberw[1];
 			}else{
-			    unset($_SESSION['ws-tags']['ws-user']['yaShipp']);
+				with_session(function(&$sesion){
+					unset($sesion['ws-tags']['ws-user']['yaShipp']);
+				});
 			    if ($_SESSION['ws-tags']['ws-user']['work_phone']!='-' &&
                     $_SESSION['ws-tags']['ws-user']['country']!='' &&
                     $_SESSION['ws-tags']['ws-user']['city']!='' &&
@@ -1071,7 +1083,7 @@ include ('../../class/class.phpmailer.php');
             
 		break;
 		}
-		//unset( $_SESSION['car']);
+		//with_session(function(&$sesion){ unset( $sesion['car']) });
 		//output
         if (isset($_GET['shop'])){
             $i = 0;

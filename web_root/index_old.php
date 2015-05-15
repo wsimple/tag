@@ -76,13 +76,12 @@
 			',array($_SESSION['business_payment']['ws-user']['id']));
 			//status = 1 = active, status = 5 = pending ambos tienen acceso
 			if($status==1&&$result['access']==1){
-				with_session(function($sesion){
+				with_session(function(&$sesion){
 					$sesion['ws-tags']=$sesion['business_payment'];
 					unset($sesion['business_payment']);
 					CON::update('users','logins_count=logins_count+1','email=?',array(cls_string($sesion['ws-tags']['ws-user']['email'])));
 					$sesion['ws-tags']['ws-user']['logins_count']++;
 					header('Location: login.php');
-					return $sesion;
 				});
 			}
 		}
@@ -91,10 +90,9 @@
 	//se actualiza la variable de session (status, pay_personal_tag) luego de venir de paypal
 	//if( $_GET['current']=='paypalpayment' ){
 	//$active_pay=CON::getRow('SELECT status,pay_personal_tag FROM users WHERE id=?',array($_SESSION['ws-tags']['ws-user']['id']));
-	// with_session(function($sesion)use($active_pay){
+	// with_session(function(&$sesion)use($active_pay){
 	// 	$sesion['ws-tags']['ws-user']['status']=$active_pay['status'];
 	// 	$sesion['ws-tags']['ws-user']['pay_perso_tag']=$active_pay['pay_personal_tag'];
-	// 	return $sesion;
 	// });
 	//}
 	//mantiene el login si se perdio la sesion y se configuro para mantenerla
@@ -161,7 +159,7 @@ if($detect->isMobile()&&!$_COOKIE['__FV__']){?>
 			}
 		<?php } ?>
 		<?php if (isset($_SESSION['ws-tags']['ws-user']['rgfb'])){
-			unset($_SESSION['ws-tags']['ws-user']['rgfb']);
+			with_session(function(&$sesion){ unset($sesion['ws-tags']['ws-user']['rgfb']); });
 		?>
 			$.dialog({
 				title	:'<logo style="width: 130px;height: 50px;"></logo>',

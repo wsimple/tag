@@ -226,18 +226,17 @@ function sinFormato($number){
 
 #devuelve un campo de la bd
 function campo($tabla,$campo,$criterio,$pos,$and=''){
-	$array=$GLOBALS['cn']->queryRow('SELECT '.$pos.' FROM '.$tabla.' WHERE '.$campo.'="'.$criterio.'" '.$and);
+	$array=CON::getRow("SELECT $pos FROM $tabla WHERE $campo='$criterio' $and");
 	return $array[$pos];
 }
 function get_campo($id,$tabla,$comp='1'){
-	$array=$GLOBALS['cn']->queryRow('SELECT '.$id.' FROM '.$tabla.' WHERE '.$comp);
+	$array=CON::getRow("SELECT $id FROM $tabla WHERE $comp");
 	return $array[$id];
 }
 
 #verifica existencia de un registro en la bd
 function existe($tabla,$campo,$where){
-	$query=$GLOBALS['cn']->query('SELECT '.$campo.' FROM '.$tabla.' '.$where);
-	return (mysql_num_rows($query)>0)?true:false;
+	return (count(CON::getRow("SELECT $campo FROM $tabla $where"))>0)?true:false;
 }
 
 #borrar de la bd
@@ -258,15 +257,12 @@ function formatoCadena($cadena,$op=1){
 
 #devueleve el numero de registros de una consulta sql
 function numRecord($tabla,$where){
-	$query=$GLOBALS['cn']->query('SELECT id FROM '.$tabla.' '.$where);
-	return mysql_num_rows($query);
+	return CON::count("SELECT id FROM $tabla $where");
 }
 
 #suma registros en sql
 function sumRecord($campo,$tabla,$where){
-	$query=$GLOBALS['cn']->query('SELECT SUM('.$campo.') AS suma FROM '.$tabla.' '.$where);
-	$array=mysql_fetch_assoc($query);
-	return $array['suma'];
+	return CON::getVal("SELECT SUM($campo) AS suma FROM $tabla $where");
 }
 
 #semilla
@@ -279,8 +275,7 @@ function make_seed(){
 #numero referencia
 function refereeNumber($cad){
 	$numero=substr(md5($cad),0,9);
-
-	if (existe('users','referee_number',' WHERE referee_number LIKE "'.$numero.'"')){
+	if (existe('users','referee_number'," WHERE referee_number LIKE '$numero'")){
 		refereeNumber($cad.srand(make_seed()));
 	}else{
 		return $numero;
@@ -1614,19 +1609,19 @@ function logout(){
 		cookie('_login_',NULL);
 		ifIsLogged();
 	}
-	with_session(function(){
+	with_session(function(&$sesion){
 		unset(
-			$_SESSION['ws-tags']['ws-user'],
-			$_SESSION['smt-app'],
-			$_SESSION['car'],
-			$_SESSION['store'],
-			$_SESSION['havePaypalPayment']
+			$sesion['ws-tags']['ws-user'],
+			$sesion['smt-app'],
+			$sesion['car'],
+			$sesion['store'],
+			$sesion['havePaypalPayment']
 		);
 	});
 }
 
 function createSession($array,$clear=true){//creacion de las variables de session del sistema
-	with_session(function($sesion)use($array,$clear){
+	with_session(function(&$sesion)use($array,$clear){
 		unset($array['password'],$array['password_user'],$array['password_system']);
 		if($clear) $usr=$array;
 		else{
@@ -1659,7 +1654,6 @@ function createSession($array,$clear=true){//creacion de las variables de sessio
 		}elseif($_POST['lang']!=''){
 			$sesion['ws-tags']['language']=$_POST['lang'];
 		}
-		return $sesion;
 	});
 	createSessionStore();
 	ifIsLogged();
@@ -1765,12 +1759,7 @@ function createSessionStore(){
 		$row=mysql_fetch_assoc($result);
 		if($row['id']!='') $store['sales']='1';
 	}
-	if(isset($store)){
-		with_session(function($sesion)use($store){
-			$sesion['store']=$store;
-			return $sesion;
-		});
-	}
+	if(isset($store)) with_session(function(&$sesion)use($store){ $sesion['store']=$store; });
 }
 function userExternalReference($keyusr){ //confirmar suscripcion::login
 	$query=$GLOBALS['cn']->query('
@@ -1784,10 +1773,7 @@ function userExternalReference($keyusr){ //confirmar suscripcion::login
 		//update - colocamos el status del usuario en 3 con la finalidad de cobrar a los 14 dias su suscripcion al sistema
 		$status=(($array['type']=='1')?3:1);
 		$GLOBALS['cn']->query('UPDATE users SET status="'.$status.'" WHERE id="'.$array['id'].'"');
-		with_session(function($sesion)use($status){
-			$sesion['ws-tags']['ws-user']['status']=$status;
-			return $sesion;
-		});
+		with_session(function(&$sesion)use($status){ $sesion['ws-tags']['ws-user']['status']=$status; });
 		return true;
 	}elseif(mysql_num_rows($query)==0){ //validacion de login
 		return false;
@@ -2183,10 +2169,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 		echo '<hr>';
 	}
 	if($config->local && !isset($_SESSION['ws-tags']['email']))
-		with_session(function($sesion){
-			$sesion['ws-tags']['email']='';
-			return $sesion;
-		});
+		with_session(function(&$sesion){ $sesion['ws-tags']['email']=''; });
 	$id_type*=1; //asegurando que sea numerico
 	$myId=$_SESSION['ws-tags']['ws-user']['id'];
 	$id_user=$id_user?$id_user:$myId;
@@ -2440,10 +2423,7 @@ function notifications($id_friend,$id_source,$id_type,$delete=false,$id_user=fal
 			}
 		}
 	}else{ //else delete
-		with_session(function($sesion){
-			$sesion['ws-tags']['email']='';
-			return $sesion;
-		});
+		with_session(function(&$sesion){ $sesion['ws-tags']['email']=''; });
 		if($id_friend!=$id_user){
 			CON::delete('users_notifications','id_type=? AND id_source=? AND id_user=? AND id_friend=?',array(
 				$id_type,$id_source,$id_user,$id_friend

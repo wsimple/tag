@@ -21,10 +21,9 @@ switch ($_GET['action']){
 		$file	= substr($file['image_path'], 33);
 		CON::update('users','profile_image_url=?','id=?',array($file,$_SESSION['ws-tags']['ws-user']['id']));
 		CON::update('album','id_image_cover=?','id_user=? AND name="profile"',array($idImg,$_SESSION['ws-tags']['ws-user']['id']));
-		with_session(function($sesion)use($file){
+		with_session(function(&$sesion)use($file){
 			$sesion['ws-tags']['ws-user']['photo']=$file;
 			$sesion['ws-tags']['ws-user']['pic']='img/users/'.$sesion['ws-tags']['ws-user']['code'].'/'.$sesion['ws-tags']['ws-user']['photo'];
-			return $sesion;
 		});
 	break;
 }

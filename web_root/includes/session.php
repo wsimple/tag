@@ -7,7 +7,7 @@ $___session___=true;
  * @return void
  */
 function load_session(){
-	session_start();
+	@session_start();
 	session_write_close();
 }
 /**
@@ -16,7 +16,7 @@ function load_session(){
  * @return void
  */
 function save_in_session($data=array()){
-	session_start();
+	@session_start();
 	$_SESSION=array_merge($_SESSION,$data);
 	session_write_close();
 }
@@ -28,7 +28,7 @@ function save_in_session($data=array()){
  * @return array (opcional): un arreglo que sustituira la sesion actual
  */
 function with_session($callable){
-	session_start();
+	@session_start();
 	if(is_callable($callable)) $response=$callable($_SESSION);
 	if(is_array($response)) $_SESSION=$response;
 	session_write_close();

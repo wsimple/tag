@@ -15,10 +15,7 @@ if (!isset($_SESSION['store']['sales']) && ($_SESSION['ws-tags']['ws-user']['typ
 			LIMIT 1;";
 	$result=$GLOBALS['cn']->queryRow($sql);
 	$row=current($result);
-	if($row!='') with_session(function($sesion){
-		$sesion['store']['sales']='1';
-		return $sesion;
-	});
+	if($row!='') with_session(function(&$sesion){ $sesion['store']['sales']='1'; });
 }
 $numSales=$_SESSION['store']['sales']?$_SESSION['store']['sales']:'';
 

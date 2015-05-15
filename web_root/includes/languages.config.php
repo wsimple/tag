@@ -1,9 +1,10 @@
 <?php
+include_once('session.php');
 $actual='';
 if(!empty($_GET['lang'])){
 	$actual=$_GET['lang'];
 }else{
-	with_session(function($sesion){
+	with_session(function(&$sesion){
 		//si llego el lenguaje y el usuario esta logueado
 		if(!empty($sesion['ws-tags']['ws-user']['language'])){
 			$sesion['ws-tags']['language']=$sesion['ws-tags']['ws-user']['language'];
@@ -22,7 +23,6 @@ if(!empty($_GET['lang'])){
 			}
 		}
 		$actual=$sesion['ws-tags']['language'];
-		return $sesion;
 	});
 }
 if(!$actual) $actual='en';

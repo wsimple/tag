@@ -176,7 +176,7 @@ $(function(){
 		
 	$('#smTabsHash').click(function(){
 		<?php if(isset($_SESSION['ws-tags']['see_more']['hashTabs'])){
-			unset($_SESSION['ws-tags']['see_more']['hashTabs']);
+			with_session(function(&$sesion){ unset($sesion['ws-tags']['see_more']['hashTabs']); });
 		}?>
 		var opc={
 			data:{
@@ -187,10 +187,9 @@ $(function(){
 		seemoreNew("<?=$_SESSION['ws-tags']['ws-user']['fullversion']==1?'1':'0'?>",'controls/search/hashTabs.json.php','#moreHash','#smTabsHash','#loading_groups','15','auto',opc);
 	});
 
-
 	$('#smTabsFriends').click(function(){
 		<?php if(isset($_SESSION['ws-tags']['see_more']['friendsTabs'])){
-			unset($_SESSION['ws-tags']['see_more']['friendsTabs']);
+			with_session(function(&$sesion){ unset($sesion['ws-tags']['see_more']['friendsTabs']); });
 		}?>
 		var opc={
 			data:{
@@ -203,7 +202,7 @@ $(function(){
 
 	$('#smTabsGroups').click(function(){
 		<?php if(isset($_SESSION['ws-tags']['see_more']['friendsGroups'])){
-			unset($_SESSION['ws-tags']['see_more']['friendsGroups']);
+			with_session(function(&$sesion){ unset($sesion['ws-tags']['see_more']['friendsGroups']); });
 		}?>
 		var opc={
 			data:{

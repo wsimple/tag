@@ -14,7 +14,7 @@
 
 	if( quitar_inyect() ) {
 		$paso = 1;
-		with_session(function($sesion)use($paso){
+		with_session(function(&$sesion)use($paso){
 			$sesion['ws-tags']['resendPass']['email']=$_POST['email'];
 			//$sesion['ws-tags'][resendPass][txtCaptcha]=str_replace('-', ' ', strtolower($_POST[txtCaptcha]));
 			$sesion['ws-tags']['resendPass']['error']=array();
@@ -30,9 +30,7 @@
 				$paso=0;
 				$sesion['ws-tags']['resendPass']['error'][]= "-&nbsp;".FORGOT_CTRERRORMAIL_NOEXISTE.".<br/>";
 			}
-			return $sesion;
 		});
-
 		if( $paso==1 ) {
 		    //enviamos el correo
 			$array=CON::getRow("SELECT
@@ -62,7 +60,6 @@
 						</table>
 					';
 
-			
 			if( sendMail(formatMail($body, 800), EMAIL_NO_RESPONDA, 'Tagbum.com', 'Reset your Tagbum password', $_SESSION['ws-tags']['resendPass']['email'], '../../',true) ) {
 				echo "1*".$_SESSION['ws-tags']['resendPass']['email'];
 			} else { echo "0*"; }

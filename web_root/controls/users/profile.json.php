@@ -23,7 +23,7 @@ if (isset($_GET['skipProgress'])){
 	$sesion['ws-tags']['ws-user']['progress']['omitir']=1;
 	save_in_session($sesion);
 	die();
-}else with_session(function(){ unset($_SESSION['ws-tags']['ws-user']['progress']); });
+}else with_session(function(&$sesion){ unset($sesion['ws-tags']['ws-user']['progress']); });
 
 #ini
 $res=array();

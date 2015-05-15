@@ -62,7 +62,8 @@ if($json['result']==1){
 	if($debug) $json['_sql_'][]=CON::lastSql();
 
 	//Liberamos session auxiliar
-	unset($_SESSION['business_payment'],$_SESSION['ws-tags']);
+	with_session(function(&$sesion){ unset($sesion['business_payment'],$sesion['ws-tags']); });
+	
 
 	//Crea session para login automatico
 	createSession($sesion);

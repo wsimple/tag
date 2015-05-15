@@ -1,14 +1,14 @@
 <?php 
 include '../header.json.php';
-unset($_SESSION['ws-tags']['ws-user']['progress']);
+with_session(function(&$sesion){ unset($sesion['ws-tags']['ws-user']['progress']); });
 if (($myId=='' && !isset($_GET['eprofi'])) || !isset($_GET['action'])) die(jsonp(array()));
 $res=array();
-switch ($_GET['action']) {
-	case 'up': 
-		if (isset($_GET['code'])){
+switch($_GET['action']){
+	case 'up':
+		if(isset($_GET['code'])){
 			$id_user=CON::getVal("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id))=?",array($_GET['code']));
-			if (!$id_user) die(jsonp(array()));
-		}else	$id_user=$myId;
+			if(!$id_user) die(jsonp(array()));
+		}else $id_user=$myId;
 		$preference[1]='';$preference[2]='';$preference[3]='';
 		for($i=1;$i<4;$i++){	
 			if (!is_array($_POST['preference_'.$i])) $post_prefe=explode(",",$_POST['preference_'.$i]);
@@ -39,18 +39,18 @@ switch ($_GET['action']) {
 		$res['update']=true;
 	break;
 	case 'del':
-		if (!isset($_GET['type']) || !isset($_GET['p'])) die(jsonp(array()));
-		if (isset($_GET['code'])){
+		if(!isset($_GET['type']) || !isset($_GET['p'])) die(jsonp(array()));
+		if(isset($_GET['code'])){
 			$id_user=CON::getVal("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id))=?",array($_GET['code']));
-			if (!$id_user) die(jsonp(array()));
-		}else	$id_user=$myId;
+			if(!$id_user) die(jsonp(array()));
+		}else $id_user=$myId;
 		$prefe=CON::getVal("SELECT preference FROM users_preferences WHERE id_user=? AND id_preference=? AND preference LIKE '%??%'",array($id_user,$_GET['type'],$_GET['p']));
-		if ($prefe){
+		if($prefe){
 			CON::update('users_preferences',"preference=?","id_user=? AND id_preference=?",array(str_replace(",,",",",str_replace($_GET['p'],"",$prefe)),$id_user,$_GET['type']));	
 		}
 		$res['update']=true;
 	break;
-	case 'sr': 
+	case 'sr':
 		if (!isset($_GET['term'])) die(jsonp(array()));
 		$datos=explode(' ',$_GET['term']);$where='';
 		foreach ($datos as $key) 
@@ -63,7 +63,7 @@ switch ($_GET['action']) {
 		if (isset($_GET['code'])){
 			$id_user=CON::getVal("SELECT id FROM users WHERE md5(concat(id,'_',email,'_',id))=?",array($_GET['code']));
 			if (!$id_user) die(jsonp(array()));
-		}else	$id_user=isset($_GET['u'])?$_GET['u']:$myId;
+		}else $id_user=isset($_GET['u'])?$_GET['u']:$myId;
 		$_GET['type']=isset($_GET['type'])?$_GET['type']:false;
 		$res['dato']=users_preferences($id_user,$_GET['type']);
 	break;

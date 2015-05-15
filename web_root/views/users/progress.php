@@ -4,21 +4,17 @@ if(!isset($_SESSION['ws-tags']['ws-user']['progress'])
 	|| (isset($_SESSION['ws-tags']['ws-user']['progress']) && !isset($_SESSION['ws-tags']['ws-user']['progress']['omitir']))){
 	if(!isset($_SESSION['ws-tags']['ws-user']['progress']['value']) 
 		&& $_SESSION['ws-tags']['ws-user']['progress']['value']!==false)
-		with_session(function($sesion){
-			$sesion['ws-tags']['ws-user']['progress']['value']=calculateProgress();
-			return $sesion;
-		});
+		with_session(function(&$sesion){ $sesion['ws-tags']['ws-user']['progress']['value']=calculateProgress(); });
 	$value=$_SESSION['ws-tags']['ws-user']['progress']['value'];
 	if(($value['profile']<100 && ($section!='user' && $params[0]!='preferences')) || 
 		($value['preferences']<100 && $section!='profile')) $active=true;
 	else $active=false;
 }else $active=false;
 if(isset($_SESSION['ws-tags']['ws-user']['progress']['omitir'])){
-	with_session(function($sesion){
+	with_session(function(&$sesion){
 		$sesion['ws-tags']['ws-user']['progress']['omitir']++;
 		if($sesion['ws-tags']['ws-user']['progress']['omitir']>=50)
 			unset($sesion['ws-tags']['ws-user']['progress']['omitir']);
-		return $sesion;
 	});
 }
 

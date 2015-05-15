@@ -44,24 +44,17 @@
 					CON::insert("likes","id_user=?,id_source=?,date=NOW()",array($myId,$tag['id']));
 					CON::delete("dislikes","id_user=? AND id_source=?",array($myId,$tag['id']));
 					incPoints(2,$tag['id'],$tag['id_user'],$myId);
-                    incHitsTag($tag['id']);
+					incHitsTag($tag['id']);
 					if ($myId!=$tag['id_user']){
 						$bandera=false;
 						if ($_SESSION['ws-tags']['ws-user']['like']!=null){
 							for ($i=0;$i<count($_SESSION['ws-tags']['ws-user']['like']);$i++)
 								if ($tag['id']==$_SESSION['ws-tags']['ws-user']['like'][$i]) $bandera=true;
-						}else with_session(function($sesion){
-							$sesion['ws-tags']['ws-user']['like']=array();
-							return $sesion;
-						});
+						}else with_session(function(&$sesion){ $sesion['ws-tags']['ws-user']['like']=array(); });
 						if($bandera==false){
-							$select_id = $GLOBALS['cn']->query("SELECT id_creator, id_user FROM tags WHERE id = '".$tag['id']."'");
-							$selectUser = mysql_fetch_assoc($select_id);
+							$selectUser = CON::getRow('SELECT id_creator,id_user FROM tags WHERE id=?',array($tag['id']));
 							notifications($tag['id_user'],$tag['id'],2);
-							with_session(function($sesion)use($tag){
-								$sesion['ws-tags']['ws-user']['like'][]=$tag['id'];
-								return $sesion;
-							});
+							with_session(function(&$sesion)use($tag){ $sesion['ws-tags']['ws-user']['like'][]=$tag['id']; });
 						}
 					}
 				}
@@ -94,27 +87,24 @@
 					WHERE t.id =?",array($tag['id']));
 				incPoints(7,$tag['idTag'],$tag['idUser'],$_SESSION['ws-tags']['ws-user']['id']); //incremento de hits a la tag que se recibe
 				incHitsTag($tag['idTag']);
-                $mails=explode(',',$_POST['mails']);
+				$mails=explode(',',$_POST['mails']);
 				if(count($mails)>0){
 					$array=array('correos'=>'','per'=>$mails,'msj'=>$_POST['msj']);
 					$array=notifications(false,$tag['idTag'],7,false,false,$array);
 				}
-				$res = '';
-				for ($i=0; $i < count($mails); $i++) {
-					if (!filter_var($mails[$i], FILTER_VALIDATE_EMAIL)) {
-					   $tag = CON::getRow("SELECT 
-					   							id, email 
-					   					   FROM users 
-					   					   WHERE MD5(id) = ?",$mails[$i]);
-					   $res.= '- '.$tag['email'].'<br>';
+				$res='';
+				for($i=0;$i<count($mails);$i++){
+					if(!filter_var($mails[$i],FILTER_VALIDATE_EMAIL)){
+						$tag = CON::getRow("SELECT id,email FROM users WHERE MD5(id) = ?",$mails[$i]);
+						$res.= '- '.$tag['email'].'<br>';
 					}else{
 						$res.= '- '.$mails[$i].'<br>';
-					}					
+					}
 				}
 				// $msgBox = implode($mails);
 				$msgBox='<div class="div_exito"><strong>'.$lang['MENUTAG_CTRSHAREMAILEXITO'].":</strong></div><br><br> ".$res;
 				if ($array['correos']==="") $msgBox=$_GET['device']? '<div class="div_error">'.$_GET['device'].'<br>'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>':'<div class="div_error">'.$lang['MENUTAG_CTRSHAREMAILERROR'].'</div>';
-				if (isset($_GET['this_is_app'])){ 
+				if (isset($_GET['this_is_app'])){
 					if ($array['correos']==="") $pass=false;
 					else $pass=true;
 					die(jsonp(array('success'=>$pass,'msg'=>$msgBox)));
@@ -193,7 +183,7 @@
 						if ($Nreport>=$total) notifications(false,$tag['id'],21,false,false,array('emails'=>explode(',',$emails)));
 						incPoints(21,$tag['id'],$tag['id_user'],$myId);
 						incHitsTag($tag['id']);
-                        if($_SESSION['ws-tags']['ws-user']['super_user']==1&&$typeR=='6')
+						if($_SESSION['ws-tags']['ws-user']['super_user']==1&&$typeR=='6')
 							CON::update("tags","status='2'","id=?",array($tag['id']));
 						echo '<div class="success_message"><img src="'.$config->main_server.'imgs/message_success.png" /> '.$lang["ACTIONTAG_REPORTEXITO"].'</div>';
 					}else echo '<div class="error_message"><img src="'.$config->main_server.'imgs/message_error.png" /> '.$lang["ACTIONTAG_REPORTERROR1"].'</div>';

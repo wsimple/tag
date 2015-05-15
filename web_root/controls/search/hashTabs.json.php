@@ -6,13 +6,12 @@ if($_REQUEST['more']!=1){
 	$limit = 16;
 }else{
 	$limit = '';
-	with_session(function($sesion){
+	with_session(function(&$sesion){
 		if(!isset($sesion['ws-tags']['see_more']['hashTabs'])){
 			$sesion['ws-tags']['see_more']['hashTabs']=5;
 		}else{
 			$sesion['ws-tags']['see_more']['hashTabs']+=5;
 		}
-		return $sesion;
 	});
 }
 

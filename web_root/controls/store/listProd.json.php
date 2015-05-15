@@ -370,13 +370,15 @@
 				}
 			}
 			if(isset($_SESSION['store']['temp'])){
-				if(isset($_SESSION['store']['srh']) && $_SESSION['store']['temp']!=''){ 
-					$vector=  explode('|', $_SESSION['store']['srh']);
-					if(!in_array($_SESSION['store']['temp'],$vector)){
-						$_SESSION['store']['srh'].='|'.$_SESSION['store']['temp']; 
-					}
-				}else{ save_in_session(array('store'=>array('srh'=>$_SESSION['store']['temp']))); }
-				unset($_SESSION['store']['temp']);
+				with_session(function(&$sesion){
+					if(isset($sesion['store']['srh']) && $sesion['store']['temp']!=''){ 
+						$vector=  explode('|', $sesion['store']['srh']);
+						if(!in_array($sesion['store']['temp'],$vector)){
+							$sesion['store']['srh'].='|'.$sesion['store']['temp']; 
+						}
+					}else{ $sesion['store']['srh']=$_SESSION['store']['temp']; }
+					unset($sesion['store']['temp']);
+				});
 			}
 			$res[$array['tipo']]=$products;
 			$res['num']=$num;

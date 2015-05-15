@@ -11,7 +11,7 @@ class Lang_lib extends TAG_librarie{
 		if($_GET['lang']!=''){
 			$actual=$_GET['lang'];
 		}else{
-			with_session(function($sesion)use($actual){
+			with_session(function(&$sesion)use($actual){
 				#si llego el lenguaje y el usuario esta logueado
 				if ($sesion['ws-tags']['ws-user']['language']!=''){
 					$sesion['ws-tags']['language']=$sesion['ws-tags']['ws-user']['language'];
@@ -30,7 +30,6 @@ class Lang_lib extends TAG_librarie{
 					}
 				}
 				$actual=$sesion['ws-tags']['language'];
-				return $sesion;
 			});
 		}
 		#si el lenguaje no esta permitido, cargamos el ingles

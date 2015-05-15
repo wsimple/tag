@@ -14,10 +14,8 @@
 	$sex=$_SESSION['ws-tags']['ws-user']['sex'];
 	$relationship=CON::getArray("SELECT id,label FROM users_relations");
 	$wish=CON::getArray("SELECT id,label FROM users_wish_to WHERE id>0");
-	if(!isset($_SESSION['ws-tags']['ws-user']['progress'])) with_session(function($sesion){
-		$sesion['ws-tags']['ws-user']['progress']['value']=calculateProgress();
-		return $sesion;
-	});
+	if(!isset($_SESSION['ws-tags']['ws-user']['progress']))
+		with_session(function(&$sesion){ $sesion['ws-tags']['ws-user']['progress']['value']=calculateProgress(); });
 	$value=$_SESSION['ws-tags']['ws-user']['progress']['value']['preferences'];
 	$noFails=$_SESSION['ws-tags']['ws-user']['progress']['value']['noFails'];
 ?>
