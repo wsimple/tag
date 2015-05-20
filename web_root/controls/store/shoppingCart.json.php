@@ -225,7 +225,7 @@ include ('../../class/class.phpmailer.php');
 			}else{
 				if($_GET['mod']=='wish'){
 					if(!isset($_SESSION['store']['wish'])){
-						save_in_session(array('store'=>array('wish'=>campo('store_orders','id_status','5','id',' AND id_user="'.$myId.'"'))));
+						with_session(function(&$sesion)use($myId){ $sesion['store']['wish']=campo('store_orders','id_status','5','id',' AND id_user="'.$myId.'"'); });
 					}
 					$statusOrder='5';$idOrder=$_SESSION['store']['wish'];
                 }else{
@@ -883,7 +883,7 @@ include ('../../class/class.phpmailer.php');
 						if ($numIdOrder==0){
 							$GLOBALS['cn']->query("INSERT INTO store_orders SET id_status = '5', id_user = '".$myId."'");
 							$idOrder=  mysql_insert_id();
-							save_in_session(array('store'=>array('with'=>$idOrder)));
+							with_session(function(&$sesion)use($idOrder){ $sesion['store']['with']=$idOrder; });
                             $jsonResponse['nuevo']='si';
 						}
                         if (isset($_GET['car']) && $_GET['car']=='toWish'){
@@ -1008,11 +1008,12 @@ include ('../../class/class.phpmailer.php');
 		break;
 		case 16: //consulta para el shipping
 			$jsonResponse['exitSC']=(isset($_SESSION['car']) && count($_SESSION['car'])>0?true:false);
-			if(is_numeric($_SESSION['ws-tags']['ws-user']['city']))
-				save_in_session(array('ws-tags'=>array('ws-user'=>array('city'=>CON::getVal("SELECT name FROM cities WHERE id=?",array($_SESSION['ws-tags']['ws-user']['city']))))));
+			with_session(function(&$sesion){
+				if(is_numeric($sesion['ws-tags']['ws-user']['city'])) $sesion['ws-tags']['ws-user']['city']=CON::getVal("SELECT name FROM cities WHERE id=?",array($sesion['ws-tags']['ws-user']['city']));
+			});
 			$city=$_SESSION['ws-tags']['ws-user']['city'];
 			if(!isset($_GET['noEditS'])){
-				save_in_session(array('ws-tags'=>array('ws-user'=>array('yaShipp'=>1))));
+				with_session(function(&$sesion){ $sesion['ws-tags']['ws-user']['yaShipp']=1; });
 				$numIt=createSessionCar('','','count');
 				$countries=$GLOBALS['cn']->query("SELECT p.id AS id, p.code_area AS code_area, p.name AS country FROM `countries` p ");
 				$numberh = explode('-',$_SESSION['ws-tags']['ws-user']['home_phone']);

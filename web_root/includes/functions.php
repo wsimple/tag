@@ -1716,10 +1716,10 @@ function createSessionCar($id_user='',$code='',$count='',$idproduct='',$idOrder=
 				$product['name']=utf8_encode(formatoCadena($product['name']));
 				$carrito[$product['id']]=$product;//guardamos el producto en el carrito
 				//Para saber si tiene que pagar productos en paypal
-				// if($product['formPayment']==1) save_in_session(array('havePaypalPayment'=>true));
+				// if($product['formPayment']==1) with_session(function(&$sesion){ $sesion['havePaypalPayment']=true; });
 			}
 		}
-		save_in_session(array('car'=>$carrito));
+		with_session(function(&$sesion)use($carrito){ $sesion['car']=$carrito; });
 		return $carrito;
 	}else{
 		$product=mysql_fetch_array($result);

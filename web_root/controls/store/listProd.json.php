@@ -69,14 +69,14 @@
 		if($findhash!=''){
 			$hash=explode(',',$_GET['srh']);
 //				$where.=" AND CONCAT_WS( " ",p.name,  p.description) LIKE '%".$hash[0]."%'";
-//				save_in_session(array('store'=>array('temp'=>$hash[0])));
+//				with_session(function(&$sesion)use($hash){ $sesion['store']['temp']=$hash[0]; });
 		}else{ 
 			$hash[0]=$_GET['srh'];
 //				$where.=" AND CONCAT_WS( " ",p.name,  p.description) LIKE '%".$_GET['srh']."%'"; 
-//				save_in_session(array('store'=>array('temp'=>$_GET['srh'])));
+//				with_session(function(&$sesion){ $sesion['store']['temp']=$_GET['srh']; });
 		}
-		$where.=" AND p.name LIKE '%".$hash[0]."%'"; 
-		save_in_session(array('store'=>array('temp'=>$hash[0])));
+		$where.=" AND p.name LIKE '%".$hash[0]."%'";
+		with_session(function(&$sesion)use($hash){ $sesion['store']['temp']=$hash[0]; });
 
 	}elseif(isset($_GET['aso'])){ //aso de asocuacion para filtrar las sugerencias de productos
 		if(count($_SESSION['car'])>0){

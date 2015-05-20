@@ -54,7 +54,7 @@ if($_REQUEST['more']==1){
 		'idsm'   => 'hash'
 	)));
 }else{
-	save_in_session(array('ws-tags'=>array('ws-user'=>array('textCounter'=>$textCount))));
+	with_session(function(&$sesion)use($textCount){ $sesion['ws-tags']['ws-user']['textCounter']=$textCount; });
 	die(jsonp(array(
 		'hash'   => array_unique($newText),
 		'cant'   => $textCount,

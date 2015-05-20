@@ -13,7 +13,7 @@ switch ($_GET['action']){
 		deleteFTP(generateThumbPath($file), 'users', '../../');
 		// END - deleting image and thumb
 		CON::query('DELETE FROM images WHERE md5(id)=?',array($_GET['id_photo']));
-		save_in_session(array('ws-tags'=>array('ws-user'=>array('showPhotoGallery'=>true))));
+		with_session(function(&$sesion){ $sesion['ws-tags']['ws-user']['showPhotoGallery']=true; });
 	break;
 	case 'makeDefault':
 		$file	= CON::getRow('SELECT id,image_path FROM images WHERE md5(id)=?',array($_GET['id_photo']));

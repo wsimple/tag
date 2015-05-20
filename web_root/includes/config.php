@@ -103,6 +103,6 @@ define('TAGHEIGHTHD',round((TAGWIDTHHD/TAGWIDTH)*TAGHEIGHT));
 if(!$config->local){
 	define('SHOWNOTIFIXTMP',1);//temporal para controlar la muestra de notitificaciones
 }
-// save_in_session(array('ws-tags'=>array('developer'=>true)));
+// with_session(function(&$sesion){ $sesion['ws-tags']['developer']=true; });
 unset($_pruebas,$_site,$_path,$_sec,$_url,$_prod,$tmp);
 define('PAYPAL_PAYMENTS',false);

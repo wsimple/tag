@@ -157,7 +157,7 @@ function tagsList_json($data,$mobile=false){
 					AND t.status=1
 				';
 				$order='date DESC,rand()';
-				save_in_session(array('ws-tags'=>array('is_sponsor'=>1)));
+				with_session(function(&$sesion){ $sesion['ws-tags']['is_sponsor']=1; });
 			}else{
 				$where.=safe_sql(' AND t.status=1 AND ? IN (t.id_user,t.id_creator) ',array($uid));
 			}

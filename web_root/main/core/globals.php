@@ -14,12 +14,6 @@ function load_session(){
 	session_write_close();
 }
 
-function save_in_session($data=array()){
-	@session_start();
-	$_SESSION=array_merge($_SESSION,$data);
-	session_write_close();
-}
-
 function with_session($callable){
 	@session_start();
 	if(is_callable($callable)) $response=$callable($_SESSION);

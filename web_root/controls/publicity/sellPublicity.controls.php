@@ -261,7 +261,7 @@
 					default:
 
 						if( $_SESSION['ws-tags'][chkpublicity]==1 ) { //se valida que solo pase una vez por aqui
-							save_in_session(array('ws-tags'=>array('chkpublicity'=>0)));
+							with_session(function(&$sesion){ $sesion['ws-tags']['chkpublicity']=0; });
 							$imagesAllowed = array('jpg','jpeg','png','gif');
 							$photo         = "";
 							$save          = 1;

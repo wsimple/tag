@@ -189,15 +189,14 @@ function showInfoUser($id=''){
 			FROM users u
 			WHERE u.id=?",array($id));
 	}else{
-		if(!isset($_SESSION['ws-tags']['ws-user']['pais']))
-			save_in_session(array('ws-tags'=>array('ws-user'=>array(
-				'pais'=>CON::getVal('SELECT
-						a.name AS pais
-					FROM users u
-					INNER JOIN countries a ON a.id=u.country
-					WHERE u.id =? LIMIT 1
-				',array($_SESSION['ws-tags']['ws-user']['id']))
-			))));
+		if(!isset($_SESSION['ws-tags']['ws-user']['pais'])) with_session(function(&$sesion){
+			$sesion['ws-tags']['ws-user']['pais']=CON::getVal('SELECT
+					a.name AS pais
+				FROM users u
+				INNER JOIN countries a ON a.id=u.country
+				WHERE u.id =? LIMIT 1
+			',array($sesion['ws-tags']['ws-user']['id']));
+		});
 		$array=$_SESSION['ws-tags']['ws-user'];
 	}
 	$foto_remitente=FILESERVER.getUserPicture("img/users/".$array['code']."/".$array['photo'],'img/users/default.png');

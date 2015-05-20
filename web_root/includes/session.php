@@ -11,16 +11,6 @@ function load_session(){
 	session_write_close();
 }
 /**
- * guarda un arreglo combinandolo con el arreglo guardado en sesion
- * @param array $data
- * @return void
- */
-function save_in_session($data=array()){
-	@session_start();
-	$_SESSION=array_merge($_SESSION,$data);
-	session_write_close();
-}
-/**
  * permite trabajar con la variable de sesion en modo de escritura
  * @param  function $callable: funcion donde se trabaja con la sesion en modo escritura
  * -- la funcion puede recibir como parametro el contenido de la sesion

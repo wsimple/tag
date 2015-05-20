@@ -32,7 +32,7 @@
 			WHERE md5(id)=? AND id_user=?
 		',array($_GET['n'],$_SESSION['ws-tags']['ws-user']['id']));
 	}// if new & prod
-	save_in_session(array('ws-tags'=>array('chkpublicity'=>1)));
+	with_session(function(&$sesion){ $sesion['ws-tags']['chkpublicity']=1; });
 ?>
 <script type="text/javascript">
 	$(document).ready(function() {

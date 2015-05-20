@@ -62,7 +62,7 @@ if (quitar_inyect()){
 					if(is_debug('filecover')) echo 'users_cover/'.$photo;
 					FTPupload('users_cover/'.$photo);
 					echo $photo;
-					save_in_session(array('ws-tags'=>array('user_cover'=>$photo)));
+					with_session(function(&$sesion)use($photo){ $sesion['ws-tags']['user_cover']=$photo; });
 				}else{
 					echo '0';//error redimension
 				}//copy
@@ -82,10 +82,10 @@ if (quitar_inyect()){
 			$profile_image_url=uploadImage($_FILES['frmProfile_filePhoto'],'profile','users',$_SESSION['ws-tags']['ws-user']['code'],$_SESSION['ws-tags']['ws-user']['id']);
 			if($profile_image_url!='IMAGE_NOT_ALLOWED'){
 				CON::update('users','updatePicture=1','id=?',array($_SESSION['ws-tags']['ws-user']['id']));
-				save_in_session(array('ws-tags'=>array('ws-user'=>array(
-					'updatePicture'=>1,
-					'photo'=>$profile_image_url
-				))));
+				with_session(function(&$sesion)use($profile_image_url){
+					$sesion['ws-tags']['ws-user']['updatePicture']=1;
+					$sesion['ws-tags']['ws-user']['photo']=$profile_image_url;
+				});
 				$profile_image_url=true;
 				//thumb image
 				$photo='img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo'];
@@ -160,7 +160,7 @@ if (quitar_inyect()){
 		$user['work_phone']    = ($work_area	&& $_POST['frmProfile_work']		? $work_area	: '').'-'.$_POST['frmProfile_work'];
 		$user['mobile_phone']  = ($mobile_area	&& $_POST['frmProfile_mobile']	? $mobile_area	: '').'-'.$_POST['frmProfile_mobile'];
 		// END - phone numbers
-		save_in_session(array('ws-tags'=>array('ws-user'=>$user)));
+		with_session(function(&$sesion)use($user){ $sesion['ws-tags']['ws-user']=$user; });
 		//updating business card phone
 		$bc=CON::getRow('SELECT
 				id
@@ -192,7 +192,7 @@ if (quitar_inyect()){
 		// if changing or adding zip_code
 		if($_POST['frmProfile_zipCode']!=$_SESSION['ws-tags']['ws-user']['zip_code']){
 			if($_POST['frmProfile_zipCode']){
-				save_in_session(array('ws-tags'=>array('ws-user'=>array('zip_code'=>$_POST['frmProfile_zipCode']))));
+				with_session(function(&$sesion){ $sesion['ws-tags']['ws-user']['zip_code']=$_POST['frmProfile_zipCode']; });
 				$result = $GLOBALS['cn']->query("SELECT ZIP_CODE     FROM     zip_codes     WHERE     ZIP_CODE = '".$_POST['frmProfile_zipCode']."'");
 				if(mysql_num_rows($result)>0){
 					$sql_zip_code = "zip_code = '".$_POST['frmProfile_zipCode']."',";
@@ -203,7 +203,7 @@ if (quitar_inyect()){
 					$sql_zip_code = "zip_code = '".$_POST['frmProfile_zipCode']."',";
 				}
 			}else{
-				save_in_session(array('ws-tags'=>array('ws-user'=>array('zip_code'=>''))));
+				with_session(function(&$sesion){ $sesion['ws-tags']['ws-user']['zip_code']=''; });
 				$sql_zip_code = "zip_code = '',";
 				$updateZipCode = '1';
 			}
@@ -215,7 +215,7 @@ if (quitar_inyect()){
 	if(($_POST['validaActionAjax']=='save')||($_POST['validaActionAjax']=='backgroundFile')||($_POST['validaActionAjax']=='backgroundDefault')||($_POST['validaActionAjax']=='HiddenColor')){
 	//when changing background
 		if($_POST['user_background_url']=="setDefault"){
-			save_in_session(array('ws-tags'=>array('ws-user'=>array('user_background'=>''))));
+			with_session(function(&$sesion){ $sesion['ws-tags']['ws-user']['user_background']=''; });
 		}elseif($_FILES['profile_background_file']['error']==0){
 				$allowedImages = array('jpg', 'jpeg', 'png', 'gif');
 				$parts         = explode('.', $_FILES['profile_background_file']['name']);
@@ -232,14 +232,14 @@ if (quitar_inyect()){
 							fclose($fp);
 						}
 						if( copy($_FILES['profile_background_file']['tmp_name'], "img/users_backgrounds/".$fondo) ) {
-							save_in_session(array('ws-tags'=>array('ws-user'=>array('user_background'=>$fondo))));
+							with_session(function(&$sesion)use($fondo){ $sesion['ws-tags']['ws-user']['user_background']=$fondo; });
 							uploadFTP($fondo_,"users_backgrounds");
 						}
 				}else{
 					die('ERROR_UPLOADING_PROFILE_PICTURE');
 				}
 		}elseif($_POST['profileHiddenColor']){
-			save_in_session(array('ws-tags'=>array('ws-user'=>array('user_background'=>$_POST['profileHiddenColor']))));
+			with_session(function(&$sesion){ $sesion['ws-tags']['ws-user']['user_background']=$_POST['profileHiddenColor']; });
 		}
 	// END - when changing background
 	}
@@ -318,10 +318,10 @@ if (quitar_inyect()){
 		if(fileExists($config->img_server.'img/users/'.$_SESSION['ws-tags']['ws-user']['code'].'/'.$_SESSION['ws-tags']['ws-user']['photo'])){
 			echo 'CROP';
 		}else{
-			save_in_session(array('ws-tags'=>array('ws-user'=>array(
-				'updatePicture'=>0,
-				'photo'=>''
-			))));
+			with_session(function(&$sesion){
+				$sesion['ws-tags']['ws-user']['updatePicture']=0;
+				$sesion['ws-tags']['ws-user']['photo']='';
+			});
 			CON::update('users','updatePicture=0','id=?',array($_SESSION['ws-tags']['ws-user']['id']));
 			echo 'ERROR_UPLOADING_PROFILE_PICTURE';
 		}
