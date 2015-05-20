@@ -270,8 +270,8 @@ function tagsList_json($data,$mobile=false){
 				QRcode::png($product['app'],RELPATH.$product['qr'],'L',2,2);
 				$tag['product']=$product;
 			}
-			$tag['num_likes']=numRecord('likes','WHERE id_source="'.$tag['id'].'"');
-			$tag['num_disLikes']=numRecord('dislikes','WHERE id_source="'.$tag['id'].'"');
+			$tag['num_likes']=CON::count('likes','id_source=?',array($tag['id']));
+			$tag['num_disLikes']=CON::count('dislikes','id_source=?',array($tag['id']));
 
 			//hastatash Tag
 			$textTop=get_hashtags($tag['text'].' '.$tag['text2'].' '.$tag['code_number']);
@@ -395,8 +395,8 @@ function sponsor_json($data,$datasponsor,$_prefe=true,$noid=''){
 }
 function likes($tag,$user){
 	return $user==''?0:
-	(existe('likes','id_source','WHERE id_source='.$tag.' AND id_user='.$user)?1:
-	(existe('dislikes','id_source','WHERE id_source="'.$tag.'" AND id_user="'.$user.'"')?-1:
+	(CON::exist('likes','id_source=? AND id_user=?',array($tag,$user))?1:
+	(CON::exist('dislikes','id_source=? AND id_user=?',array($tag,$user))?-1:
 	0));
 }
 function buttons($tag,$id=''){

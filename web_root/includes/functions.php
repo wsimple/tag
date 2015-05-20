@@ -257,12 +257,15 @@ function formatoCadena($cadena,$op=1){
 
 #devueleve el numero de registros de una consulta sql
 function numRecord($tabla,$where){
-	return CON::count("SELECT id FROM $tabla $where");
+	$query=$GLOBALS['cn']->query('SELECT id FROM '.$tabla.' '.$where);
+	return mysql_num_rows($query);
 }
 
 #suma registros en sql
 function sumRecord($campo,$tabla,$where){
-	return CON::getVal("SELECT SUM($campo) AS suma FROM $tabla $where");
+	$query=$GLOBALS['cn']->query('SELECT SUM('.$campo.') AS suma FROM '.$tabla.' '.$where);
+	$array=mysql_fetch_assoc($query);
+	return $array['suma'];
 }
 
 #semilla
